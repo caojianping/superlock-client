@@ -2,17 +2,24 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import TYPES from './types';
-import { IRootState } from './interfaces';
-import loginModule from './modules/login.module';
+import { IActionContext, IRootState } from './interfaces';
+import { TokenInfo } from '@/ts/models';
+import { CommonService } from '@/ts/services';
+
+import userModule from './modules/user.module';
 
 Vue.use(Vuex);
 
-const rootState: IRootState = {};
+const rootState: IRootState = {
+    tokenInfo: new TokenInfo()
+};
+
+const commonService = new CommonService();
 
 export default new Vuex.Store({
     strict: false,
     modules: {
-        login: loginModule
+        user: userModule
     },
     state: rootState,
     mutations: {
@@ -24,5 +31,14 @@ export default new Vuex.Store({
         },
         [TYPES.CLEAR_STATES](state: IRootState) {}
     },
-    actions: {}
+    actions: {
+        // 获取短信验证码
+        async fetchSmsCode(
+            context: IActionContext<IRootState>,
+            payload: { areaCode: string; mobile: string }
+        ): Promise<boolean> {
+            let { areaCode, mobile } = payload;
+            return await commonService.fetchSmsCode(areaCode, mobile);
+        }
+    }
 });

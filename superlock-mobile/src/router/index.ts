@@ -1,7 +1,8 @@
 import Vue from 'vue';
-import Router, { Route } from 'vue-router';
-// import store from '@/store';
-// import TYPES from '@/store/types';
+import Router from 'vue-router';
+import store from '@/store';
+import TYPES from '@/store/types';
+import { Token } from '@/ts/common';
 
 import Home from '@/views/home';
 import UserRouter from './user.router';
@@ -36,7 +37,7 @@ const router = new Router({
 
 // 是否为无需授权页面
 function isWithoutAuth(path: string): boolean {
-    const urls = ['/register', '/login'];
+    const urls = ['/user/register', '/user/login', '/user/forget'];
     let result = false;
     for (let i = 0; i < urls.length; i++) {
         let url = urls[i];
@@ -47,23 +48,23 @@ function isWithoutAuth(path: string): boolean {
     }
     return result;
 }
+
 router.beforeEach((to, from, next) => {
     Vue.prototype.cancelRequest();
-    next();
 
-    // let tokenInfo = Token.getTokenInfo(),
-    //     token = tokenInfo.token;
-    // if (isWithoutAuth(to.path)) {
-    //     if (token) next('/home');
-    //     else next();
-    // } else {
-    //     if (token) next();
-    //     else {
-    //         Token.removeTokenInfo();
-    //         store.commit(TYPES.CLEAR_STATES);
-    //         next('/login');
-    //     }
-    // }
+    let tokenInfo = Token.getTokenInfo(),
+        token = tokenInfo.token;
+    if (isWithoutAuth(to.path)) {
+        if (token) next('/home');
+        else next();
+    } else {
+        if (token) next();
+        else {
+            Token.removeTokenInfo();
+            store.commit(TYPES.CLEAR_STATES);
+            next('/user/login');
+        }
+    }
 });
 
 export default router;

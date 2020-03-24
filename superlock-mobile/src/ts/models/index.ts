@@ -1,4 +1,4 @@
-export * from './register.model';
+export * from './user.model';
 
 // 业务型错误
 export class BusinessError<T> implements Error {

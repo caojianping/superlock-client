@@ -9,9 +9,7 @@ export const enum CaxiosType {
 // 响应码
 export const enum ResponseCode {
     Success = 0, // 请求成功
-    SecondVerify = 10, // 二次验证
-    GoogleAuth = 20, // 谷歌认证
-    TokenExpired = 30 // token过期
+    TokenExpired = 999 // token过期
 }
 
 // 注册状态

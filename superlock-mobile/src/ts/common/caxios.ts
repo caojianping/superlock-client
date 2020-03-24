@@ -2,9 +2,14 @@ import Qs from 'qs';
 import axios, { AxiosRequestConfig } from 'axios';
 import { Toast } from 'vant';
 
+import store from '@/store';
+import TYPES from '@/store/types';
+import Router from '@/router';
 import Utils from '@/ts/utils';
-import { CaxiosType, CONSTANTS } from '@/ts/config';
-import { ResponseResult, BusinessError } from '@/ts/models';
+import { CaxiosType, CONSTANTS, ResponseCode } from '@/ts/config';
+import { ResponseResult, BusinessError, TokenInfo } from '@/ts/models';
+import { Prompt } from './prompt';
+import { Token } from './token';
 
 const isIE9 = Utils.isIE9();
 
@@ -24,6 +29,11 @@ export class Caxios {
     ) {
         if (!options['headers']) {
             options['headers'] = {};
+        }
+
+        if (type === CaxiosType.Token || type === CaxiosType.LoadingToken) {
+            let tokenInfo: TokenInfo = Token.getTokenInfo();
+            options['headers'][CONSTANTS.TOKEN_HEADER] = tokenInfo.token;
         }
 
         if (options.method === 'POST') {
@@ -139,7 +149,20 @@ export class Caxios {
             data: any = result.data,
             message: string = result.message;
         if (code === 0) return data as T;
-        else throw new BusinessError(code, message);
+        else if (code === ResponseCode.TokenExpired) {
+            Token.removeTokenInfo();
+            store.commit(TYPES.CLEAR_STATES);
+            // 登录页面，Router.push会报NavigatorDuplicated异常，提示在UI层处理
+            let hash = window.location.hash;
+            if (hash.indexOf('/user/login') < 0) {
+                Prompt.error(message);
+                Router.push({ path: '/user/login' });
+            }
+            throw new BusinessError(code, message);
+        } else {
+            // 其他异常
+            throw new BusinessError(code, message);
+        }
     }
 
     // GET方法请求
