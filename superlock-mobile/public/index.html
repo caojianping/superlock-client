@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <meta name="og:title" content="邀请注册" />
+        <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+        <title>锁仓宝</title>
+    </head>
+    <body>
+        <noscript>
+            <strong
+                >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't
+                work properly without JavaScript enabled. Please enable it to
+                continue.</strong
+            >
+        </noscript>
+        <div id="app"></div>
+        <!-- built files will be auto injected -->
+
+        <script src="./libs/cstaticdun.min.js"></script>
+        <script>
+            (function(para) {
+                if (
+                    typeof window['sensorsDataAnalytic201505'] !== 'undefined'
+                ) {
+                    return false;
+                }
+                window['sensorsDataAnalytic201505'] = para.name;
+                window[para.name] = {
+                    para: para
+                };
+            })({
+                name: 'sensors',
+                server_url: 'https://saa.6xhtt.com/sa?project=production',
+                heatmap_url: '/static/libs/sensors/heatmap.min.js',
+                heatmap: {
+                    //是否开启点击图，默认 default 表示开启，自动采集 $WebClick 事件，可以设置 'not_collect' 表示关闭
+                    //需要 JSSDK 版本号大于 1.7
+                    clickmap: 'default',
+                    //是否开启触达注意力图，默认 default 表示开启，自动采集 $WebStay 事件，可以设置 'not_collect' 表示关闭
+                    //需要 JSSDK 版本号大于 1.9.1
+                    scroll_notice_map: 'not_collect'
+                }
+            });
+        </script>
+
+        <script src="./libs/sensorsdata.min.js"></script>
+        <script>
+            sensors.quick('autoTrack');
+            sensors.track('h5_merchant_register_enter', {
+                register_url: location.href
+            });
+        </script>
+    </body>
+</html>

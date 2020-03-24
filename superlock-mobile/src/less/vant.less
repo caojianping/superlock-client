@@ -1,0 +1,83 @@
+@import './vars.less';
+@import './mixins.less';
+
+@light-red: #FF5151; // 浅红色
+@bright-red: #D0021B; // 鲜红色
+
+.van-button {
+    letter-spacing: 0.1rem;
+
+    &.van-button--danger {
+        background-color: @bright-red;
+        border-color: @bright-red;
+
+        &.van-button--block {
+            height: 2.5rem;
+            font-size: 1rem;
+            line-height: 2.5rem;
+            .box-sizing(border-box);
+        }
+    }
+
+    &.van-button--small {
+        height: 1.675rem;
+        line-height: 1.55rem;
+        letter-spacing: 0;
+    }
+}
+
+.van-checkbox {
+    .van-checkbox__icon.van-checkbox__icon--checked > .van-icon {
+        background-color: @bright-red;
+        border-color: @bright-red;
+    }
+}
+
+.van-radio {
+    .van-radio__icon.van-radio__icon--checked > .van-icon {
+        background-color: @bright-red;
+        border-color: @bright-red;
+    }
+}
+
+.van-cell-group {
+    // 间距小的单元格分组
+    &.space-small .van-cell {
+        padding: 0.5rem 1.5rem;
+
+        &:not(:last-child)::after {
+            right: 1.5rem;
+            left: 1.5rem;
+        }
+    }
+
+    // 间距小的单元格分组
+    &.space-large .van-cell {
+        padding: 0.75rem 1.75rem;
+
+        &:not(:last-child)::after {
+            right: 1.75rem;
+            left: 1.75rem;
+        }
+    }
+
+    // 优先显示右侧数值
+    &.priority-value .van-cell .van-cell__title {
+        flex: 0 1 auto;
+    }
+
+    // 优先显示左侧标题
+    &.priority-title .van-cell .van-cell__value {
+        flex: 0 1 auto;
+    }
+}
+
+// 选择按钮遮罩input框
+.van-cell {
+    .van-field__right-icon {
+        position: absolute;
+        right: 0;
+        width: 100%;
+        z-index: 1;
+    }
+}

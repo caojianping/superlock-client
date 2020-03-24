@@ -1,0 +1,7 @@
+const TYPES = {
+    SET_STATES: 'SET_STATES',
+    SET_LOADING: 'SET_LOADING',
+    CLEAR_STATES: 'CLEAR_STATES'
+};
+
+export default TYPES;
