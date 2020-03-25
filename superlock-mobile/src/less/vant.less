@@ -1,44 +1,44 @@
 @import './vars.less';
 @import './mixins.less';
 
-@light-red: #FF5151; // 浅红色
-@bright-red: #D0021B; // 鲜红色
+@light-red: #ff5151; // 浅红色
+@bright-red: #d0021b; // 鲜红色
 
 .van-button {
-    letter-spacing: 0.1rem;
+    cursor: pointer;
 
-    &.van-button--danger {
-        background-color: @bright-red;
-        border-color: @bright-red;
+    // &.van-button--danger {
+    //     background-color: @bright-red;
+    //     border-color: @bright-red;
 
-        &.van-button--block {
-            height: 2.5rem;
-            font-size: 1rem;
-            line-height: 2.5rem;
-            .box-sizing(border-box);
-        }
-    }
+    //     &.van-button--block {
+    //         height: 2.5rem;
+    //         font-size: 1rem;
+    //         line-height: 2.5rem;
+    //         .box-sizing(border-box);
+    //     }
+    // }
 
-    &.van-button--small {
-        height: 1.675rem;
-        line-height: 1.55rem;
-        letter-spacing: 0;
-    }
+    // &.van-button--small {
+    //     height: 1.675rem;
+    //     line-height: 1.55rem;
+    //     letter-spacing: 0;
+    // }
 }
 
-.van-checkbox {
-    .van-checkbox__icon.van-checkbox__icon--checked > .van-icon {
-        background-color: @bright-red;
-        border-color: @bright-red;
-    }
-}
+// .van-checkbox {
+//     .van-checkbox__icon.van-checkbox__icon--checked > .van-icon {
+//         background-color: @bright-red;
+//         border-color: @bright-red;
+//     }
+// }
 
-.van-radio {
-    .van-radio__icon.van-radio__icon--checked > .van-icon {
-        background-color: @bright-red;
-        border-color: @bright-red;
-    }
-}
+// .van-radio {
+//     .van-radio__icon.van-radio__icon--checked > .van-icon {
+//         background-color: @bright-red;
+//         border-color: @bright-red;
+//     }
+// }
 
 .van-cell-group {
     // 间距小的单元格分组
@@ -52,12 +52,12 @@
     }
 
     // 间距小的单元格分组
-    &.space-large .van-cell {
-        padding: 0.75rem 1.75rem;
+    &.space-large > .van-cell {
+        padding: 2.25rem 2.5rem 1rem;
 
         &:not(:last-child)::after {
-            right: 1.75rem;
-            left: 1.75rem;
+            right: 2.5rem;
+            left: 2.5rem;
         }
     }
 

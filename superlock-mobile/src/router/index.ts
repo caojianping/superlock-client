@@ -17,7 +17,7 @@ Vue.use(Router);
 
 const routes = [
     {
-        path: '/home',
+        path: '/home/index',
         name: 'Home',
         component: Home
     },
@@ -55,8 +55,9 @@ router.beforeEach((to, from, next) => {
     let tokenInfo = Token.getTokenInfo(),
         token = tokenInfo.token;
     if (isWithoutAuth(to.path)) {
-        if (token) next('/home');
-        else next();
+        // if (token) next('/home/index');
+        // else next();
+        next();
     } else {
         if (token) next();
         else {

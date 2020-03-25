@@ -14,6 +14,7 @@ import './extends/vue.extend';
 
 import '@/less/reset.less';
 import '@/less/common.less';
+import '@/less/effect.less';
 import '@/less/vant.less';
 
 Vue.prototype.cancelRequest = function() {

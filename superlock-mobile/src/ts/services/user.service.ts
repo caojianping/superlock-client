@@ -60,49 +60,6 @@ export class UserService {
         return validator.execute(key);
     }
 
-    // 获取短信验证码
-    public async fetchSmsCode(
-        areaCode: string,
-        mobile: string
-    ): Promise<boolean> {
-        const key = 'smsCode';
-        let validator = new Validator();
-        validator.addRule(
-            key,
-            { name: 'areaCode', value: areaCode },
-            { required: true },
-            { required: '国家/地区区号不可以为空' }
-        );
-        if (areaCode === defaultAreaCode.code) {
-            validator.addRule(
-                key,
-                { name: 'mobile', value: mobile },
-                { required: true, mobile: true },
-                { required: '手机号不可以为空' }
-            );
-        } else {
-            validator.addRule(
-                key,
-                { name: 'mobile', value: mobile },
-                { required: true },
-                { required: '手机号不可以为空' }
-            );
-        }
-
-        let result: ValidationResult = validator.execute(key);
-        if (!result.status)
-            return Promise.reject(Utils.getFirstValue(result.data));
-
-        await Caxios.post<string | null>(
-            {
-                url: Urls.user.smsCode,
-                data: { account: [areaCode, mobile].join(',') }
-            },
-            CaxiosType.Default
-        );
-        return true;
-    }
-
     // 登录
     public async login(userForm: UserForm): Promise<TokenInfo | null> {
         let result: ValidationResult = UserService.validateUserForm(userForm);

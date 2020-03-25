@@ -1,4 +1,6 @@
 export * from './user.model';
+export * from './asset.model';
+export * from './lock.model';
 
 // 业务型错误
 export class BusinessError<T> implements Error {

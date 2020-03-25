@@ -1,0 +1,63 @@
+@import '../../../less/vars.less';
+@import '../../../less/mixins.less';
+
+.area-code {
+    .area-code-selected {
+        position: relative;
+        z-index: 1;
+        padding-right: 1.25rem;
+        cursor: pointer;
+
+        span {
+            display: inline-block;
+            font-size: 0.875rem;
+            .text-ellipse(5.5rem);
+        }
+
+        i {
+            position: absolute;
+            top: 0.625rem;
+            right: 0.5rem;
+            z-index: 2;
+            display: block;
+            width: 0;
+            height: 0;
+            border: 0.375rem solid transparent;
+            border-top: 0.375rem solid @black;
+        }
+
+        &::after {
+            position: absolute;
+            top: 0.25rem;
+            right: 0;
+            z-index: 2;
+            display: block;
+            width: 1px;
+            height: 1rem;
+            content: '';
+            background-color: #d8d8dd;
+        }
+    }
+
+    .area-code-modal {
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        transform: none;
+
+        .area-code-header {
+            /deep/ .van-icon-arrow-left,
+            /deep/ .van-icon-close {
+                font-size: 1.25rem;
+                color: @black;
+            }
+        }
+
+        .area-code-body {
+            .van-index-bar /deep/ .van-index-anchor {
+                text-align: left;
+            }
+        }
+    }
+}

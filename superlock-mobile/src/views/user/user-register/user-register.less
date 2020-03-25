@@ -1,173 +1,52 @@
 @import '../../../less/vars.less';
 @import '../../../less/mixins.less';
 
-@blue: #367cff;
+.register {
+    header {
+        padding: 4.875rem 0 2.4375rem 2.5rem;
 
-.register-line {
-    display: block;
-    margin: 0;
-    padding: 0;
-    height: 1.85rem;
-    background-color: white;
-    border: 1px solid #e6e6e6;
-    border-radius: 0.125rem;
-    outline: none;
-    .box-sizing(border-box);
+        h1 {
+            .font-styles(1.375rem, normal, 1.875rem, @black, left);
+        }
+    }
+
+    .register-status {
+        text-align: center;
+
+        img {
+            margin-top: 2rem;
+        }
+
+        h2 {
+            margin: 1rem 0;
+            .font-styles(1rem, normal, 1.5, @black, center);
+        }
+
+        &.success img {
+            width: 9.21875rem;
+            height: 6.625rem;
+        }
+
+        &.failure img {
+            width: 10.375rem;
+            height: 8.0625rem;
+        }
+
+        &.unopen img {
+            width: 11.78125rem;
+            height: 8.28125rem;
+        }
+    }
+
+    .btn-register {
+        margin-top: 2.75rem;
+    }
+
+    .field-download {
+        padding-top: 1rem !important;
+    }
 }
 
-.register {
-    padding: 19.375rem 0 3rem;
-
-    .register-container {
-        margin: 0 2rem;
-        background-color: white;
-
-        .register-title {
-            padding: 1.5rem 2rem 1.125rem;
-            .font-styles(1.125rem, bold, 1.4, @black, left);
-        }
-
-        .register-body {
-            padding: 0 2rem 1.5rem;
-
-            .register-form {
-                li {
-                    margin-bottom: 0.875rem;
-
-                    .area-code {
-                        position: relative;
-                        z-index: 1;
-                        .register-line();
-                        margin-right: 0.5rem;
-                        padding-left: 0.625rem;
-                        padding-right: 1.5rem;
-                        cursor: pointer;
-
-                        span {
-                            display: inline-block;
-                            .font-styles(
-                                0.75rem,
-                                normal,
-                                1.725rem,
-                                @black,
-                                left
-                            );
-                            .text-ellipse(4rem);
-                        }
-
-                        i {
-                            position: absolute;
-                            top: 0.65rem;
-                            right: 0.25rem;
-                            z-index: 2;
-                            display: block;
-                            width: 0;
-                            height: 0;
-                            border: 0.5rem solid transparent;
-                            border-top: 0.5rem solid #c2c2c2;
-                        }
-                    }
-
-                    .sms-code {
-                        .register-line();
-                        margin-left: 0.5rem;
-                        padding: 0 0.75rem;
-                        .font-styles(0.75rem, normal, 1.625rem, white, center);
-                        background-color: @blue;
-                        border: 1px solid @blue;
-                        cursor: pointer;
-
-                        &.disabled {
-                            background-color: #a1a1a1;
-                            border-color: #d8d8d8 !important;
-                            cursor: not-allowed;
-                        }
-                    }
-
-                    input {
-                        .register-line();
-                        .font-styles(
-                            0.875rem,
-                            normal,
-                            1.725rem,
-                            @black,
-                            left
-                        );
-                        text-indent: 0.625rem;
-
-                        &:focus {
-                            border-color: lightgray;
-                        }
-
-                        &.block {
-                            display: block;
-                            width: 100%;
-                        }
-                    }
-
-                    &.flex input {
-                        width: 100%;
-                    }
-                }
-            }
-
-            .register-status {
-                text-align: center;
-
-                img {
-                    margin-top: 2rem;
-                }
-
-                h2 {
-                    margin: 1rem 0;
-                    .font-styles(1rem, normal, 1.5, @black, center);
-                }
-
-                &.success img {
-                    width: 9.21875rem;
-                    height: 6.625rem;
-                }
-
-                &.failure img {
-                    width: 10.375rem;
-                    height: 8.0625rem;
-                }
-
-                &.unopen img {
-                    width: 11.78125rem;
-                    height: 8.28125rem;
-                }
-            }
-
-            .btn {
-                display: block;
-                margin: 0 auto;
-                width: 100%;
-                height: 2.5rem;
-                .font-styles(1rem, normal, 2.375rem, white, center);
-                background-color: @blue;
-                border: 1px solid @blue;
-                border-radius: 1.25rem;
-                .box-sizing(border-box);
-                cursor: pointer;
-
-                &.btn-inverse {
-                    color: @blue;
-                    background-color: white;
-                }
-
-                &:hover {
-                    opacity: 0.8;
-                }
-            }
-
-            .btn-register {
-                margin-top: 1.75rem;
-            }
-        }
-    }
-
-    #captcha {
-        display: none;
-    }
+#captcha {
+    display: none;
 }

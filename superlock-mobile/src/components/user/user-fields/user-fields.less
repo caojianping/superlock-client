@@ -1,0 +1,30 @@
+@import '../../../less/vars.less';
+@import '../../../less/mixins.less';
+
+.van-cell-group {
+    /deep/ .van-field.field-mobile {
+        padding-bottom: 0.6rem;
+
+        .van-field__label {
+            flex: 2;
+        }
+
+        .van-field__value {
+            flex: 3;
+
+            input {
+                text-indent: 1.25rem;
+            }
+        }
+    }
+
+    /deep/ .van-field.field-code {
+        .van-field__control {
+            flex: 7;
+        }
+
+        .van-field__button {
+            flex: 3;
+        }
+    }
+}

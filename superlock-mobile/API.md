@@ -2732,17 +2732,16 @@ data 字段值说明：
 
 ## 40.2请求参数
 
-| 参数名  | 类型    | 必填 | 说明                        |
-| ------- | ------- | ---- | --------------------------- |
-| token   | string  | 是   | 放在请求头里，用户登陆token |
-| amount  | string  | 是   | 贷款金额；为BCB             |
-| length  | Integer | 是   | 贷款长度                    |
-| unit    | Integer | 是   | 长度单位 1：天 2：月 3：年  |
-| orderId | string  | 是   | 锁仓订单号                  |
+| 参数名      | 类型    | 必填 | 说明                        |
+| ----------- | ------- | ---- | --------------------------- |
+| token       | string  | 是   | 放在请求头里，用户登陆token |
+| amount      | string  | 是   | 贷款金额；为DC              |
+| loanDays    | Integer | 是   | 贷款时长；单位天            |
+| lockOrderId | string  | 是   | 锁仓订单号                  |
 
 请求示例：
 
-https://tcapp.scvip.vip/api/project/loanMoney?amount=100&length=7&unit=1&orderId=dfsaf2dsfdsf
+https://tcapp.scvip.vip/api/project/loanMoney?amount=100&loanDays=30&lockOrderId=dfsaf2dsfdsf
 
 ## 40.3返回结果
 
@@ -4276,6 +4275,213 @@ data 字段值说明：
 **amount:**  锁仓金额;
 
 **coin:** 币种，如BCB;
+
+
+
+# 63. 可贷款锁仓订单
+
+## 63.1基本描述
+
+| 请求方式 | https GET          |
+| -------- | ------------------ |
+| 请求地址 | /couldLoanLockList |
+| 接口方式 | 同步               |
+| 功能说明 | 可贷款锁仓订单     |
+
+## 63.2请求参数
+
+| 参数名   | 类型    | 必填 | 说明                        |
+| -------- | ------- | ---- | --------------------------- |
+| token    | string  | 是   | 放在请求头里，用户登陆token |
+| pageNum  | Integer | 否   | 当前页                      |
+| pageSize | Integer | 否   | 每页多少数据                |
+
+请求示例：
+
+https://tcapp.scvip.vip/api/project/couldLoanLockList?pageNum=1&pageSize=5
+
+## 63.3返回结果
+
+| 字段名  | 类型    | 说明                                                         |
+| ------- | ------- | ------------------------------------------------------------ |
+| code    | string  | 返回码，0表示成功，其他表示错误；其中999为登陆失效，需重新登陆 |
+| message | string  | 返回码的文字说明                                             |
+| data    | object  | 一个对象，用于携带一些额外的返回信息                         |
+| success | boolean | true:成功 false:失败                                         |
+
+## 63.4返回值样例
+
+```java
+{
+    "success":true,
+    "code": 0,
+    "message": "ok",
+    "data":[
+        {
+            "orderId":"24dsagdsag324324",
+            "endDate":"2020-03-24",
+            "lockValue":10000,
+            "lockValueCoin":"DC",
+            "minLoanAmount":1000,
+            "minLoanAmountCoin":"DC",
+            "maxLoanAmount":3000,
+            "maxLoanAmountCoin":"DC",
+            "maxLoanDays":60
+        },
+        {
+            "orderId":"243243dsds24",
+            "endDate":"2020-03-24",
+            "lockValue":10000,
+            "lockValueCoin":"DC",
+            "minLoanAmount":1000,
+            "minLoanAmountCoin":"DC",
+            "maxLoanAmount":3000,
+            "maxLoanAmountCoin":"DC",
+            "maxLoanDays":60
+        }
+    ]
+}
+```
+
+data 字段值说明：
+
+**orderId:**  锁仓订单号;
+
+**endDate:**  锁仓到期时间;
+
+**lockValue:** 锁仓价值;
+
+**lockValueCoin:** 锁仓价值币种；
+
+**minLoanAmount：** 最小贷款金额；
+
+**minLoanAmountCoin:** 最小贷款金额币种；
+
+**maxLoanAmount：** 最大贷款金额；
+
+**maxLoanAmountCoin:** 最大贷款金额币种；
+
+**maxLoanDays：**最长贷款天数；
+
+
+
+# 64. 根据锁仓订单号查询贷款详情
+
+## 64.1基本描述
+
+| 请求方式 | https GET                  |
+| -------- | -------------------------- |
+| 请求地址 | /loanOrderDetails          |
+| 接口方式 | 同步                       |
+| 功能说明 | 根据锁仓订单号查询贷款详情 |
+
+## 64.2请求参数
+
+| 参数名      | 类型    | 必填 | 说明                        |
+| ----------- | ------- | ---- | --------------------------- |
+| token       | string  | 是   | 放在请求头里，用户登陆token |
+| lockOrderId | Integer | 是   | 锁仓订单号                  |
+
+请求示例：
+
+https://tcapp.scvip.vip/api/project/loanOrderDetails?lockOrderId=FDSAAGA242432
+
+## 64.3返回结果
+
+| 字段名  | 类型    | 说明                                                         |
+| ------- | ------- | ------------------------------------------------------------ |
+| code    | string  | 返回码，0表示成功，其他表示错误；其中999为登陆失效，需重新登陆 |
+| message | string  | 返回码的文字说明                                             |
+| data    | object  | 一个对象，用于携带一些额外的返回信息                         |
+| success | boolean | true:成功 false:失败                                         |
+
+## 64.4返回值样例
+
+```java
+{
+    "success":true,
+    "code": 0,
+    "message": "ok",
+    "data": {
+                "orderId":"dsfafdsafsf",
+                "lockOrderId":"dsfgsgfsagdsafds",
+                "mortgageValuationAmount":10000,
+                "mortgageValuationCoin":"DC",
+                "loanValuationAmount":3000,
+                "loanValuationCoin":"DC",
+                "rate":11.2,
+                "applyTime":"2020-03-24 23:23:23",
+                "lendTime":"2020-03-24 23:23:23",
+                "lendExchangeRate":1.2,
+                "fromCoin":"BCB",
+                "toCoin":"DC",
+                "lendAmount":1500,
+                "lendAmountCoin":"BCB",
+                "estimatedRepayDate":"2020-03-24",
+                "totalInterest":200,
+                "totalInterestCoin":"DC",
+                "shouldReturn":3200,
+                "shouldReturnCoin":"DC",
+                "repaymentExchangeRate":12,
+                "actualRepayment":1503,
+                "actualRepaymentCoin":"BCB",
+                "status":50,
+                "remark":"订单结束"    
+    	}
+}
+```
+
+data 字段值说明：
+
+**orderId:**  贷款订单号;
+
+**lockOrderId:**  质押锁仓订单号；
+
+**mortgageValuationAmount:** 抵押计价金额;
+
+**mortgageValuationCoin:**  抵押计价币种；
+
+**loanValuationAmount:** 贷款价值；
+
+**loanValuationCoin：** 贷款价值币种；
+
+**rate:** 贷款年利率;
+
+**applyTime:**申请时间；
+
+**lendTime：** 放款时间；
+
+**lendExchangeRate：** 放款汇率；
+
+**fromCoin：** from币种；
+
+**toCoin:** to币种；
+
+**lendAmount:** 放款币种数量；
+
+**lendAmountCoin:** 放款币种BCB;
+
+**estimatedRepayDate：** 预计还款日期；
+
+**totalInterest：** 利息总计；
+
+**totalInterestCoin：** 利息总计币种；
+
+**shouldReturn:** 应还本息；
+
+**shouldReturnCoin：** 应还本息币种；
+
+**repaymentExchangeRate：**还款汇率；
+
+**actualRepayment：** 实际还款价值；
+
+**actualRepaymentCoin：** 实际还款价值币种；
+
+**status:** 状态；
+
+**remark:** 状态描述；
+
+
 
 
 

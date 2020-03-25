@@ -7,6 +7,7 @@ import { TokenInfo } from '@/ts/models';
 import { CommonService } from '@/ts/services';
 
 import userModule from './modules/user.module';
+import assetModule from './modules/asset.module';
 
 Vue.use(Vuex);
 
@@ -19,7 +20,8 @@ const commonService = new CommonService();
 export default new Vuex.Store({
     strict: false,
     modules: {
-        user: userModule
+        user: userModule,
+        asset: assetModule
     },
     state: rootState,
     mutations: {

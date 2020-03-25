@@ -1,29 +1,38 @@
 import Vue from 'vue';
-import { Component, Prop, Model, Watch } from 'vue-property-decorator';
-import { IAreaCode, HotAreaCodes, AreaCodes } from '@/ts/config';
-import { NavBar, IndexAnchor, IndexBar, Search, Cell } from 'vant';
+import { Component } from 'vue-property-decorator';
+import {
+    IAreaCode,
+    HotAreaCodes,
+    AreaCodes,
+    defaultAreaCode
+} from '@/ts/config';
+
+import { Popup, Icon, Search, IndexAnchor, IndexBar, Cell } from 'vant';
+import Header from '@/components/layout/header';
 
 @Component({
-    name: 'AreaModal',
-    components: { NavBar, IndexAnchor, IndexBar, Search, Cell }
+    name: 'AreaCode',
+    components: { Popup, Icon, Search, IndexAnchor, IndexBar, Cell, Header }
 })
-export default class AreaModal extends Vue {
-    @Model('close', { type: Boolean }) value!: boolean;
-    @Prop() readonly areaCode!: IAreaCode;
+export default class AreaCode extends Vue {
+    areaCode: IAreaCode = defaultAreaCode; // 当前地区区号
+    isShow: boolean = false; // 是否显示模态框
+    isSearch: boolean = false; // 是否显示搜索列表
 
-    isShow: boolean = false;
-    isSearch: boolean = false;
+    hotAreaCodes: Array<IAreaCode> = HotAreaCodes; // 热门地区区号列表
+    searchAreaCodes: Array<IAreaCode> = []; // 搜索地区区号列表
+    indexAreaCodes: any = {}; // 索引地区区号列表
 
-    hotAreaCodes: Array<IAreaCode> = HotAreaCodes;
-    searchAreaCodes: Array<IAreaCode> = [];
-    indexAreaCodes: any = {};
+    keyword: string = ''; // 搜索关键字
 
-    keyword: string = '';
+    // 打开模态框
+    openModal() {
+        this.isShow = true;
+    }
 
     // 关闭模态框
     closeModal() {
         this.isShow = false;
-        this.$emit('close', false);
     }
 
     // 根据关键字过滤国家/地区列表
@@ -57,7 +66,7 @@ export default class AreaModal extends Vue {
     // 选择国家/地区
     chooseAreaCode(areaCode: IAreaCode) {
         this.isShow = false;
-        this.$emit('close', false);
+        this.areaCode = areaCode;
         this.$emit('change', areaCode);
     }
 
@@ -77,10 +86,5 @@ export default class AreaModal extends Vue {
 
     created() {
         this.initData();
-    }
-
-    @Watch('value')
-    watchValue(value: boolean) {
-        this.isShow = value;
     }
 }

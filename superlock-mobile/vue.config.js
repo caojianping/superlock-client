@@ -4,8 +4,23 @@ const pxtorem = require('postcss-pxtorem');
 module.exports = {
     publicPath: './',
     lintOnSave: false,
+    pwa: {
+        iconPaths: {
+            favicon32: 'favicon.ico',
+            favicon16: 'favicon.ico',
+            appleTouchIcon: 'favicon.ico',
+            maskIcon: 'favicon.ico',
+            msTileImage: 'favicon.ico'
+        }
+    },
     css: {
         loaderOptions: {
+            less: {
+                modifyVars: {
+                    'button-primary-background-color': '#357cfd',
+                    'button-primary-border-color': '#357cfd'
+                }
+            },
             postcss: {
                 plugins: [
                     autoprefixer(),

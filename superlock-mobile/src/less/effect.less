@@ -1,0 +1,140 @@
+@import './vars.less';
+@import './mixins.less';
+
+// 波纹效果
+.effect-ripple {
+    position: relative;
+    overflow: hidden;
+
+    &:after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        content: '';
+        opacity: 0;
+        pointer-events: none;
+        background-image: radial-gradient(circle, #666 10%, transparent 10.01%);
+        background-repeat: no-repeat;
+        background-position: 50%;
+        transform: scale(10, 10);
+        transition: transform 0.3s, opacity 0.5s;
+    }
+
+    &:active:after {
+        opacity: 0.3;
+        transform: scale(0, 0);
+        transition: 0s;
+    }
+}
+
+// 渐变阴影效果
+.effect-shadow {
+    &:active {
+        outline: none;
+        background-color: @blue;
+        animation: shadow 0.5s 1;
+        animation-fill-mode: forwards;
+    }
+
+    @keyframes shadow {
+        10% {
+            background: -webkit-radial-gradient(
+                Circle,
+                #1e7aa5 28%,
+                @blue 30%,
+                @blue 48%,
+                #208fc1 60%
+            );
+            background: radial-gradient(
+                Circle,
+                #1e7aa5 28%,
+                @blue 30%,
+                @blue 48%,
+                #208fc1 60%
+            );
+        }
+        20% {
+            background: -webkit-radial-gradient(
+                Circle,
+                #1e7aa5 32%,
+                @blue 34%,
+                @blue 52%,
+                #208fc1 60%
+            );
+            background: radial-gradient(
+                Circle,
+                #1e7aa5 32%,
+                @blue 34%,
+                @blue 52%,
+                #208fc1 60%
+            );
+        }
+        40% {
+            background: -webkit-radial-gradient(
+                Circle,
+                #1e7aa5 34%,
+                @blue 36%,
+                @blue 54%,
+                #208fc1 60%
+            );
+            background: radial-gradient(
+                Circle,
+                #1e7aa5 34%,
+                @blue 36%,
+                @blue 54%,
+                #208fc1 60%
+            );
+        }
+        60% {
+            background: -webkit-radial-gradient(
+                Circle,
+                #1e7aa5 36%,
+                @blue 38%,
+                @blue 56%,
+                #208fc1 60%
+            );
+            background: radial-gradient(
+                Circle,
+                #1e7aa5 36%,
+                @blue 38%,
+                @blue 56%,
+                #208fc1 60%
+            );
+        }
+        80% {
+            background: -webkit-radial-gradient(
+                Circle,
+                #1e7aa5 38%,
+                @blue 40%,
+                @blue 58%,
+                #208fc1 60%
+            );
+            background: radial-gradient(
+                Circle,
+                #1e7aa5 38%,
+                @blue 40%,
+                @blue 58%,
+                #208fc1 60%
+            );
+        }
+        100% {
+            background: -webkit-radial-gradient(
+                Circle,
+                #1e7aa5 40%,
+                @blue 42%,
+                @blue 60%,
+                #208fc1 60%
+            );
+            background: radial-gradient(
+                Circle,
+                #1e7aa5 40%,
+                @blue 42%,
+                @blue 60%,
+                #208fc1 60%
+            );
+        }
+    }
+}

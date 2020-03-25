@@ -1,111 +1,49 @@
 import Vue from 'vue';
+import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
+import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { IAreaCode, defaultAreaCode, RegisterStatus } from '@/ts/config';
+import { RegisterStatus } from '@/ts/config';
 import { Prompt } from '@/ts/common';
-import { RegisterForm } from '@/ts/models';
-import { RegisterService } from '@/ts/services';
+import { UserForm } from '@/ts/models';
 
-import { Loading } from 'vant';
-import AreaModal from '@/components/common/area-modal';
-import WechatPrompt from '@/components/common/wechat-prompt';
+import { Cell, Button } from 'vant';
+import UserFields from '@/components/user/user-fields';
+import WechatPrompt from '@/components/user/wechat-prompt';
+
+const userModule = namespace('user');
 
 @Component({
     name: 'UserRegister',
-    components: { Loading, AreaModal, WechatPrompt }
+    components: { Cell, Button, UserFields, WechatPrompt }
 })
 export default class UserRegister extends Vue {
-    registerService: RegisterService = new RegisterService();
+    @userModule.State('userForm') userForm!: UserForm;
+    @userModule.State('registerStatus') registerStatus!: RegisterStatus;
+    @userModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
+    @userModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
+    @userModule.Action('register') registerAction!: () => any;
 
     yunDun: any = null; // 云盾实例
 
-    isSending: boolean = false; // 是否发送短信验证码中
-    isLoading: boolean = false; // 是否加载短信验证码中
-    countdownTimer: any = null; // 倒计时定时器
-    countdownSeconds: number = 120; // 倒计时秒数
-    countdownText: string = '获取验证码'; // 倒计时文字
-
-    isShow: boolean = false; // 是否显示地区模态框
-    activeAreaCode: IAreaCode = defaultAreaCode; // 当前地区区号数据
-
-    registerStatus: RegisterStatus = RegisterStatus.Default; // 注册状态
-    registerForm: RegisterForm = new RegisterForm();
-
-    // 打开地区模态框
-    openAreaModal() {
-        this.isShow = true;
+    // 处理UserFields组件change事件
+    handleUserFieldsChange(userForm: UserForm) {
+        console.log(1, userForm);
+        userForm.invitationCode = this.userForm.invitationCode;
+        this.setStates({ userForm });
     }
 
-    // 处理地区模态框change事件
-    handleAreaModalChange(areaCode: IAreaCode) {
-        this.activeAreaCode = areaCode;
-        let registerForm = Utils.duplicate(this.registerForm);
-        registerForm.areaCode = areaCode.code;
-        this.registerForm = registerForm;
-    }
-
-    // 清除定时器
-    clearTimer() {
-        if (this.countdownTimer) {
-            clearInterval(this.countdownTimer);
-        }
-        this.isSending = false;
-        this.countdownTimer = null;
-        this.countdownSeconds = 120;
-        this.countdownText = '获取验证码';
+    // 处理UserFields组件stop事件
+    handleUserFieldsStop() {
         this.yunDun && this.yunDun.refresh();
-    }
-
-    // 设置倒计时
-    setCountdown() {
-        let self = this,
-            { countdownTimer, countdownSeconds } = self;
-        if (countdownTimer) {
-            self.clearTimer();
-        } else {
-            self.countdownTimer = setInterval(function() {
-                self.countdownSeconds = countdownSeconds--;
-                if (self.countdownSeconds <= 0) {
-                    self.clearTimer();
-                } else {
-                    self.countdownText = `${self.countdownSeconds}秒`;
-                }
-            }, 1000);
-        }
-    }
-
-    // 发送短信验证码
-    async sendSmsCode() {
-        if (this.isSending) return;
-
-        this.isLoading = true;
-        this.isSending = true;
-        try {
-            let result = await this.registerService.fetchSmsCode(
-                this.registerForm
-            );
-            this.isLoading = false;
-            if (!result) {
-                this.isSending = false;
-                Prompt.error('发送失败');
-                this.yunDun && this.yunDun.refresh();
-            } else {
-                Prompt.success('发送成功');
-                this.setCountdown();
-            }
-        } catch (error) {
-            this.isLoading = false;
-            this.isSending = false;
-            Prompt.error(error.message || error);
-            this.yunDun && this.yunDun.refresh();
-        }
     }
 
     // 注册
     async register() {
+        console.log(2, this.userForm);
         try {
-            let result = await this.registerService.register(this.registerForm);
+            let result = await this.registerAction();
             if (!result) Prompt.error('注册失败');
             else {
                 this.registerStatus = RegisterStatus.Success;
@@ -128,12 +66,9 @@ export default class UserRegister extends Vue {
     // 初始化数据
     initData() {
         let code = Utils.resolveParameters('code'),
-            brandKey = Utils.resolveParameters('brandKey');
-        this.registerForm = RegisterForm.createInstance(
-            code,
-            brandKey,
-            defaultAreaCode.code
-        );
+            userForm = UserForm.createInstance(code);
+        console.log();
+        this.setStates({ userForm });
     }
 
     // 初始化云盾

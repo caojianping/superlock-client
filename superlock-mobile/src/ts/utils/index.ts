@@ -407,11 +407,11 @@ function buildParameters(parameters: { [key: string]: any }): string {
 
 // 解析参数字符串
 function resolveParameters(key: string): string {
-    const regex = new RegExp('(^|&)' + key + '=([^&]*)(&|$)', 'i');
-    const matches = window.location.search.substr(1).match(regex);
-    if (!matches) {
-        return '';
-    }
+    let regex = new RegExp('(^|&)' + key + '=([^&]*)(&|$)', 'i'),
+        hash = window.location.hash || '',
+        flag = hash.indexOf('?') + 1,
+        matches = hash.substr(flag).match(regex);
+    if (!matches) return '';
     return unescape(matches[2]);
 }
 

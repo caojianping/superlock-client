@@ -1,11 +1,35 @@
+import { defaultAreaCode } from '../config';
+
+// 用户表单
 export class UserForm {
     public invitationCode?: string; // 邀请码
     public areaCode!: string; // 地区区号
     public mobile!: string; // 手机号
     public password!: string; // 密码(MD5加密)
     public smsCode!: string; // 短信验证码
+
+    constructor() {
+        this.invitationCode = '';
+        this.areaCode = defaultAreaCode.code;
+        this.mobile = '';
+        this.password = '';
+        this.smsCode = '';
+    }
+
+    public static createInstance(
+        invitationCode: string,
+        areaCode?: string
+    ): UserForm {
+        let userForm = new UserForm();
+        userForm.invitationCode = invitationCode;
+        if (areaCode) {
+            userForm.areaCode = areaCode;
+        }
+        return userForm;
+    }
 }
 
+// token信息
 export class TokenInfo {
     public token!: string; // 登陆token
     public userId!: string; // 用户uid
