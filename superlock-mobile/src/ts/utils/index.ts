@@ -421,13 +421,16 @@ function digitZeroize(digit: number): string {
 }
 
 // 数字百分比
-function digitPercent(digit: string | number, precision: number = 2) {
+function digitPercent(
+    digit: string | number,
+    precision: number = 2
+): string | number {
     if (isNullOrUndefined(digit)) return digit;
 
     let ndigit = Number(digit);
     if (isNaN(ndigit)) return digit;
 
-    return Number((ndigit * 100).toFixed(precision));
+    return (ndigit * 100).toFixed(precision);
 }
 
 // 数字精度
@@ -438,6 +441,15 @@ function digitPrecision(digit: string | number, precision: number = 2) {
     if (isNaN(ndigit)) return digit;
 
     return Number(ndigit.toFixed(precision));
+}
+
+// 重复字符
+function repeatChar(ch: string, count: number) {
+    let result = '';
+    for (let i = 0; i < count; i++) {
+        result += ch;
+    }
+    return result;
 }
 
 // json字符串转换函数
@@ -542,6 +554,7 @@ const Utils = {
     digitZeroize, // 数字补零
     digitPercent, // 数字百分比
     digitPrecision, // 数字精度
+    repeatChar, // 重复字符
 
     parseJSON, // json字符串转换函数
     duplicate, // 简易的对象副本函数，对象拷贝范围：对象、对象数组

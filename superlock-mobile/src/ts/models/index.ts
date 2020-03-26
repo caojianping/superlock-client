@@ -1,4 +1,5 @@
 export * from './user.model';
+export * from './project.model';
 export * from './asset.model';
 export * from './lock.model';
 

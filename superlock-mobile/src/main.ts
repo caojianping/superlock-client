@@ -12,10 +12,11 @@ Vue.use(VueQriously);
 import './extends/validator.extend';
 import './extends/vue.extend';
 
+import '@/less/vant.less';
 import '@/less/reset.less';
 import '@/less/common.less';
 import '@/less/effect.less';
-import '@/less/vant.less';
+import '@/less/icon.less';
 
 Vue.prototype.cancelRequest = function() {
     if ((window as any)['cancelAxios']) {

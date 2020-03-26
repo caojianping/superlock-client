@@ -40,3 +40,12 @@ export class TokenInfo {
     public generalizationCode!: string; // 推广码
     public referralLink!: string; // 推广链接
 }
+
+// 用户锁仓额度
+export class UserLockQuotaModel {
+    public amount!: number;
+    public coin!: string;
+    public usedAmount!: number;
+    public usedCoin!: string;
+    public childCount!: number;
+}

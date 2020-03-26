@@ -1,13 +1,12 @@
 import TYPES from '@/store/types';
 import { IActionContext, IAssetState } from '@/store/interfaces';
-import { Token } from '@/ts/common';
-import { AssetStatsModel, EarningsStatsModel, LockModel } from '@/ts/models';
+import { AssetStatsModel, EarningsStatsModel } from '@/ts/models';
 import { AssetService, LockService } from '@/ts/services';
 
 const assetState: IAssetState = {
-    assetStats: new AssetStatsModel(),
-    earningsStats: new EarningsStatsModel(),
-    locks: []
+    assetStats: null,
+    earningsStats: null,
+    locks: null
 };
 
 const assetService = new AssetService();
@@ -24,9 +23,9 @@ export default {
             }
         },
         [TYPES.CLEAR_STATES](state: IAssetState) {
-            state.assetStats = new AssetStatsModel();
-            state.earningsStats = new EarningsStatsModel();
-            state.locks = [];
+            state.assetStats = null;
+            state.earningsStats = null;
+            state.locks = null;
         }
     },
     actions: {
@@ -38,7 +37,9 @@ export default {
             try {
                 let assetStats = await assetService.fetchAssetStats();
                 commit(TYPES.SET_STATES, { assetStats });
-            } catch (error) {}
+            } catch (error) {
+                commit(TYPES.SET_STATES, { assetStats: null });
+            }
         },
 
         // 获取收益统计信息
@@ -49,7 +50,9 @@ export default {
             try {
                 let earningsStats = await assetService.fetchEarningsStats();
                 commit(TYPES.SET_STATES, { earningsStats });
-            } catch (error) {}
+            } catch (error) {
+                commit(TYPES.SET_STATES, { earningsStats: null });
+            }
         },
 
         // 获取锁仓列表
@@ -58,7 +61,9 @@ export default {
             try {
                 let locks = await lockService.fetchLocks();
                 commit(TYPES.SET_STATES, { locks });
-            } catch (error) {}
+            } catch (error) {
+                commit(TYPES.SET_STATES, { locks: [] });
+            }
         }
     }
 };

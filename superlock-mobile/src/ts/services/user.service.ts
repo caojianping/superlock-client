@@ -2,7 +2,7 @@ import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
 import { Urls, CaxiosType, defaultAreaCode } from '@/ts/config';
 import { Caxios, md5 } from '@/ts/common';
-import { UserForm, TokenInfo } from '@/ts/models';
+import { UserForm, TokenInfo, UserLockQuotaModel } from '@/ts/models';
 
 export class UserService {
     //  校验用户表单
@@ -121,5 +121,13 @@ export class UserService {
             CaxiosType.Loading
         );
         return true;
+    }
+
+    // 获取用户锁仓额度信息
+    public async fetchUserLockQuota(): Promise<UserLockQuotaModel | null> {
+        return await Caxios.get<UserLockQuotaModel | null>(
+            { url: Urls.user.lockQuota },
+            CaxiosType.Token
+        );
     }
 }

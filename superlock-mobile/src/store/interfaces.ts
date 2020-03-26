@@ -4,8 +4,10 @@ import {
     TokenInfo,
     UserForm,
     AssetStatsModel,
+    EarningsStatsModel,
     LockModel,
-    EarningsStatsModel
+    ProjectStatsModel,
+    UserLockQuotaModel
 } from '@/ts/models';
 
 export interface IActionContext<T> {
@@ -16,6 +18,8 @@ export interface IActionContext<T> {
 
 export interface IRootState {
     tokenInfo: TokenInfo;
+    lockUnits: Array<string>;
+    lockStatuses: Map<number, string>;
 }
 
 export interface IUserState {
@@ -23,8 +27,13 @@ export interface IUserState {
     registerStatus: RegisterStatus;
 }
 
+export interface IHomeState {
+    userLockQuota: UserLockQuotaModel | null;
+    projectStats: ProjectStatsModel | null;
+}
+
 export interface IAssetState {
-    assetStats: AssetStatsModel;
-    earningsStats: EarningsStatsModel;
-    locks: Array<LockModel>;
+    assetStats: AssetStatsModel | null;
+    earningsStats: EarningsStatsModel | null;
+    locks: Array<LockModel> | null;
 }

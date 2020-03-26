@@ -7,12 +7,21 @@ import { TokenInfo } from '@/ts/models';
 import { CommonService } from '@/ts/services';
 
 import userModule from './modules/user.module';
+import homeModule from './modules/home.module';
 import assetModule from './modules/asset.module';
 
 Vue.use(Vuex);
 
 const rootState: IRootState = {
-    tokenInfo: new TokenInfo()
+    tokenInfo: new TokenInfo(),
+    lockUnits: ['天', '月', '年'],
+    lockStatuses: new Map([
+        [0, '订单已创建'],
+        [10, '订单处理中'],
+        [20, '锁仓计息中'],
+        [30, '锁仓到期'],
+        [40, '锁仓失败']
+    ])
 };
 
 const commonService = new CommonService();
@@ -21,6 +30,7 @@ export default new Vuex.Store({
     strict: false,
     modules: {
         user: userModule,
+        home: homeModule,
         asset: assetModule
     },
     state: rootState,

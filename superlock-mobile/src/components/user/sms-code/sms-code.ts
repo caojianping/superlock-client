@@ -2,11 +2,11 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { Action } from 'vuex-class';
 import { Prompt } from '@/ts/common';
-import { Loading } from 'vant';
+import Spin from '@/components/common/spin';
 
 @Component({
     name: 'SmsCode',
-    components: { Loading }
+    components: { Spin }
 })
 export default class SmsCode extends Vue {
     @Prop() readonly areaCode!: string;
@@ -18,7 +18,7 @@ export default class SmsCode extends Vue {
     }) => any;
 
     isSending: boolean = false; // 是否发送短信验证码中
-    isLoading: boolean = false; // 是否加载短信验证码中
+    isSpinning: boolean = false; // 是否加载短信验证码中
     timer: any = null; // 倒计时定时器
     seconds: number = 120; // 倒计时秒数
     text: string = '获取验证码'; // 倒计时文字
@@ -59,11 +59,11 @@ export default class SmsCode extends Vue {
         if (this.isSending) return;
 
         let { areaCode, mobile } = this;
-        this.isLoading = true;
+        this.isSpinning = true;
         this.isSending = true;
         try {
             let result = await this.fetchSmsCode({ areaCode, mobile });
-            this.isLoading = false;
+            this.isSpinning = false;
             if (!result) {
                 this.isSending = false;
                 Prompt.error('发送失败');
@@ -73,7 +73,7 @@ export default class SmsCode extends Vue {
                 Prompt.success('发送成功');
             }
         } catch (error) {
-            this.isLoading = false;
+            this.isSpinning = false;
             this.isSending = false;
             Prompt.error(error.message || error);
             this.$emit('stop');

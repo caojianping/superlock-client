@@ -1,22 +1,26 @@
 import Vue from 'vue';
-import { namespace } from 'vuex-class';
+import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
-
-import { Tabs, Tab } from 'vant';
-import Navs from '@/components/layout/navs';
 import TYPES from '@/store/types';
 import { AssetStatsModel, EarningsStatsModel, LockModel } from '@/ts/models';
+
+import { CellGroup, Cell, Tabs, Tab } from 'vant';
+import Spin from '@/components/common/spin';
+import Navs from '@/components/layout/navs';
 
 const assetModule = namespace('asset');
 
 @Component({
     name: 'AssetIndex',
-    components: { Tabs, Tab, Navs }
+    components: { CellGroup, Cell, Tabs, Tab, Spin, Navs }
 })
 export default class AssetIndex extends Vue {
-    @assetModule.State('assetStats') assetStats!: AssetStatsModel;
-    @assetModule.State('earningsStats') earningsStats!: EarningsStatsModel;
-    @assetModule.State('locks') locks!: Array<LockModel>;
+    @State('lockUnits') lockUnits!: Array<string>;
+    @State('lockStatuses') lockStatuses!: Map<number, string>;
+
+    @assetModule.State('assetStats') assetStats!: AssetStatsModel | null;
+    @assetModule.State('earningsStats') earningsStats!: EarningsStatsModel | null;
+    @assetModule.State('locks') locks!: Array<LockModel> | null;
 
     @assetModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @assetModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
@@ -26,8 +30,58 @@ export default class AssetIndex extends Vue {
     @assetModule.Action('fetchLocks') fetchLocks!: () => any;
 
     activeTab: number = 0;
+    isTotalVisible: boolean = true;
+    isEarningsStatsSpinning: boolean = false;
+    isAssetStatsSpinning: boolean = true;
+    isLocksSpinning: boolean = false;
+    isLoansSpinning: boolean = false;
+    isAwardsSpinning: boolean = false;
 
-    handleTabsChange(name: string, title: string) {
-        console.log(name, title, this.activeTab);
+    // 切换总资产可见性
+    toggleTotal(){
+        this.isTotalVisible = !this.isTotalVisible;
+    }
+
+    // 处理选项卡change事件
+    async handleTabsChange() {
+        this.fetchData(this.activeTab);
+    }
+
+    // 获取数据
+    async fetchData(index: number) {
+        let keys = {
+                0: 'AssetStats',
+                1: 'Locks',
+                2: 'Loans',
+                3: 'Awards',
+                4: 'EarningsStats'
+            },
+            caches = {
+                0: this.assetStats,
+                1: this.locks,
+                2: null,
+                3: null,
+                4: this.earningsStats
+            },
+            funcs = {
+                0: this.fetchAssetStats,
+                1: this.fetchLocks,
+                2: null,
+                3: null,
+                4: this.fetchEarningsStats
+            },
+            key = `is${keys[index]}Spinning`,
+            func = funcs[index];
+        console.log(index, key, caches);
+        if (!caches[index]) {
+            this[key] = true;
+            func && (await func());
+            this[key] = false;
+        }
+    }
+
+    mounted() {
+        this.fetchData(this.activeTab);
+        // this.fetchData(4);
     }
 }

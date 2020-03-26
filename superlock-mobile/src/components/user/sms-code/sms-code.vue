@@ -1,19 +1,19 @@
 <template>
     <div class="sms-code">
         <span
-            v-if="!isSending && !isLoading"
+            v-if="!isSending && !isSpinning"
             class="sms-code-text"
             @click="sendSmsCode"
             >{{ text }}</span
         >
         <span
-            v-if="isSending && isLoading"
+            v-if="isSending && isSpinning"
             class="sms-code-text"
             @click="sendSmsCode"
         >
-            <Loading type="spinner" size="1.25rem" />
+            <Spin :is-spinning="isSpinning" text="" />
         </span>
-        <span v-if="isSending && !isLoading" class="sms-code-text disabled">{{
+        <span v-if="isSending && !isSpinning" class="sms-code-text disabled">{{
             text
         }}</span>
     </div>

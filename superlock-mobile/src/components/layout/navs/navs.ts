@@ -29,7 +29,6 @@ export default class Navs extends Vue {
 
     mounted() {
         let route = this.$route;
-        console.log('route:', this.$route);
         this.activePath = route.path;
     }
 }

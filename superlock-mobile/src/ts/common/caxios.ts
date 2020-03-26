@@ -36,19 +36,25 @@ export class Caxios {
             options['headers'][CONSTANTS.TOKEN_HEADER] = tokenInfo.token;
         }
 
-        if (options.method === 'POST') {
-            options['headers']['Content-Type'] =
-                'application/x-www-form-urlencoded; charset=UTF-8';
+        if (options['method'] === 'POST') {
+            // 设置默认请求头内容类型
+            if (!options['headers']['Content-Type']) {
+                options['headers']['Content-Type'] =
+                    'application/x-www-form-urlencoded; charset=UTF-8';
+            }
+
+            // 转换请求数据
+            let data = options['data'];
+            if (
+                options['headers']['Content-Type'].indexOf(
+                    'application/x-www-form-urlencoded'
+                ) > -1 &&
+                !Utils.isNullOrUndefined(data)
+            ) {
+                options['data'] = Qs.stringify(data);
+            }
         }
 
-        let contentType = options.headers['Content-Type'],
-            data = options.data;
-        if (
-            contentType.indexOf('application/x-www-form-urlencoded') > -1 &&
-            !Utils.isNullOrUndefined(data)
-        ) {
-            options['data'] = Qs.stringify(data);
-        }
         return options;
     }
 
@@ -76,7 +82,6 @@ export class Caxios {
 
         let method = options.method || 'GET',
             instance = axios.create(Caxios.commonOptions);
-
         // 请求拦截器
         instance.interceptors.request.use(
             request => {
@@ -87,6 +92,7 @@ export class Caxios {
                 return request;
             },
             err => {
+                console.log('request use:', err);
                 Caxios.setLoading(type, false);
                 return Promise.reject(err);
             }
@@ -99,6 +105,7 @@ export class Caxios {
                 return response;
             },
             err => {
+                console.log('response use:', err);
                 let result = err;
                 // 取消处理
                 if (err instanceof axios.Cancel) {
@@ -148,8 +155,9 @@ export class Caxios {
         let code: number = result.code,
             data: any = result.data,
             message: string = result.message;
-        if (code === 0) return data as T;
-        else if (code === ResponseCode.TokenExpired) {
+        if (code === 0) {
+            return data as T;
+        } else if (code === ResponseCode.TokenExpired) {
             Token.removeTokenInfo();
             store.commit(TYPES.CLEAR_STATES);
             // 登录页面，Router.push会报NavigatorDuplicated异常，提示在UI层处理
@@ -171,7 +179,6 @@ export class Caxios {
         type: CaxiosType = CaxiosType.Default
     ): Promise<T> {
         if (!options) return Promise.reject('axios配置参数不可以为空');
-
         options['method'] = 'GET';
         return await Caxios.invoke<T>(options, type);
     }
@@ -182,7 +189,6 @@ export class Caxios {
         type: CaxiosType = CaxiosType.Default
     ): Promise<T> {
         if (!options) return Promise.reject('axios配置参数不可以为空');
-
         options['method'] = 'POST';
         return await Caxios.invoke<T>(options, type);
     }

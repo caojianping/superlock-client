@@ -1,0 +1,25 @@
+@import '../../../less/vars.less';
+@import '../../../less/mixins.less';
+
+.spin {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.05);
+
+    /deep/ .van-loading.van-loading--spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -0.84375rem;
+        margin-left: -2.5rem;
+        text-align: center;
+
+        .van-loading__text {
+            color: @light-blue;
+        }
+    }
+}

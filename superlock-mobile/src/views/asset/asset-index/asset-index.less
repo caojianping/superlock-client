@@ -1,2 +1,145 @@
 @import '../../../less/vars.less';
 @import '../../../less/mixins.less';
+
+.asset-index {
+    padding-bottom: 15rem;
+    background: #f7f6f9 url('../../../assets/images/asset/asset-bg.png')
+        no-repeat top center;
+    background-size: 100% auto;
+
+    .asset-header {
+        padding: 3.75rem 0 2.5rem;
+        color: white;
+
+        h2 {
+            font-size: 0;
+            text-align: center;
+
+            label,
+            .icon {
+                vertical-align: middle;
+            }
+
+            label {
+                font-size: 1.25rem;
+            }
+
+            small {
+                font-size: 1rem;
+                vertical-align: bottom;
+            }
+        }
+
+        h1 {
+            .font-styles(2rem, normal, 1.8, white, center);
+        }
+
+        p {
+            text-align: center;
+
+            label,
+            span,
+            .icon {
+                vertical-align: middle;
+            }
+
+            label {
+                font-size: 0.9375rem;
+            }
+
+            span {
+                margin-right: 0.5rem;
+                font-size: 1.25rem;
+                color: #a4ff52;
+            }
+        }
+    }
+
+    .asset-links {
+        margin: 0 0.5rem;
+        padding: 1.625rem 1rem;
+        background-color: white;
+        border-radius: 1.25rem;
+
+        li {
+            flex: 1;
+            text-align: center;
+
+            i,
+            span {
+                vertical-align: middle;
+            }
+
+            i {
+                display: inline-block;
+                width: 2rem;
+                height: 2rem;
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-size: 100% 100%;
+            }
+
+            &:first-child i {
+                background-image: url('../../../assets/images/asset/recharge.png');
+            }
+
+            &:nth-child(2) i {
+                background-image: url('../../../assets/images/asset/withdraw.png');
+            }
+
+            &:last-child i {
+                background-image: url('../../../assets/images/asset/transfer.png');
+            }
+
+            span {
+                margin-left: 0.5rem;
+                .font-styles(1rem, normal, 1.5, @blue, center);
+            }
+        }
+    }
+
+    .asset-tabs {
+        margin: 0.75rem 0.5rem;
+        background-color: white;
+        border-radius: 1.25rem;
+        overflow: hidden;
+
+        /deep/ .van-tabs__wrap,
+        /deep/ .van-tabs__wrap .van-tabs__nav {
+            height: auto;
+        }
+
+        /deep/ .van-tabs__wrap .van-tabs__nav {
+            padding: 0 0.875rem;
+
+            .van-tab {
+                padding: 0.875rem 0;
+                height: 3.75rem;
+                line-height: 1;
+
+                .van-tab__text {
+                    display: inline-block;
+                    width: 98%;
+                    height: 2rem;
+                    .font-styles(0.875rem, normal, 2rem, #838991, center);
+                    border-radius: 1.125rem;
+                    transition: all 500ms;
+                }
+
+                &.van-tab--active .van-tab__text {
+                    color: white;
+                    background-color: @blue;
+                }
+            }
+
+            .van-tabs__line {
+                display: none;
+            }
+        }
+
+        .tab-content {
+            position: relative;
+            min-height: 8rem;
+        }
+    }
+}
