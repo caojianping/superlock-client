@@ -29,8 +29,8 @@ export class UserForm {
     }
 }
 
-// token信息
-export class TokenInfo {
+// 用户信息
+export class UserInfo {
     public token!: string; // 登陆token
     public userId!: string; // 用户uid
     public phone!: Map<string, string>; // 手机号信息

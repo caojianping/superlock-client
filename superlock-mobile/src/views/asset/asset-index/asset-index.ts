@@ -7,12 +7,13 @@ import { AssetStatsModel, EarningsStatsModel, LockModel } from '@/ts/models';
 import { CellGroup, Cell, Tabs, Tab } from 'vant';
 import Spin from '@/components/common/spin';
 import Navs from '@/components/layout/navs';
+import RechargeCoins from '@/components/recharge/recharge-coins';
 
 const assetModule = namespace('asset');
 
 @Component({
     name: 'AssetIndex',
-    components: { CellGroup, Cell, Tabs, Tab, Spin, Navs }
+    components: { CellGroup, Cell, Tabs, Tab, Spin, Navs, RechargeCoins }
 })
 export default class AssetIndex extends Vue {
     @State('lockUnits') lockUnits!: Array<string>;
@@ -37,9 +38,16 @@ export default class AssetIndex extends Vue {
     isLoansSpinning: boolean = false;
     isAwardsSpinning: boolean = false;
 
+    isRechargeCoinsShow: boolean = false;
+
     // 切换总资产可见性
     toggleTotal(){
         this.isTotalVisible = !this.isTotalVisible;
+    }
+
+    // 打开充值币种组件
+    openRechargeCoins(){
+        this.isRechargeCoinsShow = true;
     }
 
     // 处理选项卡change事件

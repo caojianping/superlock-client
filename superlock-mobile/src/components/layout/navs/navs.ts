@@ -24,7 +24,7 @@ export default class Navs extends Vue {
         let self = this;
         setTimeout(function() {
             self.$router.push(path);
-        }, 500);
+        }, 300);
     }
 
     mounted() {

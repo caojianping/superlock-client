@@ -1,2 +1,70 @@
 @import '../../../less/vars.less';
 @import '../../../less/mixins.less';
+
+.mine-index {
+    h1 {
+        padding: 0.875rem 0;
+        .font-styles(1.25rem, bold, 1, @black, center);
+        background-color: white;
+    }
+
+    .user-info {
+        padding: 1.5rem 1rem 1.25rem;
+        border-top: 0.625rem solid #f9f9f9;
+
+        figure {
+            flex: 1;
+
+            img {
+                width: 3.125rem;
+                height: 3.125rem;
+                border-radius: 100%;
+            }
+        }
+
+        > div {
+            flex: 4;
+            padding-left: 0.5rem;
+
+            h2 {
+                padding-top: 0.35rem;
+                font-size: 1rem;
+            }
+
+            p {
+                font-size: 0.75rem;
+                line-height: 1.2;
+                color: @gray;
+            }
+        }
+
+        > p {
+            flex: 1;
+            text-align: right;
+
+            .van-icon {
+                margin-top: 1.3125rem;
+                font-size: 1rem;
+            }
+        }
+    }
+
+    /deep/ .van-cell-group {
+        border-top: 0.625rem solid #f9f9f9;
+
+        .van-cell {
+            .van-cell__value {
+                i,
+                span {
+                    vertical-align: middle;
+                }
+
+                span {
+                    display: inline-block;
+                    margin-left: 0.625rem;
+                    font-size: 0.875rem;
+                }
+            }
+        }
+    }
+}

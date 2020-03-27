@@ -1,0 +1,55 @@
+@import '../../../less/vars.less';
+@import '../../../less/mixins.less';
+
+.recharge-coins {
+    h2 {
+        padding: 2rem 0 0.75rem;
+        .font-styles(1rem, normal, 1, @black, center);
+    }
+
+    h3 {
+        padding: 0 4rem 1.5rem;
+        .font-styles(0.75rem, normal, 1.35, @gray, center);
+    }
+
+    > div {
+        min-height: 5rem;
+
+        /deep/ .van-cell-group {
+            .van-cell {
+                text-align: center;
+
+                .van-cell__title {
+                    div {
+                        display: inline-block;
+                        padding-left: 2rem;
+                        width: 7rem;
+                        text-align: left;
+
+                        img,
+                        span {
+                            display: inline-block;
+                            vertical-align: middle;
+                        }
+
+                        img {
+                            width: 1.375rem;
+                            height: 1.375rem;
+                            border-radius: 100%;
+                        }
+
+                        span {
+                            margin-left: 0.5rem;
+                            .font-styles(1rem, normal, 1.5, @black, center);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    > p {
+        height: 3.125rem;
+        .font-styles(1rem, normal, 3.125rem, @black, center);
+    }
+}

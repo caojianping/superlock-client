@@ -29,7 +29,7 @@
         </header>
 
         <ul class="asset-links flex">
-            <li>
+            <li @click="openRechargeCoins">
                 <i></i>
                 <span>充值</span>
             </li>
@@ -56,7 +56,7 @@
                 </template>
                 <div class="tab-content">
                     <Spin :is-spinning="isAssetStatsSpinning" />
-                    <CellGroup>
+                    <CellGroup v-if="!isAssetStatsSpinning">
                         <Cell
                             title="总资产"
                             :value="
@@ -136,6 +136,8 @@
                 <div class="tab-content"></div>
             </Tab>
         </Tabs>
+
+        <RechargeCoins v-model="isRechargeCoinsShow" />
 
         <Navs />
     </div>

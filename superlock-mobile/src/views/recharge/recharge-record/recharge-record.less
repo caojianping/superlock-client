@@ -1,2 +1,23 @@
 @import '../../../less/vars.less';
 @import '../../../less/mixins.less';
+
+.recharge-record {
+    .recharge-list {
+        /deep/ .van-cell__title {
+            h2 {
+                .font-styles(1rem, normal, 1.5, @black, left);
+            }
+
+            p {
+                .font-styles(0.75rem, normal, 1.5, @gray, left);
+            }
+        }
+
+        /deep/ .van-cell__value {
+            p {
+                padding-top: 0.5rem;
+                .font-styles(1rem, normal, 1.5, @black, right);
+            }
+        }
+    }
+}

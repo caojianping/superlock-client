@@ -9,6 +9,7 @@ import { CommonService } from '@/ts/services';
 import userModule from './modules/user.module';
 import homeModule from './modules/home.module';
 import assetModule from './modules/asset.module';
+import rechargeModule from './modules/recharge.module';
 
 Vue.use(Vuex);
 
@@ -31,7 +32,8 @@ export default new Vuex.Store({
     modules: {
         user: userModule,
         home: homeModule,
-        asset: assetModule
+        asset: assetModule,
+        recharge: rechargeModule
     },
     state: rootState,
     mutations: {

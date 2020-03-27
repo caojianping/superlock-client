@@ -2,6 +2,7 @@ export * from './user.model';
 export * from './project.model';
 export * from './asset.model';
 export * from './lock.model';
+export * from './recharge.model';
 
 // 业务型错误
 export class BusinessError<T> implements Error {
@@ -28,5 +29,18 @@ export class ResponseResult<T> {
         this.code = code;
         this.data = data;
         this.message = message;
+    }
+}
+
+// token信息
+export class TokenInfo {
+    public token!: string; // 登陆token
+    public pttl!: number; // 超时时间
+
+    public static createInstance(token: string, pttl: number) {
+        let tokenInfo = new TokenInfo();
+        tokenInfo.token = token;
+        tokenInfo.pttl = pttl;
+        return tokenInfo;
     }
 }

@@ -2,10 +2,11 @@ import TYPES from '@/store/types';
 import { IActionContext, IUserState } from '@/store/interfaces';
 import { RegisterStatus } from '@/ts/config';
 import { Token } from '@/ts/common';
-import { UserForm } from '@/ts/models';
+import { UserForm, TokenInfo, UserInfo } from '@/ts/models';
 import { UserService } from '@/ts/services';
 
 const userState: IUserState = {
+    userInfo: new UserInfo(),
     userForm: new UserForm(),
     registerStatus: RegisterStatus.Default
 };
@@ -30,9 +31,13 @@ export default {
         // 登录
         async login(context: IActionContext<IUserState>): Promise<boolean> {
             let { commit, state } = context,
-                tokenInfo = await userService.login(state.userForm);
-            if (tokenInfo === null) return false;
+                userInfo = await userService.login(state.userForm);
+            if (userInfo === null) return false;
             else {
+                let tokenInfo: TokenInfo = TokenInfo.createInstance(
+                    userInfo.token,
+                    userInfo.pttl
+                );
                 Token.setTokenInfo(tokenInfo);
                 commit(TYPES.SET_STATES, { tokenInfo }, { root: true });
                 return true;
@@ -55,6 +60,15 @@ export default {
         async retrieval(context: IActionContext<IUserState>): Promise<boolean> {
             let state = context.state;
             return await userService.retrieval(state.userForm);
+        },
+
+        // 获取用户信息
+        async fetchUserInfo(
+            context: IActionContext<IUserState>
+        ): Promise<void> {
+            let commit = context.commit,
+                userInfo = await userService.fetchUserInfo();
+            commit(TYPES.SET_STATES, { userInfo });
         }
     }
 };

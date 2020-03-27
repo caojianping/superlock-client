@@ -2,7 +2,7 @@ import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
 import { Urls, CaxiosType, defaultAreaCode } from '@/ts/config';
 import { Caxios, md5 } from '@/ts/common';
-import { UserForm, TokenInfo, UserLockQuotaModel } from '@/ts/models';
+import { UserForm, UserInfo, UserLockQuotaModel } from '@/ts/models';
 
 export class UserService {
     //  校验用户表单
@@ -61,7 +61,7 @@ export class UserService {
     }
 
     // 登录
-    public async login(userForm: UserForm): Promise<TokenInfo | null> {
+    public async login(userForm: UserForm): Promise<UserInfo | null> {
         let result: ValidationResult = UserService.validateUserForm(userForm);
         if (!result.status)
             return Promise.reject(Utils.getFirstValue(result.data));
@@ -73,7 +73,7 @@ export class UserService {
                 passwd: md5(password),
                 vfcode: smsCode
             });
-        return await Caxios.post<TokenInfo | null>(
+        return await Caxios.post<UserInfo | null>(
             { url: `${Urls.user.login}?${parameters}` },
             CaxiosType.Loading
         );
@@ -129,5 +129,15 @@ export class UserService {
             { url: Urls.user.lockQuota },
             CaxiosType.Token
         );
+    }
+
+    // 获取用户信息
+    public async fetchUserInfo(): Promise<UserInfo> {
+        let result = await Caxios.get<UserInfo | null>(
+            { url: Urls.user.info },
+            CaxiosType.Token
+        );
+        if (!result) return new UserInfo();
+        return result as UserInfo;
     }
 }

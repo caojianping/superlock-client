@@ -2,7 +2,7 @@ import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 
 @Component({
-    name: 'RechargeCode',
+    name: 'RechargePrompt',
     components: {}
 })
-export default class RechargeCode extends Vue {}
+export default class RechargePrompt extends Vue {}

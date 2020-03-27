@@ -1,2 +1,32 @@
 @import '../../../less/vars.less';
 @import '../../../less/mixins.less';
+
+.recharge-address {
+    .address-container {
+        padding: 0 1rem;
+
+        .address-content {
+            text-align: center;
+            background: url('../../../assets/images/cylinder.png') no-repeat
+                center 2rem;
+            background-size: cover;
+
+            > h1 {
+                padding: 2rem 0 1.25rem;
+                .font-styles(1.5rem, normal, 1, @black, center);
+            }
+
+            > p {
+                margin: 0.75rem 0;
+                padding: 0 2rem;
+                .font-styles(1rem, normal, 1.5, @gray, center);
+                word-break: break-all;
+            }
+
+            > .van-button {
+                margin-bottom: 0.5rem;
+                padding: 0 1rem;
+            }
+        }
+    }
+}
