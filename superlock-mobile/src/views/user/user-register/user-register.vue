@@ -4,10 +4,10 @@
             <h1>新用户注册</h1>
         </header>
 
-        <UserFields
+        <UserForm
             v-if="registerStatus === 1"
-            @change="handleUserFieldsChange"
-            @stop="handleUserFieldsStop"
+            @change="handleUserFormChange"
+            @stop="handleUserFormStop"
         >
             <Cell :border="false">
                 <Button
@@ -32,7 +32,7 @@
                     下载APP
                 </Button>
             </Cell>
-        </UserFields>
+        </UserForm>
 
         <div v-if="registerStatus === 2" class="register-status success">
             <img

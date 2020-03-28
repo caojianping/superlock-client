@@ -4,7 +4,7 @@ import { Component } from 'vue-property-decorator';
 import TYPES from '@/store/types';
 import { UserLockQuotaModel, ProjectStatsModel } from '@/ts/models';
 
-import Navs from '@/components/layout/navs';
+import Navs from '@/components/common/navs';
 import Spin from '@/components/common/spin';
 
 const homeModule = namespace('home');

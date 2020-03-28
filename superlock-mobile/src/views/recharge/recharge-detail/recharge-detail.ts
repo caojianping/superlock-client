@@ -5,7 +5,7 @@ import TYPES from '@/store/types';
 import { RechargeModel } from '@/ts/models';
 
 import { CellGroup, Cell } from 'vant';
-import Header from '@/components/layout/header';
+import Header from '@/components/common/header';
 
 const rechargeModule = namespace('recharge');
 

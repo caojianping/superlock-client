@@ -10,7 +10,7 @@ export default [
         component: WithdrawIndex
     },
     {
-        path: '/withdraw/address',
+        path: '/withdraw/address/:source',
         name: 'WithdrawAddress',
         component: WithdrawAddress
     },

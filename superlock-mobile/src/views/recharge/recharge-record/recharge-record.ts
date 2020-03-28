@@ -5,7 +5,7 @@ import TYPES from '@/store/types';
 import { RechargeModel } from '@/ts/models';
 
 import { List, CellGroup, Cell } from 'vant';
-import Header from '@/components/layout/header';
+import Header from '@/components/common/header';
 
 const rechargeModule = namespace('recharge');
 
@@ -23,15 +23,14 @@ export default class RechargeRecord extends Vue {
     ) => any;
     @rechargeModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
 
-    @rechargeModule.Action('fetchRechargeRecords')
-    fetchRechargeRecords!: () => any;
+    @rechargeModule.Action('fetchRecharges') fetchRecharges!: () => any;
 
     isLoading: boolean = false; // 是否正在加载
     isFinished: boolean = false; // 是否加载结束
 
     // 获取数据
     async fetchData() {
-        let recharges = await this.fetchRechargeRecords();
+        let recharges = await this.fetchRecharges();
         this.isLoading = false;
         this.isFinished = recharges && recharges.length <= 0;
     }

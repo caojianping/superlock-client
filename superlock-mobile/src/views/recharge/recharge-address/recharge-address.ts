@@ -2,37 +2,43 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import TYPES from '@/store/types';
+import { RechargeCoinModel } from '@/ts/models';
 
-import { Button } from 'vant';
-import Header from '@/components/layout/header';
-import RechargePrompt from '@/components/recharge/recharge-prompt';
+import { CellGroup, Cell } from 'vant';
+import Header from '@/components/common/header';
+import Spin from '@/components/common/spin';
 
 const rechargeModule = namespace('recharge');
 
 @Component({
     name: 'RechargeAddress',
-    components: { Button, Header, RechargePrompt }
+    components: { CellGroup, Cell, Header, Spin }
 })
 export default class RechargeAddress extends Vue {
-    @rechargeModule.State('coin') coin!: string;
-    @rechargeModule.State('address') address!: string;
+    @rechargeModule.State('rechargeCoins') rechargeCoins!: Array<
+        RechargeCoinModel
+    >;
 
     @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (
         payload: any
     ) => any;
     @rechargeModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
 
-    @rechargeModule.Action('fetchRechargeAddress')
-    fetchRechargeAddress!: () => any;
+    @rechargeModule.Action('fetchRechargeCoins') fetchRechargeCoins!: () => any;
 
-    copyAddress() {}
+    isSpinning: boolean = false;
 
-    created() {
-        let coin = this.$route.params.coin;
-        this.setStates({ coin });
+    // 获取数据
+    async fetchData() {
+        let rechargeCoins = this.rechargeCoins;
+        if (rechargeCoins.length <= 0) {
+            this.isSpinning = true;
+            await this.fetchRechargeCoins();
+            this.isSpinning = false;
+        }
     }
 
     mounted() {
-        this.fetchRechargeAddress();
+        this.fetchData();
     }
 }

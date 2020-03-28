@@ -8,7 +8,7 @@ import {
 } from '@/ts/config';
 
 import { Popup, Icon, Search, IndexAnchor, IndexBar, Cell } from 'vant';
-import Header from '@/components/layout/header';
+import Header from '@/components/common/header';
 
 @Component({
     name: 'AreaCode',
@@ -25,13 +25,13 @@ export default class AreaCode extends Vue {
 
     keyword: string = ''; // 搜索关键字
 
-    // 打开模态框
-    openModal() {
+    // 打开弹出框
+    openPopup() {
         this.isShow = true;
     }
 
-    // 关闭模态框
-    closeModal() {
+    // 关闭弹出框
+    closePopup() {
         this.isShow = false;
     }
 

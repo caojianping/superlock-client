@@ -2,16 +2,19 @@ import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
 import { Urls, CaxiosType, defaultAreaCode } from '@/ts/config';
 import { Caxios, md5 } from '@/ts/common';
-import { UserForm, UserInfo, UserLockQuotaModel } from '@/ts/models';
+import { UserFormModel, UserInfoModel, UserLockQuotaModel } from '@/ts/models';
 
 export class UserService {
     //  校验用户表单
     public static validateUserForm(
-        userForm: UserForm,
+        userForm: UserFormModel,
         isRegister: boolean = false
     ): ValidationResult {
         if (!userForm)
-            return { status: false, data: { userForm: '参数不可以为空' } };
+            return {
+                status: false,
+                data: { userForm: '用户表单参数不可以为空' }
+            };
 
         const key = 'userForm';
         let { invitationCode, areaCode, mobile, password, smsCode } = userForm,
@@ -61,7 +64,7 @@ export class UserService {
     }
 
     // 登录
-    public async login(userForm: UserForm): Promise<UserInfo | null> {
+    public async login(userForm: UserFormModel): Promise<UserInfoModel | null> {
         let result: ValidationResult = UserService.validateUserForm(userForm);
         if (!result.status)
             return Promise.reject(Utils.getFirstValue(result.data));
@@ -73,14 +76,14 @@ export class UserService {
                 passwd: md5(password),
                 vfcode: smsCode
             });
-        return await Caxios.post<UserInfo | null>(
+        return await Caxios.post<UserInfoModel | null>(
             { url: `${Urls.user.login}?${parameters}` },
             CaxiosType.Loading
         );
     }
 
     // 注册
-    public async register(userForm: UserForm): Promise<boolean> {
+    public async register(userForm: UserFormModel): Promise<boolean> {
         let result: ValidationResult = UserService.validateUserForm(
             userForm,
             true
@@ -104,7 +107,7 @@ export class UserService {
     }
 
     // 找回密码
-    public async retrieval(userForm: UserForm): Promise<boolean> {
+    public async retrieval(userForm: UserFormModel): Promise<boolean> {
         let result: ValidationResult = UserService.validateUserForm(userForm);
         if (!result.status)
             return Promise.reject(Utils.getFirstValue(result.data));
@@ -132,12 +135,23 @@ export class UserService {
     }
 
     // 获取用户信息
-    public async fetchUserInfo(): Promise<UserInfo> {
-        let result = await Caxios.get<UserInfo | null>(
+    public async fetchUserInfo(): Promise<UserInfoModel> {
+        let result = await Caxios.get<UserInfoModel | null>(
             { url: Urls.user.info },
             CaxiosType.Token
         );
-        if (!result) return new UserInfo();
-        return result as UserInfo;
+        if (!result) return new UserInfoModel();
+        return result as UserInfoModel;
+    }
+
+    // 设置昵称
+    public async setNickname(nickname: string): Promise<boolean> {
+        if (!nickname) return Promise.reject('昵称不可以为空');
+
+        await Caxios.post<any>(
+            { url: `${Urls.user.setNickname}?nickName=${nickname}` },
+            CaxiosType.LoadingToken
+        );
+        return true;
     }
 }

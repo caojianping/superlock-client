@@ -2,12 +2,12 @@ import TYPES from '@/store/types';
 import { IActionContext, IUserState } from '@/store/interfaces';
 import { RegisterStatus } from '@/ts/config';
 import { Token } from '@/ts/common';
-import { UserForm, TokenInfo, UserInfo } from '@/ts/models';
+import { TokenInfo, UserFormModel, UserInfoModel } from '@/ts/models';
 import { UserService } from '@/ts/services';
 
 const userState: IUserState = {
-    userInfo: new UserInfo(),
-    userForm: new UserForm(),
+    userInfo: new UserInfoModel(),
+    userForm: new UserFormModel(),
     registerStatus: RegisterStatus.Default
 };
 
@@ -24,7 +24,9 @@ export default {
             }
         },
         [TYPES.CLEAR_STATES](state: IUserState) {
-            state.userForm = new UserForm();
+            state.userInfo = new UserInfoModel();
+            state.userForm = new UserFormModel();
+            state.registerStatus = RegisterStatus.Default;
         }
     },
     actions: {
@@ -69,6 +71,14 @@ export default {
             let commit = context.commit,
                 userInfo = await userService.fetchUserInfo();
             commit(TYPES.SET_STATES, { userInfo });
+        },
+
+        // 设置昵称
+        async setNickname(
+            context: IActionContext<IUserState>,
+            nickname: string
+        ): Promise<boolean> {
+            return await userService.setNickname(nickname);
         }
     }
 };

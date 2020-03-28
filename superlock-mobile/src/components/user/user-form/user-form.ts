@@ -2,18 +2,18 @@ import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import Utils from '@/ts/utils';
 import { IAreaCode } from '@/ts/config';
-import { UserForm } from '@/ts/models';
+import { UserFormModel } from '@/ts/models';
 
 import { CellGroup, Field } from 'vant';
 import AreaCode from '@/components/user/area-code';
 import SmsCode from '@/components/user/sms-code';
 
 @Component({
-    name: 'UserFields',
+    name: 'UserForm',
     components: { CellGroup, Field, AreaCode, SmsCode }
 })
-export default class UserFields extends Vue {
-    userForm: UserForm = new UserForm();
+export default class UserForm extends Vue {
+    userForm: UserFormModel = new UserFormModel();
 
     // 处理Field控件input事件
     handleFieldInput(key: string, value: any) {

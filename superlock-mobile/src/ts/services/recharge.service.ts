@@ -13,7 +13,7 @@ export class RechargeService {
         return result || [];
     }
 
-    // 获取充值地址信息
+    // 获取充值地址
     public async fetchRechargeAddress(coin: string): Promise<string> {
         if (!coin) return Promise.reject('充值币种不可以为空');
 
@@ -24,14 +24,14 @@ export class RechargeService {
         return result || '';
     }
 
-    // 获取充值记录列表
-    public async fetchRechargeRecords(
+    // 获取充值列表
+    public async fetchRecharges(
         pageNum: number = 1,
         pageSize: number = 10
     ): Promise<Array<RechargeModel>> {
         // let result = await Caxios.get<Array<RechargeModel> | null>(
         //     {
-        //         url: `${Urls.recharge.record}?${Utils.buildParameters({
+        //         url: `${Urls.recharge.page}?${Utils.buildParameters({
         //             pageNum,
         //             pageSize
         //         })}`

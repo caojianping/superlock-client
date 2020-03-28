@@ -19,3 +19,9 @@ export const enum RegisterStatus {
     Failure = 3, // 失效
     Unopen = 4 // 未开放
 }
+
+// 提现来源
+export const enum WithdrawSource {
+    Mine = 1, // 我的页面
+    Withdraw = 2 // 提现页面
+}

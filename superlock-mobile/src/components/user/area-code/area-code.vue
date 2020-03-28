@@ -1,14 +1,14 @@
 <template>
     <div class="area-code">
-        <div class="area-code-selected" @click="openModal">
+        <div class="area-code-selected" @click="openPopup">
             <span>{{ `+${areaCode.code} ${areaCode.name}` }}</span>
             <i></i>
         </div>
 
-        <Popup v-model="isShow" class="area-code-modal">
+        <Popup v-model="isShow" class="area-code-popup page-popup">
             <header class="area-code-header">
-                <Header title="国家和地区" back @back="closeModal">
-                    <Icon slot="right" name="close" @click="closeModal" />
+                <Header title="国家和地区" back @back="closePopup">
+                    <Icon slot="right" name="close" @click="closePopup" />
                 </Header>
 
                 <Search

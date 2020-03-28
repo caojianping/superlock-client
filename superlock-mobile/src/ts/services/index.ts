@@ -4,3 +4,4 @@ export * from './project.service';
 export * from './asset.service';
 export * from './lock.service';
 export * from './recharge.service';
+export * from './withdraw.service';

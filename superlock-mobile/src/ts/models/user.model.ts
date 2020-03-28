@@ -1,7 +1,7 @@
 import { defaultAreaCode } from '../config';
 
-// 用户表单
-export class UserForm {
+// 用户表单模型
+export class UserFormModel {
     public invitationCode?: string; // 邀请码
     public areaCode!: string; // 地区区号
     public mobile!: string; // 手机号
@@ -19,8 +19,8 @@ export class UserForm {
     public static createInstance(
         invitationCode: string,
         areaCode?: string
-    ): UserForm {
-        let userForm = new UserForm();
+    ): UserFormModel {
+        let userForm = new UserFormModel();
         userForm.invitationCode = invitationCode;
         if (areaCode) {
             userForm.areaCode = areaCode;
@@ -29,8 +29,8 @@ export class UserForm {
     }
 }
 
-// 用户信息
-export class UserInfo {
+// 用户信息模型
+export class UserInfoModel {
     public token!: string; // 登陆token
     public userId!: string; // 用户uid
     public phone!: Map<string, string>; // 手机号信息

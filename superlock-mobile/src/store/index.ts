@@ -10,6 +10,7 @@ import userModule from './modules/user.module';
 import homeModule from './modules/home.module';
 import assetModule from './modules/asset.module';
 import rechargeModule from './modules/recharge.module';
+import withdrawModule from './modules/withdraw.module';
 
 Vue.use(Vuex);
 
@@ -33,7 +34,8 @@ export default new Vuex.Store({
         user: userModule,
         home: homeModule,
         asset: assetModule,
-        recharge: rechargeModule
+        recharge: rechargeModule,
+        withdraw: withdrawModule
     },
     state: rootState,
     mutations: {

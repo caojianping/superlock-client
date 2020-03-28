@@ -1,26 +1,32 @@
 <template>
     <div class="recharge-address">
-        <Header :title="`${coin}充值地址`">
-            <router-link slot="right" to="/recharge/record">明细</router-link>
+        <Header title="充值地址">
+            <span slot="right"></span>
         </Header>
 
         <div class="address-container separator">
-            <div class="address-content">
-                <h1>{{ coin }}</h1>
-                <qriously :value="address" :size="180" />
-                <p>{{ address }}</p>
-                <Button
-                    class="effect-tripple"
-                    type="primary"
-                    size="small"
-                    round
-                    @click="copyAddress"
-                    >复制地址</Button
-                >
-            </div>
-        </div>
+            <Spin :is-spinning="isSpinning" />
 
-        <RechargePrompt />
+            <CellGroup v-if="!isSpinning">
+                <Cell
+                    v-for="(rechargeCoin, index) in rechargeCoins"
+                    :key="index"
+                    is-link
+                    :to="`/recharge/code/${rechargeCoin.symbol}`"
+                >
+                    <div class="flex" slot="title">
+                        <img
+                            :src="rechargeCoin.icon"
+                            :alt="rechargeCoin.symbol"
+                        />
+                        <div>
+                            <h2>{{ rechargeCoin.symbol }}</h2>
+                            <p>{{ rechargeCoin.name }}</p>
+                        </div>
+                    </div>
+                </Cell>
+            </CellGroup>
+        </div>
     </div>
 </template>
 

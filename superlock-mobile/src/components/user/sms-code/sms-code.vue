@@ -2,7 +2,7 @@
     <div class="sms-code">
         <span
             v-if="!isSending && !isSpinning"
-            class="sms-code-text"
+            class="sms-code-text effect-ripple"
             @click="sendSmsCode"
             >{{ text }}</span
         >

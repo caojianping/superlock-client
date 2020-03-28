@@ -5,10 +5,7 @@
             <h1>欢迎登录锁仓宝</h1>
         </header>
 
-        <UserFields
-            @change="handleUserFieldsChange"
-            @stop="handleUserFieldsStop"
-        >
+        <UserForm @change="handleUserFormChange" @stop="handleUserFormStop">
             <Cell>
                 <Button
                     class="btn-login effect-shadow"
@@ -20,7 +17,7 @@
                     >登&nbsp;录</Button
                 >
             </Cell>
-        </UserFields>
+        </UserForm>
 
         <p>
             <router-link to="/user/register">注册</router-link>

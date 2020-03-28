@@ -14,13 +14,16 @@
 
             <CellGroup v-if="!isSpinning">
                 <Cell
-                    v-for="(coin, index) in coins"
+                    v-for="(rechargeCoin, index) in rechargeCoins"
                     :key="index"
-                    :to="`/recharge/address/${coin.symbol}`"
+                    :to="`/recharge/code/${rechargeCoin.symbol}`"
                 >
                     <div slot="title">
-                        <img :src="coin.icon" :alt="coin.symbol" />
-                        <span>{{ coin.symbol }}</span>
+                        <img
+                            :src="rechargeCoin.icon"
+                            :alt="rechargeCoin.symbol"
+                        />
+                        <span>{{ rechargeCoin.symbol }}</span>
                     </div>
                 </Cell>
             </CellGroup>

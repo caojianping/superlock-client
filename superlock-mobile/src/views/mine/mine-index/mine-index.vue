@@ -13,19 +13,19 @@
                 <h2>{{ userInfo.nickName || '--' }}</h2>
                 <p>UID: {{ userInfo.userId || '--' }}</p>
             </div>
-            <p>
+            <p @click="isShow = true">
                 <Icon name="arrow" />
             </p>
         </div>
 
         <CellGroup>
-            <Cell is-link>
+            <Cell is-link to="/team/mgmt">
                 <template>
                     <i class="icon icon-team" />
                     <span>团队管理</span>
                 </template>
             </Cell>
-            <Cell is-link>
+            <Cell is-link to="/invite/friend">
                 <template>
                     <i class="icon icon-invite" />
                     <span>邀请好友</span>
@@ -34,13 +34,13 @@
         </CellGroup>
 
         <CellGroup>
-            <Cell is-link to="/recharge/addresses">
+            <Cell is-link to="/recharge/address">
                 <template>
                     <i class="icon icon-recharge" />
                     <span>充值地址</span>
                 </template>
             </Cell>
-            <Cell is-link>
+            <Cell is-link to="/withdraw/address/1">
                 <template>
                     <i class="icon icon-withdraw" />
                     <span>提现地址</span>
@@ -49,25 +49,25 @@
         </CellGroup>
 
         <CellGroup>
-            <Cell is-link>
+            <Cell is-link to="/security/center">
                 <template>
                     <i class="icon icon-security" />
                     <span>安全中心</span>
                 </template>
             </Cell>
-            <Cell is-link>
+            <Cell is-link to="/help/center">
                 <template>
                     <i class="icon icon-help" />
                     <span>帮助中心</span>
                 </template>
             </Cell>
-            <Cell is-link>
+            <Cell is-link to="/message/center">
                 <template>
                     <i class="icon icon-message" />
                     <span>消息通知</span>
                 </template>
             </Cell>
-            <Cell is-link>
+            <Cell is-link to="/setting/center">
                 <template>
                     <i class="icon icon-setting" />
                     <span>设置</span>
@@ -75,6 +75,11 @@
             </Cell>
         </CellGroup>
 
+        <ModifyName
+            v-model="isShow"
+            :name="userInfo.nickName || ''"
+            @submit="handleModifyNameSubmit"
+        />
         <Navs />
     </div>
 </template>

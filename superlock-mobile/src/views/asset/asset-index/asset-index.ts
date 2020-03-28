@@ -5,8 +5,8 @@ import TYPES from '@/store/types';
 import { AssetStatsModel, EarningsStatsModel, LockModel } from '@/ts/models';
 
 import { CellGroup, Cell, Tabs, Tab } from 'vant';
+import Navs from '@/components/common/navs';
 import Spin from '@/components/common/spin';
-import Navs from '@/components/layout/navs';
 import RechargeCoins from '@/components/recharge/recharge-coins';
 
 const assetModule = namespace('asset');
@@ -20,7 +20,8 @@ export default class AssetIndex extends Vue {
     @State('lockStatuses') lockStatuses!: Map<number, string>;
 
     @assetModule.State('assetStats') assetStats!: AssetStatsModel | null;
-    @assetModule.State('earningsStats') earningsStats!: EarningsStatsModel | null;
+    @assetModule.State('earningsStats')
+    earningsStats!: EarningsStatsModel | null;
     @assetModule.State('locks') locks!: Array<LockModel> | null;
 
     @assetModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
@@ -41,13 +42,18 @@ export default class AssetIndex extends Vue {
     isRechargeCoinsShow: boolean = false;
 
     // 切换总资产可见性
-    toggleTotal(){
+    toggleTotal() {
         this.isTotalVisible = !this.isTotalVisible;
     }
 
     // 打开充值币种组件
-    openRechargeCoins(){
+    openRechargeCoins() {
         this.isRechargeCoinsShow = true;
+    }
+
+    // 跳转页面
+    goPage(path: string) {
+        this.$router.push(path);
     }
 
     // 处理选项卡change事件

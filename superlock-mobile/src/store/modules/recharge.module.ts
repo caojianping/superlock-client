@@ -4,9 +4,9 @@ import { RechargeModel } from '@/ts/models';
 import { RechargeService } from '@/ts/services';
 
 const rechargeState: IRechargeState = {
-    coins: [],
-    coin: '',
-    address: '',
+    rechargeCoins: [],
+    rechargeCoin: '',
+    rechargeAddress: '',
 
     pageNum: 1,
     pageSize: 10,
@@ -29,8 +29,8 @@ export default {
             }
         },
         [TYPES.CLEAR_STATES](state: IRechargeState) {
-            state.coin = '';
-            state.address = '';
+            state.rechargeCoin = '';
+            state.rechargeAddress = '';
 
             state.pageNum = 1;
             state.pageSize = 10;
@@ -45,29 +45,30 @@ export default {
         ): Promise<void> {
             let commit = context.commit;
             try {
-                let coins = await rechargeService.fetchRechargeCoins();
-                commit(TYPES.SET_STATES, { coins });
+                let rechargeCoins = await rechargeService.fetchRechargeCoins();
+                commit(TYPES.SET_STATES, { rechargeCoins });
             } catch (error) {
-                commit(TYPES.SET_STATES, { coins: [] });
+                commit(TYPES.SET_STATES, { rechargeCoins: [] });
             }
         },
 
-        // 获取充值地址信息
+        // 获取充值地址
         async fetchRechargeAddress(
             context: IActionContext<IRechargeState>
         ): Promise<void> {
             let { commit, state } = context;
             try {
-                let coin = state.coin,
-                    address = await rechargeService.fetchRechargeAddress(coin);
-                commit(TYPES.SET_STATES, { address });
+                let rechargeAddress = await rechargeService.fetchRechargeAddress(
+                    state.rechargeCoin
+                );
+                commit(TYPES.SET_STATES, { rechargeAddress });
             } catch (error) {
-                commit(TYPES.SET_STATES, { address: '' });
+                commit(TYPES.SET_STATES, { rechargeAddress: '' });
             }
         },
 
-        // 获取充值记录列表
-        async fetchRechargeRecords(
+        // 获取充值列表
+        async fetchRecharges(
             context: IActionContext<IRechargeState>
         ): Promise<Array<RechargeModel> | undefined> {
             console.log('fetchRechargeRecords isPending:', isPending);
@@ -77,7 +78,7 @@ export default {
             let { commit, state } = context;
             try {
                 let { pageNum, pageSize, recharges } = state,
-                    data = await rechargeService.fetchRechargeRecords(
+                    data = await rechargeService.fetchRecharges(
                         pageNum,
                         pageSize
                     );

@@ -33,11 +33,11 @@
                 <i></i>
                 <span>充值</span>
             </li>
-            <li>
+            <li @click="goPage('/withdraw/index')">
                 <i></i>
                 <span>提现</span>
             </li>
-            <li>
+            <li @click="goPage('/transfer/index')">
                 <i></i>
                 <span>转账</span>
             </li>

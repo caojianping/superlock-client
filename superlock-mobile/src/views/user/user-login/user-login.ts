@@ -4,32 +4,32 @@ import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import { Prompt } from '@/ts/common';
-import { UserForm } from '@/ts/models';
+import { UserFormModel } from '@/ts/models';
 
 import { Cell, Button } from 'vant';
-import UserFields from '@/components/user/user-fields';
+import UserForm from '@/components/user/user-form';
 
 const userModule = namespace('user');
 
 @Component({
     name: 'UserLogin',
-    components: { Cell, Button, UserFields }
+    components: { Cell, Button, UserForm }
 })
 export default class UserLogin extends Vue {
-    @userModule.State('userForm') userForm!: UserForm;
+    @userModule.State('userForm') userForm!: UserFormModel;
     @userModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @userModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @userModule.Action('login') loginAction!: () => any;
 
     yunDun: any = null; // 云盾实例
 
-    // 处理UserFields组件change事件
-    handleUserFieldsChange(userForm: UserForm) {
+    // 处理UserForm组件change事件
+    handleUserFormChange(userForm: UserFormModel) {
         this.setStates({ userForm });
     }
 
-    // 处理UserFields组件stop事件
-    handleUserFieldsStop() {
+    // 处理UserForm组件stop事件
+    handleUserFormStop() {
         this.yunDun && this.yunDun.refresh();
     }
 

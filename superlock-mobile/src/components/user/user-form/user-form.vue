@@ -40,6 +40,6 @@
     </CellGroup>
 </template>
 
-<style src="./user-fields.less" lang="less" scoped />
+<style src="./user-form.less" lang="less" scoped />
 
-<script src="./user-fields.ts" />
+<script src="./user-form.ts" />

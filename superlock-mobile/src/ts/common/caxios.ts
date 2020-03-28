@@ -60,7 +60,7 @@ export class Caxios {
 
     // 设置loading
     private static setLoading(type: CaxiosType, isShow: boolean): void {
-        if (type === CaxiosType.Loading) {
+        if (type === CaxiosType.Loading || type === CaxiosType.LoadingToken) {
             isShow
                 ? Toast.loading({
                       mask: true,
@@ -92,7 +92,6 @@ export class Caxios {
                 return request;
             },
             err => {
-                console.log('request use:', err);
                 Caxios.setLoading(type, false);
                 return Promise.reject(err);
             }
@@ -105,7 +104,6 @@ export class Caxios {
                 return response;
             },
             err => {
-                console.log('response use:', err);
                 let result = err;
                 // 取消处理
                 if (err instanceof axios.Cancel) {
