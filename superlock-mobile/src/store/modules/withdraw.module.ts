@@ -16,8 +16,7 @@ const withdrawState: IWithdrawState = {
     withdraw: new WithdrawModel(),
 
     withdrawAddresses: [],
-    selectedWithdrawAddress: undefined,
-    withdrawAddress: new WithdrawAddressModel()
+    selectedWithdrawAddress: undefined
 };
 
 const withdrawService = new WithdrawService();
@@ -44,7 +43,6 @@ export default {
 
             state.withdrawAddresses = [];
             state.selectedWithdrawAddress = undefined;
-            state.withdrawAddress = new WithdrawAddressModel();
         }
     },
     actions: {
@@ -59,13 +57,28 @@ export default {
         // 获取提现列表
         async fetchWithdraws(
             context: IActionContext<IWithdrawState>
-        ): Promise<void> {
-            let commit = context.commit;
+        ): Promise<Array<WithdrawModel> | undefined> {
+            console.log('fetchRechargeRecords isPending:', isPending);
+            if (isPending) return undefined;
+
+            isPending = true;
+            let { commit, state } = context;
             try {
-                let withdraws = await withdrawService.fetchWithdraws();
-                commit(TYPES.SET_STATES, { withdraws });
+                let { pageNum, pageSize, withdraws } = state,
+                    data = await withdrawService.fetchWithdraws(
+                        pageNum,
+                        pageSize
+                    );
+                commit(TYPES.SET_STATES, {
+                    pageNum: pageNum + 1,
+                    withdraws: withdraws.concat(data)
+                });
+                isPending = false;
+                return data;
             } catch (error) {
-                commit(TYPES.SET_STATES, { withdraws: [] });
+                commit(TYPES.SET_STATES, { recharges: [] });
+                isPending = false;
+                return [];
             }
         },
 
@@ -84,12 +97,10 @@ export default {
 
         // 添加提现地址
         async addWithdrawAddress(
-            context: IActionContext<IWithdrawState>
+            context: IActionContext<IWithdrawState>,
+            withdrawAddress: WithdrawAddressModel
         ): Promise<boolean> {
-            let state = context.state;
-            return await withdrawService.addWithdrawAddress(
-                state.withdrawAddress
-            );
+            return await withdrawService.addWithdrawAddress(withdrawAddress);
         }
     }
 };

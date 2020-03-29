@@ -12,6 +12,7 @@ import TransferRouter from './transfer.router';
 import LockRouter from './lock.router';
 import AssetRouter from './asset.router';
 import MineRouter from './mine.router';
+import SecurityRouter from './security.router';
 
 Vue.use(Router);
 
@@ -27,7 +28,8 @@ const routes = [
     ...TransferRouter,
     ...LockRouter,
     ...AssetRouter,
-    ...MineRouter
+    ...MineRouter,
+    ...SecurityRouter
 ];
 
 const router = new Router({

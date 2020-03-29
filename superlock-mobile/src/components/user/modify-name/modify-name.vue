@@ -12,7 +12,14 @@
                 @input="handleFieldInput($event)"
             ></Field>
 
-            <Button type="primary" block round @click="submit">保存</Button>
+            <Button
+                class="effect-shadow"
+                type="primary"
+                block
+                round
+                @click="submit"
+                >保存</Button
+            >
         </div>
     </Popup>
 </template>

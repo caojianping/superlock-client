@@ -55,7 +55,10 @@
                     <span>资产总账</span>
                 </template>
                 <div class="tab-content">
-                    <Spin :is-spinning="isAssetStatsSpinning" />
+                    <Spin
+                        v-if="!assetStats"
+                        :is-spinning="isAssetStatsSpinning"
+                    />
                     <CellGroup v-if="!isAssetStatsSpinning">
                         <Cell
                             title="总资产"
@@ -86,8 +89,8 @@
                     <span>我的锁仓</span>
                 </template>
                 <div class="tab-content">
-                    <Spin :is-spinning="isLocksSpinning" />
-                    <template v-if="locks">
+                    <Spin v-if="!locks" :is-spinning="isLocksSpinning" />
+                    <template v-if="!isLocksSpinning && locks">
                         <p v-if="locks.length <= 0" class="none">
                             暂无锁仓记录，快去
                             <router-link class="link" to="/home/index"

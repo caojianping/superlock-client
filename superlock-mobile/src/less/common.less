@@ -88,3 +88,66 @@
 .separator {
     border-top: 0.5rem solid #f9f9f9;
 }
+
+// 锁仓宝通用表单
+.scb-form {
+    margin: 0 1rem;
+    padding: 1rem 2rem 2rem;
+    background-color: white;
+
+    ul {
+        li {
+            h1 {
+                .font-styles(1.375rem, normal, 1.5, @black, left);
+            }
+
+            h1,
+            h2,
+            .van-button.van-button--primary {
+                margin-top: 1.5rem;
+            }
+
+            h2 {
+                .font-styles(1rem, normal, 1.5, @black, left);
+
+                .icon,
+                span {
+                    vertical-align: middle;
+                }
+
+                .icon {
+                    margin-right: 0.5rem;
+                }
+            }
+
+            .van-cell.van-field {
+                padding-right: 0;
+                padding-left: 0;
+
+                &::after {
+                    position: absolute;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    content: '';
+                    border-bottom: 0.0625rem solid #ebedf0;
+                    .transform(scaleY(0.5));
+                    .box-sizing(border-box);
+                    pointer-events: none;
+                }
+            }
+
+            p {
+                padding: 0.5rem 0;
+            }
+
+            .text-prompt {
+                .font-styles(0.75rem, normal, 1.5, #ffb13e, left);
+            }
+
+            .van-button.van-button--primary + p {
+                .font-styles(0.75rem, normal, 1.5, @gray, center);
+            }
+        }
+    }
+}

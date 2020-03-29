@@ -1,4 +1,4 @@
-// 锁仓
+// 锁仓模型
 export class LockModel {
     public orderId!: string; // 锁仓订单干编号；
     public exchangeRate!: number; //  汇率；
@@ -18,4 +18,14 @@ export class LockModel {
     public dcDailyIncome!: number; // 每日收益价值，币种固定为DC;
     public dcTotalIncome!: number; // 累计收益数量，币种固定为DC;
     public bcbTotalIncome!: number; // 累计收益价值，币种固定为BCB;
+}
+
+// 锁仓表单模型
+export class LockFormModel {
+    public length!: number; // 锁仓长度
+    public unit!: number; // 单位
+    public rate!: number; // 利率
+    public coin!: string; // 币种
+    public amount!: number; // 锁仓金额
+    public fundPasswd!: string; // 资金密码
 }

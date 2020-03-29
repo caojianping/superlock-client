@@ -42,7 +42,7 @@
 
         <div class="home-project">
             <Spin :is-spinning="isProjectSpinning" />
-            
+
             <ul class="project-list" v-if="projectStats">
                 {{
                     ((userLockProjectList =
@@ -84,8 +84,11 @@
                             <p>本金保证，每日返息</p>
                         </div>
                         <div>
-                            <router-link to="/lock/detail"
-                                >立即参与</router-link
+                            <a
+                                class="effect-ripple"
+                                href="javascript: void(0)"
+                                @click="joinLock(project)"
+                                >立即参与</a
                             >
                         </div>
                     </div>

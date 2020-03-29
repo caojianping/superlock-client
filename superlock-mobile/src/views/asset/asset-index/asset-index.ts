@@ -34,7 +34,7 @@ export default class AssetIndex extends Vue {
     activeTab: number = 0;
     isTotalVisible: boolean = true;
     isEarningsStatsSpinning: boolean = false;
-    isAssetStatsSpinning: boolean = true;
+    isAssetStatsSpinning: boolean = false;
     isLocksSpinning: boolean = false;
     isLoansSpinning: boolean = false;
     isAwardsSpinning: boolean = false;
@@ -86,7 +86,6 @@ export default class AssetIndex extends Vue {
             },
             key = `is${keys[index]}Spinning`,
             func = funcs[index];
-        console.log(index, key, caches);
         if (!caches[index]) {
             this[key] = true;
             func && (await func());
@@ -96,6 +95,6 @@ export default class AssetIndex extends Vue {
 
     mounted() {
         this.fetchData(this.activeTab);
-        // this.fetchData(4);
+        this.fetchData(4);
     }
 }

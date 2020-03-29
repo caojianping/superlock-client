@@ -4,7 +4,7 @@
             <router-link slot="right" to="/withdraw/record">明细</router-link>
         </Header>
 
-        <div class="withdraw-form separator">
+        <div class="scb-form separator">
             <ul>
                 <li>
                     <h2>提现地址</h2>
@@ -50,37 +50,19 @@
                     />
                 </li>
                 <li>
-                    <Button type="primary" block round @click="openModal"
+                    <Button
+                        class="effect-shadow"
+                        type="primary"
+                        block
+                        round
+                        @click="openPassword"
                         >确定提现</Button
                     >
                 </li>
             </ul>
         </div>
 
-        <Modal class="password-modal" v-model="isShow">
-            <template slot="title">
-                <h2>资金密码</h2>
-                <p>请输入资金密码，进行身份认证</p>
-            </template>
-            <ul>
-                <li>
-                    <input
-                        type="password"
-                        :value="withdrawForm.fundPasswd"
-                        @change="handlePasswordChange"
-                    />
-                </li>
-                <li>
-                    <Button
-                        type="primary"
-                        block
-                        round
-                        @click="submit"
-                        >确认</Button
-                    >
-                </li>
-            </ul>
-        </Modal>
+        <Password v-model="isShow" @submit="handlePasswordSubmit" />
     </div>
 </template>
 

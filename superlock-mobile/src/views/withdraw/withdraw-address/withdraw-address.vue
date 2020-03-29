@@ -1,7 +1,7 @@
 <template>
     <div class="withdraw-address">
         <Header title="提现地址">
-            <span slot="right" @click="openAddressPopup">添加地址</span>
+            <span slot="right" @click="openWithdrawSetting">添加地址</span>
         </Header>
 
         <div class="address-container separator">
@@ -10,7 +10,7 @@
                 <a
                     class="link"
                     href="javascript: void(0)"
-                    @click="openAddressPopup"
+                    @click="openWithdrawSetting"
                     >添加地址</a
                 >
                 吧！
@@ -37,6 +37,12 @@
                 </Cell>
             </CellGroup>
         </div>
+
+        <WithdrawSetting
+            v-model="isShow"
+            :type="operationType"
+            @submit="handleWithdrawSettingSubmit"
+        />
     </div>
 </template>
 

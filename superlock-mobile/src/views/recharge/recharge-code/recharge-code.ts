@@ -25,11 +25,13 @@ export default class RechargeCode extends Vue {
     @rechargeModule.Action('fetchRechargeAddress')
     fetchRechargeAddress!: () => any;
 
-    copyAddress() {}
+    copyAddress() {
+        // todo: 复制地址
+    }
 
     created() {
         let coin = this.$route.params.coin;
-        this.setStates({ coin });
+        this.setStates({ rechargeCoin: coin });
     }
 
     mounted() {

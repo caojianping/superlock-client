@@ -28,6 +28,7 @@ export default class WithdrawDetail extends Vue {
                 this.withdraws.filter(
                     (withdraw: WithdrawModel) => withdraw.orderId === id
                 )[0] || new WithdrawModel();
+        console.log('1,2:', this.withdraws, withdraw);
         this.setStates({ withdraw });
     }
 }

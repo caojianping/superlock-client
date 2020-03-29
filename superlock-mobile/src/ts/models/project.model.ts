@@ -1,4 +1,4 @@
-// 项目统计
+// 项目统计模型
 export class ProjectStatsModel {
     public userLockProjectList!: Array<any>; // 用户锁仓项目列表
     public statistics!: {
@@ -11,7 +11,7 @@ export class ProjectStatsModel {
     public exchangeHousesLink!: string; //换房链接
 }
 
-// 项目
+// 项目模型
 export class ProjectModel {
     public length!: number; // 锁仓长度
     public unit!: number; // 单位

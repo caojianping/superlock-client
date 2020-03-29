@@ -1,9 +1,9 @@
 export * from './user.model';
-export * from './project.model';
 export * from './asset.model';
-export * from './lock.model';
 export * from './recharge.model';
 export * from './withdraw.model';
+export * from './project.model';
+export * from './lock.model';
 
 // 业务型错误
 export class BusinessError<T> implements Error {

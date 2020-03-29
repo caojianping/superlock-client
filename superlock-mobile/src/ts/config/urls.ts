@@ -2,7 +2,8 @@ const baseUrl = process.env.VUE_APP_BASE_URL;
 
 export const Urls = {
     common: {
-        smsCode: `${baseUrl}/vfcode` // 获取短信验证码接口
+        smsCode: `${baseUrl}/vfcode`, // 获取短信验证码接口
+        todayRate: `${baseUrl}/project/exchangeRateToday` // 获取今日汇率接口
     },
     user: {
         register: `${baseUrl}/register`, // 用户注册接口
@@ -20,7 +21,8 @@ export const Urls = {
         earningsStats: `${baseUrl}/project/yesterdayEarnings` // 获取收益统计接口
     },
     lock: {
-        list: `${baseUrl}/project/lockOrderList` // 获取锁仓列表接口
+        list: `${baseUrl}/project/lockOrderList`, // 获取锁仓列表接口
+        create: `${baseUrl}/project/lockPosition` // 创建锁仓接口
     },
     recharge: {
         coins: `${baseUrl}/project/rechargeCoinList`, // 获取充值币种列表接口
@@ -34,6 +36,10 @@ export const Urls = {
             list: `${baseUrl}/project/withdrawAddresses`, // 获取提现地址列表接口
             add: `${baseUrl}/project/addWithdrawAddress` // 添加提现地址接口
         }
+    },
+    security: {
+        setLoginPassword: `${baseUrl}/resetPasswd`, // 修改登录密码接口
+        setFundPassword: `${baseUrl}/modifyFundPasswd` // 修改资金密码接口
     },
     test: {
         info: `${baseUrl}/mainData` // 测试接口

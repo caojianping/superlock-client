@@ -14,16 +14,16 @@ export class WithdrawAddressModel {
 
 // 提现模型
 export class WithdrawModel {
-    public orderId!: any; // 订单号
-    public txhash!: any; // 交易hash
-    public toAddress!: any; // 提现地址
-    public coin!: any; // 提现币种
-    public amount!: any; // 提现金额
-    public status!: any; // 状态
-    public statusRemark!: any; // 状态描述
+    public orderId!: string; // 订单号
+    public txhash!: string; // 交易hash
+    public toAddress!: string; // 提现地址
+    public coin!: string; // 提现币种
+    public amount!: number; // 提现金额
+    public status!: number; // 状态
+    public statusRemark!: string; // 状态描述
     public capitalType!: string; // 资金类型；支付；收入
-    public balance!: any; // 当前可用余额
-    public balanceCoin!: any; // 可用余额币种
-    public createTime!: any; // 创建时间
-    public memo!: any; // 备注
+    public balance!: number; // 当前可用余额
+    public balanceCoin!: string; // 可用余额币种
+    public createTime!: string; // 创建时间
+    public memo!: string; // 备注
 }

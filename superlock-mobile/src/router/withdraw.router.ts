@@ -20,7 +20,7 @@ export default [
         component: WithdrawRecord
     },
     {
-        path: '/withdraw/detail',
+        path: '/withdraw/detail/:id',
         name: 'WithdrawDetail',
         component: WithdrawDetail
     }

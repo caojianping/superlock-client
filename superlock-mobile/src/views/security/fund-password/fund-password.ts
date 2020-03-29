@@ -2,7 +2,7 @@ import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 
 @Component({
-    name: 'SecurityCenter',
+    name: 'FundPassword',
     components: {}
 })
-export default class SecurityCenter extends Vue {}
+export default class FundPassword extends Vue {}

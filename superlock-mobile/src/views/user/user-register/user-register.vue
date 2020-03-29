@@ -11,7 +11,7 @@
         >
             <Cell :border="false">
                 <Button
-                    class="btn-register"
+                    class="btn-register effect-shadow"
                     type="primary"
                     size="large"
                     block
@@ -23,7 +23,7 @@
             </Cell>
             <Cell class="field-download">
                 <Button
-                    class="btn-download"
+                    class="btn-download effect-shadow"
                     size="large"
                     block
                     round
@@ -40,7 +40,10 @@
                 alt="注册成功"
             />
             <h2>恭喜您，注册成功</h2>
-            <Button class="btn btn-inverse btn-download" @click="download">
+            <Button
+                class="btn btn-inverse btn-download effect-shadow"
+                @click="download"
+            >
                 下载APP
             </Button>
         </div>

@@ -13,7 +13,9 @@ import {
     RechargeModel,
     WithdrawFormModel,
     WithdrawAddressModel,
-    WithdrawModel
+    WithdrawModel,
+    ProjectModel,
+    LockFormModel
 } from '@/ts/models';
 
 export interface IActionContext<T> {
@@ -66,5 +68,9 @@ export interface IWithdrawState {
 
     withdrawAddresses: Array<WithdrawAddressModel>; // 提现地址列表
     selectedWithdrawAddress?: WithdrawAddressModel; // 已选择的提现地址
-    withdrawAddress: WithdrawAddressModel; // 提现地址信息
+}
+
+export interface ILockState {
+    lockProject: ProjectModel; // 锁仓项目
+    lockForm: LockFormModel; // 锁仓表单
 }

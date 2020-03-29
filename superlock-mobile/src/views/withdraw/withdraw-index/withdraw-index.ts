@@ -1,21 +1,24 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
+import { ValidationResult } from 'jpts-validator';
+
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { WithdrawSource } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { WithdrawFormModel, WithdrawAddressModel } from '@/ts/models';
+import { WithdrawService } from '@/ts/services';
 
 import { Field, Icon, Button } from 'vant';
 import Header from '@/components/common/header';
-import Modal from '@/components/common/modal';
+import Password from '@/components/common/password';
 
 const withdrawModule = namespace('withdraw');
 
 @Component({
     name: 'WithdrawIndex',
-    components: { Field, Icon, Button, Header, Modal }
+    components: { Field, Icon, Button, Header, Password }
 })
 export default class WithdrawIndex extends Vue {
     @withdrawModule.State('withdrawForm') withdrawForm!: WithdrawFormModel;
@@ -34,7 +37,7 @@ export default class WithdrawIndex extends Vue {
     @withdrawModule.Action('fetchWithdrawAddresses')
     fetchWithdrawAddresses!: () => any;
 
-    isShow: boolean = false;
+    isShow: boolean = false; // 是否显示密码模态框
 
     // 跳转提现地址页面
     goAddress() {
@@ -55,22 +58,26 @@ export default class WithdrawIndex extends Vue {
         this.setStates({ withdrawForm });
     }
 
-    // 处理文本框控件change事件
-    handlePasswordChange(event: any) {
-        let withdrawForm = Utils.duplicate(this.withdrawForm);
-        withdrawForm.fundPasswd = event.target.value;
-        this.setStates({ withdrawForm });
-    }
+    // 打开密码模态框
+    async openPassword() {
+        let result: ValidationResult = WithdrawService.validateWithdrawForm(
+            this.withdrawForm,
+            false
+        );
+        if (!result.status) {
+            Prompt.error(Utils.getFirstValue(result.data));
+            return;
+        }
 
-    // 打开模态框
-    async openModal() {
-        console.log(111);
         this.isShow = true;
     }
 
-    // 提交提现表单
-    async submit() {
-        console.log(222);
+    // 处理密码模态框submit事件
+    async handlePasswordSubmit(password: string) {
+        let withdrawForm = Utils.duplicate(this.withdrawForm);
+        withdrawForm.fundPasswd = password;
+        this.setStates({ withdrawForm });
+
         try {
             let result = await this.executeWithdraw();
             if (result) Prompt.success('提现成功');
@@ -90,12 +97,11 @@ export default class WithdrawIndex extends Vue {
             this.setStates({ withdrawForm });
         } else {
             // 如果没有选择的提现地址（大部分情况为第一次提现操作时），那么将第一个提现地址设置为已选择提现地址
-            let withdrawAddresses = this.withdrawAddresses;
-            if (withdrawAddresses.length <= 0) {
+            if (this.withdrawAddresses.length <= 0) {
                 await this.fetchWithdrawAddresses();
             }
 
-            let firstAddress = withdrawAddresses[0];
+            let firstAddress = this.withdrawAddresses[0];
             if (firstAddress) {
                 withdrawForm.address = firstAddress.address;
                 this.setStates({

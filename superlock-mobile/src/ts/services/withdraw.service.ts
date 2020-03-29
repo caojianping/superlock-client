@@ -11,7 +11,8 @@ import {
 export class WithdrawService {
     // 校验提现表单
     public static validateWithdrawForm(
-        withdrawForm: WithdrawFormModel
+        withdrawForm: WithdrawFormModel,
+        isPassword: boolean = true
     ): ValidationResult {
         if (!withdrawForm)
             return {
@@ -34,18 +35,20 @@ export class WithdrawService {
             { required: true },
             { required: '提现金额不可以为空' }
         );
-        validator.addRule(
-            key,
-            { name: 'fundPasswd', value: fundPasswd },
-            { required: true },
-            { required: '资金密码不可以为空' }
-        );
-        validator.addRule(
-            key,
-            { name: 'remark', value: remark },
-            { required: true },
-            { required: '提现备注不可以为空' }
-        );
+        if (isPassword) {
+            validator.addRule(
+                key,
+                { name: 'fundPasswd', value: fundPasswd },
+                { required: true },
+                { required: '资金密码不可以为空' }
+            );
+        }
+        // validator.addRule(
+        //     key,
+        //     { name: 'remark', value: remark },
+        //     { required: true },
+        //     { required: '提现备注不可以为空' }
+        // );
         return validator.execute(key);
     }
 
@@ -66,13 +69,13 @@ export class WithdrawService {
             key,
             { name: 'nickName', value: nickName },
             { required: true },
-            { required: '昵称不可以为空' }
+            { required: '钱包名称不可以为空' }
         );
         validator.addRule(
             key,
             { name: 'address', value: address },
-            { required: true, password: true },
-            { required: '地址不可以为空' }
+            { required: true },
+            { required: '钱包地址不可以为空' }
         );
         return validator.execute(key);
     }

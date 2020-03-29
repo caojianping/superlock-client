@@ -1,18 +1,20 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
+
 import TYPES from '@/store/types';
-import { WithdrawModel, WithdrawAddressModel } from '@/ts/models';
+import { WithdrawSource, OperationType } from '@/ts/config';
+import { WithdrawAddressModel } from '@/ts/models';
 
 import { CellGroup, Cell, Checkbox } from 'vant';
 import Header from '@/components/common/header';
-import { WithdrawSource } from '@/ts/config';
+import WithdrawSetting from '@/components/withdraw/withdraw-setting';
 
 const withdrawModule = namespace('withdraw');
 
 @Component({
     name: 'WithdrawAddress',
-    components: { CellGroup, Cell, Checkbox, Header }
+    components: { CellGroup, Cell, Checkbox, Header, WithdrawSetting }
 })
 export default class WithdrawAddress extends Vue {
     @withdrawModule.State('withdrawAddresses') withdrawAddresses!: Array<
@@ -31,10 +33,17 @@ export default class WithdrawAddress extends Vue {
 
     source: WithdrawSource = WithdrawSource.Mine;
     isShow: boolean = false;
+    operationType: OperationType = OperationType.Add;
 
-    // 打开地址弹出框
-    openAddressPopup() {
+    // 打开提现设置组件
+    openWithdrawSetting() {
         this.isShow = true;
+        this.operationType = OperationType.Add;
+    }
+
+    // 处理提现设置组件submit事件
+    handleWithdrawSettingSubmit() {
+        this.fetchWithdrawAddresses();
     }
 
     // 选择提现地址

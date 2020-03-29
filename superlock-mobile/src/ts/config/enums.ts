@@ -12,6 +12,12 @@ export const enum ResponseCode {
     TokenExpired = 999 // token过期
 }
 
+// 操作类型
+export const enum OperationType {
+    Add = 1, // 添加操作
+    Edit = 2 // 编辑操作
+}
+
 // 注册状态
 export const enum RegisterStatus {
     Default = 1, // 默认
