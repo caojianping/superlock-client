@@ -1,5 +1,5 @@
 <template>
-    <div class="mine-index pb4">
+    <div class="mine-index scb-reserved">
         <h1>我的</h1>
 
         <div class="user-info flex">

@@ -1,5 +1,5 @@
 <template>
-    <div class="home pb4">
+    <div class="home scb-reserved">
         <div class="home-stats">
             <div class="user-stats">
                 <p>剩余可锁仓额度({{ userLockQuota.coin || '--' }})</p>
@@ -15,7 +15,7 @@
                 <div class="team-stats-count">
                     <p>我的团队(人)</p>
                     <h2>
-                        <span>{{ userLockQuota.childCount || '--' }}</span>
+                        <span>{{ userLockQuota.childCount || 0 }}</span>
                         <i class="icon icon-arrow" />
                     </h2>
                 </div>

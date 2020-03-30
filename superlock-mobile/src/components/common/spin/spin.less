@@ -22,4 +22,12 @@
             color: @light-blue;
         }
     }
+
+    &.only {
+        background-color: transparent;
+
+        /deep/ .van-loading.van-loading--spinner {
+            margin-left: -0.75rem;
+        }
+    }
 }

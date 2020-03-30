@@ -1,7 +1,7 @@
 <template>
-    <Popup v-model="isShow" class="page-popup" @close="closePopup">
+    <Popup v-model="isShow" class="page-popup scb-gray" @close="closePopup">
         <Header
-            :title="`${['添加', '修改'][type]}提现地址`"
+            :title="`${['添加', '修改'][type - 1]}提现地址`"
             @left="closePopup"
         />
 

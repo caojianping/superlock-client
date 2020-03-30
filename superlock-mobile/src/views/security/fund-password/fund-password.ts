@@ -40,7 +40,6 @@ export default class FundPassword extends Vue {
 
     // 切换密码可见性
     togglePassword(key: string) {
-        console.log('toggle key:', key, this[key]);
         this[key] = !this[key];
     }
 

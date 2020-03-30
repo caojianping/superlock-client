@@ -127,13 +127,12 @@ export class UserService {
     }
 
     // 获取用户锁仓额度信息
-    public async fetchUserLockQuota(): Promise<UserLockQuotaModel | null> {
+    public async fetchUserLockQuota(): Promise<UserLockQuotaModel> {
         let result = await Caxios.get<UserLockQuotaModel | null>(
             { url: Urls.user.lockQuota },
             CaxiosType.Token
         );
-        if (!result) return new UserLockQuotaModel();
-        return result as UserLockQuotaModel;
+        return result || new UserLockQuotaModel();
     }
 
     // 获取用户信息
@@ -142,8 +141,7 @@ export class UserService {
             { url: Urls.user.info },
             CaxiosType.Token
         );
-        if (!result) return new UserInfoModel();
-        return result as UserInfoModel;
+        return result || new UserInfoModel();
     }
 
     // 设置昵称

@@ -4,6 +4,7 @@ import { namespace, State } from 'vuex-class';
 import { SessionStorage } from 'jts-storage';
 
 import TYPES from '@/store/types';
+import Utils from '@/ts/utils';
 import { CONSTANTS } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { UserLockQuotaModel, ProjectModel } from '@/ts/models';
@@ -18,6 +19,8 @@ const lockModule = namespace('lock');
     components: { Header }
 })
 export default class LockDetail extends Vue {
+    dateCalculate: Function = Utils.dateCalculate;
+
     @State('lockUnits') lockUnits!: Array<string>;
 
     @homeModule.State('userLockQuota') userLockQuota!: UserLockQuotaModel;

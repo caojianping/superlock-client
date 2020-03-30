@@ -1,5 +1,5 @@
 <template>
-    <div class="withdraw-index">
+    <div class="withdraw-index scb-gray">
         <Header title="提现" isRight @left="$router.push('/asset/index')">
             <router-link slot="right" to="/withdraw/record">明细</router-link>
         </Header>

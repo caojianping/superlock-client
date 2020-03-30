@@ -1,5 +1,5 @@
 <template>
-    <div class="lock-create">
+    <div class="lock-create scb-gray">
         <Header title="锁仓" @left="$router.push('/lock/detail')" />
 
         <div class="scb-form separator">

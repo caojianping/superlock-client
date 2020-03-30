@@ -1,7 +1,7 @@
 import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
 import { Urls, CaxiosType } from '@/ts/config';
-import { Caxios } from '@/ts/common';
+import { Caxios, md5 } from '@/ts/common';
 import { SecurityFormModel } from '@/ts/models';
 
 export class SecurityService {
@@ -49,8 +49,13 @@ export class SecurityService {
         if (!result.status)
             return Promise.reject(Utils.getFirstValue(result.data));
 
+        let { oldPassword, newPassword } = securityForm,
+            paramters = Utils.buildParameters({
+                oldPasswd: md5(oldPassword),
+                newPasswd: md5(newPassword)
+            });
         await Caxios.get<any>(
-            { url: Urls.security.modifyLoginPassword },
+            { url: `${Urls.security.modifyLoginPassword}?${paramters}` },
             CaxiosType.Token
         );
         return true;
@@ -66,8 +71,13 @@ export class SecurityService {
         if (!result.status)
             return Promise.reject(Utils.getFirstValue(result.data));
 
+        let { oldPassword, newPassword } = securityForm,
+            paramters = Utils.buildParameters({
+                oldPasswd: md5(oldPassword),
+                newPasswd: md5(newPassword)
+            });
         await Caxios.get<any>(
-            { url: Urls.security.modifyFundPassword },
+            { url: `${Urls.security.modifyFundPassword}?${paramters}` },
             CaxiosType.Token
         );
         return true;

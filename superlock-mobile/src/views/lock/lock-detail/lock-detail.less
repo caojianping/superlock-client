@@ -2,10 +2,347 @@
 @import '../../../less/mixins.less';
 
 .lock-detail {
-    .lock-detail-header {
+    position: relative;
+    z-index: 1;
+
+    &::before {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 0;
+        display: block;
+        width: 100%;
+        height: 10.5rem;
+        content: '';
+        background-color: @blue;
+    }
+
+    .lock-container {
+        position: relative;
+        margin-top: 1rem;
+        padding: 0 1rem;
+        background-color: white;
+        border-radius: 1rem;
+
+        .lock-banner {
+            padding: 1.75rem 0;
+            .font-styles(1.125rem, normal, 1, #219ded, center);
+            background: url('../../../assets/images/lock/line.png') no-repeat
+                center center;
+            background-size: 19.3125rem 0.625rem;
+        }
+    }
+
+    /deep/ .header.van-nav-bar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 10;
+        background-color: @blue;
+
+        .van-icon.van-icon-arrow-left,
+        .van-nav-bar__title {
+            color: white !important;
+        }
     }
 
     .lock-detail-body {
+        position: absolute;
+        z-index: 3;
+        margin: 2.875rem 0.875rem 5rem;
+
+        .lock-detail-title {
+            padding: 0.75rem 0;
+            .font-styles(1.3125rem, normal, 2rem, white, left);
+        }
+
+        .lock-detail-intro {
+            margin-top: 0;
+            padding: 1.75rem 0 0;
+            overflow: hidden;
+            .box-shadow(0 2px 4px 2px rgba(137, 161, 206, 0.06));
+
+            ul {
+                position: relative;
+                padding-bottom: 0.875rem;
+
+                &::before {
+                    position: absolute;
+                    top: 1rem;
+                    left: 50%;
+                    display: block;
+                    width: 1px;
+                    height: 2.375rem;
+                    content: '';
+                    background-color: #f4f4f4;
+                }
+
+                li {
+                    flex: 1;
+                    padding-left: 2rem;
+
+                    &:first-child h2 {
+                        .font-styles(2rem, bold, 1.5, #ff9600, left);
+                    }
+
+                    &:last-child h2 {
+                        span {
+                            .font-styles(2rem, bold, 1.5, @black, left);
+                        }
+
+                        small {
+                            margin-left: 0.5rem;
+                            .font-styles(1.125rem, normal, 1.5, @black, left);
+                        }
+                    }
+
+                    p {
+                        .font-styles(1rem, normal, 1.5, @gray, left);
+                    }
+                }
+            }
+
+            > p {
+                background-color: #fff6e9;
+                .font-styles(0.875rem, normal, 2.5rem, #ffab0d, left);
+                text-indent: 1.6rem;
+
+                i,
+                span {
+                    vertical-align: middle;
+                }
+
+                span {
+                    margin-left: 0.5rem;
+                }
+            }
+        }
+
+        .lock-detail-rule {
+            margin-top: 2.5rem;
+
+            h2 {
+                position: absolute;
+                top: -1.25rem;
+                left: 50%;
+                margin-left: -5.5625rem;
+                width: 11.125rem;
+                height: 2.5rem;
+                .font-styles(1.125rem, normal, 2.5rem, white, center);
+                background: url('../../../assets/images/lock/rule-title.png')
+                    no-repeat center center;
+                background-size: 100% 100%;
+            }
+
+            ul {
+                padding: 2.75rem 0 0;
+
+                li {
+                    h3 {
+                        img,
+                        span {
+                            display: inline-block;
+                            vertical-align: middle;
+                        }
+
+                        img {
+                            width: 2.125rem;
+                            height: 2.125rem;
+                        }
+
+                        span {
+                            margin-left: 0.5rem;
+                            .font-styles(1.125rem, bold, 1.5, @black, center);
+                        }
+                    }
+
+                    p {
+                        padding: 0.5rem 0 1.5rem;
+                        .font-styles(0.9375rem, normal, 1.5, @gray, left);
+                    }
+                }
+            }
+
+            .times {
+                position: relative;
+                z-index: 1;
+                padding-bottom: 0.5rem;
+
+                &::after {
+                    position: absolute;
+                    top: 2.5rem;
+                    right: 0;
+                    left: 0;
+                    z-index: 2;
+                    display: block;
+                    height: 1rem;
+                    content: '';
+                    background-color: #d5eaff;
+                    border-radius: 0.5rem;
+                }
+
+                .time-item {
+                    position: relative;
+                    flex: 1;
+
+                    span {
+                        display: inline-block;
+                        width: 4.5rem;
+                        height: 1.5rem;
+                        .font-styles(0.75rem, normal, 1.5rem, @black, center);
+                        border-radius: 0.75rem;
+                    }
+
+                    i {
+                        position: absolute;
+                        top: 2.5rem;
+                        z-index: 3;
+                        display: inline-block;
+                        width: 1rem;
+                        height: 1rem;
+                        border-radius: 100%;
+
+                        &::before,
+                        &::after {
+                            position: absolute;
+                            content: '';
+                        }
+
+                        &::before {
+                            left: 50%;
+                            top: -1rem;
+                            display: block;
+                            width: 1px;
+                            height: 1.5rem;
+                        }
+
+                        &::after {
+                            top: 0.25rem;
+                            left: 50%;
+                            margin-left: -0.25rem;
+                            width: 0.5rem;
+                            height: 0.5rem;
+                            border-radius: 100%;
+                        }
+                    }
+
+                    p {
+                        margin-top: 2.5rem;
+                        .font-styles(0.75rem, normal, 1.5, @gray, left);
+                    }
+
+                    &:first-child {
+                        span {
+                            color: #99b8ff;
+                            background-color: #f2f8ff;
+                            border: 1px solid rgba(153, 184, 255, 0.21);
+                        }
+
+                        i {
+                            left: 0;
+                            background-color: #bedfff;
+
+                            &::before {
+                                background-color: #9ebcff;
+                            }
+
+                            &::after {
+                                background-color: #99b8ff;
+                            }
+                        }
+                    }
+
+                    &:nth-child(2) {
+                        span {
+                            color: #f8a63d;
+                            background-color: #ffefda;
+                            border: 1px solid rgba(248, 166, 61, 0.33);
+                        }
+
+                        i {
+                            left: 1.75rem;
+                            background-color: #e3d7c8;
+
+                            &::before {
+                                background-color: #f8a63d;
+                            }
+
+                            &::after {
+                                background-color: #f8a63d;
+                            }
+                        }
+                    }
+
+                    &:last-child {
+                        text-align: right;
+
+                        span {
+                            color: #3d79f8;
+                            background-color: #e1ebff;
+                            border: 1px solid #a5c2ff;
+                        }
+
+                        i {
+                            right: 0;
+                            background-color: #9ebdff;
+
+                            &::before {
+                                background-color: #3d79f8;
+                            }
+
+                            &::after {
+                                background-color: #3d79f8;
+                            }
+                        }
+
+                        p {
+                            text-align: right;
+                        }
+                    }
+                }
+            }
+        }
+
+        .lock-detail-feature {
+            padding-bottom: 0.5rem;
+
+            ul {
+                li {
+                    padding: 0.75rem 0;
+
+                    img {
+                        float: left;
+                        width: 2.875rem;
+                        height: 2.875rem;
+                    }
+
+                    div {
+                        margin-left: 3.75rem;
+
+                        h3 {
+                            .font-styles(1.125rem, normal, 1.5, @black, left);
+                        }
+
+                        p {
+                            .font-styles(0.9375rem, normal, 1.5, @gray, left);
+                        }
+                    }
+                }
+            }
+        }
+
+        .lock-detail-explain {
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+
+            p {
+                padding: 0.25rem 0 1.25rem;
+                .font-styles(0.9375rem, normal, 1.5, @gray, left);
+            }
+        }
     }
 
     .lock-detail-footer {
@@ -13,17 +350,18 @@
         right: 0;
         bottom: 0;
         left: 0;
+        z-index: 10;
 
         p {
-            height: 2rem;
-            .font-styles(0.875rem, normal, 2rem, #ffb13e, center);
-            background-color: #fff7de;
+            height: 1.875rem;
+            .font-styles(0.875rem, normal, 1.875rem, #f8a63d, center);
+            background-color: #ffefda;
         }
 
         a {
             display: block;
-            height: 3rem;
-            .font-styles(1rem, normal, 3rem, white, center);
+            height: 3.125rem;
+            .font-styles(1rem, normal, 3.125rem, white, center);
             background-color: @blue;
         }
     }

@@ -41,7 +41,11 @@
             />
             <h2>恭喜您，注册成功</h2>
             <Button
-                class="btn btn-inverse btn-download effect-shadow"
+                class="effect-shadow"
+                type="primary"
+                size="large"
+                block
+                round
                 @click="download"
             >
                 下载APP

@@ -71,7 +71,6 @@ export default {
         async fetchRecharges(
             context: IActionContext<IRechargeState>
         ): Promise<Array<RechargeModel> | undefined> {
-            console.log('fetchRechargeRecords isPending:', isPending);
             if (isPending) return undefined;
 
             isPending = true;

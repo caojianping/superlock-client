@@ -5,7 +5,7 @@ import { UserService, ProjectService } from '@/ts/services';
 
 const homeState: IHomeState = {
     userLockQuota: new UserLockQuotaModel(),
-    projectStats: null
+    projectStats: undefined
 };
 
 const userService = new UserService();
@@ -23,7 +23,7 @@ export default {
         },
         [TYPES.CLEAR_STATES](state: IHomeState) {
             state.userLockQuota = new UserLockQuotaModel();
-            state.projectStats = null;
+            state.projectStats = undefined;
         }
     },
     actions: {
@@ -51,7 +51,7 @@ export default {
                 let projectStats = await projectService.fetchProjectStats();
                 commit(TYPES.SET_STATES, { projectStats });
             } catch (error) {
-                commit(TYPES.SET_STATES, { projectStats: null });
+                commit(TYPES.SET_STATES, { projectStats: undefined });
             }
         }
     }

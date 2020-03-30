@@ -1,5 +1,5 @@
 <template>
-    <div class="asset-index">
+    <div class="asset-index scb-reserved">
         <header class="asset-header">
             <h2>
                 <label>总资产</label>

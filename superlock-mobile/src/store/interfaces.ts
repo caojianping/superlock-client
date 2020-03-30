@@ -5,18 +5,18 @@ import {
     UserFormModel,
     UserInfoModel,
     UserLockQuotaModel,
+    ProjectStatsModel,
+    ProjectModel,
     AssetStatsModel,
     EarningsStatsModel,
+    LockFormModel,
     LockModel,
-    ProjectStatsModel,
     RechargeCoinModel,
     RechargeModel,
-    WithdrawFormModel,
-    WithdrawAddressModel,
-    WithdrawModel,
-    ProjectModel,
-    LockFormModel,
     WithdrawQuotaModel,
+    WithdrawFormModel,
+    WithdrawModel,
+    WithdrawAddressModel,
     SecurityFormModel
 } from '@/ts/models';
 
@@ -33,14 +33,14 @@ export interface IRootState {
 }
 
 export interface IUserState {
-    userInfo: UserInfoModel;
-    userForm: UserFormModel;
-    registerStatus: RegisterStatus;
+    userInfo: UserInfoModel; // 用户信息
+    userForm: UserFormModel; // 用户表单
+    registerStatus: RegisterStatus; // 注册状态
 }
 
 export interface IHomeState {
-    userLockQuota: UserLockQuotaModel;
-    projectStats: ProjectStatsModel | null;
+    userLockQuota: UserLockQuotaModel; // 用户锁仓额度
+    projectStats?: ProjectStatsModel; // 项目统计
 }
 
 export interface IAssetState {

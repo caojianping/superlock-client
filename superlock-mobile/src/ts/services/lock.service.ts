@@ -1,8 +1,8 @@
 import Validator, { ValidationResult } from 'jpts-validator';
+import Utils from '@/ts/utils';
 import { Urls, CaxiosType } from '@/ts/config';
-import { Caxios } from '@/ts/common';
+import { Caxios, md5 } from '@/ts/common';
 import { LockModel, LockFormModel } from '@/ts/models';
-import Utils from '../utils';
 
 export class LockService {
     // 校验锁仓表单
@@ -37,12 +37,12 @@ export class LockService {
             { required: true },
             { required: '锁仓利率不可以为空' }
         );
-        validator.addRule(
-            key,
-            { name: 'coin', value: coin },
-            { required: true },
-            { required: '锁仓币种不可以为空' }
-        );
+        // validator.addRule(
+        //     key,
+        //     { name: 'coin', value: coin },
+        //     { required: true },
+        //     { required: '锁仓币种不可以为空' }
+        // );
         validator.addRule(
             key,
             { name: 'amount', value: amount },
@@ -62,12 +62,11 @@ export class LockService {
 
     // 获取锁仓列表
     public async fetchLocks(): Promise<Array<LockModel>> {
-        return (
-            (await Caxios.get<Array<LockModel> | null>(
-                { url: Urls.lock.list },
-                CaxiosType.Token
-            )) || []
+        let result = await Caxios.get<Array<LockModel> | null>(
+            { url: Urls.lock.list },
+            CaxiosType.Token
         );
+        return result || [];
     }
 
     // 创建锁仓
@@ -81,9 +80,9 @@ export class LockService {
                 length,
                 unit,
                 rate,
-                coin,
+                coin: 'BCB',
                 amount,
-                fundPasswd
+                fundPasswd: md5(fundPasswd)
             });
         await Caxios.post<any>(
             { url: `${Urls.lock.create}?${parameters}` },

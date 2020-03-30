@@ -1,5 +1,5 @@
 <template>
-    <div class="fund-password">
+    <div class="fund-password scb-gray">
         <Header title="资金密码" @left="$router.push('/security/center')" />
 
         <div class="scb-form separator">

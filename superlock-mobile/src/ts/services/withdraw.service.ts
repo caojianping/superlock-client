@@ -1,7 +1,7 @@
 import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
 import { Urls, CaxiosType } from '@/ts/config';
-import { Caxios } from '@/ts/common';
+import { Caxios, md5 } from '@/ts/common';
 import {
     WithdrawModel,
     WithdrawAddressModel,
@@ -104,7 +104,7 @@ export class WithdrawService {
             parameters = Utils.buildParameters({
                 address,
                 amount,
-                fundPasswd,
+                fundPasswd: md5(fundPasswd),
                 remark
             });
         await Caxios.post<any>(
@@ -119,64 +119,64 @@ export class WithdrawService {
         pageNum: number = 1,
         pageSize: number = 10
     ): Promise<Array<WithdrawModel>> {
-        // let result = await Caxios.get<Array<WithdrawModel> | null>(
-        //     {
-        //         url: `${Urls.withdraw.page}?${Utils.buildParameters({
-        //             pageNum,
-        //             pageSize
-        //         })}`
-        //     },
-        //     CaxiosType.Token
-        // );
-        // return result || [];
+        let result = await Caxios.get<Array<WithdrawModel> | null>(
+            {
+                url: `${Urls.withdraw.page}?${Utils.buildParameters({
+                    pageNum,
+                    pageSize
+                })}`
+            },
+            pageNum === 1 ? CaxiosType.LoadingToken : CaxiosType.Token
+        );
+        return result || [];
 
-        return new Promise((resolve, reject) => {
-            setTimeout(function() {
-                let temp: Array<any> = [];
-                for (let i = 0; i < 10; i++) {
-                    temp.push({
-                        orderId: 'abcdefg' + i + 1,
-                        txhash: 'wertyui' + i + 1,
-                        createTime: '2020-02-18 12:12:12',
-                        coin: 'BCB',
-                        amount: 100 + i,
-                        toAddress: 'bcbdfsrewrdfdsf',
-                        memo: '',
-                        statusRemark: '成功',
-                        status: 1,
-                        capitalType: '支出',
-                        balance: 100,
-                        balanceCoin: 'BCB'
-                    });
-                }
-                resolve(temp);
-            }, 1500);
-        });
+        // return new Promise((resolve, reject) => {
+        //     setTimeout(function() {
+        //         let temp: Array<any> = [];
+        //         for (let i = 0; i < 10; i++) {
+        //             temp.push({
+        //                 orderId: 'abcdefg' + i + 1,
+        //                 txhash: 'wertyui' + i + 1,
+        //                 createTime: '2020-02-18 12:12:12',
+        //                 coin: 'BCB',
+        //                 amount: 100 + i,
+        //                 toAddress: 'bcbdfsrewrdfdsf',
+        //                 memo: '',
+        //                 statusRemark: '成功',
+        //                 status: 1,
+        //                 capitalType: '支出',
+        //                 balance: 100,
+        //                 balanceCoin: 'BCB'
+        //             });
+        //         }
+        //         resolve(temp);
+        //     }, 1500);
+        // });
     }
 
     // 获取提现地址列表
     public async fetchWithdrawAddresses(): Promise<
         Array<WithdrawAddressModel>
     > {
-        // let result = await Caxios.get<Array<WithdrawAddressModel> | null>(
-        //     { url: Urls.withdraw.address.list },
-        //     CaxiosType.LoadingToken
-        // );
-        // return result || [];
-        return [
-            {
-                nickName: '钱包一',
-                address: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
-            },
-            {
-                nickName: '钱包二',
-                address: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
-            },
-            {
-                nickName: '钱包三',
-                address: 'ccccccccccccccccccccccccccccccccccccccccc'
-            }
-        ];
+        let result = await Caxios.get<Array<WithdrawAddressModel> | null>(
+            { url: Urls.withdraw.address.list },
+            CaxiosType.LoadingToken
+        );
+        return result || [];
+
+        // return new Promise((resolve, reject) => {
+        //     setTimeout(function() {
+        //         let temp: Array<any> = [];
+        //         for (let i = 0; i < 10; i++) {
+        //             temp.push({
+        //                 nickName: '钱包' + i + 1,
+        //                 address:
+        //                     'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' + i + 1
+        //             });
+        //         }
+        //         resolve(temp);
+        //     }, 1500);
+        // });
     }
 
     // 添加提现地址

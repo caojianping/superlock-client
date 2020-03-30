@@ -29,7 +29,6 @@ export default class UserRegister extends Vue {
 
     // 处理UserForm组件change事件
     handleUserFormChange(userForm: UserFormModel) {
-        console.log(1, userForm);
         userForm.invitationCode = this.userForm.invitationCode;
         this.setStates({ userForm });
     }
@@ -41,7 +40,6 @@ export default class UserRegister extends Vue {
 
     // 注册
     async register() {
-        console.log(2, this.userForm);
         try {
             let result = await this.registerAction();
             if (!result) Prompt.error('注册失败');
@@ -67,7 +65,6 @@ export default class UserRegister extends Vue {
     initData() {
         let code = Utils.resolveParameters('code'),
             userForm = UserFormModel.createInstance(code);
-        console.log();
         this.setStates({ userForm });
     }
 

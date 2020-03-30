@@ -4,7 +4,7 @@
             <span slot="right" @click="openWithdrawSetting">添加地址</span>
         </Header>
 
-        <div class="address-container separator">
+        <div v-if="withdrawAddresses" class="address-container separator">
             <p v-if="withdrawAddresses.length <= 0" class="none">
                 暂无提现地址，快去
                 <a
@@ -15,7 +15,7 @@
                 >
                 吧！
             </p>
-            <CellGroup v-else class="separator">
+            <CellGroup v-else>
                 <Cell
                     v-for="(withdrawAddress, index) in withdrawAddresses"
                     :key="index"
