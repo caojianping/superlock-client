@@ -1,6 +1,6 @@
 <template>
     <div class="withdraw-address">
-        <Header title="提现地址">
+        <Header title="提现地址" isRight @left="$router.back(-1)">
             <span slot="right" @click="openWithdrawSetting">添加地址</span>
         </Header>
 

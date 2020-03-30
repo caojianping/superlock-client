@@ -1,8 +1,9 @@
 <template>
     <div class="recharge-detail">
-        <Header title="充值详情">
-            <span slot="right"></span>
-        </Header>
+        <Header
+            title="充值详情"
+            @left="$router.push('/recharge/record')"
+        />
 
         <CellGroup class="separator">
             <Cell title="交易单号" :value="recharge.orderId" />

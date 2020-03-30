@@ -1,8 +1,9 @@
 <template>
     <div class="withdraw-detail">
-        <Header title="提现详情">
-            <span slot="right"></span>
-        </Header>
+        <Header
+            title="提现详情"
+            @left="$router.push('/withdraw/record')"
+        />
 
         <CellGroup class="separator">
             <Cell title="交易单号" :value="withdraw.orderId" />

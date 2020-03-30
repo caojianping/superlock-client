@@ -43,9 +43,11 @@ export class UserInfoModel {
 
 // 用户锁仓额度
 export class UserLockQuotaModel {
-    public amount!: number;
-    public coin!: string;
-    public usedAmount!: number;
-    public usedCoin!: string;
-    public childCount!: number;
+    public amount!: number;// 可用锁仓额度
+    public coin!: string;// 可用锁仓额度币种；默认DC
+    public valuationAmount!: number;// 可用锁仓额度计价金额
+    public valuationCoin !: string;// 可用锁仓额度计价币种：BCB
+    public usedAmount!: number;// 已用锁仓额度；
+    public usedCoin!: string;// 已用额度币种；
+    public childCount!: number;// 下级数量；
 }

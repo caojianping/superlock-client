@@ -3,16 +3,18 @@ import { IActionContext, IWithdrawState } from '@/store/interfaces';
 import {
     WithdrawFormModel,
     WithdrawModel,
-    WithdrawAddressModel
+    WithdrawAddressModel,
+    WithdrawQuotaModel
 } from '@/ts/models';
 import { WithdrawService } from '@/ts/services';
 
 const withdrawState: IWithdrawState = {
+    withdrawQuota: new WithdrawQuotaModel(),
     withdrawForm: new WithdrawFormModel(),
 
     pageNum: 1,
     pageSize: 10,
-    withdraws: [],
+    withdraws: undefined,
     withdraw: new WithdrawModel(),
 
     withdrawAddresses: [],
@@ -34,11 +36,12 @@ export default {
             }
         },
         [TYPES.CLEAR_STATES](state: IWithdrawState) {
+            state.withdrawQuota = new WithdrawQuotaModel();
             state.withdrawForm = new WithdrawFormModel();
 
             state.pageNum = 1;
             state.pageSize = 10;
-            state.withdraws = [];
+            state.withdraws = undefined;
             state.withdraw = new WithdrawModel();
 
             state.withdrawAddresses = [];
@@ -46,6 +49,21 @@ export default {
         }
     },
     actions: {
+        // 获取提现额度
+        async fetchWithdrawQuota(
+            context: IActionContext<IWithdrawState>
+        ): Promise<void> {
+            let commit = context.commit;
+            try {
+                let withdrawQuota = await withdrawService.fetchWithdrawQuota();
+                commit(TYPES.SET_STATES, { withdrawQuota });
+            } catch (error) {
+                commit(TYPES.SET_STATES, {
+                    withdrawQuota: new WithdrawQuotaModel()
+                });
+            }
+        },
+
         // 执行提现
         async executeWithdraw(
             context: IActionContext<IWithdrawState>
@@ -58,7 +76,6 @@ export default {
         async fetchWithdraws(
             context: IActionContext<IWithdrawState>
         ): Promise<Array<WithdrawModel> | undefined> {
-            console.log('fetchRechargeRecords isPending:', isPending);
             if (isPending) return undefined;
 
             isPending = true;
@@ -71,7 +88,7 @@ export default {
                     );
                 commit(TYPES.SET_STATES, {
                     pageNum: pageNum + 1,
-                    withdraws: withdraws.concat(data)
+                    withdraws: (withdraws || []).concat(data)
                 });
                 isPending = false;
                 return data;

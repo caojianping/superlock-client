@@ -14,9 +14,11 @@ const rechargeModule = namespace('recharge');
     components: { List, CellGroup, Cell, Header }
 })
 export default class RechargeRecord extends Vue {
+    @rechargeModule.State('rechargeCoin') rechargeCoin!: string;
+
     @rechargeModule.State('pageNum') pageNum!: number;
     @rechargeModule.State('pageSize') pageSize!: number;
-    @rechargeModule.State('recharges') recharges!: Array<RechargeModel>;
+    @rechargeModule.State('recharges') recharges?: Array<RechargeModel>;
 
     @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (
         payload: any

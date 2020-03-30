@@ -1,13 +1,11 @@
 <template>
-    <NavBar
-        class="header"
-        :left-arrow="true"
-        :border="border"
-        @click-left="goBack"
-    >
+    <NavBar class="header" :border="isBorder">
+        <slot v-if="isLeft" name="left" slot="left">
+            <Icon name="arrow-left" @click="handleLeftClick" />
+        </slot>
         <slot name="title" slot="title">{{ title }}</slot>
-        <slot name="right" slot="right">
-            <Icon name="wap-home" @click="goHome" />
+        <slot v-if="isRight" name="right" slot="right">
+            <Icon name="wap-home" @click="handleRightClick" />
         </slot>
     </NavBar>
 </template>

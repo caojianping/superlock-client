@@ -30,6 +30,7 @@ export const Urls = {
         page: `${baseUrl}/project/rechargeRecord` // 获取充值列表接口
     },
     withdraw: {
+        quota: `${baseUrl}/project/withdrawableAmount`, // 获取可提现额度接口
         execute: `${baseUrl}/project/withdrawCoin`, // 执行提现接口
         page: `${baseUrl}/project/withdrawRecord`, // 获取提现列表接口
         address: {
@@ -38,8 +39,8 @@ export const Urls = {
         }
     },
     security: {
-        setLoginPassword: `${baseUrl}/resetPasswd`, // 修改登录密码接口
-        setFundPassword: `${baseUrl}/modifyFundPasswd` // 修改资金密码接口
+        modifyLoginPassword: `${baseUrl}/user/resetPasswd`, // 修改登录密码接口
+        modifyFundPassword: `${baseUrl}/user/modifyFundPasswd` // 修改资金密码接口
     },
     test: {
         info: `${baseUrl}/mainData` // 测试接口

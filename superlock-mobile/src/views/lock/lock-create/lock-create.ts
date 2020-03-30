@@ -8,13 +8,14 @@ import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { CONSTANTS } from '@/ts/config';
 import { Prompt } from '@/ts/common';
-import { ProjectModel, LockFormModel } from '@/ts/models';
+import { UserLockQuotaModel, ProjectModel, LockFormModel } from '@/ts/models';
 import { LockService } from '@/ts/services';
 
 import { Field, Button } from 'vant';
 import Header from '@/components/common/header';
 import Password from '@/components/common/password';
 
+const homeModule = namespace('home');
 const lockModule = namespace('lock');
 
 @Component({
@@ -23,12 +24,14 @@ const lockModule = namespace('lock');
 })
 export default class LockCreate extends Vue {
     @State('lockUnits') lockUnits!: Array<string>;
+
+    @homeModule.State('userLockQuota') userLockQuota!: UserLockQuotaModel;
+    @homeModule.Action('fetchUserLockQuota') fetchUserLockQuota!: () => any;
+
     @lockModule.State('lockProject') lockProject!: ProjectModel;
     @lockModule.State('lockForm') lockForm!: LockFormModel;
-
     @lockModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @lockModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
     @lockModule.Action('createLock') createLock!: () => any;
 
     isShow: boolean = false; // 是否显示密码模态框
@@ -95,5 +98,9 @@ export default class LockCreate extends Vue {
 
     created() {
         this.initData();
+    }
+
+    mounted() {
+        this.fetchUserLockQuota();
     }
 }

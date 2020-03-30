@@ -12,6 +12,7 @@ import assetModule from './modules/asset.module';
 import rechargeModule from './modules/recharge.module';
 import withdrawModule from './modules/withdraw.module';
 import lockModule from './modules/lock.module';
+import securityModule from './modules/security.module';
 
 Vue.use(Vuex);
 
@@ -37,7 +38,8 @@ export default new Vuex.Store({
         asset: assetModule,
         recharge: rechargeModule,
         withdraw: withdrawModule,
-        lock: lockModule
+        lock: lockModule,
+        security: securityModule
     },
     state: rootState,
     mutations: {

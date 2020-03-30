@@ -22,8 +22,8 @@ const homeModule = namespace('home');
 })
 export default class Home extends Vue {
     @State('lockUnits') lockUnits!: Array<string>;
-    @homeModule.State('userLockQuota')
-    userLockQuota!: UserLockQuotaModel | null;
+
+    @homeModule.State('userLockQuota') userLockQuota!: UserLockQuotaModel;
     @homeModule.State('projectStats') projectStats!: ProjectStatsModel | null;
 
     @homeModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;

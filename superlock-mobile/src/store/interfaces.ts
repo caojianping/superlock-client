@@ -15,7 +15,9 @@ import {
     WithdrawAddressModel,
     WithdrawModel,
     ProjectModel,
-    LockFormModel
+    LockFormModel,
+    WithdrawQuotaModel,
+    SecurityFormModel
 } from '@/ts/models';
 
 export interface IActionContext<T> {
@@ -37,7 +39,7 @@ export interface IUserState {
 }
 
 export interface IHomeState {
-    userLockQuota: UserLockQuotaModel | null;
+    userLockQuota: UserLockQuotaModel;
     projectStats: ProjectStatsModel | null;
 }
 
@@ -54,16 +56,17 @@ export interface IRechargeState {
 
     pageNum: number; // 分页索引
     pageSize: number; // 分页尺寸
-    recharges: Array<RechargeModel>; // 充值列表
+    recharges?: Array<RechargeModel>; // 充值列表
     recharge: RechargeModel; // 充值信息
 }
 
 export interface IWithdrawState {
+    withdrawQuota: WithdrawQuotaModel; // 提现额度
     withdrawForm: WithdrawFormModel; // 提现表单
 
     pageNum: number; // 分页索引
     pageSize: number; // 分页尺寸
-    withdraws: Array<WithdrawModel>; // 提现列表
+    withdraws?: Array<WithdrawModel>; // 提现列表
     withdraw: WithdrawModel; // 提现信息
 
     withdrawAddresses: Array<WithdrawAddressModel>; // 提现地址列表
@@ -73,4 +76,8 @@ export interface IWithdrawState {
 export interface ILockState {
     lockProject: ProjectModel; // 锁仓项目
     lockForm: LockFormModel; // 锁仓表单
+}
+
+export interface ISecurityState {
+    securityForm: SecurityFormModel; // 安全中心表单
 }

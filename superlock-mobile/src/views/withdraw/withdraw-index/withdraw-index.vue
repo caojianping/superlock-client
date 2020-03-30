@@ -1,6 +1,6 @@
 <template>
     <div class="withdraw-index">
-        <Header title="提现">
+        <Header title="提现" isRight @left="$router.push('/asset/index')">
             <router-link slot="right" to="/withdraw/record">明细</router-link>
         </Header>
 
@@ -27,6 +27,7 @@
                     <Field
                         type="number"
                         :value="withdrawForm.amount"
+                        :max="withdrawQuota.valuationAmount"
                         placeholder="请输入您想提现的金额"
                         @input="handleFieldInput('amount', $event)"
                     >
@@ -38,7 +39,8 @@
                         >
                     </Field>
                     <p class="text-prompt">
-                        可提现金额 {{ 0 }} BCB = {{ 0 }} DC
+                        可提现金额 {{ withdrawQuota.valuationAmount }} BCB =
+                        {{ withdrawQuota.valuationAmount }} DC
                     </p>
                 </li>
                 <li>

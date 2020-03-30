@@ -16,7 +16,7 @@ const withdrawModule = namespace('withdraw');
 export default class WithdrawRecord extends Vue {
     @withdrawModule.State('pageNum') pageNum!: number;
     @withdrawModule.State('pageSize') pageSize!: number;
-    @withdrawModule.State('withdraws') withdraws!: Array<WithdrawModel>;
+    @withdrawModule.State('withdraws') withdraws?: Array<WithdrawModel>;
 
     @withdrawModule.Mutation(TYPES.SET_STATES) setStates!: (
         payload: any
@@ -33,6 +33,20 @@ export default class WithdrawRecord extends Vue {
         let recharges = await this.fetchWithdraws();
         this.isLoading = false;
         this.isFinished = recharges && recharges.length <= 0;
+    }
+
+    // 节流函数
+    throttle() {
+        var self = this,
+            timer: any = null;
+        return function() {
+            if (timer) {
+                clearTimeout(timer);
+            }
+            timer = setTimeout(function() {
+                self.fetchData();
+            }, 100);
+        };
     }
 
     mounted() {

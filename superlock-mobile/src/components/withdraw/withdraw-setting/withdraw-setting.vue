@@ -2,11 +2,8 @@
     <Popup v-model="isShow" class="page-popup" @close="closePopup">
         <Header
             :title="`${['添加', '修改'][type]}提现地址`"
-            back
-            @back="closePopup"
-        >
-            <span slot="right" />
-        </Header>
+            @left="closePopup"
+        />
 
         <div class="scb-form separator">
             <ul>

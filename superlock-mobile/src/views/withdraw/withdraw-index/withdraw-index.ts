@@ -7,7 +7,11 @@ import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { WithdrawSource } from '@/ts/config';
 import { Prompt } from '@/ts/common';
-import { WithdrawFormModel, WithdrawAddressModel } from '@/ts/models';
+import {
+    WithdrawFormModel,
+    WithdrawAddressModel,
+    WithdrawQuotaModel
+} from '@/ts/models';
 import { WithdrawService } from '@/ts/services';
 
 import { Field, Icon, Button } from 'vant';
@@ -21,6 +25,7 @@ const withdrawModule = namespace('withdraw');
     components: { Field, Icon, Button, Header, Password }
 })
 export default class WithdrawIndex extends Vue {
+    @withdrawModule.State('withdrawQuota') withdrawQuota!: WithdrawQuotaModel;
     @withdrawModule.State('withdrawForm') withdrawForm!: WithdrawFormModel;
     @withdrawModule.State('withdrawAddresses') withdrawAddresses!: Array<
         WithdrawAddressModel
@@ -33,6 +38,7 @@ export default class WithdrawIndex extends Vue {
     ) => any;
     @withdrawModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
 
+    @withdrawModule.Action('fetchWithdrawQuota') fetchWithdrawQuota!: () => any;
     @withdrawModule.Action('executeWithdraw') executeWithdraw!: () => any;
     @withdrawModule.Action('fetchWithdrawAddresses')
     fetchWithdrawAddresses!: () => any;
@@ -47,7 +53,7 @@ export default class WithdrawIndex extends Vue {
     // 提现全部金额
     withdrawAll() {
         let withdrawForm = Utils.duplicate(this.withdrawForm);
-        withdrawForm.amount = 999;
+        withdrawForm.amount = this.withdrawQuota.amount;
         this.setStates({ withdrawForm });
     }
 
@@ -110,6 +116,8 @@ export default class WithdrawIndex extends Vue {
                 });
             }
         }
+
+        await this.fetchWithdrawQuota();
     }
 
     mounted() {

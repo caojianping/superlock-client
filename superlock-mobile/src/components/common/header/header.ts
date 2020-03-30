@@ -8,19 +8,17 @@ import { NavBar, Icon } from 'vant';
 })
 export default class Header extends Vue {
     @Prop() title!: string; // 组件参数：标题
-    @Prop({ type: Boolean, default: true }) border!: boolean; // 组件参数：是否显示底部边框
-    @Prop({ type: Boolean, default: false }) back!: boolean; // 组件参数：是否自定义back事件，true自定义@back事件
-    @Prop({ type: Boolean, default: false }) home!: boolean; // 组件参数：是否自定义home事件，true自定义@home事件
+    @Prop({ type: Boolean, default: true }) isLeft!: boolean; // 组件参数：是否包含左侧区域
+    @Prop({ type: Boolean, default: false }) isRight!: boolean; // 组件参数：是否包含右侧区域
+    @Prop({ type: Boolean, default: true }) isBorder!: boolean; // 组件参数：是否显示边框
 
-    // 返回
-    goBack() {
-        if (!this.back) this.$router.back();
-        else this.$emit('back');
+    // 处理左侧点击事件
+    handleLeftClick() {
+        this.$emit('left');
     }
 
-    // 回首页
-    goHome() {
-        if (this.home) this.$router.push('/home/index');
-        else this.$emit('home');
+    // 处理右侧点击事件
+    handleRightClick() {
+        this.$emit('right');
     }
 }

@@ -1,8 +1,6 @@
 <template>
     <Popup v-model="isShow" class="page-popup" @close="closePopup">
-        <Header title="修改昵称" back @back="closePopup">
-            <span slot="right" />
-        </Header>
+        <Header title="修改昵称" @left="closePopup" />
 
         <div class="modify-form separator">
             <Field

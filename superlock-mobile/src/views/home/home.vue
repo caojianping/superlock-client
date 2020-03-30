@@ -2,38 +2,20 @@
     <div class="home pb4">
         <div class="home-stats">
             <div class="user-stats">
-                <p>
-                    剩余可锁仓额度({{
-                        userLockQuota ? userLockQuota.coin : '--'
-                    }})
-                </p>
-                <h1>
-                    {{
-                        (userLockQuota ? userLockQuota.amount : 0)
-                            | currencyComma
-                    }}
-                </h1>
+                <p>剩余可锁仓额度({{ userLockQuota.coin || '--' }})</p>
+                <h1>{{ (userLockQuota.amount || 0) | currencyComma }}</h1>
             </div>
             <div class="team-stats flex">
                 <div class="team-stats-quota">
-                    <p>
-                        团队已锁仓额度({{
-                            userLockQuota ? userLockQuota.usedCoin : '--'
-                        }})
-                    </p>
+                    <p>团队已锁仓额度({{ userLockQuota.usedCoin || '--' }})</p>
                     <h2>
-                        {{
-                            (userLockQuota ? userLockQuota.usedAmount : 0)
-                                | currencyComma
-                        }}
+                        {{ (userLockQuota.usedAmount || 0) | currencyComma }}
                     </h2>
                 </div>
                 <div class="team-stats-count">
                     <p>我的团队(人)</p>
                     <h2>
-                        <span>{{
-                            userLockQuota ? userLockQuota.childCount : '--'
-                        }}</span>
+                        <span>{{ userLockQuota.childCount || '--' }}</span>
                         <i class="icon icon-arrow" />
                     </h2>
                 </div>
@@ -43,7 +25,7 @@
         <div class="home-project">
             <Spin :is-spinning="isProjectSpinning" />
 
-            <ul class="project-list" v-if="projectStats">
+            <ul v-if="projectStats" class="project-list">
                 {{
                     ((userLockProjectList =
                         projectStats.userLockProjectList || []),
@@ -101,7 +83,7 @@
             <div class="home-block-body optimize-container">
                 <Spin :is-spinning="isOptimizeSpinning" />
 
-                <ul class="optimize-list" v-if="projectStats">
+                <ul v-if="projectStats" class="optimize-list">
                     {{
                         ((qualitySelectionLinks =
                             projectStats.qualitySelectionLinks || []),

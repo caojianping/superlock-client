@@ -1,6 +1,6 @@
 <template>
     <div class="lock-create">
-        <Header title="锁仓" />
+        <Header title="锁仓" @left="$router.push('/lock/detail')" />
 
         <div class="scb-form separator">
             <ul>
@@ -26,7 +26,9 @@
                     >
                     </Field>
                     <p class="text-prompt">
-                        当前可锁仓额度：{{ 0 }} DC = {{ 0 }} BCB
+                        当前可锁仓额度：{{
+                            `${userLockQuota.amount} ${userLockQuota.coin} = ${userLockQuota.valuationAmount} ${userLockQuota.valuationCoin}`
+                        }}
                     </p>
                 </li>
                 <li>

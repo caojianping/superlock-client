@@ -5,7 +5,8 @@ import { Caxios } from '@/ts/common';
 import {
     WithdrawModel,
     WithdrawAddressModel,
-    WithdrawFormModel
+    WithdrawFormModel,
+    WithdrawQuotaModel
 } from '@/ts/models';
 
 export class WithdrawService {
@@ -80,6 +81,15 @@ export class WithdrawService {
         return validator.execute(key);
     }
 
+    // 获取提现额度
+    public async fetchWithdrawQuota(): Promise<WithdrawQuotaModel> {
+        let result = await Caxios.get<WithdrawQuotaModel | null>(
+            { url: Urls.withdraw.quota },
+            CaxiosType.Token
+        );
+        return result || new WithdrawQuotaModel();
+    }
+
     // 执行提现
     public async executeWithdraw(
         withdrawForm: WithdrawFormModel
@@ -120,36 +130,28 @@ export class WithdrawService {
         // );
         // return result || [];
 
-        return [
-            {
-                orderId: 'ewrdsr24432',
-                txhash: 'dsfew324324ddsdfds',
-                createTime: '2020-02-18 12:12:12',
-                coin: 'BCB',
-                amount: 100,
-                toAddress: 'bcbdfsrewrdfdsf',
-                memo: '',
-                statusRemark: '成功',
-                status: 1,
-                capitalType: '支出',
-                balance: 100,
-                balanceCoin: 'BCB'
-            },
-            {
-                orderId: 'ewrdsr24432',
-                txhash: 'dsfew324324ddsdfds',
-                createTime: '2020-02-18 12:12:12',
-                coin: 'BCB',
-                amount: 100,
-                toAddress: 'bcbdfsrewrdfdsf',
-                memo: '',
-                statusRemark: '成功',
-                status: 1,
-                capitalType: '支出',
-                balance: 100,
-                balanceCoin: 'BCB'
-            }
-        ];
+        return new Promise((resolve, reject) => {
+            setTimeout(function() {
+                let temp: Array<any> = [];
+                for (let i = 0; i < 10; i++) {
+                    temp.push({
+                        orderId: 'abcdefg' + i + 1,
+                        txhash: 'wertyui' + i + 1,
+                        createTime: '2020-02-18 12:12:12',
+                        coin: 'BCB',
+                        amount: 100 + i,
+                        toAddress: 'bcbdfsrewrdfdsf',
+                        memo: '',
+                        statusRemark: '成功',
+                        status: 1,
+                        capitalType: '支出',
+                        balance: 100,
+                        balanceCoin: 'BCB'
+                    });
+                }
+                resolve(temp);
+            }, 1500);
+        });
     }
 
     // 获取提现地址列表

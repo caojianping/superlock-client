@@ -1,9 +1,10 @@
 import TYPES from '@/store/types';
 import { IActionContext, IHomeState } from '@/store/interfaces';
+import { UserLockQuotaModel } from '@/ts/models';
 import { UserService, ProjectService } from '@/ts/services';
 
 const homeState: IHomeState = {
-    userLockQuota: null,
+    userLockQuota: new UserLockQuotaModel(),
     projectStats: null
 };
 
@@ -21,7 +22,7 @@ export default {
             }
         },
         [TYPES.CLEAR_STATES](state: IHomeState) {
-            state.userLockQuota = null;
+            state.userLockQuota = new UserLockQuotaModel();
             state.projectStats = null;
         }
     },
@@ -35,7 +36,9 @@ export default {
                 let userLockQuota = await userService.fetchUserLockQuota();
                 commit(TYPES.SET_STATES, { userLockQuota });
             } catch (error) {
-                commit(TYPES.SET_STATES, { userLockQuota: null });
+                commit(TYPES.SET_STATES, {
+                    userLockQuota: new UserLockQuotaModel()
+                });
             }
         },
 

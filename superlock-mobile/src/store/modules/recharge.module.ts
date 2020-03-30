@@ -10,7 +10,7 @@ const rechargeState: IRechargeState = {
 
     pageNum: 1,
     pageSize: 10,
-    recharges: [],
+    recharges: undefined,
     recharge: new RechargeModel()
 };
 
@@ -34,7 +34,7 @@ export default {
 
             state.pageNum = 1;
             state.pageSize = 10;
-            state.recharges = [];
+            state.recharges = undefined;
             state.recharge = new RechargeModel();
         }
     },
@@ -84,7 +84,7 @@ export default {
                     );
                 commit(TYPES.SET_STATES, {
                     pageNum: pageNum + 1,
-                    recharges: recharges.concat(data)
+                    recharges: (recharges || []).concat(data)
                 });
                 isPending = false;
                 return data;

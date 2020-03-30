@@ -2,12 +2,15 @@ import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { namespace, State } from 'vuex-class';
 import { SessionStorage } from 'jts-storage';
-import { CONSTANTS } from '@/ts/config';
-import { ProjectModel } from '@/ts/models';
-import Header from '@/components/common/header';
-import { Prompt } from '@/ts/common';
-import TYPES from '@/store/types';
 
+import TYPES from '@/store/types';
+import { CONSTANTS } from '@/ts/config';
+import { Prompt } from '@/ts/common';
+import { UserLockQuotaModel, ProjectModel } from '@/ts/models';
+
+import Header from '@/components/common/header';
+
+const homeModule = namespace('home');
 const lockModule = namespace('lock');
 
 @Component({
@@ -16,8 +19,11 @@ const lockModule = namespace('lock');
 })
 export default class LockDetail extends Vue {
     @State('lockUnits') lockUnits!: Array<string>;
-    @lockModule.State('lockProject') lockProject!: ProjectModel;
 
+    @homeModule.State('userLockQuota') userLockQuota!: UserLockQuotaModel;
+    @homeModule.Action('fetchUserLockQuota') fetchUserLockQuota!: () => any;
+
+    @lockModule.State('lockProject') lockProject!: ProjectModel;
     @lockModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @lockModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
 
@@ -37,5 +43,9 @@ export default class LockDetail extends Vue {
 
     created() {
         this.initData();
+    }
+
+    mounted() {
+        this.fetchUserLockQuota();
     }
 }

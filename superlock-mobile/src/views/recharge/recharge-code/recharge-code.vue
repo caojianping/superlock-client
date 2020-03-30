@@ -1,7 +1,11 @@
 <template>
     <div class="recharge-code">
         <!-- <Header :title="`${rechargeCoin}收款码`"> -->
-        <Header :title="`${rechargeCoin}充值地址`">
+        <Header
+            :title="`${rechargeCoin}充值地址`"
+            isRight
+            @left="$router.push('/asset/index')"
+        >
             <router-link slot="right" to="/recharge/record">明细</router-link>
         </Header>
 

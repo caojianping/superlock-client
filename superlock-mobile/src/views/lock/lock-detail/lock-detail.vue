@@ -1,9 +1,7 @@
 <template>
     <div class="lock-detail">
         <div class="lock-detail-header">
-            <Header title="锁仓详情">
-                <span slot="right"></span>
-            </Header>
+            <Header title="锁仓详情" @left="$router.push('/home/index')" />
         </div>
 
         <div class="lock-detail-body">
@@ -12,7 +10,7 @@
                 {{ lockProject.length + lockUnits[lockProject.unit - 1] }}
             </h1>
 
-            <div class="lock-detail-title">
+            <div class="lock-detail-intro">
                 <ul>
                     <li>
                         <h2>
@@ -116,7 +114,11 @@
         </div>
 
         <footer class="lock-detail-footer">
-            <p>当前可锁仓额度：{{ 0 }} DC = {{ 0 }} BCB</p>
+            <p>
+                当前可锁仓额度：{{
+                    `${userLockQuota.amount} ${userLockQuota.coin} = ${userLockQuota.valuationAmount} ${userLockQuota.valuationCoin}`
+                }}
+            </p>
             <router-link to="/lock/create">开始锁仓</router-link>
         </footer>
     </div>

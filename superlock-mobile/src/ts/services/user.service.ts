@@ -128,10 +128,12 @@ export class UserService {
 
     // 获取用户锁仓额度信息
     public async fetchUserLockQuota(): Promise<UserLockQuotaModel | null> {
-        return await Caxios.get<UserLockQuotaModel | null>(
+        let result = await Caxios.get<UserLockQuotaModel | null>(
             { url: Urls.user.lockQuota },
             CaxiosType.Token
         );
+        if (!result) return new UserLockQuotaModel();
+        return result as UserLockQuotaModel;
     }
 
     // 获取用户信息

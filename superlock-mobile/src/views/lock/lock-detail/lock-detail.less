@@ -1,2 +1,30 @@
 @import '../../../less/vars.less';
 @import '../../../less/mixins.less';
+
+.lock-detail {
+    .lock-detail-header {
+    }
+
+    .lock-detail-body {
+    }
+
+    .lock-detail-footer {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        p {
+            height: 2rem;
+            .font-styles(0.875rem, normal, 2rem, #ffb13e, center);
+            background-color: #fff7de;
+        }
+
+        a {
+            display: block;
+            height: 3rem;
+            .font-styles(1rem, normal, 3rem, white, center);
+            background-color: @blue;
+        }
+    }
+}
