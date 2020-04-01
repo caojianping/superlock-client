@@ -75,5 +75,8 @@ export default class WithdrawSetting extends Vue {
     @Watch('value')
     watchValue(value: boolean) {
         this.isShow = value;
+        if (value) {
+            this.withdrawAddress = new WithdrawAddressModel();
+        }
     }
 }

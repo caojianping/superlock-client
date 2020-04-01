@@ -7,7 +7,7 @@ Vue.filter('dateFormat', function(
     format: string = 'yyyy-MM-dd hh:mm:ss',
     isZeroize: boolean = true
 ) {
-    if (!value) return '';
+    if (Utils.isNullOrUndefined(value)) return value;
     if (!Utils.isDateString(value)) return value;
     return Utils.dateFormat(value, format, isZeroize);
 });
@@ -18,6 +18,7 @@ Vue.filter('ratePercent', function(
     precision: number = 2,
     isPercent: boolean = true
 ) {
+    if (Utils.isNullOrUndefined(value)) return value;
     return Utils.digitPercent(value, precision) + (isPercent ? '%' : '');
 });
 
@@ -26,11 +27,14 @@ Vue.filter('digitPrecision', function(
     value: string | number,
     precision: number = 2
 ) {
+    if (Utils.isNullOrUndefined(value)) return value;
     return Utils.digitPrecision(value, precision);
 });
 
 // 货币逗号分隔显示
 Vue.filter('currencyComma', function(value: number, precision: number = 2) {
+    if (Utils.isNullOrUndefined(value)) return value;
+
     let svalue = value.toString(),
         parts = svalue.split('.'),
         left = parts[0] || '',
@@ -60,11 +64,13 @@ Vue.filter('currencyComma', function(value: number, precision: number = 2) {
 
 // 币种单位显示
 Vue.filter('coinUnit', function(value: string | number, unit: string = 'BCB') {
+    if (Utils.isNullOrUndefined(value)) return value;
     return `${value} ${unit}`;
 });
 
 // 哈希地址截取显示
 Vue.filter('hashTruncate', function(value: string) {
+    if (Utils.isNullOrUndefined(value)) return value;
     let left = value.slice(0, 11),
         right = value.substr(-10);
     return `${left}...${right}`;

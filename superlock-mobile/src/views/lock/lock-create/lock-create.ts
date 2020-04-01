@@ -17,7 +17,7 @@ import {
 } from '@/ts/models';
 import { LockService } from '@/ts/services';
 
-import { Field, Button } from 'vant';
+import { Toast, Field, Button } from 'vant';
 import Header from '@/components/common/header';
 import PasswordModal from '@/components/common/password-modal';
 
@@ -118,6 +118,11 @@ export default class LockCreate extends Vue {
 
     // 获取数据
     async fetchData() {
+        Toast.loading({
+            mask: true,
+            duration: 0,
+            message: '加载中...'
+        });
         await this.fetchUserInfo();
         await this.fetchUserLockQuota();
         await this.fetchAssetStats();
@@ -131,6 +136,7 @@ export default class LockCreate extends Vue {
             ? this.assetStats.bcbTotalAmount
             : 0;
         this.setStates({ lockForm });
+        Toast.clear();
     }
 
     created() {

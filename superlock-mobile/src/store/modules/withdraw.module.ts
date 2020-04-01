@@ -103,11 +103,12 @@ export default {
 
         // 获取提现地址列表
         async fetchWithdrawAddresses(
-            context: IActionContext<IWithdrawState>
+            context: IActionContext<IWithdrawState>,
+            isLoading: boolean = false
         ): Promise<void> {
             let commit = context.commit;
             try {
-                let withdrawAddresses = await withdrawService.fetchWithdrawAddresses();
+                let withdrawAddresses = await withdrawService.fetchWithdrawAddresses(isLoading);
                 commit(TYPES.SET_STATES, { withdrawAddresses });
             } catch (error) {
                 commit(TYPES.SET_STATES, { withdrawAddresses: [] });

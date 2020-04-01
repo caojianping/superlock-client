@@ -29,7 +29,7 @@ export default class WithdrawAddress extends Vue {
     @withdrawModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
 
     @withdrawModule.Action('fetchWithdrawAddresses')
-    fetchWithdrawAddresses!: () => any;
+    fetchWithdrawAddresses!: (isLoading: boolean) => any;
 
     source: WithdrawSource = WithdrawSource.Mine;
     isShow: boolean = false;
@@ -43,18 +43,20 @@ export default class WithdrawAddress extends Vue {
 
     // 处理提现设置组件submit事件
     handleWithdrawSettingSubmit() {
-        this.fetchWithdrawAddresses();
+        this.fetchWithdrawAddresses(true);
     }
 
     // 选择提现地址
     chooseAddress(withdrawAddress: WithdrawAddressModel) {
         this.setStates({ selectedWithdrawAddress: withdrawAddress });
-        if (this.source === WithdrawSource.Withdraw) {
-            this.$router.push('/withdraw/index');
-        }
+        // if (this.source === WithdrawSource.Withdraw) {
+        //     this.$router.push('/withdraw/index');
+        // }
+        this.$router.push('/withdraw/index');
     }
 
     created() {
+        this.clearStates();
         let psource = this.$route.params.source,
             source = isNaN(Number(psource))
                 ? WithdrawSource.Mine
@@ -63,6 +65,6 @@ export default class WithdrawAddress extends Vue {
     }
 
     mounted() {
-        this.fetchWithdrawAddresses();
+        this.fetchWithdrawAddresses(true);
     }
 }

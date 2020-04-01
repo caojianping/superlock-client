@@ -5,7 +5,7 @@ import { Component } from 'vue-property-decorator';
 import TYPES from '@/store/types';
 import { AssetStatsModel, EarningsStatsModel, LockModel } from '@/ts/models';
 
-import { CellGroup, Cell, Tabs, Tab } from 'vant';
+import { PullRefresh, Toast, CellGroup, Cell, Tabs, Tab } from 'vant';
 import Navs from '@/components/common/navs';
 import Spin from '@/components/common/spin';
 import LockInfo from '@/components/asset/lock-info';
@@ -17,6 +17,7 @@ const projectModule = namespace('project');
 @Component({
     name: 'AssetIndex',
     components: {
+        PullRefresh,
         CellGroup,
         Cell,
         Tabs,
@@ -60,6 +61,8 @@ export default class AssetIndex extends Vue {
         50: 'orange'
     };
 
+    isPulling: boolean = false;
+
     activeTab: number = 0;
     isTotalVisible: boolean = true;
     isEarningsStatsSpinning: boolean = false;
@@ -101,7 +104,7 @@ export default class AssetIndex extends Vue {
     }
 
     // 获取数据
-    async fetchData(index: number) {
+    async fetchData(index: number, isRefresh: boolean = false) {
         let keys = {
                 0: 'AssetStats',
                 1: 'Locks',
@@ -125,11 +128,19 @@ export default class AssetIndex extends Vue {
             },
             key = `is${keys[index]}Spinning`,
             func = funcs[index];
-        if (!caches[index]) {
+        if (isRefresh || !caches[index]) {
             this[key] = true;
             func && (await func());
             this[key] = false;
         }
+    }
+
+    // 刷新数据
+    async refreshData() {
+        this.fetchData(this.activeTab, true);
+        this.fetchData(4, true);
+        this.isPulling = false;
+        Toast('刷新成功');
     }
 
     mounted() {

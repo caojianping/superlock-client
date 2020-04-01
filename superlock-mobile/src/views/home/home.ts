@@ -11,6 +11,7 @@ import {
     ProjectModel
 } from '@/ts/models';
 
+import { PullRefresh, Toast } from 'vant';
 import Navs from '@/components/common/navs';
 import Spin from '@/components/common/spin';
 
@@ -19,7 +20,7 @@ const projectModule = namespace('project');
 
 @Component({
     name: 'Home',
-    components: { Navs, Spin }
+    components: { PullRefresh, Navs, Spin }
 })
 export default class Home extends Vue {
     @State('units') units!: Array<string>;
@@ -34,6 +35,7 @@ export default class Home extends Vue {
     @projectModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @projectModule.Action('fetchProjectStats') fetchProjectStats!: () => any;
 
+    isPulling: boolean = false;
     isProjectSpinning: boolean = false;
     isOptimizeSpinning: boolean = false;
 
@@ -59,6 +61,13 @@ export default class Home extends Vue {
             this.isProjectSpinning = false;
             this.isOptimizeSpinning = false;
         }
+    }
+
+    // 刷新数据
+    async refreshData() {
+        await this.fetchData();
+        this.isPulling = false;
+        Toast('刷新成功');
     }
 
     mounted() {

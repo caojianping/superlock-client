@@ -1,160 +1,173 @@
 <template>
-    <div class="asset-index scb-reserved scb-gray">
-        <header class="asset-header">
-            <h2>
-                <label>总资产</label>
-                <small>（BCB）</small>
-                <i
-                    class="icon"
-                    :class="isTotalVisible ? 'icon-visible' : 'icon-invisible'"
-                    @click="toggleTotal"
-                />
-            </h2>
-            <h1 v-if="isTotalVisible">
-                {{
-                    (assetStats ? assetStats.bcbTotalAmount : 0) | currencyComma
-                }}
-            </h1>
-            <h1 v-else>*******</h1>
-            <p>
-                <label>昨日收益（BCB）</label>
-                <span
-                    >+
-                    {{
-                        earningsStats ? earningsStats.yesterdayEarnings : 0
-                    }}</span
-                >
-                <!-- <i class="icon icon-arrow" /> -->
-            </p>
-        </header>
-
-        <ul class="asset-links flex">
-            <li @click="openRechargeCoins">
-                <i></i>
-                <span>充值</span>
-            </li>
-            <li @click="goPage('/withdraw/index')">
-                <i></i>
-                <span>提现</span>
-            </li>
-            <li @click="goPage('/transfer/index')">
-                <i></i>
-                <span>转账</span>
-            </li>
-        </ul>
-
-        <Tabs
-            class="asset-tabs"
-            v-model="activeTab"
-            animated
-            swipeable
-            @change="handleTabsChange"
-        >
-            <Tab>
-                <template slot="title">
-                    <span>资产总账</span>
-                </template>
-                <div class="tab-content">
-                    <Spin
-                        v-if="!assetStats"
-                        :is-spinning="isAssetStatsSpinning"
+    <PullRefresh v-model="isPulling" @refresh="refreshData">
+        <div class="asset-index scb-reserved scb-gray">
+            <header class="asset-header">
+                <h2>
+                    <label>总资产</label>
+                    <small>（BCB）</small>
+                    <i
+                        class="icon"
+                        :class="
+                            isTotalVisible ? 'icon-visible' : 'icon-invisible'
+                        "
+                        @click="toggleTotal"
                     />
-                    <CellGroup v-if="!isAssetStatsSpinning">
-                        <Cell
-                            title="总资产"
-                            :value="
-                                (assetStats ? assetStats.bcbTotalAmount : '0')
-                                    | coinUnit
-                            "
-                        ></Cell>
-                        <Cell
-                            title="可用余额"
-                            :value="
-                                (assetStats ? assetStats.bcbHotAmount : '0')
-                                    | coinUnit
-                            "
-                        ></Cell>
-                        <Cell
-                            title="锁仓金额"
-                            :value="
-                                (assetStats ? assetStats.bcbLockAmount : '0')
-                                    | coinUnit
-                            "
-                        ></Cell>
-                    </CellGroup>
-                </div>
-            </Tab>
-            <Tab>
-                <template slot="title">
-                    <span>我的锁仓</span>
-                </template>
-                <div class="tab-content">
-                    <Spin v-if="!locks" :is-spinning="isLocksSpinning" />
-                    <template v-if="!isLocksSpinning && locks">
-                        <p v-if="locks.length <= 0" class="none">
-                            暂无锁仓记录，快去
-                            <router-link class="link" to="/home/index"
-                                >创建锁仓</router-link
-                            >
-                            吧！
-                        </p>
-                        <CellGroup v-else class="locks priority-title">
-                            <Cell
-                                v-for="(lock, index) in locks"
-                                :key="index"
-                                @click="openLockInfo(lock)"
-                            >
-                                <template slot="title">
-                                    <h2>
-                                        <span>{{
-                                            `超级锁仓-${lock.length}${
-                                                units[lock.unit - 1]
-                                            }`
-                                        }}</span>
-                                        <i :class="lockStyles[lock.status]">{{
-                                            lockStatuses[lock.status]
-                                        }}</i>
-                                    </h2>
-                                    <p>{{ lock.orderId }}</p>
-                                </template>
-                                <template slot="default">
-                                    <h3>{{ `${lock.amount} ${lock.coin}` }}</h3>
-                                    <p>
-                                        {{
-                                            lock.startTime
-                                                | dateFormat('yyyy/MM/dd')
-                                        }}
-                                    </p>
-                                </template>
-                            </Cell>
-                        </CellGroup>
+                </h2>
+                <h1 v-if="isTotalVisible">
+                    {{
+                        (assetStats ? assetStats.bcbTotalAmount : 0)
+                            | currencyComma
+                    }}
+                </h1>
+                <h1 v-else>*******</h1>
+                <p>
+                    <label>昨日收益（BCB）</label>
+                    <span
+                        >+
+                        {{
+                            earningsStats ? earningsStats.yesterdayEarnings : 0
+                        }}</span
+                    >
+                    <!-- <i class="icon icon-arrow" /> -->
+                </p>
+            </header>
+
+            <ul class="asset-links flex">
+                <li @click="openRechargeCoins">
+                    <i></i>
+                    <span>充值</span>
+                </li>
+                <li @click="goPage('/withdraw/index')">
+                    <i></i>
+                    <span>提现</span>
+                </li>
+                <li @click="goPage('/transfer/index')">
+                    <i></i>
+                    <span>转账</span>
+                </li>
+            </ul>
+
+            <Tabs
+                class="asset-tabs"
+                v-model="activeTab"
+                animated
+                swipeable
+                @change="handleTabsChange"
+            >
+                <Tab>
+                    <template slot="title">
+                        <span>资产总账</span>
                     </template>
-                </div>
-            </Tab>
-            <Tab>
-                <template slot="title">
-                    <span>我的贷款</span>
-                </template>
-                <div class="tab-content">
-                    <p class="none">正在开发中，敬请期待！</p>
-                </div>
-            </Tab>
-            <Tab>
-                <template slot="title">
-                    <span>推广奖励</span>
-                </template>
-                <div class="tab-content">
-                    <p class="none">正在开发中，敬请期待！</p>
-                </div>
-            </Tab>
-        </Tabs>
+                    <div class="tab-content">
+                        <Spin
+                            v-if="!assetStats"
+                            :is-spinning="isAssetStatsSpinning"
+                        />
+                        <CellGroup v-if="!isAssetStatsSpinning">
+                            <Cell
+                                title="总资产"
+                                :value="
+                                    (assetStats
+                                        ? assetStats.bcbTotalAmount
+                                        : '0') | coinUnit
+                                "
+                            ></Cell>
+                            <Cell
+                                title="可用余额"
+                                :value="
+                                    (assetStats
+                                        ? assetStats.bcbHotAmount
+                                        : '0') | coinUnit
+                                "
+                            ></Cell>
+                            <Cell
+                                title="锁仓金额"
+                                :value="
+                                    (assetStats
+                                        ? assetStats.bcbLockAmount
+                                        : '0') | coinUnit
+                                "
+                            ></Cell>
+                        </CellGroup>
+                    </div>
+                </Tab>
+                <Tab>
+                    <template slot="title">
+                        <span>我的锁仓</span>
+                    </template>
+                    <div class="tab-content">
+                        <Spin v-if="!locks" :is-spinning="isLocksSpinning" />
+                        <template v-if="!isLocksSpinning && locks">
+                            <p v-if="locks.length <= 0" class="none">
+                                暂无锁仓记录，快去
+                                <router-link class="link" to="/home/index"
+                                    >创建锁仓</router-link
+                                >
+                                吧！
+                            </p>
+                            <CellGroup v-else class="locks priority-title">
+                                <Cell
+                                    v-for="(lock, index) in locks"
+                                    :key="index"
+                                    @click="openLockInfo(lock)"
+                                >
+                                    <template slot="title">
+                                        <h2>
+                                            <span>{{
+                                                `超级锁仓-${lock.length}${
+                                                    units[lock.unit - 1]
+                                                }`
+                                            }}</span>
+                                            <i
+                                                :class="lockStyles[lock.status]"
+                                                >{{
+                                                    lockStatuses[lock.status]
+                                                }}</i
+                                            >
+                                        </h2>
+                                        <p>{{ lock.orderId }}</p>
+                                    </template>
+                                    <template slot="default">
+                                        <h3>
+                                            {{ `${lock.amount} ${lock.coin}` }}
+                                        </h3>
+                                        <p>
+                                            {{
+                                                lock.startTime
+                                                    | dateFormat('yyyy-MM-dd')
+                                            }}
+                                        </p>
+                                    </template>
+                                </Cell>
+                            </CellGroup>
+                        </template>
+                    </div>
+                </Tab>
+                <Tab>
+                    <template slot="title">
+                        <span>我的贷款</span>
+                    </template>
+                    <div class="tab-content">
+                        <p class="none">正在开发中，敬请期待！</p>
+                    </div>
+                </Tab>
+                <Tab>
+                    <template slot="title">
+                        <span>推广奖励</span>
+                    </template>
+                    <div class="tab-content">
+                        <p class="none">正在开发中，敬请期待！</p>
+                    </div>
+                </Tab>
+            </Tabs>
 
-        <LockInfo v-model="isLockInfoShow" :lock="currentLock" />
+            <LockInfo v-model="isLockInfoShow" :lock="currentLock" />
 
-        <RechargeCoins v-model="isRechargeCoinsShow" />
+            <RechargeCoins v-model="isRechargeCoinsShow" />
 
-        <Navs />
-    </div>
+            <Navs />
+        </div>
+    </PullRefresh>
 </template>
 
 <style src="./asset-index.less" lang="less" scoped />

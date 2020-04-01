@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "precache-manifest.533875a9a4e1235b89e9036691b10ef5.js"
+  "precache-manifest.fa3afd595360fe30f47b95b9ab49345c.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "superlock-mobile"});

@@ -15,7 +15,7 @@ import {
 } from '@/ts/models';
 import { WithdrawService } from '@/ts/services';
 
-import { Field, Icon, Button } from 'vant';
+import { Toast, Field, Icon, Button } from 'vant';
 import Header from '@/components/common/header';
 import PasswordModal from '@/components/common/password-modal';
 
@@ -46,7 +46,7 @@ export default class WithdrawIndex extends Vue {
     @withdrawModule.Action('fetchWithdrawQuota') fetchWithdrawQuota!: () => any;
     @withdrawModule.Action('executeWithdraw') executeWithdraw!: () => any;
     @withdrawModule.Action('fetchWithdrawAddresses')
-    fetchWithdrawAddresses!: () => any;
+    fetchWithdrawAddresses!: (isLoading: boolean) => any;
 
     isShow: boolean = false; // 是否显示密码模态框
 
@@ -114,6 +114,11 @@ export default class WithdrawIndex extends Vue {
 
     // 获取数据
     async fetchData() {
+        Toast.loading({
+            mask: true,
+            duration: 0,
+            message: '加载中...'
+        });
         await this.fetchUserInfo();
         await this.fetchWithdrawQuota();
 
@@ -128,7 +133,7 @@ export default class WithdrawIndex extends Vue {
         } else {
             // 如果没有选择的提现地址（大部分情况为第一次提现操作时），那么将第一个提现地址设置为已选择提现地址
             if (this.withdrawAddresses.length <= 0) {
-                await this.fetchWithdrawAddresses();
+                await this.fetchWithdrawAddresses(false);
             }
 
             let firstAddress = this.withdrawAddresses[0];
@@ -140,6 +145,7 @@ export default class WithdrawIndex extends Vue {
                 });
             }
         }
+        Toast.clear();
     }
 
     created() {

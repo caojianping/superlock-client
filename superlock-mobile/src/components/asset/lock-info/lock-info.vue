@@ -4,13 +4,9 @@
 
         <header>
             <h2>锁仓金额({{ lock.coin }})</h2>
-            <h1>{{ lock.amount | currencyComma }}</h1>
+            <h1>{{ lock.amount || 0 }}</h1>
             <p>
-                {{
-                    `= ${lock.valuationAmount | currencyComma}${
-                        lock.valuationCoin
-                    }`
-                }}
+                {{ `= ${lock.valuationAmount || 0}${lock.valuationCoin}` }}
             </p>
         </header>
 

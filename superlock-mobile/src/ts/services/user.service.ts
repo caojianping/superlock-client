@@ -77,28 +77,32 @@ export class UserService {
         const key = 'rateForms';
         let validator = new Validator();
         rateForms.forEach((rateForm: TeamRateFormModel, index: number) => {
-            let type = rateForm.type;
+            let type = rateForm.type,
+                max = Number(rateForm.max),
+                value = Utils.isNullOrUndefined(rateForm.value)
+                    ? rateForm.value
+                    : Number(rateForm.value);
             if (type === 1) {
                 let msg = rateForm.length + units[rateForm.unit] + '锁仓利率';
                 validator.addRule(
                     key,
-                    { name: `value${index}`, value: rateForm.value },
-                    { required: true, min: 0, max: rateForm.max },
+                    { name: `value${index}`, value: value },
+                    { required: true, minExclude: 0, maxExclude: max },
                     {
                         required: `${msg}值不可以为空`,
-                        min: `${msg}不可以小于0`,
-                        max: `${msg}不可以大于${rateForm.max}`
+                        minExclude: `${msg}不可以小于等于0`,
+                        maxExclude: `${msg}不可以大于等于${max}`
                     }
                 );
             } else if (type === 2) {
                 validator.addRule(
                     key,
-                    { name: `value${index}`, value: rateForm.value },
-                    { required: true, min: 0, max: rateForm.max },
+                    { name: `value${index}`, value: value },
+                    { required: true, minExclude: 0, maxExclude: max },
                     {
                         required: '推广解锁利率不可以为空',
-                        min: '推广解锁利率不可以小于0',
-                        max: `推广解锁利率不可以大于${rateForm.max}`
+                        minExclude: '推广解锁利率不可以小于等于0',
+                        maxExclude: `推广解锁利率不可以大于等于${max}`
                     }
                 );
             }

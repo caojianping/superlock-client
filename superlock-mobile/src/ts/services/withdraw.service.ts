@@ -33,10 +33,10 @@ export class WithdrawService {
         validator.addRule(
             key,
             { name: 'amount', value: amount },
-            { required: true, min: 0, max: maxAmount },
+            { required: true, minExclude: 0, max: maxAmount },
             {
                 required: '提现金额不可以为空',
-                min: '提现金额不可以小于0',
+                min: '提现金额不可以小于等于0',
                 max: `提现金额不可以大于${maxAmount}`
             }
         );
@@ -153,12 +153,12 @@ export class WithdrawService {
     }
 
     // 获取提现地址列表
-    public async fetchWithdrawAddresses(): Promise<
-        Array<WithdrawAddressModel>
-    > {
+    public async fetchWithdrawAddresses(
+        isLoading: boolean = false
+    ): Promise<Array<WithdrawAddressModel>> {
         let result = await Caxios.get<Array<WithdrawAddressModel> | null>(
             { url: Urls.withdraw.address.list },
-            CaxiosType.LoadingToken
+            isLoading ? CaxiosType.LoadingToken : CaxiosType.Token
         );
         return result || [];
 

@@ -26,7 +26,6 @@
                         <p>{{ withdrawAddress.address }}</p>
                     </div>
                     <Checkbox
-                        v-if="source === 2"
                         slot="right-icon"
                         :value="
                             selectedWithdrawAddress &&
