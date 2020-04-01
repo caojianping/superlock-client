@@ -19,7 +19,7 @@ export class RechargeService {
 
         let result = await Caxios.get<string | null>(
             { url: `${Urls.recharge.address}?coin=${coin}` },
-            CaxiosType.Token
+            CaxiosType.LoadingToken
         );
         return result || '';
     }

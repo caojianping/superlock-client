@@ -8,25 +8,38 @@ import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { CONSTANTS } from '@/ts/config';
 import { Prompt } from '@/ts/common';
-import { UserLockQuotaModel, ProjectModel, LockFormModel } from '@/ts/models';
+import {
+    UserLockQuotaModel,
+    ProjectModel,
+    LockFormModel,
+    AssetStatsModel,
+    UserInfoModel
+} from '@/ts/models';
 import { LockService } from '@/ts/services';
 
 import { Field, Button } from 'vant';
 import Header from '@/components/common/header';
-import Password from '@/components/common/password';
+import PasswordModal from '@/components/common/password-modal';
 
-const homeModule = namespace('home');
+const userModule = namespace('user');
 const lockModule = namespace('lock');
+const projectModule = namespace('project');
 
 @Component({
     name: 'LockCreate',
-    components: { Field, Button, Header, Password }
+    components: { Field, Button, Header, PasswordModal }
 })
 export default class LockCreate extends Vue {
-    @State('lockUnits') lockUnits!: Array<string>;
+    @State('units') units!: Array<string>;
 
-    @homeModule.State('userLockQuota') userLockQuota!: UserLockQuotaModel;
-    @homeModule.Action('fetchUserLockQuota') fetchUserLockQuota!: () => any;
+    @userModule.State('userInfo') userInfo!: UserInfoModel;
+    @userModule.State('userLockQuota')
+    userLockQuota?: UserLockQuotaModel | null;
+    @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
+    @userModule.Action('fetchUserLockQuota') fetchUserLockQuota!: () => any;
+
+    @projectModule.State('assetStats') assetStats?: AssetStatsModel | null;
+    @projectModule.Action('fetchAssetStats') fetchAssetStats!: () => any;
 
     @lockModule.State('lockProject') lockProject!: ProjectModel;
     @lockModule.State('lockForm') lockForm!: LockFormModel;
@@ -43,8 +56,19 @@ export default class LockCreate extends Vue {
         this.setStates({ lockForm });
     }
 
-    // 打开密码模态框
-    async openPassword() {
+    // 提交锁仓
+    async submit() {
+        let haveFundPasswd = this.userInfo.haveFundPasswd;
+        if (!haveFundPasswd) {
+            Prompt.info('您未设置资金密码，请先设置资金密码').then(() => {
+                this.$router.push({
+                    path: '/security/fund/password',
+                    query: { from: '/lock/create' }
+                });
+            });
+            return;
+        }
+
         let result: ValidationResult = LockService.validateLockForm(
             this.lockForm,
             false
@@ -58,15 +82,18 @@ export default class LockCreate extends Vue {
     }
 
     // 处理密码模态框submit事件
-    async handlePasswordSubmit(password: string) {
+    async handlePasswordModalSubmit(password: string) {
         let lockForm = Utils.duplicate(this.lockForm);
         lockForm.fundPasswd = password;
         this.setStates({ lockForm });
 
         try {
             let result = await this.createLock();
-            if (result) Prompt.success('锁仓成功');
-            else Prompt.success('锁仓失败');
+            if (!result) Prompt.error('锁仓成功');
+            else {
+                Prompt.success('锁仓成功');
+                await this.fetchUserLockQuota();
+            }
         } catch (error) {
             Prompt.error(error.message || error);
         }
@@ -87,12 +114,22 @@ export default class LockCreate extends Vue {
 
             this.setStates({ lockProject: lockProjectCache });
         }
+    }
+
+    // 获取数据
+    async fetchData() {
+        await this.fetchUserInfo();
+        await this.fetchUserLockQuota();
+        await this.fetchAssetStats();
 
         let lockProject = this.lockProject,
             lockForm = new LockFormModel();
         lockForm.length = lockProject.length;
         lockForm.unit = lockProject.unit;
         lockForm.rate = lockProject.rate;
+        lockForm.maxAmount = this.assetStats
+            ? this.assetStats.bcbTotalAmount
+            : 0;
         this.setStates({ lockForm });
     }
 
@@ -101,6 +138,6 @@ export default class LockCreate extends Vue {
     }
 
     mounted() {
-        this.fetchUserLockQuota();
+        this.fetchData();
     }
 }

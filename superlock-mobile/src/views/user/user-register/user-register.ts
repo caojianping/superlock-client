@@ -26,6 +26,7 @@ export default class UserRegister extends Vue {
     @userModule.Action('register') registerAction!: () => any;
 
     yunDun: any = null; // 云盾实例
+    code: string = ''; // 邀请码
 
     // 处理UserForm组件change事件
     handleUserFormChange(userForm: UserFormModel) {
@@ -44,7 +45,7 @@ export default class UserRegister extends Vue {
             let result = await this.registerAction();
             if (!result) Prompt.error('注册失败');
             else {
-                this.registerStatus = RegisterStatus.Success;
+                this.setStates({ registerStatus: RegisterStatus.Success });
             }
         } catch (error) {
             Prompt.error(error.message || error);
@@ -65,6 +66,7 @@ export default class UserRegister extends Vue {
     initData() {
         let code = Utils.resolveParameters('code'),
             userForm = UserFormModel.createInstance(code);
+        this.code = code;
         this.setStates({ userForm });
     }
 

@@ -34,6 +34,14 @@ export default {
             );
         },
 
+        // 设置资金密码
+        async setFundPassword(
+            context: IActionContext<ISecurityState>
+        ): Promise<boolean> {
+            let state = context.state;
+            return await securityService.setFundPassword(state.securityForm);
+        },
+
         // 修改资金密码
         async modifyFundPassword(
             context: IActionContext<ISecurityState>

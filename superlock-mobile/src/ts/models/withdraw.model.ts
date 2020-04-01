@@ -11,6 +11,8 @@ export class WithdrawFormModel {
     public amount!: number; // 提现金额
     public fundPasswd!: string; // 资金密码
     public remark!: string; // 提现备注
+
+    public maxAmount!: number; // 附加属性：最大提现金额
 }
 
 // 提现地址模型

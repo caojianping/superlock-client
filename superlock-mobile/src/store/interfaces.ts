@@ -5,6 +5,7 @@ import {
     UserFormModel,
     UserInfoModel,
     UserLockQuotaModel,
+    TeamRateInfoModel,
     ProjectStatsModel,
     ProjectModel,
     AssetStatsModel,
@@ -28,25 +29,28 @@ export interface IActionContext<T> {
 
 export interface IRootState {
     tokenInfo: TokenInfo;
-    lockUnits: Array<string>;
-    lockStatuses: Map<number, string>;
+    units: Array<string>;
 }
 
 export interface IUserState {
-    userInfo: UserInfoModel; // 用户信息
     userForm: UserFormModel; // 用户表单
     registerStatus: RegisterStatus; // 注册状态
+
+    userInfo: UserInfoModel; // 用户信息
+    userLockQuota?: UserLockQuotaModel | null; // 用户锁仓额度
+    teamRateInfo?: TeamRateInfoModel | null; // 团队利率信息
 }
 
-export interface IHomeState {
-    userLockQuota: UserLockQuotaModel; // 用户锁仓额度
-    projectStats?: ProjectStatsModel; // 项目统计
+export interface IProjectState {
+    projectStats?: ProjectStatsModel | null; // 项目统计
+    assetStats?: AssetStatsModel | null; // 资产统计
+    earningsStats?: EarningsStatsModel | null; // 收益统计
 }
 
-export interface IAssetState {
-    assetStats: AssetStatsModel | null;
-    earningsStats: EarningsStatsModel | null;
-    locks: Array<LockModel> | null;
+export interface ILockState {
+    lockProject: ProjectModel; // 锁仓项目
+    lockForm: LockFormModel; // 锁仓表单
+    locks?: Array<LockModel>;
 }
 
 export interface IRechargeState {
@@ -71,11 +75,6 @@ export interface IWithdrawState {
 
     withdrawAddresses: Array<WithdrawAddressModel>; // 提现地址列表
     selectedWithdrawAddress?: WithdrawAddressModel; // 已选择的提现地址
-}
-
-export interface ILockState {
-    lockProject: ProjectModel; // 锁仓项目
-    lockForm: LockFormModel; // 锁仓表单
 }
 
 export interface ISecurityState {

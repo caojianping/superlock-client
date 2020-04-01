@@ -1,7 +1,10 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+import ClipboardJS from 'clipboard';
+
 import TYPES from '@/store/types';
+import { Prompt } from '@/ts/common';
 
 import { Button } from 'vant';
 import Header from '@/components/common/header';
@@ -25,8 +28,22 @@ export default class RechargeCode extends Vue {
     @rechargeModule.Action('fetchRechargeAddress')
     fetchRechargeAddress!: () => any;
 
-    copyAddress() {
-        // todo: 复制地址
+    initClipboard() {
+        let copy = document.getElementById('copy'),
+            clipboard = new ClipboardJS(copy);
+
+        clipboard.on('success', function(e) {
+            Prompt.success('充值地址复制成功');
+        });
+
+        clipboard.on('error', function(e) {
+            Prompt.error('充值地址复制失败');
+        });
+    }
+
+    async fetchData() {
+        await this.fetchRechargeAddress();
+        this.initClipboard();
     }
 
     created() {
@@ -35,6 +52,6 @@ export default class RechargeCode extends Vue {
     }
 
     mounted() {
-        this.fetchRechargeAddress();
+        this.fetchData();
     }
 }

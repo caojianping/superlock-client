@@ -62,3 +62,10 @@ Vue.filter('currencyComma', function(value: number, precision: number = 2) {
 Vue.filter('coinUnit', function(value: string | number, unit: string = 'BCB') {
     return `${value} ${unit}`;
 });
+
+// 哈希地址截取显示
+Vue.filter('hashTruncate', function(value: string) {
+    let left = value.slice(0, 11),
+        right = value.substr(-10);
+    return `${left}...${right}`;
+});

@@ -14,6 +14,7 @@
                     <h2>钱包名称</h2>
                     <Field
                         v-model="withdrawAddress.nickName"
+                        clearable
                         placeholder="请输入新添加的钱包名称"
                     />
                 </li>
@@ -21,6 +22,7 @@
                     <h2>钱包地址</h2>
                     <Field
                         v-model="withdrawAddress.address"
+                        clearable
                         placeholder="请输入新添加的钱包地址"
                     />
                     <p class="text-prompt">

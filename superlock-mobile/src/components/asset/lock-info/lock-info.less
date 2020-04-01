@@ -1,0 +1,67 @@
+@import '../../../less/vars.less';
+@import '../../../less/mixins.less';
+
+header {
+    padding: 1rem 0 3rem;
+
+    h2 {
+        .font-styles(0.875rem, normal, 1.5, @black, center);
+    }
+
+    h1 {
+        .font-styles(2rem, bold, 1.5, @black, center);
+    }
+
+    p {
+        .font-styles(0.75rem, normal, 1.5, @black, center);
+    }
+}
+
+header + h2 {
+    position: relative;
+    padding: 0 0 0 1.75rem;
+    height: 2.5rem;
+    .font-styles(1rem, normal, 2.5rem, @black, left);
+    border-bottom: 1px solid #ebedf0;
+
+    &:before {
+        position: absolute;
+        top: 0.75rem;
+        left: 1rem;
+        display: block;
+        width: 0.25rem;
+        height: 1rem;
+        content: '';
+        background-color: rgb(252, 176, 63);
+    }
+}
+
+.lock-status {
+    &.black {
+        color: @black;
+    }
+
+    &.gray {
+        color: @gray;
+    }
+
+    &.green {
+        color: #00c389;
+    }
+
+    &.red {
+        color: #e3783f;
+    }
+
+    &.pink {
+        color: lightpink;
+    }
+
+    &.orange {
+        color: #f7c354;
+    }
+}
+
+/deep/ .van-cell-group::after {
+    display: none;
+}

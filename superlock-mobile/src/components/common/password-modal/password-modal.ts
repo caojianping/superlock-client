@@ -6,17 +6,17 @@ import { Button } from 'vant';
 import Modal from '@/components/common/modal';
 
 @Component({
-    name: 'Password',
+    name: 'PasswordModal',
     components: { Button, Modal }
 })
-export default class Password extends Vue {
+export default class PasswordModal extends Vue {
     @Model('close', { type: Boolean }) value!: boolean; // v-model
 
     isShow: boolean = false; // 是否显示模态框
     password: string = ''; // 密码
 
-    // 关闭模态框
-    closeModal() {
+    // 处理模态框close事件
+    handleModalClose() {
         this.isShow = false;
         this.$emit('close', false);
     }

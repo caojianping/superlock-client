@@ -7,25 +7,17 @@ import { TokenInfo } from '@/ts/models';
 import { CommonService } from '@/ts/services';
 
 import userModule from './modules/user.module';
-import homeModule from './modules/home.module';
-import assetModule from './modules/asset.module';
+import projectModule from './modules/project.module';
+import lockModule from './modules/lock.module';
 import rechargeModule from './modules/recharge.module';
 import withdrawModule from './modules/withdraw.module';
-import lockModule from './modules/lock.module';
 import securityModule from './modules/security.module';
 
 Vue.use(Vuex);
 
 const rootState: IRootState = {
     tokenInfo: new TokenInfo(),
-    lockUnits: ['天', '月', '年'],
-    lockStatuses: new Map([
-        [0, '订单已创建'],
-        [10, '订单处理中'],
-        [20, '锁仓计息中'],
-        [30, '锁仓到期'],
-        [40, '锁仓失败']
-    ])
+    units: ['天', '月', '年']
 };
 
 const commonService = new CommonService();
@@ -34,11 +26,10 @@ export default new Vuex.Store({
     strict: false,
     modules: {
         user: userModule,
-        home: homeModule,
-        asset: assetModule,
+        project: projectModule,
+        lock: lockModule,
         recharge: rechargeModule,
         withdraw: withdrawModule,
-        lock: lockModule,
         security: securityModule
     },
     state: rootState,
@@ -49,7 +40,9 @@ export default new Vuex.Store({
                 state[key] = value;
             }
         },
-        [TYPES.CLEAR_STATES](state: IRootState) {}
+        [TYPES.CLEAR_STATES](state: IRootState) {
+            state.tokenInfo = new TokenInfo();
+        }
     },
     actions: {
         // 获取短信验证码

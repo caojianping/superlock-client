@@ -2,7 +2,7 @@
     <div class="recharge-record">
         <Header
             title="充值记录"
-            @left="$router.push(`/recharge/code/${rechargeCoin}`)"
+            @left="$router.push(`/recharge/code/${rechargeCoin || 'BCB'}`)"
         />
 
         <div v-if="recharges" class="record-container separator">
@@ -28,7 +28,9 @@
                         :to="`/recharge/detail/${recharge.orderId}`"
                     >
                         <div slot="title">
-                            <h2>{{ recharge.txhash }}</h2>
+                            <h2>
+                                {{ (recharge.txhash || '') | hashTruncate }}
+                            </h2>
                             <p>
                                 {{ recharge.createTime | dateFormat }}
                             </p>

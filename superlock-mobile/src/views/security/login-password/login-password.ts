@@ -48,11 +48,18 @@ export default class LoginPassword extends Vue {
     async submit() {
         try {
             let result = await this.modifyLoginPassword();
-            if (result) Prompt.success('登录密码修改成功');
-            else Prompt.success('登录密码修改失败');
+            if (!result) Prompt.error('登录密码修改失败');
+            else {
+                Prompt.success('登录密码修改成功');
+                this.$router.push('/security/center');
+            }
         } catch (error) {
             Prompt.error(error.message || error);
         }
+    }
+
+    created() {
+        this.clearStates();
     }
 
     mounted() {

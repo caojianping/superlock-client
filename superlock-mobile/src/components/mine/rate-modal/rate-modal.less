@@ -1,0 +1,41 @@
+@import '../../../less/vars.less';
+@import '../../../less/mixins.less';
+
+.rate-modal {
+    /deep/ .modal-body {
+        padding: 0 2rem 1.875rem;
+
+        .rate-forms {
+            li {
+                &:last-child {
+                    padding-top: 1rem;
+
+                    .van-button {
+                        margin: 0 0.5rem;
+                        padding: 0 2rem;
+                    }
+                }
+
+                &.rate-prompt {
+                    padding: 1rem 0;
+                    .font-styles(0.75rem, normal, 1.5, @gray, left);
+                }
+
+                .van-cell {
+                    padding: 0.625rem 0;
+
+                    .van-cell__title {
+                        width: 8rem;
+                        text-align: left;
+                        white-space: nowrap;
+                    }
+
+                    .van-cell__value {
+                        white-space: nowrap;
+                        flex: 0 1 auto;
+                    }
+                }
+            }
+        }
+    }
+}

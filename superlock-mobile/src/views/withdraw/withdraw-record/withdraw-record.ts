@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
+
 import TYPES from '@/store/types';
 import { WithdrawModel } from '@/ts/models';
 

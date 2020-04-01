@@ -14,23 +14,25 @@ import {
 import Navs from '@/components/common/navs';
 import Spin from '@/components/common/spin';
 
-const homeModule = namespace('home');
+const userModule = namespace('user');
+const projectModule = namespace('project');
 
 @Component({
     name: 'Home',
     components: { Navs, Spin }
 })
 export default class Home extends Vue {
-    @State('lockUnits') lockUnits!: Array<string>;
+    @State('units') units!: Array<string>;
 
-    @homeModule.State('userLockQuota') userLockQuota!: UserLockQuotaModel;
-    @homeModule.State('projectStats') projectStats!: ProjectStatsModel | null;
+    @userModule.State('userLockQuota')
+    userLockQuota?: UserLockQuotaModel | null;
+    @userModule.Action('fetchUserLockQuota') fetchUserLockQuota!: () => any;
 
-    @homeModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
-    @homeModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
-    @homeModule.Action('fetchUserLockQuota') fetchUserLockQuota!: () => any;
-    @homeModule.Action('fetchProjectStats') fetchProjectStats!: () => any;
+    @projectModule.State('projectStats')
+    projectStats?: ProjectStatsModel | null;
+    @projectModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
+    @projectModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
+    @projectModule.Action('fetchProjectStats') fetchProjectStats!: () => any;
 
     isProjectSpinning: boolean = false;
     isOptimizeSpinning: boolean = false;

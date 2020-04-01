@@ -1,4 +1,6 @@
 import { Cookie } from 'jts-cookie';
+import store from '@/store';
+import TYPES from '@/store/types';
 import { CONSTANTS } from '@/ts/config';
 import { TokenInfo } from '@/ts/models';
 
@@ -21,6 +23,17 @@ export class Token {
 
     // 移除tokenInfo
     public static removeTokenInfo(): boolean {
-        return Cookie.removeItem(CONSTANTS.TOKEN_INFO);
+        Cookie.removeItem(CONSTANTS.TOKEN_INFO);
+        [
+            'user/',
+            'project/',
+            'lock/',
+            'recharge/',
+            'withdraw/',
+            'security/'
+        ].forEach((item: string) => {
+            store.commit(item + TYPES.CLEAR_STATES);
+        });
+        return true;
     }
 }

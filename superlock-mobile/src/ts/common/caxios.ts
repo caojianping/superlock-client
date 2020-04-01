@@ -2,8 +2,6 @@ import Qs from 'qs';
 import axios, { AxiosRequestConfig } from 'axios';
 import { Toast } from 'vant';
 
-import store from '@/store';
-import TYPES from '@/store/types';
 import Router from '@/router';
 import Utils from '@/ts/utils';
 import { CaxiosType, CONSTANTS, ResponseCode } from '@/ts/config';
@@ -157,7 +155,6 @@ export class Caxios {
             return data as T;
         } else if (code === ResponseCode.TokenExpired) {
             Token.removeTokenInfo();
-            store.commit(TYPES.CLEAR_STATES);
             // 登录页面，Router.push会报NavigatorDuplicated异常，提示在UI层处理
             let hash = window.location.hash;
             if (hash.indexOf('/user/login') < 0) {

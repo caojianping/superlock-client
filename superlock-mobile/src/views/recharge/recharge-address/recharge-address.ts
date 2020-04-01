@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
 import { RechargeCoinModel } from '@/ts/models';
 

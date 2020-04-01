@@ -27,7 +27,7 @@
                     <Field
                         type="number"
                         :value="withdrawForm.amount"
-                        :max="withdrawQuota.valuationAmount"
+                        clearable
                         placeholder="请输入您想提现的金额"
                         @input="handleFieldInput('amount', $event)"
                     >
@@ -39,14 +39,19 @@
                         >
                     </Field>
                     <p class="text-prompt">
-                        可提现金额 {{ withdrawQuota.valuationAmount }} BCB =
-                        {{ withdrawQuota.valuationAmount }} DC
+                        可提现金额
+                        {{
+                            `${withdrawQuota.amount || '--'} BCB = 
+                            ${withdrawQuota.valuationAmount || '--'}
+                            ${withdrawQuota.valuationCoin || '--'}`
+                        }}
                     </p>
                 </li>
                 <li>
                     <h2>备注</h2>
                     <Field
                         :value="withdrawForm.remark"
+                        clearable
                         placeholder="请输入提现备注"
                         @input="handleFieldInput('remark', $event)"
                     />
@@ -57,14 +62,14 @@
                         type="primary"
                         block
                         round
-                        @click="openPassword"
+                        @click="submit"
                         >确定提现</Button
                     >
                 </li>
             </ul>
         </div>
 
-        <Password v-model="isShow" @submit="handlePasswordSubmit" />
+        <PasswordModal v-model="isShow" @submit="handlePasswordModalSubmit" />
     </div>
 </template>
 

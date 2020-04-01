@@ -9,9 +9,9 @@
             @change="handleUserFormChange"
             @stop="handleUserFormStop"
         >
-            <Cell :border="false">
+            <Cell class="field-register" :border="false">
                 <Button
-                    class="btn-register effect-shadow"
+                    class="effect-shadow"
                     type="primary"
                     size="large"
                     block
@@ -21,9 +21,10 @@
                     立即注册
                 </Button>
             </Cell>
+
             <Cell class="field-download">
                 <Button
-                    class="btn-download effect-shadow"
+                    class="effect-shadow"
                     size="large"
                     block
                     round
@@ -31,6 +32,13 @@
                 >
                     下载APP
                 </Button>
+
+                <p class="register-prompt">
+                    已有账号，
+                    <router-link class="link" :to="`/user/login?code=${code}`"
+                        >立即登录</router-link
+                    >
+                </p>
             </Cell>
         </UserForm>
 
@@ -46,7 +54,17 @@
                 size="large"
                 block
                 round
+                :to="`/user/login?code=${code}`"
+            >
+                立即登录
+            </Button>
+            <Button
+                class="effect-shadow"
+                size="large"
+                block
+                round
                 @click="download"
+                style="margin-top: 1.5rem"
             >
                 下载APP
             </Button>

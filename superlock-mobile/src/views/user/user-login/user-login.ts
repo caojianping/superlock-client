@@ -3,6 +3,7 @@ import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
+import Utils from '@/ts/utils';
 import { Prompt } from '@/ts/common';
 import { UserFormModel } from '@/ts/models';
 
@@ -22,6 +23,7 @@ export default class UserLogin extends Vue {
     @userModule.Action('login') loginAction!: () => any;
 
     yunDun: any = null; // 云盾实例
+    code: string = ''; // 邀请码
 
     // 处理UserForm组件change事件
     handleUserFormChange(userForm: UserFormModel) {
@@ -69,7 +71,10 @@ export default class UserLogin extends Vue {
         } catch (error) {}
     }
 
-    created() {}
+    created() {
+        let code = Utils.resolveParameters('code');
+        this.code = code;
+    }
 
     mounted() {
         this.initYunDun();

@@ -15,11 +15,12 @@
                 <qriously :value="rechargeAddress" :size="180" />
                 <p>{{ rechargeAddress }}</p>
                 <Button
+                    id="copy"
                     class="effect-tripple"
                     type="primary"
                     size="small"
                     round
-                    @click="copyAddress"
+                    :data-clipboard-text="rechargeAddress"
                     >复制地址</Button
                 >
             </div>

@@ -8,15 +8,18 @@ export const Urls = {
     user: {
         register: `${baseUrl}/register`, // 用户注册接口
         login: `${baseUrl}/login`, // 用户登录接口
-        retrieval: `${baseUrl}/retrieval`, // 用户找回密码接口
+        logout: `${baseUrl}/user/signOut`, // 退出登录接口
+        retrieval: `${baseUrl}/user/retrieval`, // 用户找回密码接口
         lockQuota: `${baseUrl}/user/lockQuota`, // 获取用户锁仓额度接口
         info: `${baseUrl}/user/userInfo`, // 获取用户信息接口
-        setNickname: `${baseUrl}/user/setNickName` // 设置用户昵称接口
+        setNickname: `${baseUrl}/user/setNickName`, // 设置用户昵称接口
+        rate: {
+            info: `${baseUrl}/user/existDefaultRate`, // 获取利率接口
+            set: `${baseUrl}/user/defaultRateSet` // 设置利率接口
+        }
     },
     project: {
-        stats: `${baseUrl}/project/projectList` // 获取项目统计接口
-    },
-    asset: {
+        projectStats: `${baseUrl}/project/projectList`, // 获取项目统计接口
         assetStats: `${baseUrl}/project/capitalLedger`, // 获取资产统计接口
         earningsStats: `${baseUrl}/project/yesterdayEarnings` // 获取收益统计接口
     },
@@ -40,9 +43,9 @@ export const Urls = {
     },
     security: {
         modifyLoginPassword: `${baseUrl}/user/resetPasswd`, // 修改登录密码接口
-        modifyFundPassword: `${baseUrl}/user/modifyFundPasswd` // 修改资金密码接口
-    },
-    test: {
-        info: `${baseUrl}/mainData` // 测试接口
+        fundPassword: {
+            set: `${baseUrl}/user/setFundPasswd`, // 设置资金密码接口
+            modify: `${baseUrl}/user/modifyFundPasswd` // 修改资金密码接口
+        }
     }
 };

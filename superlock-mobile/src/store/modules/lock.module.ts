@@ -5,7 +5,8 @@ import { LockService } from '@/ts/services';
 
 const lockState: ILockState = {
     lockProject: new ProjectModel(),
-    lockForm: new LockFormModel()
+    lockForm: new LockFormModel(),
+    locks: undefined
 };
 
 const lockService = new LockService();
@@ -23,6 +24,7 @@ export default {
         [TYPES.CLEAR_STATES](state: ILockState) {
             state.lockProject = new ProjectModel();
             state.lockForm = new LockFormModel();
+            state.locks = undefined;
         }
     },
     actions: {
@@ -32,6 +34,17 @@ export default {
         ): Promise<boolean> {
             let state = context.state;
             return await lockService.createLock(state.lockForm);
+        },
+
+        // 获取锁仓列表
+        async fetchLocks(context: IActionContext<ILockState>): Promise<void> {
+            let commit = context.commit;
+            try {
+                let locks = await lockService.fetchLocks();
+                commit(TYPES.SET_STATES, { locks });
+            } catch (error) {
+                commit(TYPES.SET_STATES, { locks: [] });
+            }
         }
     }
 };

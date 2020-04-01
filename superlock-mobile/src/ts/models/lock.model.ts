@@ -28,4 +28,6 @@ export class LockFormModel {
     public coin!: string; // 币种
     public amount!: number; // 锁仓金额
     public fundPasswd!: string; // 资金密码
+
+    public maxAmount!: number; // 附加属性：最大锁仓金额
 }

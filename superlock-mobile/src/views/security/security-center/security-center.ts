@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
 import { UserInfoModel } from '@/ts/models';
 
@@ -20,8 +21,6 @@ export default class SecurityCenter extends Vue {
     @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
 
     mounted() {
-        if (!this.userInfo.userId) {
-            this.fetchUserInfo();
-        }
+        this.fetchUserInfo();
     }
 }

@@ -25,12 +25,14 @@
                         :to="`/withdraw/detail/${withdraw.orderId}`"
                     >
                         <div slot="title">
-                            <h2>{{ withdraw.txhash }}</h2>
+                            <h2>
+                                {{ (withdraw.orderId || '') | hashTruncate }}
+                            </h2>
                             <p>
                                 {{ withdraw.createTime | dateFormat }}
                             </p>
                         </div>
-                        <p slot="default">
+                        <p slot="default" class="text-red">
                             {{ `- ${withdraw.amount} ${withdraw.coin}` }}
                         </p>
                     </Cell>

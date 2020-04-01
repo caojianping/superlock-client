@@ -11,7 +11,7 @@ import { UserLockQuotaModel, ProjectModel } from '@/ts/models';
 
 import Header from '@/components/common/header';
 
-const homeModule = namespace('home');
+const userModule = namespace('user');
 const lockModule = namespace('lock');
 
 @Component({
@@ -21,10 +21,10 @@ const lockModule = namespace('lock');
 export default class LockDetail extends Vue {
     dateCalculate: Function = Utils.dateCalculate;
 
-    @State('lockUnits') lockUnits!: Array<string>;
+    @State('units') units!: Array<string>;
 
-    @homeModule.State('userLockQuota') userLockQuota!: UserLockQuotaModel;
-    @homeModule.Action('fetchUserLockQuota') fetchUserLockQuota!: () => any;
+    @userModule.State('userLockQuota') userLockQuota?: UserLockQuotaModel | null;
+    @userModule.Action('fetchUserLockQuota') fetchUserLockQuota!: () => any;
 
     @lockModule.State('lockProject') lockProject!: ProjectModel;
     @lockModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;

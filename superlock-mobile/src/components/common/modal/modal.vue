@@ -1,5 +1,12 @@
 <template>
-    <Popup class="modal" v-model="isShow" closeable @close="closePopup">
+    <Popup
+        class="modal"
+        v-model="isShow"
+        round
+        :closeable="closeable"
+        :close-on-click-overlay="closeOnClickOverlay"
+        @close="handlePopupClose"
+    >
         <header class="modal-header">
             <slot name="title"></slot>
         </header>

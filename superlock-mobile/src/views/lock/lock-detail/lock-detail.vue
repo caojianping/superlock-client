@@ -9,7 +9,7 @@
         <div class="lock-detail-body">
             <h1 class="lock-detail-title">
                 锁仓宝 -
-                {{ lockProject.length + lockUnits[lockProject.unit - 1] }}
+                {{ lockProject.length + units[lockProject.unit - 1] }}
             </h1>
 
             <div class="lock-detail-intro lock-container">
@@ -26,7 +26,7 @@
                     <li>
                         <h2>
                             <span>{{ lockProject.length }}</span>
-                            <small>{{ lockUnits[lockProject.unit - 1] }}</small>
+                            <small>{{ units[lockProject.unit - 1] }}</small>
                         </h2>
                         <p>锁仓期限</p>
                     </li>
@@ -50,11 +50,8 @@
                             <span>利息计算</span>
                         </h3>
                         <p>
-                            每日到账利息(BCB) -
-                            (锁仓时折算的DC价值*锁仓年化利率)/当日BCB价格/{{
-                                lockProject.length +
-                                    lockUnits[lockProject.unit - 1]
-                            }}
+                            每日到账利息(BCB) =
+                            (锁仓时折算的DC价值*锁仓年化利率)/当日BCB价格/365天
                         </p>
                     </li>
                     <li>
@@ -158,13 +155,14 @@
                     该产品为BCB锁仓理财，锁仓存入BCB。由于BCB的市场价值会有一定的波动，当您进行锁仓时，系统会按照当时市场上BCB：DC的价位计算出锁仓BCB对应的DC价值，并做记录。
                 </p>
                 <p>
-                    您每日的利息计算以锁仓时DC价值为基准，再乘以锁仓利率，然后根据计算时BCB：DC的价值来计算。
+                    您每日的利息计算以锁仓时DC价值为基准，再乘以锁仓利率，然后根据计息时BCB：DC的价值来计算。
                 </p>
             </div>
         </div>
 
         <footer class="lock-detail-footer">
-            <p>
+            <p v-if="!userLockQuota">当前可锁仓额度：-- -- = -- --</p>
+            <p v-else>
                 当前可锁仓额度：{{
                     `${userLockQuota.amount} ${userLockQuota.coin} = ${userLockQuota.valuationAmount} ${userLockQuota.valuationCoin}`
                 }}

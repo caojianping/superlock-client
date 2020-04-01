@@ -5,8 +5,8 @@
         <div class="modify-form separator">
             <Field
                 :value="nickname"
-                placeholder="请输入昵称"
                 clearable
+                placeholder="请输入昵称"
                 @input="handleFieldInput($event)"
             ></Field>
 

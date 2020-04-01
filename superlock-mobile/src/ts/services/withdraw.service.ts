@@ -22,7 +22,7 @@ export class WithdrawService {
             };
 
         const key = 'withdrawForm';
-        let { address, amount, fundPasswd, remark } = withdrawForm,
+        let { address, amount, fundPasswd, remark, maxAmount } = withdrawForm,
             validator = new Validator();
         validator.addRule(
             key,
@@ -33,8 +33,12 @@ export class WithdrawService {
         validator.addRule(
             key,
             { name: 'amount', value: amount },
-            { required: true },
-            { required: '提现金额不可以为空' }
+            { required: true, min: 0, max: maxAmount },
+            {
+                required: '提现金额不可以为空',
+                min: '提现金额不可以小于0',
+                max: `提现金额不可以大于${maxAmount}`
+            }
         );
         if (isPassword) {
             validator.addRule(
@@ -44,12 +48,6 @@ export class WithdrawService {
                 { required: '资金密码不可以为空' }
             );
         }
-        // validator.addRule(
-        //     key,
-        //     { name: 'remark', value: remark },
-        //     { required: true },
-        //     { required: '提现备注不可以为空' }
-        // );
         return validator.execute(key);
     }
 
@@ -105,7 +103,7 @@ export class WithdrawService {
                 address,
                 amount,
                 fundPasswd: md5(fundPasswd),
-                remark
+                remark: remark || ''
             });
         await Caxios.post<any>(
             { url: `${Urls.withdraw.execute}?${parameters}` },

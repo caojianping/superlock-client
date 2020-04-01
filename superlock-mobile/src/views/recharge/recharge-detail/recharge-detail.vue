@@ -1,9 +1,6 @@
 <template>
     <div class="recharge-detail">
-        <Header
-            title="充值详情"
-            @left="$router.push('/recharge/record')"
-        />
+        <Header title="充值详情" @left="$router.push('/recharge/record')" />
 
         <CellGroup class="separator">
             <Cell title="交易单号" :value="recharge.orderId" />
@@ -11,7 +8,10 @@
             <Cell title="充值时间" :value="recharge.createTime | dateFormat" />
             <Cell title="充值币种" :value="recharge.payCoin" />
             <Cell title="充值数量" :value="recharge.payAmount" />
-            <Cell title="充值汇率" :value="recharge.exchangeRate" />
+            <Cell
+                title="充值汇率"
+                :value="`1${recharge.payCoin} = ${recharge.exchangeRate}BCB`"
+            />
             <Cell
                 title="到账"
                 :value="`${recharge.gotAmount} ${recharge.gotCoin}`"
@@ -22,7 +22,7 @@
                 :value="`${recharge.balance} ${recharge.balanceCoin}`"
             />
             <Cell title="备注" :value="recharge.memo" />
-            <Cell title="状态" :value="['失败', '成功'][recharge.status]" />
+            <Cell title="状态" :value="recharge.statusRemark" />
         </CellGroup>
     </div>
 </template>

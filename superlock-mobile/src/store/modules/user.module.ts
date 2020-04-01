@@ -2,13 +2,22 @@ import TYPES from '@/store/types';
 import { IActionContext, IUserState } from '@/store/interfaces';
 import { RegisterStatus } from '@/ts/config';
 import { Token } from '@/ts/common';
-import { TokenInfo, UserFormModel, UserInfoModel } from '@/ts/models';
+import {
+    TokenInfo,
+    UserFormModel,
+    UserInfoModel,
+    UserLockQuotaModel,
+    TeamRateFormModel
+} from '@/ts/models';
 import { UserService } from '@/ts/services';
 
 const userState: IUserState = {
-    userInfo: new UserInfoModel(),
     userForm: new UserFormModel(),
-    registerStatus: RegisterStatus.Default
+    registerStatus: RegisterStatus.Default,
+
+    userInfo: new UserInfoModel(),
+    userLockQuota: undefined,
+    teamRateInfo: undefined
 };
 
 const userService = new UserService();
@@ -24,12 +33,27 @@ export default {
             }
         },
         [TYPES.CLEAR_STATES](state: IUserState) {
-            state.userInfo = new UserInfoModel();
             state.userForm = new UserFormModel();
             state.registerStatus = RegisterStatus.Default;
+
+            state.userInfo = new UserInfoModel();
+            state.userLockQuota = undefined;
+            state.teamRateInfo = undefined;
         }
     },
     actions: {
+        // 注册
+        async register(context: IActionContext<IUserState>): Promise<boolean> {
+            let { commit, state } = context,
+                result = await userService.register(state.userForm);
+            if (result) {
+                commit(TYPES.SET_STATES, {
+                    registerStatus: RegisterStatus.Success
+                });
+            }
+            return result;
+        },
+
         // 登录
         async login(context: IActionContext<IUserState>): Promise<boolean> {
             let { commit, state } = context,
@@ -46,14 +70,11 @@ export default {
             }
         },
 
-        // 注册
-        async register(context: IActionContext<IUserState>): Promise<boolean> {
-            let { commit, state } = context,
-                result = await userService.register(state.userForm);
+        // 退出
+        async logout(context: IActionContext<IUserState>): Promise<boolean> {
+            let result = await userService.logout();
             if (result) {
-                commit(TYPES.SET_STATES, {
-                    registerStatus: RegisterStatus.Success
-                });
+                Token.removeTokenInfo();
             }
             return result;
         },
@@ -79,6 +100,38 @@ export default {
             nickname: string
         ): Promise<boolean> {
             return await userService.setNickname(nickname);
+        },
+
+        // 获取用户锁仓额度信息
+        async fetchUserLockQuota(
+            context: IActionContext<IUserState>
+        ): Promise<void> {
+            let commit = context.commit;
+            try {
+                let userLockQuota = await userService.fetchUserLockQuota();
+                commit(TYPES.SET_STATES, { userLockQuota });
+            } catch (error) {
+                commit(TYPES.SET_STATES, {
+                    userLockQuota: null
+                });
+            }
+        },
+
+        // 获取利率信息
+        async fetchTeamRateInfo(
+            context: IActionContext<IUserState>
+        ): Promise<void> {
+            let commit = context.commit,
+                teamRateInfo = await userService.fetchTeamRateInfo();
+            commit(TYPES.SET_STATES, { teamRateInfo });
+        },
+
+        // 设置利率信息
+        async setTeamRates(
+            context: IActionContext<IUserState>,
+            rateForms: Array<TeamRateFormModel>
+        ): Promise<boolean> {
+            return await userService.setTeamRates(rateForms);
         }
     }
 };

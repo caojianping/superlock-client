@@ -1,7 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import store from '@/store';
-import TYPES from '@/store/types';
 import { Token } from '@/ts/common';
 
 import Home from '@/views/home';
@@ -57,14 +55,11 @@ router.beforeEach((to, from, next) => {
     let tokenInfo = Token.getTokenInfo(),
         token = tokenInfo.token;
     if (isWithoutAuth(to.path)) {
-        // if (token) next('/home/index');
-        // else next();
         next();
     } else {
         if (token) next();
         else {
             Token.removeTokenInfo();
-            store.commit(TYPES.CLEAR_STATES);
             next('/user/login');
         }
     }

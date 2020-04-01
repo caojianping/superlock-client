@@ -37,7 +37,7 @@ export class CommonService {
         if (!result.status)
             return Promise.reject(Utils.getFirstValue(result.data));
 
-        await Caxios.post<string | null>(
+        await Caxios.post<any>(
             {
                 url: Urls.common.smsCode,
                 data: { account: [areaCode, mobile].join(',') }

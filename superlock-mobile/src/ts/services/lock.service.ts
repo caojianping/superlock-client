@@ -17,7 +17,15 @@ export class LockService {
             };
 
         const key = 'lockForm';
-        let { length, unit, rate, coin, amount, fundPasswd } = lockForm,
+        let {
+                length,
+                unit,
+                rate,
+                coin,
+                amount,
+                fundPasswd,
+                maxAmount
+            } = lockForm,
             validator = new Validator();
         validator.addRule(
             key,
@@ -37,17 +45,15 @@ export class LockService {
             { required: true },
             { required: '锁仓利率不可以为空' }
         );
-        // validator.addRule(
-        //     key,
-        //     { name: 'coin', value: coin },
-        //     { required: true },
-        //     { required: '锁仓币种不可以为空' }
-        // );
         validator.addRule(
             key,
             { name: 'amount', value: amount },
-            { required: true, min: 0.1 },
-            { required: '锁仓金额不可以为空', min: '锁仓金额不可以小于0.1BCB' }
+            { required: true, min: 0.1, max: maxAmount },
+            {
+                required: '锁仓金额不可以为空',
+                min: '锁仓金额不可以小于0.1BCB',
+                max: `锁仓金额不可以大于${maxAmount}`
+            }
         );
         if (isPassword) {
             validator.addRule(

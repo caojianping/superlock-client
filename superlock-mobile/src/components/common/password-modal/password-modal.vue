@@ -1,5 +1,5 @@
 <template>
-    <Modal class="password-modal" v-model="isShow">
+    <Modal class="password-modal" v-model="isShow" @close="handleModalClose">
         <template slot="title">
             <h2>资金密码</h2>
             <p>请输入资金密码，进行身份认证</p>
@@ -26,6 +26,6 @@
     </Modal>
 </template>
 
-<style src="./password.less" lang="less" scoped />
+<style src="./password-modal.less" lang="less" scoped />
 
-<script src="./password.ts" />
+<script src="./password-modal.ts" />

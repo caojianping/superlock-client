@@ -20,7 +20,7 @@
         </UserForm>
 
         <p>
-            <router-link to="/user/register">注册</router-link>
+            <router-link :to="`/user/register?code=${code}`">注册</router-link>
             <span>|</span>
             <router-link to="/user/forget">忘记密码</router-link>
         </p>

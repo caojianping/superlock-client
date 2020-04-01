@@ -1,45 +1,78 @@
 import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
 import { AssetStatsModel, EarningsStatsModel, LockModel } from '@/ts/models';
 
 import { CellGroup, Cell, Tabs, Tab } from 'vant';
 import Navs from '@/components/common/navs';
 import Spin from '@/components/common/spin';
+import LockInfo from '@/components/asset/lock-info';
 import RechargeCoins from '@/components/recharge/recharge-coins';
 
-const assetModule = namespace('asset');
+const lockModule = namespace('lock');
+const projectModule = namespace('project');
 
 @Component({
     name: 'AssetIndex',
-    components: { CellGroup, Cell, Tabs, Tab, Spin, Navs, RechargeCoins }
+    components: {
+        CellGroup,
+        Cell,
+        Tabs,
+        Tab,
+        Navs,
+        Spin,
+        LockInfo,
+        RechargeCoins
+    }
 })
 export default class AssetIndex extends Vue {
-    @State('lockUnits') lockUnits!: Array<string>;
-    @State('lockStatuses') lockStatuses!: Map<number, string>;
+    @State('units') units!: Array<string>;
 
-    @assetModule.State('assetStats') assetStats!: AssetStatsModel | null;
-    @assetModule.State('earningsStats')
-    earningsStats!: EarningsStatsModel | null;
-    @assetModule.State('locks') locks!: Array<LockModel> | null;
+    @lockModule.State('locks') locks?: Array<LockModel>;
+    @lockModule.Action('fetchLocks') fetchLocks!: () => any;
 
-    @assetModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
-    @assetModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
+    @projectModule.State('assetStats') assetStats?: AssetStatsModel | null;
+    @projectModule.State('earningsStats')
+    earningsStats?: EarningsStatsModel | null;
 
-    @assetModule.Action('fetchAssetStats') fetchAssetStats!: () => any;
-    @assetModule.Action('fetchEarningsStats') fetchEarningsStats!: () => any;
-    @assetModule.Action('fetchLocks') fetchLocks!: () => any;
+    @projectModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
+    @projectModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
+
+    @projectModule.Action('fetchAssetStats') fetchAssetStats!: () => any;
+    @projectModule.Action('fetchEarningsStats') fetchEarningsStats!: () => any;
+
+    lockStatuses: any = {
+        0: '订单已创建',
+        10: '订单处理中',
+        20: '锁仓计息中',
+        30: '锁仓到期',
+        40: '锁仓失败',
+        50: '贷款质押中'
+    };
+    lockStyles: any = {
+        0: 'black',
+        10: 'gray',
+        20: 'green',
+        30: 'red',
+        40: 'pink',
+        50: 'orange'
+    };
 
     activeTab: number = 0;
     isTotalVisible: boolean = true;
     isEarningsStatsSpinning: boolean = false;
+
     isAssetStatsSpinning: boolean = false;
     isLocksSpinning: boolean = false;
     isLoansSpinning: boolean = false;
     isAwardsSpinning: boolean = false;
 
     isRechargeCoinsShow: boolean = false;
+
+    isLockInfoShow: boolean = false;
+    currentLock: LockModel = new LockModel();
 
     // 切换总资产可见性
     toggleTotal() {
@@ -59,6 +92,12 @@ export default class AssetIndex extends Vue {
     // 处理选项卡change事件
     async handleTabsChange() {
         this.fetchData(this.activeTab);
+    }
+
+    // 打开锁仓详情
+    openLockInfo(lock: LockModel) {
+        this.isLockInfoShow = true;
+        this.currentLock = lock;
     }
 
     // 获取数据

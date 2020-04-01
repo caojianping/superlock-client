@@ -1,9 +1,6 @@
 <template>
     <div class="withdraw-detail">
-        <Header
-            title="提现详情"
-            @left="$router.push('/withdraw/record')"
-        />
+        <Header title="提现详情" @left="$router.push('/withdraw/record')" />
 
         <CellGroup class="separator">
             <Cell title="交易单号" :value="withdraw.orderId" />
@@ -18,7 +15,7 @@
                 :value="`${withdraw.balance} ${withdraw.balanceCoin}`"
             />
             <Cell title="备注" :value="withdraw.memo" />
-            <Cell title="状态" :value="['失败', '成功'][withdraw.status]" />
+            <Cell title="状态" :value="withdraw.statusRemark" />
         </CellGroup>
     </div>
 </template>

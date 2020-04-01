@@ -11,16 +11,18 @@
                 <li>
                     <h2>原密码</h2>
                     <Field
+                        type="password"
                         :value="securityForm.oldPassword"
+                        clearable
                         placeholder="请输入原密码"
                         @input="handleFieldInput('oldPassword', $event)"
                     >
-                        <router-link
+                        <!-- <router-link
                             class="text-prompt"
                             slot="button"
                             to="/user/forget"
                             >忘记密码</router-link
-                        >
+                        > -->
                     </Field>
                 </li>
                 <li>
@@ -28,6 +30,7 @@
                     <Field
                         :type="isNewPasswordVisible ? 'text' : 'password'"
                         :value="securityForm.newPassword"
+                        clearable
                         placeholder="请输入新密码"
                         @input="handleFieldInput('newPassword', $event)"
                     >
@@ -35,8 +38,8 @@
                             :class="[
                                 'icon',
                                 isNewPasswordVisible
-                                    ? 'icon-visible'
-                                    : 'icon-invisible'
+                                    ? 'icon-visible-password'
+                                    : 'icon-invisible-password'
                             ]"
                             slot="button"
                             @click="togglePassword('isNewPasswordVisible')"
@@ -48,6 +51,7 @@
                     <Field
                         :type="isConfirmPasswordVisible ? 'text' : 'password'"
                         :value="securityForm.confirmPassword"
+                        clearable
                         placeholder="请再次输入新密码"
                         @input="handleFieldInput('confirmPassword', $event)"
                     >
@@ -55,8 +59,8 @@
                             :class="[
                                 'icon',
                                 isConfirmPasswordVisible
-                                    ? 'icon-visible'
-                                    : 'icon-invisible'
+                                    ? 'icon-visible-password'
+                                    : 'icon-invisible-password'
                             ]"
                             slot="button"
                             @click="togglePassword('isConfirmPasswordVisible')"

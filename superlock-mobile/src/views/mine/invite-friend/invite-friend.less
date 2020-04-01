@@ -1,2 +1,61 @@
 @import '../../../less/vars.less';
 @import '../../../less/mixins.less';
+
+.invite-friend {
+    min-height: 100%;
+    background: rgb(30, 55, 206) url('../../../assets/images/invite.png')
+        no-repeat top center;
+    background-size: 100% auto;
+    text-align: center;
+
+    .header {
+        background-color: transparent;
+
+        /deep/ .van-nav-bar__left > .van-icon-arrow-left {
+            color: white;
+        }
+    }
+
+    .invite-rate {
+        position: fixed;
+        top: 0.5rem;
+        right: 0;
+        z-index: 2;
+        padding: 0 0.5rem;
+        height: 2rem;
+        background-color: rgb(53, 124, 254);
+        border-top-left-radius: 1rem;
+        border-bottom-left-radius: 1rem;
+        cursor: pointer;
+
+        i,
+        span {
+            vertical-align: middle;
+        }
+
+        span {
+            margin-left: 0.25rem;
+            .font-styles(0.75rem, normal, 2rem, white, left);
+        }
+    }
+
+    .invite-container {
+        padding: 24rem 2rem 2rem;
+
+        p {
+            .font-styles(0.75rem, normal, 1.5, white, center);
+        }
+
+        .invite-qrcode {
+            margin: 1rem 0;
+
+            /deep/ canvas {
+                background-color: white !important;
+            }
+        }
+
+        .van-button.van-button--primary {
+            margin-top: 1rem;
+        }
+    }
+}

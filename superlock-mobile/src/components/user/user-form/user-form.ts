@@ -6,7 +6,7 @@ import { UserFormModel } from '@/ts/models';
 
 import { CellGroup, Field } from 'vant';
 import AreaCode from '@/components/user/area-code';
-import SmsCode from '@/components/user/sms-code';
+import SmsCode from '@/components/common/sms-code';
 
 @Component({
     name: 'UserForm',

@@ -1,5 +1,5 @@
 <template>
-    <div class="asset-index scb-reserved">
+    <div class="asset-index scb-reserved scb-gray">
         <header class="asset-header">
             <h2>
                 <label>总资产</label>
@@ -24,7 +24,7 @@
                         earningsStats ? earningsStats.yesterdayEarnings : 0
                     }}</span
                 >
-                <i class="icon icon-arrow" />
+                <!-- <i class="icon icon-arrow" /> -->
             </p>
         </header>
 
@@ -98,26 +98,31 @@
                             >
                             吧！
                         </p>
-                        <CellGroup v-else>
-                            <Cell v-for="(lock, index) in locks" :key="index">
+                        <CellGroup v-else class="locks priority-title">
+                            <Cell
+                                v-for="(lock, index) in locks"
+                                :key="index"
+                                @click="openLockInfo(lock)"
+                            >
                                 <template slot="title">
-                                    <p>
+                                    <h2>
                                         <span>{{
-                                            `${lock.remark}-${lock.length}${
-                                                lockUnits[lock.unit - 1]
+                                            `超级锁仓-${lock.length}${
+                                                units[lock.unit - 1]
                                             }`
                                         }}</span>
-                                        <span>{{
-                                            lockStatuses.get(lock.status)
-                                        }}</span>
-                                    </p>
+                                        <i :class="lockStyles[lock.status]">{{
+                                            lockStatuses[lock.status]
+                                        }}</i>
+                                    </h2>
                                     <p>{{ lock.orderId }}</p>
                                 </template>
                                 <template slot="default">
-                                    <p>{{ `${lock.amount} ${lock.coin}` }}</p>
+                                    <h3>{{ `${lock.amount} ${lock.coin}` }}</h3>
                                     <p>
                                         {{
-                                            startTime | dateFormat('yyyy/MM/dd')
+                                            lock.startTime
+                                                | dateFormat('yyyy/MM/dd')
                                         }}
                                     </p>
                                 </template>
@@ -130,15 +135,21 @@
                 <template slot="title">
                     <span>我的贷款</span>
                 </template>
-                <div class="tab-content"></div>
+                <div class="tab-content">
+                    <p class="none">正在开发中，敬请期待！</p>
+                </div>
             </Tab>
             <Tab>
                 <template slot="title">
                     <span>推广奖励</span>
                 </template>
-                <div class="tab-content"></div>
+                <div class="tab-content">
+                    <p class="none">正在开发中，敬请期待！</p>
+                </div>
             </Tab>
         </Tabs>
+
+        <LockInfo v-model="isLockInfoShow" :lock="currentLock" />
 
         <RechargeCoins v-model="isRechargeCoinsShow" />
 

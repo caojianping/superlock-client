@@ -1,31 +1,37 @@
 <template>
     <div class="home scb-reserved">
+        {{ ((lockQuota = userLockQuota || {}), void 0) }}
         <div class="home-stats">
             <div class="user-stats">
-                <p>剩余可锁仓额度({{ userLockQuota.coin || '--' }})</p>
-                <h1>{{ (userLockQuota.amount || 0) | currencyComma }}</h1>
+                <p>剩余可锁仓额度({{ lockQuota.coin || '--' }})</p>
+                <h1>{{ (lockQuota.amount || 0) | currencyComma }}</h1>
             </div>
             <div class="team-stats flex">
                 <div class="team-stats-quota">
-                    <p>团队已锁仓额度({{ userLockQuota.usedCoin || '--' }})</p>
+                    <p>团队已锁仓额度({{ lockQuota.usedCoin || '--' }})</p>
                     <h2>
-                        {{ (userLockQuota.usedAmount || 0) | currencyComma }}
+                        {{ (lockQuota.usedAmount || 0) | currencyComma }}
                     </h2>
                 </div>
                 <div class="team-stats-count">
                     <p>我的团队(人)</p>
                     <h2>
-                        <span>{{ userLockQuota.childCount || 0 }}</span>
-                        <i class="icon icon-arrow" />
+                        <span>{{ lockQuota.childCount || 0 }}</span>
+                        <!-- <i class="icon icon-arrow" /> -->
                     </h2>
                 </div>
             </div>
         </div>
 
         <div class="home-project">
-            <Spin :is-spinning="isProjectSpinning" />
+            <div v-if="isProjectSpinning" class="spin-container">
+                <Spin :is-spinning="isProjectSpinning" />
+            </div>
 
-            <ul v-if="projectStats" class="project-list">
+            <ul
+                v-if="projectStats && projectStats.userLockProjectList"
+                class="project-list"
+            >
                 {{
                     ((userLockProjectList =
                         projectStats.userLockProjectList || []),
@@ -61,7 +67,7 @@
                         <div>
                             <h3>
                                 <span>{{ project.length }}</span>
-                                <small>{{ lockUnits[project.unit - 1] }}</small>
+                                <small>{{ units[project.unit - 1] }}</small>
                             </h3>
                             <p>本金保证，每日返息</p>
                         </div>

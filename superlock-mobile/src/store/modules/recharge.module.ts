@@ -81,10 +81,12 @@ export default {
                         pageNum,
                         pageSize
                     );
-                commit(TYPES.SET_STATES, {
-                    pageNum: pageNum + 1,
-                    recharges: (recharges || []).concat(data)
-                });
+                if (data.length > 0) {
+                    commit(TYPES.SET_STATES, {
+                        pageNum: pageNum + 1,
+                        recharges: (recharges || []).concat(data)
+                    });
+                }
                 isPending = false;
                 return data;
             } catch (error) {

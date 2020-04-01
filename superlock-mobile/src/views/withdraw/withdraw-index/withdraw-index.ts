@@ -8,6 +8,7 @@ import Utils from '@/ts/utils';
 import { WithdrawSource } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import {
+    UserInfoModel,
     WithdrawFormModel,
     WithdrawAddressModel,
     WithdrawQuotaModel
@@ -16,15 +17,19 @@ import { WithdrawService } from '@/ts/services';
 
 import { Field, Icon, Button } from 'vant';
 import Header from '@/components/common/header';
-import Password from '@/components/common/password';
+import PasswordModal from '@/components/common/password-modal';
 
+const userModule = namespace('user');
 const withdrawModule = namespace('withdraw');
 
 @Component({
     name: 'WithdrawIndex',
-    components: { Field, Icon, Button, Header, Password }
+    components: { Field, Icon, Button, Header, PasswordModal }
 })
 export default class WithdrawIndex extends Vue {
+    @userModule.State('userInfo') userInfo!: UserInfoModel;
+    @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
+
     @withdrawModule.State('withdrawQuota') withdrawQuota!: WithdrawQuotaModel;
     @withdrawModule.State('withdrawForm') withdrawForm!: WithdrawFormModel;
     @withdrawModule.State('withdrawAddresses') withdrawAddresses!: Array<
@@ -64,8 +69,19 @@ export default class WithdrawIndex extends Vue {
         this.setStates({ withdrawForm });
     }
 
-    // 打开密码模态框
-    async openPassword() {
+    // 提交提现
+    async submit() {
+        let haveFundPasswd = this.userInfo.haveFundPasswd;
+        if (!haveFundPasswd) {
+            Prompt.info('您未设置资金密码，请先设置资金密码').then(() => {
+                this.$router.push({
+                    path: '/security/fund/password',
+                    query: { from: '/withdraw/index' }
+                });
+            });
+            return;
+        }
+
         let result: ValidationResult = WithdrawService.validateWithdrawForm(
             this.withdrawForm,
             false
@@ -79,15 +95,18 @@ export default class WithdrawIndex extends Vue {
     }
 
     // 处理密码模态框submit事件
-    async handlePasswordSubmit(password: string) {
+    async handlePasswordModalSubmit(password: string) {
         let withdrawForm = Utils.duplicate(this.withdrawForm);
         withdrawForm.fundPasswd = password;
         this.setStates({ withdrawForm });
 
         try {
             let result = await this.executeWithdraw();
-            if (result) Prompt.success('提现成功');
-            else Prompt.success('提现失败');
+            if (!result) Prompt.error('提现失败');
+            else {
+                Prompt.success('提现成功');
+                await this.fetchWithdrawQuota();
+            }
         } catch (error) {
             Prompt.error(error.message || error);
         }
@@ -95,8 +114,13 @@ export default class WithdrawIndex extends Vue {
 
     // 获取数据
     async fetchData() {
-        let withdrawForm = Utils.duplicate(this.withdrawForm),
-            selectedWithdrawAddress = this.selectedWithdrawAddress;
+        await this.fetchUserInfo();
+        await this.fetchWithdrawQuota();
+
+        let withdrawForm = Utils.duplicate(this.withdrawForm);
+        withdrawForm.maxAmount = this.withdrawQuota.amount;
+
+        let selectedWithdrawAddress = this.selectedWithdrawAddress;
         if (selectedWithdrawAddress) {
             // 如果已经有选择的提现地址
             withdrawForm.address = selectedWithdrawAddress.address;
@@ -116,8 +140,10 @@ export default class WithdrawIndex extends Vue {
                 });
             }
         }
+    }
 
-        await this.fetchWithdrawQuota();
+    created() {
+        this.clearStates();
     }
 
     mounted() {

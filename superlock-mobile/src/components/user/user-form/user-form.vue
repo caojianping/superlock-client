@@ -3,8 +3,8 @@
         <Field
             class="field-mobile"
             :value="userForm.mobile"
-            placeholder="请输入手机号码"
             clearable
+            placeholder="请输入手机号码"
             @input="handleFieldInput('mobile', $event)"
         >
             <template slot="label">
@@ -15,16 +15,16 @@
         <Field
             type="password"
             :value="userForm.password"
-            placeholder="请输入登录密码"
             clearable
+            placeholder="请输入登录密码"
             @input="handleFieldInput('password', $event)"
         />
 
         <Field
             class="field-code"
             :value="userForm.smsCode"
-            placeholder="请输入验证码"
             clearable
+            placeholder="请输入验证码"
             @input="handleFieldInput('smsCode', $event)"
         >
             <template slot="button">
