@@ -7,6 +7,7 @@ import { TokenInfo } from '@/ts/models';
 import { CommonService } from '@/ts/services';
 
 import userModule from './modules/user.module';
+import childModule from './modules/child.module';
 import projectModule from './modules/project.module';
 import lockModule from './modules/lock.module';
 import rechargeModule from './modules/recharge.module';
@@ -26,6 +27,7 @@ export default new Vuex.Store({
     strict: false,
     modules: {
         user: userModule,
+        child: childModule,
         project: projectModule,
         lock: lockModule,
         recharge: rechargeModule,

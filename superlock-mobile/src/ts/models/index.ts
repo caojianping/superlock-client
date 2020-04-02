@@ -1,4 +1,5 @@
 export * from './user.model';
+export * from './child.model';
 export * from './project.model';
 export * from './lock.model';
 export * from './recharge.model';

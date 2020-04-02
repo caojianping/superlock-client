@@ -2,13 +2,7 @@ import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
 import { Urls, CaxiosType, defaultAreaCode } from '@/ts/config';
 import { Caxios, md5 } from '@/ts/common';
-import {
-    UserFormModel,
-    UserInfoModel,
-    UserLockQuotaModel,
-    TeamRateInfoModel,
-    TeamRateFormModel
-} from '@/ts/models';
+import { UserFormModel, UserInfoModel, UserLockQuotaModel } from '@/ts/models';
 
 export class UserService {
     //  校验用户表单
@@ -66,47 +60,6 @@ export class UserService {
             { required: true },
             { required: '短信验证码不可以为空' }
         );
-        return validator.execute(key);
-    }
-
-    // 校验利率表单
-    public static validateRateForms(
-        rateForms: Array<TeamRateFormModel>
-    ): ValidationResult {
-        const units = ['天', '月', '年'];
-        const key = 'rateForms';
-        let validator = new Validator();
-        rateForms.forEach((rateForm: TeamRateFormModel, index: number) => {
-            let type = rateForm.type,
-                max = Number(rateForm.max),
-                value = Utils.isNullOrUndefined(rateForm.value)
-                    ? rateForm.value
-                    : Number(rateForm.value);
-            if (type === 1) {
-                let msg = rateForm.length + units[rateForm.unit] + '锁仓利率';
-                validator.addRule(
-                    key,
-                    { name: `value${index}`, value: value },
-                    { required: true, minExclude: 0, maxExclude: max },
-                    {
-                        required: `${msg}值不可以为空`,
-                        minExclude: `${msg}不可以小于等于0`,
-                        maxExclude: `${msg}不可以大于等于${max}`
-                    }
-                );
-            } else if (type === 2) {
-                validator.addRule(
-                    key,
-                    { name: `value${index}`, value: value },
-                    { required: true, minExclude: 0, maxExclude: max },
-                    {
-                        required: '推广解锁利率不可以为空',
-                        minExclude: '推广解锁利率不可以小于等于0',
-                        maxExclude: `推广解锁利率不可以大于等于${max}`
-                    }
-                );
-            }
-        });
         return validator.execute(key);
     }
 
@@ -205,38 +158,6 @@ export class UserService {
 
         await Caxios.post<any>(
             { url: `${Urls.user.setNickname}?nickName=${nickname}` },
-            CaxiosType.LoadingToken
-        );
-        return true;
-    }
-
-    // 获取利率信息
-    public async fetchTeamRateInfo(): Promise<TeamRateInfoModel | null> {
-        return await Caxios.get<any>(
-            { url: Urls.user.rate.info },
-            CaxiosType.LoadingToken
-        );
-    }
-
-    // 设置利率信息
-    public async setTeamRates(
-        rateForms: Array<TeamRateFormModel>
-    ): Promise<boolean> {
-        let result: ValidationResult = UserService.validateRateForms(rateForms);
-        if (!result.status)
-            return Promise.reject(Utils.getFirstValue(result.data));
-
-        await Caxios.post<any>(
-            {
-                headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-                url: Urls.user.rate.set,
-                data: rateForms.map((item: any) => ({
-                    length: item.length,
-                    type: item.type,
-                    unit: item.unit,
-                    value: Number(item.value)
-                }))
-            },
             CaxiosType.LoadingToken
         );
         return true;

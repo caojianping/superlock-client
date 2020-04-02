@@ -5,7 +5,12 @@ import {
     UserFormModel,
     UserInfoModel,
     UserLockQuotaModel,
-    TeamRateInfoModel,
+    RateModel,
+    ChildModel,
+    ChildRateModel,
+    DefaultRateModel,
+    DefaultRateFormModel,
+    DefaultRateStatsModel,
     ProjectStatsModel,
     ProjectModel,
     AssetStatsModel,
@@ -38,7 +43,14 @@ export interface IUserState {
 
     userInfo: UserInfoModel; // 用户信息
     userLockQuota?: UserLockQuotaModel | null; // 用户锁仓额度
-    teamRateInfo?: TeamRateInfoModel | null; // 团队利率信息
+}
+
+export interface IChildState {
+    childs?: Array<ChildModel>; // 下级列表
+    rates: Array<RateModel>; // 下级利率列表
+
+    defaultRateStats?: DefaultRateStatsModel | null; // 默认利率统计
+    defaultRateForms: Array<DefaultRateFormModel>; // 默认利率表单列表
 }
 
 export interface IProjectState {

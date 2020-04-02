@@ -6,11 +6,11 @@ import { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
 import { Prompt } from '@/ts/common';
 import {
-    TeamRateInfoModel,
-    TeamRateFormModel,
-    TeamRateModel
+    DefaultRateModel,
+    DefaultRateStatsModel,
+    DefaultRateFormModel
 } from '@/ts/models';
-import { UserService } from '@/ts/services';
+import { ChildService } from '@/ts/services';
 
 import { Field, Button } from 'vant';
 import Modal from '@/components/common/modal';
@@ -21,12 +21,12 @@ import Modal from '@/components/common/modal';
 })
 export default class RateModal extends Vue {
     @Model('close', { type: Boolean }) value!: boolean; // v-model
-    @Prop() readonly teamRateInfo?: TeamRateInfoModel | null; // 团队利率信息
+    @Prop() readonly defaultRateStats?: DefaultRateStatsModel | null; // 默认利率统计信息
 
     @State('units') units!: Array<string>;
 
     isShow: boolean = this.value; // 是否显示模态框
-    rateForms: Array<TeamRateFormModel> = []; // 团队利率表单
+    defaultRateForms: Array<DefaultRateFormModel> = []; // 默认利率表单列表
 
     // 处理模态框close事件
     handleModalClose() {
@@ -41,35 +41,37 @@ export default class RateModal extends Vue {
 
     // 提交
     submit() {
-        let rateForms = this.rateForms,
-            result: ValidationResult = UserService.validateRateForms(rateForms);
+        let defaultRateForms = this.defaultRateForms,
+            result: ValidationResult = ChildService.validateDefaultRateForms(
+                defaultRateForms
+            );
         if (!result.status) {
             Prompt.error(Utils.getFirstValue(result.data));
             return;
         }
 
         this.$emit('close', false);
-        this.$emit('submit', rateForms);
+        this.$emit('submit', defaultRateForms);
     }
 
     @Watch('value')
     watchValue(value: boolean) {
         this.isShow = value;
         if (value) {
-            let teamRateInfo = this.teamRateInfo;
-            if (teamRateInfo) {
-                let rateForms: Array<TeamRateFormModel> = [];
-                (teamRateInfo.defaultRateList || []).forEach(
-                    (rate: TeamRateModel) => {
-                        let rateForm = new TeamRateFormModel();
-                        rateForm.type = rate.type;
-                        rateForm.length = rate.length;
-                        rateForm.unit = rate.unit;
-                        rateForm.max = Number(rate.value);
-                        rateForms.push(rateForm);
+            let defaultRateStats = this.defaultRateStats;
+            if (defaultRateStats) {
+                let defaultRateForms: Array<DefaultRateFormModel> = [];
+                (defaultRateStats.defaultRateList || []).forEach(
+                    (rate: DefaultRateModel) => {
+                        let defaultRateForm = new DefaultRateFormModel();
+                        defaultRateForm.type = rate.type;
+                        defaultRateForm.length = rate.length;
+                        defaultRateForm.unit = rate.unit;
+                        defaultRateForm.max = Number(rate.value);
+                        defaultRateForms.push(defaultRateForm);
                     }
                 );
-                this.rateForms = rateForms;
+                this.defaultRateForms = defaultRateForms;
             }
         }
     }

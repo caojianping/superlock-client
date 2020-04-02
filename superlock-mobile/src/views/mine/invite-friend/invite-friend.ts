@@ -7,8 +7,8 @@ import TYPES from '@/store/types';
 import { Prompt } from '@/ts/common';
 import {
     UserInfoModel,
-    TeamRateInfoModel,
-    TeamRateFormModel
+    DefaultRateStatsModel,
+    DefaultRateFormModel
 } from '@/ts/models';
 
 import { Button } from 'vant';
@@ -17,6 +17,7 @@ import InvitePrompt from '@/components/mine/invite-prompt';
 import RateModal from '@/components/mine/rate-modal';
 
 const userModule = namespace('user');
+const childModule = namespace('child');
 
 @Component({
     name: 'InviteFriend',
@@ -24,16 +25,15 @@ const userModule = namespace('user');
 })
 export default class InviteFriend extends Vue {
     @userModule.State('userInfo') userInfo!: UserInfoModel;
-    @userModule.State('teamRateInfo') teamRateInfo?: TeamRateInfoModel | null;
-
-    @userModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
-    @userModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
     @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
-    @userModule.Action('fetchTeamRateInfo') fetchTeamRateInfo!: () => any;
-    @userModule.Action('setTeamRates') setTeamRates!: (
-        rateForms: Array<TeamRateFormModel>
-    ) => any;
+
+    @childModule.State('defaultRateStats')
+    defaultRateStats?: DefaultRateStatsModel | null;
+    @childModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
+    @childModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
+    @childModule.Action('fetchDefaultRateStats')
+    fetchDefaultRateStats!: () => any;
+    @childModule.Action('setDefaultRates') setDefaultRates!: () => any;
 
     isPromptShow: boolean = false; // 是否显示邀请提示模态框
     isRateShow: boolean = false; // 是否显示利率设置模态框
@@ -51,16 +51,17 @@ export default class InviteFriend extends Vue {
 
     // 处理利率设置模态框close事件
     handleRateModalClose() {
-        let teamRateInfo = this.teamRateInfo;
-        if (teamRateInfo && !teamRateInfo.existDefault) {
+        let defaultRateStats = this.defaultRateStats;
+        if (defaultRateStats && !defaultRateStats.existDefault) {
             this.$router.push('/mine/index');
         }
     }
 
     // 处理利率设置模态框submit事件
-    async handleRateModalSubmit(rateForms: Array<TeamRateFormModel>) {
+    async handleRateModalSubmit(defaultRateForms: Array<DefaultRateFormModel>) {
         try {
-            let result = await this.setTeamRates(rateForms);
+            this.setStates({ defaultRateForms });
+            let result = await this.setDefaultRates();
             if (!result) Prompt.error('利率设置失败');
             else Prompt.success('利率设置成功');
         } catch (error) {
@@ -85,10 +86,10 @@ export default class InviteFriend extends Vue {
     // 获取数据
     async fetchData() {
         await this.fetchUserInfo();
-        await this.fetchTeamRateInfo();
-        let teamRateInfo = this.teamRateInfo;
-        if (teamRateInfo) {
-            this.isPromptShow = !teamRateInfo.existDefault;
+        await this.fetchDefaultRateStats();
+        let defaultRateStats = this.defaultRateStats;
+        if (defaultRateStats) {
+            this.isPromptShow = !defaultRateStats.existDefault;
             this.isRateShow = false;
         }
     }

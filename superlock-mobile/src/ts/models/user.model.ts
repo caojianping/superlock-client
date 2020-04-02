@@ -51,25 +51,3 @@ export class UserLockQuotaModel {
     public usedCoin!: string; // 已用额度币种；
     public childCount!: number; // 下级数量；
 }
-
-export class TeamRateInfoModel {
-    public existDefault!: boolean;
-    public defaultRateList!: Array<TeamRateModel>;
-}
-
-export class TeamRateModel {
-    public type!: number; // 类型；1:锁仓利率 2: 推广解锁利率 3:锁仓额度
-    public length!: number; // 锁仓长度：type=1时有值
-    public unit!: number; // 锁仓长度单位；1:天 2:月 3:年
-    public value!: number;
-    public remark!: string;
-    public suffix!: string;
-}
-
-export class TeamRateFormModel {
-    public type!: number; // 类型；1:锁仓利率 2: 推广解锁利率 3:锁仓额度
-    public length!: number; // 锁仓长度：type=1时有值
-    public unit!: number; // 锁仓长度单位；1:天 2:月 3:年
-    public value!: number;
-    public max!: number;
-}

@@ -2,13 +2,7 @@ import TYPES from '@/store/types';
 import { IActionContext, IUserState } from '@/store/interfaces';
 import { RegisterStatus } from '@/ts/config';
 import { Token } from '@/ts/common';
-import {
-    TokenInfo,
-    UserFormModel,
-    UserInfoModel,
-    UserLockQuotaModel,
-    TeamRateFormModel
-} from '@/ts/models';
+import { TokenInfo, UserFormModel, UserInfoModel } from '@/ts/models';
 import { UserService } from '@/ts/services';
 
 const userState: IUserState = {
@@ -16,8 +10,7 @@ const userState: IUserState = {
     registerStatus: RegisterStatus.Default,
 
     userInfo: new UserInfoModel(),
-    userLockQuota: undefined,
-    teamRateInfo: undefined
+    userLockQuota: undefined
 };
 
 const userService = new UserService();
@@ -38,7 +31,6 @@ export default {
 
             state.userInfo = new UserInfoModel();
             state.userLockQuota = undefined;
-            state.teamRateInfo = undefined;
         }
     },
     actions: {
@@ -115,23 +107,6 @@ export default {
                     userLockQuota: null
                 });
             }
-        },
-
-        // 获取利率信息
-        async fetchTeamRateInfo(
-            context: IActionContext<IUserState>
-        ): Promise<void> {
-            let commit = context.commit,
-                teamRateInfo = await userService.fetchTeamRateInfo();
-            commit(TYPES.SET_STATES, { teamRateInfo });
-        },
-
-        // 设置利率信息
-        async setTeamRates(
-            context: IActionContext<IUserState>,
-            rateForms: Array<TeamRateFormModel>
-        ): Promise<boolean> {
-            return await userService.setTeamRates(rateForms);
         }
     }
 };

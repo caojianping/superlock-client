@@ -3,7 +3,8 @@ const baseUrl = process.env.VUE_APP_BASE_URL;
 export const Urls = {
     common: {
         smsCode: `${baseUrl}/vfcode`, // 获取短信验证码接口
-        todayRate: `${baseUrl}/project/exchangeRateToday` // 获取今日汇率接口
+        todayRate: `${baseUrl}/project/exchangeRateToday`, // 获取今日汇率接口
+        lockAndPromote: `${baseUrl}/project/lockRateAndPushReward` // 获取锁仓利率和推广解锁利率
     },
     user: {
         register: `${baseUrl}/register`, // 用户注册接口
@@ -12,10 +13,15 @@ export const Urls = {
         retrieval: `${baseUrl}/user/retrieval`, // 用户找回密码接口
         lockQuota: `${baseUrl}/user/lockQuota`, // 获取用户锁仓额度接口
         info: `${baseUrl}/user/userInfo`, // 获取用户信息接口
-        setNickname: `${baseUrl}/user/setNickName`, // 设置用户昵称接口
-        rate: {
-            info: `${baseUrl}/user/existDefaultRate`, // 获取利率接口
-            set: `${baseUrl}/user/defaultRateSet` // 设置利率接口
+        setNickname: `${baseUrl}/user/setNickName` // 设置用户昵称接口
+    },
+    child: {
+        list: `${baseUrl}/user/childList`, // 获取下级列表接口
+        setRate: `${baseUrl}/user/setChildRate`, // 设置下级利率接口
+        defaultRate: {
+            // 默认利率
+            stats: `${baseUrl}/user/existDefaultRate`, // 获取默认利率统计接口
+            set: `${baseUrl}/user/defaultRateSet` // 设置默认利率接口
         }
     },
     project: {

@@ -30,7 +30,7 @@
         <RateModal
             v-model="isRateShow"
             :uid="userInfo.userId"
-            :teamRateInfo="teamRateInfo"
+            :defaultRateStats="defaultRateStats"
             @close="handleRateModalClose"
             @submit="handleRateModalSubmit"
         />

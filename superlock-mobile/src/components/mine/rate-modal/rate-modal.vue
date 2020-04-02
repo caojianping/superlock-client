@@ -9,28 +9,33 @@
             <h2>下级默认设置</h2>
         </template>
         <ul class="rate-forms">
-            <li v-for="(rateForm, index) in rateForms" :key="index">
+            <li
+                v-for="(defaultRateForm, index) in defaultRateForms"
+                :key="index"
+            >
                 <Field
-                    v-if="rateForm.type === 1"
+                    v-if="defaultRateForm.type === 1"
                     type="number"
-                    v-model="rateForm.value"
+                    v-model="defaultRateForm.value"
                     :label="
-                        `${rateForm.length}${units[rateForm.unit]}锁仓利率`
+                        `${defaultRateForm.length}${
+                            units[defaultRateForm.unit]
+                        }锁仓利率`
                     "
                     clearable
-                    :placeholder="`<${rateForm.max}%`"
+                    :placeholder="`<${defaultRateForm.max}%`"
                 />
                 <Field
-                    v-if="rateForm.type === 2"
+                    v-if="defaultRateForm.type === 2"
                     type="number"
-                    v-model="rateForm.value"
+                    v-model="defaultRateForm.value"
                     label="推广解锁利率"
                     clearable
-                    :placeholder="`<${rateForm.max}%`"
+                    :placeholder="`<${defaultRateForm.max}%`"
                 />
             </li>
             <li
-                v-if="teamRateInfo && !teamRateInfo.existDefault"
+                v-if="defaultRateStats && !defaultRateStats.existDefault"
                 class="rate-prompt"
             >
                 在这里设置的所有利率会作为您下级锁仓的默认值。如需对下级进行单独的设置，可进入“团队管理”中修改。下级的利率不能超过您当前利率，您与下级之间的利率差将会作为您个人的额外奖励。
