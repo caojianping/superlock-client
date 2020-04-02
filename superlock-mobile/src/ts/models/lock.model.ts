@@ -29,5 +29,6 @@ export class LockFormModel {
     public amount!: number; // 锁仓金额
     public fundPasswd!: string; // 资金密码
 
+    public minAmount!: number; // 附加属性：最小锁仓金额
     public maxAmount!: number; // 附加属性：最大锁仓金额
 }

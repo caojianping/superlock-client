@@ -24,6 +24,7 @@ export class LockService {
                 coin,
                 amount,
                 fundPasswd,
+                minAmount,
                 maxAmount
             } = lockForm,
             validator = new Validator();
@@ -48,10 +49,10 @@ export class LockService {
         validator.addRule(
             key,
             { name: 'amount', value: amount },
-            { required: true, min: 0.1, max: maxAmount },
+            { required: true, min: minAmount, max: maxAmount },
             {
                 required: '锁仓金额不可以为空',
-                min: '锁仓金额不可以小于0.1BCB',
+                min: `锁仓金额不可以小于${minAmount}`,
                 max: `锁仓金额不可以大于${maxAmount}`
             }
         );
@@ -64,6 +65,14 @@ export class LockService {
             );
         }
         return validator.execute(key);
+    }
+
+    // 获取最小锁仓金额
+    public async fetchMinLockAmount(): Promise<number> {
+        return await Caxios.get<any>(
+            { url: Urls.lock.minAmount },
+            CaxiosType.Token
+        );
     }
 
     // 获取锁仓列表

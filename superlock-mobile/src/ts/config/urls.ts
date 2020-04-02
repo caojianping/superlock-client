@@ -24,6 +24,7 @@ export const Urls = {
         earningsStats: `${baseUrl}/project/yesterdayEarnings` // 获取收益统计接口
     },
     lock: {
+        minAmount: `${baseUrl}/project/minLockAmount`, // 获取最小锁仓金额接口
         list: `${baseUrl}/project/lockOrderList`, // 获取锁仓列表接口
         create: `${baseUrl}/project/lockPosition` // 创建锁仓接口
     },

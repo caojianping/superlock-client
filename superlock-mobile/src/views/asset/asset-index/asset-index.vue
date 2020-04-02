@@ -16,7 +16,7 @@
                 <h1 v-if="isTotalVisible">
                     {{
                         (assetStats ? assetStats.bcbTotalAmount : 0)
-                            | currencyComma
+                            | currencyComma(4)
                     }}
                 </h1>
                 <h1 v-else>*******</h1>
@@ -119,9 +119,9 @@
                                                 }`
                                             }}</span>
                                             <i
-                                                :class="lockStyles[lock.status]"
+                                                :class="lockStyles[lock.status] || 'black'"
                                                 >{{
-                                                    lockStatuses[lock.status]
+                                                    lockStatuses[lock.status] || lock.remark
                                                 }}</i
                                             >
                                         </h2>

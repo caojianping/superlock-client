@@ -19,7 +19,7 @@
                 title="锁仓周期"
                 :value="`${lock.length}${units[lock.unit - 1]}`"
             />
-            <Cell title="年化利率" :value="lock.rate | ratePercent" />
+            <Cell title="预期年化利率" :value="lock.rate | ratePercent" />
             <Cell
                 title="开始时间"
                 :value="lock.startTime | dateFormat('yyyy-MM-dd')"

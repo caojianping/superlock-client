@@ -4,10 +4,15 @@
 @light-red: #ff5151; // 浅红色
 @bright-red: #d0021b; // 鲜红色
 
-.van-pull-refresh,
-.van-pull-refresh > .van-pull-refresh__track {
+.van-pull-refresh {
     height: 100%;
     min-height: 100%;
+    overflow: auto;
+
+    .van-pull-refresh__track {
+        height: 100%;
+        min-height: 100%;
+    }
 }
 
 .van-button {

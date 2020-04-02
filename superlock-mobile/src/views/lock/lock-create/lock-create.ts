@@ -45,6 +45,7 @@ export default class LockCreate extends Vue {
     @lockModule.State('lockForm') lockForm!: LockFormModel;
     @lockModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @lockModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
+    @lockModule.Action('fetchMinLockAmount') fetchMinLockAmount!: () => any;
     @lockModule.Action('createLock') createLock!: () => any;
 
     isShow: boolean = false; // 是否显示密码模态框
@@ -127,14 +128,14 @@ export default class LockCreate extends Vue {
         await this.fetchUserLockQuota();
         await this.fetchAssetStats();
 
-        let lockProject = this.lockProject,
+        let minAmount = await this.fetchMinLockAmount(),
+            lockProject = this.lockProject,
             lockForm = new LockFormModel();
         lockForm.length = lockProject.length;
         lockForm.unit = lockProject.unit;
         lockForm.rate = lockProject.rate;
-        lockForm.maxAmount = this.assetStats
-            ? this.assetStats.bcbTotalAmount
-            : 0;
+        lockForm.minAmount = minAmount;
+        lockForm.maxAmount = this.assetStats ? this.assetStats.bcbHotAmount : 0;
         this.setStates({ lockForm });
         Toast.clear();
     }

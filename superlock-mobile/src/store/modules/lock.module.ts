@@ -28,12 +28,11 @@ export default {
         }
     },
     actions: {
-        // 创建锁仓
-        async createLock(
+        // 获取最小锁仓金额
+        async fetchMinLockAmount(
             context: IActionContext<ILockState>
-        ): Promise<boolean> {
-            let state = context.state;
-            return await lockService.createLock(state.lockForm);
+        ): Promise<number> {
+            return await lockService.fetchMinLockAmount();
         },
 
         // 获取锁仓列表
@@ -45,6 +44,14 @@ export default {
             } catch (error) {
                 commit(TYPES.SET_STATES, { locks: [] });
             }
+        },
+
+        // 创建锁仓
+        async createLock(
+            context: IActionContext<ILockState>
+        ): Promise<boolean> {
+            let state = context.state;
+            return await lockService.createLock(state.lockForm);
         }
     }
 };

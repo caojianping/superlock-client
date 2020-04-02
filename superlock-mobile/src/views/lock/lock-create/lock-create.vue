@@ -14,7 +14,7 @@
                 <li>
                     <h2>可用余额</h2>
                     <p v-if="!assetStats">-- BCB</p>
-                    <P v-else>{{ assetStats.bcbTotalAmount | coinUnit }}</P>
+                    <P v-else>{{ assetStats.bcbHotAmount | coinUnit }}</P>
                 </li>
                 <li>
                     <h2>锁仓金额</h2>
@@ -22,7 +22,7 @@
                         type="number"
                         :value="lockForm.amount"
                         clearable
-                        placeholder="0.1BCB起"
+                        :placeholder="`${lockForm.minAmount || '--'}BCB起`"
                         @input="handleFieldInput('amount', $event)"
                     >
                     </Field>

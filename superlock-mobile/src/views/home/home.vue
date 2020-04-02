@@ -63,7 +63,7 @@
                                     }}</span>
                                     <small>%</small>
                                 </h2>
-                                <p>预计年化率</p>
+                                <p>预期年化率</p>
                             </div>
                             <div>
                                 <h3>
@@ -86,7 +86,7 @@
             </div>
 
             <div class="home-block">
-                <h2 class="home-block-title">精口优选</h2>
+                <h2 class="home-block-title">精品优选</h2>
                 <div class="home-block-body optimize-container">
                     <Spin :is-spinning="isOptimizeSpinning" />
 
