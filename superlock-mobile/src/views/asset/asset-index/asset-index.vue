@@ -171,11 +171,12 @@
                                 :value="
                                     `${
                                         promoteRewardStats
-                                            ? promoteRewardStats.pushReward || 0
+                                            ? promoteRewardStats.pushRewardValuation ||
+                                              0
                                             : 0
                                     } ${
                                         promoteRewardStats
-                                            ? promoteRewardStats.pushRewardCoin ||
+                                            ? promoteRewardStats.pushRewardValuationCoin ||
                                               'BCB'
                                             : 'BCB'
                                     }`
@@ -187,11 +188,12 @@
                                 :value="
                                     `${
                                         promoteRewardStats
-                                            ? promoteRewardStats.lockReward || 0
+                                            ? promoteRewardStats.lockRewardValuation ||
+                                              0
                                             : 0
                                     } ${
                                         promoteRewardStats
-                                            ? promoteRewardStats.lockRewardCoin ||
+                                            ? promoteRewardStats.lockRewardValuationCoin ||
                                               'BCB'
                                             : 'BCB'
                                     }`
@@ -203,12 +205,12 @@
                                 :value="
                                     `${
                                         promoteRewardStats
-                                            ? promoteRewardStats.unlockReward ||
+                                            ? promoteRewardStats.unlockRewardValuation ||
                                               0
                                             : 0
                                     } ${
                                         promoteRewardStats
-                                            ? promoteRewardStats.unlockRewardCoin ||
+                                            ? promoteRewardStats.unlockRewardValuationCoin ||
                                               'BCB'
                                             : 'BCB'
                                     }`
@@ -225,7 +227,8 @@
                                             : 0
                                     } ${
                                         promoteRewardStats
-                                            ? promoteRewardStats.salesRewardCoin
+                                            ? promoteRewardStats.salesRewardCoin ||
+                                              'BCB'
                                             : 'BCB'
                                     }`
                                 "
