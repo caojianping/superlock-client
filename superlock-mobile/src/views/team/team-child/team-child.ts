@@ -103,18 +103,33 @@ export default class TeamChild extends Vue {
     // 提交利率模态框
     async submitRate() {
         try {
-            let currentForm = this.currentForm,
+            // 设置表单对象的关联属性
+            let currentForm = Utils.duplicate(this.currentForm),
                 value = Number(currentForm.value);
-            currentForm.value = value;
-            currentForm.minAmount = value;
-            currentForm.showValue = value;
-            this.$set(this.childRateForms, this.currentIndex, currentForm);
+
+            // 查找指定对象，更新相关数据
+            let currentIndex = this.currentIndex,
+                childRateForms = Utils.duplicate(this.childRateForms);
+            childRateForms.forEach(
+                (childRateForm: ChildRateFormModel, index: number) => {
+                    if (currentIndex === index) {
+                        childRateForm.value = value;
+                        childRateForm.minAmount = value;
+                        childRateForm.showValue = value;
+                    }
+                }
+            );
 
             console.log('childRateForms:', this.childRateForms);
             let result = await this.setChildRates(this.childRateForms);
-            if (!result) Prompt.error('设置失败');
-            else {
+            if (!result) {
+                Prompt.error('设置失败');
+            } else {
                 Prompt.success('设置成功');
+                currentForm.value = value;
+                currentForm.minAmount = value;
+                currentForm.showValue = value;
+                this.$set(this.childRateForms, currentIndex, currentForm);
                 this.isRateShow = false;
             }
         } catch (error) {

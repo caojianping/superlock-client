@@ -119,9 +119,13 @@
                                                 }`
                                             }}</span>
                                             <i
-                                                :class="lockStyles[lock.status] || 'black'"
+                                                :class="
+                                                    lockStyles[lock.status] ||
+                                                        'black'
+                                                "
                                                 >{{
-                                                    lockStatuses[lock.status] || lock.remark
+                                                    lockStatuses[lock.status] ||
+                                                        lock.remark
                                                 }}</i
                                             >
                                         </h2>
@@ -156,7 +160,77 @@
                         <span>推广奖励</span>
                     </template>
                     <div class="tab-content">
-                        <p class="none">正在开发中，敬请期待！</p>
+                        <Spin
+                            v-if="!promoteRewardStats"
+                            :is-spinning="isRewardStatsSpinning"
+                        />
+                        <CellGroup v-if="!isRewardStatsSpinning">
+                            <Cell
+                                title="直推奖励"
+                                is-link
+                                :value="
+                                    `${
+                                        promoteRewardStats
+                                            ? promoteRewardStats.pushReward || 0
+                                            : 0
+                                    } ${
+                                        promoteRewardStats
+                                            ? promoteRewardStats.pushRewardCoin ||
+                                              'BCB'
+                                            : 'BCB'
+                                    }`
+                                "
+                            ></Cell>
+                            <Cell
+                                title="团队锁仓奖励"
+                                is-link
+                                :value="
+                                    `${
+                                        promoteRewardStats
+                                            ? promoteRewardStats.lockReward || 0
+                                            : 0
+                                    } ${
+                                        promoteRewardStats
+                                            ? promoteRewardStats.lockRewardCoin ||
+                                              'BCB'
+                                            : 'BCB'
+                                    }`
+                                "
+                            ></Cell>
+                            <Cell
+                                title="推广解锁奖励"
+                                is-link
+                                :value="
+                                    `${
+                                        promoteRewardStats
+                                            ? promoteRewardStats.unlockReward ||
+                                              0
+                                            : 0
+                                    } ${
+                                        promoteRewardStats
+                                            ? promoteRewardStats.unlockRewardCoin ||
+                                              'BCB'
+                                            : 'BCB'
+                                    }`
+                                "
+                            ></Cell>
+                            <Cell
+                                title="销量达标奖励"
+                                is-link
+                                :value="
+                                    `${
+                                        promoteRewardStats
+                                            ? promoteRewardStats.salesReward ||
+                                              0
+                                            : 0
+                                    } ${
+                                        promoteRewardStats
+                                            ? promoteRewardStats.salesRewardCoin
+                                            : 'BCB'
+                                    }`
+                                "
+                            ></Cell>
+                        </CellGroup>
                     </div>
                 </Tab>
             </Tabs>

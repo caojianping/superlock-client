@@ -28,7 +28,8 @@ export const Urls = {
     project: {
         projectStats: `${baseUrl}/project/projectList`, // 获取项目统计接口
         assetStats: `${baseUrl}/project/capitalLedger`, // 获取资产统计接口
-        earningsStats: `${baseUrl}/project/yesterdayEarnings` // 获取收益统计接口
+        earningsStats: `${baseUrl}/project/yesterdayEarnings`, // 获取收益统计接口
+        promoteRewardStats: `${baseUrl}/project/extensionReward`,// 获取推广奖励统计接口
     },
     lock: {
         minAmount: `${baseUrl}/project/minLockAmount`, // 获取最小锁仓金额接口

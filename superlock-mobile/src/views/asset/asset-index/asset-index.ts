@@ -3,7 +3,12 @@ import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
-import { AssetStatsModel, EarningsStatsModel, LockModel } from '@/ts/models';
+import {
+    AssetStatsModel,
+    EarningsStatsModel,
+    LockModel,
+    PromoteRewardStatsModel
+} from '@/ts/models';
 
 import { PullRefresh, Toast, CellGroup, Cell, Tabs, Tab } from 'vant';
 import Navs from '@/components/common/navs';
@@ -37,12 +42,16 @@ export default class AssetIndex extends Vue {
     @projectModule.State('assetStats') assetStats?: AssetStatsModel | null;
     @projectModule.State('earningsStats')
     earningsStats?: EarningsStatsModel | null;
+    @projectModule.State('promoteRewardStats')
+    promoteRewardStats?: PromoteRewardStatsModel | null;
 
     @projectModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @projectModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
 
     @projectModule.Action('fetchAssetStats') fetchAssetStats!: () => any;
     @projectModule.Action('fetchEarningsStats') fetchEarningsStats!: () => any;
+    @projectModule.Action('fetchPromoteRewardStats')
+    fetchPromoteRewardStats!: () => any;
 
     lockStatuses: any = {
         0: '订单已创建',
@@ -70,7 +79,7 @@ export default class AssetIndex extends Vue {
     isAssetStatsSpinning: boolean = false;
     isLocksSpinning: boolean = false;
     isLoansSpinning: boolean = false;
-    isAwardsSpinning: boolean = false;
+    isRewardStatsSpinning: boolean = false;
 
     isRechargeCoinsShow: boolean = false;
 
@@ -109,21 +118,21 @@ export default class AssetIndex extends Vue {
                 0: 'AssetStats',
                 1: 'Locks',
                 2: 'Loans',
-                3: 'Awards',
+                3: 'RewardStats',
                 4: 'EarningsStats'
             },
             caches = {
                 0: this.assetStats,
                 1: this.locks,
                 2: null,
-                3: null,
+                3: this.promoteRewardStats,
                 4: this.earningsStats
             },
             funcs = {
                 0: this.fetchAssetStats,
                 1: this.fetchLocks,
                 2: null,
-                3: null,
+                3: this.fetchPromoteRewardStats,
                 4: this.fetchEarningsStats
             },
             key = `is${keys[index]}Spinning`,

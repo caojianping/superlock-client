@@ -3,7 +3,8 @@ import { Caxios } from '@/ts/common';
 import {
     ProjectStatsModel,
     AssetStatsModel,
-    EarningsStatsModel
+    EarningsStatsModel,
+    PromoteRewardStatsModel
 } from '@/ts/models';
 
 export class ProjectService {
@@ -27,6 +28,14 @@ export class ProjectService {
     public async fetchEarningsStats(): Promise<EarningsStatsModel | null> {
         return await Caxios.get<EarningsStatsModel | null>(
             { url: Urls.project.earningsStats },
+            CaxiosType.Token
+        );
+    }
+
+    // 获取推广奖励统计信息
+    public async fetchPromoteRewardStats(): Promise<PromoteRewardStatsModel | null> {
+        return await Caxios.get<PromoteRewardStatsModel | null>(
+            { url: Urls.project.promoteRewardStats },
             CaxiosType.Token
         );
     }

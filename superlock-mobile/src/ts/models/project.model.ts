@@ -48,3 +48,24 @@ export class EarningsStatsModel {
     public totalValuationAssetsCoin!: string; // 计价总资产币种
     public earnings!: Array<EarningsModel>; // 收益列表
 }
+
+// 推广奖励统计模型
+export class PromoteRewardStatsModel {
+    public lockReward!: number; //锁仓奖励
+    public lockRewardCoin!: string; // 锁仓奖励币种
+    public lockRewardValuation!: number; // 锁仓计价奖励
+    public lockRewardValuationCoin!: string; //锁仓计价奖励币种
+    public unlockReward!: any; // 推广解锁奖励
+    public unlockRewardCoin!: string; // 推广解锁奖励币种
+    public unlockRewardValuation!: any; // 推广解锁计价奖励
+    public unlockRewardValuationCoin!: any; // 推广解锁计价币种
+    public pushReward!: number; // 直推奖励
+    public pushRewardCoin!: string; // 直推奖励币种
+    public pushRewardValuation!: number; // 直推计价奖励
+    public pushRewardValuationCoin!: string; // 直推计价奖励币种
+    public allBalance!: number; // 奖励资金池
+    public unlockBalance!: number; //已获取的
+    public salesReward!: number; // 销量达标奖励
+    public salesRewardCoin!: string; // 销量达标奖励币种
+    public isBroker!: boolean; // 是不是券商；true:是券商；false:不是券商
+}

@@ -5,7 +5,8 @@ import { ProjectService } from '@/ts/services';
 const projectState: IProjectState = {
     projectStats: undefined,
     assetStats: undefined,
-    earningsStats: undefined
+    earningsStats: undefined,
+    promoteRewardStats: undefined
 };
 
 const projectService = new ProjectService();
@@ -24,6 +25,7 @@ export default {
             state.projectStats = undefined;
             state.assetStats = undefined;
             state.earningsStats = undefined;
+            state.promoteRewardStats = undefined;
         }
     },
     actions: {
@@ -63,6 +65,19 @@ export default {
                 commit(TYPES.SET_STATES, { earningsStats });
             } catch (error) {
                 commit(TYPES.SET_STATES, { earningsStats: null });
+            }
+        },
+
+        // 获取推广奖励统计信息
+        async fetchPromoteRewardStats(
+            context: IActionContext<IProjectState>
+        ): Promise<void> {
+            let commit = context.commit;
+            try {
+                let promoteRewardStats = await projectService.fetchPromoteRewardStats();
+                commit(TYPES.SET_STATES, { promoteRewardStats });
+            } catch (error) {
+                commit(TYPES.SET_STATES, { promoteRewardStats: null });
             }
         }
     }

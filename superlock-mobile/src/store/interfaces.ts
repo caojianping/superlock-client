@@ -13,6 +13,7 @@ import {
     ProjectModel,
     AssetStatsModel,
     EarningsStatsModel,
+    PromoteRewardStatsModel,
     LockFormModel,
     LockModel,
     RechargeCoinModel,
@@ -60,6 +61,7 @@ export interface IProjectState {
     projectStats?: ProjectStatsModel | null; // 项目统计
     assetStats?: AssetStatsModel | null; // 资产统计
     earningsStats?: EarningsStatsModel | null; // 收益统计
+    promoteRewardStats?: PromoteRewardStatsModel | null; // 推广奖励统计模型
 }
 
 export interface ILockState {
