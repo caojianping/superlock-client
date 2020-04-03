@@ -50,4 +50,6 @@ export class UserLockQuotaModel {
     public usedAmount!: number; // 已用锁仓额度；
     public usedCoin!: string; // 已用额度币种；
     public childCount!: number; // 下级数量；
+    public totalAmount!: number;
+    public totalCoin!: string;
 }

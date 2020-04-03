@@ -4,6 +4,7 @@ import { Token } from '@/ts/common';
 
 import Home from '@/views/home';
 import UserRouter from './user.router';
+import TeamRouter from './team.router';
 import RechargeRouter from './recharge.router';
 import WithdrawRouter from './withdraw.router';
 import TransferRouter from './transfer.router';
@@ -21,6 +22,7 @@ const routes = [
         component: Home
     },
     ...UserRouter,
+    ...TeamRouter,
     ...RechargeRouter,
     ...WithdrawRouter,
     ...TransferRouter,

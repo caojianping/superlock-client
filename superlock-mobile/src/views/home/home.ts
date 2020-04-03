@@ -39,6 +39,14 @@ export default class Home extends Vue {
     isProjectSpinning: boolean = false;
     isOptimizeSpinning: boolean = false;
 
+    // 跳转至团队首页
+    goTeam() {
+        this.$router.push({
+            path: '/team/index',
+            query: { from: '/home/index' }
+        });
+    }
+
     // 参与锁仓，缓存锁仓项目信息，以免页面刷新导致数据丢失等情况
     joinLock(lockProject: ProjectModel) {
         SessionStorage.setItem<ProjectModel>(

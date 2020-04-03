@@ -1,16 +1,23 @@
 import TYPES from '@/store/types';
 import { IActionContext, IChildState } from '@/store/interfaces';
+import { ChildModel, ChildRateFormModel } from '@/ts/models';
 import { ChildService } from '@/ts/services';
 
 const childState: IChildState = {
+    lockPromoteRates: [],
+
+    pageNum: 1,
+    pageSize: 10,
     childs: undefined,
-    rates: [],
+    child: new ChildModel(),
 
     defaultRateStats: undefined,
     defaultRateForms: []
 };
 
 const childService = new ChildService();
+
+var isPending = false;
 
 export default {
     namespaced: true,
@@ -23,31 +30,77 @@ export default {
             }
         },
         [TYPES.CLEAR_STATES](state: IChildState) {
+            state.lockPromoteRates = [];
+
+            state.pageNum = 1;
+            state.pageSize = 10;
             state.childs = undefined;
-            state.rates = [];
+            state.child = new ChildModel();
 
             state.defaultRateStats = undefined;
             state.defaultRateForms = [];
         }
     },
     actions: {
-        // 获取下级列表
-        async fetchChilds(context: IActionContext<IChildState>): Promise<void> {
+        // 获取锁仓利率和推广解锁利率
+        async fetchLockPromoteRates(
+            context: IActionContext<IChildState>
+        ): Promise<void> {
             let commit = context.commit;
             try {
-                let childs = await childService.fetchChilds();
-                commit(TYPES.SET_STATES, { childs });
+                let lockPromoteRates = await childService.fetchLockPromoteRates();
+                commit(TYPES.SET_STATES, { lockPromoteRates });
+            } catch (error) {
+                commit(TYPES.SET_STATES, { lockPromoteRates: [] });
+            }
+        },
+
+        // 获取下级分页列表
+        async fetchChilds(
+            context: IActionContext<IChildState>
+        ): Promise<Array<ChildModel> | undefined> {
+            if (isPending) return undefined;
+
+            isPending = true;
+            let { commit, state } = context;
+            try {
+                let { pageNum, pageSize, childs } = state,
+                    data = await childService.fetchChilds(pageNum, pageSize);
+                if (data.length > 0) {
+                    commit(TYPES.SET_STATES, {
+                        pageNum: pageNum + 1,
+                        childs:
+                            pageNum === 1 ? data : (childs || []).concat(data)
+                    });
+                }
+                isPending = false;
+                return data;
             } catch (error) {
                 commit(TYPES.SET_STATES, { childs: [] });
+                isPending = false;
+                return [];
             }
+        },
+
+        // 设置下级备注
+        async setChildRemark(
+            context: IActionContext<IChildState>,
+            remark: string
+        ): Promise<boolean> {
+            let state = context.state;
+            return await childService.setChildRemark(state.child.uid, remark);
         },
 
         // 设置下级利率
         async setChildRates(
-            context: IActionContext<IChildState>
+            context: IActionContext<IChildState>,
+            childRateForms: Array<ChildRateFormModel>
         ): Promise<boolean> {
             let state = context.state;
-            return await childService.setChildRates(state.rates);
+            return await childService.setChildRates(
+                state.child.uid,
+                childRateForms
+            );
         },
 
         // 获取默认利率统计信息

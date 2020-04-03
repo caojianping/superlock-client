@@ -15,24 +15,31 @@
             >
                 <Field
                     v-if="defaultRateForm.type === 1"
-                    type="number"
-                    v-model="defaultRateForm.value"
                     :label="
                         `${defaultRateForm.length}${
                             units[defaultRateForm.unit]
                         }锁仓利率`
                     "
-                    clearable
-                    :placeholder="`<${defaultRateForm.max}%`"
-                />
-                <Field
-                    v-if="defaultRateForm.type === 2"
-                    type="number"
-                    v-model="defaultRateForm.value"
-                    label="推广解锁利率"
-                    clearable
-                    :placeholder="`<${defaultRateForm.max}%`"
-                />
+                >
+                    <div slot="input" class="scb-input">
+                        <input
+                            type="text"
+                            v-model="defaultRateForm.value"
+                            :placeholder="`<${defaultRateForm.max}%`"
+                        />
+                        <span>%</span>
+                    </div>
+                </Field>
+                <Field v-if="defaultRateForm.type === 2" label="推广解锁利率">
+                    <div slot="input" class="scb-input">
+                        <input
+                            type="text"
+                            v-model="defaultRateForm.value"
+                            :placeholder="`<${defaultRateForm.max}%`"
+                        />
+                        <span>%</span>
+                    </div>
+                </Field>
             </li>
             <li
                 v-if="defaultRateStats && !defaultRateStats.existDefault"
@@ -44,7 +51,11 @@
                 重置下级默认利率，设置成功后，新发展的下级初始利率将全部使用新设置的默认利率。下级的默认利率不能大于您个人的当前利率。
             </li>
             <li>
-                <Button class="effect-shadow" round @click="cancel"
+                <Button
+                    class="effect-shadow"
+                    type="default"
+                    round
+                    @click="cancel"
                     >取消</Button
                 >
                 <Button

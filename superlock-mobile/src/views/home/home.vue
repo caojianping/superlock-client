@@ -18,7 +18,7 @@
                         <p>我的团队(人)</p>
                         <h2>
                             <span>{{ lockQuota.childCount || 0 }}</span>
-                            <!-- <i class="icon icon-arrow" /> -->
+                            <i class="icon icon-arrow" @click="goTeam" />
                         </h2>
                     </div>
                 </div>

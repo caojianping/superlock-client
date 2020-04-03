@@ -5,11 +5,39 @@
     width: 90%;
 
     .modal-header {
-        padding: 1.75rem 0 1rem;
-        .font-styles(1rem, normal, 1.5, @black, center);
+        padding: 1.75rem 2rem 1rem;
+
+        /deep/ h2 {
+            .font-styles(1rem, normal, 1.5, @black, center);
+        }
+
+        /deep/ p {
+            padding-top: 0.5rem;
+            .font-styles(0.75rem, normal, 1.5, @gray, center);
+        }
     }
 
     .modal-body {
         padding: 0 2rem 1.875rem;
+
+        /deep/ ul li {
+            &:last-child {
+                padding-top: 1.25rem;
+                text-align: center;
+
+                .van-button {
+                    padding: 0 2rem;
+                }
+
+                .van-button--default + .van-button--primary {
+                    margin-left: 1rem;
+                }
+            }
+
+            p {
+                padding-top: 0.5rem;
+                .font-styles(0.75rem, normal, 1.5, @gray, center);
+            }
+        }
     }
 }

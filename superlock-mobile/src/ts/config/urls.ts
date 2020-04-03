@@ -3,8 +3,7 @@ const baseUrl = process.env.VUE_APP_BASE_URL;
 export const Urls = {
     common: {
         smsCode: `${baseUrl}/vfcode`, // 获取短信验证码接口
-        todayRate: `${baseUrl}/project/exchangeRateToday`, // 获取今日汇率接口
-        lockAndPromote: `${baseUrl}/project/lockRateAndPushReward` // 获取锁仓利率和推广解锁利率
+        todayRate: `${baseUrl}/project/exchangeRateToday` // 获取今日汇率接口
     },
     user: {
         register: `${baseUrl}/register`, // 用户注册接口
@@ -16,8 +15,10 @@ export const Urls = {
         setNickname: `${baseUrl}/user/setNickName` // 设置用户昵称接口
     },
     child: {
-        list: `${baseUrl}/user/childList`, // 获取下级列表接口
-        setRate: `${baseUrl}/user/setChildRate`, // 设置下级利率接口
+        lockPromoteRates: `${baseUrl}/project/lockRateAndPushReward`, // 获取锁仓利率和推广解锁利率接口
+        page: `${baseUrl}/user/childList`, // 获取下级分页列表接口
+        setRemark: `${baseUrl}/user/setNickNameRemark`, // 设置下级备注接口
+        setRates: `${baseUrl}/user/setChildRate`, // 设置下级利率接口
         defaultRate: {
             // 默认利率
             stats: `${baseUrl}/user/existDefaultRate`, // 获取默认利率统计接口

@@ -6,11 +6,13 @@
         </template>
         <ul>
             <li>
-                <input
-                    type="password"
-                    v-model="password"
-                    placeholder="请输入资金密码"
-                />
+                <div class="scb-input">
+                    <input
+                        type="password"
+                        v-model="password"
+                        placeholder="请输入资金密码"
+                    />
+                </div>
             </li>
             <li>
                 <Button

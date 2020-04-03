@@ -3,19 +3,8 @@
 
 .rate-modal {
     /deep/ .modal-body {
-        padding: 0 2rem 1.875rem;
-
         .rate-forms {
             li {
-                &:last-child {
-                    padding-top: 1rem;
-
-                    .van-button {
-                        margin: 0 0.5rem;
-                        padding: 0 2rem;
-                    }
-                }
-
                 &.rate-prompt {
                     padding: 1rem 0;
                     .font-styles(0.75rem, normal, 1.5, @gray, left);
@@ -25,9 +14,14 @@
                     padding: 0.625rem 0;
 
                     .van-cell__title {
-                        width: 8rem;
+                        width: 7rem;
                         text-align: left;
                         white-space: nowrap;
+
+                        span {
+                            height: 2.5rem;
+                            line-height: 2.5rem;
+                        }
                     }
 
                     .van-cell__value {

@@ -1,0 +1,110 @@
+@import '../../../less/vars.less';
+@import '../../../less/mixins.less';
+
+.team-index {
+    position: relative;
+
+    &::before {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 0;
+        width: 100%;
+        height: 13rem;
+        content: '';
+        background-color: @blue;
+    }
+
+    .team-header {
+        position: relative;
+        z-index: 1;
+
+        /deep/ .header {
+            background-color: transparent;
+
+            .van-icon.van-icon-arrow-left,
+            .van-nav-bar__title {
+                color: white;
+            }
+        }
+
+        h2 {
+            margin-top: 1.5rem;
+            .font-styles(1.25rem, normal, 1.5, white, center);
+        }
+
+        h1 {
+            .font-styles(2rem, normal, 1.5, white, center);
+        }
+    }
+
+    .team-rates {
+        position: relative;
+        margin: 1rem 0.875rem 0.75rem;
+        padding: 1.25rem 1rem;
+        background-color: white;
+        border-radius: 1rem;
+
+        li {
+            flex: 1;
+
+            h3 {
+                .font-styles(1.5rem, normal, 1.5, @black, center);
+            }
+
+            p {
+                .font-styles(0.875rem, normal, 1.5, @gray, center);
+            }
+        }
+    }
+
+    .child-container {
+        margin: 0 0.5rem 2rem;
+        border-radius: 1.5rem;
+        overflow: hidden;
+
+        /deep/ .van-cell {
+            padding: 1.125rem 1rem 0.875rem;
+
+            &:not(:last-child)::after {
+                right: 0.5rem;
+                left: 0.5rem;
+            }
+
+            .van-cell__title {
+                h2 {
+                    padding-top: 0.15rem;
+                    .font-styles(0.875rem, normal, 1.8, @black, left);
+                }
+
+                p {
+                    .font-styles(0.75rem, normal, 1.5, @gray, left);
+                }
+            }
+
+            .van-cell__value {
+                padding-right: 0.25rem;
+
+                h3 {
+                    padding-top: 0.5rem;
+                    .font-styles(0.75rem, normal, 1.5, @black, right);
+                }
+
+                p {
+                    .font-styles(
+                        0.75rem,
+                        normal,
+                        1.5,
+                        rgb(88, 216, 178),
+                        right
+                    );
+                }
+            }
+
+            .van-cell__right-icon {
+                margin-top: 0.75rem;
+            }
+        }
+    }
+}

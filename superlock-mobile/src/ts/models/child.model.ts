@@ -6,6 +6,13 @@ export class RateModel {
     public value!: number; // 用户当前值（下级可设置的最大值）
 }
 
+// 锁仓、推广利率模型
+export class LockPromoteRateModel extends RateModel {
+    public typeRemark!: string; // 类型描述
+    public rate!: number; // 利率
+    public suffix!: string; // 利率后缀
+}
+
 // 下级模型
 export class ChildModel {
     public nickName!: string; // 下级名称
@@ -21,6 +28,14 @@ export class ChildRateModel extends RateModel {
     public remark!: string; // 类型描述
     public suffix!: string; // 后缀单位；%，DC
     public childValue!: number; // 下级当前值
+}
+
+// 下级利率表单模型
+export class ChildRateFormModel extends RateModel {
+    public suffix!: string; // 后缀单位；%，DC
+    public showValue!: number; // 显示值，默认值为childValue
+    public minAmount!: number; // 最小值
+    public maxAmount!: number; // 最大值
 }
 
 // 默认利率统计模型

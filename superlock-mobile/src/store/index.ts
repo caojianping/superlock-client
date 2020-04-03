@@ -18,7 +18,8 @@ Vue.use(Vuex);
 
 const rootState: IRootState = {
     tokenInfo: new TokenInfo(),
-    units: ['天', '月', '年']
+    units: ['天', '月', '年'],
+    rateTypes: ['锁仓利率', '推广解锁利率', '锁仓额度']
 };
 
 const commonService = new CommonService();

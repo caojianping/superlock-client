@@ -5,10 +5,8 @@ import {
     UserFormModel,
     UserInfoModel,
     UserLockQuotaModel,
-    RateModel,
+    LockPromoteRateModel,
     ChildModel,
-    ChildRateModel,
-    DefaultRateModel,
     DefaultRateFormModel,
     DefaultRateStatsModel,
     ProjectStatsModel,
@@ -35,6 +33,7 @@ export interface IActionContext<T> {
 export interface IRootState {
     tokenInfo: TokenInfo;
     units: Array<string>;
+    rateTypes: Array<string>;
 }
 
 export interface IUserState {
@@ -46,8 +45,12 @@ export interface IUserState {
 }
 
 export interface IChildState {
+    lockPromoteRates: Array<LockPromoteRateModel>; // 锁仓、推广利率列表
+
+    pageNum: number; // 分页索引
+    pageSize: number; // 分页尺寸
     childs?: Array<ChildModel>; // 下级列表
-    rates: Array<RateModel>; // 下级利率列表
+    child: ChildModel; // 下级
 
     defaultRateStats?: DefaultRateStatsModel | null; // 默认利率统计
     defaultRateForms: Array<DefaultRateFormModel>; // 默认利率表单列表

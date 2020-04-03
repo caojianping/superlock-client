@@ -19,7 +19,10 @@
         </div>
 
         <CellGroup>
-            <Cell is-link to="/team/mgmt">
+            <Cell
+                is-link
+                :to="{ path: '/team/index', query: { from: '/mine/index' } }"
+            >
                 <template>
                     <i class="icon icon-team" />
                     <span>团队管理</span>
