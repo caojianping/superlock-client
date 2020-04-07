@@ -9,6 +9,7 @@ import { CommonService } from '@/ts/services';
 import userModule from './modules/user.module';
 import childModule from './modules/child.module';
 import projectModule from './modules/project.module';
+import transactionModule from './modules/transaction.module';
 import lockModule from './modules/lock.module';
 import rechargeModule from './modules/recharge.module';
 import withdrawModule from './modules/withdraw.module';
@@ -30,6 +31,7 @@ export default new Vuex.Store({
         user: userModule,
         child: childModule,
         project: projectModule,
+        transaction: transactionModule,
         lock: lockModule,
         recharge: rechargeModule,
         withdraw: withdrawModule,

@@ -15,7 +15,7 @@ const withdrawModule = namespace('withdraw');
     components: { CellGroup, Cell, Header }
 })
 export default class WithdrawDetail extends Vue {
-    @withdrawModule.State('withdraws') withdraws!: Array<WithdrawModel>;
+    @withdrawModule.State('withdraws') withdraws?: Array<WithdrawModel>;
     @withdrawModule.State('withdraw') withdraw!: WithdrawModel;
 
     @withdrawModule.Mutation(TYPES.SET_STATES) setStates!: (
@@ -25,8 +25,9 @@ export default class WithdrawDetail extends Vue {
 
     created() {
         let id = this.$route.params.id,
+            withdraws = this.withdraws || [],
             withdraw =
-                this.withdraws.filter(
+                withdraws.filter(
                     (withdraw: WithdrawModel) => withdraw.orderId === id
                 )[0] || new WithdrawModel();
         this.setStates({ withdraw });

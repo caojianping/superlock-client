@@ -15,7 +15,7 @@ const rechargeModule = namespace('recharge');
     components: { CellGroup, Cell, Header }
 })
 export default class RechargeDetail extends Vue {
-    @rechargeModule.State('recharges') recharges!: Array<RechargeModel>;
+    @rechargeModule.State('recharges') recharges?: Array<RechargeModel>;
     @rechargeModule.State('recharge') recharge!: RechargeModel;
 
     @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (
@@ -25,8 +25,9 @@ export default class RechargeDetail extends Vue {
 
     created() {
         let id = this.$route.params.id,
+            recharges = this.recharges || [],
             recharge =
-                this.recharges.filter(
+                recharges.filter(
                     (recharge: RechargeModel) => recharge.orderId === id
                 )[0] || new RechargeModel();
         this.setStates({ recharge });

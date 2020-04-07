@@ -2,6 +2,7 @@
     <PullRefresh v-model="isPulling" @refresh="refreshData">
         <div class="asset-index scb-reserved scb-gray">
             <header class="asset-header">
+                <i class="icon icon-transaction" @click="goTransaction" />
                 <h2>
                     <label>总资产</label>
                     <small>（BCB）</small>
@@ -28,7 +29,7 @@
                             earningsStats ? earningsStats.yesterdayEarnings : 0
                         }}</span
                     >
-                    <!-- <i class="icon icon-arrow" /> -->
+                    <i class="icon icon-arrow" />
                 </p>
             </header>
 
@@ -161,7 +162,7 @@
                     </template>
                     <div class="tab-content">
                         <Spin
-                            v-if="!promoteRewardStats"
+                            v-if="!rewardStats"
                             :is-spinning="isRewardStatsSpinning"
                         />
                         <CellGroup v-if="!isRewardStatsSpinning">
@@ -170,13 +171,13 @@
                                 is-link
                                 :value="
                                     `${
-                                        promoteRewardStats
-                                            ? promoteRewardStats.pushRewardValuation ||
+                                        rewardStats
+                                            ? rewardStats.pushRewardValuation ||
                                               0
                                             : 0
                                     } ${
-                                        promoteRewardStats
-                                            ? promoteRewardStats.pushRewardValuationCoin ||
+                                        rewardStats
+                                            ? rewardStats.pushRewardValuationCoin ||
                                               'BCB'
                                             : 'BCB'
                                     }`
@@ -187,13 +188,13 @@
                                 is-link
                                 :value="
                                     `${
-                                        promoteRewardStats
-                                            ? promoteRewardStats.lockRewardValuation ||
+                                        rewardStats
+                                            ? rewardStats.lockRewardValuation ||
                                               0
                                             : 0
                                     } ${
-                                        promoteRewardStats
-                                            ? promoteRewardStats.lockRewardValuationCoin ||
+                                        rewardStats
+                                            ? rewardStats.lockRewardValuationCoin ||
                                               'BCB'
                                             : 'BCB'
                                     }`
@@ -204,13 +205,13 @@
                                 is-link
                                 :value="
                                     `${
-                                        promoteRewardStats
-                                            ? promoteRewardStats.unlockRewardValuation ||
+                                        rewardStats
+                                            ? rewardStats.unlockRewardValuation ||
                                               0
                                             : 0
                                     } ${
-                                        promoteRewardStats
-                                            ? promoteRewardStats.unlockRewardValuationCoin ||
+                                        rewardStats
+                                            ? rewardStats.unlockRewardValuationCoin ||
                                               'BCB'
                                             : 'BCB'
                                     }`
@@ -221,13 +222,13 @@
                                 is-link
                                 :value="
                                     `${
-                                        promoteRewardStats
-                                            ? promoteRewardStats.salesReward ||
+                                        rewardStats
+                                            ? rewardStats.salesReward ||
                                               0
                                             : 0
                                     } ${
-                                        promoteRewardStats
-                                            ? promoteRewardStats.salesRewardCoin ||
+                                        rewardStats
+                                            ? rewardStats.salesRewardCoin ||
                                               'BCB'
                                             : 'BCB'
                                     }`

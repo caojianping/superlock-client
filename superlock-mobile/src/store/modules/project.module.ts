@@ -6,7 +6,11 @@ const projectState: IProjectState = {
     projectStats: undefined,
     assetStats: undefined,
     earningsStats: undefined,
-    promoteRewardStats: undefined
+    rewardStats: undefined,
+
+    pageNum: 1,
+    pageSize: 10,
+    rewards: undefined
 };
 
 const projectService = new ProjectService();
@@ -25,7 +29,11 @@ export default {
             state.projectStats = undefined;
             state.assetStats = undefined;
             state.earningsStats = undefined;
-            state.promoteRewardStats = undefined;
+            state.rewardStats = undefined;
+
+            state.pageNum = 1;
+            state.pageSize = 10;
+            state.rewards = undefined;
         }
     },
     actions: {
@@ -74,10 +82,74 @@ export default {
         ): Promise<void> {
             let commit = context.commit;
             try {
-                let promoteRewardStats = await projectService.fetchPromoteRewardStats();
-                commit(TYPES.SET_STATES, { promoteRewardStats });
+                let rewardStats = await projectService.fetchPromoteRewardStats();
+                commit(TYPES.SET_STATES, { rewardStats });
             } catch (error) {
-                commit(TYPES.SET_STATES, { promoteRewardStats: null });
+                commit(TYPES.SET_STATES, { rewardStats: null });
+            }
+        },
+
+        // 获取直推奖励分页列表
+        async fetchPromoteRewardPushs(
+            context: IActionContext<IProjectState>
+        ): Promise<void> {
+            let { commit, state } = context;
+            try {
+                let rewards = await projectService.fetchPromoteRewardPushs(
+                    state.pageNum,
+                    state.pageSize
+                );
+                commit(TYPES.SET_STATES, { rewards });
+            } catch (error) {
+                commit(TYPES.SET_STATES, { rewards: [] });
+            }
+        },
+
+        // 获取直推奖励分页列表
+        async fetchPromoteRewardLocks(
+            context: IActionContext<IProjectState>
+        ): Promise<void> {
+            let { commit, state } = context;
+            try {
+                let rewards = await projectService.fetchPromoteRewardLocks(
+                    state.pageNum,
+                    state.pageSize
+                );
+                commit(TYPES.SET_STATES, { rewards });
+            } catch (error) {
+                commit(TYPES.SET_STATES, { rewards: [] });
+            }
+        },
+
+        // 获取解锁奖励分页列表
+        async fetchPromoteRewardUnlocks(
+            context: IActionContext<IProjectState>
+        ): Promise<void> {
+            let { commit, state } = context;
+            try {
+                let rewards = await projectService.fetchPromoteRewardUnlocks(
+                    state.pageNum,
+                    state.pageSize
+                );
+                commit(TYPES.SET_STATES, { rewards });
+            } catch (error) {
+                commit(TYPES.SET_STATES, { rewards: [] });
+            }
+        },
+
+        // 获取日销达标奖励分页列表
+        async fetchPromoteRewardSales(
+            context: IActionContext<IProjectState>
+        ): Promise<void> {
+            let { commit, state } = context;
+            try {
+                let rewards = await projectService.fetchPromoteRewardSales(
+                    state.pageNum,
+                    state.pageSize
+                );
+                commit(TYPES.SET_STATES, { rewards });
+            } catch (error) {
+                commit(TYPES.SET_STATES, { rewards: [] });
             }
         }
     }

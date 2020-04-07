@@ -84,7 +84,10 @@ export default {
                 if (data.length > 0) {
                     commit(TYPES.SET_STATES, {
                         pageNum: pageNum + 1,
-                        recharges: (recharges || []).concat(data)
+                        recharges:
+                            pageNum === 1
+                                ? data
+                                : (recharges || []).concat(data)
                     });
                 }
                 isPending = false;

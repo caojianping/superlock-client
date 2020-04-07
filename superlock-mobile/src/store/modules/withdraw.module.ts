@@ -89,7 +89,10 @@ export default {
                 if (data.length > 0) {
                     commit(TYPES.SET_STATES, {
                         pageNum: pageNum + 1,
-                        withdraws: (withdraws || []).concat(data)
+                        withdraws:
+                            pageNum === 1
+                                ? data
+                                : (withdraws || []).concat(data)
                     });
                 }
                 isPending = false;
@@ -108,7 +111,9 @@ export default {
         ): Promise<void> {
             let commit = context.commit;
             try {
-                let withdrawAddresses = await withdrawService.fetchWithdrawAddresses(isLoading);
+                let withdrawAddresses = await withdrawService.fetchWithdrawAddresses(
+                    isLoading
+                );
                 commit(TYPES.SET_STATES, { withdrawAddresses });
             } catch (error) {
                 commit(TYPES.SET_STATES, { withdrawAddresses: [] });

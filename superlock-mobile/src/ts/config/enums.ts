@@ -31,3 +31,11 @@ export const enum WithdrawSource {
     Mine = 1, // 我的页面
     Withdraw = 2 // 提现页面
 }
+
+// 推广奖励类型
+export const enum PromoteRewardType {
+    Push = 1, // 直推奖励
+    Lock = 2, // 锁仓奖励
+    Unlock = 3, // 解锁奖励
+    Sale = 4 // 日销达标奖励
+}

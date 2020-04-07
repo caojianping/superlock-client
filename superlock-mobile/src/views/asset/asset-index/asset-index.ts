@@ -42,8 +42,7 @@ export default class AssetIndex extends Vue {
     @projectModule.State('assetStats') assetStats?: AssetStatsModel | null;
     @projectModule.State('earningsStats')
     earningsStats?: EarningsStatsModel | null;
-    @projectModule.State('promoteRewardStats')
-    promoteRewardStats?: PromoteRewardStatsModel | null;
+    @projectModule.State('rewardStats') rewardStats?: PromoteRewardStatsModel | null;
 
     @projectModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @projectModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
@@ -86,6 +85,11 @@ export default class AssetIndex extends Vue {
     isLockInfoShow: boolean = false;
     currentLock: LockModel = new LockModel();
 
+    // 跳转至交易记录页面
+    goTransaction() {
+        this.$router.push('/transaction/record');
+    }
+
     // 切换总资产可见性
     toggleTotal() {
         this.isTotalVisible = !this.isTotalVisible;
@@ -125,7 +129,7 @@ export default class AssetIndex extends Vue {
                 0: this.assetStats,
                 1: this.locks,
                 2: null,
-                3: this.promoteRewardStats,
+                3: this.rewardStats,
                 4: this.earningsStats
             },
             funcs = {

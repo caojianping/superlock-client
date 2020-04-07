@@ -14,6 +14,10 @@ import {
     AssetStatsModel,
     EarningsStatsModel,
     PromoteRewardStatsModel,
+    PromoteRewardPushModel,
+    PromoteRewardLockModel,
+    PromoteRewardUnlockModel,
+    PromoteRewardSaleModel,
     LockFormModel,
     LockModel,
     RechargeCoinModel,
@@ -22,7 +26,9 @@ import {
     WithdrawFormModel,
     WithdrawModel,
     WithdrawAddressModel,
-    SecurityFormModel
+    SecurityFormModel,
+    TransactionModel,
+    TransactionTypeModel
 } from '@/ts/models';
 
 export interface IActionContext<T> {
@@ -61,7 +67,26 @@ export interface IProjectState {
     projectStats?: ProjectStatsModel | null; // 项目统计
     assetStats?: AssetStatsModel | null; // 资产统计
     earningsStats?: EarningsStatsModel | null; // 收益统计
-    promoteRewardStats?: PromoteRewardStatsModel | null; // 推广奖励统计模型
+    rewardStats?: PromoteRewardStatsModel | null; // 推广奖励统计模型
+
+    pageNum: number; // 分页索引
+    pageSize: number; // 分页尺寸
+    rewards?: Array<
+        | PromoteRewardPushModel
+        | PromoteRewardLockModel
+        | PromoteRewardUnlockModel
+        | PromoteRewardSaleModel
+    >; // 推广奖励列表
+}
+
+export interface ITransactionState {
+    pageNum: number; // 分页索引
+    pageSize: number; // 分页尺寸
+    transactions?: Array<TransactionModel>; // 交易列表
+    transaction: TransactionModel; // 交易信息
+
+    transactionTypes: Array<TransactionTypeModel>; // 交易类型列表
+    transactionType?: TransactionTypeModel; // 交易类型
 }
 
 export interface ILockState {

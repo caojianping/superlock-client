@@ -29,7 +29,17 @@ export const Urls = {
         projectStats: `${baseUrl}/project/projectList`, // 获取项目统计接口
         assetStats: `${baseUrl}/project/capitalLedger`, // 获取资产统计接口
         earningsStats: `${baseUrl}/project/yesterdayEarnings`, // 获取收益统计接口
-        promoteRewardStats: `${baseUrl}/project/extensionReward`,// 获取推广奖励统计接口
+        promoteReward: {
+            stats: `${baseUrl}/project/extensionReward`, // 获取推广奖励统计接口
+            pushPage: `${baseUrl}/project/pushRewardList`, // 获取直推奖励分页列表接口
+            lockPage: `${baseUrl}/project/lockRewardList`, // 获取锁仓奖励分页列表接口
+            unlockPage: `${baseUrl}/project/unlockRewardList`, // 获取推广解锁奖励分页列表接口
+            salePage: `${baseUrl}/project/salesRewardList` // 获取销量达标奖励分页列表接口
+        }
+    },
+    transaction: {
+        types: `${baseUrl}/project/transactionType`, // 获取交易类型列表接口
+        page: `${baseUrl}/project/transactionRecord` // 获取交易分页列表接口
     },
     lock: {
         minAmount: `${baseUrl}/project/minLockAmount`, // 获取最小锁仓金额接口
