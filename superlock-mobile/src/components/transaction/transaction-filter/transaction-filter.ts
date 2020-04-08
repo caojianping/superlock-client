@@ -1,15 +1,18 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component, Model, Watch } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
 import { TransactionTypeModel } from '@/ts/models';
+
 import { Popup, Button } from 'vant';
+import Spin from '@/components/common/spin';
 
 const transactionModule = namespace('transaction');
 
 @Component({
     name: 'TransactionFilter',
-    components: { Popup, Button }
+    components: { Popup, Button, Spin }
 })
 export default class TransactionFilter extends Vue {
     @Model('close', { type: Boolean }) value!: boolean; // v-model
@@ -18,7 +21,7 @@ export default class TransactionFilter extends Vue {
         TransactionTypeModel
     >;
     @transactionModule.State('transactionType')
-    transactionType?: TransactionTypeModel;
+    transactionType!: TransactionTypeModel;
 
     @transactionModule.Mutation(TYPES.SET_STATES) setStates!: (
         payload: any
@@ -33,11 +36,14 @@ export default class TransactionFilter extends Vue {
 
     // 处理弹出框组件close事件
     handlePopupClose() {
+        this.isShow = false;
         this.$emit('close', false);
     }
 
     // 选择类型
     chooseType(transactionType: TransactionTypeModel) {
+        this.isShow = false;
+        this.$emit('close', false);
         this.$emit('change', transactionType);
     }
 

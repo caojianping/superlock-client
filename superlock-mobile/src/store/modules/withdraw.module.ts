@@ -86,19 +86,21 @@ export default {
                         pageNum,
                         pageSize
                     );
-                if (data.length > 0) {
+                if (pageNum === 1) {
                     commit(TYPES.SET_STATES, {
                         pageNum: pageNum + 1,
-                        withdraws:
-                            pageNum === 1
-                                ? data
-                                : (withdraws || []).concat(data)
+                        withdraws: data
+                    });
+                } else {
+                    commit(TYPES.SET_STATES, {
+                        pageNum: pageNum + 1,
+                        withdraws: (withdraws || []).concat(data)
                     });
                 }
                 isPending = false;
                 return data;
             } catch (error) {
-                commit(TYPES.SET_STATES, { recharges: [] });
+                commit(TYPES.SET_STATES, { withdraws: [] });
                 isPending = false;
                 return [];
             }

@@ -8,7 +8,7 @@ export default [
         component: TransactionRecord
     },
     {
-        path: '/transaction/detail/:id',
+        path: '/transaction/detail/:type/:orderId',
         name: 'TransactionDetail',
         component: TransactionDetail
     }

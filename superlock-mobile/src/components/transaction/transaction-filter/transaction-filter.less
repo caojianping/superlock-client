@@ -1,2 +1,35 @@
 @import '../../../less/vars.less';
 @import '../../../less/mixins.less';
+
+.transaction-filter {
+    h2 {
+        padding: 1rem 0;
+        .font-styles(1rem, normal, 1, @black, center);
+        border-bottom: 0.0625rem solid #ebedf0;
+    }
+
+    > div {
+        min-height: 5rem;
+
+        ul{
+            padding: 0.5rem 0.25rem;
+
+            li {
+                padding: 0.35rem 0;
+                float: left;
+                width: 33.33%;
+                text-align: center;
+
+                /deep/ .van-button {
+                    width: 85%;
+                    border-radius: 0.25rem;
+                }
+            }
+        }
+    }
+
+    > p {
+        height: 3.125rem;
+        .font-styles(1rem, normal, 3.125rem, @black, center);
+    }
+}

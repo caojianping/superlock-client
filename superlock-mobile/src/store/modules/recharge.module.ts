@@ -81,13 +81,15 @@ export default {
                         pageNum,
                         pageSize
                     );
-                if (data.length > 0) {
+                if (pageNum === 1) {
                     commit(TYPES.SET_STATES, {
                         pageNum: pageNum + 1,
-                        recharges:
-                            pageNum === 1
-                                ? data
-                                : (recharges || []).concat(data)
+                        recharges: data
+                    });
+                } else {
+                    commit(TYPES.SET_STATES, {
+                        pageNum: pageNum + 1,
+                        recharges: (recharges || []).concat(data)
                     });
                 }
                 isPending = false;

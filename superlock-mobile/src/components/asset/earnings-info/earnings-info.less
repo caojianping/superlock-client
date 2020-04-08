@@ -1,0 +1,23 @@
+@import '../../../less/vars.less';
+@import '../../../less/mixins.less';
+
+.earnings-popup {
+    > h2 {
+        padding-left: 1rem;
+        height: 2rem;
+        .font-styles(0.75rem, normal, 2rem, @black, left);
+        background-color: #f9f9f9;
+
+        label {
+            color: @gray;
+        }
+
+        span {
+            color: @orange;
+        }
+    }
+
+    /deep/ .van-cell .van-cell__value {
+        color: @green;
+    }
+}

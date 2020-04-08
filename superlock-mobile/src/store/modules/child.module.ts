@@ -66,11 +66,15 @@ export default {
             try {
                 let { pageNum, pageSize, childs } = state,
                     data = await childService.fetchChilds(pageNum, pageSize);
-                if (data.length > 0) {
+                if (pageNum === 1) {
                     commit(TYPES.SET_STATES, {
                         pageNum: pageNum + 1,
-                        childs:
-                            pageNum === 1 ? data : (childs || []).concat(data)
+                        childs: data
+                    });
+                } else {
+                    commit(TYPES.SET_STATES, {
+                        pageNum: pageNum + 1,
+                        childs: (childs || []).concat(data)
                     });
                 }
                 isPending = false;

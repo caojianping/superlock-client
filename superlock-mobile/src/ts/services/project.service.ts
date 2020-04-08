@@ -56,7 +56,7 @@ export class ProjectService {
                     Urls.project.promoteReward.pushPage
                 }?${Utils.buildParameters({ pageNum, pageSize })}`
             },
-            CaxiosType.Token
+            pageNum === 1 ? CaxiosType.LoadingToken : CaxiosType.Token
         );
         return result || [];
     }
@@ -72,7 +72,7 @@ export class ProjectService {
                     Urls.project.promoteReward.lockPage
                 }?${Utils.buildParameters({ pageNum, pageSize })}`
             },
-            CaxiosType.Token
+            pageNum === 1 ? CaxiosType.LoadingToken : CaxiosType.Token
         );
         return result || [];
     }
@@ -88,7 +88,7 @@ export class ProjectService {
                     Urls.project.promoteReward.unlockPage
                 }?${Utils.buildParameters({ pageNum, pageSize })}`
             },
-            CaxiosType.Token
+            pageNum === 1 ? CaxiosType.LoadingToken : CaxiosType.Token
         );
         return result || [];
     }
@@ -104,7 +104,7 @@ export class ProjectService {
                     Urls.project.promoteReward.salePage
                 }?${Utils.buildParameters({ pageNum, pageSize })}`
             },
-            CaxiosType.Token
+            pageNum === 1 ? CaxiosType.LoadingToken : CaxiosType.Token
         );
         return result || [];
     }

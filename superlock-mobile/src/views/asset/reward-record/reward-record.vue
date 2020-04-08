@@ -1,14 +1,14 @@
 <template>
-    <Popup v-model="isShow" class="reward-popup page-popup" @close="closePopup">
-        <Header :title="title" @left="closePopup" />
+    <div class="reward-record">
+        <Header
+            :title="title"
+            @left="$router.push({ path: '/asset/index', query: { type: 3 } })"
+        />
 
-        <div v-if="rewards" class="record-container separator">
-            <p v-if="rewards.length <= 0" class="none">
-                暂无奖励记录
-            </p>
+        <div v-if="rewards" class="separator">
+            <p v-if="rewards.length <= 0" class="none">暂无奖励记录</p>
             <List
                 v-else
-                class="reward-list"
                 v-model="isLoading"
                 :finished="isFinished"
                 :immediate-check="false"
@@ -28,7 +28,10 @@
                                 </p>
                             </div>
                             <div slot="default">
-                                <h3>
+                                <h3 v-if="type === 1">
+                                    {{ `+${reward.reward} ${reward.coin}` }}
+                                </h3>
+                                <h3 v-else>
                                     {{ `+${reward.amount} ${reward.coin}` }}
                                 </h3>
                                 <p v-if="type === 1">
@@ -65,9 +68,9 @@
                 </CellGroup>
             </List>
         </div>
-    </Popup>
+    </div>
 </template>
 
-<style src="./reward-list.less" lang="less" scoped />
+<style src="./reward-record.less" lang="less" scoped />
 
-<script src="./reward-list.ts" />
+<script src="./reward-record.ts" />

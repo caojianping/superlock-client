@@ -1,16 +1,19 @@
 import TYPES from '@/store/types';
 import { IActionContext, ITransactionState } from '@/store/interfaces';
 import { TransactionService } from '@/ts/services';
-import { TransactionModel } from '@/ts/models';
+import { TransactionModel, TransactionTypeModel } from '@/ts/models';
 
 const transactionState: ITransactionState = {
+    transactionTypes: [],
+    transactionType: new TransactionTypeModel(1000, '全部'),
+
     pageNum: 1,
     pageSize: 10,
     transactions: undefined,
-    transaction: new TransactionModel(),
 
-    transactionTypes: [],
-    transactionType: undefined
+    type: 0,
+    orderId: '',
+    transaction: undefined
 };
 
 const transactionService = new TransactionService();
@@ -28,13 +31,16 @@ export default {
             }
         },
         [TYPES.CLEAR_STATES](state: ITransactionState) {
+            state.transactionTypes = [];
+            state.transactionType = new TransactionTypeModel(1000, '全部');
+
             state.pageNum = 1;
             state.pageSize = 10;
             state.transactions = undefined;
-            state.transaction = new TransactionModel();
 
-            state.transactionTypes = [];
-            state.transactionType = undefined;
+            state.type = 0;
+            state.orderId = '';
+            state.transaction = undefined;
         }
     },
     actions: {
@@ -67,17 +73,19 @@ export default {
                         transactionType
                     } = state,
                     data = await transactionService.fetchTransactions(
-                        transactionType ? transactionType.type : 1000,
+                        transactionType.type,
                         pageNum,
                         pageSize
                     );
-                if (data.length > 0) {
+                if (pageNum === 1) {
                     commit(TYPES.SET_STATES, {
                         pageNum: pageNum + 1,
-                        transactions:
-                            pageNum === 1
-                                ? data
-                                : (transactions || []).concat(data)
+                        transactions: data
+                    });
+                } else {
+                    commit(TYPES.SET_STATES, {
+                        pageNum: pageNum + 1,
+                        transactions: (transactions || []).concat(data)
                     });
                 }
                 isPending = false;
@@ -86,6 +94,22 @@ export default {
                 commit(TYPES.SET_STATES, { transactions: [] });
                 isPending = false;
                 return [];
+            }
+        },
+
+        // 获取交易信息
+        async fetchTransaction(
+            context: IActionContext<ITransactionState>
+        ): Promise<void> {
+            let { commit, state } = context;
+            try {
+                let transaction = await transactionService.fetchTransaction(
+                    state.type,
+                    state.orderId
+                );
+                commit(TYPES.SET_STATES, { transaction });
+            } catch (error) {
+                commit(TYPES.SET_STATES, { transaction: null });
             }
         }
     }

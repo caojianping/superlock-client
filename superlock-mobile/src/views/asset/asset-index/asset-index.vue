@@ -2,7 +2,10 @@
     <PullRefresh v-model="isPulling" @refresh="refreshData">
         <div class="asset-index scb-reserved scb-gray">
             <header class="asset-header">
-                <i class="icon icon-transaction" @click="goTransaction" />
+                <i
+                    class="icon icon-transaction"
+                    @click="goPage('/transaction/record')"
+                />
                 <h2>
                     <label>总资产</label>
                     <small>（BCB）</small>
@@ -22,14 +25,20 @@
                 </h1>
                 <h1 v-else>*******</h1>
                 <p>
-                    <label>昨日收益（BCB）</label>
+                    <label
+                        >昨日收益（{{
+                            earningsStats
+                                ? earningsStats.yesterdayEarningsCoin
+                                : '--'
+                        }}）</label
+                    >
                     <span
                         >+
                         {{
                             earningsStats ? earningsStats.yesterdayEarnings : 0
                         }}</span
                     >
-                    <i class="icon icon-arrow" />
+                    <i class="icon icon-arrow" @click="openEarningsInfo" />
                 </p>
             </header>
 
@@ -169,6 +178,7 @@
                             <Cell
                                 title="直推奖励"
                                 is-link
+                                :to="`/reward/record/${1}`"
                                 :value="
                                     `${
                                         rewardStats
@@ -186,6 +196,7 @@
                             <Cell
                                 title="团队锁仓奖励"
                                 is-link
+                                :to="`/reward/record/${2}`"
                                 :value="
                                     `${
                                         rewardStats
@@ -203,6 +214,7 @@
                             <Cell
                                 title="推广解锁奖励"
                                 is-link
+                                :to="`/reward/record/${3}`"
                                 :value="
                                     `${
                                         rewardStats
@@ -220,11 +232,11 @@
                             <Cell
                                 title="销量达标奖励"
                                 is-link
+                                :to="`/reward/record/${4}`"
                                 :value="
                                     `${
                                         rewardStats
-                                            ? rewardStats.salesReward ||
-                                              0
+                                            ? rewardStats.salesReward || 0
                                             : 0
                                     } ${
                                         rewardStats
@@ -239,9 +251,11 @@
                 </Tab>
             </Tabs>
 
+            <RechargeCoins v-model="isRechargeCoinsShow" />
+
             <LockInfo v-model="isLockInfoShow" :lock="currentLock" />
 
-            <RechargeCoins v-model="isRechargeCoinsShow" />
+            <EarningsInfo v-model="isEarningsInfoShow" />
 
             <Navs />
         </div>

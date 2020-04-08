@@ -1,14 +1,13 @@
 <template>
     <div class="transaction-record">
-        <Header title="资金明细" isRight @left="$router.back(-1)">
-            <span slot="right" @click="openTransactionFilter">筛选</span>
+        <Header title="资金明细" isRight @left="$router.push('/asset/index')">
+            <span slot="right" @click="openFilter">筛选</span>
         </Header>
 
-        <div v-if="transactions" class="record-container separator">
+        <div v-if="transactions" class="separator">
             <p v-if="transactions.length <= 0" class="none">暂无资金记录</p>
             <List
                 v-else
-                class="transaction-list"
                 v-model="isLoading"
                 :finished="isFinished"
                 :immediate-check="false"
@@ -20,7 +19,9 @@
                     <Cell
                         v-for="(transaction, index) in transactions"
                         :key="index"
-                        :to="`/transaction/detail/${transaction.orderId}`"
+                        :to="
+                            `/transaction/detail/${transaction.type}/${transaction.orderId}`
+                        "
                     >
                         <div slot="title">
                             <h2>
@@ -33,7 +34,9 @@
                         <div slot="default">
                             <h3 :class="{ income: transaction.symbol === 1 }">
                                 {{
-                                    `${transaction.symbol} ${transaction.amount} ${transaction.coin}`
+                                    `${['-', '+'][transaction.symbol]} ${
+                                        transaction.amount
+                                    } ${transaction.coin}`
                                 }}
                             </h3>
                             <p>
@@ -47,10 +50,7 @@
             </List>
         </div>
 
-        <TransactionFilter
-            v-model="isShow"
-            @change="handleTransactionFilterChange"
-        />
+        <TransactionFilter v-model="isShow" @change="handleFilterChange" />
     </div>
 </template>
 

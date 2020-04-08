@@ -28,7 +28,9 @@ import {
     WithdrawAddressModel,
     SecurityFormModel,
     TransactionModel,
-    TransactionTypeModel
+    TransactionTypeModel,
+    TransactionInfoModel,
+    TransferModel
 } from '@/ts/models';
 
 export interface IActionContext<T> {
@@ -80,13 +82,21 @@ export interface IProjectState {
 }
 
 export interface ITransactionState {
+    transactionTypes: Array<TransactionTypeModel>; // 交易类型列表
+    transactionType: TransactionTypeModel; // 交易类型
+
     pageNum: number; // 分页索引
     pageSize: number; // 分页尺寸
     transactions?: Array<TransactionModel>; // 交易列表
-    transaction: TransactionModel; // 交易信息
 
-    transactionTypes: Array<TransactionTypeModel>; // 交易类型列表
-    transactionType?: TransactionTypeModel; // 交易类型
+    type: number;
+    orderId: string;
+    transaction?:
+        | TransactionInfoModel
+        | RechargeModel
+        | WithdrawModel
+        | TransferModel
+        | null;
 }
 
 export interface ILockState {

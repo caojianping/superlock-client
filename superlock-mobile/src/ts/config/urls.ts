@@ -39,7 +39,8 @@ export const Urls = {
     },
     transaction: {
         types: `${baseUrl}/project/transactionType`, // 获取交易类型列表接口
-        page: `${baseUrl}/project/transactionRecord` // 获取交易分页列表接口
+        page: `${baseUrl}/project/transactionRecode`, // 获取交易分页列表接口
+        detail: `${baseUrl}/project/transactionDetail` // 获取交易详情接口
     },
     lock: {
         minAmount: `${baseUrl}/project/minLockAmount`, // 获取最小锁仓金额接口

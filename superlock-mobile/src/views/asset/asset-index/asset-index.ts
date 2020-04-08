@@ -13,8 +13,9 @@ import {
 import { PullRefresh, Toast, CellGroup, Cell, Tabs, Tab } from 'vant';
 import Navs from '@/components/common/navs';
 import Spin from '@/components/common/spin';
-import LockInfo from '@/components/asset/lock-info';
 import RechargeCoins from '@/components/recharge/recharge-coins';
+import LockInfo from '@/components/asset/lock-info';
+import EarningsInfo from '@/components/asset/earnings-info';
 
 const lockModule = namespace('lock');
 const projectModule = namespace('project');
@@ -29,8 +30,9 @@ const projectModule = namespace('project');
         Tab,
         Navs,
         Spin,
+        RechargeCoins,
         LockInfo,
-        RechargeCoins
+        EarningsInfo
     }
 })
 export default class AssetIndex extends Vue {
@@ -42,7 +44,8 @@ export default class AssetIndex extends Vue {
     @projectModule.State('assetStats') assetStats?: AssetStatsModel | null;
     @projectModule.State('earningsStats')
     earningsStats?: EarningsStatsModel | null;
-    @projectModule.State('rewardStats') rewardStats?: PromoteRewardStatsModel | null;
+    @projectModule.State('rewardStats')
+    rewardStats?: PromoteRewardStatsModel | null;
 
     @projectModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @projectModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
@@ -69,9 +72,10 @@ export default class AssetIndex extends Vue {
         50: 'orange'
     };
 
+    activeTab: number = 0;
+
     isPulling: boolean = false;
 
-    activeTab: number = 0;
     isTotalVisible: boolean = true;
     isEarningsStatsSpinning: boolean = false;
 
@@ -81,13 +85,13 @@ export default class AssetIndex extends Vue {
     isRewardStatsSpinning: boolean = false;
 
     isRechargeCoinsShow: boolean = false;
-
+    isEarningsInfoShow: boolean = false;
     isLockInfoShow: boolean = false;
     currentLock: LockModel = new LockModel();
 
-    // 跳转至交易记录页面
-    goTransaction() {
-        this.$router.push('/transaction/record');
+    // 跳转页面
+    goPage(path: string) {
+        this.$router.push(path);
     }
 
     // 切换总资产可见性
@@ -100,9 +104,15 @@ export default class AssetIndex extends Vue {
         this.isRechargeCoinsShow = true;
     }
 
-    // 跳转页面
-    goPage(path: string) {
-        this.$router.push(path);
+    // 打开收益信息组件
+    openEarningsInfo() {
+        this.isEarningsInfoShow = true;
+    }
+
+    // 打开锁仓详情
+    openLockInfo(lock: LockModel) {
+        this.isLockInfoShow = true;
+        this.currentLock = lock;
     }
 
     // 处理选项卡change事件
@@ -110,10 +120,11 @@ export default class AssetIndex extends Vue {
         this.fetchData(this.activeTab);
     }
 
-    // 打开锁仓详情
-    openLockInfo(lock: LockModel) {
-        this.isLockInfoShow = true;
-        this.currentLock = lock;
+    // 初始化数据
+    initData() {
+        let query = this.$route.query || {},
+            type = Number(query.type);
+        this.activeTab = isNaN(type) ? 0 : type;
     }
 
     // 获取数据
@@ -154,6 +165,10 @@ export default class AssetIndex extends Vue {
         this.fetchData(4, true);
         this.isPulling = false;
         Toast('刷新成功');
+    }
+
+    created() {
+        this.initData();
     }
 
     mounted() {

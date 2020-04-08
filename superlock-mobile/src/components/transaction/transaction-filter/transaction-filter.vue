@@ -8,10 +8,10 @@
     >
         <h2>账单分类</h2>
 
-        <div>
+        <div class="transaction-types">
             <Spin :is-spinning="isSpinning" />
 
-            <ul>
+            <ul class="clearfix">
                 <li v-for="(item, index) in transactionTypes" :key="index">
                     <Button
                         :type="
@@ -19,7 +19,6 @@
                                 ? 'primary'
                                 : 'default'
                         "
-                        round
                         @click="chooseType(item)"
                         >{{ item.remark }}</Button
                     >

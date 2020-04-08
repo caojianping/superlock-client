@@ -1,6 +1,12 @@
 import TYPES from '@/store/types';
 import { IActionContext, IProjectState } from '@/store/interfaces';
 import { ProjectService } from '@/ts/services';
+import {
+    PromoteRewardPushModel,
+    PromoteRewardLockModel,
+    PromoteRewardSaleModel
+} from '@/ts/models';
+import { PromoteRewardType } from '@/ts/config';
 
 const projectState: IProjectState = {
     projectStats: undefined,
@@ -14,6 +20,8 @@ const projectState: IProjectState = {
 };
 
 const projectService = new ProjectService();
+
+var isPending = false;
 
 export default {
     namespaced: true,
@@ -89,67 +97,41 @@ export default {
             }
         },
 
-        // 获取直推奖励分页列表
-        async fetchPromoteRewardPushs(
-            context: IActionContext<IProjectState>
-        ): Promise<void> {
-            let { commit, state } = context;
-            try {
-                let rewards = await projectService.fetchPromoteRewardPushs(
-                    state.pageNum,
-                    state.pageSize
-                );
-                commit(TYPES.SET_STATES, { rewards });
-            } catch (error) {
-                commit(TYPES.SET_STATES, { rewards: [] });
-            }
-        },
+        // 获取奖励分页列表
+        async fetchPromoteRewards(
+            context: IActionContext<IProjectState>,
+            type: PromoteRewardType
+        ): Promise<Array<PromoteRewardPushModel> | undefined> {
+            if (isPending) return undefined;
 
-        // 获取直推奖励分页列表
-        async fetchPromoteRewardLocks(
-            context: IActionContext<IProjectState>
-        ): Promise<void> {
+            isPending = true;
             let { commit, state } = context;
             try {
-                let rewards = await projectService.fetchPromoteRewardLocks(
-                    state.pageNum,
-                    state.pageSize
-                );
-                commit(TYPES.SET_STATES, { rewards });
+                let { pageNum, pageSize, rewards } = state,
+                    funcs: any = {
+                        1: projectService.fetchPromoteRewardPushs,
+                        2: projectService.fetchPromoteRewardLocks,
+                        3: projectService.fetchPromoteRewardUnlocks,
+                        4: projectService.fetchPromoteRewardSales
+                    },
+                    data = await funcs[type](pageNum, pageSize);
+                if (pageNum === 1) {
+                    commit(TYPES.SET_STATES, {
+                        pageNum: pageNum + 1,
+                        rewards: data
+                    });
+                } else {
+                    commit(TYPES.SET_STATES, {
+                        pageNum: pageNum + 1,
+                        rewards: (rewards || []).concat(data)
+                    });
+                }
+                isPending = false;
+                return data;
             } catch (error) {
                 commit(TYPES.SET_STATES, { rewards: [] });
-            }
-        },
-
-        // 获取解锁奖励分页列表
-        async fetchPromoteRewardUnlocks(
-            context: IActionContext<IProjectState>
-        ): Promise<void> {
-            let { commit, state } = context;
-            try {
-                let rewards = await projectService.fetchPromoteRewardUnlocks(
-                    state.pageNum,
-                    state.pageSize
-                );
-                commit(TYPES.SET_STATES, { rewards });
-            } catch (error) {
-                commit(TYPES.SET_STATES, { rewards: [] });
-            }
-        },
-
-        // 获取日销达标奖励分页列表
-        async fetchPromoteRewardSales(
-            context: IActionContext<IProjectState>
-        ): Promise<void> {
-            let { commit, state } = context;
-            try {
-                let rewards = await projectService.fetchPromoteRewardSales(
-                    state.pageNum,
-                    state.pageSize
-                );
-                commit(TYPES.SET_STATES, { rewards });
-            } catch (error) {
-                commit(TYPES.SET_STATES, { rewards: [] });
+                isPending = false;
+                return [];
             }
         }
     }

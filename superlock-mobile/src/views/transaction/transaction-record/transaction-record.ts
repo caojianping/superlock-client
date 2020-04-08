@@ -17,28 +17,29 @@ const transactionModule = namespace('transaction');
 })
 export default class TransactionRecord extends Vue {
     @transactionModule.State('pageNum') pageNum!: number;
-    @transactionModule.State('pageSize') pageSize!: number;
-    @transactionModule.State('transactions') transactions?: Array<TransactionModel>;
+    @transactionModule.State('transactions') transactions?: Array<
+        TransactionModel
+    >;
 
-    @transactionModule.State('transactionTypes') transactionTypes!: Array<TransactionTypeModel>;
-    @transactionModule.State('transactionType') transactionType?: TransactionTypeModel;
-
-    @transactionModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
+    @transactionModule.Mutation(TYPES.SET_STATES) setStates!: (
+        payload: any
+    ) => any;
     @transactionModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
 
-    @transactionModule.Action('fetchTransactions') fetchTransactions!: () => any;
+    @transactionModule.Action('fetchTransactions')
+    fetchTransactions!: () => any;
 
-    isShow: boolean = false;// 是否显示弹出框
+    isShow: boolean = false; // 是否显示过滤组件
     isLoading: boolean = false; // 是否正在加载
     isFinished: boolean = false; // 是否加载结束
 
-    // 打开交易过滤组件
-    openTransactionFilter(){
+    // 打开过滤组件
+    openFilter() {
         this.isShow = true;
     }
 
-    // 处理交易过滤组件change事件
-    handleTransactionFilterChange(transactionType: TransactionTypeModel){
+    // 处理过滤组件change事件
+    handleFilterChange(transactionType: TransactionTypeModel) {
         this.setStates({ pageNum: 1, transactionType });
         this.fetchTransactions();
     }
@@ -48,6 +49,10 @@ export default class TransactionRecord extends Vue {
         let transactions = await this.fetchTransactions();
         this.isLoading = false;
         this.isFinished = transactions && transactions.length <= 0;
+    }
+
+    created() {
+        this.clearStates();
     }
 
     mounted() {

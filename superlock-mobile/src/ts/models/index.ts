@@ -5,6 +5,7 @@ export * from './transaction.model';
 export * from './lock.model';
 export * from './recharge.model';
 export * from './withdraw.model';
+export * from './transfer.model';
 export * from './security.model';
 
 // 业务型错误
