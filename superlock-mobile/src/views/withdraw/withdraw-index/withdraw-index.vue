@@ -38,12 +38,13 @@
                             >全部</span
                         >
                     </Field>
+                    {{ ((quotaObj = quota || {}), void 0) }}
                     <p class="text-prompt">
                         可提现金额
                         {{
-                            `${withdrawQuota.amount || '--'} BCB = 
-                            ${withdrawQuota.valuationAmount || '--'}
-                            ${withdrawQuota.valuationCoin || '--'}`
+                            `${quotaObj.amount || '--'} BCB = 
+                            ${quotaObj.valuationAmount || '--'}
+                            ${quotaObj.valuationCoin || '--'}`
                         }}
                     </p>
                 </li>

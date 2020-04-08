@@ -3,13 +3,11 @@ import { IActionContext, IWithdrawState } from '@/store/interfaces';
 import {
     WithdrawFormModel,
     WithdrawModel,
-    WithdrawAddressModel,
-    WithdrawQuotaModel
+    WithdrawAddressModel
 } from '@/ts/models';
 import { WithdrawService } from '@/ts/services';
 
 const withdrawState: IWithdrawState = {
-    withdrawQuota: new WithdrawQuotaModel(),
     withdrawForm: new WithdrawFormModel(),
 
     pageNum: 1,
@@ -36,7 +34,6 @@ export default {
             }
         },
         [TYPES.CLEAR_STATES](state: IWithdrawState) {
-            state.withdrawQuota = new WithdrawQuotaModel();
             state.withdrawForm = new WithdrawFormModel();
 
             state.pageNum = 1;
@@ -49,21 +46,6 @@ export default {
         }
     },
     actions: {
-        // 获取提现额度
-        async fetchWithdrawQuota(
-            context: IActionContext<IWithdrawState>
-        ): Promise<void> {
-            let commit = context.commit;
-            try {
-                let withdrawQuota = await withdrawService.fetchWithdrawQuota();
-                commit(TYPES.SET_STATES, { withdrawQuota });
-            } catch (error) {
-                commit(TYPES.SET_STATES, {
-                    withdrawQuota: new WithdrawQuotaModel()
-                });
-            }
-        },
-
         // 执行提现
         async executeWithdraw(
             context: IActionContext<IWithdrawState>

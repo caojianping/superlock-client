@@ -4,7 +4,7 @@
             <span slot="right" @click="openWithdrawSetting">添加地址</span>
         </Header>
 
-        <div v-if="withdrawAddresses" class="address-container separator">
+        <div v-if="withdrawAddresses" class="separator">
             <p v-if="withdrawAddresses.length <= 0" class="none">
                 暂无提现地址，快去
                 <a

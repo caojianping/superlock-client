@@ -1,6 +1,6 @@
 import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
+import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import { WithdrawModel } from '@/ts/models';
@@ -34,20 +34,6 @@ export default class WithdrawRecord extends Vue {
         let recharges = await this.fetchWithdraws();
         this.isLoading = false;
         this.isFinished = recharges && recharges.length <= 0;
-    }
-
-    // 节流函数
-    throttle() {
-        var self = this,
-            timer: any = null;
-        return function() {
-            if (timer) {
-                clearTimeout(timer);
-            }
-            timer = setTimeout(function() {
-                self.fetchData();
-            }, 100);
-        };
     }
 
     mounted() {

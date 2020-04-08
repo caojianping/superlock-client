@@ -28,7 +28,7 @@ export default class RechargeCode extends Vue {
     @rechargeModule.Action('fetchRechargeAddress')
     fetchRechargeAddress!: () => any;
 
-    initClipboard() {
+    copyAddress() {
         let copy = document.getElementById('copy'),
             clipboard = new ClipboardJS(copy);
 
@@ -43,7 +43,7 @@ export default class RechargeCode extends Vue {
 
     async fetchData() {
         await this.fetchRechargeAddress();
-        this.initClipboard();
+        this.copyAddress();
     }
 
     created() {

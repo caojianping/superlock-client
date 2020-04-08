@@ -2,6 +2,7 @@ import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
 import { Urls, CaxiosType, defaultAreaCode } from '@/ts/config';
 import { Caxios } from '@/ts/common';
+import { QuotaModel } from '@/ts/models';
 
 export class CommonService {
     // 获取短信验证码
@@ -45,5 +46,13 @@ export class CommonService {
             CaxiosType.Default
         );
         return true;
+    }
+
+    // 获取可提现、可转账额度
+    public async fetchQuota(): Promise<QuotaModel | null> {
+        return await Caxios.get<QuotaModel | null>(
+            { url: Urls.common.quota },
+            CaxiosType.Token
+        );
     }
 }

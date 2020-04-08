@@ -5,7 +5,7 @@
             @left="$router.push(`/recharge/code/${rechargeCoin || 'BCB'}`)"
         />
 
-        <div v-if="recharges" class="record-container separator">
+        <div v-if="recharges" class="separator">
             <p v-if="recharges.length <= 0" class="none">
                 暂无充值记录，快去
                 <router-link class="link" to="/asset/index">充值</router-link>
@@ -13,7 +13,6 @@
             </p>
             <List
                 v-else
-                class="recharge-list"
                 v-model="isLoading"
                 :finished="isFinished"
                 :immediate-check="false"

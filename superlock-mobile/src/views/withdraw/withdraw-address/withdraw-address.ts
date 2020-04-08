@@ -1,6 +1,6 @@
 import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
+import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import { WithdrawSource, OperationType } from '@/ts/config';
@@ -49,18 +49,14 @@ export default class WithdrawAddress extends Vue {
     // 选择提现地址
     chooseAddress(withdrawAddress: WithdrawAddressModel) {
         this.setStates({ selectedWithdrawAddress: withdrawAddress });
-        // if (this.source === WithdrawSource.Withdraw) {
-        //     this.$router.push('/withdraw/index');
-        // }
         this.$router.push('/withdraw/index');
     }
 
     created() {
-        this.clearStates();
-        let psource = this.$route.params.source,
-            source = isNaN(Number(psource))
+        let params = this.$route.params || {},
+            source = isNaN(Number(params.source))
                 ? WithdrawSource.Mine
-                : Number(psource);
+                : Number(params.source);
         this.source = source;
     }
 

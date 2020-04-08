@@ -1,6 +1,6 @@
 import Vue from 'vue';
+import { namespace, State, Action } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
-import { namespace } from 'vuex-class';
 import { ValidationResult } from 'jpts-validator';
 
 import TYPES from '@/store/types';
@@ -8,10 +8,10 @@ import Utils from '@/ts/utils';
 import { WithdrawSource } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import {
+    QuotaModel,
     UserInfoModel,
     WithdrawFormModel,
-    WithdrawAddressModel,
-    WithdrawQuotaModel
+    WithdrawAddressModel
 } from '@/ts/models';
 import { WithdrawService } from '@/ts/services';
 
@@ -27,10 +27,12 @@ const withdrawModule = namespace('withdraw');
     components: { Field, Icon, Button, Header, PasswordModal }
 })
 export default class WithdrawIndex extends Vue {
+    @State('quota') quota?: QuotaModel | null;
+    @Action('fetchQuota') fetchQuota!: () => any;
+
     @userModule.State('userInfo') userInfo!: UserInfoModel;
     @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
 
-    @withdrawModule.State('withdrawQuota') withdrawQuota!: WithdrawQuotaModel;
     @withdrawModule.State('withdrawForm') withdrawForm!: WithdrawFormModel;
     @withdrawModule.State('withdrawAddresses') withdrawAddresses!: Array<
         WithdrawAddressModel
@@ -43,7 +45,6 @@ export default class WithdrawIndex extends Vue {
     ) => any;
     @withdrawModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
 
-    @withdrawModule.Action('fetchWithdrawQuota') fetchWithdrawQuota!: () => any;
     @withdrawModule.Action('executeWithdraw') executeWithdraw!: () => any;
     @withdrawModule.Action('fetchWithdrawAddresses')
     fetchWithdrawAddresses!: (isLoading: boolean) => any;
@@ -58,7 +59,7 @@ export default class WithdrawIndex extends Vue {
     // 提现全部金额
     withdrawAll() {
         let withdrawForm = Utils.duplicate(this.withdrawForm);
-        withdrawForm.amount = this.withdrawQuota.amount;
+        withdrawForm.amount = this.quota ? this.quota.amount : 0;
         this.setStates({ withdrawForm });
     }
 
@@ -105,7 +106,7 @@ export default class WithdrawIndex extends Vue {
             if (!result) Prompt.error('提现失败');
             else {
                 Prompt.success('提现成功');
-                await this.fetchWithdrawQuota();
+                await this.fetchQuota();
             }
         } catch (error) {
             Prompt.error(error.message || error);
@@ -119,11 +120,11 @@ export default class WithdrawIndex extends Vue {
             duration: 0,
             message: '加载中...'
         });
+        await this.fetchQuota();
         await this.fetchUserInfo();
-        await this.fetchWithdrawQuota();
 
         let withdrawForm = Utils.duplicate(this.withdrawForm);
-        withdrawForm.maxAmount = this.withdrawQuota.amount;
+        withdrawForm.maxAmount = this.quota ? this.quota.amount : 0;
 
         let selectedWithdrawAddress = this.selectedWithdrawAddress;
         if (selectedWithdrawAddress) {
@@ -146,10 +147,6 @@ export default class WithdrawIndex extends Vue {
             }
         }
         Toast.clear();
-    }
-
-    created() {
-        this.clearStates();
     }
 
     mounted() {

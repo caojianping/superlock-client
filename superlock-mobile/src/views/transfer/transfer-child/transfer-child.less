@@ -1,0 +1,32 @@
+@import '../../../less/vars.less';
+@import '../../../less/mixins.less';
+
+.transfer-child {
+    /deep/ .van-search {
+        padding: 0.75rem;
+
+        .van-search__content.van-search__content--round {
+            background-color: white;
+
+            input {
+                text-indent: 0.5rem;
+            }
+
+            .van-field__right-icon {
+                top: 0.125rem;
+                right: 0.25rem;
+                display: inline-block;
+                width: auto;
+
+                .van-icon.van-icon-search {
+                    display: inline-block;
+                    font-size: 1.25rem;
+                }
+            }
+        }
+    }
+
+    /deep/ .van-cell .van-cell__title p {
+        .font-styles(0.75rem, normal, 1.5, @gray, left);
+    }
+}

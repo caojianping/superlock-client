@@ -1,5 +1,5 @@
 import TransferIndex from '@/views/transfer/transfer-index';
-import TransferAddress from '@/views/transfer/transfer-address';
+import TransferChild from '@/views/transfer/transfer-child';
 import TransferRecord from '@/views/transfer/transfer-record';
 import TransferDetail from '@/views/transfer/transfer-detail';
 
@@ -10,9 +10,9 @@ export default [
         component: TransferIndex
     },
     {
-        path: '/transfer/address',
-        name: 'TransferAddress',
-        component: TransferAddress
+        path: '/transfer/child',
+        name: 'TransferChild',
+        component: TransferChild
     },
     {
         path: '/transfer/record',
@@ -20,7 +20,7 @@ export default [
         component: TransferRecord
     },
     {
-        path: '/transfer/detail',
+        path: '/transfer/detail/:id',
         name: 'TransferDetail',
         component: TransferDetail
     }

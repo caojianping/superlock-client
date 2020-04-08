@@ -16,7 +16,6 @@ const rechargeModule = namespace('recharge');
 })
 export default class RechargeRecord extends Vue {
     @rechargeModule.State('rechargeCoin') rechargeCoin!: string;
-
     @rechargeModule.State('pageNum') pageNum!: number;
     @rechargeModule.State('pageSize') pageSize!: number;
     @rechargeModule.State('recharges') recharges?: Array<RechargeModel>;
@@ -39,8 +38,6 @@ export default class RechargeRecord extends Vue {
     }
 
     mounted() {
-        if (this.pageNum === 1) {
-            this.fetchData();
-        }
+        this.fetchData();
     }
 }

@@ -2,7 +2,7 @@
     <div class="withdraw-record">
         <Header title="提现记录" @left="$router.push('/withdraw/index')" />
 
-        <div v-if="withdraws" class="record-container separator">
+        <div v-if="withdraws" class="separator">
             <p v-if="withdraws.length <= 0" class="none">
                 暂无提现记录，快去
                 <router-link class="link" to="/asset/index">提现</router-link>
@@ -10,7 +10,6 @@
             </p>
             <List
                 v-else
-                class="withdraw-list"
                 v-model="isLoading"
                 :finished="isFinished"
                 :immediate-check="false"

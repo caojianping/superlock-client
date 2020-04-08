@@ -31,7 +31,7 @@ export class RechargeService {
     ): Promise<Array<RechargeModel>> {
         let result = await Caxios.get<Array<RechargeModel> | null>(
             {
-                url: `${Urls.recharge.page}?${Utils.buildParameters({
+                url: `${Urls.recharge.list}?${Utils.buildParameters({
                     pageNum,
                     pageSize
                 })}`
@@ -39,30 +39,5 @@ export class RechargeService {
             pageNum === 1 ? CaxiosType.LoadingToken : CaxiosType.Token
         );
         return result || [];
-
-        // return new Promise((resolve, reject) => {
-        //     setTimeout(function() {
-        //         let temp: any = [];
-        //         for (let i = 0; i < 10; i++) {
-        //             temp.push({
-        //                 orderId: 'abcdefg' + i + 1,
-        //                 txhash: 'tsdfsfdsgafs' + i + 1,
-        //                 createTime: '2020-02-18 12:12:12',
-        //                 payCoin: 'DC',
-        //                 payAmount: 100 + i,
-        //                 exchangeRate: 0.02,
-        //                 gotAmount: 5 + i,
-        //                 gotCoin: 'BCB',
-        //                 memo: '',
-        //                 statusRemark: '成功',
-        //                 status: 1,
-        //                 capitalType: '支出',
-        //                 balance: 100 + i,
-        //                 balanceCoin: 'BCB'
-        //             });
-        //         }
-        //         resolve(temp);
-        //     }, 1500);
-        // });
     }
 }

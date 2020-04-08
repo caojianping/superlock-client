@@ -5,8 +5,7 @@ import { Caxios, md5 } from '@/ts/common';
 import {
     WithdrawModel,
     WithdrawAddressModel,
-    WithdrawFormModel,
-    WithdrawQuotaModel
+    WithdrawFormModel
 } from '@/ts/models';
 
 export class WithdrawService {
@@ -79,15 +78,6 @@ export class WithdrawService {
         return validator.execute(key);
     }
 
-    // 获取提现额度
-    public async fetchWithdrawQuota(): Promise<WithdrawQuotaModel> {
-        let result = await Caxios.get<WithdrawQuotaModel | null>(
-            { url: Urls.withdraw.quota },
-            CaxiosType.Token
-        );
-        return result || new WithdrawQuotaModel();
-    }
-
     // 执行提现
     public async executeWithdraw(
         withdrawForm: WithdrawFormModel
@@ -119,7 +109,7 @@ export class WithdrawService {
     ): Promise<Array<WithdrawModel>> {
         let result = await Caxios.get<Array<WithdrawModel> | null>(
             {
-                url: `${Urls.withdraw.page}?${Utils.buildParameters({
+                url: `${Urls.withdraw.list}?${Utils.buildParameters({
                     pageNum,
                     pageSize
                 })}`
@@ -127,29 +117,6 @@ export class WithdrawService {
             pageNum === 1 ? CaxiosType.LoadingToken : CaxiosType.Token
         );
         return result || [];
-
-        // return new Promise((resolve, reject) => {
-        //     setTimeout(function() {
-        //         let temp: Array<any> = [];
-        //         for (let i = 0; i < 10; i++) {
-        //             temp.push({
-        //                 orderId: 'abcdefg' + i + 1,
-        //                 txhash: 'wertyui' + i + 1,
-        //                 createTime: '2020-02-18 12:12:12',
-        //                 coin: 'BCB',
-        //                 amount: 100 + i,
-        //                 toAddress: 'bcbdfsrewrdfdsf',
-        //                 memo: '',
-        //                 statusRemark: '成功',
-        //                 status: 1,
-        //                 capitalType: '支出',
-        //                 balance: 100,
-        //                 balanceCoin: 'BCB'
-        //             });
-        //         }
-        //         resolve(temp);
-        //     }, 1500);
-        // });
     }
 
     // 获取提现地址列表
@@ -161,20 +128,6 @@ export class WithdrawService {
             isLoading ? CaxiosType.LoadingToken : CaxiosType.Token
         );
         return result || [];
-
-        // return new Promise((resolve, reject) => {
-        //     setTimeout(function() {
-        //         let temp: Array<any> = [];
-        //         for (let i = 0; i < 10; i++) {
-        //             temp.push({
-        //                 nickName: '钱包' + i + 1,
-        //                 address:
-        //                     'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' + i + 1
-        //             });
-        //         }
-        //         resolve(temp);
-        //     }, 1500);
-        // });
     }
 
     // 添加提现地址

@@ -2,6 +2,7 @@ import { Commit } from 'vuex';
 import { RegisterStatus } from '@/ts/config';
 import {
     TokenInfo,
+    QuotaModel,
     UserFormModel,
     UserInfoModel,
     UserLockQuotaModel,
@@ -18,19 +19,20 @@ import {
     PromoteRewardLockModel,
     PromoteRewardUnlockModel,
     PromoteRewardSaleModel,
+    TransactionTypeModel,
+    TransactionInfoModel,
+    TransactionModel,
     LockFormModel,
     LockModel,
     RechargeCoinModel,
     RechargeModel,
-    WithdrawQuotaModel,
     WithdrawFormModel,
-    WithdrawModel,
     WithdrawAddressModel,
-    SecurityFormModel,
-    TransactionModel,
-    TransactionTypeModel,
-    TransactionInfoModel,
-    TransferModel
+    WithdrawModel,
+    TransferFormModel,
+    TransferChildModel,
+    TransferModel,
+    SecurityFormModel
 } from '@/ts/models';
 
 export interface IActionContext<T> {
@@ -41,6 +43,8 @@ export interface IActionContext<T> {
 
 export interface IRootState {
     tokenInfo: TokenInfo;
+    quota?: QuotaModel | null;
+
     units: Array<string>;
     rateTypes: Array<string>;
 }
@@ -117,7 +121,6 @@ export interface IRechargeState {
 }
 
 export interface IWithdrawState {
-    withdrawQuota: WithdrawQuotaModel; // 提现额度
     withdrawForm: WithdrawFormModel; // 提现表单
 
     pageNum: number; // 分页索引
@@ -127,6 +130,18 @@ export interface IWithdrawState {
 
     withdrawAddresses: Array<WithdrawAddressModel>; // 提现地址列表
     selectedWithdrawAddress?: WithdrawAddressModel; // 已选择的提现地址
+}
+
+export interface ITransferState {
+    transferForm: TransferFormModel; // 提现表单
+
+    pageNum: number; // 分页索引
+    pageSize: number; // 分页尺寸
+    transfers?: Array<TransferModel>; // 转账列表
+    transfer: TransferModel; // 转账信息
+
+    transferChilds?: Array<TransferChildModel>; // 转账下级列表
+    selectedTransferChild?: TransferChildModel; // 已选择的转账下级
 }
 
 export interface ISecurityState {

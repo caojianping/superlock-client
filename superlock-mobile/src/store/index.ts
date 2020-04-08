@@ -13,12 +13,15 @@ import transactionModule from './modules/transaction.module';
 import lockModule from './modules/lock.module';
 import rechargeModule from './modules/recharge.module';
 import withdrawModule from './modules/withdraw.module';
+import transferModule from './modules/transfer.module';
 import securityModule from './modules/security.module';
 
 Vue.use(Vuex);
 
 const rootState: IRootState = {
     tokenInfo: new TokenInfo(),
+    quota: undefined,
+
     units: ['天', '月', '年'],
     rateTypes: ['锁仓利率', '推广解锁利率', '锁仓额度']
 };
@@ -35,6 +38,7 @@ export default new Vuex.Store({
         lock: lockModule,
         recharge: rechargeModule,
         withdraw: withdrawModule,
+        transfer: transferModule,
         security: securityModule
     },
     state: rootState,
@@ -47,6 +51,7 @@ export default new Vuex.Store({
         },
         [TYPES.CLEAR_STATES](state: IRootState) {
             state.tokenInfo = new TokenInfo();
+            state.quota = undefined;
         }
     },
     actions: {
@@ -57,6 +62,17 @@ export default new Vuex.Store({
         ): Promise<boolean> {
             let { areaCode, mobile } = payload;
             return await commonService.fetchSmsCode(areaCode, mobile);
+        },
+
+        // 获取可提现、可转账额度
+        async fetchQuota(context: IActionContext<IRootState>): Promise<void> {
+            let commit = context.commit;
+            try {
+                let quota = await commonService.fetchQuota();
+                commit(TYPES.SET_STATES, { quota });
+            } catch (error) {
+                commit(TYPES.SET_STATES, { quota: null });
+            }
         }
     }
 });

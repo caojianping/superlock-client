@@ -1,10 +1,3 @@
-// 提现额度模型
-export class WithdrawQuotaModel {
-    public amount!: number; // 可提现BCB额度
-    public valuationAmount!: number; // 计价金额；
-    public valuationCoin!: number; // 计价币种；如：DC
-}
-
 // 提现表单模型
 export class WithdrawFormModel {
     public address!: string; // 提现地址
