@@ -8,7 +8,7 @@ import { CONSTANTS } from '@/ts/config';
 import {
     UserLockQuotaModel,
     ProjectStatsModel,
-    ProjectModel
+    ProjectModel,
 } from '@/ts/models';
 
 import { PullRefresh, Toast } from 'vant';
@@ -23,14 +23,12 @@ const projectModule = namespace('project');
     components: { PullRefresh, Navs, Spin }
 })
 export default class Home extends Vue {
-    @State('units') units!: Array<string>;
+    @State('unitTypes') unitTypes!: Array<string>;
 
-    @userModule.State('userLockQuota')
-    userLockQuota?: UserLockQuotaModel | null;
+    @userModule.State('userLockQuota') userLockQuota?: UserLockQuotaModel | null;
     @userModule.Action('fetchUserLockQuota') fetchUserLockQuota!: () => any;
 
-    @projectModule.State('projectStats')
-    projectStats?: ProjectStatsModel | null;
+    @projectModule.State('projectStats') projectStats?: ProjectStatsModel | null;
     @projectModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @projectModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @projectModule.Action('fetchProjectStats') fetchProjectStats!: () => any;
@@ -43,7 +41,7 @@ export default class Home extends Vue {
     goTeam() {
         this.$router.push({
             path: '/team/index',
-            query: { from: '/home/index' }
+            query: { from: '/home/index' },
         });
     }
 

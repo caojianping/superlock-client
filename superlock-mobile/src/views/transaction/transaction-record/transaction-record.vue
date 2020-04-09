@@ -4,8 +4,8 @@
             <span slot="right" @click="openFilter">筛选</span>
         </Header>
 
-        <div v-if="transactions" class="separator">
-            <p v-if="transactions.length <= 0" class="none">暂无资金记录</p>
+        <div v-if="transactions" class="scb-separator">
+            <p v-if="transactions.length <= 0" class="scb-none">暂无资金记录</p>
             <List
                 v-else
                 v-model="isLoading"

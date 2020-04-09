@@ -1,6 +1,6 @@
 import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
+import { Component } from 'vue-property-decorator';
 import ClipboardJS from 'clipboard';
 
 import TYPES from '@/store/types';
@@ -8,7 +8,7 @@ import { Prompt } from '@/ts/common';
 import {
     UserInfoModel,
     DefaultRateStatsModel,
-    DefaultRateFormModel
+    DefaultRateFormModel,
 } from '@/ts/models';
 
 import { Button } from 'vant';
@@ -21,7 +21,7 @@ const childModule = namespace('child');
 
 @Component({
     name: 'InviteFriend',
-    components: { Button, Header, InvitePrompt, RateModal }
+    components: { Button, Header, InvitePrompt, RateModal },
 })
 export default class InviteFriend extends Vue {
     @userModule.State('userInfo') userInfo!: UserInfoModel;
@@ -63,14 +63,17 @@ export default class InviteFriend extends Vue {
             this.setStates({ defaultRateForms });
             let result = await this.setDefaultRates();
             if (!result) Prompt.error('利率设置失败');
-            else Prompt.success('利率设置成功');
+            else {
+                Prompt.success('利率设置成功');
+                this.fetchDefaultRateStats();
+            }
         } catch (error) {
             Prompt.error(error.message || error);
         }
     }
 
-    // 初始化剪切板
-    initClipboard() {
+    // 复制地址
+    copyAddress() {
         let copy = document.getElementById('copy'),
             clipboard = new ClipboardJS(copy);
 
@@ -95,7 +98,7 @@ export default class InviteFriend extends Vue {
     }
 
     mounted() {
-        this.initClipboard();
+        this.copyAddress();
         this.fetchData();
     }
 }

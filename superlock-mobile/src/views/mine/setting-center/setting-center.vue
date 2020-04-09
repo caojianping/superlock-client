@@ -2,7 +2,7 @@
     <div class="setting-center scb-gray">
         <Header title="设置中心" @left="$router.back(-1)" />
 
-        <CellGroup class="separator">
+        <CellGroup class="scb-separator">
             <Cell title="语言" is-link />
             <Cell title="关于我们" is-link />
         </CellGroup>

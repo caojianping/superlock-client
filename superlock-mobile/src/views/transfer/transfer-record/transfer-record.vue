@@ -2,10 +2,10 @@
     <div class="transfer-record">
         <Header title="转账记录" @left="$router.push('/transfer/index')" />
 
-        <div v-if="transfers" class="separator">
-            <p v-if="transfers.length <= 0" class="none">
+        <div v-if="transfers" class="scb-separator">
+            <p v-if="transfers.length <= 0" class="scb-none">
                 暂无转账记录，快去
-                <router-link class="link" to="/transfer/index"
+                <router-link class="scb-link" to="/transfer/index"
                     >转账</router-link
                 >
                 吧！
@@ -23,7 +23,7 @@
                     <Cell
                         v-for="(transfer, index) in transfers"
                         :key="index"
-                        :to="`/transfer/detail/${withdraw.orderId}`"
+                        :to="`/transfer/detail/${transfer.orderId}`"
                     >
                         <div slot="title">
                             <h2>

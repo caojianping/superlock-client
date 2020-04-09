@@ -4,11 +4,11 @@
             <span slot="right" @click="openWithdrawSetting">添加地址</span>
         </Header>
 
-        <div v-if="withdrawAddresses" class="separator">
-            <p v-if="withdrawAddresses.length <= 0" class="none">
+        <div v-if="withdrawAddresses" class="scb-separator">
+            <p v-if="withdrawAddresses.length <= 0" class="scb-none">
                 暂无提现地址，快去
                 <a
-                    class="link"
+                    class="scb-link"
                     href="javascript: void(0)"
                     @click="openWithdrawSetting"
                     >添加地址</a

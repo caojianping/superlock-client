@@ -1,6 +1,6 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
-        <div class="home scb-reserved">
+        <div class="home-index scb-reserved">
             {{ ((lockQuota = userLockQuota || {}), void 0) }}
             <div class="home-stats">
                 <div class="user-stats">
@@ -51,7 +51,7 @@
                                     'icon',
                                     `icon-${
                                         ['new', 'new', 'hot'][project.unit - 1]
-                                    }`
+                                    }`,
                                 ]"
                             />
                         </h2>
@@ -59,7 +59,7 @@
                             <div>
                                 <h2>
                                     <span>{{
-                                        project.rate | ratePercent(1, false)
+                                        project.rate | ratePercent(2, false)
                                     }}</span>
                                     <small>%</small>
                                 </h2>
@@ -68,7 +68,7 @@
                             <div>
                                 <h3>
                                     <span>{{ project.length }}</span>
-                                    <small>{{ units[project.unit - 1] }}</small>
+                                    <small>{{ unitTypes[project.unit - 1] }}</small>
                                 </h3>
                                 <p>本金保证，每日返息</p>
                             </div>

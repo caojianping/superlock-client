@@ -7,7 +7,7 @@ const childState: IChildState = {
     lockPromoteRates: [],
 
     pageNum: 1,
-    pageSize: 10,
+    pageSize: 15,
     childs: undefined,
     child: new ChildModel(),
 
@@ -33,7 +33,7 @@ export default {
             state.lockPromoteRates = [];
 
             state.pageNum = 1;
-            state.pageSize = 10;
+            state.pageSize = 15;
             state.childs = undefined;
             state.child = new ChildModel();
 

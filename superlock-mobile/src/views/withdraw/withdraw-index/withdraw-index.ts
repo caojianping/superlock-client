@@ -63,7 +63,7 @@ export default class WithdrawIndex extends Vue {
         this.setStates({ withdrawForm });
     }
 
-    // 处理Field控件input事件
+    // 处理Field组件input事件
     handleFieldInput(key: string, value: string) {
         let withdrawForm = Utils.duplicate(this.withdrawForm);
         withdrawForm[key] = value;

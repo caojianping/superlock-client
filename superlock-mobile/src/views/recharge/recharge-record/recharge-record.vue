@@ -5,10 +5,10 @@
             @left="$router.push(`/recharge/code/${rechargeCoin || 'BCB'}`)"
         />
 
-        <div v-if="recharges" class="separator">
-            <p v-if="recharges.length <= 0" class="none">
+        <div v-if="recharges" class="scb-separator">
+            <p v-if="recharges.length <= 0" class="scb-none">
                 暂无充值记录，快去
-                <router-link class="link" to="/asset/index">充值</router-link>
+                <router-link class="scb-link" to="/asset/index">充值</router-link>
                 吧！
             </p>
             <List

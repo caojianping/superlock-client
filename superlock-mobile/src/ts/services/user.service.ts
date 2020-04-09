@@ -1,6 +1,6 @@
 import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
-import { Urls, CaxiosType, defaultAreaCode } from '@/ts/config';
+import { Urls, CaxiosType, defaultAreaCode, UserFormType } from '@/ts/config';
 import { Caxios, md5 } from '@/ts/common';
 import { UserFormModel, UserInfoModel, UserLockQuotaModel } from '@/ts/models';
 
@@ -8,25 +8,24 @@ export class UserService {
     //  校验用户表单
     public static validateUserForm(
         userForm: UserFormModel,
-        isRegister: boolean = false
+        type: UserFormType = UserFormType.Login
     ): ValidationResult {
         if (!userForm)
             return {
                 status: false,
-                data: { userForm: '用户表单参数不可以为空' }
+                data: { userForm: '用户表单参数不可以为空' },
             };
 
         const key = 'userForm';
-        let { invitationCode, areaCode, mobile, password, smsCode } = userForm,
+        let {
+                invitationCode,
+                areaCode,
+                mobile,
+                password,
+                smsCode,
+                confirmPassword,
+            } = userForm,
             validator = new Validator();
-        if (isRegister) {
-            validator.addRule(
-                key,
-                { name: 'invitationCode', value: invitationCode },
-                { required: true },
-                { required: '邀请码不可以为空' }
-            );
-        }
         validator.addRule(
             key,
             { name: 'areaCode', value: areaCode },
@@ -44,22 +43,76 @@ export class UserService {
             validator.addRule(
                 key,
                 { name: 'mobile', value: mobile },
-                { required: true },
-                { required: '手机号不可以为空' }
+                { required: true, pureDigit: true },
+                { required: '手机号不可以为空', pureDigit: '手机号格式不正确' }
             );
         }
-        validator.addRule(
-            key,
-            { name: 'password', value: password },
-            { required: true, password: true },
-            { required: '登录密码不可以为空' }
-        );
-        validator.addRule(
-            key,
-            { name: 'smsCode', value: smsCode },
-            { required: true },
-            { required: '短信验证码不可以为空' }
-        );
+
+        if (type === UserFormType.Login) {
+            // 登录表单
+            validator.addRule(
+                key,
+                { name: 'password', value: password },
+                { required: true, password: true },
+                { required: '登录密码不可以为空' }
+            );
+            validator.addRule(
+                key,
+                { name: 'smsCode', value: smsCode },
+                { required: true },
+                { required: '短信验证码不可以为空' }
+            );
+        } else if (type === UserFormType.Register) {
+            // 注册表单
+            validator.addRule(
+                key,
+                { name: 'invitationCode', value: invitationCode },
+                { required: true },
+                { required: '邀请码不可以为空' }
+            );
+            validator.addRule(
+                key,
+                { name: 'password', value: password },
+                { required: true, password: true },
+                { required: '登录密码不可以为空' }
+            );
+            validator.addRule(
+                key,
+                { name: 'smsCode', value: smsCode },
+                { required: true },
+                { required: '短信验证码不可以为空' }
+            );
+        } else if (type === UserFormType.ForgetMobile) {
+            // 忘记密码表单（包含区号、手机号）
+        } else if (type === UserFormType.ForgetSmsCode) {
+            // 忘记密码表单（包含区号、手机号、验证码）
+            validator.addRule(
+                key,
+                { name: 'smsCode', value: smsCode },
+                { required: true },
+                { required: '短信验证码不可以为空' }
+            );
+        } else if (type === UserFormType.Forget) {
+            // 忘记密码表单
+            validator.addRule(
+                key,
+                { name: 'smsCode', value: smsCode },
+                { required: true },
+                { required: '短信验证码不可以为空' }
+            );
+            validator.addRule(
+                key,
+                { name: 'password', value: password },
+                { required: true, password: true },
+                { required: '登录密码不可以为空' }
+            );
+            validator.addRule(
+                key,
+                { name: 'confirmPassword', value: confirmPassword },
+                { equal: password },
+                { equal: '两次密码输入不一致' }
+            );
+        }
         return validator.execute(key);
     }
 
@@ -67,7 +120,7 @@ export class UserService {
     public async register(userForm: UserFormModel): Promise<boolean> {
         let result: ValidationResult = UserService.validateUserForm(
             userForm,
-            true
+            UserFormType.Register
         );
         if (!result.status)
             return Promise.reject(Utils.getFirstValue(result.data));
@@ -78,7 +131,7 @@ export class UserService {
                 account: [areaCode, mobile].join(','),
                 accountKind: 1,
                 passwd: md5(password),
-                vfcode: smsCode
+                vfcode: smsCode,
             });
         await Caxios.post<any>(
             { url: `${Urls.user.register}?${parameters}` },
@@ -89,7 +142,7 @@ export class UserService {
 
     // 登录
     public async login(userForm: UserFormModel): Promise<UserInfoModel | null> {
-        let result: ValidationResult = UserService.validateUserForm(userForm);
+        let result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.Login);
         if (!result.status)
             return Promise.reject(Utils.getFirstValue(result.data));
 
@@ -98,7 +151,7 @@ export class UserService {
                 account: [areaCode, mobile].join(','),
                 accountKind: 1,
                 passwd: md5(password),
-                vfcode: smsCode
+                vfcode: smsCode,
             });
         return await Caxios.post<UserInfoModel | null>(
             { url: `${Urls.user.login}?${parameters}` },
@@ -117,7 +170,7 @@ export class UserService {
 
     // 找回密码
     public async retrieval(userForm: UserFormModel): Promise<boolean> {
-        let result: ValidationResult = UserService.validateUserForm(userForm);
+        let result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.Forget);
         if (!result.status)
             return Promise.reject(Utils.getFirstValue(result.data));
 
@@ -126,7 +179,7 @@ export class UserService {
                 account: [areaCode, mobile].join(','),
                 accountKind: 1,
                 newPasswd: md5(password),
-                vfcode: smsCode
+                vfcode: smsCode,
             });
         await Caxios.post<any>(
             { url: `${Urls.user.retrieval}?${parameters}` },

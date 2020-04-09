@@ -26,7 +26,7 @@
             </ul>
         </div>
 
-        <p class="separator" @click="handlePopupClose">取消</p>
+        <p class="scb-separator" @click="handlePopupClose">取消</p>
     </Popup>
 </template>
 

@@ -15,7 +15,7 @@
         </Search>
 
         <div v-if="transferChilds">
-            <p v-if="transferChilds.length <= 0" class="none">暂无下级信息</p>
+            <p v-if="transferChilds.length <= 0" class="scb-none">暂无下级信息</p>
             <List
                 v-else
                 v-model="isLoading"
@@ -32,7 +32,7 @@
                         @click="chooseChild(transferChild)"
                     >
                         <div slot="title">
-                            <h2>{{ transferChild.nickName }}</h2>
+                            <h2>{{ transferChild.nickNameRemark }}</h2>
                             <p>{{ transferChild.uid }}</p>
                         </div>
                         <Checkbox

@@ -2,7 +2,7 @@
     <div class="team-child scb-gray">
         <Header title="成员设置" @left="$router.back(-1)" />
 
-        <CellGroup class="separator">
+        <CellGroup class="scb-separator">
             <Cell title="UID">
                 <p
                     id="uid"
@@ -29,7 +29,7 @@
                 <p slot="title" v-if="childRateForm.type === 1">
                     {{
                         childRateForm.length +
-                            units[childRateForm.unit - 1] +
+                            unitTypes[childRateForm.unit - 1] +
                             rateTypes[childRateForm.type - 1]
                     }}
                 </p>
@@ -79,8 +79,15 @@
 
         <Modal class="rate-modal" v-model="isRateShow">
             <template v-if="currentForm" slot="title">
-                <h2>{{ rateTypes[currentForm.type] }}设置</h2>
-                <p>
+                <h2 v-if="currentForm.type === 1">
+                    {{
+                        currentForm.length +
+                            unitTypes[currentForm.unit - 1] +
+                            rateTypes[currentForm.type - 1]
+                    }}设置
+                </h2>
+                <h2 v-else>{{ rateTypes[currentForm.type - 1] }}设置</h2>
+                <p class="text-left">
                     设置下级的锁仓利率，下级的锁仓利率不能高于你的利率。且本次设置的利率不能低于上次设置的利率。
                 </p>
             </template>

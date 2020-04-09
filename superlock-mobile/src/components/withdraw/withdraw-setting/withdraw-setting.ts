@@ -30,13 +30,13 @@ export default class WithdrawSetting extends Vue {
     isShow: boolean = this.value; // 是否显示弹出框
     withdrawAddress: WithdrawAddressModel = new WithdrawAddressModel(); // 提现地址
 
-    // 关闭弹出框
-    closePopup() {
+    // 处理弹出框close事件
+    handlePopupClose() {
         this.isShow = false;
         this.$emit('close', false);
     }
 
-    // 处理Field控件input事件
+    // 处理Field组件input事件
     handleFieldInput(key: string, value: string) {
         let withdrawAddress = Utils.duplicate(this.withdrawAddress);
         withdrawAddress[key] = value;

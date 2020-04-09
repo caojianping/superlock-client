@@ -4,7 +4,7 @@ import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { RegisterStatus } from '@/ts/config';
+import { RegisterStatus, CONSTANTS } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { UserFormModel } from '@/ts/models';
 
@@ -76,17 +76,11 @@ export default class UserRegister extends Vue {
             let self = this;
             if (window['initNECaptcha']) {
                 window['initNECaptcha'](
-                    {
-                        element: '#captcha',
-                        captchaId: '7c80c423944941819e409d0d6639c4dd',
-                        mode: 'float'
-                    },
+                    CONSTANTS.CAPTCHA_OPTIONS,
                     function onload(instance) {
                         self.yunDun = instance;
                     },
-                    function onerror(err) {
-                        // console.log('onerror err:', err);
-                    }
+                    function onerror() {}
                 );
             }
         } catch (error) {}

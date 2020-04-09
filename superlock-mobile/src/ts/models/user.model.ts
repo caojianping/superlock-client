@@ -7,6 +7,7 @@ export class UserFormModel {
     public mobile!: string; // 手机号
     public password!: string; // 密码(MD5加密)
     public smsCode!: string; // 短信验证码
+    public confirmPassword?: string; // 确认新密码
 
     constructor() {
         this.invitationCode = '';

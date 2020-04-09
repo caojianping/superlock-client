@@ -8,12 +8,12 @@ const transactionState: ITransactionState = {
     transactionType: new TransactionTypeModel(1000, '全部'),
 
     pageNum: 1,
-    pageSize: 10,
+    pageSize: 15,
     transactions: undefined,
 
     type: 0,
     orderId: '',
-    transaction: undefined
+    transaction: undefined,
 };
 
 const transactionService = new TransactionService();
@@ -35,13 +35,13 @@ export default {
             state.transactionType = new TransactionTypeModel(1000, '全部');
 
             state.pageNum = 1;
-            state.pageSize = 10;
+            state.pageSize = 15;
             state.transactions = undefined;
 
             state.type = 0;
             state.orderId = '';
             state.transaction = undefined;
-        }
+        },
     },
     actions: {
         // 获取交易类型列表
@@ -70,7 +70,7 @@ export default {
                         pageNum,
                         pageSize,
                         transactions,
-                        transactionType
+                        transactionType,
                     } = state,
                     data = await transactionService.fetchTransactions(
                         transactionType.type,
@@ -80,12 +80,12 @@ export default {
                 if (pageNum === 1) {
                     commit(TYPES.SET_STATES, {
                         pageNum: pageNum + 1,
-                        transactions: data
+                        transactions: data,
                     });
                 } else {
                     commit(TYPES.SET_STATES, {
                         pageNum: pageNum + 1,
-                        transactions: (transactions || []).concat(data)
+                        transactions: (transactions || []).concat(data),
                     });
                 }
                 isPending = false;
@@ -111,6 +111,6 @@ export default {
             } catch (error) {
                 commit(TYPES.SET_STATES, { transaction: null });
             }
-        }
-    }
+        },
+    },
 };

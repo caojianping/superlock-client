@@ -22,7 +22,7 @@
         <p>
             <router-link :to="`/user/register?code=${code}`">注册</router-link>
             <span>|</span>
-            <router-link to="/user/forget">忘记密码</router-link>
+            <a href="javascript: void(0)" @click="goForget">忘记密码</a>
         </p>
 
         <div id="captcha"></div>

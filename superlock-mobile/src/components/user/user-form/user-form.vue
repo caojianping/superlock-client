@@ -21,7 +21,7 @@
         />
 
         <Field
-            class="field-code"
+            class="code"
             :value="userForm.smsCode"
             clearable
             placeholder="请输入验证码"

@@ -2,7 +2,7 @@
     <div class="recharge-address">
         <Header title="充值地址" @left="$router.back(-1)" />
 
-        <div class="separator">
+        <div class="scb-separator">
             <Spin :is-spinning="isSpinning" />
 
             <CellGroup v-if="!isSpinning">

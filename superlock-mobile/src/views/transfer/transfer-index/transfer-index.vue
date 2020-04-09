@@ -6,14 +6,15 @@
             >
         </Header>
 
-        <div class="scb-form separator">
+        <div class="scb-form scb-separator">
             <ul>
                 <li>
                     <h2>收款UID</h2>
                     <Field
                         :value="transferForm.toUid"
-                        disabled
+                        clearable
                         placeholder="请输入收款UID"
+                        @input="handleFieldInput('toUid', $event)"
                     >
                         <i
                             slot="button"
@@ -35,14 +36,14 @@
                         @input="handleFieldInput('quota', $event)"
                     >
                         <span
-                            class="text-prompt"
+                            class="text-orange"
                             slot="button"
                             @click="transferAll"
                             >全部</span
                         >
                     </Field>
                     {{ ((quotaObj = quota || {}), void 0) }}
-                    <p class="text-prompt">
+                    <p class="text-orange">
                         可转账金额
                         {{
                             `${quotaObj.amount || '--'} BCB = 
@@ -69,10 +70,10 @@
                         @click="submit"
                         >确定转账</Button
                     >
-                    <p class="text-prompt">
+                    <p class="text-orange">
                         转账功能只支持锁仓宝用户之间的BCB资产互转。
                     </p>
-                    <p class="text-prompt">请正确填写收款人UID，以免资金错转</p>
+                    <p class="text-orange">请正确填写收款人UID，以免资金错转</p>
                 </li>
             </ul>
         </div>

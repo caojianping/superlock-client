@@ -8,7 +8,7 @@ import {
     PromoteRewardPushModel,
     PromoteRewardLockModel,
     PromoteRewardUnlockModel,
-    PromoteRewardSaleModel
+    PromoteRewardSaleModel,
 } from '@/ts/models';
 
 import { List, CellGroup, Cell } from 'vant';
@@ -18,7 +18,7 @@ const projectModule = namespace('project');
 
 @Component({
     name: 'RewardRecord',
-    components: { List, CellGroup, Cell, Header }
+    components: { List, CellGroup, Cell, Header },
 })
 export default class RewardRecord extends Vue {
     @projectModule.State('pageNum') pageNum!: number;
@@ -50,9 +50,9 @@ export default class RewardRecord extends Vue {
         this.type = type;
         this.title = {
             1: '直推奖励',
-            2: '直团队锁仓奖励',
+            2: '团队锁仓奖励',
             3: '推广解锁奖励',
-            4: '销量达标奖励'
+            4: '销量达标奖励',
         }[type];
     }
 

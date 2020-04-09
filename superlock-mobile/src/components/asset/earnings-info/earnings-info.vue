@@ -1,10 +1,10 @@
 <template>
     <Popup
         v-model="isShow"
-        class="page-popup earnings-popup"
-        @close="closePopup"
+        class="earnings-popup full"
+        @close="handlePopupClose"
     >
-        <Header title="昨日收益" @left="closePopup" />
+        <Header title="昨日收益" @left="handlePopupClose" />
 
         <template v-if="earningsStats">
             <h2>

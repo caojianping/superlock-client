@@ -42,11 +42,11 @@ export interface IActionContext<T> {
 }
 
 export interface IRootState {
-    tokenInfo: TokenInfo;
-    quota?: QuotaModel | null;
+    tokenInfo: TokenInfo;// token信息
+    quota?: QuotaModel | null;// 可提现、可转账额度
 
-    units: Array<string>;
-    rateTypes: Array<string>;
+    unitTypes: Array<string>;// 单位类型
+    rateTypes: Array<string>;// 利率类型
 }
 
 export interface IUserState {

@@ -35,7 +35,7 @@
 
                 <p class="register-prompt">
                     已有账号，
-                    <router-link class="link" :to="`/user/login?code=${code}`"
+                    <router-link class="scb-link" :to="`/user/login?code=${code}`"
                         >立即登录</router-link
                     >
                 </p>

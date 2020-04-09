@@ -9,7 +9,7 @@
         <div class="lock-detail-body">
             <h1 class="lock-detail-title">
                 锁仓宝 -
-                {{ lockProject.length + units[lockProject.unit - 1] }}
+                {{ lockProject.length + unitTypes[lockProject.unit - 1] }}
             </h1>
 
             <div class="lock-detail-intro lock-container">
@@ -26,7 +26,7 @@
                     <li>
                         <h2>
                             <span>{{ lockProject.length }}</span>
-                            <small>{{ units[lockProject.unit - 1] }}</small>
+                            <small>{{ unitTypes[lockProject.unit - 1] }}</small>
                         </h2>
                         <p>锁仓期限</p>
                     </li>

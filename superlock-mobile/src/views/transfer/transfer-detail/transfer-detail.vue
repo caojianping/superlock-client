@@ -2,7 +2,7 @@
     <div class="transfer-detail">
         <Header title="转账详情" @left="$router.push('/transfer/record')" />
 
-        <CellGroup class="separator">
+        <CellGroup class="scb-separator">
             <Cell title="交易单号" :value="transfer.orderId" />
             <Cell title="发款UID" :value="transfer.fromUid" />
             <Cell title="收款UID" :value="transfer.toUid" />

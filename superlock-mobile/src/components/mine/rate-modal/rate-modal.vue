@@ -17,28 +17,35 @@
                     v-if="defaultRateForm.type === 1"
                     :label="
                         `${defaultRateForm.length}${
-                            units[defaultRateForm.unit]
-                        }锁仓利率`
+                            unitTypes[defaultRateForm.unit - 1]
+                        }锁仓利率(<${defaultRateForm.max}%)`
                     "
                 >
-                    <div slot="input" class="scb-input">
-                        <input
-                            type="text"
-                            v-model="defaultRateForm.value"
-                            :placeholder="`<${defaultRateForm.max}%`"
-                        />
-                        <span>%</span>
-                    </div>
+                    <template slot="input">
+                        <div class="scb-input">
+                            <input
+                                type="text"
+                                v-model="defaultRateForm.value"
+                                :placeholder="`<${defaultRateForm.max}%`"
+                            />
+                            <span>%</span>
+                        </div>
+                    </template>
                 </Field>
-                <Field v-if="defaultRateForm.type === 2" label="推广解锁利率">
-                    <div slot="input" class="scb-input">
-                        <input
-                            type="text"
-                            v-model="defaultRateForm.value"
-                            :placeholder="`<${defaultRateForm.max}%`"
-                        />
-                        <span>%</span>
-                    </div>
+                <Field
+                    v-if="defaultRateForm.type === 2"
+                    :label="`推广解锁利率(<${defaultRateForm.max}%)`"
+                >
+                    <template slot="input">
+                        <div class="scb-input">
+                            <input
+                                type="text"
+                                v-model="defaultRateForm.value"
+                                :placeholder="`<${defaultRateForm.max}%`"
+                            />
+                            <span>%</span>
+                        </div>
+                    </template>
                 </Field>
             </li>
             <li

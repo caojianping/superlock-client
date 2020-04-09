@@ -8,7 +8,7 @@ import {
     ChildRateFormModel,
     DefaultRateStatsModel,
     DefaultRateFormModel,
-    ChildRateModel
+    ChildRateModel,
 } from '@/ts/models';
 
 export class ChildService {
@@ -17,7 +17,7 @@ export class ChildService {
         childUid: string,
         childRateForms: Array<ChildRateFormModel>
     ): ValidationResult {
-        let units = ['天', '月', '年'],
+        let unitTypes = ['天', '月', '年'],
             rateTypes = ['锁仓利率', '推广解锁利率', '锁仓额度'],
             key = 'childRateForms',
             validator = new Validator();
@@ -35,7 +35,7 @@ export class ChildService {
                 if (type === 1) {
                     msg =
                         childRateForm.length +
-                        units[childRateForm.unit - 1] +
+                        unitTypes[childRateForm.unit - 1] +
                         rateTypes[type - 1];
                 } else {
                     msg = rateTypes[type - 1];
@@ -51,7 +51,7 @@ export class ChildService {
                     {
                         required: `${msg}值不可以为空`,
                         min: `${msg}不可以小于${minAmount}`,
-                        max: `${msg}不可以大于${maxAmount}`
+                        max: `${msg}不可以大于${maxAmount}`,
                     }
                 );
             }
@@ -63,7 +63,7 @@ export class ChildService {
     public static validateDefaultRateForms(
         defaultRateForms: Array<DefaultRateFormModel>
     ): ValidationResult {
-        let units = ['天', '月', '年'],
+        let unitTypes = ['天', '月', '年'],
             rateTypes = ['锁仓利率', '推广解锁利率', '锁仓额度'],
             key = 'defaultRateForms',
             validator = new Validator();
@@ -74,7 +74,7 @@ export class ChildService {
                 if (type === 1) {
                     msg =
                         defaultRateForm.length +
-                        units[defaultRateForm.unit - 1] +
+                        unitTypes[defaultRateForm.unit - 1] +
                         rateTypes[type - 1];
                 } else {
                     msg = rateTypes[type - 1];
@@ -91,7 +91,7 @@ export class ChildService {
                     {
                         required: `${msg}不可以为空`,
                         minExclude: `${msg}不可以小于等于0`,
-                        maxExclude: `${msg}不可以大于等于${max}`
+                        maxExclude: `${msg}不可以大于等于${max}`,
                     }
                 );
             }
@@ -117,8 +117,8 @@ export class ChildService {
             {
                 url: `${Urls.child.page}?${Utils.buildParameters({
                     pageNum,
-                    pageSize
-                })}`
+                    pageSize,
+                })}`,
             },
             pageNum === 1 ? CaxiosType.LoadingToken : CaxiosType.Token
         );
@@ -160,7 +160,7 @@ export class ChildService {
 
         let parameters = Utils.buildParameters({
             childUid,
-            nickNameRemark: remark
+            nickNameRemark: remark,
         });
         await Caxios.post<any>(
             { url: `${Urls.child.setRemark}?${parameters}` },
@@ -189,8 +189,8 @@ export class ChildService {
                     length: item.length,
                     type: item.type,
                     unit: item.unit,
-                    value: Number(item.value)
-                }))
+                    value: Number(item.value),
+                })),
             },
             CaxiosType.LoadingToken
         );
@@ -206,6 +206,7 @@ export class ChildService {
         if (result) {
             (result.defaultRateList || []).forEach((rate: any) => {
                 rate['value'] = Number(rate.value);
+                rate['childValue'] = Number(rate.childValue);
             });
         }
         return result;
@@ -229,8 +230,8 @@ export class ChildService {
                     length: item.length,
                     type: item.type,
                     unit: item.unit,
-                    value: Number(item.value)
-                }))
+                    value: Number(item.value),
+                })),
             },
             CaxiosType.LoadingToken
         );

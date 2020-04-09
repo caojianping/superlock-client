@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
+
 import Utils from '@/ts/utils';
 import { IAreaCode } from '@/ts/config';
 import { UserFormModel } from '@/ts/models';
@@ -15,7 +16,7 @@ import SmsCode from '@/components/common/sms-code';
 export default class UserForm extends Vue {
     userForm: UserFormModel = new UserFormModel();
 
-    // 处理Field控件input事件
+    // 处理Field组件input事件
     handleFieldInput(key: string, value: any) {
         let userForm = Utils.duplicate(this.userForm);
         userForm[key] = value;

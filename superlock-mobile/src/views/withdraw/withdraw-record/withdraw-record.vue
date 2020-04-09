@@ -2,10 +2,10 @@
     <div class="withdraw-record">
         <Header title="提现记录" @left="$router.push('/withdraw/index')" />
 
-        <div v-if="withdraws" class="separator">
-            <p v-if="withdraws.length <= 0" class="none">
+        <div v-if="withdraws" class="scb-separator">
+            <p v-if="withdraws.length <= 0" class="scb-none">
                 暂无提现记录，快去
-                <router-link class="link" to="/asset/index">提现</router-link>
+                <router-link class="scb-link" to="/asset/index">提现</router-link>
                 吧！
             </p>
             <List
@@ -31,7 +31,7 @@
                                 {{ withdraw.createTime | dateFormat }}
                             </p>
                         </div>
-                        <p slot="default" class="text-red">
+                        <p>
                             {{ `- ${withdraw.amount} ${withdraw.coin}` }}
                         </p>
                     </Cell>

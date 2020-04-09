@@ -1,39 +1,20 @@
 <template>
-    <div class="fund-password scb-gray">
-        <Header title="登录密码" @left="$router.push('/security/center')" />
+    <Popup v-model="isShow" class="full scb-gray" @close="handlePopupClose">
+        <Header title="密码找回" @left="handlePopupClose" />
 
         <div class="scb-form scb-separator">
             <ul>
                 <li>
-                    <h1>登录密码</h1>
-                    <p>UID: {{ userInfo.userId || '--' }}</p>
-                </li>
-                <li>
-                    <h2>原密码</h2>
-                    <Field
-                        type="password"
-                        :value="securityForm.oldPassword"
-                        clearable
-                        placeholder="请输入原密码"
-                        @input="handleFieldInput('oldPassword', $event)"
-                    >
-                        <a
-                            slot="button"
-                            class="text-orange"
-                            href="javascript: void(0)"
-                            @click="goForget"
-                            >忘记密码</a
-                        >
-                    </Field>
+                    <h1>输入新密码</h1>
                 </li>
                 <li>
                     <h2>新密码</h2>
                     <Field
                         :type="isNewPasswordVisible ? 'text' : 'password'"
-                        :value="securityForm.newPassword"
+                        :value="userForm.password"
                         clearable
                         placeholder="请输入新密码"
-                        @input="handleFieldInput('newPassword', $event)"
+                        @input="handleFieldInput('password', $event)"
                     >
                         <i
                             :class="[
@@ -51,7 +32,7 @@
                     <h2>确认新密码</h2>
                     <Field
                         :type="isConfirmPasswordVisible ? 'text' : 'password'"
-                        :value="securityForm.confirmPassword"
+                        :value="userForm.confirmPassword"
                         clearable
                         placeholder="请再次输入新密码"
                         @input="handleFieldInput('confirmPassword', $event)"
@@ -83,9 +64,9 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </Popup>
 </template>
 
-<style src="./login-password.less" lang="less" scoped />
+<style src="./forget-form.less" lang="less" scoped />
 
-<script src="./login-password.ts" />
+<script src="./forget-form.ts" />

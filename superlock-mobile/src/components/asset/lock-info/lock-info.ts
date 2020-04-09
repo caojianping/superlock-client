@@ -14,7 +14,7 @@ export default class LockInfo extends Vue {
     @Model('close', { type: Boolean }) value!: boolean; // v-model
     @Prop() readonly lock!: LockModel;
 
-    @State('units') units !: Array<string>;
+    @State('unitTypes') unitTypes !: Array<string>;
 
     isShow: boolean = this.value; // 是否显示弹出框
 
@@ -35,8 +35,8 @@ export default class LockInfo extends Vue {
         50: 'orange'
     };
 
-    // 关闭弹出框
-    closePopup() {
+    // 处理弹出框close事件
+    handlePopupClose() {
         this.isShow = false;
         this.$emit('close', false);
     }

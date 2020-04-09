@@ -30,7 +30,7 @@ const projectModule = namespace('project');
     components: { Field, Button, Header, PasswordModal }
 })
 export default class LockCreate extends Vue {
-    @State('units') units!: Array<string>;
+    @State('unitTypes') unitTypes!: Array<string>;
 
     @userModule.State('userInfo') userInfo!: UserInfoModel;
     @userModule.State('userLockQuota')
@@ -50,7 +50,7 @@ export default class LockCreate extends Vue {
 
     isShow: boolean = false; // 是否显示密码模态框
 
-    // 处理Field控件input事件
+    // 处理Field组件input事件
     handleFieldInput(key: string, value: string) {
         let lockForm = Utils.duplicate(this.lockForm);
         lockForm[key] = value;

@@ -16,10 +16,10 @@ const childModule = namespace('child');
 
 @Component({
     name: 'TeamChild',
-    components: { CellGroup, Cell, Button, Header, Modal }
+    components: { CellGroup, Cell, Button, Header, Modal },
 })
 export default class TeamChild extends Vue {
-    @State('units') units!: Array<string>;
+    @State('unitTypes') unitTypes!: Array<string>;
     @State('rateTypes') rateTypes!: Array<string>;
 
     @childModule.State('childs') childs?: Array<ChildModel>;
@@ -44,22 +44,12 @@ export default class TeamChild extends Vue {
     currentIndex: number = 0; // 当前索引
     currentForm: ChildRateFormModel = new ChildRateFormModel(); // 当前表单
 
-    // 复制UID
-    copyUid() {
-        let uid = document.getElementById('uid'),
-            clipboard = new ClipboardJS(uid);
-        clipboard.on('success', function(e) {
-            Prompt.success('UID复制成功');
-        });
-        clipboard.on('error', function(e) {
-            Prompt.error('UID复制失败');
-        });
-    }
-
     // 打开备注模态框
     openRemarkModal() {
         this.isRemarkShow = true;
-        this.remark = this.child.nickName || '';
+
+        let child = Utils.duplicate(this.child);
+        this.remark = child.nickName || '';
     }
 
     // 取消备注
@@ -86,12 +76,15 @@ export default class TeamChild extends Vue {
     }
 
     // 打开利率模态框
-    openRateModal(index: number) {
+    openRateModal(currentIndex: number) {
         this.isRateShow = true;
-        this.currentIndex = index;
+        this.currentIndex = currentIndex;
+
+        let childRateForms = Utils.duplicate(this.childRateForms);
         this.currentForm =
-            this.childRateForms.filter(
-                (form: any, cindex: number) => cindex === index
+            childRateForms.filter(
+                (childRateForm: ChildRateFormModel, index: number) =>
+                    currentIndex === index
             )[0] || new ChildRateFormModel();
     }
 
@@ -114,17 +107,13 @@ export default class TeamChild extends Vue {
                 (childRateForm: ChildRateFormModel, index: number) => {
                     if (currentIndex === index) {
                         childRateForm.value = value;
-                        childRateForm.minAmount = value;
-                        childRateForm.showValue = value;
                     }
                 }
             );
 
-            console.log('childRateForms:', this.childRateForms);
-            let result = await this.setChildRates(this.childRateForms);
-            if (!result) {
-                Prompt.error('设置失败');
-            } else {
+            let result = await this.setChildRates(childRateForms);
+            if (!result) Prompt.error('设置失败');
+            else {
                 Prompt.success('设置成功');
                 currentForm.value = value;
                 currentForm.minAmount = value;
@@ -139,10 +128,10 @@ export default class TeamChild extends Vue {
 
     // 初始化数据
     initData() {
-        let uid = this.$route.params.uid,
-            childs = this.childs || [],
-            child =
-                childs.filter(item => (item.uid = uid))[0] || new ChildModel();
+        let params: any = this.$route.params || {},
+            uid = params.uid,
+            childs = Utils.duplicate(this.childs || []),
+            child = childs.filter((child: ChildModel) => child.uid === uid)[0];
         this.setStates({ child });
 
         let childRateForms: Array<ChildRateFormModel> = [];
@@ -158,8 +147,19 @@ export default class TeamChild extends Vue {
             childRateForm.value = rate.childValue;
             childRateForms.push(childRateForm);
         });
-        console.log('uid,child,childRateForms:', uid, child, childRateForms);
         this.childRateForms = childRateForms;
+    }
+
+    // 复制UID
+    copyUid() {
+        let uid = document.getElementById('uid'),
+            clipboard = new ClipboardJS(uid);
+        clipboard.on('success', function(e) {
+            Prompt.success('UID复制成功');
+        });
+        clipboard.on('error', function(e) {
+            Prompt.error('UID复制失败');
+        });
     }
 
     created() {

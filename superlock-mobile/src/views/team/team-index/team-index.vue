@@ -8,7 +8,7 @@
                     @left="$router.push(from || '/mine/index')"
                 />
                 <h2>
-                    团队锁仓总额度({{
+                    团队已锁仓总额度({{
                         userLockQuota ? userLockQuota.usedCoin : '--'
                     }})
                 </h2>
@@ -30,7 +30,7 @@
                     <p v-if="lockPromoteRate.type === 1">
                         {{
                             lockPromoteRate.length +
-                                units[lockPromoteRate.unit - 1] +
+                                unitTypes[lockPromoteRate.unit - 1] +
                                 rateTypes[lockPromoteRate.type - 1]
                         }}
                     </p>
@@ -39,7 +39,7 @@
             </ul>
 
             <div v-if="childs" class="child-container">
-                <p v-if="childs.length <= 0" class="none">暂无团队成员</p>
+                <p v-if="childs.length <= 0" class="scb-none">暂无团队成员</p>
                 <List
                     v-else
                     class="child-list"

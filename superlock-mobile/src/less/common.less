@@ -62,50 +62,26 @@
     text-align: right !important;
 }
 
-// 文本颜色
-.text-red {
-    color: #ee0a24 !important;
-}
-
-.text-gray {
-    color: @gray !important;
-}
-
-// 无数据样式
-.none {
-    padding: 2rem 0;
-    .font-styles(0.875rem, normal, 1.5, @gray, center);
-}
-
-// 链接样式
-.link {
-    .font-styles(0.875rem, normal, 1.5, @light-blue, center);
-}
-
-// 灰色分隔线
-.separator {
-    border-top: 0.5rem solid #f9f9f9;
-}
-
 // app样式
 #app {
     height: 100%;
     min-height: 100%;
 }
 
+// captcha样式
 #captcha {
     display: none;
 }
 
-// 锁仓宝页面底部预留尺寸
-.scb-reserved {
-    padding-bottom: 3.625rem;
-}
-
-// 锁仓宝灰色背景页面
+// 锁仓宝灰色背景样式
 .scb-gray {
     min-height: 100%;
     background-color: #f9f9f9;
+}
+
+// 锁仓宝预留尺寸样式
+.scb-reserved {
+    padding-bottom: 3.625rem;
 }
 
 // 锁仓宝表单样式
@@ -114,59 +90,57 @@
     padding: 1rem 2rem 2rem;
     background-color: white;
 
-    ul {
-        li {
-            h1 {
-                .font-styles(1.375rem, normal, 1.5, @black, left);
+    ul li {
+        h1 {
+            .font-styles(1.25rem, normal, 1.5, @black, left);
+        }
+
+        h1,
+        h2,
+        .van-button.van-button--primary {
+            margin-top: 1.5rem;
+        }
+
+        h2 {
+            .font-styles(1rem, normal, 1.5, @black, left);
+
+            .icon,
+            span {
+                vertical-align: middle;
             }
 
-            h1,
-            h2,
-            .van-button.van-button--primary {
-                margin-top: 1.5rem;
+            .icon {
+                margin-right: 0.5rem;
             }
+        }
 
-            h2 {
-                .font-styles(1rem, normal, 1.5, @black, left);
+        p {
+            padding: 0.5rem 0;
+        }
 
-                .icon,
-                span {
-                    vertical-align: middle;
-                }
+        .van-cell.van-field {
+            padding-right: 0;
+            padding-left: 0;
 
-                .icon {
-                    margin-right: 0.5rem;
-                }
+            &::after {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                content: '';
+                border-bottom: 0.0625rem solid #ebedf0;
+                .transform(scaleY(0.5));
+                .box-sizing(border-box);
+                pointer-events: none;
             }
+        }
 
-            .van-cell.van-field {
-                padding-right: 0;
-                padding-left: 0;
+        .text-gray {
+            .font-styles(0.75rem, normal, 1.5, @gray, center);
+        }
 
-                &::after {
-                    position: absolute;
-                    right: 0;
-                    bottom: 0;
-                    left: 0;
-                    content: '';
-                    border-bottom: 0.0625rem solid #ebedf0;
-                    .transform(scaleY(0.5));
-                    .box-sizing(border-box);
-                    pointer-events: none;
-                }
-            }
-
-            p {
-                padding: 0.5rem 0;
-            }
-
-            .van-button.van-button--primary + p {
-                .font-styles(0.75rem, normal, 1.5, @gray, center);
-            }
-
-            .text-prompt {
-                .font-styles(0.75rem, normal, 1.5, #ffb13e, left);
-            }
+        .text-orange {
+            .font-styles(0.75rem, normal, 1.5, @orange, left);
         }
     }
 }
@@ -197,4 +171,20 @@
         margin-right: 1rem;
         .font-styles(0.875rem, normal, 2.5rem, @black, right);
     }
+}
+
+// 锁仓宝灰色分隔线样式
+.scb-separator {
+    border-top: 0.5rem solid #f9f9f9;
+}
+
+// 锁仓宝暂无数据样式
+.scb-none {
+    padding: 2rem 0;
+    .font-styles(0.875rem, normal, 1.5, @gray, center);
+}
+
+// 锁仓宝链接样式
+.scb-link {
+    .font-styles(0.875rem, normal, 1.5, @light-blue, center);
 }

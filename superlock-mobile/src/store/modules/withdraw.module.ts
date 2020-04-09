@@ -11,7 +11,7 @@ const withdrawState: IWithdrawState = {
     withdrawForm: new WithdrawFormModel(),
 
     pageNum: 1,
-    pageSize: 10,
+    pageSize: 15,
     withdraws: undefined,
     withdraw: new WithdrawModel(),
 
@@ -37,7 +37,7 @@ export default {
             state.withdrawForm = new WithdrawFormModel();
 
             state.pageNum = 1;
-            state.pageSize = 10;
+            state.pageSize = 15;
             state.withdraws = undefined;
             state.withdraw = new WithdrawModel();
 

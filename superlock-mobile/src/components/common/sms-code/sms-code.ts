@@ -6,11 +6,12 @@ import Spin from '@/components/common/spin';
 
 @Component({
     name: 'SmsCode',
-    components: { Spin }
+    components: { Spin },
 })
 export default class SmsCode extends Vue {
     @Prop() readonly areaCode!: string;
     @Prop() readonly mobile!: string;
+    @Prop({ type: Boolean, default: false }) readonly isInit!: boolean;
 
     @Action('fetchSmsCode') fetchSmsCode!: (payload: {
         areaCode: string;
@@ -77,6 +78,12 @@ export default class SmsCode extends Vue {
             this.isSending = false;
             Prompt.error(error.message || error);
             this.$emit('stop');
+        }
+    }
+
+    mounted() {
+        if (this.isInit) {
+            this.sendSmsCode();
         }
     }
 }

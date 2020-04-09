@@ -1,9 +1,6 @@
 @import './vars.less';
 @import './mixins.less';
 
-@light-red: #ff5151; // 浅红色
-@bright-red: #d0021b; // 鲜红色
-
 .van-pull-refresh {
     height: 100%;
     min-height: 100%;
@@ -15,26 +12,12 @@
     }
 }
 
-.van-button {
-    cursor: pointer;
-
-    // &.van-button--danger {
-    //     background-color: @bright-red;
-    //     border-color: @bright-red;
-
-    //     &.van-button--block {
-    //         height: 2.5rem;
-    //         font-size: 1rem;
-    //         line-height: 2.5rem;
-    //         .box-sizing(border-box);
-    //     }
-    // }
-
-    // &.van-button--small {
-    //     height: 1.675rem;
-    //     line-height: 1.55rem;
-    //     letter-spacing: 0;
-    // }
+.van-popup.full {
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    transform: none;
 }
 
 .van-cell-group {
@@ -73,21 +56,12 @@
     }
 }
 
-// 选择按钮遮罩input框
-.van-cell {
-    .van-field__right-icon {
-        position: absolute;
-        right: 0;
-        width: 100%;
-        z-index: 1;
+.van-field.code {
+    .van-field__control {
+        flex: 7;
     }
-}
 
-// 页面级别弹出框
-.van-popup.page-popup {
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    transform: none;
+    .van-field__button {
+        flex: 3;
+    }
 }

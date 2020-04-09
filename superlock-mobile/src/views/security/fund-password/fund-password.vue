@@ -6,7 +6,7 @@
             @left="$router.push(from || '/security/center')"
         />
 
-        <div class="scb-form separator">
+        <div class="scb-form scb-separator">
             <ul>
                 <li>
                     <h1>
@@ -25,12 +25,13 @@
                         placeholder="请输入原密码"
                         @input="handleFieldInput('oldPassword', $event)"
                     >
-                        <!-- <router-link
-                            class="text-prompt"
+                        <a
                             slot="button"
-                            to="/user/forget"
-                            >忘记密码</router-link
-                        > -->
+                            class="text-orange"
+                            href="javascript: void(0)"
+                            @click="goForget"
+                            >忘记密码</a
+                        >
                     </Field>
                 </li>
                 <li>
@@ -47,7 +48,7 @@
                                 'icon',
                                 isNewPasswordVisible
                                     ? 'icon-visible-password'
-                                    : 'icon-invisible-password'
+                                    : 'icon-invisible-password',
                             ]"
                             slot="button"
                             @click="togglePassword('isNewPasswordVisible')"
@@ -68,20 +69,20 @@
                                 'icon',
                                 isConfirmPasswordVisible
                                     ? 'icon-visible-password'
-                                    : 'icon-invisible-password'
+                                    : 'icon-invisible-password',
                             ]"
                             slot="button"
                             @click="togglePassword('isConfirmPasswordVisible')"
                         />
                     </Field>
-                    <p class="text-prompt">
+                    <p class="text-orange">
                         提示：密码必须由大写字母、小写字母、数字、符号中两种或者两种以上组成，且长度为8-15位。
                     </p>
                 </li>
                 <li v-if="!status">
                     <h2>短信验证码</h2>
                     <Field
-                        class="field-code"
+                        class="code"
                         :value="securityForm.smsCode"
                         clearable
                         placeholder="请输入短信验证码"

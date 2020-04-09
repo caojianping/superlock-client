@@ -8,14 +8,6 @@
     text-align: @text-align;
 }
 
-// 参数混入：百分百显示，用于img、a标签等
-.display-100per(@height: auto) {
-    display: block;
-    margin: auto;
-    width: 100%;
-    height: @height;
-}
-
 // 参数混入：盒模型计算规则
 .box-sizing(@box-sizing: border-box) {
     -webkit-box-sizing: @box-sizing;
@@ -56,13 +48,4 @@
     -ms-transform: @transform;
     -o-transform: @transform;
     transform: @transform;
-}
-
-// 参数混入：红色阴影效果
-.flush-shadow {
-    margin-right: 0.25rem;
-    margin-left: 0.25rem;
-    background-color: white;
-    border-radius: 0.25rem;
-    .box-shadow(0 1px 0.1875rem 0 rgba(222, 175, 175, 0.5));
 }

@@ -31,8 +31,8 @@ export default class EarningsInfo extends Vue {
         '日销奖励'
     ];
 
-    // 关闭弹出框
-    closePopup() {
+    // 处理弹出框close事件
+    handlePopupClose() {
         this.isShow = false;
         this.$emit('close', false);
     }

@@ -2,7 +2,7 @@
     <div class="recharge-detail">
         <Header title="充值详情" @left="$router.push('/recharge/record')" />
 
-        <CellGroup class="separator">
+        <CellGroup class="scb-separator">
             <Cell title="交易单号" :value="recharge.orderId" />
             <Cell title="交易hash" :value="recharge.txhash" />
             <Cell title="充值时间" :value="recharge.createTime | dateFormat" />

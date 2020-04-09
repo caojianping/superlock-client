@@ -30,8 +30,8 @@ export default class AreaCode extends Vue {
         this.isShow = true;
     }
 
-    // 关闭弹出框
-    closePopup() {
+    // 处理弹出框close事件
+    handlePopupClose() {
         this.isShow = false;
     }
 

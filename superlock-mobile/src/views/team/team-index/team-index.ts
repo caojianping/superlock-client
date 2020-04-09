@@ -20,7 +20,7 @@ const childModule = namespace('child');
     components: { PullRefresh, List, CellGroup, Cell, Header }
 })
 export default class TeamIndex extends Vue {
-    @State('units') units!: Array<string>;
+    @State('unitTypes') unitTypes!: Array<string>;
     @State('rateTypes') rateTypes!: Array<string>;
 
     @userModule.State('userLockQuota')

@@ -58,7 +58,7 @@ export default class TransferIndex extends Vue {
         this.setStates({ transferForm });
     }
 
-    // 处理Field控件input事件
+    // 处理Field组件input事件
     handleFieldInput(key: string, value: string) {
         let transferForm = Utils.duplicate(this.transferForm);
         transferForm[key] = value;

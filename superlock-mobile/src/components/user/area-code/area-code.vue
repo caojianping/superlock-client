@@ -5,10 +5,10 @@
             <i></i>
         </div>
 
-        <Popup v-model="isShow" class="area-code-popup page-popup">
+        <Popup v-model="isShow" class="area-code-popup full">
             <header class="area-code-header">
-                <Header title="国家和地区" isRight @left="closePopup">
-                    <Icon slot="right" name="close" @click="closePopup" />
+                <Header title="国家和地区" isRight @left="handlePopupClose">
+                    <Icon slot="right" name="close" @click="handlePopupClose" />
                 </Header>
 
                 <Search

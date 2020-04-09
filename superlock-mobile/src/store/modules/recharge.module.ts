@@ -9,7 +9,7 @@ const rechargeState: IRechargeState = {
     rechargeAddress: '',
 
     pageNum: 1,
-    pageSize: 10,
+    pageSize: 15,
     recharges: undefined,
     recharge: new RechargeModel()
 };
@@ -33,7 +33,7 @@ export default {
             state.rechargeAddress = '';
 
             state.pageNum = 1;
-            state.pageSize = 10;
+            state.pageSize = 15;
             state.recharges = undefined;
             state.recharge = new RechargeModel();
         }

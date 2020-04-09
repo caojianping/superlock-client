@@ -26,11 +26,14 @@ export class Token {
         Cookie.removeItem(CONSTANTS.TOKEN_INFO);
         [
             'user/',
+            'child/',
             'project/',
+            'transaction/',
             'lock/',
             'recharge/',
             'withdraw/',
-            'security/'
+            'transfer/',
+            'security/',
         ].forEach((item: string) => {
             store.commit(item + TYPES.CLEAR_STATES);
         });

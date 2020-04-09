@@ -1,11 +1,11 @@
 <template>
-    <Popup v-model="isShow" class="page-popup scb-gray" @close="closePopup">
+    <Popup v-model="isShow" class="full scb-gray" @close="handlePopupClose">
         <Header
             :title="`${['添加', '修改'][type - 1]}提现地址`"
-            @left="closePopup"
+            @left="handlePopupClose"
         />
 
-        <div class="scb-form separator">
+        <div class="scb-form scb-separator">
             <ul>
                 <li>
                     <h1>提现地址</h1>
@@ -25,7 +25,7 @@
                         clearable
                         placeholder="请输入新添加的钱包地址"
                     />
-                    <p class="text-prompt">
+                    <p class="text-orange">
                         绑定的地址必须是BCB钱包地址
                     </p>
                 </li>

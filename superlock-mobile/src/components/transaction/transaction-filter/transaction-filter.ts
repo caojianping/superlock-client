@@ -34,7 +34,7 @@ export default class TransactionFilter extends Vue {
     isShow: boolean = this.value;
     isSpinning: boolean = false;
 
-    // 处理弹出框组件close事件
+    // 处理弹出框close事件
     handlePopupClose() {
         this.isShow = false;
         this.$emit('close', false);

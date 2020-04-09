@@ -7,7 +7,7 @@ import {
     AssetStatsModel,
     EarningsStatsModel,
     LockModel,
-    PromoteRewardStatsModel
+    PromoteRewardStatsModel,
 } from '@/ts/models';
 
 import { PullRefresh, Toast, CellGroup, Cell, Tabs, Tab } from 'vant';
@@ -32,11 +32,11 @@ const projectModule = namespace('project');
         Spin,
         RechargeCoins,
         LockInfo,
-        EarningsInfo
-    }
+        EarningsInfo,
+    },
 })
 export default class AssetIndex extends Vue {
-    @State('units') units!: Array<string>;
+    @State('unitTypes') unitTypes!: Array<string>;
 
     @lockModule.State('locks') locks?: Array<LockModel>;
     @lockModule.Action('fetchLocks') fetchLocks!: () => any;
@@ -61,7 +61,7 @@ export default class AssetIndex extends Vue {
         20: '锁仓计息中',
         30: '锁仓到期',
         40: '锁仓失败',
-        50: '贷款质押中'
+        50: '贷款质押中',
     };
     lockStyles: any = {
         0: 'black',
@@ -69,7 +69,7 @@ export default class AssetIndex extends Vue {
         20: 'green',
         30: 'red',
         40: 'pink',
-        50: 'orange'
+        50: 'orange',
     };
 
     activeTab: number = 0;
@@ -134,21 +134,21 @@ export default class AssetIndex extends Vue {
                 1: 'Locks',
                 2: 'Loans',
                 3: 'RewardStats',
-                4: 'EarningsStats'
+                4: 'EarningsStats',
             },
             caches = {
                 0: this.assetStats,
                 1: this.locks,
                 2: null,
                 3: this.rewardStats,
-                4: this.earningsStats
+                4: this.earningsStats,
             },
             funcs = {
                 0: this.fetchAssetStats,
                 1: this.fetchLocks,
                 2: null,
                 3: this.fetchPromoteRewardStats,
-                4: this.fetchEarningsStats
+                4: this.fetchEarningsStats,
             },
             key = `is${keys[index]}Spinning`,
             func = funcs[index];
@@ -168,11 +168,15 @@ export default class AssetIndex extends Vue {
     }
 
     created() {
+        this.clearStates();
         this.initData();
     }
 
     mounted() {
         this.fetchData(this.activeTab);
+        if (this.activeTab !== 0) {
+            this.fetchData(0);
+        }
         this.fetchData(4);
     }
 }

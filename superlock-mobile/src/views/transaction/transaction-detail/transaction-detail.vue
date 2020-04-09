@@ -2,8 +2,8 @@
     <div class="transaction-detail">
         <Header title="资金详情" @left="$router.push('/transaction/record')" />
 
-        <div v-if="transaction !== undefined" class="separator">
-            <p v-if="transaction === null" class="none">暂无资金详情数据</p>
+        <div v-if="transaction !== undefined" class="scb-separator">
+            <p v-if="transaction === null" class="scb-none">暂无资金详情数据</p>
             <template v-else>
                 <CellGroup v-if="type === 0">
                     <Cell title="交易单号" :value="transaction.orderId" />

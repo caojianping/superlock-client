@@ -2,7 +2,7 @@
     <div class="withdraw-detail">
         <Header title="提现详情" @left="$router.push('/withdraw/record')" />
 
-        <CellGroup class="separator">
+        <CellGroup class="scb-separator">
             <Cell title="交易单号" :value="withdraw.orderId" />
             <Cell title="交易hash" :value="withdraw.txhash" />
             <Cell title="提现时间" :value="withdraw.createTime | dateFormat" />

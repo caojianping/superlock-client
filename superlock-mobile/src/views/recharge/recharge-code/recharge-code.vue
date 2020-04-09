@@ -8,7 +8,7 @@
             <router-link slot="right" to="/recharge/record">明细</router-link>
         </Header>
 
-        <div class="recharge-code-container separator">
+        <div class="recharge-code-container scb-separator">
             <div class="recharge-code-content">
                 <h1>{{ rechargeCoin }}</h1>
                 <qriously :value="rechargeAddress" :size="180" />

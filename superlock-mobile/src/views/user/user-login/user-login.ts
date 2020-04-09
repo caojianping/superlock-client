@@ -1,11 +1,14 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+import { ValidationResult } from 'jpts-validator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
+import { UserFormType, CONSTANTS } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { UserFormModel } from '@/ts/models';
+import { UserService } from '@/ts/services';
 
 import { Cell, Button } from 'vant';
 import UserForm from '@/components/user/user-form';
@@ -14,7 +17,7 @@ const userModule = namespace('user');
 
 @Component({
     name: 'UserLogin',
-    components: { Cell, Button, UserForm }
+    components: { Cell, Button, UserForm },
 })
 export default class UserLogin extends Vue {
     @userModule.State('userForm') userForm!: UserFormModel;
@@ -49,31 +52,52 @@ export default class UserLogin extends Vue {
         }
     }
 
+    // 跳转至忘记密码页面
+    goForget() {
+        let { userForm, code } = this,
+            result: ValidationResult = UserService.validateUserForm(
+                userForm,
+                UserFormType.ForgetMobile
+            );
+        if (!result.status) {
+            Prompt.error(Utils.getFirstValue(result.data));
+            return;
+        }
+
+        this.$router.push({
+            path: '/user/forget',
+            query: {
+                from: `/user/login?code=${code}`,
+                areaCode: userForm.areaCode,
+                mobile: userForm.mobile,
+            },
+        });
+    }
+
+    // 初始化数据
+    initData() {
+        let code = Utils.resolveParameters('code');
+        this.code = code;
+    }
+
     // 初始化云盾
     initYunDun() {
         try {
             let self = this;
             if (window['initNECaptcha']) {
                 window['initNECaptcha'](
-                    {
-                        element: '#captcha',
-                        captchaId: '7c80c423944941819e409d0d6639c4dd',
-                        mode: 'float'
-                    },
+                    CONSTANTS.CAPTCHA_OPTIONS,
                     function onload(instance) {
                         self.yunDun = instance;
                     },
-                    function onerror(err) {
-                        // console.log('onerror err:', err);
-                    }
+                    function onerror() {}
                 );
             }
         } catch (error) {}
     }
 
     created() {
-        let code = Utils.resolveParameters('code');
-        this.code = code;
+        this.initData();
     }
 
     mounted() {

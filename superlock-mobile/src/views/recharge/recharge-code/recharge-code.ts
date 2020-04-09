@@ -28,6 +28,7 @@ export default class RechargeCode extends Vue {
     @rechargeModule.Action('fetchRechargeAddress')
     fetchRechargeAddress!: () => any;
 
+    // 复制地址
     copyAddress() {
         let copy = document.getElementById('copy'),
             clipboard = new ClipboardJS(copy);
@@ -41,6 +42,7 @@ export default class RechargeCode extends Vue {
         });
     }
 
+    // 获取数据
     async fetchData() {
         await this.fetchRechargeAddress();
         this.copyAddress();

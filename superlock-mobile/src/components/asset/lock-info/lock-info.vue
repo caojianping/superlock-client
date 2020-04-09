@@ -1,6 +1,6 @@
 <template>
-    <Popup v-model="isShow" class="page-popup" @close="closePopup">
-        <Header title="锁仓详情" :isBorder="false" @left="closePopup" />
+    <Popup v-model="isShow" class="full" @close="handlePopupClose">
+        <Header title="锁仓详情" :isBorder="false" @left="handlePopupClose" />
 
         <header>
             <h2>锁仓金额({{ lock.coin }})</h2>
@@ -10,14 +10,14 @@
             </p>
         </header>
 
-        <h2 class="separator">锁仓详情</h2>
+        <h2 class="scb-separator">锁仓详情</h2>
 
         <CellGroup>
             <Cell title="锁仓订单号" :value="lock.orderId" />
             <Cell title="汇率" :value="`1BCB = ${lock.exchangeRate}DC`" />
             <Cell
                 title="锁仓周期"
-                :value="`${lock.length}${units[lock.unit - 1]}`"
+                :value="`${lock.length}${unitTypes[lock.unit - 1]}`"
             />
             <Cell title="预期年化利率" :value="lock.rate | ratePercent" />
             <Cell

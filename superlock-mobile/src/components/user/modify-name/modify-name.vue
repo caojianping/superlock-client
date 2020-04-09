@@ -1,8 +1,8 @@
 <template>
-    <Popup v-model="isShow" class="page-popup" @close="closePopup">
-        <Header title="修改昵称" @left="closePopup" />
+    <Popup v-model="isShow" class="full" @close="handlePopupClose">
+        <Header title="修改昵称" @left="handlePopupClose" />
 
-        <div class="modify-form separator">
+        <div class="modify-form scb-separator">
             <Field
                 :value="nickname"
                 clearable

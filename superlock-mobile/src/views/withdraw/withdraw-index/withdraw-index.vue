@@ -4,7 +4,7 @@
             <router-link slot="right" to="/withdraw/record">明细</router-link>
         </Header>
 
-        <div class="scb-form separator">
+        <div class="scb-form scb-separator">
             <ul>
                 <li>
                     <h2>提现地址</h2>
@@ -32,14 +32,14 @@
                         @input="handleFieldInput('amount', $event)"
                     >
                         <span
-                            class="text-prompt"
+                            class="text-orange"
                             slot="button"
                             @click="withdrawAll"
                             >全部</span
                         >
                     </Field>
                     {{ ((quotaObj = quota || {}), void 0) }}
-                    <p class="text-prompt">
+                    <p class="text-orange">
                         可提现金额
                         {{
                             `${quotaObj.amount || '--'} BCB = 

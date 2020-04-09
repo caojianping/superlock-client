@@ -5,8 +5,8 @@
             @left="$router.push({ path: '/asset/index', query: { type: 3 } })"
         />
 
-        <div v-if="rewards" class="separator">
-            <p v-if="rewards.length <= 0" class="none">暂无奖励记录</p>
+        <div v-if="rewards" class="scb-separator">
+            <p v-if="rewards.length <= 0" class="scb-none">暂无奖励记录</p>
             <List
                 v-else
                 v-model="isLoading"
@@ -32,7 +32,7 @@
                                     {{ `+${reward.reward} ${reward.coin}` }}
                                 </h3>
                                 <h3 v-else>
-                                    {{ `+${reward.amount} ${reward.coin}` }}
+                                    {{ `+${reward.interest} ${reward.coin}` }}
                                 </h3>
                                 <p v-if="type === 1">
                                     {{

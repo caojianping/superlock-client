@@ -11,7 +11,7 @@ const transferState: ITransferState = {
     transferForm: new TransferFormModel(),
 
     pageNum: 1,
-    pageSize: 10,
+    pageSize: 15,
     transfers: undefined,
     transfer: new TransferModel(),
 
@@ -37,7 +37,7 @@ export default {
             state.transferForm = new TransferFormModel();
 
             state.pageNum = 1;
-            state.pageSize = 10;
+            state.pageSize = 15;
             state.transfers = undefined;
             state.transfer = new TransferModel();
 

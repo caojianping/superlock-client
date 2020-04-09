@@ -21,7 +21,7 @@ const lockModule = namespace('lock');
 export default class LockDetail extends Vue {
     dateCalculate: Function = Utils.dateCalculate;
 
-    @State('units') units!: Array<string>;
+    @State('unitTypes') unitTypes!: Array<string>;
 
     @userModule.State('userLockQuota') userLockQuota?: UserLockQuotaModel | null;
     @userModule.Action('fetchUserLockQuota') fetchUserLockQuota!: () => any;

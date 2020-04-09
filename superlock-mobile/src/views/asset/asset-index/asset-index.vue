@@ -108,9 +108,9 @@
                     <div class="tab-content">
                         <Spin v-if="!locks" :is-spinning="isLocksSpinning" />
                         <template v-if="!isLocksSpinning && locks">
-                            <p v-if="locks.length <= 0" class="none">
+                            <p v-if="locks.length <= 0" class="scb-none">
                                 暂无锁仓记录，快去
-                                <router-link class="link" to="/home/index"
+                                <router-link class="scb-link" to="/home/index"
                                     >创建锁仓</router-link
                                 >
                                 吧！
@@ -125,7 +125,7 @@
                                         <h2>
                                             <span>{{
                                                 `超级锁仓-${lock.length}${
-                                                    units[lock.unit - 1]
+                                                    unitTypes[lock.unit - 1]
                                                 }`
                                             }}</span>
                                             <i
@@ -162,7 +162,7 @@
                         <span>我的贷款</span>
                     </template>
                     <div class="tab-content">
-                        <p class="none">正在开发中，敬请期待！</p>
+                        <p class="scb-none">正在开发中，敬请期待！</p>
                     </div>
                 </Tab>
                 <Tab>

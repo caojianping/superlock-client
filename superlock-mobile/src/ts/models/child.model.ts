@@ -46,8 +46,9 @@ export class DefaultRateStatsModel extends RateModel {
 
 // 默认利率模型
 export class DefaultRateModel extends RateModel {
-    public remark!: string;
-    public suffix!: string;
+    public remark!: string; // 备注
+    public suffix!: string; // 单位
+    public childValue!: number; // 下级默认当前值
 }
 
 // 默认利率表单模型
