@@ -6,7 +6,7 @@ import TYPES from '@/store/types';
 import { Prompt } from '@/ts/common';
 import { ExchangeRateModel } from '@/ts/models';
 
-import { Button } from 'vant';
+import { Toast, Button } from 'vant';
 import Header from '@/components/common/header';
 import RechargePrompt from '@/components/recharge/recharge-prompt';
 
@@ -25,6 +25,13 @@ export default class RechargeCode extends Vue {
     @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @rechargeModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @rechargeModule.Action('fetchRechargeAddress') fetchRechargeAddress!: () => any;
+
+    // 充值地址二维码
+    get rechargeAddressQrcode() {
+        let rechargeCoin = this.rechargeCoin || '',
+            rechargeAddress = this.rechargeAddress || '';
+        return rechargeAddress.indexOf('bcb') > -1 ? `bcbpay://${rechargeCoin}/${rechargeAddress}/*` : rechargeAddress;
+    }
 
     // 初始化数据
     initData() {
@@ -48,11 +55,17 @@ export default class RechargeCode extends Vue {
 
     // 获取数据
     async fetchData() {
+        Toast.loading({
+            mask: true,
+            duration: 0,
+            message: '加载中...'
+        });
         let rechargeCoin = this.rechargeCoin;
         if (rechargeCoin !== 'BCB') {
-            await this.fetchExchangeRate({ fromCoin: 'BCB', toCoin: rechargeCoin });
+            await this.fetchExchangeRate({ fromCoin: rechargeCoin, toCoin: 'BCB' });
         }
         await this.fetchRechargeAddress();
+        Toast.clear();
     }
 
     created() {

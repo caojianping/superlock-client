@@ -34,7 +34,7 @@
                         ((userLockProjectList = projectStats.userLockProjectList || []), void 0)
                     }}
                     <li :class="['project-item', `bg${project.unit}`]" v-for="(project, index) in userLockProjectList" :key="index">
-                        <h2 class="project-title">
+                        <h2 class="project-title scb-border">
                             <span>{{ project.memo }}</span>
                             <i :class="['icon', `icon-${['new', 'new', 'hot'][project.unit - 1]}`]" />
                         </h2>

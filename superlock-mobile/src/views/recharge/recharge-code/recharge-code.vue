@@ -7,7 +7,7 @@
         <div class="recharge-code-container scb-separator">
             <div class="recharge-code-content">
                 <h1>扫一扫，向我付款</h1>
-                <qriously :value="rechargeAddress" :size="180" />
+                <qriously :value="rechargeAddressQrcode" :size="180" />
                 <p>{{ rechargeAddress }}</p>
                 <Button id="address" class="effect-tripple" type="primary" size="small" round :data-clipboard-text="rechargeAddress">复制地址</Button>
             </div>

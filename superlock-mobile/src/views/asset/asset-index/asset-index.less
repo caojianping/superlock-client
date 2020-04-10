@@ -144,7 +144,7 @@
 
         .tab-panel {
             .tab-title {
-                padding: 0.25rem 1rem 0.75rem;
+                padding: 0.75rem 1rem;
 
                 i,
                 span {
@@ -161,6 +161,11 @@
                 position: relative;
                 min-height: 8rem;
                 background-color: white;
+
+                /deep/ .van-cell-group::after,
+                /deep/ .van-cell-group .van-cell:last-child::after {
+                    display: none;
+                }
 
                 .locks {
                     /deep/ .van-cell__title {

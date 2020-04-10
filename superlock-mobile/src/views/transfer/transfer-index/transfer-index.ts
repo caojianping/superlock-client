@@ -88,7 +88,9 @@ export default class TransferIndex extends Vue {
             if (!result) Prompt.error('转账失败');
             else {
                 Prompt.success('转账成功');
-                await this.fetchQuota();
+                // todo: 暂时刷新解决下，之后需要跳转至结果页面
+                this.initData();
+                await this.fetchData();
             }
         } catch (error) {
             Prompt.error(error.message || error);

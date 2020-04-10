@@ -88,7 +88,9 @@ export default class WithdrawIndex extends Vue {
             if (!result) Prompt.error('提现失败');
             else {
                 Prompt.success('提现成功');
-                await this.fetchQuota();
+                // todo: 暂时刷新解决下，之后需要跳转至结果页面
+                this.initData();
+                await this.fetchData();
             }
         } catch (error) {
             Prompt.error(error.message || error);

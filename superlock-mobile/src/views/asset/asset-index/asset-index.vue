@@ -43,7 +43,7 @@
                         <span>资产总账</span>
                     </template>
                     <div class="tab-panel">
-                        <h1 class="tab-title">
+                        <h1 class="tab-title scb-border">
                             <i class="icon icon-exchange-rate" />
                             <span>{{
                                 `1 ${exchangeRateObj.fromCoin || '--'} = ${exchangeRateObj.rate || '--'} ${exchangeRateObj.toCoin || '--'}`
@@ -64,7 +64,7 @@
                         <span>我的锁仓</span>
                     </template>
                     <div class="tab-panel">
-                        <h1 class="tab-title">
+                        <h1 class="tab-title scb-border">
                             <i class="icon icon-exchange-rate" />
                             <span>{{
                                 `1 ${exchangeRateObj.toCoin || '--'} = ${exchangeRateObj.rate || '--'} ${exchangeRateObj.fromCoin || '--'}`
@@ -106,7 +106,7 @@
                         <span>我的贷款</span>
                     </template>
                     <div class="tab-panel">
-                        <h1 class="tab-title">
+                        <h1 class="tab-title scb-border">
                             <i class="icon icon-exchange-rate" />
                             <span>{{
                                 `1 ${exchangeRateObj.toCoin || '--'} = ${exchangeRateObj.rate || '--'} ${exchangeRateObj.fromCoin || '--'}`
@@ -122,7 +122,7 @@
                         <span>推广奖励</span>
                     </template>
                     <div class="tab-panel">
-                        <h1 class="tab-title">
+                        <h1 class="tab-title scb-border">
                             <i class="icon icon-exchange-rate" />
                             <span>{{
                                 `1 ${exchangeRateObj.toCoin || '--'} = ${exchangeRateObj.rate || '--'} ${exchangeRateObj.fromCoin || '--'}`

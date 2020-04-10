@@ -22,7 +22,9 @@
                             <h2>{{ (transfer.orderId || '') | hashTruncate }}</h2>
                             <p>{{ transfer.createTime | dateFormat }}</p>
                         </div>
-                        <p slot="default">{{ `${['-', '+'][transfer.prefix]} ${transfer.amount} ${transfer.coin}` }}</p>
+                        <p slot="default" :class="{ income: transfer.prefix === 1 }">
+                            {{ `${['-', '+'][transfer.prefix]} ${transfer.amount} ${transfer.coin}` }}
+                        </p>
                     </Cell>
                 </CellGroup>
             </List>
