@@ -55,3 +55,11 @@ export class QuotaModel {
     public valuationAmount!: number; // 计价金额；
     public valuationCoin!: number; // 计价币种；如：DC
 }
+
+// 汇率模型
+export class ExchangeRateModel {
+    public rate!: number; // 汇率
+    public fromCoin!: string; // 支付币种，如DC
+    public toCoin!: string; // 获得币种，如BCB
+    public date!: string; // 日期
+}

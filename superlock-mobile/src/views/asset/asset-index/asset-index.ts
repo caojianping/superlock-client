@@ -1,8 +1,8 @@
 import Vue from 'vue';
-import { namespace, State } from 'vuex-class';
+import { namespace, State, Action } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import TYPES from '@/store/types';
-import { AssetStatsModel, EarningsStatsModel, LockModel, PromoteRewardStatsModel } from '@/ts/models';
+import { AssetStatsModel, EarningsStatsModel, LockModel, PromoteRewardStatsModel, ExchangeRateModel } from '@/ts/models';
 
 import { PullRefresh, Toast, CellGroup, Cell, Tabs, Tab } from 'vant';
 import Navs from '@/components/common/navs';
@@ -30,7 +30,9 @@ const projectModule = namespace('project');
     }
 })
 export default class AssetIndex extends Vue {
+    @State('exchangeRate') exchangeRate?: ExchangeRateModel | null;
     @State('unitTypes') unitTypes!: Array<string>;
+    @Action('fetchExchangeRate') fetchExchangeRate!: (payload: any) => any;
 
     @lockModule.State('locks') locks?: Array<LockModel>;
     @lockModule.Action('fetchLocks') fetchLocks!: () => any;
@@ -65,7 +67,6 @@ export default class AssetIndex extends Vue {
 
     isPulling: boolean = false;
     isTotalVisible: boolean = true;
-    isEarningsStatsSpinning: boolean = false;
 
     isAssetStatsSpinning: boolean = false;
     isLocksSpinning: boolean = false;
@@ -105,7 +106,7 @@ export default class AssetIndex extends Vue {
 
     // 处理选项卡change事件
     async handleTabsChange() {
-        this.fetchData(this.activeTab);
+        this.fetchTabData(this.activeTab);
     }
 
     // 初始化数据
@@ -115,28 +116,25 @@ export default class AssetIndex extends Vue {
         this.activeTab = isNaN(type) ? 0 : type;
     }
 
-    // 获取数据
-    async fetchData(index: number, isRefresh: boolean = false) {
+    // 获取选项卡数据
+    async fetchTabData(index: number, isRefresh: boolean = false) {
         let keys = {
                 0: 'AssetStats',
                 1: 'Locks',
                 2: 'Loans',
-                3: 'RewardStats',
-                4: 'EarningsStats'
+                3: 'RewardStats'
             },
             caches = {
                 0: this.assetStats,
                 1: this.locks,
                 2: null,
-                3: this.rewardStats,
-                4: this.earningsStats
+                3: this.rewardStats
             },
             funcs = {
                 0: this.fetchAssetStats,
                 1: this.fetchLocks,
                 2: null,
-                3: this.fetchPromoteRewardStats,
-                4: this.fetchEarningsStats
+                3: this.fetchPromoteRewardStats
             },
             key = `is${keys[index]}Spinning`,
             func = funcs[index];
@@ -147,19 +145,21 @@ export default class AssetIndex extends Vue {
         }
     }
 
-    // 获取所有数据
-    async fetchAll() {
+    // 获取所有数据，全部并发请求
+    async fetchData() {
+        this.fetchExchangeRate({ fromCoin: 'BCB', toCoin: 'DC' });
+        this.fetchEarningsStats();
+
         let activeTab = this.activeTab;
-        this.fetchData(activeTab);
+        this.fetchTabData(activeTab);
         if (activeTab !== 0) {
-            this.fetchData(0);
+            this.fetchTabData(0);
         }
-        this.fetchData(4);
     }
 
     // 刷新数据
     async refreshData() {
-        await this.fetchAll();
+        await this.fetchData();
         this.isPulling = false;
         Toast('刷新成功');
     }
@@ -170,6 +170,6 @@ export default class AssetIndex extends Vue {
     }
 
     mounted() {
-        this.fetchAll();
+        this.fetchData();
     }
 }

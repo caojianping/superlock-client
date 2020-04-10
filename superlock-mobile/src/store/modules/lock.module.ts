@@ -1,11 +1,12 @@
 import TYPES from '@/store/types';
 import { IActionContext, ILockState } from '@/store/interfaces';
-import { LockFormModel } from '@/ts/models';
+import { LockFormModel, LockResultModel } from '@/ts/models';
 import { LockService } from '@/ts/services';
 
 const lockState: ILockState = {
     lockProject: undefined,
     lockForm: new LockFormModel(),
+    lockResult: undefined,
     locks: undefined
 };
 
@@ -24,6 +25,7 @@ export default {
         [TYPES.CLEAR_STATES](state: ILockState) {
             state.lockProject = undefined;
             state.lockForm = new LockFormModel();
+            state.lockResult = undefined;
             state.locks = undefined;
         }
     },
@@ -45,7 +47,7 @@ export default {
         },
 
         // 创建锁仓
-        async createLock(context: IActionContext<ILockState>): Promise<boolean> {
+        async createLock(context: IActionContext<ILockState>): Promise<LockResultModel | null> {
             let state = context.state;
             return await lockService.createLock(state.lockForm);
         }

@@ -8,7 +8,10 @@
             </figure>
             <div>
                 <h2>{{ userInfo.nickName || '--' }}</h2>
-                <p>UID: {{ userInfo.userId || '--' }}</p>
+                <p id="uid" :data-clipboard-text="userInfo.userId || ''">
+                    <span>UID: {{ userInfo.userId || '--' }}</span>
+                    <i class="icon icon-copy" />
+                </p>
             </div>
             <p @click="isShow = true">
                 <Icon name="arrow" />

@@ -2,7 +2,7 @@ import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
 import { Urls, CaxiosType } from '@/ts/config';
 import { Caxios, md5 } from '@/ts/common';
-import { LockModel, LockFormModel } from '@/ts/models';
+import { LockModel, LockFormModel, LockResultModel } from '@/ts/models';
 
 export class LockService {
     // 校验锁仓表单
@@ -14,7 +14,7 @@ export class LockService {
             };
 
         const key = 'lockForm';
-        let { length, unit, rate, coin, amount, fundPasswd, minAmount, maxAmount } = lockForm,
+        let { length, unit, rate, amount, fundPasswd, minAmount, maxAmount } = lockForm,
             validator = new Validator();
         validator.addRule(key, { name: 'length', value: length }, { required: true }, { required: '锁仓长度不可以为空' });
         validator.addRule(key, { name: 'unit', value: unit }, { required: true }, { required: '锁仓单位不可以为空' });
@@ -47,11 +47,11 @@ export class LockService {
     }
 
     // 创建锁仓
-    public async createLock(lockForm: LockFormModel): Promise<boolean> {
+    public async createLock(lockForm: LockFormModel): Promise<LockResultModel | null> {
         let result: ValidationResult = LockService.validateLockForm(lockForm);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { length, unit, rate, coin, amount, fundPasswd } = lockForm,
+        let { length, unit, rate, amount, fundPasswd } = lockForm,
             parameters = Utils.buildParameters({
                 length,
                 unit,
@@ -60,7 +60,6 @@ export class LockService {
                 amount,
                 fundPasswd: md5(fundPasswd)
             });
-        await Caxios.post<any>({ url: `${Urls.lock.create}?${parameters}` }, CaxiosType.LoadingToken);
-        return true;
+        return await Caxios.post<LockResultModel | null>({ url: `${Urls.lock.create}?${parameters}` }, CaxiosType.LoadingToken);
     }
 }

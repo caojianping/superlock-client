@@ -1,8 +1,10 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+import ClipboardJS from 'clipboard';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
+import { Prompt } from '@/ts/common';
 import { UserInfoModel } from '@/ts/models';
 
 import { Icon, CellGroup, Cell } from 'vant';
@@ -30,7 +32,20 @@ export default class MineIndex extends Vue {
         this.setStates({ userInfo });
     }
 
+    // 复制UID
+    copyUid() {
+        let uid = document.getElementById('uid'),
+            clipboard = new ClipboardJS(uid);
+        clipboard.on('success', function(e) {
+            Prompt.success('UID复制成功');
+        });
+        clipboard.on('error', function(e) {
+            Prompt.error('UID复制失败');
+        });
+    }
+
     mounted() {
+        this.copyUid();
         this.fetchUserInfo();
     }
 }

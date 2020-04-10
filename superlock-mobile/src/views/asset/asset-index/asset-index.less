@@ -142,75 +142,91 @@
             }
         }
 
-        .tab-content {
-            position: relative;
-            min-height: 8rem;
-            background-color: white;
+        .tab-panel {
+            .tab-title {
+                padding: 0.25rem 1rem 0.75rem;
 
-            .locks {
-                /deep/ .van-cell__title {
-                    h2 {
-                        span,
-                        i {
-                            display: inline-block;
-                            vertical-align: middle;
-                        }
-
-                        span {
-                            .font-styles(0.875rem, normal, 1.5, @black, left);
-                        }
-
-                        i {
-                            margin-left: 0.5rem;
-                            padding: 0 0.5rem;
-                            height: 1.5rem;
-                            .font-styles(0.75rem, normal, 1.5rem, @black, center);
-                            border-radius: 0.75rem;
-
-                            &.black {
-                                color: @black;
-                                background-color: rgba(0, 0, 0, 0.1);
-                            }
-
-                            &.gray {
-                                color: white;
-                                background-color: rgba(0, 0, 0, 0.2);
-                            }
-
-                            &.green {
-                                color: #00c389;
-                                background-color: #e4fcf7;
-                            }
-
-                            &.red {
-                                color: #e3783f;
-                                background-color: #fff4f3;
-                            }
-
-                            &.pink {
-                                color: white;
-                                background-color: lightpink;
-                            }
-
-                            &.orange {
-                                color: #f7c354;
-                                background-color: #fff7de;
-                            }
-                        }
-                    }
-
-                    p {
-                        .font-styles(0.75rem, normal, 1.5, @gray, left);
-                    }
+                i,
+                span {
+                    vertical-align: middle;
                 }
 
-                /deep/ .van-cell__value {
-                    h3 {
-                        .font-styles(0.875rem, normal, 1.5, @black, right);
+                span {
+                    margin-left: 0.5rem;
+                    .font-styles(0.75rem, normal, 1.5, @black, left);
+                }
+            }
+
+            .tab-content {
+                position: relative;
+                min-height: 8rem;
+                background-color: white;
+
+                .locks {
+                    /deep/ .van-cell__title {
+                        h2 {
+                            span,
+                            i {
+                                display: inline-block;
+                                vertical-align: middle;
+                            }
+
+                            span {
+                                .font-styles(0.875rem, normal, 1.5, @black, left);
+                            }
+
+                            i {
+                                margin-left: 0.5rem;
+                                padding: 0 0.5rem;
+                                height: 1.5rem;
+                                .font-styles(0.75rem, normal, 1.5rem, @black, center);
+                                border-radius: 0.75rem;
+
+                                &.black {
+                                    color: @black;
+                                    background-color: rgba(0, 0, 0, 0.1);
+                                }
+
+                                &.gray {
+                                    color: white;
+                                    background-color: rgba(0, 0, 0, 0.2);
+                                }
+
+                                &.green {
+                                    color: #00c389;
+                                    background-color: #e4fcf7;
+                                }
+
+                                &.red {
+                                    color: #e3783f;
+                                    background-color: #fff4f3;
+                                }
+
+                                &.pink {
+                                    color: white;
+                                    background-color: lightpink;
+                                }
+
+                                &.orange {
+                                    color: #f7c354;
+                                    background-color: #fff7de;
+                                }
+                            }
+                        }
+
+                        p {
+                            .font-styles(0.75rem, normal, 1.5, @gray, left);
+                        }
                     }
 
-                    p {
-                        .font-styles(0.75rem, normal, 1.5, @gray, right);
+                    /deep/ .van-cell__value {
+                        h3 {
+                            .font-styles(0.875rem, normal, 1.5, @black, right);
+                        }
+
+                        p {
+                            .font-styles(0.75rem, normal, 1.5, @gray, right);
+                        }
                     }
                 }
             }

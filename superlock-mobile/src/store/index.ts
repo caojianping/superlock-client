@@ -21,6 +21,7 @@ Vue.use(Vuex);
 const rootState: IRootState = {
     tokenInfo: new TokenInfo(),
     quota: undefined,
+    exchangeRate: undefined,
 
     unitTypes: ['天', '月', '年'],
     rateTypes: ['锁仓利率', '推广解锁利率', '锁仓额度']
@@ -52,6 +53,7 @@ export default new Vuex.Store({
         [TYPES.CLEAR_STATES](state: IRootState) {
             state.tokenInfo = new TokenInfo();
             state.quota = undefined;
+            state.exchangeRate = undefined;
         }
     },
     actions: {
@@ -69,6 +71,23 @@ export default new Vuex.Store({
                 commit(TYPES.SET_STATES, { quota });
             } catch (error) {
                 commit(TYPES.SET_STATES, { quota: null });
+            }
+        },
+
+        // 获取今日汇率信息
+        async fetchExchangeRate(
+            context: IActionContext<IRootState>,
+            payload: {
+                fromCoin: string;
+                toCoin: string;
+            }
+        ): Promise<void> {
+            let commit = context.commit;
+            try {
+                let exchangeRate = await commonService.fetchExchangeRate(payload.fromCoin, payload.toCoin);
+                commit(TYPES.SET_STATES, { exchangeRate });
+            } catch (error) {
+                commit(TYPES.SET_STATES, { exchangeRate: null });
             }
         }
     }

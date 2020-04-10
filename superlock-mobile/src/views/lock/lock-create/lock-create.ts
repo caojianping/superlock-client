@@ -7,7 +7,7 @@ import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { CONSTANTS } from '@/ts/config';
 import { Prompt } from '@/ts/common';
-import { UserLockQuotaModel, ProjectModel, LockFormModel, AssetStatsModel, UserInfoModel } from '@/ts/models';
+import { UserLockQuotaModel, ProjectModel, LockFormModel, AssetStatsModel, UserInfoModel, LockResultModel } from '@/ts/models';
 import { LockService } from '@/ts/services';
 
 import { Toast, Field, Button } from 'vant';
@@ -78,11 +78,13 @@ export default class LockCreate extends Vue {
         this.setStates({ lockForm });
 
         try {
-            let result = await this.createLock();
-            if (!result) Prompt.error('锁仓成功');
+            let lockResult = await this.createLock();
+            if (!lockResult) Prompt.error('锁仓失败');
             else {
-                Prompt.success('锁仓成功');
-                await this.fetchUserLockQuota();
+                SessionStorage.setItem<LockResultModel>(CONSTANTS.LOCK_RESULT, lockResult);
+                Prompt.success('锁仓成功').then(() => {
+                    this.$router.push('/lock/result');
+                });
             }
         } catch (error) {
             Prompt.error(error.message || error);

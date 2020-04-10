@@ -5,6 +5,8 @@ import { PromoteRewardPushModel } from '@/ts/models';
 import { ProjectService } from '@/ts/services';
 
 const projectState: IProjectState = {
+    
+
     projectStats: undefined,
     assetStats: undefined,
     earningsStats: undefined,

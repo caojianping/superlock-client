@@ -1,0 +1,85 @@
+@import './vars.less';
+@import './mixins.less';
+
+.lock-result {
+    header {
+        padding: 0.75rem 0 1.5rem;
+
+        p {
+            .font-styles(0.75rem, normal, 1.5, @black, center);
+        }
+
+        &.info {
+            h2 {
+                .font-styles(0.875rem, normal, 1.5, @black, center);
+            }
+
+            h1 {
+                .font-styles(2rem, bold, 1.5, @black, center);
+            }
+        }
+
+        &.result {
+            img {
+                display: block;
+                margin: 0 auto;
+                width: 6rem;
+                height: 6rem;
+            }
+
+            h1 {
+                margin: 0.5rem 0 0.25rem;
+                .font-styles(1rem, normal, 1.5, @orange, center);
+            }
+        }
+    }
+
+    header + h2 {
+        position: relative;
+        padding: 0 0 0 1.75rem;
+        height: 2.5rem;
+        .font-styles(1rem, normal, 2.5rem, @black, left);
+        border-bottom: 0.0625rem solid #ebedf0;
+
+        &:before {
+            position: absolute;
+            top: 0.725rem;
+            left: 1rem;
+            display: block;
+            width: 0.25rem;
+            height: 1rem;
+            content: '';
+            background-color: @orange;
+        }
+    }
+
+    .lock-status {
+        &.black {
+            color: @black;
+        }
+
+        &.gray {
+            color: @gray;
+        }
+
+        &.green {
+            color: #00c389;
+        }
+
+        &.red {
+            color: #e3783f;
+        }
+
+        &.pink {
+            color: lightpink;
+        }
+
+        &.orange {
+            color: #f7c354;
+        }
+    }
+
+    /deep/ .van-cell-group::after {
+        display: none;
+    }
+}

@@ -36,108 +36,143 @@
                 </li>
             </ul>
 
+            {{ ((exchangeRateObj = exchangeRate || {}), void 0) }}
             <Tabs class="asset-tabs" v-model="activeTab" animated swipeable @change="handleTabsChange">
                 <Tab>
                     <template slot="title">
                         <span>资产总账</span>
                     </template>
-                    <div class="tab-content">
-                        <Spin v-if="!assetStats" :is-spinning="isAssetStatsSpinning" />
-                        <CellGroup v-if="!isAssetStatsSpinning">
-                            <Cell title="总资产" :value="(assetStats ? assetStats.bcbTotalAmount || 0 : 0) | coinUnit"></Cell>
-                            <Cell title="可用余额" :value="(assetStats ? assetStats.bcbHotAmount || 0 : 0) | coinUnit"></Cell>
-                            <Cell title="锁仓金额" :value="(assetStats ? assetStats.bcbLockAmount || 0 : 0) | coinUnit"></Cell>
-                        </CellGroup>
+                    <div class="tab-panel">
+                        <h1 class="tab-title">
+                            <i class="icon icon-exchange-rate" />
+                            <span>{{
+                                `1 ${exchangeRateObj.fromCoin || '--'} = ${exchangeRateObj.rate || '--'} ${exchangeRateObj.toCoin || '--'}`
+                            }}</span>
+                        </h1>
+                        <div class="tab-content">
+                            <Spin v-if="!assetStats" :is-spinning="isAssetStatsSpinning" />
+                            <CellGroup v-if="!isAssetStatsSpinning">
+                                <Cell title="总资产" :value="(assetStats ? assetStats.bcbTotalAmount || 0 : 0) | coinUnit"></Cell>
+                                <Cell title="可用余额" :value="(assetStats ? assetStats.bcbHotAmount || 0 : 0) | coinUnit"></Cell>
+                                <Cell title="锁仓金额" :value="(assetStats ? assetStats.bcbLockAmount || 0 : 0) | coinUnit"></Cell>
+                            </CellGroup>
+                        </div>
                     </div>
                 </Tab>
                 <Tab>
                     <template slot="title">
                         <span>我的锁仓</span>
                     </template>
-                    <div class="tab-content">
-                        <Spin v-if="!locks" :is-spinning="isLocksSpinning" />
-                        <template v-if="!isLocksSpinning && locks">
-                            <p v-if="locks.length <= 0" class="scb-none">
-                                暂无锁仓记录，快去
-                                <router-link class="scb-link" to="/home/index">创建锁仓</router-link>
-                                吧！
-                            </p>
-                            <CellGroup v-else class="locks priority-title">
-                                <Cell v-for="(lock, index) in locks" :key="index" @click="openLockInfo(lock)">
-                                    <template slot="title">
-                                        <h2>
-                                            <span>{{ `超级锁仓-${lock.length}${unitTypes[lock.unit - 1]}` }}</span>
-                                            <i :class="lockStyles[lock.status] || 'black'">{{ lockStatuses[lock.status] || lock.remark }}</i>
-                                        </h2>
-                                        <p>{{ lock.orderId }}</p>
-                                    </template>
-                                    <template slot="default">
-                                        <h3>
-                                            {{ `${lock.amount} ${lock.coin}` }}
-                                        </h3>
-                                        <p>
-                                            {{ lock.startTime | dateFormat('yyyy-MM-dd') }}
-                                        </p>
-                                    </template>
-                                </Cell>
-                            </CellGroup>
-                        </template>
+                    <div class="tab-panel">
+                        <h1 class="tab-title">
+                            <i class="icon icon-exchange-rate" />
+                            <span>{{
+                                `1 ${exchangeRateObj.toCoin || '--'} = ${exchangeRateObj.rate || '--'} ${exchangeRateObj.fromCoin || '--'}`
+                            }}</span>
+                        </h1>
+                        <div class="tab-content">
+                            <Spin v-if="!locks" :is-spinning="isLocksSpinning" />
+                            <template v-if="!isLocksSpinning && locks">
+                                <p v-if="locks.length <= 0" class="scb-none">
+                                    暂无锁仓记录，快去
+                                    <router-link class="scb-link" to="/home/index">创建锁仓</router-link>
+                                    吧！
+                                </p>
+                                <CellGroup v-else class="locks priority-title">
+                                    <Cell v-for="(lock, index) in locks" :key="index" @click="openLockInfo(lock)">
+                                        <template slot="title">
+                                            <h2>
+                                                <span>{{ `超级锁仓-${lock.length}${unitTypes[lock.unit - 1]}` }}</span>
+                                                <i :class="lockStyles[lock.status] || 'black'">{{ lockStatuses[lock.status] || lock.remark }}</i>
+                                            </h2>
+                                            <p>{{ lock.orderId }}</p>
+                                        </template>
+                                        <template slot="default">
+                                            <h3>
+                                                {{ `${lock.amount} ${lock.coin}` }}
+                                            </h3>
+                                            <p>
+                                                {{ lock.startTime | dateFormat('yyyy-MM-dd') }}
+                                            </p>
+                                        </template>
+                                    </Cell>
+                                </CellGroup>
+                            </template>
+                        </div>
                     </div>
                 </Tab>
                 <Tab>
                     <template slot="title">
                         <span>我的贷款</span>
                     </template>
-                    <div class="tab-content">
-                        <p class="scb-none">正在开发中，敬请期待！</p>
+                    <div class="tab-panel">
+                        <h1 class="tab-title">
+                            <i class="icon icon-exchange-rate" />
+                            <span>{{
+                                `1 ${exchangeRateObj.toCoin || '--'} = ${exchangeRateObj.rate || '--'} ${exchangeRateObj.fromCoin || '--'}`
+                            }}</span>
+                        </h1>
+                        <div class="tab-content">
+                            <p class="scb-none">正在开发中，敬请期待！</p>
+                        </div>
                     </div>
                 </Tab>
                 <Tab>
                     <template slot="title">
                         <span>推广奖励</span>
                     </template>
-                    <div class="tab-content">
-                        <Spin v-if="!rewardStats" :is-spinning="isRewardStatsSpinning" />
-                        <CellGroup v-if="!isRewardStatsSpinning">
-                            <Cell
-                                title="直推奖励"
-                                is-link
-                                :to="`/reward/record/${1}`"
-                                :value="
-                                    `${rewardStats ? rewardStats.pushRewardValuation || 0 : 0} ${
-                                        rewardStats ? rewardStats.pushRewardValuationCoin || 'BCB' : 'BCB'
-                                    }`
-                                "
-                            ></Cell>
-                            <Cell
-                                title="团队锁仓奖励"
-                                is-link
-                                :to="`/reward/record/${2}`"
-                                :value="
-                                    `${rewardStats ? rewardStats.lockRewardValuation || 0 : 0} ${
-                                        rewardStats ? rewardStats.lockRewardValuationCoin || 'BCB' : 'BCB'
-                                    }`
-                                "
-                            ></Cell>
-                            <Cell
-                                title="推广解锁奖励"
-                                is-link
-                                :to="`/reward/record/${3}`"
-                                :value="
-                                    `${rewardStats ? rewardStats.unlockRewardValuation || 0 : 0} ${
-                                        rewardStats ? rewardStats.unlockRewardValuationCoin || 'BCB' : 'BCB'
-                                    }`
-                                "
-                            ></Cell>
-                            <Cell
-                                title="销量达标奖励"
-                                is-link
-                                :to="`/reward/record/${4}`"
-                                :value="
-                                    `${rewardStats ? rewardStats.salesReward || 0 : 0} ${rewardStats ? rewardStats.salesRewardCoin || 'BCB' : 'BCB'}`
-                                "
-                            ></Cell>
-                        </CellGroup>
+                    <div class="tab-panel">
+                        <h1 class="tab-title">
+                            <i class="icon icon-exchange-rate" />
+                            <span>{{
+                                `1 ${exchangeRateObj.toCoin || '--'} = ${exchangeRateObj.rate || '--'} ${exchangeRateObj.fromCoin || '--'}`
+                            }}</span>
+                        </h1>
+                        <div class="tab-content">
+                            <Spin v-if="!rewardStats" :is-spinning="isRewardStatsSpinning" />
+                            <CellGroup v-if="!isRewardStatsSpinning">
+                                <Cell
+                                    title="直推奖励"
+                                    is-link
+                                    :to="`/reward/record/${1}`"
+                                    :value="
+                                        `${rewardStats ? rewardStats.pushRewardValuation || 0 : 0} ${
+                                            rewardStats ? rewardStats.pushRewardValuationCoin || 'BCB' : 'BCB'
+                                        }`
+                                    "
+                                ></Cell>
+                                <Cell
+                                    title="团队锁仓奖励"
+                                    is-link
+                                    :to="`/reward/record/${2}`"
+                                    :value="
+                                        `${rewardStats ? rewardStats.lockRewardValuation || 0 : 0} ${
+                                            rewardStats ? rewardStats.lockRewardValuationCoin || 'BCB' : 'BCB'
+                                        }`
+                                    "
+                                ></Cell>
+                                <Cell
+                                    title="推广解锁奖励"
+                                    is-link
+                                    :to="`/reward/record/${3}`"
+                                    :value="
+                                        `${rewardStats ? rewardStats.unlockRewardValuation || 0 : 0} ${
+                                            rewardStats ? rewardStats.unlockRewardValuationCoin || 'BCB' : 'BCB'
+                                        }`
+                                    "
+                                ></Cell>
+                                <Cell
+                                    title="销量达标奖励"
+                                    is-link
+                                    :to="`/reward/record/${4}`"
+                                    :value="
+                                        `${rewardStats ? rewardStats.salesReward || 0 : 0} ${
+                                            rewardStats ? rewardStats.salesRewardCoin || 'BCB' : 'BCB'
+                                        }`
+                                    "
+                                ></Cell>
+                            </CellGroup>
+                        </div>
                     </div>
                 </Tab>
             </Tabs>

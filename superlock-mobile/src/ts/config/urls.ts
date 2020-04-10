@@ -4,7 +4,7 @@ export const Urls = {
     common: {
         smsCode: `${baseUrl}/vfcode`, // 获取短信验证码接口
         quota: `${baseUrl}/project/withdrawableAmount`, // 取可提现额度接口
-        todayRate: `${baseUrl}/project/exchangeRateToday` // 获取今日汇率接口
+        exchangeRate: `${baseUrl}/project/exchangeRateToday` // 获取汇率接口
     },
     user: {
         register: `${baseUrl}/register`, // 用户注册接口

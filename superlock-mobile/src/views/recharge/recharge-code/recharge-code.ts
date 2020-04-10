@@ -1,9 +1,10 @@
 import Vue from 'vue';
-import { namespace } from 'vuex-class';
+import { namespace, State, Action } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import ClipboardJS from 'clipboard';
 import TYPES from '@/store/types';
 import { Prompt } from '@/ts/common';
+import { ExchangeRateModel } from '@/ts/models';
 
 import { Button } from 'vant';
 import Header from '@/components/common/header';
@@ -16,6 +17,9 @@ const rechargeModule = namespace('recharge');
     components: { Button, Header, RechargePrompt }
 })
 export default class RechargeCode extends Vue {
+    @State('exchangeRate') exchangeRate?: ExchangeRateModel | null;
+    @Action('fetchExchangeRate') fetchExchangeRate!: (payload: any) => any;
+
     @rechargeModule.State('rechargeCoin') rechargeCoin!: string;
     @rechargeModule.State('rechargeAddress') rechargeAddress!: string;
     @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
@@ -42,6 +46,15 @@ export default class RechargeCode extends Vue {
         });
     }
 
+    // 获取数据
+    async fetchData() {
+        let rechargeCoin = this.rechargeCoin;
+        if (rechargeCoin !== 'BCB') {
+            await this.fetchExchangeRate({ fromCoin: 'BCB', toCoin: rechargeCoin });
+        }
+        await this.fetchRechargeAddress();
+    }
+
     created() {
         this.clearStates();
         this.initData();
@@ -49,6 +62,6 @@ export default class RechargeCode extends Vue {
 
     mounted() {
         this.copyAddress();
-        this.fetchRechargeAddress();
+        this.fetchData();
     }
 }

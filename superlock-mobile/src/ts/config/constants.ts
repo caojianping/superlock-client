@@ -10,6 +10,7 @@ export const CONSTANTS = {
     }, // 验证码选项
     CHINA_AREA_CODE: 'cn', // 中国地区区号
     LOCK_PROJECT: 'LOCK_PROJECT', // 锁仓项目
+    LOCK_RESULT: 'LOCK_RESULT', // 锁仓结果
     RECHARGE: 'RECHARGE', // 充值信息
     WITHDRAW: 'WITHDRAW', // 提现信息
     TRANSFER: 'TRANSFER', // 转账信息

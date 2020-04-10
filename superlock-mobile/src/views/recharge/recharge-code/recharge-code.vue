@@ -6,11 +6,17 @@
 
         <div class="recharge-code-container scb-separator">
             <div class="recharge-code-content">
-                <h1>{{ rechargeCoin }}</h1>
+                <h1>扫一扫，向我付款</h1>
                 <qriously :value="rechargeAddress" :size="180" />
                 <p>{{ rechargeAddress }}</p>
                 <Button id="address" class="effect-tripple" type="primary" size="small" round :data-clipboard-text="rechargeAddress">复制地址</Button>
             </div>
+        </div>
+
+        {{ ((exchangeRateObj = exchangeRate || {}), void 0) }}
+        <div v-if="rechargeCoin !== 'BCB'" class="recharge-exchange-rate">
+            <p>当前参考汇率：{{ `1 ${exchangeRateObj.fromCoin || '--'} = ${exchangeRateObj.rate || '--'} ${exchangeRateObj.toCoin || '--'}` }}</p>
+            <p>所有转入的币种都将折算为BCB</p>
         </div>
 
         <RechargePrompt />

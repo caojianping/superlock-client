@@ -10,6 +10,7 @@ import {
     ChildModel,
     DefaultRateFormModel,
     DefaultRateStatsModel,
+    ExchangeRateModel,
     ProjectStatsModel,
     ProjectModel,
     AssetStatsModel,
@@ -32,7 +33,8 @@ import {
     TransferFormModel,
     TransferChildModel,
     TransferModel,
-    SecurityFormModel
+    SecurityFormModel,
+    LockResultModel
 } from '@/ts/models';
 
 export interface IActionContext<T> {
@@ -44,6 +46,7 @@ export interface IActionContext<T> {
 export interface IRootState {
     tokenInfo: TokenInfo; // token信息
     quota?: QuotaModel | null; // 可提现、可转账额度
+    exchangeRate?: ExchangeRateModel | null; // 汇率
 
     unitTypes: Array<string>; // 单位类型
     rateTypes: Array<string>; // 利率类型
@@ -96,6 +99,7 @@ export interface ITransactionState {
 export interface ILockState {
     lockProject?: ProjectModel | null; // 锁仓项目
     lockForm: LockFormModel; // 锁仓表单
+    lockResult?: LockResultModel | null; // 锁仓结果
     locks?: Array<LockModel>;
 }
 

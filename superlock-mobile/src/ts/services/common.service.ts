@@ -2,7 +2,7 @@ import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
 import { Urls, CaxiosType, defaultAreaCode } from '@/ts/config';
 import { Caxios } from '@/ts/common';
-import { QuotaModel } from '@/ts/models';
+import { QuotaModel, ExchangeRateModel } from '@/ts/models';
 
 export class CommonService {
     // 获取短信验证码
@@ -32,5 +32,11 @@ export class CommonService {
     // 获取可提现、可转账额度
     public async fetchQuota(): Promise<QuotaModel | null> {
         return await Caxios.get<QuotaModel | null>({ url: Urls.common.quota }, CaxiosType.Token);
+    }
+
+    // 获取汇率信息
+    public async fetchExchangeRate(fromCoin: string = 'BCB', toCoin: string = 'DC'): Promise<ExchangeRateModel | null> {
+        let parameters = Utils.buildParameters({ fromCoin, toCoin });
+        return await Caxios.get<ExchangeRateModel | null>({ url: `${Urls.common.exchangeRate}?${parameters}` }, CaxiosType.Token);
     }
 }

@@ -1,13 +1,13 @@
 <template>
     <div class="fund-password scb-gray">
         {{ ((status = userInfo.haveFundPasswd), void 0) }}
-        <Header :title="`${{ false: '设置', true: '修改' }[status]}资金密码`" @left="$router.push(from || '/security/center')" />
+        <Header :title="`${{ false: '设置', true: '修改' }[status] || ''}资金密码`" @left="$router.push(from || '/security/center')" />
 
         <div class="scb-form scb-separator">
             <ul>
                 <li>
                     <h1>
-                        {{ `${{ false: '设置', true: '修改' }[status]}资金密码` }}
+                        {{ `${{ false: '设置', true: '修改' }[status] || ''}资金密码` }}
                     </h1>
                     <p>UID: {{ userInfo.userId || '--' }}</p>
                 </li>
