@@ -2,7 +2,6 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { ValidationResult } from 'jpts-validator';
-
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { UserFormType, CONSTANTS } from '@/ts/config';
@@ -17,7 +16,7 @@ const userModule = namespace('user');
 
 @Component({
     name: 'UserLogin',
-    components: { Cell, Button, UserForm },
+    components: { Cell, Button, UserForm }
 })
 export default class UserLogin extends Vue {
     @userModule.State('userForm') userForm!: UserFormModel;
@@ -55,10 +54,7 @@ export default class UserLogin extends Vue {
     // 跳转至忘记密码页面
     goForget() {
         let { userForm, code } = this,
-            result: ValidationResult = UserService.validateUserForm(
-                userForm,
-                UserFormType.ForgetMobile
-            );
+            result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.ForgetMobile);
         if (!result.status) {
             Prompt.error(Utils.getFirstValue(result.data));
             return;
@@ -69,8 +65,8 @@ export default class UserLogin extends Vue {
             query: {
                 from: `/user/login?code=${code}`,
                 areaCode: userForm.areaCode,
-                mobile: userForm.mobile,
-            },
+                mobile: userForm.mobile
+            }
         });
     }
 
@@ -97,6 +93,7 @@ export default class UserLogin extends Vue {
     }
 
     created() {
+        this.clearStates();
         this.initData();
     }
 

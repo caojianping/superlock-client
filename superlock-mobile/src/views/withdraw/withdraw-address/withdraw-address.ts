@@ -1,9 +1,8 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
-
 import TYPES from '@/store/types';
-import { WithdrawSource, OperationType } from '@/ts/config';
+import { OperationType } from '@/ts/config';
 import { WithdrawAddressModel } from '@/ts/models';
 
 import { CellGroup, Cell, Checkbox } from 'vant';
@@ -17,23 +16,26 @@ const withdrawModule = namespace('withdraw');
     components: { CellGroup, Cell, Checkbox, Header, WithdrawSetting }
 })
 export default class WithdrawAddress extends Vue {
-    @withdrawModule.State('withdrawAddresses') withdrawAddresses!: Array<
-        WithdrawAddressModel
-    >;
-    @withdrawModule.State('selectedWithdrawAddress')
-    selectedWithdrawAddress?: WithdrawAddressModel;
+    @withdrawModule.State('withdrawAddresses') withdrawAddresses?: Array<WithdrawAddressModel>;
+    @withdrawModule.State('selectedWithdrawAddress') selectedWithdrawAddress?: WithdrawAddressModel;
+    @withdrawModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
+    @withdrawModule.Mutation(TYPES.CLEAR_STATES) clearStates!: (withoutSelected: boolean) => any;
+    @withdrawModule.Action('fetchWithdrawAddresses') fetchWithdrawAddresses!: (isLoading: boolean) => any;
 
-    @withdrawModule.Mutation(TYPES.SET_STATES) setStates!: (
-        payload: any
-    ) => any;
-    @withdrawModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
-    @withdrawModule.Action('fetchWithdrawAddresses')
-    fetchWithdrawAddresses!: (isLoading: boolean) => any;
-
-    source: WithdrawSource = WithdrawSource.Mine;
+    from: string = '';
     isShow: boolean = false;
     operationType: OperationType = OperationType.Add;
+
+    // 返回
+    goBack() {
+        let from = this.from;
+        this.$router.push({
+            path: from,
+            query: {
+                cache: from === '/withdraw/index' ? 'true' : 'false'
+            }
+        });
+    }
 
     // 打开提现设置组件
     openWithdrawSetting() {
@@ -49,15 +51,18 @@ export default class WithdrawAddress extends Vue {
     // 选择提现地址
     chooseAddress(withdrawAddress: WithdrawAddressModel) {
         this.setStates({ selectedWithdrawAddress: withdrawAddress });
-        this.$router.push('/withdraw/index');
+        this.$router.push({ path: '/withdraw/index', query: { cache: 'true' } });
+    }
+
+    // 初始化数据
+    initData() {
+        let query: any = this.$route.query || {};
+        this.from = query.from || '';
     }
 
     created() {
-        let params = this.$route.params || {},
-            source = isNaN(Number(params.source))
-                ? WithdrawSource.Mine
-                : Number(params.source);
-        this.source = source;
+        this.clearStates(true);
+        this.initData();
     }
 
     mounted() {

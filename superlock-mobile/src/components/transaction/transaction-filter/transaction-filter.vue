@@ -1,11 +1,5 @@
 <template>
-    <Popup
-        class="transaction-filter"
-        v-model="isShow"
-        round
-        position="bottom"
-        @close="handlePopupClose"
-    >
+    <Popup class="transaction-filter" v-model="isShow" round position="bottom" @close="handlePopupClose">
         <h2>账单分类</h2>
 
         <div class="transaction-types">
@@ -13,15 +7,7 @@
 
             <ul class="clearfix">
                 <li v-for="(item, index) in transactionTypes" :key="index">
-                    <Button
-                        :type="
-                            item.type === transactionType.type
-                                ? 'primary'
-                                : 'default'
-                        "
-                        @click="chooseType(item)"
-                        >{{ item.remark }}</Button
-                    >
+                    <Button :type="item.type === transactionType.type ? 'primary' : 'default'" @click="chooseType(item)">{{ item.remark }}</Button>
                 </li>
             </ul>
         </div>

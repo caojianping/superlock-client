@@ -17,12 +17,7 @@
                         @input="handleFieldInput('password', $event)"
                     >
                         <i
-                            :class="[
-                                'icon',
-                                isNewPasswordVisible
-                                    ? 'icon-visible-password'
-                                    : 'icon-invisible-password',
-                            ]"
+                            :class="['icon', isNewPasswordVisible ? 'icon-visible-password' : 'icon-invisible-password']"
                             slot="button"
                             @click="togglePassword('isNewPasswordVisible')"
                         />
@@ -38,12 +33,7 @@
                         @input="handleFieldInput('confirmPassword', $event)"
                     >
                         <i
-                            :class="[
-                                'icon',
-                                isConfirmPasswordVisible
-                                    ? 'icon-visible-password'
-                                    : 'icon-invisible-password',
-                            ]"
+                            :class="['icon', isConfirmPasswordVisible ? 'icon-visible-password' : 'icon-invisible-password']"
                             slot="button"
                             @click="togglePassword('isConfirmPasswordVisible')"
                         />
@@ -53,14 +43,7 @@
                     </p>
                 </li>
                 <li>
-                    <Button
-                        class="effect-shadow"
-                        type="primary"
-                        block
-                        round
-                        @click="submit"
-                        >确认</Button
-                    >
+                    <Button class="effect-shadow" type="primary" block round @click="submit">确认</Button>
                 </li>
             </ul>
         </div>

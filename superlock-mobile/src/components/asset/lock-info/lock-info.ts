@@ -14,7 +14,7 @@ export default class LockInfo extends Vue {
     @Model('close', { type: Boolean }) value!: boolean; // v-model
     @Prop() readonly lock!: LockModel;
 
-    @State('unitTypes') unitTypes !: Array<string>;
+    @State('unitTypes') unitTypes!: Array<string>;
 
     isShow: boolean = this.value; // 是否显示弹出框
 

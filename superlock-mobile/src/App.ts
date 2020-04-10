@@ -17,8 +17,7 @@ export default class App extends Vue {
         var self = this,
             timer: any = null;
         return function() {
-            let eventName =
-                'orientationchange' in window ? 'orientationchange' : 'resize';
+            let eventName = 'orientationchange' in window ? 'orientationchange' : 'resize';
             (window as any)[`on${eventName}`] = function() {
                 if (timer) {
                     clearTimeout(timer);

@@ -7,22 +7,11 @@
         <ul>
             <li>
                 <div class="scb-input">
-                    <input
-                        type="password"
-                        v-model="password"
-                        placeholder="请输入资金密码"
-                    />
+                    <input type="password" v-model="password" placeholder="请输入资金密码" />
                 </div>
             </li>
             <li>
-                <Button
-                    class="effect-shadow"
-                    type="primary"
-                    block
-                    round
-                    @click="submit"
-                    >确认</Button
-                >
+                <Button class="effect-shadow" type="primary" block round @click="submit">确认</Button>
             </li>
         </ul>
     </Modal>

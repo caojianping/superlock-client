@@ -1,9 +1,6 @@
 <template>
     <Popup v-model="isShow" class="full scb-gray" @close="handlePopupClose">
-        <Header
-            :title="`${['添加', '修改'][type - 1]}提现地址`"
-            @left="handlePopupClose"
-        />
+        <Header :title="`${['添加', '修改'][type - 1]}提现地址`" @left="handlePopupClose" />
 
         <div class="scb-form scb-separator">
             <ul>
@@ -12,32 +9,17 @@
                 </li>
                 <li>
                     <h2>钱包名称</h2>
-                    <Field
-                        v-model="withdrawAddress.nickName"
-                        clearable
-                        placeholder="请输入新添加的钱包名称"
-                    />
+                    <Field v-model="withdrawAddress.nickName" clearable placeholder="请输入新添加的钱包名称" />
                 </li>
                 <li>
                     <h2>钱包地址</h2>
-                    <Field
-                        v-model="withdrawAddress.address"
-                        clearable
-                        placeholder="请输入新添加的钱包地址"
-                    />
+                    <Field v-model="withdrawAddress.address" clearable placeholder="请输入新添加的钱包地址" />
                     <p class="text-orange">
                         绑定的地址必须是BCB钱包地址
                     </p>
                 </li>
                 <li>
-                    <Button
-                        class="effect-shadow"
-                        type="primary"
-                        block
-                        round
-                        @click="submit"
-                        >确认</Button
-                    >
+                    <Button class="effect-shadow" type="primary" block round @click="submit">确认</Button>
                 </li>
             </ul>
         </div>

@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
-
 import TYPES from '@/store/types';
 import { TransferChildModel } from '@/ts/models';
 
@@ -15,20 +14,11 @@ const transferModule = namespace('transfer');
     components: { Search, List, CellGroup, Cell, Checkbox, Icon, Header }
 })
 export default class TransferChild extends Vue {
-    @transferModule.State('transferChilds') transferChilds?: Array<
-        TransferChildModel
-    >;
-    @transferModule.State('selectedTransferChild')
-    selectedTransferChild?: TransferChildModel;
-
-    @transferModule.Mutation(TYPES.SET_STATES) setStates!: (
-        payload: any
-    ) => any;
-    @transferModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
-    @transferModule.Action('fetchTransferChilds') fetchTransferChilds!: (
-        keyword?: string
-    ) => any;
+    @transferModule.State('transferChilds') transferChilds?: Array<TransferChildModel>;
+    @transferModule.State('selectedTransferChild') selectedTransferChild?: TransferChildModel;
+    @transferModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
+    @transferModule.Mutation(TYPES.CLEAR_STATES) clearStates!: (withoutSelected: boolean) => any;
+    @transferModule.Action('fetchTransferChilds') fetchTransferChilds!: (keyword?: string) => any;
 
     keyword: string = '';
     isLoading: boolean = false; // 是否正在加载
@@ -36,7 +26,6 @@ export default class TransferChild extends Vue {
 
     // 处理搜索框action事件
     handleSearchAction() {
-        console.log('action', this.keyword);
         this.setStates({ pageNum: 1 });
         this.fetchData();
     }
@@ -44,7 +33,7 @@ export default class TransferChild extends Vue {
     // 选择转账下级
     chooseChild(transferChild: TransferChildModel) {
         this.setStates({ selectedTransferChild: transferChild });
-        this.$router.push('/transfer/index');
+        this.$router.push({ path: '/transfer/index', query: { cache: 'true' } });
     }
 
     // 获取数据
@@ -52,6 +41,10 @@ export default class TransferChild extends Vue {
         let transferChilds = await this.fetchTransferChilds(this.keyword);
         this.isLoading = false;
         this.isFinished = transferChilds && transferChilds.length <= 0;
+    }
+
+    created() {
+        this.clearStates(true);
     }
 
     mounted() {

@@ -6,17 +6,14 @@ import Spin from '@/components/common/spin';
 
 @Component({
     name: 'SmsCode',
-    components: { Spin },
+    components: { Spin }
 })
 export default class SmsCode extends Vue {
     @Prop() readonly areaCode!: string;
     @Prop() readonly mobile!: string;
     @Prop({ type: Boolean, default: false }) readonly isInit!: boolean;
 
-    @Action('fetchSmsCode') fetchSmsCode!: (payload: {
-        areaCode: string;
-        mobile: string;
-    }) => any;
+    @Action('fetchSmsCode') fetchSmsCode!: (payload: { areaCode: string; mobile: string }) => any;
 
     isSending: boolean = false; // 是否发送短信验证码中
     isSpinning: boolean = false; // 是否加载短信验证码中

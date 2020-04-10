@@ -2,7 +2,6 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { ValidationResult } from 'jpts-validator';
-
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { UserFormType, CONSTANTS } from '@/ts/config';
@@ -19,7 +18,7 @@ const userModule = namespace('user');
 
 @Component({
     name: 'UserForget',
-    components: { CellGroup, Cell, Field, Button, Header, SmsCode, ForgetForm },
+    components: { CellGroup, Cell, Field, Button, Header, SmsCode, ForgetForm }
 })
 export default class UserForget extends Vue {
     @userModule.State('userForm') userForm!: UserFormModel;
@@ -47,13 +46,17 @@ export default class UserForget extends Vue {
         this.$router.push(this.from);
     }
 
+    // 处理ForgetForm组件close事件
+    handleForgetFormClose() {
+        let userForm = Utils.duplicate(this.userForm);
+        userForm.smsCode = '';
+        this.setStates({ userForm });
+    }
+
     // 下一步
     async nextStep() {
         let userForm = this.userForm,
-            result: ValidationResult = UserService.validateUserForm(
-                userForm,
-                UserFormType.ForgetSmsCode
-            );
+            result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.ForgetSmsCode);
         if (!result.status) {
             Prompt.error(Utils.getFirstValue(result.data));
             return;
@@ -90,6 +93,7 @@ export default class UserForget extends Vue {
     }
 
     created() {
+        this.clearStates();
         this.initData();
     }
 

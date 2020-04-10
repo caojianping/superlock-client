@@ -3,18 +3,11 @@ import { Component } from 'vue-property-decorator';
 import { namespace, State } from 'vuex-class';
 import { SessionStorage } from 'jts-storage';
 import { ValidationResult } from 'jpts-validator';
-
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { CONSTANTS } from '@/ts/config';
 import { Prompt } from '@/ts/common';
-import {
-    UserLockQuotaModel,
-    ProjectModel,
-    LockFormModel,
-    AssetStatsModel,
-    UserInfoModel
-} from '@/ts/models';
+import { UserLockQuotaModel, ProjectModel, LockFormModel, AssetStatsModel, UserInfoModel } from '@/ts/models';
 import { LockService } from '@/ts/services';
 
 import { Toast, Field, Button } from 'vant';
@@ -33,15 +26,14 @@ export default class LockCreate extends Vue {
     @State('unitTypes') unitTypes!: Array<string>;
 
     @userModule.State('userInfo') userInfo!: UserInfoModel;
-    @userModule.State('userLockQuota')
-    userLockQuota?: UserLockQuotaModel | null;
+    @userModule.State('userLockQuota') userLockQuota?: UserLockQuotaModel | null;
     @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
     @userModule.Action('fetchUserLockQuota') fetchUserLockQuota!: () => any;
 
     @projectModule.State('assetStats') assetStats?: AssetStatsModel | null;
     @projectModule.Action('fetchAssetStats') fetchAssetStats!: () => any;
 
-    @lockModule.State('lockProject') lockProject!: ProjectModel;
+    @lockModule.State('lockProject') lockProject?: ProjectModel | null;
     @lockModule.State('lockForm') lockForm!: LockFormModel;
     @lockModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @lockModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
@@ -70,10 +62,7 @@ export default class LockCreate extends Vue {
             return;
         }
 
-        let result: ValidationResult = LockService.validateLockForm(
-            this.lockForm,
-            false
-        );
+        let result: ValidationResult = LockService.validateLockForm(this.lockForm, false);
         if (!result.status) {
             Prompt.error(Utils.getFirstValue(result.data));
             return;
@@ -103,10 +92,8 @@ export default class LockCreate extends Vue {
     // 初始化数据
     initData() {
         // 锁仓项目缓存数据校验处理
-        if (!this.lockProject || Utils.isEmptyObject(this.lockProject)) {
-            let lockProjectCache = SessionStorage.getItem<ProjectModel>(
-                CONSTANTS.LOCK_PROJECT
-            );
+        if (!this.lockProject) {
+            let lockProjectCache = SessionStorage.getItem<ProjectModel>(CONSTANTS.LOCK_PROJECT);
             if (!lockProjectCache) {
                 Prompt.error('异常的锁仓项目信息，数据丢失');
                 this.$router.push('/home/index');
@@ -129,7 +116,7 @@ export default class LockCreate extends Vue {
         await this.fetchAssetStats();
 
         let minAmount = await this.fetchMinLockAmount(),
-            lockProject = this.lockProject,
+            lockProject: any = Utils.duplicate(this.lockProject || {}),
             lockForm = new LockFormModel();
         lockForm.length = lockProject.length;
         lockForm.unit = lockProject.unit;
@@ -141,6 +128,7 @@ export default class LockCreate extends Vue {
     }
 
     created() {
+        this.clearStates();
         this.initData();
     }
 

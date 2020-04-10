@@ -1,5 +1,5 @@
 <template>
-    <div class="fund-password scb-gray">
+    <div class="login-password scb-gray">
         <Header title="登录密码" @left="$router.push('/security/center')" />
 
         <div class="scb-form scb-separator">
@@ -17,13 +17,7 @@
                         placeholder="请输入原密码"
                         @input="handleFieldInput('oldPassword', $event)"
                     >
-                        <a
-                            slot="button"
-                            class="text-orange"
-                            href="javascript: void(0)"
-                            @click="goForget"
-                            >忘记密码</a
-                        >
+                        <a slot="button" class="text-orange" href="javascript: void(0)" @click="goForget">忘记密码</a>
                     </Field>
                 </li>
                 <li>
@@ -36,12 +30,7 @@
                         @input="handleFieldInput('newPassword', $event)"
                     >
                         <i
-                            :class="[
-                                'icon',
-                                isNewPasswordVisible
-                                    ? 'icon-visible-password'
-                                    : 'icon-invisible-password',
-                            ]"
+                            :class="['icon', isNewPasswordVisible ? 'icon-visible-password' : 'icon-invisible-password']"
                             slot="button"
                             @click="togglePassword('isNewPasswordVisible')"
                         />
@@ -57,12 +46,7 @@
                         @input="handleFieldInput('confirmPassword', $event)"
                     >
                         <i
-                            :class="[
-                                'icon',
-                                isConfirmPasswordVisible
-                                    ? 'icon-visible-password'
-                                    : 'icon-invisible-password',
-                            ]"
+                            :class="['icon', isConfirmPasswordVisible ? 'icon-visible-password' : 'icon-invisible-password']"
                             slot="button"
                             @click="togglePassword('isConfirmPasswordVisible')"
                         />
@@ -72,14 +56,7 @@
                     </p>
                 </li>
                 <li>
-                    <Button
-                        class="effect-shadow"
-                        type="primary"
-                        block
-                        round
-                        @click="submit"
-                        >确认</Button
-                    >
+                    <Button class="effect-shadow" type="primary" block round @click="submit">确认</Button>
                 </li>
             </ul>
         </div>

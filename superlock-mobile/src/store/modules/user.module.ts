@@ -52,10 +52,7 @@ export default {
                 userInfo = await userService.login(state.userForm);
             if (userInfo === null) return false;
             else {
-                let tokenInfo: TokenInfo = TokenInfo.createInstance(
-                    userInfo.token,
-                    userInfo.pttl
-                );
+                let tokenInfo: TokenInfo = TokenInfo.createInstance(userInfo.token, userInfo.pttl);
                 Token.setTokenInfo(tokenInfo);
                 commit(TYPES.SET_STATES, { tokenInfo }, { root: true });
                 return true;
@@ -78,26 +75,19 @@ export default {
         },
 
         // 获取用户信息
-        async fetchUserInfo(
-            context: IActionContext<IUserState>
-        ): Promise<void> {
+        async fetchUserInfo(context: IActionContext<IUserState>): Promise<void> {
             let commit = context.commit,
                 userInfo = await userService.fetchUserInfo();
             commit(TYPES.SET_STATES, { userInfo });
         },
 
         // 设置昵称
-        async setNickname(
-            context: IActionContext<IUserState>,
-            nickname: string
-        ): Promise<boolean> {
+        async setNickname(context: IActionContext<IUserState>, nickname: string): Promise<boolean> {
             return await userService.setNickname(nickname);
         },
 
         // 获取用户锁仓额度信息
-        async fetchUserLockQuota(
-            context: IActionContext<IUserState>
-        ): Promise<void> {
+        async fetchUserLockQuota(context: IActionContext<IUserState>): Promise<void> {
             let commit = context.commit;
             try {
                 let userLockQuota = await userService.fetchUserLockQuota();

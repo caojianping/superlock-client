@@ -1,11 +1,6 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import {
-    IAreaCode,
-    HotAreaCodes,
-    AreaCodes,
-    defaultAreaCode
-} from '@/ts/config';
+import { IAreaCode, HotAreaCodes, AreaCodes, defaultAreaCode } from '@/ts/config';
 
 import { Popup, Icon, Search, IndexAnchor, IndexBar, Cell } from 'vant';
 import Header from '@/components/common/header';
@@ -37,11 +32,7 @@ export default class AreaCode extends Vue {
 
     // 根据关键字过滤国家/地区列表
     getAreaCodesByKeyword(keyword: string): Array<IAreaCode> {
-        return AreaCodes.filter(
-            (areaCode: IAreaCode) =>
-                (areaCode.name || '').indexOf(keyword) > -1 ||
-                (areaCode.code || '').indexOf(keyword) > -1
-        );
+        return AreaCodes.filter((areaCode: IAreaCode) => (areaCode.name || '').indexOf(keyword) > -1 || (areaCode.code || '').indexOf(keyword) > -1);
     }
 
     // 处理搜索框input事件
@@ -75,10 +66,7 @@ export default class AreaCode extends Vue {
         let indexAreaCodes: any = {};
         'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach((letter: string) => {
             indexAreaCodes[letter] = AreaCodes.filter(
-                (areaCode: IAreaCode) =>
-                    (areaCode.name || '')
-                        .toLowerCase()
-                        .indexOf(letter.toLowerCase()) === 0
+                (areaCode: IAreaCode) => (areaCode.name || '').toLowerCase().indexOf(letter.toLowerCase()) === 0
             );
         });
         this.indexAreaCodes = indexAreaCodes;

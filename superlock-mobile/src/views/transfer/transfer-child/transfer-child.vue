@@ -1,6 +1,6 @@
 <template>
     <div class="transfer-child">
-        <Header title="我的下级" @left="$router.back(-1)" />
+        <Header title="我的下级" @left="$router.push({ path: '/transfer/index', query: { cache: 'true' } })" />
 
         <Search
             class="transfer-child-search"
@@ -26,23 +26,12 @@
                 @load="fetchData"
             >
                 <CellGroup>
-                    <Cell
-                        v-for="(transferChild, index) in transferChilds"
-                        :key="index"
-                        @click="chooseChild(transferChild)"
-                    >
+                    <Cell v-for="(transferChild, index) in transferChilds" :key="index" @click="chooseChild(transferChild)">
                         <div slot="title">
                             <h2>{{ transferChild.nickNameRemark }}</h2>
                             <p>{{ transferChild.uid }}</p>
                         </div>
-                        <Checkbox
-                            slot="right-icon"
-                            :value="
-                                selectedTransferChild &&
-                                    transferChild.uid ===
-                                        selectedTransferChild.uid
-                            "
-                        />
+                        <Checkbox slot="right-icon" :value="selectedTransferChild && transferChild.uid === selectedTransferChild.uid" />
                     </Cell>
                 </CellGroup>
             </List>

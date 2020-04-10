@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component, Model, Watch } from 'vue-property-decorator';
-
 import TYPES from '@/store/types';
 import { TransactionTypeModel } from '@/ts/models';
 
@@ -17,19 +16,11 @@ const transactionModule = namespace('transaction');
 export default class TransactionFilter extends Vue {
     @Model('close', { type: Boolean }) value!: boolean; // v-model
 
-    @transactionModule.State('transactionTypes') transactionTypes!: Array<
-        TransactionTypeModel
-    >;
-    @transactionModule.State('transactionType')
-    transactionType!: TransactionTypeModel;
-
-    @transactionModule.Mutation(TYPES.SET_STATES) setStates!: (
-        payload: any
-    ) => any;
+    @transactionModule.State('transactionTypes') transactionTypes!: Array<TransactionTypeModel>;
+    @transactionModule.State('transactionType') transactionType!: TransactionTypeModel;
+    @transactionModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @transactionModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
-    @transactionModule.Action('fetchTransactionTypes')
-    fetchTransactionTypes!: () => any;
+    @transactionModule.Action('fetchTransactionTypes') fetchTransactionTypes!: () => any;
 
     isShow: boolean = this.value;
     isSpinning: boolean = false;

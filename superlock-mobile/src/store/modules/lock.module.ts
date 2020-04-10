@@ -1,10 +1,10 @@
 import TYPES from '@/store/types';
 import { IActionContext, ILockState } from '@/store/interfaces';
-import { ProjectModel, LockFormModel } from '@/ts/models';
+import { LockFormModel } from '@/ts/models';
 import { LockService } from '@/ts/services';
 
 const lockState: ILockState = {
-    lockProject: new ProjectModel(),
+    lockProject: undefined,
     lockForm: new LockFormModel(),
     locks: undefined
 };
@@ -22,16 +22,14 @@ export default {
             }
         },
         [TYPES.CLEAR_STATES](state: ILockState) {
-            state.lockProject = new ProjectModel();
+            state.lockProject = undefined;
             state.lockForm = new LockFormModel();
             state.locks = undefined;
         }
     },
     actions: {
         // 获取最小锁仓金额
-        async fetchMinLockAmount(
-            context: IActionContext<ILockState>
-        ): Promise<number> {
+        async fetchMinLockAmount(context: IActionContext<ILockState>): Promise<number> {
             return await lockService.fetchMinLockAmount();
         },
 
@@ -47,9 +45,7 @@ export default {
         },
 
         // 创建锁仓
-        async createLock(
-            context: IActionContext<ILockState>
-        ): Promise<boolean> {
+        async createLock(context: IActionContext<ILockState>): Promise<boolean> {
             let state = context.state;
             return await lockService.createLock(state.lockForm);
         }

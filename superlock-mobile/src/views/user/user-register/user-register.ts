@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
-
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { RegisterStatus, CONSTANTS } from '@/ts/config';
@@ -87,6 +86,7 @@ export default class UserRegister extends Vue {
     }
 
     created() {
+        this.clearStates();
         this.initData();
     }
 

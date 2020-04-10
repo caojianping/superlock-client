@@ -9,7 +9,7 @@ const childState: IChildState = {
     pageNum: 1,
     pageSize: 15,
     childs: undefined,
-    child: new ChildModel(),
+    child: undefined,
 
     defaultRateStats: undefined,
     defaultRateForms: []
@@ -35,7 +35,7 @@ export default {
             state.pageNum = 1;
             state.pageSize = 15;
             state.childs = undefined;
-            state.child = new ChildModel();
+            state.child = undefined;
 
             state.defaultRateStats = undefined;
             state.defaultRateForms = [];
@@ -43,9 +43,7 @@ export default {
     },
     actions: {
         // 获取锁仓利率和推广解锁利率
-        async fetchLockPromoteRates(
-            context: IActionContext<IChildState>
-        ): Promise<void> {
+        async fetchLockPromoteRates(context: IActionContext<IChildState>): Promise<void> {
             let commit = context.commit;
             try {
                 let lockPromoteRates = await childService.fetchLockPromoteRates();
@@ -56,9 +54,7 @@ export default {
         },
 
         // 获取下级分页列表
-        async fetchChilds(
-            context: IActionContext<IChildState>
-        ): Promise<Array<ChildModel> | undefined> {
+        async fetchChilds(context: IActionContext<IChildState>): Promise<Array<ChildModel> | undefined> {
             if (isPending) return undefined;
 
             isPending = true;
@@ -87,30 +83,21 @@ export default {
         },
 
         // 设置下级备注
-        async setChildRemark(
-            context: IActionContext<IChildState>,
-            remark: string
-        ): Promise<boolean> {
-            let state = context.state;
-            return await childService.setChildRemark(state.child.uid, remark);
+        async setChildRemark(context: IActionContext<IChildState>, remark: string): Promise<boolean> {
+            let state = context.state,
+                child: any = state.child || {};
+            return await childService.setChildRemark(child.uid, remark);
         },
 
         // 设置下级利率
-        async setChildRates(
-            context: IActionContext<IChildState>,
-            childRateForms: Array<ChildRateFormModel>
-        ): Promise<boolean> {
-            let state = context.state;
-            return await childService.setChildRates(
-                state.child.uid,
-                childRateForms
-            );
+        async setChildRates(context: IActionContext<IChildState>, childRateForms: Array<ChildRateFormModel>): Promise<boolean> {
+            let state = context.state,
+                child: any = state.child || {};
+            return await childService.setChildRates(child.uid, childRateForms);
         },
 
         // 获取默认利率统计信息
-        async fetchDefaultRateStats(
-            context: IActionContext<IChildState>
-        ): Promise<void> {
+        async fetchDefaultRateStats(context: IActionContext<IChildState>): Promise<void> {
             let commit = context.commit;
             try {
                 let defaultRateStats = await childService.fetchDefaultRateStats();
@@ -121,9 +108,7 @@ export default {
         },
 
         // 设置默认利率
-        async setDefaultRates(
-            context: IActionContext<IChildState>
-        ): Promise<boolean> {
+        async setDefaultRates(context: IActionContext<IChildState>): Promise<boolean> {
             let state = context.state;
             return await childService.setDefaultRates(state.defaultRateForms);
         }

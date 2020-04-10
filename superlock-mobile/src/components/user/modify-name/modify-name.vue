@@ -3,21 +3,9 @@
         <Header title="修改昵称" @left="handlePopupClose" />
 
         <div class="modify-form scb-separator">
-            <Field
-                :value="nickname"
-                clearable
-                placeholder="请输入昵称"
-                @input="handleFieldInput($event)"
-            ></Field>
+            <Field :value="nickname" clearable placeholder="请输入昵称" @input="handleFieldInput($event)"></Field>
 
-            <Button
-                class="effect-shadow"
-                type="primary"
-                block
-                round
-                @click="submit"
-                >保存</Button
-            >
+            <Button class="effect-shadow" type="primary" block round @click="submit">保存</Button>
         </div>
     </Popup>
 </template>

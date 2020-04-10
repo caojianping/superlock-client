@@ -16,14 +16,10 @@ const rechargeModule = namespace('recharge');
 export default class RechargeCoins extends Vue {
     @Model('close', { type: Boolean }) value!: boolean; // v-model
 
-    @rechargeModule.State('rechargeCoins') rechargeCoins!: Array<
-        RechargeCoinModel
-    >;
-    @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (
-        payload: any
-    ) => any;
+    @rechargeModule.State('rechargeCoins') rechargeCoins?: Array<RechargeCoinModel>;
+    @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @rechargeModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-    @rechargeModule.Action('fetchRechargeCoins') fetchRechargeCoins!: () => any;
+    @rechargeModule.Action('fetchRechargeCoins') fetchRechargeCoins!: (isLoading: boolean) => any;
 
     isShow: boolean = this.value;
     isSpinning: boolean = false;
@@ -36,9 +32,9 @@ export default class RechargeCoins extends Vue {
     // 获取数据
     async fetchData() {
         let rechargeCoins = this.rechargeCoins;
-        if (rechargeCoins.length <= 0) {
+        if (rechargeCoins && rechargeCoins.length <= 0) {
             this.isSpinning = true;
-            await this.fetchRechargeCoins();
+            await this.fetchRechargeCoins(false);
             this.isSpinning = false;
         }
     }

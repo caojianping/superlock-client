@@ -1,14 +1,8 @@
 import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
-
 import TYPES from '@/store/types';
-import {
-    AssetStatsModel,
-    EarningsStatsModel,
-    LockModel,
-    PromoteRewardStatsModel,
-} from '@/ts/models';
+import { AssetStatsModel, EarningsStatsModel, LockModel, PromoteRewardStatsModel } from '@/ts/models';
 
 import { PullRefresh, Toast, CellGroup, Cell, Tabs, Tab } from 'vant';
 import Navs from '@/components/common/navs';
@@ -32,8 +26,8 @@ const projectModule = namespace('project');
         Spin,
         RechargeCoins,
         LockInfo,
-        EarningsInfo,
-    },
+        EarningsInfo
+    }
 })
 export default class AssetIndex extends Vue {
     @State('unitTypes') unitTypes!: Array<string>;
@@ -42,18 +36,13 @@ export default class AssetIndex extends Vue {
     @lockModule.Action('fetchLocks') fetchLocks!: () => any;
 
     @projectModule.State('assetStats') assetStats?: AssetStatsModel | null;
-    @projectModule.State('earningsStats')
-    earningsStats?: EarningsStatsModel | null;
-    @projectModule.State('rewardStats')
-    rewardStats?: PromoteRewardStatsModel | null;
-
+    @projectModule.State('earningsStats') earningsStats?: EarningsStatsModel | null;
+    @projectModule.State('rewardStats') rewardStats?: PromoteRewardStatsModel | null;
     @projectModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @projectModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
     @projectModule.Action('fetchAssetStats') fetchAssetStats!: () => any;
     @projectModule.Action('fetchEarningsStats') fetchEarningsStats!: () => any;
-    @projectModule.Action('fetchPromoteRewardStats')
-    fetchPromoteRewardStats!: () => any;
+    @projectModule.Action('fetchPromoteRewardStats') fetchPromoteRewardStats!: () => any;
 
     lockStatuses: any = {
         0: '订单已创建',
@@ -61,7 +50,7 @@ export default class AssetIndex extends Vue {
         20: '锁仓计息中',
         30: '锁仓到期',
         40: '锁仓失败',
-        50: '贷款质押中',
+        50: '贷款质押中'
     };
     lockStyles: any = {
         0: 'black',
@@ -69,13 +58,12 @@ export default class AssetIndex extends Vue {
         20: 'green',
         30: 'red',
         40: 'pink',
-        50: 'orange',
+        50: 'orange'
     };
 
     activeTab: number = 0;
 
     isPulling: boolean = false;
-
     isTotalVisible: boolean = true;
     isEarningsStatsSpinning: boolean = false;
 
@@ -134,21 +122,21 @@ export default class AssetIndex extends Vue {
                 1: 'Locks',
                 2: 'Loans',
                 3: 'RewardStats',
-                4: 'EarningsStats',
+                4: 'EarningsStats'
             },
             caches = {
                 0: this.assetStats,
                 1: this.locks,
                 2: null,
                 3: this.rewardStats,
-                4: this.earningsStats,
+                4: this.earningsStats
             },
             funcs = {
                 0: this.fetchAssetStats,
                 1: this.fetchLocks,
                 2: null,
                 3: this.fetchPromoteRewardStats,
-                4: this.fetchEarningsStats,
+                4: this.fetchEarningsStats
             },
             key = `is${keys[index]}Spinning`,
             func = funcs[index];
@@ -159,10 +147,19 @@ export default class AssetIndex extends Vue {
         }
     }
 
+    // 获取所有数据
+    async fetchAll() {
+        let activeTab = this.activeTab;
+        this.fetchData(activeTab);
+        if (activeTab !== 0) {
+            this.fetchData(0);
+        }
+        this.fetchData(4);
+    }
+
     // 刷新数据
     async refreshData() {
-        this.fetchData(this.activeTab, true);
-        this.fetchData(4, true);
+        await this.fetchAll();
         this.isPulling = false;
         Toast('刷新成功');
     }
@@ -173,10 +170,6 @@ export default class AssetIndex extends Vue {
     }
 
     mounted() {
-        this.fetchData(this.activeTab);
-        if (this.activeTab !== 0) {
-            this.fetchData(0);
-        }
-        this.fetchData(4);
+        this.fetchAll();
     }
 }

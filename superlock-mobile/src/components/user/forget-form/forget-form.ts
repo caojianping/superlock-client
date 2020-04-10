@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component, Model, Watch } from 'vue-property-decorator';
-
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { Prompt } from '@/ts/common';
@@ -14,7 +13,7 @@ const userModule = namespace('user');
 
 @Component({
     name: 'ForgetForm',
-    components: { Popup, CellGroup, Field, Button, Header },
+    components: { Popup, CellGroup, Field, Button, Header }
 })
 export default class ForgetForm extends Vue {
     @Model('close', { type: Boolean }) value!: boolean; // v-model
@@ -64,5 +63,11 @@ export default class ForgetForm extends Vue {
     @Watch('value')
     watchValue(value: boolean) {
         this.isShow = value;
+        if (value) {
+            let userForm = Utils.duplicate(this.userForm);
+            userForm.password = '';
+            userForm.confirmPassword = '';
+            this.setStates({ userForm });
+        }
     }
 }

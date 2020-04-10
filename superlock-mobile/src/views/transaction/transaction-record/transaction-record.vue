@@ -19,31 +19,17 @@
                     <Cell
                         v-for="(transaction, index) in transactions"
                         :key="index"
-                        :to="
-                            `/transaction/detail/${transaction.type}/${transaction.orderId}`
-                        "
+                        :to="`/transaction/detail/${transaction.type}/${transaction.orderId}`"
                     >
                         <div slot="title">
-                            <h2>
-                                {{ transaction.remark || '' }}
-                            </h2>
-                            <p>
-                                {{ transaction.createTime | dateFormat }}
-                            </p>
+                            <h2>{{ transaction.remark || '' }}</h2>
+                            <p>{{ transaction.createTime | dateFormat }}</p>
                         </div>
                         <div slot="default">
                             <h3 :class="{ income: transaction.symbol === 1 }">
-                                {{
-                                    `${['-', '+'][transaction.symbol]} ${
-                                        transaction.amount
-                                    } ${transaction.coin}`
-                                }}
+                                {{ `${['-', '+'][transaction.symbol]} ${transaction.amount} ${transaction.coin}` }}
                             </h3>
-                            <p>
-                                {{
-                                    `余额 ${transaction.balance} ${transaction.balanceCoin}`
-                                }}
-                            </p>
+                            <p>{{ `余额 ${transaction.balance} ${transaction.balanceCoin}` }}</p>
                         </div>
                     </Cell>
                 </CellGroup>

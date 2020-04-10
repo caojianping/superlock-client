@@ -13,7 +13,7 @@ const transactionState: ITransactionState = {
 
     type: 0,
     orderId: '',
-    transaction: undefined,
+    transaction: undefined
 };
 
 const transactionService = new TransactionService();
@@ -30,9 +30,11 @@ export default {
                 state[key] = value;
             }
         },
-        [TYPES.CLEAR_STATES](state: ITransactionState) {
+        [TYPES.CLEAR_STATES](state: ITransactionState, withoutType: boolean = false) {
             state.transactionTypes = [];
-            state.transactionType = new TransactionTypeModel(1000, '全部');
+            if (!withoutType) {
+                state.transactionType = new TransactionTypeModel(1000, '全部');
+            }
 
             state.pageNum = 1;
             state.pageSize = 15;
@@ -41,13 +43,11 @@ export default {
             state.type = 0;
             state.orderId = '';
             state.transaction = undefined;
-        },
+        }
     },
     actions: {
         // 获取交易类型列表
-        async fetchTransactionTypes(
-            context: IActionContext<ITransactionState>
-        ): Promise<void> {
+        async fetchTransactionTypes(context: IActionContext<ITransactionState>): Promise<void> {
             let commit = context.commit;
             try {
                 let transactionTypes = await transactionService.fetchTransactionTypes();
@@ -58,34 +58,23 @@ export default {
         },
 
         // 获取交易分页列表
-        async fetchTransactions(
-            context: IActionContext<ITransactionState>
-        ): Promise<Array<TransactionModel> | undefined> {
+        async fetchTransactions(context: IActionContext<ITransactionState>): Promise<Array<TransactionModel> | undefined> {
             if (isPending) return undefined;
 
             isPending = true;
             let { commit, state } = context;
             try {
-                let {
-                        pageNum,
-                        pageSize,
-                        transactions,
-                        transactionType,
-                    } = state,
-                    data = await transactionService.fetchTransactions(
-                        transactionType.type,
-                        pageNum,
-                        pageSize
-                    );
+                let { pageNum, pageSize, transactions, transactionType } = state,
+                    data = await transactionService.fetchTransactions(transactionType.type, pageNum, pageSize);
                 if (pageNum === 1) {
                     commit(TYPES.SET_STATES, {
                         pageNum: pageNum + 1,
-                        transactions: data,
+                        transactions: data
                     });
                 } else {
                     commit(TYPES.SET_STATES, {
                         pageNum: pageNum + 1,
-                        transactions: (transactions || []).concat(data),
+                        transactions: (transactions || []).concat(data)
                     });
                 }
                 isPending = false;
@@ -98,19 +87,14 @@ export default {
         },
 
         // 获取交易信息
-        async fetchTransaction(
-            context: IActionContext<ITransactionState>
-        ): Promise<void> {
+        async fetchTransaction(context: IActionContext<ITransactionState>): Promise<void> {
             let { commit, state } = context;
             try {
-                let transaction = await transactionService.fetchTransaction(
-                    state.type,
-                    state.orderId
-                );
+                let transaction = await transactionService.fetchTransaction(state.type, state.orderId);
                 commit(TYPES.SET_STATES, { transaction });
             } catch (error) {
                 commit(TYPES.SET_STATES, { transaction: null });
             }
-        },
-    },
+        }
+    }
 };

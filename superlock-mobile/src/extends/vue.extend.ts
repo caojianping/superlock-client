@@ -2,37 +2,26 @@ import Vue from 'vue';
 import Utils from '@/ts/utils';
 
 // 日期格式化显示
-Vue.filter('dateFormat', function(
-    value: string,
-    format: string = 'yyyy-MM-dd hh:mm:ss',
-    isZeroize: boolean = true
-) {
+Vue.filter('dateFormat', function(value: string, format: string = 'yyyy-MM-dd hh:mm:ss', isZeroize: boolean = true) {
     if (Utils.isNullOrUndefined(value)) return value;
     if (!Utils.isDateString(value)) return value;
     return Utils.dateFormat(value, format, isZeroize);
 });
 
 // 利率百分比显示
-Vue.filter('ratePercent', function(
-    value: string | number,
-    precision: number = 2,
-    isPercent: boolean = true
-) {
+Vue.filter('ratePercent', function(value: string | number, precision: number = 2, isPercent: boolean = true) {
     if (Utils.isNullOrUndefined(value)) return value;
     return Utils.digitPercent(value, precision) + (isPercent ? '%' : '');
 });
 
 // 数字精度显示
-Vue.filter('digitPrecision', function(
-    value: string | number,
-    precision: number = 2
-) {
+Vue.filter('digitPrecision', function(value: string | number, precision: number = 2) {
     if (Utils.isNullOrUndefined(value)) return value;
     return Utils.digitPrecision(value, precision);
 });
 
 // 货币逗号分隔显示
-Vue.filter('currencyComma', function(value: number, precision: number = 2) {
+Vue.filter('currencyComma', function(value: number, precision: number = 4) {
     if (Utils.isNullOrUndefined(value)) return value;
 
     let svalue = value.toString(),

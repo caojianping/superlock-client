@@ -1,43 +1,22 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
         <div class="asset-index scb-reserved scb-gray">
+            {{ ((assetStatsObj = assetStats || {}), void 0) }}
+            {{ ((earningsStatsObj = earningsStats || {}), void 0) }}
             <header class="asset-header">
-                <i
-                    class="icon icon-transaction"
-                    @click="goPage('/transaction/record')"
-                />
+                <i class="icon icon-transaction" @click="goPage('/transaction/record')" />
                 <h2>
                     <label>总资产</label>
                     <small>（BCB）</small>
-                    <i
-                        class="icon"
-                        :class="
-                            isTotalVisible ? 'icon-visible' : 'icon-invisible'
-                        "
-                        @click="toggleTotal"
-                    />
+                    <i class="icon" :class="isTotalVisible ? 'icon-visible' : 'icon-invisible'" @click="toggleTotal" />
                 </h2>
                 <h1 v-if="isTotalVisible">
-                    {{
-                        (assetStats ? assetStats.bcbTotalAmount : 0)
-                            | currencyComma(4)
-                    }}
+                    {{ (assetStatsObj.bcbTotalAmount || 0) | currencyComma(4) }}
                 </h1>
                 <h1 v-else>*******</h1>
                 <p>
-                    <label
-                        >昨日收益（{{
-                            earningsStats
-                                ? earningsStats.yesterdayEarningsCoin
-                                : '--'
-                        }}）</label
-                    >
-                    <span
-                        >+
-                        {{
-                            earningsStats ? earningsStats.yesterdayEarnings : 0
-                        }}</span
-                    >
+                    <label>昨日收益（{{ earningsStatsObj.yesterdayEarningsCoin || '--' }}）</label>
+                    <span>+ {{ earningsStatsObj.yesterdayEarnings || 0 }}</span>
                     <i class="icon icon-arrow" @click="openEarningsInfo" />
                 </p>
             </header>
@@ -57,47 +36,17 @@
                 </li>
             </ul>
 
-            <Tabs
-                class="asset-tabs"
-                v-model="activeTab"
-                animated
-                swipeable
-                @change="handleTabsChange"
-            >
+            <Tabs class="asset-tabs" v-model="activeTab" animated swipeable @change="handleTabsChange">
                 <Tab>
                     <template slot="title">
                         <span>资产总账</span>
                     </template>
                     <div class="tab-content">
-                        <Spin
-                            v-if="!assetStats"
-                            :is-spinning="isAssetStatsSpinning"
-                        />
+                        <Spin v-if="!assetStats" :is-spinning="isAssetStatsSpinning" />
                         <CellGroup v-if="!isAssetStatsSpinning">
-                            <Cell
-                                title="总资产"
-                                :value="
-                                    (assetStats
-                                        ? assetStats.bcbTotalAmount
-                                        : '0') | coinUnit
-                                "
-                            ></Cell>
-                            <Cell
-                                title="可用余额"
-                                :value="
-                                    (assetStats
-                                        ? assetStats.bcbHotAmount
-                                        : '0') | coinUnit
-                                "
-                            ></Cell>
-                            <Cell
-                                title="锁仓金额"
-                                :value="
-                                    (assetStats
-                                        ? assetStats.bcbLockAmount
-                                        : '0') | coinUnit
-                                "
-                            ></Cell>
+                            <Cell title="总资产" :value="(assetStats ? assetStats.bcbTotalAmount || 0 : 0) | coinUnit"></Cell>
+                            <Cell title="可用余额" :value="(assetStats ? assetStats.bcbHotAmount || 0 : 0) | coinUnit"></Cell>
+                            <Cell title="锁仓金额" :value="(assetStats ? assetStats.bcbLockAmount || 0 : 0) | coinUnit"></Cell>
                         </CellGroup>
                     </div>
                 </Tab>
@@ -110,34 +59,15 @@
                         <template v-if="!isLocksSpinning && locks">
                             <p v-if="locks.length <= 0" class="scb-none">
                                 暂无锁仓记录，快去
-                                <router-link class="scb-link" to="/home/index"
-                                    >创建锁仓</router-link
-                                >
+                                <router-link class="scb-link" to="/home/index">创建锁仓</router-link>
                                 吧！
                             </p>
                             <CellGroup v-else class="locks priority-title">
-                                <Cell
-                                    v-for="(lock, index) in locks"
-                                    :key="index"
-                                    @click="openLockInfo(lock)"
-                                >
+                                <Cell v-for="(lock, index) in locks" :key="index" @click="openLockInfo(lock)">
                                     <template slot="title">
                                         <h2>
-                                            <span>{{
-                                                `超级锁仓-${lock.length}${
-                                                    unitTypes[lock.unit - 1]
-                                                }`
-                                            }}</span>
-                                            <i
-                                                :class="
-                                                    lockStyles[lock.status] ||
-                                                        'black'
-                                                "
-                                                >{{
-                                                    lockStatuses[lock.status] ||
-                                                        lock.remark
-                                                }}</i
-                                            >
+                                            <span>{{ `超级锁仓-${lock.length}${unitTypes[lock.unit - 1]}` }}</span>
+                                            <i :class="lockStyles[lock.status] || 'black'">{{ lockStatuses[lock.status] || lock.remark }}</i>
                                         </h2>
                                         <p>{{ lock.orderId }}</p>
                                     </template>
@@ -146,10 +76,7 @@
                                             {{ `${lock.amount} ${lock.coin}` }}
                                         </h3>
                                         <p>
-                                            {{
-                                                lock.startTime
-                                                    | dateFormat('yyyy-MM-dd')
-                                            }}
+                                            {{ lock.startTime | dateFormat('yyyy-MM-dd') }}
                                         </p>
                                     </template>
                                 </Cell>
@@ -170,26 +97,15 @@
                         <span>推广奖励</span>
                     </template>
                     <div class="tab-content">
-                        <Spin
-                            v-if="!rewardStats"
-                            :is-spinning="isRewardStatsSpinning"
-                        />
+                        <Spin v-if="!rewardStats" :is-spinning="isRewardStatsSpinning" />
                         <CellGroup v-if="!isRewardStatsSpinning">
                             <Cell
                                 title="直推奖励"
                                 is-link
                                 :to="`/reward/record/${1}`"
                                 :value="
-                                    `${
-                                        rewardStats
-                                            ? rewardStats.pushRewardValuation ||
-                                              0
-                                            : 0
-                                    } ${
-                                        rewardStats
-                                            ? rewardStats.pushRewardValuationCoin ||
-                                              'BCB'
-                                            : 'BCB'
+                                    `${rewardStats ? rewardStats.pushRewardValuation || 0 : 0} ${
+                                        rewardStats ? rewardStats.pushRewardValuationCoin || 'BCB' : 'BCB'
                                     }`
                                 "
                             ></Cell>
@@ -198,16 +114,8 @@
                                 is-link
                                 :to="`/reward/record/${2}`"
                                 :value="
-                                    `${
-                                        rewardStats
-                                            ? rewardStats.lockRewardValuation ||
-                                              0
-                                            : 0
-                                    } ${
-                                        rewardStats
-                                            ? rewardStats.lockRewardValuationCoin ||
-                                              'BCB'
-                                            : 'BCB'
+                                    `${rewardStats ? rewardStats.lockRewardValuation || 0 : 0} ${
+                                        rewardStats ? rewardStats.lockRewardValuationCoin || 'BCB' : 'BCB'
                                     }`
                                 "
                             ></Cell>
@@ -216,16 +124,8 @@
                                 is-link
                                 :to="`/reward/record/${3}`"
                                 :value="
-                                    `${
-                                        rewardStats
-                                            ? rewardStats.unlockRewardValuation ||
-                                              0
-                                            : 0
-                                    } ${
-                                        rewardStats
-                                            ? rewardStats.unlockRewardValuationCoin ||
-                                              'BCB'
-                                            : 'BCB'
+                                    `${rewardStats ? rewardStats.unlockRewardValuation || 0 : 0} ${
+                                        rewardStats ? rewardStats.unlockRewardValuationCoin || 'BCB' : 'BCB'
                                     }`
                                 "
                             ></Cell>
@@ -234,16 +134,7 @@
                                 is-link
                                 :to="`/reward/record/${4}`"
                                 :value="
-                                    `${
-                                        rewardStats
-                                            ? rewardStats.salesReward || 0
-                                            : 0
-                                    } ${
-                                        rewardStats
-                                            ? rewardStats.salesRewardCoin ||
-                                              'BCB'
-                                            : 'BCB'
-                                    }`
+                                    `${rewardStats ? rewardStats.salesReward || 0 : 0} ${rewardStats ? rewardStats.salesRewardCoin || 'BCB' : 'BCB'}`
                                 "
                             ></Cell>
                         </CellGroup>

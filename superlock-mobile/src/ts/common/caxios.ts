@@ -21,10 +21,7 @@ export class Caxios {
     };
 
     // 设置headers
-    private static setHeaders(
-        type: CaxiosType = CaxiosType.Default,
-        options: any = {}
-    ) {
+    private static setHeaders(type: CaxiosType = CaxiosType.Default, options: any = {}) {
         if (!options['headers']) {
             options['headers'] = {};
         }
@@ -37,18 +34,12 @@ export class Caxios {
         if (options['method'] === 'POST') {
             // 设置默认请求头内容类型
             if (!options['headers']['Content-Type']) {
-                options['headers']['Content-Type'] =
-                    'application/x-www-form-urlencoded; charset=UTF-8';
+                options['headers']['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
             }
 
             // 转换请求数据
             let data = options['data'];
-            if (
-                options['headers']['Content-Type'].indexOf(
-                    'application/x-www-form-urlencoded'
-                ) > -1 &&
-                !Utils.isNullOrUndefined(data)
-            ) {
+            if (options['headers']['Content-Type'].indexOf('application/x-www-form-urlencoded') > -1 && !Utils.isNullOrUndefined(data)) {
                 options['data'] = Qs.stringify(data);
             }
         }
@@ -70,10 +61,7 @@ export class Caxios {
     }
 
     // axios调用
-    public static async invoke<T>(
-        options: AxiosRequestConfig,
-        type: CaxiosType = CaxiosType.Default
-    ): Promise<T> {
+    public static async invoke<T>(options: AxiosRequestConfig, type: CaxiosType = CaxiosType.Default): Promise<T> {
         if (!options) return Promise.reject('axios请求参数配置不可以为空');
 
         options = Caxios.setHeaders(type, options);
@@ -129,11 +117,7 @@ export class Caxios {
         // 兼容IE9
         if (isIE9) {
             let request = response.request;
-            if (
-                request &&
-                request.responseType === 'json' &&
-                request.responseText
-            ) {
+            if (request && request.responseType === 'json' && request.responseText) {
                 response.data = JSON.parse(request.responseText);
             }
         }
@@ -141,11 +125,7 @@ export class Caxios {
         let resp = response.data;
         if (!resp) throw new BusinessError(999, '无效的响应数据');
 
-        let result = new ResponseResult<T>(
-            Number(resp.code),
-            resp.data,
-            resp.message
-        );
+        let result = new ResponseResult<T>(Number(resp.code), resp.data, resp.message);
         if (!result) throw new BusinessError(999, '无效的响应数据');
 
         let code: number = result.code,
@@ -169,20 +149,14 @@ export class Caxios {
     }
 
     // GET方法请求
-    public static async get<T>(
-        options: AxiosRequestConfig,
-        type: CaxiosType = CaxiosType.Default
-    ): Promise<T> {
+    public static async get<T>(options: AxiosRequestConfig, type: CaxiosType = CaxiosType.Default): Promise<T> {
         if (!options) return Promise.reject('axios配置参数不可以为空');
         options['method'] = 'GET';
         return await Caxios.invoke<T>(options, type);
     }
 
     // POST方法请求
-    public static async post<T>(
-        options: AxiosRequestConfig,
-        type: CaxiosType = CaxiosType.Default
-    ): Promise<T> {
+    public static async post<T>(options: AxiosRequestConfig, type: CaxiosType = CaxiosType.Default): Promise<T> {
         if (!options) return Promise.reject('axios配置参数不可以为空');
         options['method'] = 'POST';
         return await Caxios.invoke<T>(options, type);

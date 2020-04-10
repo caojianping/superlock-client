@@ -4,10 +4,7 @@
 
         <div class="user-info flex">
             <figure>
-                <img
-                    src="../../../assets/images/avatar.png"
-                    :alt="userInfo.nickName || ''"
-                />
+                <img src="../../../assets/images/avatar.png" :alt="userInfo.nickName || ''" />
             </figure>
             <div>
                 <h2>{{ userInfo.nickName || '--' }}</h2>
@@ -19,10 +16,7 @@
         </div>
 
         <CellGroup>
-            <Cell
-                is-link
-                :to="{ path: '/team/index', query: { from: '/mine/index' } }"
-            >
+            <Cell is-link :to="{ path: '/team/index', query: { from: '/mine/index' } }">
                 <template>
                     <i class="icon icon-team" />
                     <span>团队管理</span>
@@ -43,7 +37,7 @@
                     <span>充值地址</span>
                 </template>
             </Cell>
-            <Cell is-link to="/withdraw/address/1">
+            <Cell is-link :to="{ path: '/withdraw/address', query: { from: '/mine/index' } }">
                 <template>
                     <i class="icon icon-withdraw" />
                     <span>提现地址</span>
@@ -78,11 +72,8 @@
             </Cell>
         </CellGroup>
 
-        <ModifyName
-            v-model="isShow"
-            :name="userInfo.nickName || ''"
-            @submit="handleModifyNameSubmit"
-        />
+        <ModifyName v-model="isShow" :name="userInfo.nickName || ''" @submit="handleModifyNameSubmit" />
+
         <Navs />
     </div>
 </template>

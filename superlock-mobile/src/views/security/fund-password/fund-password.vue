@@ -1,18 +1,13 @@
 <template>
     <div class="fund-password scb-gray">
         {{ ((status = userInfo.haveFundPasswd), void 0) }}
-        <Header
-            :title="`${{ false: '设置', true: '修改' }[status]}资金密码`"
-            @left="$router.push(from || '/security/center')"
-        />
+        <Header :title="`${{ false: '设置', true: '修改' }[status]}资金密码`" @left="$router.push(from || '/security/center')" />
 
         <div class="scb-form scb-separator">
             <ul>
                 <li>
                     <h1>
-                        {{
-                            `${{ false: '设置', true: '修改' }[status]}资金密码`
-                        }}
+                        {{ `${{ false: '设置', true: '修改' }[status]}资金密码` }}
                     </h1>
                     <p>UID: {{ userInfo.userId || '--' }}</p>
                 </li>
@@ -25,13 +20,7 @@
                         placeholder="请输入原密码"
                         @input="handleFieldInput('oldPassword', $event)"
                     >
-                        <a
-                            slot="button"
-                            class="text-orange"
-                            href="javascript: void(0)"
-                            @click="goForget"
-                            >忘记密码</a
-                        >
+                        <a slot="button" class="text-orange" href="javascript: void(0)" @click="goForget">忘记密码</a>
                     </Field>
                 </li>
                 <li>
@@ -44,12 +33,7 @@
                         @input="handleFieldInput('newPassword', $event)"
                     >
                         <i
-                            :class="[
-                                'icon',
-                                isNewPasswordVisible
-                                    ? 'icon-visible-password'
-                                    : 'icon-invisible-password',
-                            ]"
+                            :class="['icon', isNewPasswordVisible ? 'icon-visible-password' : 'icon-invisible-password']"
                             slot="button"
                             @click="togglePassword('isNewPasswordVisible')"
                         />
@@ -65,12 +49,7 @@
                         @input="handleFieldInput('confirmPassword', $event)"
                     >
                         <i
-                            :class="[
-                                'icon',
-                                isConfirmPasswordVisible
-                                    ? 'icon-visible-password'
-                                    : 'icon-invisible-password',
-                            ]"
+                            :class="['icon', isConfirmPasswordVisible ? 'icon-visible-password' : 'icon-invisible-password']"
                             slot="button"
                             @click="togglePassword('isConfirmPasswordVisible')"
                         />
@@ -90,23 +69,12 @@
                     >
                         <template slot="button">
                             {{ ((phone = userInfo.phone || {}), void 0) }}
-                            <SmsCode
-                                :area-code="phone.area"
-                                :mobile="phone.tel"
-                                @stop="handleSmsCodeStop"
-                            />
+                            <SmsCode :area-code="phone.area" :mobile="phone.tel" @stop="handleSmsCodeStop" />
                         </template>
                     </Field>
                 </li>
                 <li>
-                    <Button
-                        class="effect-shadow"
-                        type="primary"
-                        block
-                        round
-                        @click="submit"
-                        >确认</Button
-                    >
+                    <Button class="effect-shadow" type="primary" block round @click="submit">确认</Button>
                 </li>
             </ul>
         </div>

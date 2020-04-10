@@ -34,10 +34,7 @@
                     </div>
 
                     <IndexBar v-if="!isSearch" :sticky="true">
-                        <div
-                            v-for="(areaCodes, key) in indexAreaCodes"
-                            :key="key"
-                        >
+                        <div v-for="(areaCodes, key) in indexAreaCodes" :key="key">
                             <IndexAnchor :index="key">{{ key }}</IndexAnchor>
                             <Cell
                                 v-for="(areaCode, cindex) in areaCodes"

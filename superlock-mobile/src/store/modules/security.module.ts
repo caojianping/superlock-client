@@ -25,27 +25,19 @@ export default {
     },
     actions: {
         // 修改登录密码
-        async modifyLoginPassword(
-            context: IActionContext<ISecurityState>
-        ): Promise<boolean> {
+        async modifyLoginPassword(context: IActionContext<ISecurityState>): Promise<boolean> {
             let state = context.state;
-            return await securityService.modifyLoginPassword(
-                state.securityForm
-            );
+            return await securityService.modifyLoginPassword(state.securityForm);
         },
 
         // 设置资金密码
-        async setFundPassword(
-            context: IActionContext<ISecurityState>
-        ): Promise<boolean> {
+        async setFundPassword(context: IActionContext<ISecurityState>): Promise<boolean> {
             let state = context.state;
             return await securityService.setFundPassword(state.securityForm);
         },
 
         // 修改资金密码
-        async modifyFundPassword(
-            context: IActionContext<ISecurityState>
-        ): Promise<boolean> {
+        async modifyFundPassword(context: IActionContext<ISecurityState>): Promise<boolean> {
             let state = context.state;
             return await securityService.modifyFundPassword(state.securityForm);
         }

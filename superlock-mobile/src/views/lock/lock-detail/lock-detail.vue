@@ -1,32 +1,27 @@
 <template>
     <div class="lock-detail">
-        <Header
-            title="锁仓详情"
-            :isBorder="false"
-            @left="$router.push('/home/index')"
-        />
+        <Header title="锁仓详情" :isBorder="false" @left="$router.push('/home/index')" />
 
         <div class="lock-detail-body">
+            {{ ((lockProjectObj = lockProject || {}), void 0) }}
             <h1 class="lock-detail-title">
                 锁仓宝 -
-                {{ lockProject.length + unitTypes[lockProject.unit - 1] }}
+                {{ lockProjectObj.length + unitTypes[lockProjectObj.unit - 1] }}
             </h1>
 
             <div class="lock-detail-intro lock-container">
                 <ul class="flex">
                     <li>
                         <h2>
-                            <span>{{
-                                lockProject.rate | ratePercent(1, false)
-                            }}</span>
+                            <span>{{ lockProjectObj.rate | ratePercent(2, false) }}</span>
                             <small>%</small>
                         </h2>
                         <p>预期年化利率</p>
                     </li>
                     <li>
                         <h2>
-                            <span>{{ lockProject.length }}</span>
-                            <small>{{ unitTypes[lockProject.unit - 1] }}</small>
+                            <span>{{ lockProjectObj.length }}</span>
+                            <small>{{ unitTypes[lockProjectObj.unit - 1] }}</small>
                         </h2>
                         <p>锁仓期限</p>
                     </li>
@@ -43,23 +38,16 @@
                 <ul>
                     <li>
                         <h3>
-                            <img
-                                src="../../../assets/images/lock/rule01.png"
-                                alt=""
-                            />
+                            <img src="../../../assets/images/lock/rule01.png" alt="" />
                             <span>利息计算</span>
                         </h3>
                         <p>
-                            每日到账利息(BCB) =
-                            (锁仓时折算的DC价值*锁仓年化利率)/当日BCB价格/365天
+                            每日到账利息(BCB) = (锁仓时折算的DC价值*锁仓年化利率)/当日BCB价格/365天
                         </p>
                     </li>
                     <li>
                         <h3>
-                            <img
-                                src="../../../assets/images/lock/rule02.png"
-                                alt=""
-                            />
+                            <img src="../../../assets/images/lock/rule02.png" alt="" />
                             <span>收益到账</span>
                         </h3>
                         <p>
@@ -78,10 +66,7 @@
                         <span>利息到账</span>
                         <i />
                         <p>
-                            {{
-                                dateCalculate(new Date(), 'd', 1)
-                                    | dateFormat('yyyy.MM.dd')
-                            }}
+                            {{ dateCalculate(new Date(), 'd', 1) | dateFormat('yyyy.MM.dd') }}
                         </p>
                     </div>
                     <div class="time-item">
@@ -89,11 +74,7 @@
                         <i />
                         <p>
                             {{
-                                dateCalculate(
-                                    new Date(),
-                                    ['d', 'M', 'y'][lockProject.unit - 1],
-                                    lockProject.length
-                                ) | dateFormat('yyyy.MM.dd')
+                                dateCalculate(new Date(), ['d', 'M', 'y'][lockProjectObj.unit - 1], lockProjectObj.length) | dateFormat('yyyy.MM.dd')
                             }}
                         </p>
                     </div>
@@ -104,40 +85,28 @@
                 <h2 class="lock-banner">产品特点</h2>
                 <ul>
                     <li class="clearfix">
-                        <img
-                            src="../../../assets/images/lock/feature01.png"
-                            alt=""
-                        />
+                        <img src="../../../assets/images/lock/feature01.png" alt="" />
                         <div>
                             <h3>高回报率</h3>
                             <p>定期理财，超高利率</p>
                         </div>
                     </li>
                     <li class="clearfix">
-                        <img
-                            src="../../../assets/images/lock/feature02.png"
-                            alt=""
-                        />
+                        <img src="../../../assets/images/lock/feature02.png" alt="" />
                         <div>
                             <h3>每日返息</h3>
                             <p>每日返回利息到个人可用余额账户</p>
                         </div>
                     </li>
                     <li class="clearfix">
-                        <img
-                            src="../../../assets/images/lock/feature03.png"
-                            alt=""
-                        />
+                        <img src="../../../assets/images/lock/feature03.png" alt="" />
                         <div>
                             <h3>稳定收益</h3>
                             <p>以锁仓时本金为基数计息，利率固定</p>
                         </div>
                     </li>
                     <li class="clearfix">
-                        <img
-                            src="../../../assets/images/lock/feature04.png"
-                            alt=""
-                        />
+                        <img src="../../../assets/images/lock/feature04.png" alt="" />
                         <div>
                             <h3>本金保证</h3>
                             <p>

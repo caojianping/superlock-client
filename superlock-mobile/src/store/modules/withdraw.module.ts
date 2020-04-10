@@ -1,10 +1,6 @@
 import TYPES from '@/store/types';
 import { IActionContext, IWithdrawState } from '@/store/interfaces';
-import {
-    WithdrawFormModel,
-    WithdrawModel,
-    WithdrawAddressModel
-} from '@/ts/models';
+import { WithdrawFormModel, WithdrawModel, WithdrawAddressModel } from '@/ts/models';
 import { WithdrawService } from '@/ts/services';
 
 const withdrawState: IWithdrawState = {
@@ -13,9 +9,9 @@ const withdrawState: IWithdrawState = {
     pageNum: 1,
     pageSize: 15,
     withdraws: undefined,
-    withdraw: new WithdrawModel(),
+    withdraw: undefined,
 
-    withdrawAddresses: [],
+    withdrawAddresses: undefined,
     selectedWithdrawAddress: undefined
 };
 
@@ -33,41 +29,37 @@ export default {
                 state[key] = value;
             }
         },
-        [TYPES.CLEAR_STATES](state: IWithdrawState) {
+        [TYPES.CLEAR_STATES](state: IWithdrawState, withoutSelected: boolean = false) {
+            console.log('withoutSelected: ', withoutSelected);
             state.withdrawForm = new WithdrawFormModel();
 
             state.pageNum = 1;
             state.pageSize = 15;
             state.withdraws = undefined;
-            state.withdraw = new WithdrawModel();
+            state.withdraw = undefined;
 
-            state.withdrawAddresses = [];
-            state.selectedWithdrawAddress = undefined;
+            state.withdrawAddresses = undefined;
+            if (!withoutSelected) {
+                state.selectedWithdrawAddress = undefined;
+            }
         }
     },
     actions: {
         // 执行提现
-        async executeWithdraw(
-            context: IActionContext<IWithdrawState>
-        ): Promise<boolean> {
+        async executeWithdraw(context: IActionContext<IWithdrawState>): Promise<boolean> {
             let state = context.state;
             return await withdrawService.executeWithdraw(state.withdrawForm);
         },
 
         // 获取提现列表
-        async fetchWithdraws(
-            context: IActionContext<IWithdrawState>
-        ): Promise<Array<WithdrawModel> | undefined> {
+        async fetchWithdraws(context: IActionContext<IWithdrawState>): Promise<Array<WithdrawModel> | undefined> {
             if (isPending) return undefined;
 
             isPending = true;
             let { commit, state } = context;
             try {
                 let { pageNum, pageSize, withdraws } = state,
-                    data = await withdrawService.fetchWithdraws(
-                        pageNum,
-                        pageSize
-                    );
+                    data = await withdrawService.fetchWithdraws(pageNum, pageSize);
                 if (pageNum === 1) {
                     commit(TYPES.SET_STATES, {
                         pageNum: pageNum + 1,
@@ -89,15 +81,10 @@ export default {
         },
 
         // 获取提现地址列表
-        async fetchWithdrawAddresses(
-            context: IActionContext<IWithdrawState>,
-            isLoading: boolean = false
-        ): Promise<void> {
+        async fetchWithdrawAddresses(context: IActionContext<IWithdrawState>, isLoading: boolean = false): Promise<void> {
             let commit = context.commit;
             try {
-                let withdrawAddresses = await withdrawService.fetchWithdrawAddresses(
-                    isLoading
-                );
+                let withdrawAddresses = await withdrawService.fetchWithdrawAddresses(isLoading);
                 commit(TYPES.SET_STATES, { withdrawAddresses });
             } catch (error) {
                 commit(TYPES.SET_STATES, { withdrawAddresses: [] });
@@ -105,10 +92,7 @@ export default {
         },
 
         // 添加提现地址
-        async addWithdrawAddress(
-            context: IActionContext<IWithdrawState>,
-            withdrawAddress: WithdrawAddressModel
-        ): Promise<boolean> {
+        async addWithdrawAddress(context: IActionContext<IWithdrawState>, withdrawAddress: WithdrawAddressModel): Promise<boolean> {
             return await withdrawService.addWithdrawAddress(withdrawAddress);
         }
     }

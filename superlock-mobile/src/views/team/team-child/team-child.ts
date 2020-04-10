@@ -2,9 +2,10 @@ import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import ClipboardJS from 'clipboard';
-
+import { SessionStorage } from 'jts-storage';
 import Utils from '@/ts/utils';
 import TYPES from '@/store/types';
+import { CONSTANTS } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { ChildModel, ChildRateFormModel, ChildRateModel } from '@/ts/models';
 
@@ -16,24 +17,18 @@ const childModule = namespace('child');
 
 @Component({
     name: 'TeamChild',
-    components: { CellGroup, Cell, Button, Header, Modal },
+    components: { CellGroup, Cell, Button, Header, Modal }
 })
 export default class TeamChild extends Vue {
     @State('unitTypes') unitTypes!: Array<string>;
     @State('rateTypes') rateTypes!: Array<string>;
 
     @childModule.State('childs') childs?: Array<ChildModel>;
-    @childModule.State('child') child!: ChildModel;
-
+    @childModule.State('child') child?: ChildModel | null;
     @childModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @childModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
-    @childModule.Action('setChildRemark') setChildRemark!: (
-        remark: string
-    ) => any;
-    @childModule.Action('setChildRates') setChildRates!: (
-        childRateForms: Array<ChildRateFormModel>
-    ) => any;
+    @childModule.Action('setChildRemark') setChildRemark!: (remark: string) => any;
+    @childModule.Action('setChildRates') setChildRates!: (childRateForms: Array<ChildRateFormModel>) => any;
 
     childRateForms: Array<ChildRateFormModel> = []; // 下级利率表单列表
 
@@ -46,6 +41,8 @@ export default class TeamChild extends Vue {
 
     // 打开备注模态框
     openRemarkModal() {
+        if (!this.child) return;
+
         this.isRemarkShow = true;
 
         let child = Utils.duplicate(this.child);
@@ -59,6 +56,8 @@ export default class TeamChild extends Vue {
 
     // 提交备注
     async submitRemark() {
+        if (!this.child) return;
+
         try {
             let remark = this.remark,
                 result = await this.setChildRemark(remark);
@@ -82,10 +81,7 @@ export default class TeamChild extends Vue {
 
         let childRateForms = Utils.duplicate(this.childRateForms);
         this.currentForm =
-            childRateForms.filter(
-                (childRateForm: ChildRateFormModel, index: number) =>
-                    currentIndex === index
-            )[0] || new ChildRateFormModel();
+            childRateForms.filter((childRateForm: ChildRateFormModel, index: number) => currentIndex === index)[0] || new ChildRateFormModel();
     }
 
     // 取消利率模态框
@@ -103,13 +99,11 @@ export default class TeamChild extends Vue {
             // 查找指定对象，更新相关数据
             let currentIndex = this.currentIndex,
                 childRateForms = Utils.duplicate(this.childRateForms);
-            childRateForms.forEach(
-                (childRateForm: ChildRateFormModel, index: number) => {
-                    if (currentIndex === index) {
-                        childRateForm.value = value;
-                    }
+            childRateForms.forEach((childRateForm: ChildRateFormModel, index: number) => {
+                if (currentIndex === index) {
+                    childRateForm.value = value;
                 }
-            );
+            });
 
             let result = await this.setChildRates(childRateForms);
             if (!result) Prompt.error('设置失败');
@@ -129,9 +123,11 @@ export default class TeamChild extends Vue {
     // 初始化数据
     initData() {
         let params: any = this.$route.params || {},
-            uid = params.uid,
             childs = Utils.duplicate(this.childs || []),
-            child = childs.filter((child: ChildModel) => child.uid === uid)[0];
+            child: any = childs.filter((child: ChildModel) => child.uid === params.uid)[0];
+        if (!child) {
+            child = SessionStorage.getItem<ChildModel>(CONSTANTS.CHILD);
+        }
         this.setStates({ child });
 
         let childRateForms: Array<ChildRateFormModel> = [];

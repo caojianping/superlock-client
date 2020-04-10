@@ -3,13 +3,10 @@
         <Header title="锁仓" @left="$router.push('/lock/detail')" />
 
         <div class="scb-form scb-separator">
+            {{ ((lockProjectObj = lockProject || {}), void 0) }}
             <ul>
                 <li>
-                    <h1>
-                        锁仓宝-{{
-                            lockProject.length + unitTypes[lockProject.unit - 1]
-                        }}
-                    </h1>
+                    <h1>锁仓宝-{{ lockProjectObj.length + unitTypes[lockProjectObj.unit - 1] }}</h1>
                 </li>
                 <li>
                     <h2>可用余额</h2>
@@ -36,14 +33,7 @@
                     </p>
                 </li>
                 <li>
-                    <Button
-                        class="effect-shadow"
-                        type="primary"
-                        block
-                        round
-                        @click="submit"
-                        >确定锁仓</Button
-                    >
+                    <Button class="effect-shadow" type="primary" block round @click="submit">确定锁仓</Button>
                     <p class="text-gray">今日锁仓，明日可获得收益</p>
                 </li>
             </ul>

@@ -1,26 +1,15 @@
 <template>
     <div class="transfer-index scb-gray">
         <Header title="转账" isRight @left="$router.push('/asset/index')">
-            <router-link slot="right" to="/transfer/record"
-                >转账记录</router-link
-            >
+            <router-link slot="right" to="/transfer/record">转账记录</router-link>
         </Header>
 
         <div class="scb-form scb-separator">
             <ul>
                 <li>
                     <h2>收款UID</h2>
-                    <Field
-                        :value="transferForm.toUid"
-                        clearable
-                        placeholder="请输入收款UID"
-                        @input="handleFieldInput('toUid', $event)"
-                    >
-                        <i
-                            slot="button"
-                            class="icon icon-child"
-                            @click="goChild"
-                        />
+                    <Field :value="transferForm.toUid" clearable placeholder="请输入收款UID" @input="handleFieldInput('toUid', $event)">
+                        <i slot="button" class="icon icon-child" @click="goChild" />
                     </Field>
                 </li>
                 <li>
@@ -35,12 +24,7 @@
                         placeholder="请输入您想转账的金额"
                         @input="handleFieldInput('quota', $event)"
                     >
-                        <span
-                            class="text-orange"
-                            slot="button"
-                            @click="transferAll"
-                            >全部</span
-                        >
+                        <span class="text-orange" slot="button" @click="transferAll">全部</span>
                     </Field>
                     {{ ((quotaObj = quota || {}), void 0) }}
                     <p class="text-orange">
@@ -54,22 +38,10 @@
                 </li>
                 <li>
                     <h2>备注</h2>
-                    <Field
-                        :value="transferForm.memo"
-                        clearable
-                        placeholder="请输入转账备注"
-                        @input="handleFieldInput('memo', $event)"
-                    />
+                    <Field :value="transferForm.memo" clearable placeholder="请输入转账备注" @input="handleFieldInput('memo', $event)" />
                 </li>
                 <li>
-                    <Button
-                        class="effect-shadow"
-                        type="primary"
-                        block
-                        round
-                        @click="submit"
-                        >确定转账</Button
-                    >
+                    <Button class="effect-shadow" type="primary" block round @click="submit">确定转账</Button>
                     <p class="text-orange">
                         转账功能只支持锁仓宝用户之间的BCB资产互转。
                     </p>

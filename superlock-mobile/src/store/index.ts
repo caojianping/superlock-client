@@ -23,7 +23,7 @@ const rootState: IRootState = {
     quota: undefined,
 
     unitTypes: ['天', '月', '年'],
-    rateTypes: ['锁仓利率', '推广解锁利率', '锁仓额度'],
+    rateTypes: ['锁仓利率', '推广解锁利率', '锁仓额度']
 };
 
 const commonService = new CommonService();
@@ -39,7 +39,7 @@ export default new Vuex.Store({
         recharge: rechargeModule,
         withdraw: withdrawModule,
         transfer: transferModule,
-        security: securityModule,
+        security: securityModule
     },
     state: rootState,
     mutations: {
@@ -52,14 +52,11 @@ export default new Vuex.Store({
         [TYPES.CLEAR_STATES](state: IRootState) {
             state.tokenInfo = new TokenInfo();
             state.quota = undefined;
-        },
+        }
     },
     actions: {
         // 获取短信验证码
-        async fetchSmsCode(
-            context: IActionContext<IRootState>,
-            payload: { areaCode: string; mobile: string }
-        ): Promise<boolean> {
+        async fetchSmsCode(context: IActionContext<IRootState>, payload: { areaCode: string; mobile: string }): Promise<boolean> {
             let { areaCode, mobile } = payload;
             return await commonService.fetchSmsCode(areaCode, mobile);
         },
@@ -73,6 +70,6 @@ export default new Vuex.Store({
             } catch (error) {
                 commit(TYPES.SET_STATES, { quota: null });
             }
-        },
-    },
+        }
+    }
 });

@@ -17,10 +17,7 @@ export class UserFormModel {
         this.smsCode = '';
     }
 
-    public static createInstance(
-        invitationCode: string,
-        areaCode?: string
-    ): UserFormModel {
+    public static createInstance(invitationCode: string, areaCode?: string): UserFormModel {
         let userForm = new UserFormModel();
         userForm.invitationCode = invitationCode;
         if (areaCode) {

@@ -1,8 +1,10 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
-
+import { SessionStorage } from 'jts-storage';
 import TYPES from '@/store/types';
+import Utils from '@/ts/utils';
+import { CONSTANTS } from '@/ts/config';
 import { WithdrawModel } from '@/ts/models';
 
 import { CellGroup, Cell } from 'vant';
@@ -16,20 +18,22 @@ const withdrawModule = namespace('withdraw');
 })
 export default class WithdrawDetail extends Vue {
     @withdrawModule.State('withdraws') withdraws?: Array<WithdrawModel>;
-    @withdrawModule.State('withdraw') withdraw!: WithdrawModel;
+    @withdrawModule.State('withdraw') withdraw?: WithdrawModel | null;
+    @withdrawModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
+    @withdrawModule.Mutation(TYPES.CLEAR_STATES) clearStates!: (withoutSelected: boolean) => any;
 
-    @withdrawModule.Mutation(TYPES.SET_STATES) setStates!: (
-        payload: any
-    ) => any;
-    @withdrawModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
+    // 初始化数据
+    initData() {
+        let params: any = this.$route.params || {},
+            withdraws = Utils.duplicate(this.withdraws || []),
+            withdraw: any = withdraws.filter((withdraw: WithdrawModel) => withdraw.orderId === params.id)[0];
+        if (!withdraw) {
+            withdraw = SessionStorage.getItem<WithdrawModel>(CONSTANTS.WITHDRAW);
+        }
+        this.setStates({ withdraw });
+    }
 
     created() {
-        let id = this.$route.params.id,
-            withdraws = this.withdraws || [],
-            withdraw =
-                withdraws.filter(
-                    (withdraw: WithdrawModel) => withdraw.orderId === id
-                )[0] || new WithdrawModel();
-        this.setStates({ withdraw });
+        this.initData();
     }
 }

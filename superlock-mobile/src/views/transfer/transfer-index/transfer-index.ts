@@ -2,17 +2,10 @@ import Vue from 'vue';
 import { namespace, State, Action } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { ValidationResult } from 'jpts-validator';
-
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { Prompt } from '@/ts/common';
-import {
-    QuotaModel,
-    UserInfoModel,
-    TransferFormModel,
-    TransferChildModel,
-    TransferModel
-} from '@/ts/models';
+import { QuotaModel, UserInfoModel, TransferFormModel, TransferChildModel, TransferModel } from '@/ts/models';
 import { TransferService } from '@/ts/services';
 
 import { Toast, Field, Icon, Button } from 'vant';
@@ -35,18 +28,15 @@ export default class TransferIndex extends Vue {
 
     @transferModule.State('transferForm') transferForm!: TransferFormModel;
     @transferModule.State('transfers') transfers!: Array<TransferModel>;
-    @transferModule.State('selectedTransferChild')
-    selectedTransferChild?: TransferChildModel;
-    @transferModule.Mutation(TYPES.SET_STATES) setStates!: (
-        payload: any
-    ) => any;
-    @transferModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
+    @transferModule.State('selectedTransferChild') selectedTransferChild?: TransferChildModel;
+    @transferModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
+    @transferModule.Mutation(TYPES.CLEAR_STATES) clearStates!: (withoutSelected: boolean) => any;
     @transferModule.Action('executeTransfer') executeTransfer!: () => any;
     @transferModule.Action('fetchTransfers') fetchTransfers!: () => any;
 
     isShow: boolean = false; // 是否显示密码模态框
 
-    // 跳转转账下级页面
+    // 跳转至转账下级页面
     goChild() {
         this.$router.push('/transfer/child');
     }
@@ -78,10 +68,7 @@ export default class TransferIndex extends Vue {
             return;
         }
 
-        let result: ValidationResult = TransferService.validateTransferForm(
-            this.transferForm,
-            false
-        );
+        let result: ValidationResult = TransferService.validateTransferForm(this.transferForm, false);
         if (!result.status) {
             Prompt.error(Utils.getFirstValue(result.data));
             return;
@@ -108,6 +95,13 @@ export default class TransferIndex extends Vue {
         }
     }
 
+    // 初始化数据
+    initData() {
+        let query: any = this.$route.query || {},
+            cache = Boolean(query.cache);
+        this.clearStates(cache);
+    }
+
     // 获取数据
     async fetchData() {
         Toast.loading({
@@ -128,6 +122,10 @@ export default class TransferIndex extends Vue {
             this.setStates({ transferForm });
         }
         Toast.clear();
+    }
+
+    created() {
+        this.initData();
     }
 
     mounted() {

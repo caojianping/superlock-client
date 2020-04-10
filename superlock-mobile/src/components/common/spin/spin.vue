@@ -1,8 +1,6 @@
 <template>
     <div :class="['spin', { only: !text }]" v-if="isSpinning">
-        <Loading type="spinner" size="1.125rem" color="#0076ff">{{
-            text
-        }}</Loading>
+        <Loading type="spinner" size="1.125rem" color="#0076ff">{{ text }}</Loading>
     </div>
 </template>
 

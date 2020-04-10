@@ -2,7 +2,6 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import ClipboardJS from 'clipboard';
-
 import TYPES from '@/store/types';
 import { Prompt } from '@/ts/common';
 
@@ -19,19 +18,20 @@ const rechargeModule = namespace('recharge');
 export default class RechargeCode extends Vue {
     @rechargeModule.State('rechargeCoin') rechargeCoin!: string;
     @rechargeModule.State('rechargeAddress') rechargeAddress!: string;
-
-    @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (
-        payload: any
-    ) => any;
+    @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @rechargeModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
+    @rechargeModule.Action('fetchRechargeAddress') fetchRechargeAddress!: () => any;
 
-    @rechargeModule.Action('fetchRechargeAddress')
-    fetchRechargeAddress!: () => any;
+    // 初始化数据
+    initData() {
+        let params: any = this.$route.params || {};
+        this.setStates({ rechargeCoin: params.coin || '' });
+    }
 
     // 复制地址
     copyAddress() {
-        let copy = document.getElementById('copy'),
-            clipboard = new ClipboardJS(copy);
+        let address = document.getElementById('address'),
+            clipboard = new ClipboardJS(address);
 
         clipboard.on('success', function(e) {
             Prompt.success('充值地址复制成功');
@@ -42,18 +42,13 @@ export default class RechargeCode extends Vue {
         });
     }
 
-    // 获取数据
-    async fetchData() {
-        await this.fetchRechargeAddress();
-        this.copyAddress();
-    }
-
     created() {
-        let coin = this.$route.params.coin;
-        this.setStates({ rechargeCoin: coin });
+        this.clearStates();
+        this.initData();
     }
 
     mounted() {
-        this.fetchData();
+        this.copyAddress();
+        this.fetchRechargeAddress();
     }
 }

@@ -1,10 +1,6 @@
 import TYPES from '@/store/types';
 import { IActionContext, ITransferState } from '@/store/interfaces';
-import {
-    TransferFormModel,
-    TransferChildModel,
-    TransferModel
-} from '@/ts/models';
+import { TransferFormModel, TransferChildModel, TransferModel } from '@/ts/models';
 import { TransferService } from '@/ts/services';
 
 const transferState: ITransferState = {
@@ -13,7 +9,7 @@ const transferState: ITransferState = {
     pageNum: 1,
     pageSize: 15,
     transfers: undefined,
-    transfer: new TransferModel(),
+    transfer: undefined,
 
     transferChilds: undefined,
     selectedTransferChild: undefined
@@ -33,41 +29,36 @@ export default {
                 state[key] = value;
             }
         },
-        [TYPES.CLEAR_STATES](state: ITransferState) {
+        [TYPES.CLEAR_STATES](state: ITransferState, withoutSelected: boolean = false) {
             state.transferForm = new TransferFormModel();
 
             state.pageNum = 1;
             state.pageSize = 15;
             state.transfers = undefined;
-            state.transfer = new TransferModel();
+            state.transfer = undefined;
 
             state.transferChilds = undefined;
-            state.selectedTransferChild = undefined;
+            if (!withoutSelected) {
+                state.selectedTransferChild = undefined;
+            }
         }
     },
     actions: {
         // 执行转账
-        async executeTransfer(
-            context: IActionContext<ITransferState>
-        ): Promise<boolean> {
+        async executeTransfer(context: IActionContext<ITransferState>): Promise<boolean> {
             let state = context.state;
             return await transferService.executeTransfer(state.transferForm);
         },
 
         // 获取转账列表
-        async fetchTransfers(
-            context: IActionContext<ITransferState>
-        ): Promise<Array<TransferModel> | undefined> {
+        async fetchTransfers(context: IActionContext<ITransferState>): Promise<Array<TransferModel> | undefined> {
             if (isPending) return undefined;
 
             isPending = true;
             let { commit, state } = context;
             try {
                 let { pageNum, pageSize, transfers } = state,
-                    data = await transferService.fetchTransfers(
-                        pageNum,
-                        pageSize
-                    );
+                    data = await transferService.fetchTransfers(pageNum, pageSize);
                 if (pageNum === 1) {
                     commit(TYPES.SET_STATES, {
                         pageNum: pageNum + 1,
@@ -89,21 +80,14 @@ export default {
         },
 
         // 获取转账下级列表
-        async fetchTransferChilds(
-            context: IActionContext<ITransferState>,
-            keyword: string = ''
-        ): Promise<Array<TransferChildModel> | undefined> {
+        async fetchTransferChilds(context: IActionContext<ITransferState>, keyword: string = ''): Promise<Array<TransferChildModel> | undefined> {
             if (isPending) return undefined;
 
             isPending = true;
             let { commit, state } = context;
             try {
                 let { pageNum, pageSize, transferChilds } = state,
-                    data = await transferService.fetchTransferChilds(
-                        keyword,
-                        pageNum,
-                        pageSize
-                    );
+                    data = await transferService.fetchTransferChilds(keyword, pageNum, pageSize);
                 if (pageNum === 1) {
                     commit(TYPES.SET_STATES, {
                         pageNum: pageNum + 1,

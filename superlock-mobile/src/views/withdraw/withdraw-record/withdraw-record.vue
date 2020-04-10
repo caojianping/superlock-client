@@ -5,8 +5,7 @@
         <div v-if="withdraws" class="scb-separator">
             <p v-if="withdraws.length <= 0" class="scb-none">
                 暂无提现记录，快去
-                <router-link class="scb-link" to="/asset/index">提现</router-link>
-                吧！
+                <router-link class="scb-link" to="/asset/index">提现</router-link>吧！
             </p>
             <List
                 v-else
@@ -18,22 +17,12 @@
                 @load="fetchData"
             >
                 <CellGroup>
-                    <Cell
-                        v-for="(withdraw, index) in withdraws"
-                        :key="index"
-                        :to="`/withdraw/detail/${withdraw.orderId}`"
-                    >
+                    <Cell v-for="(withdraw, index) in withdraws" :key="index" @click="goDetail(withdraw)">
                         <div slot="title">
-                            <h2>
-                                {{ (withdraw.orderId || '') | hashTruncate }}
-                            </h2>
-                            <p>
-                                {{ withdraw.createTime | dateFormat }}
-                            </p>
+                            <h2>{{ (withdraw.orderId || '') | hashTruncate }}</h2>
+                            <p>{{ withdraw.createTime | dateFormat }}</p>
                         </div>
-                        <p>
-                            {{ `- ${withdraw.amount} ${withdraw.coin}` }}
-                        </p>
+                        <p>{{ `- ${withdraw.amount} ${withdraw.coin}` }}</p>
                     </Cell>
                 </CellGroup>
             </List>

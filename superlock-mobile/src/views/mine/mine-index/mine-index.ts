@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
-
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { UserInfoModel } from '@/ts/models';
@@ -25,9 +24,9 @@ export default class MineIndex extends Vue {
     isShow: boolean = false;
 
     // 处理修改名称组件submit事件
-    handleModifyNameSubmit(nickname: string) {
+    handleModifyNameSubmit(name: string) {
         let userInfo = Utils.duplicate(this.userInfo);
-        userInfo.nickName = nickname;
+        userInfo.nickName = name;
         this.setStates({ userInfo });
     }
 

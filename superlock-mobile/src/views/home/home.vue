@@ -29,38 +29,19 @@
                     <Spin :is-spinning="isProjectSpinning" />
                 </div>
 
-                <ul
-                    v-if="projectStats && projectStats.userLockProjectList"
-                    class="project-list"
-                >
+                <ul v-if="projectStats && projectStats.userLockProjectList" class="project-list">
                     {{
-                        ((userLockProjectList =
-                            projectStats.userLockProjectList || []),
-                        void 0)
+                        ((userLockProjectList = projectStats.userLockProjectList || []), void 0)
                     }}
-                    <li
-                        class="project-item"
-                        :class="['project-item', `bg${project.unit}`]"
-                        v-for="(project, index) in userLockProjectList"
-                        :key="index"
-                    >
+                    <li :class="['project-item', `bg${project.unit}`]" v-for="(project, index) in userLockProjectList" :key="index">
                         <h2 class="project-title">
                             <span>{{ project.memo }}</span>
-                            <i
-                                :class="[
-                                    'icon',
-                                    `icon-${
-                                        ['new', 'new', 'hot'][project.unit - 1]
-                                    }`,
-                                ]"
-                            />
+                            <i :class="['icon', `icon-${['new', 'new', 'hot'][project.unit - 1]}`]" />
                         </h2>
                         <div class="project-body flex">
                             <div>
                                 <h2>
-                                    <span>{{
-                                        project.rate | ratePercent(2, false)
-                                    }}</span>
+                                    <span>{{ project.rate | ratePercent(2, false) }}</span>
                                     <small>%</small>
                                 </h2>
                                 <p>预期年化率</p>
@@ -73,12 +54,7 @@
                                 <p>本金保证，每日返息</p>
                             </div>
                             <div>
-                                <a
-                                    class="effect-ripple"
-                                    href="javascript: void(0)"
-                                    @click="joinLock(project)"
-                                    >立即参与</a
-                                >
+                                <a class="effect-ripple" href="javascript: void(0)" @click="joinLock(project)">立即参与</a>
                             </div>
                         </div>
                     </li>
@@ -88,23 +64,15 @@
             <div class="home-block">
                 <h2 class="home-block-title">精品优选</h2>
                 <div class="home-block-body optimize-container">
-                    <Spin :is-spinning="isOptimizeSpinning" />
+                    <Spin v-if="isOptimizeSpinning" :is-spinning="isOptimizeSpinning" />
 
                     <ul v-if="projectStats" class="optimize-list">
                         {{
-                            ((qualitySelectionLinks =
-                                projectStats.qualitySelectionLinks || []),
-                            void 0)
+                            ((qualitySelectionLinks = projectStats.qualitySelectionLinks || []), void 0)
                         }}
                         <li class="optimize-item">
-                            <a
-                                class="clearfix"
-                                :href="qualitySelectionLinks[0]"
-                            >
-                                <img
-                                    src="../../assets/images/home/top01.png"
-                                    alt=""
-                                />
+                            <a class="clearfix" :href="qualitySelectionLinks[0]">
+                                <img src="../../assets/images/home/top01.png" alt="" />
                                 <div>
                                     <h2>资产被锁仓，急需用钱怎么办？</h2>
                                     <p>
@@ -114,18 +82,12 @@
                             </a>
                         </li>
                         <li class="optimize-item">
-                            <a
-                                class="clearfix"
-                                :href="qualitySelectionLinks[1]"
-                            >
-                                <img
-                                    src="../../assets/images/home/top02.png"
-                                    alt=""
-                                />
+                            <a class="clearfix" :href="qualitySelectionLinks[1]">
+                                <img src="../../assets/images/home/top02.png" alt="" />
                                 <div>
                                     <h2>BCB降价了，资产缩减了怎么办？</h2>
                                     <p>
-                                        BCB降价了也没关系，我们已为您做好了保障，锁仓本金换房，值得您的关注！
+                                        BCB降价了也没关系，我们已为您做好了保障。锁仓本金换房，值得您的关注！买bcb全程无忧！东南亚房产兜底
                                     </p>
                                 </div>
                             </a>
@@ -137,31 +99,19 @@
             <div class="home-block">
                 <h2 class="home-block-title">加入我们</h2>
                 <div class="home-block-body total-container">
-                    {{
-                        ((statistics = (projectStats || {}).statistics), void 0)
-                    }}
+                    {{ ((statistics = (projectStats || {}).statistics || {}), void 0) }}
                     <div class="total-stats flex">
                         <div>
                             <p>累计注册用户(人)</p>
                             <h3>
-                                <span>{{
-                                    statistics ? statistics.cumulativeUser : 0
-                                }}</span>
+                                <span>{{ statistics.cumulativeUser || 0 }}</span>
                                 <small>人</small>
                             </h3>
                         </div>
                         <div>
-                            <p>
-                                累计成效价值({{
-                                    statistics ? statistics.valuationCoin : 0
-                                }})
-                            </p>
+                            <p>累计成效价值({{ statistics.valuationCoin || '--' }})</p>
                             <h3>
-                                <span>{{
-                                    statistics
-                                        ? statistics.cumulativeValuation
-                                        : 0
-                                }}</span>
+                                <span>{{ (statistics.cumulativeValuation || 0) | currencyComma(6) }}</span>
                                 <small>万</small>
                             </h3>
                         </div>

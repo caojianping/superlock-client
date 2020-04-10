@@ -1,38 +1,21 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
-        <div class="team-index scb-reserved scb-gray">
+        <div class="team-index scb-gray scb-reserved">
+            {{ ((userLockQuotaObj = userLockQuota || {}), void 0) }}
             <header class="team-header">
-                <Header
-                    title="团队成员"
-                    :isBorder="false"
-                    @left="$router.push(from || '/mine/index')"
-                />
-                <h2>
-                    团队已锁仓总额度({{
-                        userLockQuota ? userLockQuota.usedCoin : '--'
-                    }})
-                </h2>
+                <Header title="团队成员" :isBorder="false" @left="$router.push(from || '/mine/index')" />
+                <h2>团队已锁仓总额度({{ userLockQuotaObj.usedCoin || '--' }})</h2>
                 <h1>
-                    {{
-                        (userLockQuota ? userLockQuota.usedAmount : 0)
-                            | currencyComma(4)
-                    }}
+                    {{ (userLockQuotaObj.usedAmount || 0) | currencyComma(4) }}
                 </h1>
             </header>
 
             <ul class="team-rates flex">
-                <li
-                    v-for="(lockPromoteRate, index) in lockPromoteRates"
-                    :key="index"
-                >
+                <li v-for="(lockPromoteRate, index) in lockPromoteRates" :key="index">
                     <h3>{{ lockPromoteRate.rate + lockPromoteRate.suffix }}</h3>
 
                     <p v-if="lockPromoteRate.type === 1">
-                        {{
-                            lockPromoteRate.length +
-                                unitTypes[lockPromoteRate.unit - 1] +
-                                rateTypes[lockPromoteRate.type - 1]
-                        }}
+                        {{ lockPromoteRate.length + unitTypes[lockPromoteRate.unit - 1] + rateTypes[lockPromoteRate.type - 1] }}
                     </p>
                     <p v-else>{{ rateTypes[lockPromoteRate.type - 1] }}</p>
                 </li>
@@ -51,12 +34,7 @@
                     @load="fetchChilds"
                 >
                     <CellGroup>
-                        <Cell
-                            v-for="(child, index) in childs"
-                            :key="index"
-                            :to="`/team/child/${child.uid}`"
-                            is-link
-                        >
+                        <Cell v-for="(child, index) in childs" :key="index" @click="goDetail(child)">
                             <div slot="title">
                                 <h2>{{ child.nickName }}</h2>
                                 <p>{{ `UID:${child.uid}` }}</p>

@@ -1,31 +1,17 @@
 <template>
-    <Popup
-        v-model="isShow"
-        class="earnings-popup full"
-        @close="handlePopupClose"
-    >
+    <Popup v-model="isShow" class="earnings-popup full" @close="handlePopupClose">
         <Header title="昨日收益" @left="handlePopupClose" />
 
         <template v-if="earningsStats">
             <h2>
                 <label>总收益：</label>
-                <span>{{
-                    `${earningsStats.yesterdayEarnings} ${earningsStats.yesterdayEarningsCoin}`
-                }}</span>
+                <span>{{ `${earningsStats.yesterdayEarnings} ${earningsStats.yesterdayEarningsCoin}` }}</span>
             </h2>
 
             <CellGroup>
                 {{ ((earnings = earningsStats.earnings || []), void 0) }}
-                <Cell
-                    v-for="(earning, index) in earnings"
-                    :key="index"
-                    :title="earningsTypes[earning.type - 1]"
-                >
-                    <span>{{
-                        `${['-', '+'][earning.prefix]} ${earning.income}${
-                            earning.coin
-                        }`
-                    }}</span>
+                <Cell v-for="(earning, index) in earnings" :key="index" :title="earningsTypes[earning.type - 1]">
+                    <span>{{ `${['-', '+'][earning.prefix]} ${earning.income}${earning.coin}` }}</span>
                 </Cell>
             </CellGroup>
         </template>

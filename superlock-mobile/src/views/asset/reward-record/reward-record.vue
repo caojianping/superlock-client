@@ -1,9 +1,6 @@
 <template>
     <div class="reward-record">
-        <Header
-            :title="title"
-            @left="$router.push({ path: '/asset/index', query: { type: 3 } })"
-        />
+        <Header :title="title" @left="$router.push({ path: '/asset/index', query: { type: 3 } })" />
 
         <div v-if="rewards" class="scb-separator">
             <p v-if="rewards.length <= 0" class="scb-none">暂无奖励记录</p>
@@ -35,14 +32,10 @@
                                     {{ `+${reward.interest} ${reward.coin}` }}
                                 </h3>
                                 <p v-if="type === 1">
-                                    {{
-                                        `价值 ${reward.rewardValuation} ${reward.rewardValuationCoin}`
-                                    }}
+                                    {{ `价值 ${reward.rewardValuation} ${reward.rewardValuationCoin}` }}
                                 </p>
                                 <p v-else-if="type === 2 || type === 3">
-                                    {{
-                                        `价值 ${reward.interestValuation} ${reward.interestValuationCoin}`
-                                    }}
+                                    {{ `价值 ${reward.interestValuation} ${reward.interestValuationCoin}` }}
                                 </p>
                             </div>
                         </template>
@@ -50,16 +43,12 @@
                             <div slot="title">
                                 <h2>达标触发数量</h2>
                                 <p>
-                                    {{
-                                        `${reward.salesVolume} ${reward.salesVolumeCoin}`
-                                    }}
+                                    {{ `${reward.salesVolume} ${reward.salesVolumeCoin}` }}
                                 </p>
                             </div>
                             <div slot="default">
                                 <h3>
-                                    {{
-                                        `奖励：${reward.reward} ${reward.rewardCoin}`
-                                    }}
+                                    {{ `奖励：${reward.reward} ${reward.rewardCoin}` }}
                                 </h3>
                                 <p>{{ reward.date | dateFormat }}</p>
                             </div>

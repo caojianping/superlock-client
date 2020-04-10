@@ -1,12 +1,8 @@
 import TYPES from '@/store/types';
 import { IActionContext, IProjectState } from '@/store/interfaces';
-import { ProjectService } from '@/ts/services';
-import {
-    PromoteRewardPushModel,
-    PromoteRewardLockModel,
-    PromoteRewardSaleModel
-} from '@/ts/models';
 import { PromoteRewardType } from '@/ts/config';
+import { PromoteRewardPushModel } from '@/ts/models';
+import { ProjectService } from '@/ts/services';
 
 const projectState: IProjectState = {
     projectStats: undefined,
@@ -46,9 +42,7 @@ export default {
     },
     actions: {
         // 获取资产统计信息
-        async fetchProjectStats(
-            context: IActionContext<IProjectState>
-        ): Promise<void> {
+        async fetchProjectStats(context: IActionContext<IProjectState>): Promise<void> {
             let commit = context.commit;
             try {
                 let projectStats = await projectService.fetchProjectStats();
@@ -59,9 +53,7 @@ export default {
         },
 
         // 获取资产统计信息
-        async fetchAssetStats(
-            context: IActionContext<IProjectState>
-        ): Promise<void> {
+        async fetchAssetStats(context: IActionContext<IProjectState>): Promise<void> {
             let commit = context.commit;
             try {
                 let assetStats = await projectService.fetchAssetStats();
@@ -72,9 +64,7 @@ export default {
         },
 
         // 获取收益统计信息
-        async fetchEarningsStats(
-            context: IActionContext<IProjectState>
-        ): Promise<void> {
+        async fetchEarningsStats(context: IActionContext<IProjectState>): Promise<void> {
             let commit = context.commit;
             try {
                 let earningsStats = await projectService.fetchEarningsStats();
@@ -85,9 +75,7 @@ export default {
         },
 
         // 获取推广奖励统计信息
-        async fetchPromoteRewardStats(
-            context: IActionContext<IProjectState>
-        ): Promise<void> {
+        async fetchPromoteRewardStats(context: IActionContext<IProjectState>): Promise<void> {
             let commit = context.commit;
             try {
                 let rewardStats = await projectService.fetchPromoteRewardStats();

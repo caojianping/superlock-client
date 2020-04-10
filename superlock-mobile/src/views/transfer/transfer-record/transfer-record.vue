@@ -5,10 +5,7 @@
         <div v-if="transfers" class="scb-separator">
             <p v-if="transfers.length <= 0" class="scb-none">
                 暂无转账记录，快去
-                <router-link class="scb-link" to="/transfer/index"
-                    >转账</router-link
-                >
-                吧！
+                <router-link class="scb-link" to="/transfer/index">转账</router-link>吧！
             </p>
             <List
                 v-else
@@ -20,22 +17,12 @@
                 @load="fetchData"
             >
                 <CellGroup>
-                    <Cell
-                        v-for="(transfer, index) in transfers"
-                        :key="index"
-                        :to="`/transfer/detail/${transfer.orderId}`"
-                    >
+                    <Cell v-for="(transfer, index) in transfers" :key="index" @click="goDetail(transfer)">
                         <div slot="title">
-                            <h2>
-                                {{ (transfer.orderId || '') | hashTruncate }}
-                            </h2>
-                            <p>
-                                {{ transfer.createTime | dateFormat }}
-                            </p>
+                            <h2>{{ (transfer.orderId || '') | hashTruncate }}</h2>
+                            <p>{{ transfer.createTime | dateFormat }}</p>
                         </div>
-                        <p slot="default">
-                            {{ `- ${transfer.amount} ${transfer.coin}` }}
-                        </p>
+                        <p slot="default">{{ `${['-', '+'][transfer.prefix]} ${transfer.amount} ${transfer.coin}` }}</p>
                     </Cell>
                 </CellGroup>
             </List>

@@ -1,13 +1,10 @@
 import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
-
+import { SessionStorage } from 'jts-storage';
 import TYPES from '@/store/types';
-import {
-    UserLockQuotaModel,
-    LockPromoteRateModel,
-    ChildModel
-} from '@/ts/models';
+import { CONSTANTS } from '@/ts/config';
+import { UserLockQuotaModel, LockPromoteRateModel, ChildModel } from '@/ts/models';
 
 import { PullRefresh, Toast, List, CellGroup, Cell } from 'vant';
 import Header from '@/components/common/header';
@@ -23,29 +20,34 @@ export default class TeamIndex extends Vue {
     @State('unitTypes') unitTypes!: Array<string>;
     @State('rateTypes') rateTypes!: Array<string>;
 
-    @userModule.State('userLockQuota')
-    userLockQuota?: UserLockQuotaModel | null;
+    @userModule.State('userLockQuota') userLockQuota?: UserLockQuotaModel | null;
     @userModule.Action('fetchUserLockQuota') fetchUserLockQuota!: () => any;
 
-    @childModule.State('lockPromoteRates') lockPromoteRates!: Array<
-        LockPromoteRateModel
-    >;
-
+    @childModule.State('lockPromoteRates') lockPromoteRates!: Array<LockPromoteRateModel>;
     @childModule.State('pageNum') pageNum!: number;
     @childModule.State('pageSize') pageSize!: number;
     @childModule.State('childs') childs?: Array<ChildModel>;
-
     @childModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @childModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
-    @childModule.Action('fetchLockPromoteRates')
-    fetchLockPromoteRates!: () => any;
+    @childModule.Action('fetchLockPromoteRates') fetchLockPromoteRates!: () => any;
     @childModule.Action('fetchChilds') fetchChildsAction!: () => any;
 
     from: string = ''; // 页面来源
     isPulling: boolean = false; // 是否下拉刷新
     isLoading: boolean = false; // 是否正在加载
     isFinished: boolean = false; // 是否加载结束
+
+    // 跳转至详情页面
+    goDetail(child: ChildModel) {
+        SessionStorage.setItem<ChildModel>(CONSTANTS.CHILD, child);
+        this.$router.push(`/team/child/${child.uid}`);
+    }
+
+    // 初始化数据
+    initData() {
+        let query: any = this.$route.query;
+        this.from = query.from || '';
+    }
 
     // 获取下级列表
     async fetchChilds() {
@@ -77,9 +79,7 @@ export default class TeamIndex extends Vue {
     }
 
     created() {
-        let from: any = this.$route.query.from;
-        console.log(from);
-        this.from = from;
+        this.initData();
     }
 
     mounted() {

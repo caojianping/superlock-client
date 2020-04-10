@@ -1,9 +1,6 @@
 <template>
     <div class="recharge-record">
-        <Header
-            title="充值记录"
-            @left="$router.push(`/recharge/code/${rechargeCoin || 'BCB'}`)"
-        />
+        <Header title="充值记录" @left="$router.push(`/recharge/code/${rechargeCoin || 'BCB'}`)" />
 
         <div v-if="recharges" class="scb-separator">
             <p v-if="recharges.length <= 0" class="scb-none">
@@ -21,11 +18,7 @@
                 @load="fetchData"
             >
                 <CellGroup>
-                    <Cell
-                        v-for="(recharge, index) in recharges"
-                        :key="index"
-                        :to="`/recharge/detail/${recharge.orderId}`"
-                    >
+                    <Cell v-for="(recharge, index) in recharges" :key="index" @click="goDetail(recharge)">
                         <div slot="title">
                             <h2>
                                 {{ (recharge.txhash || '') | hashTruncate }}

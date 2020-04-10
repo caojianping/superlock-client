@@ -2,14 +2,9 @@ import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { SessionStorage } from 'jts-storage';
-
 import TYPES from '@/store/types';
 import { CONSTANTS } from '@/ts/config';
-import {
-    UserLockQuotaModel,
-    ProjectStatsModel,
-    ProjectModel,
-} from '@/ts/models';
+import { UserLockQuotaModel, ProjectStatsModel, ProjectModel } from '@/ts/models';
 
 import { PullRefresh, Toast } from 'vant';
 import Navs from '@/components/common/navs';
@@ -41,16 +36,13 @@ export default class Home extends Vue {
     goTeam() {
         this.$router.push({
             path: '/team/index',
-            query: { from: '/home/index' },
+            query: { from: '/home/index' }
         });
     }
 
     // 参与锁仓，缓存锁仓项目信息，以免页面刷新导致数据丢失等情况
     joinLock(lockProject: ProjectModel) {
-        SessionStorage.setItem<ProjectModel>(
-            CONSTANTS.LOCK_PROJECT,
-            lockProject
-        );
+        SessionStorage.setItem<ProjectModel>(CONSTANTS.LOCK_PROJECT, lockProject);
         this.$router.push('/lock/detail');
     }
 
@@ -74,6 +66,10 @@ export default class Home extends Vue {
         await this.fetchData();
         this.isPulling = false;
         Toast('刷新成功');
+    }
+
+    created() {
+        this.clearStates();
     }
 
     mounted() {

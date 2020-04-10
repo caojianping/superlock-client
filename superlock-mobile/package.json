@@ -55,5 +55,10 @@
     ],
     "jest": {
         "preset": "@vue/cli-plugin-unit-jest/presets/typescript-and-babel"
+    },
+    "prettier": {
+        "printWidth": 150,
+        "tabWidth": 4,
+        "singleQuote": true
     }
 }

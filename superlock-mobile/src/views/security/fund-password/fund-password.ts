@@ -2,7 +2,6 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { ValidationResult } from 'jpts-validator';
-
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { UserFormType, CONSTANTS } from '@/ts/config';
@@ -19,21 +18,17 @@ const securityModule = namespace('security');
 
 @Component({
     name: 'FundPassword',
-    components: { Field, Button, Header, SmsCode },
+    components: { Field, Button, Header, SmsCode }
 })
 export default class FundPassword extends Vue {
     @userModule.State('userInfo') userInfo!: UserInfoModel;
     @userModule.State('userForm') userForm!: UserFormModel;
-    @userModule.Mutation(TYPES.SET_STATES) setUserStates!: (
-        payload: any
-    ) => any;
+    @userModule.Mutation(TYPES.SET_STATES) setUserStates!: (payload: any) => any;
     @userModule.Mutation(TYPES.CLEAR_STATES) clearUserStates!: () => any;
     @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
 
     @securityModule.State('securityForm') securityForm!: SecurityFormModel;
-    @securityModule.Mutation(TYPES.SET_STATES) setStates!: (
-        payload: any
-    ) => any;
+    @securityModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @securityModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @securityModule.Action('setFundPassword') setFundPassword!: () => any;
     @securityModule.Action('modifyFundPassword') modifyFundPassword!: () => any;
@@ -63,10 +58,7 @@ export default class FundPassword extends Vue {
         userForm.mobile = phone.tel || '';
         this.setUserStates({ userForm });
 
-        let result: ValidationResult = UserService.validateUserForm(
-            userForm,
-            UserFormType.ForgetMobile
-        );
+        let result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.ForgetMobile);
         if (!result.status) {
             Prompt.error(Utils.getFirstValue(result.data));
             return;
@@ -77,8 +69,8 @@ export default class FundPassword extends Vue {
             query: {
                 from: '/security/fund/password',
                 areaCode: userForm.areaCode,
-                mobile: userForm.mobile,
-            },
+                mobile: userForm.mobile
+            }
         });
     }
 
@@ -92,9 +84,7 @@ export default class FundPassword extends Vue {
         try {
             let status = this.userInfo.haveFundPasswd,
                 msg = status ? '修改' : '设置',
-                result = status
-                    ? await this.modifyFundPassword()
-                    : await this.setFundPassword();
+                result = status ? await this.modifyFundPassword() : await this.setFundPassword();
             if (!result) Prompt.error(`资金密码${msg}失败`);
             else {
                 Prompt.success(`资金密码${msg}成功`).then(() => {
@@ -109,7 +99,6 @@ export default class FundPassword extends Vue {
 
     // 初始化数据
     initData() {
-        this.clearStates();
         let query: any = this.$route.query || {};
         this.from = query.from || '';
     }
@@ -131,6 +120,8 @@ export default class FundPassword extends Vue {
     }
 
     created() {
+        this.clearUserStates();
+        this.clearStates();
         this.initData();
     }
 

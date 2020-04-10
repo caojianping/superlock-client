@@ -8,11 +8,7 @@
             <ul>
                 <li>
                     <h2>提现地址</h2>
-                    <Field
-                        v-if="!withdrawForm.address"
-                        value="还没有添加提现地址，赶紧去添加吧"
-                        disabled
-                    >
+                    <Field v-if="!withdrawForm.address" value="还没有添加提现地址，赶紧去添加吧" disabled>
                         <Icon slot="button" name="arrow" @click="goAddress" />
                     </Field>
                     <Field v-else :value="withdrawForm.address" disabled>
@@ -31,12 +27,7 @@
                         placeholder="请输入您想提现的金额"
                         @input="handleFieldInput('amount', $event)"
                     >
-                        <span
-                            class="text-orange"
-                            slot="button"
-                            @click="withdrawAll"
-                            >全部</span
-                        >
+                        <span class="text-orange" slot="button" @click="withdrawAll">全部</span>
                     </Field>
                     {{ ((quotaObj = quota || {}), void 0) }}
                     <p class="text-orange">
@@ -50,22 +41,10 @@
                 </li>
                 <li>
                     <h2>备注</h2>
-                    <Field
-                        :value="withdrawForm.remark"
-                        clearable
-                        placeholder="请输入提现备注"
-                        @input="handleFieldInput('remark', $event)"
-                    />
+                    <Field :value="withdrawForm.remark" clearable placeholder="请输入提现备注" @input="handleFieldInput('remark', $event)" />
                 </li>
                 <li>
-                    <Button
-                        class="effect-shadow"
-                        type="primary"
-                        block
-                        round
-                        @click="submit"
-                        >确定提现</Button
-                    >
+                    <Button class="effect-shadow" type="primary" block round @click="submit">确定提现</Button>
                 </li>
             </ul>
         </div>

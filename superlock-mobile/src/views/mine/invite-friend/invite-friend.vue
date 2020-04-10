@@ -11,21 +11,10 @@
         <div class="invite-container">
             <p>扫描二维码</p>
             <qriously class="invite-qrcode" :value="referralLink" :size="160" />
-            <Button
-                id="copy"
-                class="effect-shadow"
-                type="primary"
-                size="large"
-                round
-                :data-clipboard-text="referralLink"
-                >复制地址</Button
-            >
+            <Button id="address" class="effect-shadow" type="primary" size="large" round :data-clipboard-text="referralLink">复制地址</Button>
         </div>
 
-        <InvitePrompt
-            v-model="isPromptShow"
-            @confirm="handleInvitePromptConfirm"
-        />
+        <InvitePrompt v-model="isPromptShow" @confirm="handleInvitePromptConfirm" />
 
         <RateModal
             v-model="isRateShow"

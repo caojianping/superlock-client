@@ -7,15 +7,7 @@
 
         <UserForm @change="handleUserFormChange" @stop="handleUserFormStop">
             <Cell>
-                <Button
-                    class="btn-login effect-shadow"
-                    type="primary"
-                    size="large"
-                    block
-                    round
-                    @click="login"
-                    >登&nbsp;录</Button
-                >
+                <Button class="btn-login effect-shadow" type="primary" size="large" block round @click="login">登&nbsp;录</Button>
             </Cell>
         </UserForm>
 

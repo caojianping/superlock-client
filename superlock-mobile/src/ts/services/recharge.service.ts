@@ -5,10 +5,10 @@ import { RechargeCoinModel, RechargeModel } from '@/ts/models';
 
 export class RechargeService {
     // 获取充值币种列表
-    public async fetchRechargeCoins(): Promise<Array<RechargeCoinModel>> {
+    public async fetchRechargeCoins(isLoading: boolean = false): Promise<Array<RechargeCoinModel>> {
         let result = await Caxios.get<Array<RechargeCoinModel> | null>(
             { url: Urls.recharge.coins },
-            CaxiosType.Token
+            isLoading ? CaxiosType.LoadingToken : CaxiosType.Token
         );
         return result || [];
     }
@@ -17,18 +17,12 @@ export class RechargeService {
     public async fetchRechargeAddress(coin: string): Promise<string> {
         if (!coin) return Promise.reject('充值币种不可以为空');
 
-        let result = await Caxios.get<string | null>(
-            { url: `${Urls.recharge.address}?coin=${coin}` },
-            CaxiosType.LoadingToken
-        );
+        let result = await Caxios.get<string | null>({ url: `${Urls.recharge.address}?coin=${coin}` }, CaxiosType.LoadingToken);
         return result || '';
     }
 
     // 获取充值列表
-    public async fetchRecharges(
-        pageNum: number = 1,
-        pageSize: number = 10
-    ): Promise<Array<RechargeModel>> {
+    public async fetchRecharges(pageNum: number = 1, pageSize: number = 10): Promise<Array<RechargeModel>> {
         let result = await Caxios.get<Array<RechargeModel> | null>(
             {
                 url: `${Urls.recharge.list}?${Utils.buildParameters({

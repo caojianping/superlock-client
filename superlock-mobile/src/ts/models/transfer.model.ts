@@ -15,6 +15,7 @@ export class TransferModel {
     public toUid!: string; // 目标Uid
     public coin!: string; // 币种
     public amount!: number; // 额度
+    public prefix !: number;// 前缀符号：0:-;1:+;
     public createTime!: string; // 创建时间
     public memo!: string; // 备注
     public statusRemark!: string; // 状态描述

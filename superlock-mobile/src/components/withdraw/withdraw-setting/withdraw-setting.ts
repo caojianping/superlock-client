@@ -2,7 +2,6 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component, Prop, Model, Watch } from 'vue-property-decorator';
 import { ValidationResult } from 'jpts-validator';
-
 import Utils from '@/ts/utils';
 import { OperationType } from '@/ts/config';
 import { Prompt } from '@/ts/common';
@@ -23,9 +22,7 @@ export default class WithdrawSetting extends Vue {
     @Prop() type!: OperationType; // 组件参数：组件操作类型
     @Prop() data?: WithdrawAddressModel; // 组件参数：提现地址
 
-    @withdrawModule.Action('addWithdrawAddress') addWithdrawAddress!: (
-        withdrawAddress: WithdrawAddressModel
-    ) => any;
+    @withdrawModule.Action('addWithdrawAddress') addWithdrawAddress!: (withdrawAddress: WithdrawAddressModel) => any;
 
     isShow: boolean = this.value; // 是否显示弹出框
     withdrawAddress: WithdrawAddressModel = new WithdrawAddressModel(); // 提现地址
@@ -46,9 +43,7 @@ export default class WithdrawSetting extends Vue {
     // 提交提现地址
     async submit() {
         let withdrawAddress = this.withdrawAddress,
-            result: ValidationResult = WithdrawService.validateWithdrawAddress(
-                withdrawAddress
-            );
+            result: ValidationResult = WithdrawService.validateWithdrawAddress(withdrawAddress);
         if (!result.status) {
             Prompt.error(Utils.getFirstValue(result.data));
             return;

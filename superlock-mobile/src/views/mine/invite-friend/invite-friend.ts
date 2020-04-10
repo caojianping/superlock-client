@@ -2,14 +2,9 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import ClipboardJS from 'clipboard';
-
 import TYPES from '@/store/types';
 import { Prompt } from '@/ts/common';
-import {
-    UserInfoModel,
-    DefaultRateStatsModel,
-    DefaultRateFormModel,
-} from '@/ts/models';
+import { UserInfoModel, DefaultRateStatsModel, DefaultRateFormModel } from '@/ts/models';
 
 import { Button } from 'vant';
 import Header from '@/components/common/header';
@@ -21,18 +16,16 @@ const childModule = namespace('child');
 
 @Component({
     name: 'InviteFriend',
-    components: { Button, Header, InvitePrompt, RateModal },
+    components: { Button, Header, InvitePrompt, RateModal }
 })
 export default class InviteFriend extends Vue {
     @userModule.State('userInfo') userInfo!: UserInfoModel;
     @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
 
-    @childModule.State('defaultRateStats')
-    defaultRateStats?: DefaultRateStatsModel | null;
+    @childModule.State('defaultRateStats') defaultRateStats?: DefaultRateStatsModel | null;
     @childModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @childModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-    @childModule.Action('fetchDefaultRateStats')
-    fetchDefaultRateStats!: () => any;
+    @childModule.Action('fetchDefaultRateStats') fetchDefaultRateStats!: () => any;
     @childModule.Action('setDefaultRates') setDefaultRates!: () => any;
 
     isPromptShow: boolean = false; // 是否显示邀请提示模态框
@@ -74,8 +67,8 @@ export default class InviteFriend extends Vue {
 
     // 复制地址
     copyAddress() {
-        let copy = document.getElementById('copy'),
-            clipboard = new ClipboardJS(copy);
+        let address = document.getElementById('address'),
+            clipboard = new ClipboardJS(address);
 
         clipboard.on('success', function(e) {
             Prompt.success('邀请地址复制成功');
@@ -95,6 +88,10 @@ export default class InviteFriend extends Vue {
             this.isPromptShow = !defaultRateStats.existDefault;
             this.isRateShow = false;
         }
+    }
+
+    create() {
+        this.clearStates();
     }
 
     mounted() {

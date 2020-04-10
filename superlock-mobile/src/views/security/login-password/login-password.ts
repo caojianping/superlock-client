@@ -2,7 +2,6 @@ import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { ValidationResult } from 'jpts-validator';
-
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { UserFormType } from '@/ts/config';
@@ -55,10 +54,7 @@ export default class LoginPassword extends Vue {
         userForm.mobile = phone.tel || '';
         this.setUserStates({ userForm });
 
-        let result: ValidationResult = UserService.validateUserForm(
-            userForm,
-            UserFormType.ForgetMobile
-        );
+        let result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.ForgetMobile);
         if (!result.status) {
             Prompt.error(Utils.getFirstValue(result.data));
             return;
@@ -69,8 +65,8 @@ export default class LoginPassword extends Vue {
             query: {
                 from: '/security/login/password',
                 areaCode: userForm.areaCode,
-                mobile: userForm.mobile,
-            },
+                mobile: userForm.mobile
+            }
         });
     }
 
@@ -89,6 +85,7 @@ export default class LoginPassword extends Vue {
     }
 
     created() {
+        this.clearUserStates();
         this.clearStates();
     }
 
