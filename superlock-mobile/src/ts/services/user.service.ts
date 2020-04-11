@@ -111,8 +111,8 @@ export class UserService {
     }
 
     // 获取用户信息
-    public async fetchUserInfo(): Promise<UserInfoModel> {
-        let result = await Caxios.get<UserInfoModel | null>({ url: Urls.user.info }, CaxiosType.Token);
+    public async fetchUserInfo(isLoading: boolean = false): Promise<UserInfoModel> {
+        let result = await Caxios.get<UserInfoModel | null>({ url: Urls.user.info }, isLoading ? CaxiosType.LoadingToken : CaxiosType.Token);
         return result || new UserInfoModel();
     }
 

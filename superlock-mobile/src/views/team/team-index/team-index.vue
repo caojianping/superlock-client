@@ -10,16 +10,18 @@
                 </h1>
             </header>
 
-            <ul class="team-rates flex">
-                <li v-for="(lockPromoteRate, index) in lockPromoteRates" :key="index">
-                    <h3>{{ lockPromoteRate.rate + lockPromoteRate.suffix }}</h3>
+            <div class="team-rates">
+                <ul class="clearfix" :style="{ width: `${width * lockPromoteRates.length}rem` }">
+                    <li v-for="(lockPromoteRate, index) in lockPromoteRates" :key="index" :style="{ width: width + 'rem' }">
+                        <h3>{{ lockPromoteRate.rate + lockPromoteRate.suffix }}</h3>
 
-                    <p v-if="lockPromoteRate.type === 1">
-                        {{ lockPromoteRate.length + unitTypes[lockPromoteRate.unit - 1] + rateTypes[lockPromoteRate.type - 1] }}
-                    </p>
-                    <p v-else>{{ rateTypes[lockPromoteRate.type - 1] }}</p>
-                </li>
-            </ul>
+                        <p v-if="lockPromoteRate.type === 1">
+                            {{ lockPromoteRate.length + unitTypes[lockPromoteRate.unit - 1] + rateTypes[lockPromoteRate.type - 1] }}
+                        </p>
+                        <p v-else>{{ rateTypes[lockPromoteRate.type - 1] }}</p>
+                    </li>
+                </ul>
+            </div>
 
             <div v-if="childs" class="child-container">
                 <p v-if="childs.length <= 0" class="scb-none">暂无团队成员</p>
@@ -34,7 +36,7 @@
                     @load="fetchChilds"
                 >
                     <CellGroup>
-                        <Cell v-for="(child, index) in childs" :key="index" @click="goDetail(child)">
+                        <Cell v-for="(child, index) in childs" :key="index" is-link @click="goDetail(child)">
                             <div slot="title">
                                 <h2>{{ child.nickName }}</h2>
                                 <p>{{ `UID:${child.uid}` }}</p>

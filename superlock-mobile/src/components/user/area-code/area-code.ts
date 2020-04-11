@@ -28,6 +28,9 @@ export default class AreaCode extends Vue {
     // 处理弹出框close事件
     handlePopupClose() {
         this.isShow = false;
+        // this.isSearch = false;
+        // this.keyword = '';
+        // this.searchAreaCodes = [];
     }
 
     // 根据关键字过滤国家/地区列表

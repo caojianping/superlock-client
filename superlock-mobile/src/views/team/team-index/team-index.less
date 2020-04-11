@@ -41,20 +41,24 @@
 
     .team-rates {
         position: relative;
-        margin: 1rem 0.875rem 0.75rem;
-        padding: 1.25rem 1rem;
+        margin: 1rem 0.875rem;
+        padding: 1.25rem 0.875rem;
         background-color: white;
         border-radius: 1rem;
+        overflow-x: auto;
 
-        li {
-            flex: 1;
+        ul {
+            li {
+                float: left;
+                .box-sizing(border-box);
 
-            h3 {
-                .font-styles(1.5rem, normal, 1.5, @black, center);
-            }
-
-            p {
-                .font-styles(0.875rem, normal, 1.5, @gray, center);
+                h3 {
+                    .font-styles(1.5rem, normal, 1.5, @black, center);
+                }
+    
+                p {
+                    .font-styles(0.875rem, normal, 1.5, @gray, center);
+                }
             }
         }
     }
@@ -87,7 +91,7 @@
                 padding-right: 0.25rem;
 
                 h3 {
-                    padding-top: 0.5rem;
+                    padding-top: 0.35rem;
                     .font-styles(0.75rem, normal, 1.5, @black, right);
                 }
 
@@ -97,7 +101,7 @@
             }
 
             .van-cell__right-icon {
-                margin-top: 0.75rem;
+                margin-top: 0.875rem;
             }
         }
     }

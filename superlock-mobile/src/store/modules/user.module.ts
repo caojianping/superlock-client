@@ -75,9 +75,9 @@ export default {
         },
 
         // 获取用户信息
-        async fetchUserInfo(context: IActionContext<IUserState>): Promise<void> {
+        async fetchUserInfo(context: IActionContext<IUserState>, isLoading: boolean = false): Promise<void> {
             let commit = context.commit,
-                userInfo = await userService.fetchUserInfo();
+                userInfo = await userService.fetchUserInfo(isLoading);
             commit(TYPES.SET_STATES, { userInfo });
         },
 

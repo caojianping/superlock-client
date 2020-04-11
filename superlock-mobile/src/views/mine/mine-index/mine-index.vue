@@ -55,7 +55,7 @@
                     <span>安全中心</span>
                 </template>
             </Cell>
-            <Cell is-link to="/help/center">
+            <!-- <Cell is-link to="/help/center">
                 <template>
                     <i class="icon icon-help" />
                     <span>帮助中心</span>
@@ -66,7 +66,7 @@
                     <i class="icon icon-message" />
                     <span>消息通知</span>
                 </template>
-            </Cell>
+            </Cell> -->
             <Cell is-link to="/setting/center">
                 <template>
                     <i class="icon icon-setting" />

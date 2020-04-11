@@ -24,7 +24,7 @@ export default class LoginPassword extends Vue {
     @userModule.State('userForm') userForm!: UserFormModel;
     @userModule.Mutation(TYPES.SET_STATES) setUserStates!: (payload: any) => any;
     @userModule.Mutation(TYPES.CLEAR_STATES) clearUserStates!: () => any;
-    @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
+    @userModule.Action('fetchUserInfo') fetchUserInfo!: (isLoading?: boolean) => any;
 
     @securityModule.State('securityForm') securityForm!: SecurityFormModel;
     @securityModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
@@ -90,6 +90,6 @@ export default class LoginPassword extends Vue {
     }
 
     mounted() {
-        this.fetchUserInfo();
+        this.fetchUserInfo(true);
     }
 }

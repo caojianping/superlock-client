@@ -37,6 +37,14 @@ export default class TeamIndex extends Vue {
     isLoading: boolean = false; // 是否正在加载
     isFinished: boolean = false; // 是否加载结束
 
+    get width() {
+        let count = this.lockPromoteRates.length;
+        if (count >= 3) return 6.64583;
+        else if (count === 2) return 9.96875;
+        else if (count === 1) return 19.9375;
+        else return 0;
+    }
+
     // 跳转至详情页面
     goDetail(child: ChildModel) {
         SessionStorage.setItem<ChildModel>(CONSTANTS.CHILD, child);
