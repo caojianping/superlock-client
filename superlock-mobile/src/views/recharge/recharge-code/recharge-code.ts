@@ -30,7 +30,7 @@ export default class RechargeCode extends Vue {
     get rechargeAddressQrcode() {
         let rechargeCoin = this.rechargeCoin || '',
             rechargeAddress = this.rechargeAddress || '';
-        return rechargeAddress.indexOf('bcb') > -1 ? `bcbpay://${rechargeCoin}/${rechargeAddress}/*` : rechargeAddress;
+        return rechargeAddress.indexOf('bcb') === 0 ? `bcbpay://${rechargeCoin}/${rechargeAddress}/*` : rechargeAddress;
     }
 
     // 初始化数据
