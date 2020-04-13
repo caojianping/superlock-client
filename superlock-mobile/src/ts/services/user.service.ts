@@ -88,23 +88,7 @@ export class UserService {
         await Caxios.post<any>({ url: Urls.user.logout }, CaxiosType.LoadingToken);
         return true;
     }
-
-    // 找回密码
-    public async retrieval(userForm: UserFormModel): Promise<boolean> {
-        let result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.Forget);
-        if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
-
-        let { areaCode, mobile, password, smsCode } = userForm,
-            parameters = Utils.buildParameters({
-                account: [areaCode, mobile].join(','),
-                accountKind: 1,
-                newPasswd: md5(password),
-                vfcode: smsCode
-            });
-        await Caxios.post<any>({ url: `${Urls.user.retrieval}?${parameters}` }, CaxiosType.Loading);
-        return true;
-    }
-
+    
     // 获取用户锁仓额度信息
     public async fetchUserLockQuota(): Promise<UserLockQuotaModel | null> {
         return await Caxios.get<UserLockQuotaModel | null>({ url: Urls.user.lockQuota }, CaxiosType.Token);

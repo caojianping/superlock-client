@@ -1,0 +1,174 @@
+body {
+    padding: 21rem 0 2rem;
+    background: rgb(236, 51, 40) url('../imgs/invitaion/bg.png') no-repeat top
+        center;
+    background-size: 100% auto;
+    background-clip: border-box;
+}
+
+.rule {
+    position: fixed;
+    top: 3.75rem;
+    right: 0;
+    width: 3.625rem;
+    height: 1.5rem;
+    font-size: 0.75rem;
+    line-height: 1.5rem;
+    color: white;
+    text-align: center;
+    background: url('../imgs/invitaion/rule.png') no-repeat center center;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+
+.title01 {
+    padding: 0.875rem 0;
+}
+
+.title01 > h1 {
+    font-size: 0.9375rem;
+    font-weight: normal;
+    color: #6effff;
+    text-align: center;
+}
+
+.title02 {
+    position: relative;
+    margin: 0 auto 2.75rem;
+    width: 10.8rem;
+    height: 1.4375rem;
+    background: url('../imgs/invitaion/title.png') no-repeat center center;
+    background-size: 100% 100%;
+}
+
+.title02::after {
+    position: absolute;
+    top: 2.4375rem;
+    left: 50%;
+    display: block;
+    margin-left: -0.75rem;
+    width: 0;
+    height: 0;
+    content: '';
+    border: 10px solid transparent;
+    border-top-color: rgb(237, 229, 23);
+}
+
+.block {
+    width: 100%;
+    height: 10.625rem;
+    background: url('../imgs/invitaion/block.png') no-repeat center center;
+    background-size: 100% 100%;
+}
+
+.block > h2 {
+    padding-top: 1.65rem;
+    font-size: 1.125rem;
+    font-weight: normal;
+    color: white;
+    text-align: center;
+}
+
+.block > p {
+    padding: 0.35rem 2.5rem 0;
+    font-size: 0.9375rem;
+    color: white;
+    text-align: left;
+}
+
+.btn {
+    display: block;
+    margin: 1rem auto 0;
+    width: 86%;
+    height: 3.125rem;
+    font-size: 1.125rem;
+    line-height: 3.125rem;
+    color: white;
+    background-color: #ffb133;
+    cursor: pointer;
+    border-radius: 3.125rem;
+    border: none;
+    outline: none;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.modal-content {
+    position: fixed;
+    top: 8rem;
+    right: 2rem;
+    bottom: 8rem;
+    left: 2rem;
+    z-index: 3;
+    background-color: white;
+    border-radius: 0.5rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.5);
+}
+
+.modal > .modal-content > .modal-header {
+    position: fixed;
+    top: 8rem;
+    right: 2rem;
+    left: 2rem;
+    z-index: 4;
+    padding: 0;
+    background-color: white;
+    border-top-right-radius: 0.5rem;
+    border-top-left-radius: 0.5rem;
+}
+
+.modal > .modal-content > .modal-header > .modal-title {
+    padding: 1.25rem 0 0.75rem;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1;
+    color: #222;
+    text-align: center;
+    border-bottom: 1px solid #ececec;
+}
+
+.modal > .modal-content > .modal-header > .modal-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 1rem;
+    display: inline-block;
+    font-size: 1.75rem;
+    font-style: normal;
+    line-height: 1;
+    color: #999;
+    text-align: center;
+}
+
+.modal > .modal-content > .modal-body {
+    margin-top: 3rem;
+    padding: 0.75rem 1rem;
+}
+
+.modal > .modal-content > .modal-body > h3,
+.modal > .modal-content > .modal-body > p {
+    font-size: 0.875rem;
+    color: #4c4c4c;
+}
+
+.modal > .modal-content > .modal-body > h3 {
+    padding: 0.75rem 0;
+    font-weight: bold;
+    line-height: 1.25;
+}
+
+.modal > .modal-content > .modal-body > p {
+    font-weight: normal;
+}

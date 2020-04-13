@@ -1,19 +1,22 @@
 import TYPES from '@/store/types';
 import { IActionContext, IUserState } from '@/store/interfaces';
-import { RegisterStatus } from '@/ts/config';
+import { RegisterStatus, ForgetType } from '@/ts/config';
 import { Token } from '@/ts/common';
 import { TokenInfo, UserFormModel, UserInfoModel } from '@/ts/models';
-import { UserService } from '@/ts/services';
+import { UserService, SecurityService } from '@/ts/services';
 
 const userState: IUserState = {
     userForm: new UserFormModel(),
     registerStatus: RegisterStatus.Default,
 
     userInfo: new UserInfoModel(),
-    userLockQuota: undefined
+    userLockQuota: undefined,
+
+    forgetType: ForgetType.LoginPassword
 };
 
 const userService = new UserService();
+const securityService = new SecurityService();
 
 export default {
     namespaced: true,
@@ -31,6 +34,8 @@ export default {
 
             state.userInfo = new UserInfoModel();
             state.userLockQuota = undefined;
+
+            state.forgetType = ForgetType.LoginPassword;
         }
     },
     actions: {
@@ -68,10 +73,12 @@ export default {
             return result;
         },
 
-        // 找回密码
-        async retrieval(context: IActionContext<IUserState>): Promise<boolean> {
-            let state = context.state;
-            return await userService.retrieval(state.userForm);
+        // 忘记密码
+        async forgetPassword(context: IActionContext<IUserState>): Promise<boolean> {
+            let { userForm, forgetType } = context.state;
+            return forgetType === ForgetType.LoginPassword
+                ? await securityService.forgetLoginPassword(userForm)
+                : await securityService.forgetFundPassword(userForm);
         },
 
         // 获取用户信息

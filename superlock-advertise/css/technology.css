@@ -1,0 +1,173 @@
+body {
+    background: rgb(55, 44, 126) url('../imgs/technology/bg.png') no-repeat top
+        center;
+    background-size: 100% auto;
+}
+
+.header {
+    margin: 1.5rem auto;
+    width: 20.125rem;
+    height: 10.25rem;
+    background: url('../imgs/technology/header.png') no-repeat center center;
+    background-size: 100% 100%;
+}
+
+.block {
+    position: relative;
+    z-index: 1;
+    margin: 0 0 3rem 0;
+}
+
+.block.block01 {
+    margin-top: 2rem;
+}
+
+.block.block02,
+.block.block03 {
+    margin-top: -2.5rem;
+}
+
+.block > .title {
+    position: absolute;
+    top: -0.9rem;
+    left: 50%;
+    z-index: 2;
+    height: 4.25rem;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.block > .title.title01 {
+    margin-left: -4.875rem;
+    width: 9.75rem;
+    background-image: url('../imgs/technology/title01.png');
+}
+
+.block > .title.title02 {
+    margin-left: -5.5625rem;
+    width: 11.125rem;
+    background-image: url('../imgs/technology/title02.png');
+}
+
+.block > .title.title03 {
+    margin-left: -6.96875rem;
+    width: 13.9375rem;
+    background-image: url('../imgs/technology/title03.png');
+}
+
+.block > .block-item {
+    width: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.block > .block-item.item01 {
+    height: 14.5625rem;
+    background-image: url('../imgs/technology/item01.png');
+}
+
+.block > .block-item.item02 {
+    height: 14.375rem;
+    background-image: url('../imgs/technology/item02.png');
+}
+
+.block > .block-item.item03 {
+    height: 12.5rem;
+    background-image: url('../imgs/technology/item03.png');
+}
+
+.block > .block-item.item04 {
+    height: 14.375rem;
+    background-image: url('../imgs/technology/item04.png');
+}
+
+.block > .block-item.item05 {
+    height: 12rem;
+    background-image: url('../imgs/technology/item05.png');
+}
+
+.block > .block-item.item06 {
+    height: 20.625rem;
+    background-image: url('../imgs/technology/item06.png');
+}
+
+.block > .block-item.item02,
+.block > .block-item.item03,
+.block > .block-item.item04 {
+    position: relative;
+    margin-top: -1.5rem;
+}
+
+.block > .block-item.item02::before,
+.block > .block-item.item02::after,
+.block > .block-item.item03::before,
+.block > .block-item.item03::after,
+.block > .block-item.item04::before,
+.block > .block-item.item04::after {
+    position: absolute;
+    top: -1.25rem;
+    display: block;
+    width: 0.6875rem;
+    height: 2.8125rem;
+    content: '';
+    background: url('../imgs/technology/chain.png') no-repeat center center;
+    background-size: 100% 100%;
+}
+
+.block > .block-item.item02::before,
+.block > .block-item.item03::before,
+.block > .block-item.item04::before {
+    left: 2rem;
+}
+
+.block > .block-item.item02::after,
+.block > .block-item.item03::after,
+.block > .block-item.item04::after {
+    right: 2rem;
+}
+
+.block > .block-item > h2 {
+    padding: 3.5rem 2.5rem 0;
+    font-size: 1.25rem;
+    font-weight: normal;
+    color: #4442fb;
+}
+
+.block > .block-item > p {
+    padding: 0.75rem 2.5rem 0;
+    font-size: 0.875rem;
+    color: #4c4c4c;
+}
+
+.block > .block-item.item02 > h2 {
+    padding-top: 3rem;
+    width: 14rem;
+}
+
+.block > .block-item.item02 > p {
+    width: 10rem;
+}
+
+.block > .block-item.item03 > h2,
+.block > .block-item.item03 > p {
+    text-align: right;
+}
+
+.block > .block-item.item03 > p {
+    float: right;
+    width: 8rem;
+    text-align: right;
+}
+
+.block > .block-item.item04 > p {
+    width: 8rem;
+}
+
+.block > .block-item.item05 > p {
+    padding-top: 4rem;
+    font-weight: bold;
+    line-height: 1.8;
+    text-align: center;
+}

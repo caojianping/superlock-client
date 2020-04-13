@@ -11,17 +11,17 @@ module.exports = merge(base, {
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
             template: utils.resolvePath('public/index.html'),
-            inject: true
-        })
+            inject: true,
+        }),
     ],
     devServer: {
         contentBase: utils.resolvePath('dist'),
-        port: 9999,
+        port: 10000,
         hot: true,
         open: true,
-        publicPath: '/'
+        publicPath: '/',
     },
     performance: {
-        hints: false
-    }
+        hints: false,
+    },
 });

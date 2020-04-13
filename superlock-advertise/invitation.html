@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"
+        />
+        <meta name="app-mobile-web-app-capable" content="yes" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="format-detection" content="email=no" />
+        <link rel="stylesheet" href="./css/reset.css?v=2020030421" />
+        <link rel="stylesheet" href="./css/common.css?v=2020030421" />
+        <link rel="stylesheet" href="./css/invitation.css?v=2020030421" />
+        <title>邀请好友锁仓</title>
+    </head>
+    <body>
+        <div class="rule">活动规则</div>
+
+        <div class="title01">
+            <h1>更有额外推广奖励每日送给你</h1>
+            <h1>好友锁仓利率你来定多出收益送给你</h1>
+        </div>
+
+        <div class="title02"></div>
+
+        <div class="block">
+            <h2>直推奖励</h2>
+            <p>
+                邀请好友的每笔锁仓，您可获得该笔金额3%奖励，立即到账，上不封顶
+            </p>
+        </div>
+
+        <div class="block">
+            <h2>推广锁仓奖励</h2>
+            <p>
+                邀请好友的每笔锁仓，您可获得额外的推广解锁奖。在锁仓周期中，奖励按天返还，上不封顶。
+            </p>
+        </div>
+
+        <div class="block">
+            <h2>好友锁仓奖励</h2>
+            <p>
+                邀请锁仓，好友收益率由您定，同享好友锁仓收益。在锁仓周期中，奖励按天返还，上不封顶。
+            </p>
+        </div>
+
+        <button class="btn">马上邀请好友</button>
+
+        <div class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">活动规则</h2>
+                    <i class="modal-close">&times;</i>
+                </div>
+
+                <div class="modal-body">
+                    <p>以下各奖励说明，最终解释权归平台所有。</p>
+                    <h3>1.直推奖</h3>
+                    <p>
+                        当您邀请好友成功锁仓后，立即获得3%锁仓奖励，并实时发放到您的账户。
+                    </p>
+                    <p>
+                        例如：好友锁仓一笔10000BCB，您可直接获得10000BCB*3%价值的直推奖，直推奖将会直接入账到您的BCB锁仓宝账户中。
+                    </p>
+
+                    <h3>2.推广解锁奖</h3>
+                    <p>
+                        当您邀请好友成功锁仓后，平台还会额外赠送您推广解锁奖励。推广解锁奖励在好友锁仓期间每日发放到您的BCB锁仓宝账户中。
+                    </p>
+                    <p>
+                        例如：您的好友完成一笔锁仓，价值10000DC，锁仓180天，此时您每天可获得的推广解锁奖励为：每日推广锁仓奖励价值=10000DC*您的推广解锁返点比例/180。
+                        您的推广解锁返点比例，取决于您个人的推广解锁利率和好友的推广解锁利率之差。
+                    </p>
+
+                    <h3>3.好友锁仓奖</h3>
+                    <p>
+                        当您邀请好友锁仓时，好友的锁仓利率由您来设置。如果您设置的好友锁仓利率小于自己的锁仓利率，平台会将中间的利率差，全部额外赠送给您。
+                    </p>
+                    <p>
+                        例如：您的1年期锁仓年化利率为20%，您给好友设置1年期锁仓年化利率为18%。当您的好友进行一笔价值10000DC的1年期（365天）锁仓时，他可享受到年化利率18%的超高收益，同时平台会将2%的利差（20%-18%）作为额外奖励全部赠送给你。赠送额外奖励分365天逐一返还到您的BCB锁仓宝账户中。
+                        也就是您每天可获得的赠送奖励为：10000DC*2%/365。
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <script
+            type="text/javascript"
+            src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"
+        ></script>
+        <script type="text/javascript">
+            var userAgent = window.navigator.userAgent,
+                Utils = {
+                    isAndroid: function() {
+                        return (
+                            userAgent.indexOf('Android') > -1 ||
+                            userAgent.indexOf('Linux') > -1
+                        );
+                    },
+                    isIOS: function() {
+                        return !!userAgent.match(
+                            /\(i[^;]+;( U;)? CPU.+Mac OS X/
+                        );
+                    }
+                };
+
+            function openModal() {
+                $('.rule').click(function(event) {
+                    event.stopPropagation();
+                    $('.modal').show();
+                    $('html,body').css({ 'overflow-y': 'hidden' });
+                });
+            }
+
+            function closeModal() {
+                $('.modal-close').click(function(event) {
+                    event.stopPropagation();
+                    $('.modal').hide();
+                    $('html,body').css({ 'overflow-y': 'auto' });
+                });
+
+                $(document).on('click', function(event) {
+                    var content = $('.modal-content').get(0);
+                    if (!$.contains(content, event.target)) {
+                        $('.modal').hide();
+                        $('html,body').css({ 'overflow-y': 'auto' });
+                    }
+                });
+            }
+
+            function invite() {
+                $('.btn').click(function(event) {
+                    if (Utils.isIOS()) {
+                        // 调用IOS
+                        window.webkit &&
+                        window.webkit.messageHandlers &&
+                        window.webkit.messageHandlers.bcbWealth &&
+                        window.webkit.messageHandlers.bcbWealth.postMessage &&
+                        window.webkit.messageHandlers.bcbWealth.postMessage('shareClick');
+                    } else {
+                        // 调用安卓代码
+                        window.location.href = 'bcbWealth://app?type=share';
+                    }
+                });
+            }
+
+            $(function() {
+                openModal();
+                closeModal();
+                invite();
+            });
+        </script>
+    </body>
+</html>

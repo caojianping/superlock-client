@@ -4,7 +4,7 @@ import { Component } from 'vue-property-decorator';
 import { ValidationResult } from 'jpts-validator';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { UserFormType, CONSTANTS } from '@/ts/config';
+import { UserFormType, CONSTANTS, ForgetType } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { UserFormModel } from '@/ts/models';
 import { UserService } from '@/ts/services';
@@ -67,6 +67,10 @@ export default class UserForget extends Vue {
 
     // 初始化数据
     initData() {
+        let params: any = this.$route.params || {},
+            type = Number(params.type);
+        this.setStates({ forgetType: isNaN(type) ? ForgetType.LoginPassword : type });
+
         let query: any = this.$route.query || {};
         this.from = query.from || '';
 

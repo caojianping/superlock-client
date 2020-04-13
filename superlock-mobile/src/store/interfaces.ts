@@ -1,5 +1,5 @@
 import { Commit } from 'vuex';
-import { RegisterStatus } from '@/ts/config';
+import { RegisterStatus, ForgetType } from '@/ts/config';
 import {
     TokenInfo,
     QuotaModel,
@@ -58,6 +58,8 @@ export interface IUserState {
 
     userInfo: UserInfoModel; // 用户信息
     userLockQuota?: UserLockQuotaModel | null; // 用户锁仓额度
+
+    forgetType: ForgetType; //忘记密码类型
 }
 
 export interface IChildState {

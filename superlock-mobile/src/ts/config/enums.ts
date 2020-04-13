@@ -34,6 +34,12 @@ export const enum RegisterStatus {
     Unopen = 4 // 未开放
 }
 
+// 忘记密码类型
+export const enum ForgetType {
+    LoginPassword = 1, // 登录密码
+    FundPassword = 2 // 资金密码
+}
+
 // 推广奖励类型
 export const enum PromoteRewardType {
     Push = 1, // 直推奖励

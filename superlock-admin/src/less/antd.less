@@ -1,0 +1,58 @@
+@import './vars.less';
+@import './mixins.less';
+
+// antd样式
+.ant-select,
+.ant-input-number {
+    width: 100%;
+}
+
+.ant-calendar-picker {
+    width: 100% !important;
+}
+
+.ant-table {
+    .ant-table-thead > tr > th,
+    .ant-table-tbody > tr > td {
+        text-align: center;
+        background-color: white;
+    }
+}
+
+.ant-pagination {
+    margin: 32px 0 !important;
+    text-align: right;
+}
+
+.ant-btn.ant-btn-sm {
+    margin-right: 4px;
+    width: 55px;
+    height: 24px;
+    .font-styles(12px, normal, 22px, @font-black, center);
+    .box-sizing(border-box);
+    background-color: white;
+
+    &.ant-btn-default {
+        color: @lightgreen;
+        border-color: @lightgreen;
+
+        &:hover {
+            color: white;
+            background-color: @lightgreen;
+        }
+    }
+
+    &.ant-btn-danger {
+        color: #ff523b;
+        border-color: #ff523b;
+
+        &:hover {
+            color: white;
+            background-color: #ff523b;
+        }
+    }
+
+    &.ant-btn-default + .ant-btn-danger {
+        margin-top: 4px;
+    }
+}

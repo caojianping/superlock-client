@@ -21,7 +21,7 @@ export default class ForgetForm extends Vue {
     @userModule.State('userForm') userForm!: UserFormModel;
     @userModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @userModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-    @userModule.Action('retrieval') retrieval!: () => any;
+    @userModule.Action('forgetPassword') forgetPassword!: () => any;
 
     isShow: boolean = this.value;
     isNewPasswordVisible: boolean = false;
@@ -47,7 +47,7 @@ export default class ForgetForm extends Vue {
     // 提交表单
     async submit() {
         try {
-            let result = await this.retrieval();
+            let result = await this.forgetPassword();
             if (!result) Prompt.error('密码找回失败');
             else {
                 Prompt.success('密码找回成功').then(() => {

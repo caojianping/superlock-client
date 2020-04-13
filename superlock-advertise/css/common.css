@@ -1,0 +1,17 @@
+.clearfix {
+    *zoom: 1;
+}
+.clearfix:after {
+    display: block;
+    height: 0;
+    content: '.';
+    visibility: hidden;
+    overflow: hidden;
+    clear: both;
+}
+.fl {
+    float: left;
+}
+.fr {
+    float: right;
+}

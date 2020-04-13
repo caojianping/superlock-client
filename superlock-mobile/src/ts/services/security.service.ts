@@ -1,8 +1,9 @@
 import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
-import { Urls, CaxiosType } from '@/ts/config';
+import { Urls, CaxiosType, UserFormType } from '@/ts/config';
 import { Caxios, md5 } from '@/ts/common';
-import { SecurityFormModel } from '@/ts/models';
+import { UserFormModel, SecurityFormModel } from '@/ts/models';
+import { UserService } from './user.service';
 
 export class SecurityService {
     // 校验安全中心表单
@@ -37,7 +38,23 @@ export class SecurityService {
                 oldPasswd: md5(oldPassword || ''),
                 newPasswd: md5(newPassword)
             });
-        await Caxios.post<any>({ url: `${Urls.security.modifyLoginPassword}?${paramters}` }, CaxiosType.Token);
+        await Caxios.post<any>({ url: `${Urls.security.loginPassword.modify}?${paramters}` }, CaxiosType.Token);
+        return true;
+    }
+
+    // 忘记登录密码
+    public async forgetLoginPassword(userForm: UserFormModel): Promise<boolean> {
+        let result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.Forget);
+        if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
+
+        let { areaCode, mobile, password, smsCode } = userForm,
+            parameters = Utils.buildParameters({
+                account: [areaCode, mobile].join(','),
+                accountKind: 1,
+                newPasswd: md5(password),
+                vfcode: smsCode
+            });
+        await Caxios.post<any>({ url: `${Urls.security.loginPassword.forget}?${parameters}` }, CaxiosType.Loading);
         return true;
     }
 
@@ -66,6 +83,20 @@ export class SecurityService {
                 newPasswd: md5(newPassword)
             });
         await Caxios.post<any>({ url: `${Urls.security.fundPassword.modify}?${paramters}` }, CaxiosType.Token);
+        return true;
+    }
+
+    // 忘记资金密码
+    public async forgetFundPassword(userForm: UserFormModel): Promise<boolean> {
+        let result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.Forget);
+        if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
+
+        let { areaCode, mobile, password, smsCode } = userForm,
+            parameters = Utils.buildParameters({
+                newPasswd: md5(password),
+                vfcode: smsCode
+            });
+        await Caxios.post<any>({ url: `${Urls.security.fundPassword.forget}?${parameters}` }, CaxiosType.LoadingToken);
         return true;
     }
 }

@@ -9,7 +9,6 @@ export const Urls = {
     user: {
         register: `${baseUrl}/register`, // 用户注册接口
         login: `${baseUrl}/login`, // 用户登录接口
-        retrieval: `${baseUrl}/retrieval`, // 用户找回密码接口
         logout: `${baseUrl}/user/signOut`, // 退出登录接口
         lockQuota: `${baseUrl}/user/lockQuota`, // 获取用户锁仓额度接口
         info: `${baseUrl}/user/userInfo`, // 获取用户信息接口
@@ -67,10 +66,14 @@ export const Urls = {
         childs: `${baseUrl}/user/childMailList` // 获取转账下级列表接口
     },
     security: {
-        modifyLoginPassword: `${baseUrl}/user/resetPasswd`, // 修改登录密码接口
+        loginPassword: {
+            modify: `${baseUrl}/user/resetPasswd`, // 修改登录密码接口
+            forget: `${baseUrl}/retrieval` // 忘记登录密码接口
+        },
         fundPassword: {
             set: `${baseUrl}/user/setFundPasswd`, // 设置资金密码接口
-            modify: `${baseUrl}/user/modifyFundPasswd` // 修改资金密码接口
+            modify: `${baseUrl}/user/modifyFundPasswd`, // 修改资金密码接口
+            forget: `${baseUrl}/user/forgetFundPasswd` // 忘记资金密码接口
         }
     }
 };

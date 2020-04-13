@@ -1,0 +1,222 @@
+@import '../../less/vars.less';
+@import '../../less/mixins.less';
+
+.sl-block {
+    .sl-block-header .setting {
+        position: relative;
+        top: -2px;
+        display: inline-block;
+        margin-left: 8px;
+        width: 22px;
+        height: 22px;
+        vertical-align: middle;
+        background: url('../../assets/images/home/setting.png') no-repeat center
+            center;
+        background-size: 100% 100%;
+        cursor: pointer;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+
+    .sl-block-body {
+        padding: 0;
+        background-color: transparent;
+        border: none;
+
+        .panel-list {
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+
+            .panel-item {
+                flex: 1 1 auto;
+                width: 33.33%;
+                text-align: left;
+                margin-bottom: 24px;
+
+                .panel-content {
+                    position: relative;
+                    width: 94%;
+                    height: 140px;
+                    color: white;
+
+                    &::after {
+                        position: absolute;
+                        right: 0;
+                        bottom: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 56px;
+                        content: '';
+                        background: url('../../assets/images/home/bg.png')
+                            no-repeat center bottom;
+                        background-size: 100% auto;
+                    }
+
+                    h3 {
+                        padding: 16px 24px;
+                        .font-styles(14px, bold, 1.5, white, left);
+                    }
+
+                    table {
+                        text-align: center;
+
+                        tr {
+                            &:first-child > td {
+                                font-size: 28px;
+                                line-height: 1.2;
+                            }
+
+                            &:last-child > td {
+                                font-size: 12px;
+                                line-height: 1.2;
+                            }
+                        }
+                    }
+
+                    i {
+                        position: absolute;
+                        top: 16px;
+                        right: 5%;
+                        width: 60px;
+                        height: 60px;
+                        background-repeat: no-repeat;
+                        background-position: center center;
+                        background-size: 100% 100%;
+                    }
+                }
+            }
+
+            &.panel-today > .panel-item {
+                &:first-child > .panel-content {
+                    background-color: #64b0f2;
+                    background: linear-gradient(
+                        112deg,
+                        rgba(78, 151, 235, 1) 0%,
+                        rgba(78, 193, 230, 1) 100%
+                    );
+
+                    table {
+                        width: 75%;
+                    }
+
+                    i {
+                        background-image: url('../../assets/images/home/today01.png');
+                    }
+                }
+
+                &:nth-child(2) > .panel-content {
+                    background-color: #f18273;
+                    background: linear-gradient(
+                        93deg,
+                        rgba(242, 106, 107, 1) 0%,
+                        rgba(245, 143, 141, 1) 100%
+                    );
+
+                    table {
+                        width: 80%;
+                    }
+
+                    i {
+                        background-image: url('../../assets/images/home/today02.png');
+                    }
+                }
+
+                &:last-child > .panel-content {
+                    background-color: #4cc3e5;
+                    background: linear-gradient(
+                        121deg,
+                        rgba(251, 180, 119, 1) 0%,
+                        rgba(255, 198, 98, 1) 100%
+                    );
+
+                    table {
+                        width: 95%;
+                    }
+
+                    i {
+                        background-image: url('../../assets/images/home/today03.png');
+                    }
+                }
+            }
+
+            &.panel-total > .panel-item {
+                &:first-child > .panel-content {
+                    background-color: #f6b160;
+                    background: linear-gradient(
+                        100deg,
+                        rgba(250, 172, 107, 1) 0%,
+                        rgba(255, 199, 97, 1) 99%
+                    );
+
+                    table {
+                        width: 75%;
+                    }
+
+                    i {
+                        background-image: url('../../assets/images/home/total01.png');
+                    }
+                }
+
+                &:nth-child(2) > .panel-content {
+                    background-color: #4cc3e5;
+                    background: linear-gradient(
+                        65deg,
+                        rgba(78, 151, 235, 1) 0%,
+                        rgba(78, 193, 230, 1) 100%
+                    );
+
+                    table {
+                        width: 80%;
+                    }
+
+                    i {
+                        background-image: url('../../assets/images/home/total02.png');
+                    }
+                }
+
+                &:nth-child(3) > .panel-content {
+                    background-color: #64b0f2;
+                    background: linear-gradient(
+                        122deg,
+                        rgba(50, 219, 188, 1) 0%,
+                        rgba(91, 234, 194, 1) 100%
+                    );
+
+                    table {
+                        width: 95%;
+                    }
+
+                    i {
+                        background-image: url('../../assets/images/home/total03.png');
+                    }
+                }
+
+                &:last-child {
+                    flex: 0 0 auto;
+
+                    .panel-content {
+                        background-color: #f18273;
+                        background: linear-gradient(
+                            93deg,
+                            rgba(242, 106, 107, 1) 0%,
+                            rgba(245, 143, 141, 1) 100%
+                        );
+
+                        table {
+                            width: 95%;
+                        }
+
+                        i {
+                            background-image: url('../../assets/images/home/total04.png');
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

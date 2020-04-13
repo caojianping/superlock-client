@@ -1,0 +1,69 @@
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+label,
+ol,
+ul,
+li,
+dl,
+dt,
+dd,
+div,
+form,
+pre,
+fieldset,
+legend {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #333;
+    background-color: white;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+main,
+menu,
+nav,
+section,
+summary {
+    display: block;
+}
+audio,
+canvas,
+progress,
+video {
+    display: inline-block;
+    vertical-align: baseline;
+}
+cite,
+mark {
+    font-style: normal;
+    background-color: white;
+}
+ul,
+li {
+    list-style: none;
+}
+table {
+    border-collapse: collapse;
+}
+a {
+    text-decoration: none;
+    cursor: pointer;
+}

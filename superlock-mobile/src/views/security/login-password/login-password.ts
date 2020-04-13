@@ -4,7 +4,7 @@ import { namespace } from 'vuex-class';
 import { ValidationResult } from 'jpts-validator';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { UserFormType } from '@/ts/config';
+import { UserFormType, ForgetType } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { UserInfoModel, UserFormModel, SecurityFormModel } from '@/ts/models';
 import { UserService } from '@/ts/services';
@@ -61,7 +61,7 @@ export default class LoginPassword extends Vue {
         }
 
         this.$router.push({
-            path: '/user/forget',
+            path: `/user/forget/${ForgetType.LoginPassword}`,
             query: {
                 from: '/security/login/password',
                 areaCode: userForm.areaCode,

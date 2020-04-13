@@ -1,0 +1,83 @@
+@import '../../../less/vars.less';
+@import '../../../less/mixins.less';
+
+.steps {
+    padding-bottom: 16px;
+
+    .step-item {
+        align-items: flex-start;
+
+        .step-number {
+            margin-left: 24px;
+            .font-styles(14px, normal, 1.5, @font-black, left);
+        }
+
+        .step-content {
+            margin-left: 24px;
+
+            .step-title {
+                .font-styles(14px, normal, 1.5, @font-black, left);
+            }
+
+            .step-note {
+                padding: 16px 0;
+
+                // 步骤一样式（安装）
+                &.setup {
+                    display: flex;
+
+                    .setup-link {
+                        display: block;
+                        width: 190px;
+                        height: 57px;
+
+                        &:last-child {
+                            margin-left: 32px;
+                        }
+
+                        img {
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+                }
+
+                // 步骤二样式（google密钥）
+                &.gakey {
+                    .gakey-container {
+                        display: flex;
+                        margin-bottom: 8px;
+
+                        .gakey-input {
+                            width: 300px;
+                        }
+
+                        .gakey-btn {
+                            margin-left: 8px;
+                            height: 32px;
+                            .font-styles(
+                                14px,
+                                normal,
+                                32px,
+                                rgb(50, 115, 255),
+                                center
+                            );
+                            cursor: pointer;
+                        }
+                    }
+                }
+
+                // 步骤三样式（google验证码）
+                &.gacode {
+                    .gacode-input {
+                        width: 300px;
+                    }
+
+                    .gacode-btn {
+                        margin-left: 8px;
+                    }
+                }
+            }
+        }
+    }
+}

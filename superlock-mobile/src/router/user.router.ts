@@ -18,7 +18,7 @@ export default [
         component: UserRegister
     },
     {
-        path: '/user/forget',
+        path: '/user/forget/:type',
         name: 'UserForget',
         component: UserForget
     }

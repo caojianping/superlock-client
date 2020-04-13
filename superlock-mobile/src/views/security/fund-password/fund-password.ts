@@ -4,7 +4,7 @@ import { Component } from 'vue-property-decorator';
 import { ValidationResult } from 'jpts-validator';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { UserFormType, CONSTANTS } from '@/ts/config';
+import { UserFormType, CONSTANTS, ForgetType } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { UserInfoModel, UserFormModel, SecurityFormModel } from '@/ts/models';
 import { UserService } from '@/ts/services';
@@ -65,7 +65,7 @@ export default class FundPassword extends Vue {
         }
 
         this.$router.push({
-            path: '/user/forget',
+            path: `/user/forget/${ForgetType.FundPassword}`,
             query: {
                 from: '/security/fund/password',
                 areaCode: userForm.areaCode,
