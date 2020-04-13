@@ -5,8 +5,7 @@
         <div class="lock-detail-body">
             {{ ((lockProjectObj = lockProject || {}), void 0) }}
             <h1 class="lock-detail-title">
-                锁仓宝 -
-                {{ lockProjectObj.length + unitTypes[lockProjectObj.unit - 1] }}
+                {{ `BCB锁仓 - ${lockProjectObj.length}${unitTypes[lockProjectObj.unit - 1]}` }}
             </h1>
 
             <div class="lock-detail-intro lock-container">
