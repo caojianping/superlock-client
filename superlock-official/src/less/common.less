@@ -1,0 +1,359 @@
+@import './vars.less';
+@import './mixins.less';
+
+// 清除浮动样式
+.clearfix {
+    *zoom: 1;
+
+    &:after {
+        display: block;
+        height: 0;
+        content: '';
+        clear: both;
+        visibility: hidden;
+        overflow: hidden;
+    }
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+// 显示、消失样式
+.show {
+    display: block !important;
+}
+
+.hide {
+    display: none !important;
+}
+
+.container {
+    .adaptive();
+}
+
+// 首页样式
+.home {
+    .header {
+        .header-content {
+            float: left;
+
+            .logo {
+                display: none;
+            }
+
+            .title01,
+            .title02 {
+                .font-styles(50px, bold, 1.4, white, left);
+            }
+
+            .title01 {
+                padding-top: 140px;
+            }
+
+            .downloads {
+                margin-top: 48px;
+
+                .download-item {
+                    position: relative;
+                    float: left;
+                    margin-right: 32px;
+
+                    .download-btn {
+                        display: block;
+                        width: 189px;
+                        height: 69px;
+                        background-color: white;
+                        .box-shadow(0 4px 21px 0 rgba(10, 44, 109, 0.35));
+                        border-radius: 10px;
+
+                        i,
+                        span {
+                            display: inline-block;
+                            vertical-align: middle;
+                        }
+
+                        i {
+                            margin: 9.5px 8px 9.5px 16px;
+                            width: 50px;
+                            height: 50px;
+                            background-position: center center;
+                            background-repeat: no-repeat;
+                            background-size: 100% 100%;
+                        }
+
+                        span {
+                            .font-styles(24px, bold, 69px, #68ca8a, center);
+                        }
+                    }
+
+                    &:first-child > .download-btn > i {
+                        background-image: url('../assets/images/android.png');
+                    }
+
+                    &:last-child > .download-btn > i {
+                        background-image: url('../assets/images/ios.png');
+                    }
+
+                    .download-modal {
+                        position: absolute;
+                        top: 78px;
+                        right: 0;
+                        left: 0;
+                        display: none;
+                        padding: 8px 0;
+                        background-color: white;
+                        .box-shadow(0 4px 21px 0 rgba(10, 44, 109, 0.35));
+
+                        &::before {
+                            position: absolute;
+                            top: -16px;
+                            left: 50%;
+                            content: '';
+                            display: block;
+                            margin-left: -8px;
+                            width: 0;
+                            height: 0;
+                            border: 8px solid transparent;
+                            border-bottom: 8px solid white;
+                        }
+
+                        img {
+                            display: block;
+                            margin: 12px auto;
+                            width: 140px;
+                            height: 140px;
+                        }
+                    }
+
+                    &:hover > .download-modal {
+                        display: block;
+                    }
+                }
+            }
+        }
+
+        .header-banner {
+            float: right;
+            margin-top: 70px;
+            width: 477px;
+            height: 674px;
+        }
+    }
+
+    .intros {
+        margin-top: 50px;
+        padding-bottom: 48px;
+
+        li {
+            float: left;
+            width: 20%;
+
+            img,
+            p {
+                display: block;
+                margin: auto;
+            }
+
+            img {
+                width: 80px;
+                height: 80px;
+            }
+
+            p {
+                padding-top: 8px;
+                max-width: 150px;
+                .font-styles(14px, normal, 1.3, @font-gray, center);
+            }
+        }
+    }
+
+    .footer {
+        padding: 48px 0 32px !important;
+        background-color: #e9e9e9;
+
+        .logo {
+            display: block;
+            margin: auto;
+            width: 177px;
+            height: 68px;
+        }
+
+        .copyright {
+            margin: 14px 0;
+            .font-styles(14px, normal, 1.5, @font-gray, center);
+        }
+
+        .coins {
+            margin: 14px 0;
+            .font-styles(14px, normal, 1.5, @font-gray, center);
+
+            i {
+                display: inline-block;
+                margin: 0 6px;
+                width: 26px;
+                height: 26px;
+                vertical-align: middle;
+                background-position: center center;
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+
+                &:first-child {
+                    background-image: url('../assets/images/coin01.png');
+                }
+
+                &:nth-child(2) {
+                    background-image: url('../assets/images/coin02.png');
+                }
+
+                &:nth-child(3) {
+                    background-image: url('../assets/images/coin03.png');
+                }
+
+                &:nth-child(4) {
+                    background-image: url('../assets/images/coin04.png');
+                }
+
+                &:nth-child(5) {
+                    background-image: url('../assets/images/coin05.png');
+                }
+
+                &:last-child {
+                    background-image: url('../assets/images/coin06.png');
+                }
+            }
+        }
+    }
+
+    @media screen {
+        @media (max-width: 992px) {
+            .header {
+                .header-content {
+                    .title01,
+                    .title02 {
+                        font-size: 46px;
+                    }
+                }
+
+                .header-banner {
+                    width: 380px;
+                    height: 537px;
+                }
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                .header-content {
+                    float: none;
+
+                    .logo {
+                        display: block;
+                        padding: 16px 0 16px 8px;
+                        width: 91px;
+                        height: 35px;
+                    }
+
+                    .title01,
+                    .title02 {
+                        .font-styles(26px, bold, 1.5, white, center);
+                    }
+
+                    .title01 {
+                        padding-top: 0;
+                    }
+
+                    .downloads {
+                        margin: 24px 0;
+
+                        .download-item {
+                            position: static;
+                            margin-right: 0;
+                            width: 50%;
+
+                            .download-btn {
+                                margin: auto;
+                                width: 110px;
+                                height: 35px;
+                                border-radius: 5px;
+
+                                i {
+                                    margin: 5px 3px 5px 8px;
+                                    width: 25px;
+                                    height: 25px;
+                                    background-position: center center;
+                                    background-repeat: no-repeat;
+                                    background-size: 100% 100%;
+                                }
+
+                                span {
+                                    .font-styles(
+                                        16px,
+                                        bold,
+                                        35px,
+                                        #68ca8a,
+                                        center
+                                    );
+                                }
+                            }
+
+                            &:first-child .download-btn {
+                                margin-right: 12px;
+                            }
+
+                            &:last-child .download-btn {
+                                margin-left: 12px;
+                            }
+
+                            .download-modal {
+                                display: none;
+                                opacity: 0;
+                            }
+
+                            &:hover > .download-modal {
+                                display: none;
+                            }
+                        }
+                    }
+                }
+
+                .header-banner {
+                    display: none;
+                }
+            }
+
+            .intros {
+                margin: 72px 0 0;
+                padding: 0;
+
+                li {
+                    float: none;
+                    margin: 16px 0;
+                    width: 100%;
+
+                    img {
+                        float: left;
+                        margin-left: 12px;
+                        width: 35px;
+                        height: 35px;
+                    }
+
+                    p {
+                        margin-left: 47px;
+                        padding: 0 0 0 6px;
+                        max-width: 100%;
+                        .font-styles(14px, normal, 35px, @font-gray, left);
+                    }
+                }
+            }
+
+            .footer {
+                display: none;
+            }
+        }
+    }
+}
