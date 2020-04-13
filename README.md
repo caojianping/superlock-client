@@ -1,34 +1,34 @@
-# superlock-mobile
+# superlock-client
 
-## Project setup
-```
-yarn install
-```
+## 项目结构
 
-### Compiles and hot-reloads for development
 ```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
+├─superlock-admin               锁仓宝后台（基于TypeScript、Vue、antd）
+│
+├─superlock-mobile              锁仓宝移动端（基于TypeScript、Vue、vant）
+│
+├─superlock-official            锁仓宝官网（基于TypeScript、React）
+│
+├─superlock-advertise           锁仓宝广告宣传静态页面
 ```
 
-### Run your unit tests
-```
-yarn test:unit
-```
+## 开发环境
 
-### Run your end-to-end tests
-```
-yarn test:e2e
-```
+### 后台 admin
 
-### Lints and fixes files
-```
-yarn lint
-```
+> cd superlock-admin && yarn install && yarn serve // 开发环境
+> cd superlock-admin && yarn install && yarn build // 非开发环境（测试、预发、生产均为代理模式）
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### 移动端 mobile
+
+> cd superlock-mobile && yarn install && yarn serve // 开发环境
+> cd superlock-mobile && yarn install && yarn build // 非开发环境（测试、预发、生产均为代理模式）
+
+### 官网 official
+
+> cd superlock-admin && yarn install && yarn serve // 开发环境
+> cd superlock-admin && yarn install && yarn build // 非开发环境（测试、预发、生产均为代理模式）
+
+## 命名规范
+
+各模块均遵循 TypeScript、Angular 命名规范。
