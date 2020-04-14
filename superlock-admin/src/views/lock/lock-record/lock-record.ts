@@ -3,12 +3,7 @@ import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import TYPES from '@/store/types';
 import { Utils, Prompt } from '@/ts/common';
-import {
-    ISelectOption,
-    IPageParameters,
-    ILockRecordPageParameters,
-    LockRecordModel
-} from '@/ts/models';
+import { ISelectOption, IPageParameters, ILockRecordPageParameters, LockRecordModel } from '@/ts/models';
 
 const lockModule = namespace('lock');
 
@@ -21,9 +16,7 @@ export default class LockRecord extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
 
     @lockModule.State('statusOptions') statusOptions!: Array<ISelectOption>;
-    @lockModule.State('recordParameters') recordParameters!: IPageParameters<
-        ILockRecordPageParameters
-    >;
+    @lockModule.State('recordParameters') recordParameters!: IPageParameters<ILockRecordPageParameters>;
     @lockModule.State('totalCount') totalCount!: number;
     @lockModule.State('list') list!: Array<LockRecordModel>;
 
@@ -104,10 +97,33 @@ export default class LockRecord extends Vue {
         }
     ];
 
+    // 自动完成组件数据源
+    dataSource: Array<any> = [
+        { value: '100', text: '运营商一' },
+        { value: '200', text: '运营商二' },
+        { value: '300', text: '运营商三' }
+    ];
+
+    // 处理自动完成组件change事件
+    filterOption(input: string, option: any) {
+        let text = option.componentOptions.children[0].text.toUpperCase(),
+            key = option.key,
+            uinput = input.toUpperCase();
+        return text.indexOf(uinput) > -1 || key.indexOf(uinput) > -1;
+    }
+
+    // 处理自动完成组件change事件
+    handleAutoCompleteChange(value: any) {
+        let recordParameters = Utils.duplicate(this.recordParameters);
+        recordParameters.conditions['carrierId'] = value;
+        this.setStates({ recordParameters });
+    }
+
     // 搜索
     async search() {
         try {
             let recordParameters = Utils.duplicate(this.recordParameters);
+            console.log('search:', recordParameters);
             recordParameters.pageNum = 1;
             this.setStates({ recordParameters });
             await this.fetchPageLockRecords();

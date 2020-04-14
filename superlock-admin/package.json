@@ -59,5 +59,10 @@
             "vue-cli-service lint",
             "git add"
         ]
+    },
+    "prettier": {
+        "printWidth": 120,
+        "tabWidth": 4,
+        "singleQuote": true
     }
 }

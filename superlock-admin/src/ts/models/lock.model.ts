@@ -2,13 +2,15 @@ export interface ILockRecordPageParameters {
     uid: string; // UID
     serial: string; // 订单号
     status: string; // 订单状态，空代表全部，0创建，10锁仓资金操作中，20操作锁仓资金完成，锁仓中，30锁仓结束，解仓,40锁仓失败
-    beginTime: string;
-    endTime: string;
+    beginTime: string; // 开始时间
+    endTime: string; // 结束时间
+    carrierId: string; // 补充字段：用户来源ID
 }
 
 export class LockRecordModel {
     public serial!: string; // 订单号
     public uid!: string; // uid
+    public userSource!: string; // 用户来源
     public amount!: string; // 锁仓数量
     public rate!: string; // 锁仓汇率
     public value!: string; // 锁仓价值

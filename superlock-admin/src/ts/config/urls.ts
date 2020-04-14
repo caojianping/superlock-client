@@ -155,5 +155,23 @@ export const Urls = {
         },
         setPassword: `${baseUrl}/login/updatePwd`,
         setGoogle: ''
+    },
+    // 运营商模块
+    carrier: {
+        names: `${baseUrl}/carrier/names`,
+        page: `${baseUrl}/carrier/list`,
+        add: `${baseUrl}/carrier/add`,
+        rebate: {
+            page: `${baseUrl}/carrier/rebates`,
+            export: `${baseUrl}/carrier/rebates/export`
+        },
+        flash: {
+            page: `${baseUrl}/carrier/flash`,
+            export: `${baseUrl}/carrier/flash/export`
+        },
+        withdraw: {
+            page: `${baseUrl}/carrier/withdraw`,
+            export: `${baseUrl}/carrier/withdraw/export`
+        }
     }
 };

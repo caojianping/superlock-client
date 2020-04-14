@@ -13,6 +13,7 @@ export * from './risk.model';
 export * from './member.model';
 export * from './point.model';
 export * from './system.model';
+export * from './carrier.model';
 
 // 下拉列表选项
 export interface ISelectOption {

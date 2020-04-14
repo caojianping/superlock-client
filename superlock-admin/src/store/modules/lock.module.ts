@@ -1,13 +1,7 @@
 import TYPES from '@/store/types';
 import { IActionContext, ILockState } from '@/store/interfaces';
 import { Prompt } from '@/ts/common';
-import {
-    PageResult,
-    LockRecordModel,
-    LockProjectModel,
-    ProjectForm,
-    AwardForm
-} from '@/ts/models';
+import { PageResult, LockRecordModel, LockProjectModel, ProjectForm, AwardForm } from '@/ts/models';
 import { LockService } from '@/ts/services';
 
 const lockState: ILockState = {
@@ -27,7 +21,8 @@ const lockState: ILockState = {
             serial: '',
             status: '',
             beginTime: '',
-            endTime: ''
+            endTime: '',
+            carrierId: ''
         },
         pageNum: 1,
         pageSize: 10
@@ -65,7 +60,8 @@ export default {
                     serial: '',
                     status: '',
                     beginTime: '',
-                    endTime: ''
+                    endTime: '',
+                    carrierId: ''
                 },
                 pageNum: 1,
                 pageSize: 10
@@ -86,15 +82,11 @@ export default {
     },
     actions: {
         // 获取锁仓记录分页列表
-        async fetchPageLockRecords(
-            context: IActionContext<ILockState>
-        ): Promise<void> {
+        async fetchPageLockRecords(context: IActionContext<ILockState>): Promise<void> {
             let { commit, state } = context,
                 parameters = state.recordParameters;
             try {
-                let result: PageResult<LockRecordModel> = await lockService.fetchPageLockRecords(
-                    parameters
-                );
+                let result: PageResult<LockRecordModel> = await lockService.fetchPageLockRecords(parameters);
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
                 commit(TYPES.SET_STATES, {
@@ -106,41 +98,25 @@ export default {
         },
 
         // 导出锁仓记录
-        async exportLockRecords(
-            context: IActionContext<ILockState>
-        ): Promise<string> {
+        async exportLockRecords(context: IActionContext<ILockState>): Promise<string> {
             let state = context.state;
             return await lockService.exportLockRecords(state.recordParameters);
         },
 
         // 创建锁仓
-        async crateLockProject(
-            context: IActionContext<ILockState>,
-            isCode: boolean = false
-        ): Promise<boolean> {
+        async crateLockProject(context: IActionContext<ILockState>, isCode: boolean = false): Promise<boolean> {
             let state = context.state;
-            return await lockService.crateLockProject(
-                state.projectForm,
-                isCode
-            );
+            return await lockService.crateLockProject(state.projectForm, isCode);
         },
 
         // 更新锁仓项目
-        async updateLockProject(
-            context: IActionContext<ILockState>,
-            isCode: boolean = false
-        ): Promise<boolean> {
+        async updateLockProject(context: IActionContext<ILockState>, isCode: boolean = false): Promise<boolean> {
             let state = context.state;
-            return await lockService.updateLockProject(
-                state.projectForm,
-                isCode
-            );
+            return await lockService.updateLockProject(state.projectForm, isCode);
         },
 
         // 获取锁仓奖励信息
-        async fetchLockAward(
-            context: IActionContext<ILockState>
-        ): Promise<void> {
+        async fetchLockAward(context: IActionContext<ILockState>): Promise<void> {
             let { commit, state } = context;
             try {
                 let awardForm = await lockService.fetchLockAward();
@@ -156,24 +132,17 @@ export default {
         },
 
         // 更新锁仓奖励信息
-        async updateLockAward(
-            context: IActionContext<ILockState>,
-            isCode: boolean = false
-        ): Promise<boolean> {
+        async updateLockAward(context: IActionContext<ILockState>, isCode: boolean = false): Promise<boolean> {
             let state = context.state;
             return await lockService.updateLockAward(state.awardForm, isCode);
         },
 
         // 获取锁仓项目分页列表
-        async fetchPageLockProjects(
-            context: IActionContext<ILockState>
-        ): Promise<void> {
+        async fetchPageLockProjects(context: IActionContext<ILockState>): Promise<void> {
             let { commit, state } = context,
                 parameters = state.projectParameters;
             try {
-                let result: PageResult<LockProjectModel> = await lockService.fetchPageLockProjects(
-                    parameters
-                );
+                let result: PageResult<LockProjectModel> = await lockService.fetchPageLockProjects(parameters);
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
                 commit(TYPES.SET_STATES, {

@@ -16,7 +16,8 @@ import {
     Modal,
     Table,
     Pagination,
-    Tooltip
+    Tooltip,
+    AutoComplete
 } from 'ant-design-vue';
 
 export default function antd() {
@@ -41,4 +42,5 @@ export default function antd() {
     Vue.component('ant-table', Table);
     Vue.component('ant-pagination', Pagination);
     Vue.component('ant-tooltip', Tooltip);
+    Vue.component('ant-auto-complete', AutoComplete);
 }

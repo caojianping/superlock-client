@@ -13,33 +13,20 @@
             </header>
             <div class="sl-block-body">
                 <ant-row :gutter="24">
-                    <ant-col :span="8">
-                        <ant-form-item
-                            label="订单号"
-                            :label-col="{ span: 6 }"
-                            :wrapper-col="{ span: 18 }"
-                        >
+                    <ant-col :span="7">
+                        <ant-form-item label="订单号" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
                                 :value="recordParameters.conditions.serial"
                                 allowClear
                                 placeholder="请输入订单号"
-                                @change="
-                                    handleFormChange(
-                                        'serial',
-                                        $event.target.value
-                                    )
-                                "
+                                @change="handleFormChange('serial', $event.target.value)"
                             />
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="10">
-                        <ant-form-item
-                            label="订单状态"
-                            :label-col="{ span: 6 }"
-                            :wrapper-col="{ span: 18 }"
-                        >
+                    <ant-col :span="9">
+                        <ant-form-item label="订单状态" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-select
                                 class="sl-select"
                                 :value="recordParameters.conditions.status"
@@ -51,42 +38,43 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="8"></ant-col>
+                    <ant-col :span="7">
+                        <ant-form-item label="用户来源" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                            <ant-auto-complete
+                                :value="recordParameters.conditions.carrierId"
+                                :data-source="dataSource"
+                                :filterOption="filterOption"
+                                placeholder="请输入运营商名称"
+                                @change="handleAutoCompleteChange"
+                                @select="handleAutoCompleteChange"
+                            />
+                        </ant-form-item>
+                    </ant-col>
                 </ant-row>
 
                 <ant-row :gutter="24">
-                    <ant-col :span="8">
-                        <ant-form-item
-                            label="UID"
-                            :label-col="{ span: 6 }"
-                            :wrapper-col="{ span: 18 }"
-                        >
+                    <ant-col :span="7">
+                        <ant-form-item label="UID" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
                                 :value="recordParameters.conditions.uid"
                                 allowClear
                                 placeholder="请输入UID"
-                                @change="
-                                    handleFormChange('uid', $event.target.value)
-                                "
+                                @change="handleFormChange('uid', $event.target.value)"
                             />
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="10">
-                        <ant-form-item
-                            label="选择时间"
-                            :label-col="{ span: 6 }"
-                            :wrapper-col="{ span: 18 }"
-                        >
+                    <ant-col :span="9">
+                        <ant-form-item label="选择时间" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             {{
-                                (beginTime = recordParameters.conditions.beginTime, void 0),
-                                (endTime = recordParameters.conditions.endTime, void 0)
+                                (((beginTime = recordParameters.conditions.beginTime), void 0),
+                                ((endTime = recordParameters.conditions.endTime), void 0))
                             }}
                             <ant-range-picker
                                 :value="[
-                                    beginTime ? moment(beginTime): undefined,
-                                    endTime ? moment(endTime): undefined
+                                    beginTime ? moment(beginTime) : undefined,
+                                    endTime ? moment(endTime) : undefined
                                 ]"
                                 :showTime="{ format: 'HH:mm' }"
                                 format="YYYY-MM-DD HH:mm"
@@ -95,13 +83,8 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="6">
-                        <ant-button
-                            class="sl-search"
-                            type="primary"
-                            @click="search"
-                            >搜索</ant-button
-                        >
+                    <ant-col :span="7">
+                        <ant-button class="sl-search" type="primary" @click="search">搜索</ant-button>
                     </ant-col>
                 </ant-row>
             </div>
