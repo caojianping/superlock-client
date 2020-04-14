@@ -106,7 +106,7 @@ class Home extends React.Component<Home.Props, Home.State> {
                 <div className="footer">
                     <img className="logo" src={logoImg} alt="锁仓宝" />
                     <p className="copyright">
-                        版权所有@2020Wealth PTE LTD.版权所有
+                        版权所有@2020WealthShop PTE LTD.版权所有
                     </p>
                     <p className="coins">
                         币种支持：
