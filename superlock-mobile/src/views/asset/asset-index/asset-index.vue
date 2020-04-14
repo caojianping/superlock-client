@@ -67,7 +67,7 @@
                         <h1 class="tab-title scb-border">
                             <i class="icon icon-exchange-rate" />
                             <span>{{
-                                `1 ${exchangeRateObj.toCoin || '--'} = ${exchangeRateObj.rate || '--'} ${exchangeRateObj.fromCoin || '--'}`
+                                `1 ${exchangeRateObj.fromCoin || '--'} = ${exchangeRateObj.rate || '--'} ${exchangeRateObj.toCoin || '--'}`
                             }}</span>
                         </h1>
                         <div class="tab-content">
@@ -109,7 +109,7 @@
                         <h1 class="tab-title scb-border">
                             <i class="icon icon-exchange-rate" />
                             <span>{{
-                                `1 ${exchangeRateObj.toCoin || '--'} = ${exchangeRateObj.rate || '--'} ${exchangeRateObj.fromCoin || '--'}`
+                                `1 ${exchangeRateObj.fromCoin || '--'} = ${exchangeRateObj.rate || '--'} ${exchangeRateObj.toCoin || '--'}`
                             }}</span>
                         </h1>
                         <div class="tab-content">
@@ -125,7 +125,7 @@
                         <h1 class="tab-title scb-border">
                             <i class="icon icon-exchange-rate" />
                             <span>{{
-                                `1 ${exchangeRateObj.toCoin || '--'} = ${exchangeRateObj.rate || '--'} ${exchangeRateObj.fromCoin || '--'}`
+                                `1 ${exchangeRateObj.fromCoin || '--'} = ${exchangeRateObj.rate || '--'} ${exchangeRateObj.toCoin || '--'}`
                             }}</span>
                         </h1>
                         <div class="tab-content">
