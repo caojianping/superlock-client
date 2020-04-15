@@ -1,13 +1,12 @@
 import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
-import { Utils, Prompt } from '@/ts/common';
-import {
-    IPageParameters,
-    IWithdrawTransferPageParameters,
-    WithdrawTransferModel
-} from '@/ts/models';
+import Utils from '@/ts/utils';
+import { Prompt } from '@/ts/common';
+import { IPageParameters, ITransferPageParameters } from '@/ts/interfaces';
+import { TransferModel } from '@/ts/models';
 
 const withdrawModule = namespace('withdraw');
 
@@ -16,23 +15,16 @@ const withdrawModule = namespace('withdraw');
     components: {}
 })
 export default class WithdrawTransfer extends Vue {
-    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
     @State('isPageLoading') isPageLoading!: boolean;
+    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
 
-    @withdrawModule.State('transferParameters')
-    transferParameters!: IPageParameters<IWithdrawTransferPageParameters>;
+    @withdrawModule.State('transferParameters') transferParameters!: IPageParameters<ITransferPageParameters>;
     @withdrawModule.State('totalCount') totalCount!: number;
-    @withdrawModule.State('list') list!: Array<WithdrawTransferModel>;
-
-    @withdrawModule.Mutation(TYPES.SET_STATES) setStates!: (
-        payload: any
-    ) => any;
+    @withdrawModule.State('list') list!: Array<TransferModel>;
+    @withdrawModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @withdrawModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
-    @withdrawModule.Action('fetchPageWithdrawTransfers')
-    fetchPageWithdrawTransfers!: () => any;
-    @withdrawModule.Action('exportWithdrawTransfers')
-    exportWithdrawTransfers!: () => any;
+    @withdrawModule.Action('fetchTransfers') fetchTransfers!: () => any;
+    @withdrawModule.Action('exportTransfers') exportTransfers!: () => any;
 
     columns: Array<any> = [
         {
@@ -71,29 +63,6 @@ export default class WithdrawTransfer extends Vue {
         }
     ];
 
-    // 搜索
-    async search() {
-        try {
-            let transferParameters = Utils.duplicate(this.transferParameters);
-            transferParameters.pageNum = 1;
-            this.setStates({ transferParameters });
-            await this.fetchPageWithdrawTransfers();
-        } catch (error) {
-            Prompt.error(error.message || error);
-        }
-    }
-
-    // 导出报表
-    async exportReport() {
-        try {
-            let url = await this.exportWithdrawTransfers();
-            if (!url) Prompt.error('导出失败');
-            else window.location.href = url;
-        } catch (error) {
-            Prompt.error(error.message || error);
-        }
-    }
-
     // 处理表单change事件
     handleFormChange(key: string, value: string) {
         let transferParameters = Utils.duplicate(this.transferParameters);
@@ -109,13 +78,36 @@ export default class WithdrawTransfer extends Vue {
         this.setStates({ transferParameters });
     }
 
+    // 搜索
+    async search() {
+        try {
+            let transferParameters = Utils.duplicate(this.transferParameters);
+            transferParameters.pageNum = 1;
+            this.setStates({ transferParameters });
+            await this.fetchTransfers();
+        } catch (error) {
+            Prompt.error(error.message || error);
+        }
+    }
+
+    // 导出报表
+    async exportReport() {
+        try {
+            let url = await this.exportTransfers();
+            if (!url) Prompt.error('导出失败');
+            else window.location.href = url;
+        } catch (error) {
+            Prompt.error(error.message || error);
+        }
+    }
+
     // 处理页码change事件
     handlePageNumChange(page: number, pageSize: number) {
         let transferParameters = this.transferParameters;
         transferParameters.pageNum = page;
         transferParameters.pageSize = pageSize;
         this.setStates({ transferParameters });
-        this.fetchPageWithdrawTransfers();
+        this.fetchTransfers();
     }
 
     // 处理页尺寸change事件
@@ -124,7 +116,7 @@ export default class WithdrawTransfer extends Vue {
         transferParameters.pageNum = 1;
         transferParameters.pageSize = pageSize;
         this.setStates({ transferParameters });
-        this.fetchPageWithdrawTransfers();
+        this.fetchTransfers();
     }
 
     created() {
@@ -133,6 +125,6 @@ export default class WithdrawTransfer extends Vue {
 
     mounted() {
         Utils.jumpTop();
-        this.fetchPageWithdrawTransfers();
+        this.fetchTransfers();
     }
 }

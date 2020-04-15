@@ -1,12 +1,4 @@
-export interface IRechargeRecordPageParameters {
-    uid: string; // uid
-    hash: string; // 哈希
-    coinCode: string; // 币种
-    beginTime: string; // 开始时间
-    endTime: string; // 结束时间
-}
-
-export class RechargeRecordModel {
+export class RechargeModel {
     public serial!: string; // 订单号
     public uid!: string; // uid
     public hash!: string; // 交易哈希

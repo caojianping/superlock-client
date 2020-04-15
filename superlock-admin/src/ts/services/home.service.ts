@@ -1,16 +1,13 @@
 import Validator, { ValidationResult } from 'jpts-validator';
+import Utils from '@/ts/utils';
 import { Urls, CaxiosType, CONSTANTS } from '@/ts/config';
-import { Caxios, Utils } from '@/ts/common';
-import { HomeModel, InitInfoForm } from '@/ts/models';
+import { Caxios } from '@/ts/common';
+import { HomeModel, InitInfoFormModel } from '@/ts/models';
 
 export class HomeService {
     // 验证初始信息表单
-    public static validateInitInfoForm(
-        initInfoForm: InitInfoForm,
-        isCode: boolean
-    ): ValidationResult {
-        if (!initInfoForm)
-            return { status: false, data: { initInfoForm: '参数不可以为空' } };
+    public static validateInitInfoForm(initInfoForm: InitInfoFormModel, isCode: boolean): ValidationResult {
+        if (!initInfoForm) return { status: false, data: { initInfoForm: '参数不可以为空' } };
 
         const key = 'initInfo';
         let { initialTotalLock, initialRegisteredUser, code } = initInfoForm,
@@ -34,55 +31,35 @@ export class HomeService {
             }
         );
         if (isCode) {
-            validator.addRule(
-                key,
-                { name: 'code', value: code },
-                { required: true },
-                { required: '验证码不可以为空' }
-            );
+            validator.addRule(key, { name: 'code', value: code }, { required: true }, { required: '验证码不可以为空' });
         }
         return validator.execute(key);
     }
 
     // 获取首页数据
     public async fetchHomeData(): Promise<HomeModel> {
-        let result = await Caxios.get<HomeModel | null>(
-            { url: Urls.home.info },
-            CaxiosType.Token
-        );
+        let result = await Caxios.get<HomeModel | null>({ url: Urls.home.info }, CaxiosType.Token);
         return result || new HomeModel();
     }
 
     // 获取初始信息数据
-    public async fetchInitInfo(): Promise<InitInfoForm> {
-        let result = await Caxios.get<InitInfoForm | null>(
-                { url: Urls.home.init.info },
-                CaxiosType.Token
-            ),
-            initInfoForm = new InitInfoForm();
+    public async fetchInitInfo(): Promise<InitInfoFormModel> {
+        let result = await Caxios.get<InitInfoFormModel | null>({ url: Urls.home.init.info }, CaxiosType.Token),
+            initInfoForm = new InitInfoFormModel();
         if (result) {
             initInfoForm.initialTotalLock = Number(result.initialTotalLock);
-            initInfoForm.initialRegisteredUser = Number(
-                result.initialRegisteredUser
-            );
+            initInfoForm.initialRegisteredUser = Number(result.initialRegisteredUser);
         }
         return initInfoForm;
     }
 
     // 获取初始信息数据
-    public async setInitInfo(
-        initInfoForm: InitInfoForm,
-        isCode: boolean = false
-    ): Promise<boolean> {
-        let result: ValidationResult = HomeService.validateInitInfoForm(
-            initInfoForm,
-            isCode
-        );
-        if (!result.status)
-            return Promise.reject(Utils.getFirstValue(result.data));
+    public async setInitInfo(initInfoForm: InitInfoFormModel, isCode: boolean = false): Promise<boolean> {
+        let result: ValidationResult = HomeService.validateInitInfoForm(initInfoForm, isCode);
+        if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
         let { initialTotalLock, initialRegisteredUser, code } = initInfoForm;
-        await Caxios.post<InitInfoForm | null>(
+        await Caxios.post<InitInfoFormModel | null>(
             {
                 headers: isCode ? { [CONSTANTS.HEADER_CODE]: code } : {},
                 url: Urls.home.init.set,

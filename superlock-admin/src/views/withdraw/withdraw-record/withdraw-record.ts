@@ -1,15 +1,13 @@
 import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
+import Utils from '@/ts/utils';
 import { ReviewStatus } from '@/ts/config';
-import { Utils, Prompt } from '@/ts/common';
-import {
-    ISelectOption,
-    IPageParameters,
-    IWithdrawRecordPageParameters,
-    WithdrawRecordModel
-} from '@/ts/models';
+import { Prompt } from '@/ts/common';
+import { ISelectOption, IPageParameters, IWithdrawPageParameters } from '@/ts/interfaces';
+import { WithdrawModel } from '@/ts/models';
 
 const withdrawModule = namespace('withdraw');
 
@@ -18,26 +16,19 @@ const withdrawModule = namespace('withdraw');
     components: {}
 })
 export default class WithdrawRecord extends Vue {
-    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
     @State('isPageLoading') isPageLoading!: boolean;
+    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
+    @State('withdrawOptions') withdrawOptions!: Array<ISelectOption>;
     @State('auditColors') auditColors!: any;
     @State('auditNames') auditNames!: any;
 
-    @withdrawModule.State('statusOptions') statusOptions!: Array<ISelectOption>;
-    @withdrawModule.State('recordParameters')
-    recordParameters!: IPageParameters<IWithdrawRecordPageParameters>;
+    @withdrawModule.State('withdrawParameters') withdrawParameters!: IPageParameters<IWithdrawPageParameters>;
     @withdrawModule.State('totalCount') totalCount!: number;
-    @withdrawModule.State('list') list!: Array<WithdrawRecordModel>;
-
-    @withdrawModule.Mutation(TYPES.SET_STATES) setStates!: (
-        payload: any
-    ) => any;
+    @withdrawModule.State('list') list!: Array<WithdrawModel>;
+    @withdrawModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @withdrawModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
-    @withdrawModule.Action('fetchPageWithdrawRecords')
-    fetchPageWithdrawRecords!: () => any;
-    @withdrawModule.Action('exportWithdrawRecords')
-    exportWithdrawRecords!: () => any;
+    @withdrawModule.Action('fetchWithdraws') fetchWithdraws!: () => any;
+    @withdrawModule.Action('exportWithdraws') exportWithdraws!: () => any;
     @withdrawModule.Action('setReview') setReviewAction!: (payload: any) => any;
 
     statusColors: any = {
@@ -111,13 +102,36 @@ export default class WithdrawRecord extends Vue {
         }
     ];
 
+    // 处理表单change事件
+    handleFormChange(key: string, value: string) {
+        let withdrawParameters = Utils.duplicate(this.withdrawParameters);
+        withdrawParameters.conditions[key] = value;
+        this.setStates({ withdrawParameters });
+    }
+
+    // 处理开始日期change事件
+    handleCreateRangePickerChange(dates: Array<any>, dateStrings: Array<string>) {
+        let withdrawParameters = Utils.duplicate(this.withdrawParameters);
+        withdrawParameters.conditions.createBeginTime = dateStrings[0];
+        withdrawParameters.conditions.createEndTime = dateStrings[1];
+        this.setStates({ withdrawParameters });
+    }
+
+    // 处理结束日期change事件
+    handleFinishRangePickerChange(dates: Array<any>, dateStrings: Array<string>) {
+        let withdrawParameters = Utils.duplicate(this.withdrawParameters);
+        withdrawParameters.conditions.finishBeginTime = dateStrings[0];
+        withdrawParameters.conditions.finishEndTime = dateStrings[1];
+        this.setStates({ withdrawParameters });
+    }
+
     // 搜索
     async search() {
         try {
-            let recordParameters = Utils.duplicate(this.recordParameters);
-            recordParameters.pageNum = 1;
-            this.setStates({ recordParameters });
-            await this.fetchPageWithdrawRecords();
+            let withdrawParameters = Utils.duplicate(this.withdrawParameters);
+            withdrawParameters.pageNum = 1;
+            this.setStates({ withdrawParameters });
+            await this.fetchWithdraws();
         } catch (error) {
             Prompt.error(error.message || error);
         }
@@ -126,7 +140,7 @@ export default class WithdrawRecord extends Vue {
     // 导出报表
     async exportReport() {
         try {
-            let url = await this.exportWithdrawRecords();
+            let url = await this.exportWithdraws();
             if (!url) Prompt.error('导出失败');
             else window.location.href = url;
         } catch (error) {
@@ -134,51 +148,22 @@ export default class WithdrawRecord extends Vue {
         }
     }
 
-    // 处理表单change事件
-    handleFormChange(key: string, value: string) {
-        let recordParameters = Utils.duplicate(this.recordParameters);
-        recordParameters.conditions[key] = value;
-        this.setStates({ recordParameters });
-    }
-
-    // 处理开始日期change事件
-    handleCreateRangePickerChange(
-        dates: Array<any>,
-        dateStrings: Array<string>
-    ) {
-        let recordParameters = Utils.duplicate(this.recordParameters);
-        recordParameters.conditions.createBeginTime = dateStrings[0];
-        recordParameters.conditions.createEndTime = dateStrings[1];
-        this.setStates({ recordParameters });
-    }
-
-    // 处理结束日期change事件
-    handleFinishRangePickerChange(
-        dates: Array<any>,
-        dateStrings: Array<string>
-    ) {
-        let recordParameters = Utils.duplicate(this.recordParameters);
-        recordParameters.conditions.finishBeginTime = dateStrings[0];
-        recordParameters.conditions.finishEndTime = dateStrings[1];
-        this.setStates({ recordParameters });
-    }
-
     // 处理页码change事件
     handlePageNumChange(page: number, pageSize: number) {
-        let recordParameters = Utils.duplicate(this.recordParameters);
-        recordParameters.pageNum = page;
-        recordParameters.pageSize = pageSize;
-        this.setStates({ recordParameters });
-        this.fetchPageWithdrawRecords();
+        let withdrawParameters = Utils.duplicate(this.withdrawParameters);
+        withdrawParameters.pageNum = page;
+        withdrawParameters.pageSize = pageSize;
+        this.setStates({ withdrawParameters });
+        this.fetchWithdraws();
     }
 
     // 处理页尺寸change事件
     handlePageSizeChange(current: number, pageSize: number) {
-        let recordParameters = Utils.duplicate(this.recordParameters);
-        recordParameters.pageNum = 1;
-        recordParameters.pageSize = pageSize;
-        this.setStates({ recordParameters });
-        this.fetchPageWithdrawRecords();
+        let withdrawParameters = Utils.duplicate(this.withdrawParameters);
+        withdrawParameters.pageNum = 1;
+        withdrawParameters.pageSize = pageSize;
+        this.setStates({ withdrawParameters });
+        this.fetchWithdraws();
     }
 
     // 设置审查操作
@@ -186,7 +171,7 @@ export default class WithdrawRecord extends Vue {
         try {
             let result = await this.setReviewAction({ serial, status });
             if (!result) Prompt.error('操作失败');
-            else await this.fetchPageWithdrawRecords();
+            else await this.fetchWithdraws();
         } catch (error) {
             Prompt.error(error.message || error);
         }
@@ -198,6 +183,6 @@ export default class WithdrawRecord extends Vue {
 
     mounted() {
         Utils.jumpTop();
-        this.fetchPageWithdrawRecords();
+        this.fetchWithdraws();
     }
 }

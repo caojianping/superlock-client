@@ -1,14 +1,12 @@
 import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
-import { Utils, Prompt } from '@/ts/common';
-import {
-    ISelectOption,
-    IPageParameters,
-    IFundRecordPageParameters,
-    FundRecordModel
-} from '@/ts/models';
+import Utils from '@/ts/utils';
+import { Prompt } from '@/ts/common';
+import { ISelectOption, IPageParameters, IFundPageParameters } from '@/ts/interfaces';
+import { FundModel } from '@/ts/models';
 
 const fundModule = namespace('fund');
 
@@ -17,24 +15,19 @@ const fundModule = namespace('fund');
     components: {}
 })
 export default class FundRecord extends Vue {
-    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
     @State('isPageLoading') isPageLoading!: boolean;
+    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
 
     @fundModule.State('coinOptions') coinOptions!: Array<ISelectOption>;
     @fundModule.State('orderOptions') orderOptions!: Array<ISelectOption>;
     @fundModule.State('accountOptions') accountOptions!: Array<ISelectOption>;
-
-    @fundModule.State('parameters') parameters!: IPageParameters<
-        IFundRecordPageParameters
-    >;
+    @fundModule.State('parameters') parameters!: IPageParameters<IFundPageParameters>;
     @fundModule.State('totalCount') totalCount!: number;
-    @fundModule.State('list') list!: Array<FundRecordModel>;
-
+    @fundModule.State('list') list!: Array<FundModel>;
     @fundModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @fundModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
-    @fundModule.Action('fetchPageFundRecords') fetchPageFundRecords!: () => any;
-    @fundModule.Action('exportFundRecords') exportFundRecords!: () => any;
+    @fundModule.Action('fetchFunds') fetchFunds!: () => any;
+    @fundModule.Action('exportFunds') exportFunds!: () => any;
 
     columns: Array<any> = [
         {
@@ -89,29 +82,6 @@ export default class FundRecord extends Vue {
         }
     ];
 
-    // 搜索
-    async search() {
-        try {
-            let parameters = Utils.duplicate(this.parameters);
-            parameters.pageNum = 1;
-            this.setStates({ parameters });
-            await this.fetchPageFundRecords();
-        } catch (error) {
-            Prompt.error(error.message || error);
-        }
-    }
-
-    // 导出报表
-    async exportReport() {
-        try {
-            let url = await this.exportFundRecords();
-            if (!url) Prompt.error('导出失败');
-            else window.location.href = url;
-        } catch (error) {
-            Prompt.error(error.message || error);
-        }
-    }
-
     // 处理表单change事件
     handleFormChange(key: string, value: string) {
         let parameters = Utils.duplicate(this.parameters);
@@ -127,13 +97,36 @@ export default class FundRecord extends Vue {
         this.setStates({ parameters });
     }
 
+    // 搜索
+    async search() {
+        try {
+            let parameters = Utils.duplicate(this.parameters);
+            parameters.pageNum = 1;
+            this.setStates({ parameters });
+            await this.fetchFunds();
+        } catch (error) {
+            Prompt.error(error.message || error);
+        }
+    }
+
+    // 导出报表
+    async exportReport() {
+        try {
+            let url = await this.exportFunds();
+            if (!url) Prompt.error('导出失败');
+            else window.location.href = url;
+        } catch (error) {
+            Prompt.error(error.message || error);
+        }
+    }
+
     // 处理页码change事件
     handlePageNumChange(page: number, pageSize: number) {
         let parameters = Utils.duplicate(this.parameters);
         parameters.pageNum = page;
         parameters.pageSize = pageSize;
         this.setStates({ parameters });
-        this.fetchPageFundRecords();
+        this.fetchFunds();
     }
 
     // 处理页尺寸change事件
@@ -142,7 +135,7 @@ export default class FundRecord extends Vue {
         parameters.pageNum = 1;
         parameters.pageSize = pageSize;
         this.setStates({ parameters });
-        this.fetchPageFundRecords();
+        this.fetchFunds();
     }
 
     created() {
@@ -151,6 +144,6 @@ export default class FundRecord extends Vue {
 
     mounted() {
         Utils.jumpTop();
-        this.fetchPageFundRecords();
+        this.fetchFunds();
     }
 }

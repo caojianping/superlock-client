@@ -14,22 +14,13 @@
             <div class="sl-form-body">
                 <ant-row :gutter="24">
                     <ant-col :span="18">
-                        <ant-form-item
-                            label="项目名称"
-                            :label-col="{ span: 8 }"
-                            :wrapper-col="{ span: 16 }"
-                        >
+                        <ant-form-item label="项目名称" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                             <ant-input
                                 type="text"
                                 :value="projectForm.memo"
                                 allowClear
                                 placeholder="请输入项目名称"
-                                @change="
-                                    handleFormChange(
-                                        'memo',
-                                        $event.target.value
-                                    )
-                                "
+                                @change="handleFormChange('memo', $event.target.value)"
                                 @keyup.enter="submit(false)"
                             />
                         </ant-form-item>
@@ -38,11 +29,7 @@
 
                 <ant-row :gutter="24">
                     <ant-col :span="18">
-                        <ant-form-item
-                            label="项目周期(天)"
-                            :label-col="{ span: 8 }"
-                            :wrapper-col="{ span: 16 }"
-                        >
+                        <ant-form-item label="项目周期(天)" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                             <ant-input-number
                                 :value="projectForm.length"
                                 :min="0"
@@ -58,11 +45,7 @@
 
                 <ant-row :gutter="24">
                     <ant-col :span="18">
-                        <ant-form-item
-                            label="项目总额度(DC)"
-                            :label-col="{ span: 8 }"
-                            :wrapper-col="{ span: 16 }"
-                        >
+                        <ant-form-item label="项目总额度(DC)" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                             <ant-input-number
                                 :value="projectForm.quota"
                                 :min="0"
@@ -76,11 +59,7 @@
 
                 <ant-row :gutter="24">
                     <ant-col :span="18">
-                        <ant-form-item
-                            label="锁仓利率(%)"
-                            :label-col="{ span: 8 }"
-                            :wrapper-col="{ span: 16 }"
-                        >
+                        <ant-form-item label="锁仓利率(%)" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                             <ant-input-number
                                 :value="projectForm.rate"
                                 :min="0"
@@ -96,18 +75,12 @@
                 </ant-row>
 
                 <ant-row :gutter="24">
-                    <ant-button class="sl-submit" type="primary" @click="submit(false)"
-                        >创建</ant-button
-                    >
+                    <ant-button class="sl-submit" type="primary" @click="submit(false)">创建</ant-button>
                 </ant-row>
             </div>
         </div>
 
-        <SecondVerify
-            v-model="isSecondVerifyShow"
-            :title="'谷歌验证码'"
-            @submit="handleSecondVerifySubmit"
-        />
+        <SecondVerify v-model="isSecondVerifyShow" :title="'谷歌验证码'" @submit="handleSecondVerifySubmit" />
     </div>
 </template>
 

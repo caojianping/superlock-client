@@ -1,13 +1,11 @@
 import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
-import { Utils } from '@/ts/common';
-import {
-    IPageParameters,
-    ILoanInterestPageParameters,
-    LoanInterestModel
-} from '@/ts/models';
+import Utils from '@/ts/utils';
+import { IPageParameters, ILoanInterestPageParameters } from '@/ts/interfaces';
+import { LoanInterestModel } from '@/ts/models';
 
 const loanModule = namespace('loan');
 
@@ -16,19 +14,15 @@ const loanModule = namespace('loan');
     components: {}
 })
 export default class LoanInterest extends Vue {
-    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
     @State('isPageLoading') isPageLoading!: boolean;
+    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
 
-    @loanModule.State('interestParameters')
-    interestParameters!: IPageParameters<ILoanInterestPageParameters>;
+    @loanModule.State('interestParameters') interestParameters!: IPageParameters<ILoanInterestPageParameters>;
     @loanModule.State('totalCount') totalCount!: number;
     @loanModule.State('list') list!: Array<LoanInterestModel>;
-
     @loanModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @loanModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
-    @loanModule.Action('fetchPageLoanInterests')
-    fetchPageLoanInterests!: () => any;
+    @loanModule.Action('fetchLoanInterests') fetchLoanInterests!: () => any;
 
     columns: Array<any> = [];
 
@@ -50,7 +44,7 @@ export default class LoanInterest extends Vue {
         interestParameters.pageNum = page;
         interestParameters.pageSize = pageSize;
         this.setStates({ interestParameters });
-        this.fetchPageLoanInterests();
+        this.fetchLoanInterests();
     }
 
     handlePageSizeChange(current: number, pageSize: number) {
@@ -58,7 +52,7 @@ export default class LoanInterest extends Vue {
         interestParameters.pageNum = current;
         interestParameters.pageSize = pageSize;
         this.setStates({ interestParameters });
-        this.fetchPageLoanInterests();
+        this.fetchLoanInterests();
     }
 
     created() {
@@ -67,6 +61,6 @@ export default class LoanInterest extends Vue {
 
     mounted() {
         Utils.jumpTop();
-        this.fetchPageLoanInterests();
+        this.fetchLoanInterests();
     }
 }

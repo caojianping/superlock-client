@@ -1,34 +1,17 @@
 <template>
-    <ant-modal
-        v-model="isShow"
-        :title="title"
-        :footer="null"
-        @cancel="handleModalCancel"
-    >
+    <ant-modal v-model="isShow" :title="title" :footer="null" @cancel="handleModalCancel">
         <div>
             <ant-row :gutter="24">
                 <ant-col :span="20">
-                    <ant-form-item
-                        label="上分账户ID"
-                        :label-col="{ span: 8 }"
-                        :wrapper-col="{ span: 16 }"
-                    >
-                        <ant-input
-                            type="text"
-                            :value="pointForm.accountId"
-                            disabled
-                        />
+                    <ant-form-item label="上分账户ID" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
+                        <ant-input type="text" :value="pointForm.accountId" disabled />
                     </ant-form-item>
                 </ant-col>
             </ant-row>
 
             <ant-row :gutter="24">
                 <ant-col :span="20">
-                    <ant-form-item
-                        label="上分币种"
-                        :label-col="{ span: 8 }"
-                        :wrapper-col="{ span: 16 }"
-                    >
+                    <ant-form-item label="上分币种" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                         <ant-select
                             :value="pointForm.coin"
                             :options="coinOptions"
@@ -42,27 +25,15 @@
 
             <ant-row :gutter="24">
                 <ant-col :span="20">
-                    <ant-form-item
-                        label="账户剩余数量"
-                        :label-col="{ span: 8 }"
-                        :wrapper-col="{ span: 16 }"
-                    >
-                        <ant-input
-                            type="text"
-                            :value="currentPointInfo.canused_amount"
-                            disabled
-                        />
+                    <ant-form-item label="账户剩余数量" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
+                        <ant-input type="text" :value="currentPointInfo.canused_amount" disabled />
                     </ant-form-item>
                 </ant-col>
             </ant-row>
 
             <ant-row :gutter="24">
                 <ant-col :span="20">
-                    <ant-form-item
-                        label="上分数量"
-                        :label-col="{ span: 8 }"
-                        :wrapper-col="{ span: 16 }"
-                    >
+                    <ant-form-item label="上分数量" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                         <ant-input-number
                             :value="pointForm.value"
                             :min="0"
@@ -76,19 +47,13 @@
 
             <ant-row :gutter="24">
                 <ant-col :span="20">
-                    <ant-form-item
-                        label="备注"
-                        :label-col="{ span: 8 }"
-                        :wrapper-col="{ span: 16 }"
-                    >
+                    <ant-form-item label="备注" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                         <ant-input
                             type="text"
                             :value="pointForm.memo"
                             allowClear
                             placeholder="请输入备注"
-                            @change="
-                                handleFormChange('memo', $event.target.value)
-                            "
+                            @change="handleFormChange('memo', $event.target.value)"
                             @keyup.enter="submit"
                         />
                     </ant-form-item>
@@ -96,9 +61,7 @@
             </ant-row>
 
             <ant-row :gutter="24">
-                <ant-button class="sl-submit" type="primary" @click="submit"
-                    >保存</ant-button
-                >
+                <ant-button class="sl-submit" type="primary" @click="submit">保存</ant-button>
             </ant-row>
         </div>
     </ant-modal>

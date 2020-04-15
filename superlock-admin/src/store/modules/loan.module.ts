@@ -1,17 +1,12 @@
 import TYPES from '@/store/types';
 import { IActionContext, ILoanState } from '@/store/interfaces';
-import {
-    PageResult,
-    LoanRecordModel,
-    LoanInterestModel,
-    LoanForm
-} from '@/ts/models';
+import { PageResult, LoanModel, LoanInterestModel, LoanFormModel } from '@/ts/models';
 import { LoanService } from '@/ts/services';
 
 const loanState: ILoanState = {
     statusOptions: [],
 
-    recordParameters: {
+    loanParameters: {
         conditions: {},
         pageNum: 1,
         pageSize: 10
@@ -24,7 +19,7 @@ const loanState: ILoanState = {
     totalCount: 0,
     list: [],
 
-    loanForm: new LoanForm()
+    loanForm: new LoanFormModel()
 };
 
 const loanService = new LoanService();
@@ -40,7 +35,7 @@ export default {
             }
         },
         [TYPES.CLEAR_STATES](state: ILoanState) {
-            state.recordParameters = {
+            state.loanParameters = {
                 conditions: {},
                 pageNum: 1,
                 pageSize: 10
@@ -52,54 +47,37 @@ export default {
             };
             state.totalCount = 0;
             state.list = [];
-            state.loanForm = new LoanForm();
+            state.loanForm = new LoanFormModel();
         }
     },
     actions: {
-        // 获取贷款记录分页列表
-        async fetchPageLoanRecords(
-            context: IActionContext<ILoanState>
-        ): Promise<void> {
-            let { commit, state } = context,
-                parameters = state.recordParameters;
+        // 获取贷款列表
+        async fetchLoans(context: IActionContext<ILoanState>): Promise<void> {
+            let { commit, state } = context;
             try {
-                let result: PageResult<LoanRecordModel> = await loanService.fetchPageLoanRecords(
-                    parameters
-                );
+                let result: PageResult<LoanModel> = await loanService.fetchLoans(state.loanParameters);
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
-                commit(TYPES.SET_STATES, {
-                    totalCount: 0,
-                    list: []
-                });
+                commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
                 return Promise.reject(error);
             }
         },
 
-        // 获取贷款计息分页列表
-        async fetchPageLoanInterests(
-            context: IActionContext<ILoanState>
-        ): Promise<void> {
-            let { commit, state } = context,
-                parameters = state.interestParameters;
+        // 获取贷款计息列表
+        async fetchLoanInterests(context: IActionContext<ILoanState>): Promise<void> {
+            let { commit, state } = context;
             try {
-                let result: PageResult<LoanInterestModel> = await loanService.fetchPageLoanInterests(
-                    parameters
-                );
+                let result: PageResult<LoanInterestModel> = await loanService.fetchLoanInterests(state.interestParameters);
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
-                commit(TYPES.SET_STATES, {
-                    totalCount: 0,
-                    list: []
-                });
+                commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
                 return Promise.reject(error);
             }
         },
 
         // 设置贷款
         async setLoan(context: IActionContext<ILoanState>): Promise<boolean> {
-            let state = context.state;
-            return await loanService.setLoan(state.loanForm);
+            return await loanService.setLoan(context.state.loanForm);
         }
     }
 };

@@ -1,16 +1,17 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component, Prop, Model, Watch } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
 import { Prompt } from '@/ts/common';
-import { LoginForm } from '@/ts/models';
+import { LoginFormModel } from '@/ts/models';
 
 const googleModule = namespace('google');
 
 @Component({ name: 'GoogleAuth' })
 export default class GoogleAuth extends Vue {
     @Model('close', { type: Boolean }) value!: boolean; // v-model
-    @Prop() readonly loginForm!: LoginForm; // 登录表单，组件模式下，关键参数不建议使用vuex中数据，建议以参数形式传递
+    @Prop() readonly loginForm!: LoginFormModel; // 登录表单，组件模式下，关键参数不建议使用vuex中数据，建议以参数形式传递
     @Prop() readonly title!: string; // 标题
 
     @googleModule.State('googlePlayUrl') googlePlayUrl!: string; // 谷歌支付地址
@@ -26,12 +27,8 @@ export default class GoogleAuth extends Vue {
     @googleModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @googleModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
 
-    @googleModule.Action('fetchGoogleKey') fetchGoogleKey!: (
-        loginForm: LoginForm
-    ) => any;
-    @googleModule.Action('bindGoogle') bindGoogle!: (
-        loginForm: LoginForm
-    ) => any;
+    @googleModule.Action('fetchGoogleKey') fetchGoogleKey!: (loginForm: LoginFormModel) => any;
+    @googleModule.Action('bindGoogle') bindGoogle!: (loginForm: LoginFormModel) => any;
 
     isShow: boolean = this.value; // 是否显示模态框
 

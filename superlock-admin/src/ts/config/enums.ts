@@ -42,3 +42,11 @@ export const enum FreeTrialType {
     Promotion = 3, // 推广奖励免审
     LockAmount = 4 // 最小锁仓数量
 }
+
+// 运营商表单类型
+export const enum CarrierFormType {
+    CarrierForm = 1,
+    CarrierPasswordForm = 2,
+    CarrierMobileForm = 3,
+    CarrierRebateForm = 4
+}

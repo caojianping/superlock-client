@@ -1,10 +1,13 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
+import Utils from '@/ts/utils';
 import { ResponseCode, FreeTrialType } from '@/ts/config';
-import { Utils, Prompt } from '@/ts/common';
+import { Prompt } from '@/ts/common';
 import { SecondVerifyResult, FreeTrialModel } from '@/ts/models';
+
 import SecondVerify from '@/components/common/second-verify';
 
 const riskModule = namespace('risk');
@@ -16,10 +19,8 @@ const riskModule = namespace('risk');
 export default class RiskAudit extends Vue {
     @riskModule.State('type') type!: FreeTrialType;
     @riskModule.State('freeTrial') freeTrial!: FreeTrialModel;
-
     @riskModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @riskModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
     @riskModule.Action('fetchFreeTrial') fetchFreeTrial!: () => any;
     @riskModule.Action('setFreeTrial') setFreeTrial!: (isCode: boolean) => any;
 
@@ -36,12 +37,7 @@ export default class RiskAudit extends Vue {
     async submit(type: FreeTrialType, isCode: boolean) {
         try {
             this.setStates({ type });
-            let msg = [
-                    '提现免审',
-                    '利息支出免审',
-                    '推广奖励免审',
-                    '最小锁仓数量'
-                ][type - 1],
+            let msg = ['提现免审', '利息支出免审', '推广奖励免审', '最小锁仓数量'][type - 1],
                 result = await this.setFreeTrial(isCode);
             if (!result) Prompt.error(`${msg}设置失败`);
             else Prompt.success(`${msg}设置成功`);

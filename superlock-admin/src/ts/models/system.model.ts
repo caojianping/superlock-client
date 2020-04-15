@@ -6,7 +6,7 @@ export class UserModel {
     public roleName!: string; // 角色名称
 }
 
-export class UserForm {
+export class UserFormModel {
     public name!: string; // 用户名
     public password?: string; // 初始密码
     public uKey!: string; // UEKY编号
@@ -14,7 +14,7 @@ export class UserForm {
     public code?: string; // 验证码：谷歌验证码gacode，短信验证码smsCode，邮箱验证码emailCode等
 }
 
-export class PasswordForm {
+export class PasswordFormModel {
     public name!: string; // 用户名
     public oldPwd?: string; // 原密码
     public newPwd!: string; // 新密码
@@ -22,4 +22,4 @@ export class PasswordForm {
     public code?: string; // 验证码：谷歌验证码gacode，短信验证码smsCode，邮箱验证码emailCode等
 }
 
-export class GoogleForm {}
+export class GoogleFormModel {}

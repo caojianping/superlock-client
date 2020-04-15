@@ -1,17 +1,13 @@
 import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
+import Utils from '@/ts/utils';
 import { ResponseCode } from '@/ts/config';
-import { Utils, Prompt } from '@/ts/common';
-import {
-    IPageParameters,
-    IPointRecordPageParameters,
-    PointRecordModel,
-    PointForm,
-    TransferForm,
-    SecondVerifyResult
-} from '@/ts/models';
+import { Prompt } from '@/ts/common';
+import { IPageParameters, IPointPageParameters } from '@/ts/interfaces';
+import { PointModel, PointFormModel, TransferFormModel, SecondVerifyResult } from '@/ts/models';
 
 import SecondVerify from '@/components/common/second-verify';
 import PointModal from '@/components/point/point-modal';
@@ -20,8 +16,8 @@ import TransferModal from '@/components/point/transfer-modal';
 const pointModule = namespace('point');
 
 const enum SecondVerifyType {
-    PointInfo = 1,
-    TransferInfo = 2
+    PointInfoModel = 1,
+    TransferInfoModel = 2
 }
 
 @Component({
@@ -29,34 +25,26 @@ const enum SecondVerifyType {
     components: { SecondVerify, PointModal, TransferModal }
 })
 export default class PointRecord extends Vue {
-    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
     @State('isPageLoading') isPageLoading!: boolean;
+    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
 
-    @pointModule.State('pointParameters') pointParameters!: IPageParameters<
-        IPointRecordPageParameters
-    >;
+    @pointModule.State('pointParameters') pointParameters!: IPageParameters<IPointPageParameters>;
     @pointModule.State('totalCount') totalCount!: number;
-    @pointModule.State('list') list!: Array<PointRecordModel>;
-
-    @pointModule.State('pointForm') pointForm!: PointForm;
-    @pointModule.State('transferForm') transferForm!: TransferForm;
-
+    @pointModule.State('list') list!: Array<PointModel>;
+    @pointModule.State('pointForm') pointForm!: PointFormModel;
+    @pointModule.State('transferForm') transferForm!: TransferFormModel;
     @pointModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @pointModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
-    @pointModule.Action('fetchPagePointRecords')
-    fetchPagePointRecords!: () => any;
-    @pointModule.Action('exportPointRecords') exportPointRecords!: () => any;
+    @pointModule.Action('fetchPoints') fetchPoints!: () => any;
+    @pointModule.Action('exportPoints') exportPoints!: () => any;
     @pointModule.Action('setPointInfo') setPointInfo!: (isCode: boolean) => any;
-    @pointModule.Action('setTransferInfo') setTransferInfo!: (
-        isCode: boolean
-    ) => any;
+    @pointModule.Action('setTransferInfo') setTransferInfo!: (isCode: boolean) => any;
 
     isPointShow: boolean = false;
     isTransferShow: boolean = false;
 
     isSecondVerifyShow: boolean = false; // 是否显示二次验证
-    currentType: SecondVerifyType = SecondVerifyType.PointInfo; // 当前二次验证类型
+    currentType: SecondVerifyType = SecondVerifyType.PointInfoModel; // 当前二次验证类型
 
     columns: Array<any> = [
         {
@@ -91,29 +79,6 @@ export default class PointRecord extends Vue {
         }
     ];
 
-    // 搜索
-    async search() {
-        try {
-            let pointParameters = Utils.duplicate(this.pointParameters);
-            pointParameters.pageNum = 1;
-            this.setStates({ pointParameters });
-            await this.fetchPagePointRecords();
-        } catch (error) {
-            Prompt.error(error.message || error);
-        }
-    }
-
-    // 导出报表
-    async exportReport() {
-        try {
-            let url = await this.exportPointRecords();
-            if (!url) Prompt.error('导出失败');
-            else window.location.href = url;
-        } catch (error) {
-            Prompt.error(error.message || error);
-        }
-    }
-
     // 处理表单change事件
     handleFormChange(key: string, value: string) {
         let pointParameters = Utils.duplicate(this.pointParameters);
@@ -129,13 +94,36 @@ export default class PointRecord extends Vue {
         this.setStates({ pointParameters });
     }
 
+    // 搜索
+    async search() {
+        try {
+            let pointParameters = Utils.duplicate(this.pointParameters);
+            pointParameters.pageNum = 1;
+            this.setStates({ pointParameters });
+            await this.fetchPoints();
+        } catch (error) {
+            Prompt.error(error.message || error);
+        }
+    }
+
+    // 导出报表
+    async exportReport() {
+        try {
+            let url = await this.exportPoints();
+            if (!url) Prompt.error('导出失败');
+            else window.location.href = url;
+        } catch (error) {
+            Prompt.error(error.message || error);
+        }
+    }
+
     // 处理页码change事件
     handlePageNumChange(page: number, pageSize: number) {
         let pointParameters = Utils.duplicate(this.pointParameters);
         pointParameters.pageNum = page;
         pointParameters.pageSize = pageSize;
         this.setStates({ pointParameters });
-        this.fetchPagePointRecords();
+        this.fetchPoints();
     }
 
     // 处理页尺寸change事件
@@ -144,28 +132,28 @@ export default class PointRecord extends Vue {
         pointParameters.pageNum = 1;
         pointParameters.pageSize = pageSize;
         this.setStates({ pointParameters });
-        this.fetchPagePointRecords();
+        this.fetchPoints();
     }
 
     // 打开上分模态框
     openPointModal() {
         this.isPointShow = true;
-        this.currentType = SecondVerifyType.PointInfo;
+        this.currentType = SecondVerifyType.PointInfoModel;
     }
 
     // 打开转账模态框
     openTransferModal() {
         this.isTransferShow = true;
-        this.currentType = SecondVerifyType.TransferInfo;
+        this.currentType = SecondVerifyType.TransferInfoModel;
     }
 
     // 私有函数：提交上分信息
-    async _submitPoint(pointForm: PointForm, isCode: boolean) {
+    async _submitPoint(pointForm: PointFormModel, isCode: boolean) {
         try {
             this.setStates({ pointForm });
             let result = await this.setPointInfo(isCode);
             if (!result) Prompt.error('操作失败');
-            else await this.fetchPagePointRecords();
+            else await this.fetchPoints();
         } catch (error) {
             let code = error.code;
             if (code === ResponseCode.SecondVerify) {
@@ -180,17 +168,17 @@ export default class PointRecord extends Vue {
     }
 
     // 处理上分模态框submit事件
-    async handlePointSubmit(pointForm: PointForm) {
+    async handlePointSubmit(pointForm: PointFormModel) {
         await this._submitPoint(pointForm, false);
     }
 
     // 私有函数：提交转账信息
-    async _submitTransfer(transferForm: TransferForm, isCode: boolean) {
+    async _submitTransfer(transferForm: TransferFormModel, isCode: boolean) {
         try {
             this.setStates({ transferForm });
             let result = await this.setTransferInfo(isCode);
             if (!result) Prompt.error('操作失败');
-            else await this.fetchPagePointRecords();
+            else await this.fetchPoints();
         } catch (error) {
             let code = error.code;
             if (code === ResponseCode.SecondVerify) {
@@ -205,18 +193,18 @@ export default class PointRecord extends Vue {
     }
 
     // 处理转账模态框submit事件
-    async handleTransferSubmit(transferForm: TransferForm) {
+    async handleTransferSubmit(transferForm: TransferFormModel) {
         await this._submitTransfer(transferForm, false);
     }
 
     // 处理二次验证submit事件
     async handleSecondVerifySubmit(code: string) {
         let type = this.currentType;
-        if (type === SecondVerifyType.PointInfo) {
+        if (type === SecondVerifyType.PointInfoModel) {
             let pointForm = Utils.duplicate(this.pointForm);
             pointForm.code = code;
             await this._submitPoint(pointForm, true);
-        } else if (type === SecondVerifyType.TransferInfo) {
+        } else if (type === SecondVerifyType.TransferInfoModel) {
             let transferForm = Utils.duplicate(this.transferForm);
             transferForm.code = code;
             await this._submitTransfer(transferForm, true);
@@ -229,6 +217,6 @@ export default class PointRecord extends Vue {
 
     mounted() {
         Utils.jumpTop();
-        this.fetchPagePointRecords();
+        this.fetchPoints();
     }
 }

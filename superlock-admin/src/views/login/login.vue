@@ -40,28 +40,15 @@
                     </li>
 
                     <li>
-                        <ant-button
-                            type="primary"
-                            @click="submit(false)"
-                            >登录</ant-button
-                        >
+                        <ant-button type="primary" @click="submit(false)">登录</ant-button>
                     </li>
                 </ul>
             </div>
         </div>
 
-        <GoogleAuth
-            v-model="isGoogleAuthShow"
-            :login-form="loginForm"
-            :title="'绑定谷歌认证'"
-            @submit="handleGoogleAuthSubmit"
-        />
+        <GoogleAuth v-model="isGoogleAuthShow" :login-form="loginForm" :title="'绑定谷歌认证'" @submit="handleGoogleAuthSubmit" />
 
-        <SecondVerify
-            v-model="isSecondVerifyShow"
-            :title="'谷歌验证码'"
-            @submit="handleSecondVerifySubmit"
-        />
+        <SecondVerify v-model="isSecondVerifyShow" :title="'谷歌验证码'" @submit="handleSecondVerifySubmit" />
     </div>
 </template>
 

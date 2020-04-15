@@ -1,57 +1,67 @@
 import { Commit } from 'vuex';
+import { FreeTrialType, CarrierFormType, OperationType } from '@/ts/config';
 import {
     ISelectOption,
     IPageParameters,
-    IRechargeRecordPageParameters,
-    IWithdrawRecordPageParameters,
-    IWithdrawTransferPageParameters,
-    ILockRecordPageParameters,
-    ILockProjectPageParameters,
+    IRechargePageParameters,
+    IWithdrawPageParameters,
+    ITransferPageParameters,
+    ILockPageParameters,
+    IProjectPageParameters,
     IFinancePageParameters,
-    ILoanRecordPageParameters,
+    ILoanPageParameters,
     ILoanInterestPageParameters,
-    IFundRecordPageParameters,
+    IFundPageParameters,
     IMemberPageParameters,
-    IPointRecordPageParameters,
+    IPointPageParameters,
+    IRebateOrderPageParameters,
+    IFlashOrderPageParameters,
+    IWithdrawOrderPageParameters
+} from '@/ts/interfaces';
+import {
     TokenInfo,
-    LoginForm,
+    LoginFormModel,
     HomeModel,
-    RechargeRecordModel,
-    WithdrawRecordModel,
-    WithdrawTransferModel,
-    LockRecordModel,
-    LockProjectModel,
-    ProjectForm,
-    AwardForm,
+    RechargeModel,
+    WithdrawModel,
+    TransferModel,
+    LockModel,
+    ProjectModel,
+    ProjectFormModel,
+    AwardFormModel,
     FinanceInterestModel,
     FinanceDirectModel,
     FinancePromoteModel,
     FinanceSaleModel,
-    LoanRecordModel,
+    LoanModel,
     LoanInterestModel,
-    LoanForm,
-    FundRecordModel,
+    LoanFormModel,
+    FundModel,
     BrokerModel,
     BrokerChildModel,
     RateModel,
-    BrokerForm,
-    QuotaForm,
-    RateForm,
-    PointRecordModel,
+    BrokerFormModel,
+    QuotaFormModel,
+    RateFormModel,
+    PointModel,
     PointAccountModel,
     UserModel,
-    UserForm,
-    GoogleForm,
-    PasswordForm,
-    PointForm,
-    TransferForm,
-    PointInfo,
-    TransferInfo,
+    UserFormModel,
+    GoogleFormModel,
+    PasswordFormModel,
+    PointFormModel,
+    TransferFormModel,
+    PointInfoModel,
+    TransferInfoModel,
     FreeTrialModel,
-    InitInfoForm,
-    RechargePoundageModel
+    InitInfoFormModel,
+    RechargePoundageModel,
+    CarrierFormModel,
+    CarrierModel,
+    RebateOrderModel,
+    FlashOrderModel,
+    WithdrawOrderModel
 } from '@/ts/models';
-import { FreeTrialType } from '@/ts/config';
 
 export interface IActionContext<T> {
     commit: Commit;
@@ -63,8 +73,12 @@ export interface IRootState {
     tokenInfo: TokenInfo; // token信息
     isFullLoading: boolean; // 是否启用全屏加载中UI
     isPageLoading: boolean; // 是否启用分页加载中UI
+    isSecondVerifyShow: boolean; // 是否显示二次验证模态框
 
     pageSizeOptions: Array<string>; // 分页尺寸选项
+    withdrawOptions: Array<ISelectOption>; // 提现状态选项
+    carrierOptions: Array<any>; // 运营商选项
+
     statusColors: any;
     auditColors: any;
     statusNames: any;
@@ -83,65 +97,58 @@ export interface IGoogleState {
 }
 
 export interface ILoginState {
-    loginForm: LoginForm; // 登录表单
+    loginForm: LoginFormModel; // 登录表单
 }
 
 export interface IHomeState {
     homeData: HomeModel; // 今日数据
-    initInfoForm: InitInfoForm; // 初始信息表单
+    initInfoForm: InitInfoFormModel; // 初始信息表单
 }
 
 export interface IRechargeState {
     coinOptions: Array<ISelectOption>;
 
-    parameters: IPageParameters<IRechargeRecordPageParameters>;
+    parameters: IPageParameters<IRechargePageParameters>;
     totalCount: number;
-    list: Array<RechargeRecordModel | RechargePoundageModel>;
+    list: Array<RechargeModel | RechargePoundageModel>;
 
     poundage: RechargePoundageModel;
 }
 
 export interface IWithdrawState {
-    statusOptions: Array<ISelectOption>;
-
-    recordParameters: IPageParameters<IWithdrawRecordPageParameters>;
-    transferParameters: IPageParameters<IWithdrawTransferPageParameters>;
+    withdrawParameters: IPageParameters<IWithdrawPageParameters>;
+    transferParameters: IPageParameters<ITransferPageParameters>;
     totalCount: number;
-    list: Array<WithdrawRecordModel | WithdrawTransferModel>;
+    list: Array<WithdrawModel | TransferModel>;
 }
 
 export interface ILockState {
     statusOptions: Array<ISelectOption>;
 
-    recordParameters: IPageParameters<ILockRecordPageParameters>;
-    projectParameters: IPageParameters<ILockProjectPageParameters>;
+    lockParameters: IPageParameters<ILockPageParameters>;
+    projectParameters: IPageParameters<IProjectPageParameters>;
     totalCount: number;
-    list: Array<LockRecordModel | LockProjectModel>;
+    list: Array<LockModel | ProjectModel>;
 
-    projectForm: ProjectForm;
-    awardForm: AwardForm;
+    projectForm: ProjectFormModel;
+    awardForm: AwardFormModel;
 }
 
 export interface IFinanceState {
     parameters: IPageParameters<IFinancePageParameters>;
     totalCount: number;
-    list: Array<
-        | FinanceInterestModel
-        | FinanceDirectModel
-        | FinancePromoteModel
-        | FinanceSaleModel
-    >;
+    list: Array<FinanceInterestModel | FinanceDirectModel | FinancePromoteModel | FinanceSaleModel>;
 }
 
 export interface ILoanState {
     statusOptions: Array<ISelectOption>;
 
-    recordParameters: IPageParameters<ILoanRecordPageParameters>;
+    loanParameters: IPageParameters<ILoanPageParameters>;
     interestParameters: IPageParameters<ILoanInterestPageParameters>;
     totalCount: number;
-    list: Array<LoanRecordModel | LoanInterestModel>;
+    list: Array<LoanModel | LoanInterestModel>;
 
-    loanForm: LoanForm;
+    loanForm: LoanFormModel;
 }
 
 export interface IFundState {
@@ -149,9 +156,9 @@ export interface IFundState {
     orderOptions: Array<ISelectOption>;
     accountOptions: Array<ISelectOption>;
 
-    parameters: IPageParameters<IFundRecordPageParameters>;
+    parameters: IPageParameters<IFundPageParameters>;
     totalCount: number;
-    list: Array<FundRecordModel>;
+    list: Array<FundModel>;
 }
 
 export interface IRiskState {
@@ -167,24 +174,24 @@ export interface IMemberState {
     totalCount: number;
     list: Array<BrokerModel | BrokerChildModel | RateModel>;
 
-    brokerForm: BrokerForm;
-    rateForm: RateForm;
-    quotaForm: QuotaForm;
+    brokerForm: BrokerFormModel;
+    rateForm: RateFormModel;
+    quotaForm: QuotaFormModel;
 
     count: number;
 }
 
 export interface IPointState {
-    pointParameters: IPageParameters<IPointRecordPageParameters>;
+    pointParameters: IPageParameters<IPointPageParameters>;
     accountParameters: IPageParameters<null>;
     totalCount: number;
-    list: Array<PointRecordModel | PointAccountModel>;
+    list: Array<PointModel | PointAccountModel>;
 
-    pointInfos: Array<PointInfo>;
-    transferInfo: TransferInfo;
+    pointInfos: Array<PointInfoModel>;
+    transferInfo: TransferInfoModel;
 
-    pointForm: PointForm;
-    transferForm: TransferForm;
+    pointForm: PointFormModel;
+    transferForm: TransferFormModel;
 }
 
 export interface ISystemState {
@@ -194,7 +201,21 @@ export interface ISystemState {
     totalCount: number;
     list: Array<UserModel>;
 
-    userForm: UserForm;
-    passwordForm: PasswordForm;
-    googleForm: GoogleForm;
+    userForm: UserFormModel;
+    passwordForm: PasswordFormModel;
+    googleForm: GoogleFormModel;
+}
+
+export interface ICarrierState {
+    operationType: OperationType;
+    formType: CarrierFormType;
+    carrierForm: CarrierFormModel;
+    carrier?: CarrierModel;
+
+    carrierParameters: IPageParameters<null>;
+    rebateParameters: IPageParameters<IRebateOrderPageParameters>;
+    flashParameters: IPageParameters<IFlashOrderPageParameters>;
+    withdrawParameters: IPageParameters<IWithdrawOrderPageParameters>;
+    totalCount: number;
+    list: Array<CarrierModel | RebateOrderModel | FlashOrderModel | WithdrawOrderModel>;
 }

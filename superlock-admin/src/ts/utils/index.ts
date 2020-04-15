@@ -1,11 +1,8 @@
-import { IPageParameters } from '@/ts/models';
+import { IPageParameters } from '@/ts/interfaces';
 
 // 判断是否为Null或者Undefined
 function isNullOrUndefined(obj: any) {
-    return (
-        Object.prototype.toString.call(obj) === '[object Null]' ||
-        Object.prototype.toString.call(obj) === '[object Undefined]'
-    );
+    return Object.prototype.toString.call(obj) === '[object Null]' || Object.prototype.toString.call(obj) === '[object Undefined]';
 }
 
 // 判断是否为字符串
@@ -60,12 +57,7 @@ function dateConvert(date: string | number | Date): Date | null {
 }
 
 // 日期格式化函数，返回一个自定义格式日期
-function dateFormat(
-    date: string | number | Date,
-    format: string = 'yyyy-MM-dd hh:mm',
-    isZeroize: boolean = true,
-    isUTC: boolean = false
-): string {
+function dateFormat(date: string | number | Date, format: string = 'yyyy-MM-dd hh:mm', isZeroize: boolean = true, isUTC: boolean = false): string {
     const cdate = dateConvert(date);
     if (!cdate) {
         return '';
@@ -80,31 +72,11 @@ function dateFormat(
         dS = isUTC ? cdate.getUTCMilliseconds() : cdate.getMilliseconds(),
         config: any = {
             'y+': dy.toString(),
-            'M+': !isZeroize
-                ? dM.toString()
-                : dM < 10
-                ? '0' + dM.toString()
-                : dM.toString(),
-            'd+': !isZeroize
-                ? dd.toString()
-                : dd < 10
-                ? '0' + dd.toString()
-                : dd.toString(),
-            'h+': !isZeroize
-                ? dh.toString()
-                : dh < 10
-                ? '0' + dh.toString()
-                : dh.toString(),
-            'm+': !isZeroize
-                ? dm.toString()
-                : dm < 10
-                ? '0' + dm.toString()
-                : dm.toString(),
-            's+': !isZeroize
-                ? ds.toString()
-                : ds < 10
-                ? '0' + ds.toString()
-                : ds.toString(),
+            'M+': !isZeroize ? dM.toString() : dM < 10 ? '0' + dM.toString() : dM.toString(),
+            'd+': !isZeroize ? dd.toString() : dd < 10 ? '0' + dd.toString() : dd.toString(),
+            'h+': !isZeroize ? dh.toString() : dh < 10 ? '0' + dh.toString() : dh.toString(),
+            'm+': !isZeroize ? dm.toString() : dm < 10 ? '0' + dm.toString() : dm.toString(),
+            's+': !isZeroize ? ds.toString() : ds < 10 ? '0' + ds.toString() : ds.toString(),
             S: dS.toString()
         };
 
@@ -124,10 +96,7 @@ function dateFormat(
         if (key === 'S') {
             format = format.replace(first, value);
         } else {
-            format = format.replace(
-                first,
-                value.substr(value.length - first.length)
-            );
+            format = format.replace(first, value.substr(value.length - first.length));
         }
     }
     return format;
@@ -166,11 +135,7 @@ function dateLine(date: number | string): string {
 }
 
 // 日期计算函数，返回一个计算后的新日期
-function dateCalculate(
-    date: Date,
-    type: string = 'y',
-    value: number = 0
-): Date {
+function dateCalculate(date: Date, type: string = 'y', value: number = 0): Date {
     let result: number = 0,
         clone = new Date(date.getTime());
     switch (type) {
@@ -307,15 +272,9 @@ function dateDuration(seconds: number): string {
 }
 
 // 日期相等校验函数，返回true/false
-function dateEqual(
-    leftDate: Date,
-    rightDate: Date,
-    hasTime: boolean = false
-): boolean {
+function dateEqual(leftDate: Date, rightDate: Date, hasTime: boolean = false): boolean {
     if (!hasTime) {
-        return (
-            dateMorning(leftDate).getTime() === dateMorning(rightDate).getTime()
-        );
+        return dateMorning(leftDate).getTime() === dateMorning(rightDate).getTime();
     }
     return leftDate.getTime() === rightDate.getTime();
 }
@@ -340,11 +299,7 @@ function arrayDistinct(arrs: any[], key: string = ''): any[] {
 }
 
 // 数组排序，返回一个排序后的新数组
-function arraySort(
-    arrs: any[],
-    field: string = '',
-    isAsc: boolean = false
-): any[] {
+function arraySort(arrs: any[], field: string = '', isAsc: boolean = false): any[] {
     if (arrs.length <= 0) {
         return [];
     }
@@ -408,10 +363,7 @@ function buildParameters(parameters: { [key: string]: any }): string {
 }
 
 // 构建分页查询参数字符串
-function buildPageParameters<T>(
-    parameters: IPageParameters<T>,
-    convertKeys: Array<string> = []
-): string {
+function buildPageParameters<T>(parameters: IPageParameters<T>, convertKeys: Array<string> = []): string {
     if (!parameters) return '';
 
     let temp: Array<any> = [],
@@ -514,9 +466,7 @@ function isIE9(): boolean {
 // 判断是否为移动端
 function isMobile(): boolean {
     const userAgent = window.navigator.userAgent || '';
-    return /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        userAgent
-    );
+    return /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
 }
 
 // 判断是否为微信浏览器
@@ -525,7 +475,7 @@ function isWechat(): boolean {
     return /micromessenger/i.test(userAgent.toLowerCase());
 }
 
-export const Utils = {
+const Utils = {
     isNullOrUndefined, // 判断是否为Null或者Undefined
     isString, // 判断是否为字符串
     isNumber, // 判断是否为数字
@@ -568,3 +518,5 @@ export const Utils = {
     isMobile, // 判断是否为移动端
     isWechat // 判断是否为微信浏览器
 };
+
+export default Utils;

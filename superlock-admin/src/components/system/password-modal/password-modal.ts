@@ -1,8 +1,10 @@
 import Vue from 'vue';
 import { Component, Prop, Model, Watch } from 'vue-property-decorator';
 import Validator, { ValidationResult } from 'jpts-validator';
-import { Prompt, Utils } from '@/ts/common';
-import { UserModel, PasswordForm } from '@/ts/models';
+
+import Utils from '@/ts/utils';
+import { Prompt } from '@/ts/common';
+import { UserModel, PasswordFormModel } from '@/ts/models';
 
 @Component({
     name: 'PasswordModal',
@@ -14,7 +16,7 @@ export default class PasswordModal extends Vue {
     @Prop() readonly user?: UserModel; // 用户数据
 
     isShow: boolean = this.value; // 是否显示模态框
-    passwordForm: PasswordForm = new PasswordForm(); // 密码表单
+    passwordForm: PasswordFormModel = new PasswordFormModel(); // 密码表单
 
     // 处理表单change事件
     handleFormChange(key: string, value: any) {
@@ -33,12 +35,7 @@ export default class PasswordModal extends Vue {
         const key = 'password';
         let { name, newPwd, confirmPwd } = this.passwordForm,
             validator = new Validator();
-        validator.addRule(
-            key,
-            { name: 'name', value: name },
-            { required: true },
-            { required: '用户名不可以为空' }
-        );
+        validator.addRule(key, { name: 'name', value: name }, { required: true }, { required: '用户名不可以为空' });
         validator.addRule(
             key,
             { name: 'newPwd', value: newPwd },
@@ -66,7 +63,7 @@ export default class PasswordModal extends Vue {
     watchValue(value: boolean) {
         this.isShow = value;
         if (value) {
-            let passwordForm = new PasswordForm();
+            let passwordForm = new PasswordFormModel();
             passwordForm.name = this.user ? this.user.name : '';
             passwordForm.oldPwd = undefined;
             passwordForm.code = undefined;

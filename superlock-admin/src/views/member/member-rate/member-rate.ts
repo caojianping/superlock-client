@@ -1,9 +1,12 @@
 import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
-import { Utils, Prompt } from '@/ts/common';
-import { IPageParameters, IMemberPageParameters, RateModel } from '@/ts/models';
+import Utils from '@/ts/utils';
+import { Prompt } from '@/ts/common';
+import { IPageParameters, IMemberPageParameters } from '@/ts/interfaces';
+import { RateModel } from '@/ts/models';
 
 const memberModule = namespace('member');
 
@@ -12,20 +15,16 @@ const memberModule = namespace('member');
     components: {}
 })
 export default class MemberRate extends Vue {
-    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
     @State('isPageLoading') isPageLoading!: boolean;
+    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
 
     @memberModule.State('typeOptions') typeOptions!: Array<any>;
-    @memberModule.State('parameters') parameters!: IPageParameters<
-        IMemberPageParameters
-    >;
+    @memberModule.State('parameters') parameters!: IPageParameters<IMemberPageParameters>;
     @memberModule.State('totalCount') totalCount!: number;
     @memberModule.State('list') list!: Array<RateModel>;
-
     @memberModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @memberModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
-    @memberModule.Action('fetchPageRates') fetchPageRates!: () => any;
+    @memberModule.Action('fetchRates') fetchRates!: () => any;
 
     columns: Array<any> = [
         {
@@ -54,23 +53,23 @@ export default class MemberRate extends Vue {
         }
     ];
 
+    // 处理表单change事件
+    handleFormChange(key: string, value: string) {
+        let parameters = Utils.duplicate(this.parameters);
+        parameters.conditions[key] = value;
+        this.setStates({ parameters });
+    }
+
     // 搜索
     async search() {
         try {
             let parameters = Utils.duplicate(this.parameters);
             parameters.pageNum = 1;
             this.setStates({ parameters });
-            await this.fetchPageRates();
+            await this.fetchRates();
         } catch (error) {
             Prompt.error(error.message || error);
         }
-    }
-
-    // 处理表单change事件
-    handleFormChange(key: string, value: string) {
-        let parameters = Utils.duplicate(this.parameters);
-        parameters.conditions[key] = value;
-        this.setStates({ parameters });
     }
 
     // 处理页码change事件
@@ -79,7 +78,7 @@ export default class MemberRate extends Vue {
         parameters.pageNum = page;
         parameters.pageSize = pageSize;
         this.setStates({ parameters });
-        this.fetchPageRates();
+        this.fetchRates();
     }
 
     // 处理页尺寸change事件
@@ -88,7 +87,7 @@ export default class MemberRate extends Vue {
         parameters.pageNum = 1;
         parameters.pageSize = pageSize;
         this.setStates({ parameters });
-        this.fetchPageRates();
+        this.fetchRates();
     }
 
     created() {
@@ -97,6 +96,6 @@ export default class MemberRate extends Vue {
 
     mounted() {
         Utils.jumpTop();
-        this.fetchPageRates();
+        this.fetchRates();
     }
 }

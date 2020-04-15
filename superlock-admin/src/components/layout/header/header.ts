@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import { Prompt } from '@/ts/common';
 import { TokenInfo } from '@/ts/models';
 

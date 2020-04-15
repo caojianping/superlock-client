@@ -1,13 +1,4 @@
-export interface ILockRecordPageParameters {
-    uid: string; // UID
-    serial: string; // 订单号
-    status: string; // 订单状态，空代表全部，0创建，10锁仓资金操作中，20操作锁仓资金完成，锁仓中，30锁仓结束，解仓,40锁仓失败
-    beginTime: string; // 开始时间
-    endTime: string; // 结束时间
-    carrierId: string; // 补充字段：用户来源ID
-}
-
-export class LockRecordModel {
+export class LockModel {
     public serial!: string; // 订单号
     public uid!: string; // uid
     public userSource!: string; // 用户来源
@@ -21,11 +12,7 @@ export class LockRecordModel {
     public status!: string; // 状态
 }
 
-export interface ILockProjectPageParameters {
-    projectId: string;
-}
-
-export class LockProjectModel {
+export class ProjectModel {
     public id!: number; // 项目ID
     public memo!: string; // 项目名称
     public length!: string; // 项目周期
@@ -35,7 +22,7 @@ export class LockProjectModel {
     public enable!: boolean; // 状态
 }
 
-export class ProjectForm {
+export class ProjectFormModel {
     public id?: number; // 项目编号
     public memo!: string; // 项目名称
     public length!: number; // 项目周期
@@ -49,18 +36,18 @@ export class ProjectForm {
     public originRate?: number;
 }
 
-export class AwardForm {
+export class AwardFormModel {
     public promotionRate!: number; // 推广解锁利率
     public pushStraightRate!: number; // 直推利率
     public lockAmount!: number; // 最小锁仓数量
-    public dailySalesDto: Array<AwardDailySale> = []; // 日销奖励
+    public dailySalesDto: Array<AwardDailySaleModel> = []; // 日销奖励
     public code?: string; // 验证码：谷歌验证码gacode，短信验证码smsCode，邮箱验证码emailCode等
 
     // 补充字段：推广解锁利率不可以改小
     public originPromotionRate?: number;
 }
 
-export class AwardDailySale {
+export class AwardDailySaleModel {
     public sales!: number; // 达标日销数量
     public rate!: number; // 达标返奖利率
 }

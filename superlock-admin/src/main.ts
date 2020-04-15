@@ -1,6 +1,4 @@
 import Vue from 'vue';
-// import "core-js/stable";
-// import "regenerator-runtime/runtime";
 
 import router from '@/router';
 import store from '@/store';
@@ -26,6 +24,7 @@ import App from '@/App.vue';
 import 'ant-design-vue/dist/antd.less';
 import '@/less/reset.less';
 import '@/less/antd.less';
+import '@/less/icon.less';
 import '@/less/common.less';
 
 Vue.prototype.moment = moment;

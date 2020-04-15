@@ -1,34 +1,24 @@
+import Utils from '@/ts/utils';
 import { Urls, CaxiosType } from '@/ts/config';
-import { Utils, Caxios } from '@/ts/common';
-import {
-    IPageParameters,
-    ILoanRecordPageParameters,
-    ILoanInterestPageParameters,
-    PageResult,
-    LoanRecordModel,
-    LoanInterestModel,
-    LoanForm
-} from '@/ts/models';
+import { Caxios } from '@/ts/common';
+import { IPageParameters, ILoanPageParameters, ILoanInterestPageParameters } from '@/ts/interfaces';
+import { PageResult, LoanModel, LoanInterestModel, LoanFormModel } from '@/ts/models';
 
 export class LoanService {
-    // 获取贷款记录分页列表
-    public async fetchPageLoanRecords(
-        parameters: IPageParameters<ILoanRecordPageParameters>
-    ): Promise<PageResult<LoanRecordModel>> {
-        let url = Urls.loan.record.page,
-            result = await Caxios.get<PageResult<LoanRecordModel> | null>(
+    // 获取贷款列表
+    public async fetchLoans(parameters: IPageParameters<ILoanPageParameters>): Promise<PageResult<LoanModel>> {
+        let url = Urls.loan.order.list,
+            result = await Caxios.get<PageResult<LoanModel> | null>(
                 { url: `${url}?${Utils.buildPageParameters(parameters)}` },
                 CaxiosType.PageLoadingToken
             );
-        if (!result) return new PageResult<LoanRecordModel>(0, []);
-        return result as PageResult<LoanRecordModel>;
+        if (!result) return new PageResult<LoanModel>(0, []);
+        return result as PageResult<LoanModel>;
     }
 
-    // 获取贷款计息分页列表
-    public async fetchPageLoanInterests(
-        parameters: IPageParameters<ILoanInterestPageParameters>
-    ): Promise<PageResult<LoanRecordModel>> {
-        let url = Urls.loan.interest.page,
+    // 获取贷款计息列表
+    public async fetchLoanInterests(parameters: IPageParameters<ILoanInterestPageParameters>): Promise<PageResult<LoanInterestModel>> {
+        let url = Urls.loan.interest.list,
             result = await Caxios.get<PageResult<LoanInterestModel> | null>(
                 { url: `${url}?${Utils.buildPageParameters(parameters)}` },
                 CaxiosType.PageLoadingToken
@@ -38,7 +28,7 @@ export class LoanService {
     }
 
     // 设置贷款
-    public async setLoan(loanForm: LoanForm): Promise<boolean> {
+    public async setLoan(loanForm: LoanFormModel): Promise<boolean> {
         return await Caxios.post<any>(
             {
                 url: Urls.loan.setting,

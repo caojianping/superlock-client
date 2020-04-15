@@ -2,14 +2,11 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component, Prop, Model, Watch } from 'vue-property-decorator';
 import { ValidationResult } from 'jpts-validator';
-import { Utils, Prompt } from '@/ts/common';
-import {
-    TransferInfo,
-    TransferPointAccount,
-    TransferReceiptAccount,
-    TransferForm,
-    ISelectOption
-} from '@/ts/models';
+
+import Utils from '@/ts/utils';
+import { Prompt } from '@/ts/common';
+import { ISelectOption } from '@/ts/interfaces';
+import { TransferInfoModel, TransferPointAccountModel, TransferReceiptAccountModel, TransferFormModel } from '@/ts/models';
 import { PointService } from '@/ts/services';
 
 const pointModule = namespace('point');
@@ -22,15 +19,15 @@ export default class TransferModal extends Vue {
     @Model('close', { type: Boolean }) value!: boolean; // v-model
     @Prop() readonly title!: string; // 标题
 
-    @pointModule.State('transferInfo') transferInfo!: TransferInfo;
+    @pointModule.State('transferInfo') transferInfo!: TransferInfoModel;
     @pointModule.Action('fetchTransferInfo') fetchTransferInfo!: () => any;
 
     isShow: boolean = this.value; // 是否显示模态框
     coinOptions: Array<ISelectOption> = [];
     accountOptions: Array<ISelectOption> = [];
-    transferForm: TransferForm = new TransferForm();
-    currentPointAccount: TransferPointAccount = new TransferPointAccount();
-    currentReceiptAccount: TransferReceiptAccount = new TransferReceiptAccount();
+    transferForm: TransferFormModel = new TransferFormModel();
+    currentPointAccount: TransferPointAccountModel = new TransferPointAccountModel();
+    currentReceiptAccount: TransferReceiptAccountModel = new TransferReceiptAccountModel();
 
     // 处理表单change事件
     handleFormChange(key: string, value: any) {
@@ -43,10 +40,8 @@ export default class TransferModal extends Vue {
     handleCoinChange(coin: string) {
         let pointAccounts = this.transferInfo.system_addmoney_account || [],
             currentPointAccount =
-                pointAccounts.filter(
-                    (pointAccount: TransferPointAccount) =>
-                        pointAccount.coin === coin
-                )[0] || new TransferPointAccount();
+                pointAccounts.filter((pointAccount: TransferPointAccountModel) => pointAccount.coin === coin)[0] ||
+                new TransferPointAccountModel();
         this.currentPointAccount = currentPointAccount;
 
         let transferForm = Utils.duplicate(this.transferForm);
@@ -61,10 +56,8 @@ export default class TransferModal extends Vue {
     handleAccountChange(id: number) {
         let receiptAccounts = this.transferInfo.receipt_account || [],
             currentReceiptAccount =
-                receiptAccounts.filter(
-                    (receiptAccount: TransferReceiptAccount) =>
-                        receiptAccount.id === id
-                )[0] || new TransferReceiptAccount();
+                receiptAccounts.filter((receiptAccount: TransferReceiptAccountModel) => receiptAccount.id === id)[0] ||
+                new TransferReceiptAccountModel();
         this.currentReceiptAccount = currentReceiptAccount;
 
         let transferForm = Utils.duplicate(this.transferForm);
@@ -80,10 +73,7 @@ export default class TransferModal extends Vue {
     // 提交转账信息
     async submit() {
         let transferForm = this.transferForm,
-            result: ValidationResult = PointService.validateTransferInfo(
-                transferForm,
-                false
-            );
+            result: ValidationResult = PointService.validateTransferInfo(transferForm, false);
         if (!result.status) {
             Prompt.error(Utils.getFirstValue(result.data));
             return;
@@ -94,20 +84,17 @@ export default class TransferModal extends Vue {
     }
 
     // 根据币种构建收款类型下拉列表
-    buildAccountOptionsByCoin(coin: string, transferForm: TransferForm) {
+    buildAccountOptionsByCoin(coin: string, transferForm: TransferFormModel) {
         if (!coin) return;
 
         let receiptAccounts = this.transferInfo.receipt_account || [],
             filterAccounts = receiptAccounts.filter(
-                (receiptAccount: TransferReceiptAccount) =>
-                    receiptAccount.coin === coin
+                (receiptAccount: TransferReceiptAccountModel) => receiptAccount.coin === coin
             );
-        this.accountOptions = filterAccounts.map(
-            (receiptAccount: TransferReceiptAccount) => ({
-                label: receiptAccount.account,
-                value: receiptAccount.id
-            })
-        );
+        this.accountOptions = filterAccounts.map((receiptAccount: TransferReceiptAccountModel) => ({
+            label: receiptAccount.account,
+            value: receiptAccount.id
+        }));
 
         let firstReceiptAccount = filterAccounts[0];
         if (firstReceiptAccount) {
@@ -125,15 +112,13 @@ export default class TransferModal extends Vue {
 
         // 构建币种下拉列表
         let pointAccounts = transferInfo.system_addmoney_account || [];
-        this.coinOptions = pointAccounts.map(
-            (pointAccount: TransferPointAccount) => ({
-                label: pointAccount.coin,
-                value: pointAccount.coin
-            })
-        );
+        this.coinOptions = pointAccounts.map((pointAccount: TransferPointAccountModel) => ({
+            label: pointAccount.coin,
+            value: pointAccount.coin
+        }));
 
         // 设置币种下拉列表默认值
-        let transferForm = new TransferForm(),
+        let transferForm = new TransferFormModel(),
             firstPointAccount = pointAccounts[0];
         transferForm.code = undefined;
         if (firstPointAccount) {

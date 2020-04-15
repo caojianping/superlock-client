@@ -15,6 +15,7 @@ import loanModule from './modules/loan.module';
 import fundModule from './modules/fund.module';
 import riskModule from './modules/risk.module';
 import memberModule from './modules/member.module';
+import carrierModule from './modules/carrier.module';
 import pointModule from './modules/point.module';
 import systemModule from './modules/system.module';
 
@@ -24,8 +25,22 @@ const rootState: IRootState = {
     tokenInfo: new TokenInfo('', ''),
     isFullLoading: false,
     isPageLoading: false,
+    isSecondVerifyShow: false,
 
-    pageSizeOptions: ['10', '50', '100', '200'],
+    pageSizeOptions: ['10', '50', '100', '200', '500', '1000'],
+    withdrawOptions: [
+        { label: '全部', value: '' },
+        { label: '未提现', value: '0' },
+        { label: '提现中', value: '10' },
+        { label: '提现成功', value: '20' },
+        { label: '提现失败', value: '30' }
+    ],
+    carrierOptions: [
+        { value: '100', text: '运营商一' },
+        { value: '200', text: '运营商二' },
+        { value: '300', text: '运营商三' }
+    ],
+
     statusColors: {
         '0': 'text-black',
         '10': 'text-grey',
@@ -62,6 +77,7 @@ export default new Vuex.Store({
         fund: fundModule,
         risk: riskModule,
         member: memberModule,
+        carrier: carrierModule,
         point: pointModule,
         system: systemModule
     },
@@ -77,12 +93,12 @@ export default new Vuex.Store({
             state.tokenInfo = new TokenInfo('', '');
             state.isFullLoading = false;
             state.isPageLoading = false;
-            state.pageSizeOptions = ['5', '10', '20', '50'];
+            state.isSecondVerifyShow = false;
+
+            state.pageSizeOptions = ['10', '50', '100', '200', '500', '1000'];
+            state.carrierOptions = [];
         },
-        [TYPES.SET_LOADING](
-            state: IRootState,
-            payload: { key: string; value: boolean }
-        ) {
+        [TYPES.SET_LOADING](state: IRootState, payload: { key: string; value: boolean }) {
             const { key, value } = payload;
             state[key] = value;
         }

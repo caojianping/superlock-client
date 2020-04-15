@@ -14,38 +14,23 @@
             <div class="sl-block-body">
                 <ant-row :gutter="24">
                     <ant-col :span="8">
-                        <ant-form-item
-                            label="UID"
-                            :label-col="{ span: 6 }"
-                            :wrapper-col="{ span: 18 }"
-                        >
+                        <ant-form-item label="UID" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
                                 :value="parameters.conditions.uid"
                                 allowClear
                                 placeholder="请输入UID"
-                                @change="
-                                    handleFormChange('uid', $event.target.value)
-                                "
+                                @change="handleFormChange('uid', $event.target.value)"
                             />
                         </ant-form-item>
                     </ant-col>
 
                     <ant-col :span="10">
-                        <ant-form-item
-                            label="选择时间"
-                            :label-col="{ span: 6 }"
-                            :wrapper-col="{ span: 18 }"
-                        >
-                            {{
-                                (beginDate = parameters.conditions.beginDate, void 0),
-                                (endDate = parameters.conditions.endDate, void 0)
-                            }}
+                        <ant-form-item label="选择时间" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                            {{ ((beginDate = parameters.conditions.beginDate), void 0) }}
+                            {{ ((endDate = parameters.conditions.endDate), void 0) }}
                             <ant-range-picker
-                                :value="[
-                                    beginDate ? moment(beginDate) : undefined,
-                                    endDate ? moment(endDate) : undefined
-                                ]"
+                                :value="[beginDate ? moment(beginDate) : undefined, endDate ? moment(endDate) : undefined]"
                                 :showTime="{ format: 'HH:mm' }"
                                 format="YYYY-MM-DD HH:mm"
                                 @change="handleRangePickerChange"
@@ -54,12 +39,7 @@
                     </ant-col>
 
                     <ant-col :span="6">
-                        <ant-button
-                            class="sl-search"
-                            type="primary"
-                            @click="search"
-                            >搜索</ant-button
-                        >
+                        <ant-button class="sl-search" type="primary" @click="search">搜索</ant-button>
                     </ant-col>
                 </ant-row>
             </div>
@@ -67,13 +47,7 @@
 
         <ant-button class="sl-tool" type="primary" @click="exportReport">导出报表</ant-button>
 
-        <ant-table
-            :columns="columns"
-            :rowKey="record => record.fundSerial"
-            :dataSource="list"
-            :pagination="false"
-            :loading="isPageLoading"
-        >
+        <ant-table :columns="columns" :rowKey="record => record.fundSerial" :dataSource="list" :pagination="false" :loading="isPageLoading">
             <ant-tooltip class="w100px" slot="fundSerial" slot-scope="record">
                 <template slot="title">{{ record.fundSerial }}</template>
                 {{ record.fundSerial }}

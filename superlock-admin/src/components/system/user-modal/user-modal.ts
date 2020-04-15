@@ -1,9 +1,12 @@
 import Vue from 'vue';
 import { Component, Prop, Model, Watch } from 'vue-property-decorator';
 import Validator, { ValidationResult } from 'jpts-validator';
+
+import Utils from '@/ts/utils';
 import { OperationType } from '@/ts/config';
-import { Utils, Prompt } from '@/ts/common';
-import { UserForm, ISelectOption, UserModel } from '@/ts/models';
+import { Prompt } from '@/ts/common';
+import { ISelectOption } from '@/ts/interfaces';
+import { UserFormModel, UserModel } from '@/ts/models';
 
 @Component({
     name: 'UserModal',
@@ -17,7 +20,7 @@ export default class UserModal extends Vue {
 
     isShow: boolean = this.value; // 是否显示模态框
     title: string = ''; // 标题
-    userForm: UserForm = new UserForm(); // 用户表单
+    userForm: UserFormModel = new UserFormModel(); // 用户表单
 
     // 处理表单change事件
     handleFormChange(key: string, value: any) {
@@ -46,25 +49,10 @@ export default class UserModal extends Vue {
                 { required: '密码不可以为空' }
             );
         } else if (type === OperationType.Edit) {
-            validator.addRule(
-                key,
-                { name: 'id', value: id },
-                { required: true },
-                { required: '用户编号不可以为空' }
-            );
+            validator.addRule(key, { name: 'id', value: id }, { required: true }, { required: '用户编号不可以为空' });
         }
-        validator.addRule(
-            key,
-            { name: 'name', value: name },
-            { required: true },
-            { required: '用户名不可以为空' }
-        );
-        validator.addRule(
-            key,
-            { name: 'uKey', value: uKey },
-            { required: true },
-            { required: 'uKey不可以为空' }
-        );
+        validator.addRule(key, { name: 'name', value: name }, { required: true }, { required: '用户名不可以为空' });
+        validator.addRule(key, { name: 'uKey', value: uKey }, { required: true }, { required: 'uKey不可以为空' });
         validator.addRule(
             key,
             { name: 'roleId', value: roleId },
@@ -86,7 +74,7 @@ export default class UserModal extends Vue {
     watchValue(value: boolean) {
         this.isShow = value;
         if (value) {
-            let userForm = new UserForm(),
+            let userForm = new UserFormModel(),
                 type = this.type;
             userForm.code = undefined;
             this.title = ['添加用户', '用户资料修改'][type - 1];

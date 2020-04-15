@@ -1,10 +1,12 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
+import Utils from '@/ts/utils';
 import { ResponseCode } from '@/ts/config';
-import { Utils, Prompt } from '@/ts/common';
-import { LoginForm, SecondVerifyResult } from '@/ts/models';
+import { Prompt } from '@/ts/common';
+import { SecondVerifyResult, LoginFormModel } from '@/ts/models';
 
 import GoogleAuth from '@/components/common/google-auth';
 import SecondVerify from '@/components/common/second-verify';
@@ -16,7 +18,7 @@ const loginModule = namespace('login');
     components: { GoogleAuth, SecondVerify }
 })
 export default class Login extends Vue {
-    @loginModule.State('loginForm') loginForm!: LoginForm;
+    @loginModule.State('loginForm') loginForm!: LoginFormModel;
     @loginModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @loginModule.Action('login') login!: (isCode: boolean) => any;
 
@@ -25,7 +27,7 @@ export default class Login extends Vue {
 
     // 处理表单change事件
     handleFormChange(key: string, event: any) {
-        let loginForm = Utils.duplicate<LoginForm>(this.loginForm);
+        let loginForm = Utils.duplicate<LoginFormModel>(this.loginForm);
         loginForm[key] = event.target.value;
         this.setStates({ loginForm });
     }

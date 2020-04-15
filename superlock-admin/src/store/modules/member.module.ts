@@ -5,9 +5,9 @@ import {
     BrokerModel,
     BrokerChildModel,
     RateModel,
-    BrokerForm,
-    RateForm,
-    QuotaForm,
+    BrokerFormModel,
+    RateFormModel,
+    QuotaFormModel,
     BrokerChildPageResult
 } from '@/ts/models';
 import { MemberService } from '@/ts/services';
@@ -22,7 +22,9 @@ const memberState: IMemberState = {
 
     parameters: {
         conditions: {
-            uid: ''
+            uid: '',
+            mobileNumber: '',
+            operatorName: ''
         },
         pageNum: 1,
         pageSize: 10
@@ -30,9 +32,9 @@ const memberState: IMemberState = {
     totalCount: 0,
     list: [],
 
-    brokerForm: new BrokerForm(),
-    rateForm: new RateForm(),
-    quotaForm: new QuotaForm(),
+    brokerForm: new BrokerFormModel(),
+    rateForm: new RateFormModel(),
+    quotaForm: new QuotaFormModel(),
 
     count: 0
 };
@@ -52,7 +54,9 @@ export default {
         [TYPES.CLEAR_STATES](state: IMemberState) {
             state.parameters = {
                 conditions: {
-                    uid: ''
+                    uid: '',
+                    mobileNumber: '',
+                    operatorName: ''
                 },
                 pageNum: 1,
                 pageSize: 10
@@ -60,44 +64,31 @@ export default {
             state.totalCount = 0;
             state.list = [];
 
-            state.brokerForm = new BrokerForm();
-            state.rateForm = new RateForm();
-            state.quotaForm = new QuotaForm();
+            state.brokerForm = new BrokerFormModel();
+            state.rateForm = new RateFormModel();
+            state.quotaForm = new QuotaFormModel();
 
             state.count = 0;
         }
     },
     actions: {
-        // 获取券商分页列表
-        async fetchPageBrokers(
-            context: IActionContext<IMemberState>
-        ): Promise<void> {
-            let { commit, state } = context,
-                parameters = state.parameters;
+        // 获取券商列表
+        async fetchBrokers(context: IActionContext<IMemberState>): Promise<void> {
+            let { commit, state } = context;
             try {
-                let result: PageResult<BrokerModel> = await memberService.fetchPageBrokers(
-                    parameters
-                );
+                let result: PageResult<BrokerModel> = await memberService.fetchBrokers(state.parameters);
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
-                commit(TYPES.SET_STATES, {
-                    totalCount: 0,
-                    list: []
-                });
+                commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
                 return Promise.reject(error);
             }
         },
 
-        // 获取券商下级分页列表
-        async fetchPageBrokerChilds(
-            context: IActionContext<IMemberState>
-        ): Promise<void> {
-            let { commit, state } = context,
-                parameters = state.parameters;
+        // 获取券商下级列表
+        async fetchBrokerChilds(context: IActionContext<IMemberState>): Promise<void> {
+            let { commit, state } = context;
             try {
-                let result: BrokerChildPageResult<BrokerChildModel> = await memberService.fetchPageBrokerChilds(
-                    parameters
-                );
+                let result: BrokerChildPageResult<BrokerChildModel> = await memberService.fetchBrokerChilds(state.parameters);
                 commit(TYPES.SET_STATES, {
                     totalCount: result.totalCount,
                     list: result.list,
@@ -113,30 +104,21 @@ export default {
             }
         },
 
-        // 获取利率分页列表
-        async fetchPageRates(
-            context: IActionContext<IMemberState>
-        ): Promise<void> {
+        // 获取利率列表
+        async fetchRates(context: IActionContext<IMemberState>): Promise<void> {
             let { commit, state } = context,
                 parameters = state.parameters;
             try {
-                let result: PageResult<RateModel> = await memberService.fetchPageRates(
-                    parameters
-                );
+                let result: PageResult<RateModel> = await memberService.fetchRates(parameters);
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
-                commit(TYPES.SET_STATES, {
-                    totalCount: 0,
-                    list: []
-                });
+                commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
                 return Promise.reject(error);
             }
         },
 
         // 获取项目类型列表
-        async fetchProjectTypes(
-            context: IActionContext<IMemberState>
-        ): Promise<void> {
+        async fetchProjectTypes(context: IActionContext<IMemberState>): Promise<void> {
             let commit = context.commit;
             try {
                 let projects = await memberService.fetchProjectTypes();
@@ -147,30 +129,18 @@ export default {
         },
 
         // 添加券商
-        async addBroker(
-            context: IActionContext<IMemberState>,
-            isCode: boolean = false
-        ): Promise<boolean> {
-            let state = context.state;
-            return await memberService.addBroker(state.brokerForm, isCode);
+        async addBroker(context: IActionContext<IMemberState>, isCode: boolean = false): Promise<boolean> {
+            return await memberService.addBroker(context.state.brokerForm, isCode);
         },
 
         // 设置利率
-        async setRate(
-            context: IActionContext<IMemberState>,
-            isCode: boolean = false
-        ): Promise<boolean> {
-            let state = context.state;
-            return await memberService.setRate(state.rateForm, isCode);
+        async setRate(context: IActionContext<IMemberState>, isCode: boolean = false): Promise<boolean> {
+            return await memberService.setRate(context.state.rateForm, isCode);
         },
 
         // 添加额度
-        async addQuota(
-            context: IActionContext<IMemberState>,
-            isCode: boolean = false
-        ): Promise<boolean> {
-            let state = context.state;
-            return await memberService.addQuota(state.quotaForm, isCode);
+        async addQuota(context: IActionContext<IMemberState>, isCode: boolean = false): Promise<boolean> {
+            return await memberService.addQuota(context.state.quotaForm, isCode);
         }
     }
 };

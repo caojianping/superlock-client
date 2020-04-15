@@ -14,29 +14,19 @@
             <div class="sl-block-body">
                 <ant-row :gutter="24">
                     <ant-col :span="8">
-                        <ant-form-item
-                            label="UID"
-                            :label-col="{ span: 6 }"
-                            :wrapper-col="{ span: 18 }"
-                        >
+                        <ant-form-item label="UID" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
                                 :value="parameters.conditions.uid"
                                 allowClear
                                 placeholder="请输入UID"
-                                @change="
-                                    handleFormChange('uid', $event.target.value)
-                                "
+                                @change="handleFormChange('uid', $event.target.value)"
                             />
                         </ant-form-item>
                     </ant-col>
 
                     <ant-col :span="8">
-                        <ant-form-item
-                            label="用户类型"
-                            :label-col="{ span: 6 }"
-                            :wrapper-col="{ span: 18 }"
-                        >
+                        <ant-form-item label="用户类型" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-select
                                 :value="parameters.conditions.type"
                                 :options="typeOptions"
@@ -48,17 +38,12 @@
                     </ant-col>
 
                     <ant-col :span="8">
-                        <ant-button
-                            class="sl-search"
-                            type="primary"
-                            @click="search"
-                            >搜索</ant-button
-                        >
+                        <ant-button class="sl-search" type="primary" @click="search">搜索</ant-button>
                     </ant-col>
                 </ant-row>
             </div>
         </div>
-        
+
         <ant-table
             class="mt32px"
             :columns="columns"

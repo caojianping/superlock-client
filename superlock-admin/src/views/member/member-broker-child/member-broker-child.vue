@@ -4,14 +4,10 @@
             <ant-breadcrumb-item>用户中心</ant-breadcrumb-item>
             <ant-breadcrumb-item>
                 {{ ((type = parameters.conditions.type), void 0) }}
-                <router-link :to="`/member/broker/${type}`">{{
-                    ['券商列表', '代理列表'][Number(type)]
-                }}</router-link>
+                <router-link :to="`/member/broker/${type}`">{{ ['券商列表', '代理列表'][Number(type)] }}</router-link>
             </ant-breadcrumb-item>
             <ant-breadcrumb-item>
-                <router-link :to="`/member/broker/child/${uid}`"
-                    >下级代理</router-link
-                >
+                <router-link :to="`/member/broker/child/${uid}`">下级代理</router-link>
             </ant-breadcrumb-item>
         </ant-breadcrumb>
 
@@ -36,14 +32,7 @@
             </div>
         </div>
 
-        <ant-table
-            class="mt32px"
-            :columns="columns"
-            :rowKey="record => record.uid"
-            :dataSource="list"
-            :pagination="false"
-            :loading="isPageLoading"
-        />
+        <ant-table class="mt32px" :columns="columns" :rowKey="record => record.uid" :dataSource="list" :pagination="false" :loading="isPageLoading" />
 
         <ant-pagination
             :current="parameters.pageNum"

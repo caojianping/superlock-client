@@ -15,12 +15,6 @@ export * from './point.model';
 export * from './system.model';
 export * from './carrier.model';
 
-// 下拉列表选项
-export interface ISelectOption {
-    label: string;
-    value: string | number;
-}
-
 // 业务型错误
 export class BusinessError<T> implements Error {
     public code: number; // 错误码

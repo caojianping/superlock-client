@@ -1,13 +1,7 @@
 import TYPES from '@/store/types';
 import { IActionContext, IFinanceState } from '@/store/interfaces';
 import { ReviewType, ReviewStatus } from '@/ts/config';
-import {
-    PageResult,
-    FinanceInterestModel,
-    FinanceDirectModel,
-    FinancePromoteModel,
-    FinanceSaleModel
-} from '@/ts/models';
+import { PageResult, FinanceInterestModel, FinanceDirectModel, FinancePromoteModel, FinanceSaleModel } from '@/ts/models';
 import { FinanceService } from '@/ts/services';
 
 const financeState: IFinanceState = {
@@ -58,122 +52,75 @@ export default {
             context: IActionContext<IFinanceState>,
             payload: { serial: string; type: ReviewType; status: ReviewStatus }
         ): Promise<boolean> {
-            const { serial, type, status } = payload;
-            return await financeService.setReview(serial, type, status);
+            return await financeService.setReview(payload.serial, payload.type, payload.status);
         },
 
-        // 获取利息支出分页列表
-        async fetchPageFinanceInterests(
-            context: IActionContext<IFinanceState>
-        ): Promise<void> {
-            let { commit, state } = context,
-                parameters = state.parameters;
+        // 获取利息支出列表
+        async fetchFinanceInterests(context: IActionContext<IFinanceState>): Promise<void> {
+            let { commit, state } = context;
             try {
-                let result: PageResult<FinanceInterestModel> = await financeService.fetchPageFinanceInterests(
-                    parameters
-                );
+                let result: PageResult<FinanceInterestModel> = await financeService.fetchFinanceInterests(state.parameters);
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
-                commit(TYPES.SET_STATES, {
-                    totalCount: 0,
-                    list: []
-                });
+                commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
                 return Promise.reject(error);
             }
         },
 
-        // 导出利息支出
-        async exportFinanceInterests(
-            context: IActionContext<IFinanceState>
-        ): Promise<string> {
-            let state = context.state;
-            return await financeService.exportFinanceInterests(
-                state.parameters
-            );
+        // 导出利息支出列表
+        async exportFinanceInterests(context: IActionContext<IFinanceState>): Promise<string> {
+            return await financeService.exportFinanceInterests(context.state.parameters);
         },
 
-        // 获取直推奖励分页列表
-        async fetchPageFinanceDirects(
-            context: IActionContext<IFinanceState>
-        ): Promise<void> {
-            let { commit, state } = context,
-                parameters = state.parameters;
+        // 获取直推奖励列表
+        async fetchFinanceDirects(context: IActionContext<IFinanceState>): Promise<void> {
+            let { commit, state } = context;
             try {
-                let result: PageResult<FinanceDirectModel> = await financeService.fetchPageFinanceDirects(
-                    parameters
-                );
+                let result: PageResult<FinanceDirectModel> = await financeService.fetchFinanceDirects(state.parameters);
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
-                commit(TYPES.SET_STATES, {
-                    totalCount: 0,
-                    list: []
-                });
+                commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
                 return Promise.reject(error);
             }
         },
 
-        // 导出直推奖励
-        async exportFinanceDirects(
-            context: IActionContext<IFinanceState>
-        ): Promise<string> {
-            let state = context.state;
-            return await financeService.exportFinanceDirects(state.parameters);
+        // 导出直推奖励列表
+        async exportFinanceDirects(context: IActionContext<IFinanceState>): Promise<string> {
+            return await financeService.exportFinanceDirects(context.state.parameters);
         },
 
-        // 获取推广奖励分页列表
-        async fetchPageFinancePromotes(
-            context: IActionContext<IFinanceState>
-        ): Promise<void> {
-            let { commit, state } = context,
-                parameters = state.parameters;
+        // 获取推广奖励列表
+        async fetchFinancePromotes(context: IActionContext<IFinanceState>): Promise<void> {
+            let { commit, state } = context;
             try {
-                let result: PageResult<FinancePromoteModel> = await financeService.fetchPageFinancePromotes(
-                    parameters
-                );
+                let result: PageResult<FinancePromoteModel> = await financeService.fetchFinancePromotes(state.parameters);
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
-                commit(TYPES.SET_STATES, {
-                    totalCount: 0,
-                    list: []
-                });
+                commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
                 return Promise.reject(error);
             }
         },
 
-        // 导出推广奖励
-        async exportFinancePromotes(
-            context: IActionContext<IFinanceState>
-        ): Promise<string> {
-            let state = context.state;
-            return await financeService.exportFinancePromotes(state.parameters);
+        // 导出推广奖励列表
+        async exportFinancePromotes(context: IActionContext<IFinanceState>): Promise<string> {
+            return await financeService.exportFinancePromotes(context.state.parameters);
         },
 
-        // 获取日销奖励分页列表
-        async fetchPageFinanceSales(
-            context: IActionContext<IFinanceState>
-        ): Promise<void> {
-            let { commit, state } = context,
-                parameters = state.parameters;
+        // 获取日销奖励列表
+        async fetchFinanceSales(context: IActionContext<IFinanceState>): Promise<void> {
+            let { commit, state } = context;
             try {
-                let result: PageResult<FinanceSaleModel> = await financeService.fetchPageFinanceSales(
-                    parameters
-                );
+                let result: PageResult<FinanceSaleModel> = await financeService.fetchFinanceSales(state.parameters);
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
-                commit(TYPES.SET_STATES, {
-                    totalCount: 0,
-                    list: []
-                });
+                commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
                 return Promise.reject(error);
             }
         },
 
-        // 导出日销奖励
-        async exportFinanceSales(
-            context: IActionContext<IFinanceState>
-        ): Promise<string> {
-            let state = context.state;
-            return await financeService.exportFinanceSales(state.parameters);
+        // 导出日销奖励列表
+        async exportFinanceSales(context: IActionContext<IFinanceState>): Promise<string> {
+            return await financeService.exportFinanceSales(context.state.parameters);
         }
     }
 };

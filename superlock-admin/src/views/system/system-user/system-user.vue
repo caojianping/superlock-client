@@ -7,51 +7,14 @@
             </ant-breadcrumb-item>
         </ant-breadcrumb>
 
-        <ant-button class="sl-tool" type="primary" @click="openUserModal(1)"
-            >添加用户</ant-button
-        >
+        <ant-button class="sl-tool" type="primary" @click="openUserModal(1)">添加用户</ant-button>
 
-        <ant-table
-            :columns="columns"
-            :rowKey="record => record.id"
-            :dataSource="list"
-            :pagination="false"
-            :loading="isPageLoading"
-        >
+        <ant-table :columns="columns" :rowKey="record => record.id" :dataSource="list" :pagination="false" :loading="isPageLoading">
             <template slot="operation" slot-scope="record">
-                <ant-button
-                    type="danger"
-                    size="small"
-                    @click="openDeleteConfirm(record)"
-                    >删除</ant-button
-                >
-                <ant-button
-                    type="default"
-                    size="small"
-                    @click="openUserModal(2, record)"
-                    >修改</ant-button
-                >
-                <!-- <ant-button
-                    class="w65px"
-                    type="danger"
-                    size="small"
-                    @click="openPasswordModal(record)"
-                    >重置密码</ant-button
-                > -->
-                <ant-button
-                    class="w65px"
-                    type="danger"
-                    size="small"
-                    @click="openPasswordModal(record)"
-                    >修改密码</ant-button
-                >
-                <ant-button
-                    class="w65px"
-                    type="default"
-                    size="small"
-                    @click="openGaConfirm(record)"
-                    >重置GA</ant-button
-                >
+                <ant-button type="danger" size="small" @click="openDeleteConfirm(record)">删除</ant-button>
+                <ant-button type="default" size="small" @click="openUserModal(2, record)">修改</ant-button>
+                <ant-button class="w65px" type="danger" size="small" @click="openPasswordModal(record)">修改密码</ant-button>
+                <ant-button class="w65px" type="default" size="small" @click="openGaConfirm(record)">重置GA</ant-button>
             </template>
         </ant-table>
 
@@ -67,26 +30,11 @@
             @showSizeChange="handlePageSizeChange"
         />
 
-        <UserModal
-            v-model="isUserShow"
-            :roleOptions="roleOptions"
-            :type="currentOperation"
-            :user="currentUser"
-            @submit="handleUserSubmit"
-        />
+        <UserModal v-model="isUserShow" :roleOptions="roleOptions" :type="currentOperation" :user="currentUser" @submit="handleUserSubmit" />
 
-        <PasswordModal
-            v-model="isPasswordShow"
-            title="输入登录密码"
-            :user="currentUser"
-            @submit="handlePasswordSubmit"
-        />
+        <PasswordModal v-model="isPasswordShow" title="输入登录密码" :user="currentUser" @submit="handlePasswordSubmit" />
 
-        <SecondVerify
-            v-model="isSecondVerifyShow"
-            title="谷歌验证码"
-            @submit="handleSecondVerifySubmit"
-        />
+        <SecondVerify v-model="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
     </div>
 </template>
 

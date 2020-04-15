@@ -1,41 +1,31 @@
 import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
-import { Utils, Prompt } from '@/ts/common';
-import {
-    ISelectOption,
-    IPageParameters,
-    IRechargeRecordPageParameters,
-    RechargeRecordModel
-} from '@/ts/models';
+import Utils from '@/ts/utils';
+import { Prompt } from '@/ts/common';
+import { ISelectOption, IPageParameters, IRechargePageParameters } from '@/ts/interfaces';
+import { RechargeModel } from '@/ts/models';
 
 const rechargeModule = namespace('recharge');
 
 @Component({
-    name: 'RechargeRecord',
+    name: 'RechargeOrder',
     components: {}
 })
-export default class RechargeRecord extends Vue {
-    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
+export default class RechargeOrder extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
+    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
 
     @rechargeModule.State('coinOptions') coinOptions!: Array<ISelectOption>;
-    @rechargeModule.State('parameters') parameters!: IPageParameters<
-        IRechargeRecordPageParameters
-    >;
+    @rechargeModule.State('parameters') parameters!: IPageParameters<IRechargePageParameters>;
     @rechargeModule.State('totalCount') totalCount!: number;
-    @rechargeModule.State('list') list!: Array<RechargeRecordModel>;
-
-    @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (
-        payload: any
-    ) => any;
+    @rechargeModule.State('list') list!: Array<RechargeModel>;
+    @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @rechargeModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
-    @rechargeModule.Action('fetchPageRechargeRecords')
-    fetchPageRechargeRecords!: () => any;
-    @rechargeModule.Action('exportRechargeRecords')
-    exportRechargeRecords!: () => any;
+    @rechargeModule.Action('fetchRecharges') fetchRecharges!: () => any;
+    @rechargeModule.Action('exportRecharges') exportRecharges!: () => any;
 
     columns: Array<any> = [
         {
@@ -102,29 +92,6 @@ export default class RechargeRecord extends Vue {
         }
     ];
 
-    // 搜索
-    async search() {
-        try {
-            let parameters = Utils.duplicate(this.parameters);
-            parameters.pageNum = 1;
-            this.setStates({ parameters });
-            await this.fetchPageRechargeRecords();
-        } catch (error) {
-            Prompt.error(error.message || error);
-        }
-    }
-
-    // 导出报表
-    async exportReport() {
-        try {
-            let url = await this.exportRechargeRecords();
-            if (!url) Prompt.error('导出失败');
-            else window.location.href = url;
-        } catch (error) {
-            Prompt.error(error.message || error);
-        }
-    }
-
     // 处理表单change事件
     handleFormChange(key: string, value: string) {
         let parameters = Utils.duplicate(this.parameters);
@@ -140,13 +107,36 @@ export default class RechargeRecord extends Vue {
         this.setStates({ parameters });
     }
 
+    // 搜索
+    async search() {
+        try {
+            let parameters = Utils.duplicate(this.parameters);
+            parameters.pageNum = 1;
+            this.setStates({ parameters });
+            await this.fetchRecharges();
+        } catch (error) {
+            Prompt.error(error.message || error);
+        }
+    }
+
+    // 导出报表
+    async exportReport() {
+        try {
+            let url = await this.exportRecharges();
+            if (!url) Prompt.error('导出失败');
+            else window.location.href = url;
+        } catch (error) {
+            Prompt.error(error.message || error);
+        }
+    }
+
     // 处理页码change事件
     handlePageNumChange(page: number, pageSize: number) {
         let parameters = Utils.duplicate(this.parameters);
         parameters.pageNum = page;
         parameters.pageSize = pageSize;
         this.setStates({ parameters });
-        this.fetchPageRechargeRecords();
+        this.fetchRecharges();
     }
 
     // 处理页尺寸change事件
@@ -155,7 +145,7 @@ export default class RechargeRecord extends Vue {
         parameters.pageNum = 1;
         parameters.pageSize = pageSize;
         this.setStates({ parameters });
-        this.fetchPageRechargeRecords();
+        this.fetchRecharges();
     }
 
     created() {
@@ -164,6 +154,6 @@ export default class RechargeRecord extends Vue {
 
     mounted() {
         Utils.jumpTop();
-        this.fetchPageRechargeRecords();
+        this.fetchRecharges();
     }
 }

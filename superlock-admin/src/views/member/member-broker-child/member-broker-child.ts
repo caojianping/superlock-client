@@ -1,13 +1,11 @@
 import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
-import { Utils, Prompt } from '@/ts/common';
-import {
-    IPageParameters,
-    IMemberPageParameters,
-    BrokerChildModel
-} from '@/ts/models';
+import Utils from '@/ts/utils';
+import { IPageParameters, IMemberPageParameters } from '@/ts/interfaces';
+import { BrokerChildModel } from '@/ts/models';
 
 const memberModule = namespace('member');
 
@@ -16,21 +14,16 @@ const memberModule = namespace('member');
     components: {}
 })
 export default class MemberBrokerChild extends Vue {
-    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
     @State('isPageLoading') isPageLoading!: boolean;
+    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
 
-    @memberModule.State('parameters') parameters!: IPageParameters<
-        IMemberPageParameters
-    >;
+    @memberModule.State('parameters') parameters!: IPageParameters<IMemberPageParameters>;
     @memberModule.State('totalCount') totalCount!: number;
     @memberModule.State('list') list!: Array<BrokerChildModel>;
     @memberModule.State('count') count!: number;
-
     @memberModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @memberModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
-    @memberModule.Action('fetchPageBrokerChilds')
-    fetchPageBrokerChilds!: () => any;
+    @memberModule.Action('fetchBrokerChilds') fetchBrokerChilds!: () => any;
 
     uid: string = '';
 
@@ -71,7 +64,7 @@ export default class MemberBrokerChild extends Vue {
         parameters.pageNum = page;
         parameters.pageSize = pageSize;
         this.setStates({ parameters });
-        this.fetchPageBrokerChilds();
+        this.fetchBrokerChilds();
     }
 
     // 处理页尺寸change事件
@@ -80,7 +73,7 @@ export default class MemberBrokerChild extends Vue {
         parameters.pageNum = 1;
         parameters.pageSize = pageSize;
         this.setStates({ parameters });
-        this.fetchPageBrokerChilds();
+        this.fetchBrokerChilds();
     }
 
     created() {
@@ -94,6 +87,6 @@ export default class MemberBrokerChild extends Vue {
 
     mounted() {
         Utils.jumpTop();
-        this.fetchPageBrokerChilds();
+        this.fetchBrokerChilds();
     }
 }

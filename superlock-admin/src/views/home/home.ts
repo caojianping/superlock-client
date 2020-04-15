@@ -1,10 +1,12 @@
 import Vue from 'vue';
 import { namespace, State, Mutation } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
+import Utils from '@/ts/utils';
 import { ResponseCode } from '@/ts/config';
-import { Utils, Prompt } from '@/ts/common';
-import { HomeModel, InitInfoForm, SecondVerifyResult } from '@/ts/models';
+import { Prompt } from '@/ts/common';
+import { SecondVerifyResult, HomeModel, InitInfoFormModel } from '@/ts/models';
 
 import SecondVerify from '@/components/common/second-verify';
 import InitModal from '@/components/home/init-modal';
@@ -20,7 +22,7 @@ export default class Home extends Vue {
     @Mutation(TYPES.SET_STATES) setRootStates!: (payload: any) => any;
 
     @homeModule.State('homeData') homeData!: HomeModel;
-    @homeModule.State('initInfoForm') initInfoForm!: InitInfoForm;
+    @homeModule.State('initInfoForm') initInfoForm!: InitInfoFormModel;
 
     @homeModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
 
@@ -37,7 +39,7 @@ export default class Home extends Vue {
     }
 
     // 私有函数：提交初始信息
-    async _submitInitInfo(initInfoForm: InitInfoForm, isCode: boolean) {
+    async _submitInitInfo(initInfoForm: InitInfoFormModel, isCode: boolean) {
         try {
             this.setRootStates({ isFullLoading: true });
             this.setStates({ initInfoForm });
@@ -65,7 +67,7 @@ export default class Home extends Vue {
     }
 
     // 处理初始信息模态框submit事件
-    async handleInitSubmit(initInfoForm: InitInfoForm) {
+    async handleInitSubmit(initInfoForm: InitInfoFormModel) {
         this._submitInitInfo(initInfoForm, false);
     }
 

@@ -1,11 +1,11 @@
 import TYPES from '@/store/types';
 import { ILoginState, IActionContext } from '@/store/interfaces';
 import { Token } from '@/ts/common';
-import { LoginForm, TokenInfo } from '@/ts/models';
+import { TokenInfo, LoginFormModel } from '@/ts/models';
 import { LoginService } from '@/ts/services';
 
 const loginState: ILoginState = {
-    loginForm: new LoginForm()
+    loginForm: new LoginFormModel()
 };
 
 const loginService = new LoginService();
@@ -21,15 +21,12 @@ export default {
             }
         },
         [TYPES.CLEAR_STATES](state: ILoginState) {
-            state.loginForm = new LoginForm();
+            state.loginForm = new LoginFormModel();
         }
     },
     actions: {
         // 登录
-        async login(
-            context: IActionContext<ILoginState>,
-            isCode: boolean = false
-        ): Promise<string> {
+        async login(context: IActionContext<ILoginState>, isCode: boolean = false): Promise<string> {
             let { commit, state } = context,
                 loginForm = state.loginForm,
                 token = await loginService.login(loginForm, isCode),

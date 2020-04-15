@@ -1,7 +1,7 @@
 import TYPES from '@/store/types';
 import { IActionContext, IGoogleState } from '@/store/interfaces';
 import { Token, Prompt } from '@/ts/common';
-import { LoginForm, TokenInfo } from '@/ts/models';
+import { TokenInfo, LoginFormModel } from '@/ts/models';
 import { GoogleService } from '@/ts/services';
 
 const googleState: IGoogleState = {
@@ -45,7 +45,7 @@ export default {
         // 获取谷歌认证密钥
         async fetchGoogleKey(
             context: IActionContext<IGoogleState>,
-            loginForm: LoginForm
+            loginForm: LoginFormModel
         ): Promise<void> {
             const commit = context.commit;
             try {
@@ -66,7 +66,7 @@ export default {
         // 绑定谷歌认证
         async bindGoogle(
             context: IActionContext<IGoogleState>,
-            loginForm: LoginForm
+            loginForm: LoginFormModel
         ): Promise<boolean> {
             const { commit, state } = context;
             try {

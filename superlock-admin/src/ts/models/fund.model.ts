@@ -1,13 +1,4 @@
-export interface IFundRecordPageParameters {
-    orderId: string; // 订单号
-    coinCode: string; // 币种
-    beginTime: string; // 开始时间
-    endTime: string; // 结束时间
-    orderType: string; // 订单类型
-    accountName: string; // 账户名称
-}
-
-export class FundRecordModel {
+export class FundModel {
     public orderId!: string; // 订单号
     public orderType!: string; // 订单类型
     public uid!: string; // uid

@@ -14,38 +14,23 @@
             <div class="sl-block-body">
                 <ant-row :gutter="24">
                     <ant-col :span="8">
-                        <ant-form-item
-                            label="转出UID"
-                            :label-col="{ span: 6 }"
-                            :wrapper-col="{ span: 18 }"
-                        >
+                        <ant-form-item label="转出UID" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
                                 :value="pointParameters.conditions.uid"
                                 allowClear
                                 placeholder="请输入转出UID"
-                                @change="
-                                    handleFormChange('uid', $event.target.value)
-                                "
+                                @change="handleFormChange('uid', $event.target.value)"
                             />
                         </ant-form-item>
                     </ant-col>
 
                     <ant-col :span="10">
-                        <ant-form-item
-                            label="选择时间"
-                            :label-col="{ span: 6 }"
-                            :wrapper-col="{ span: 18 }"
-                        >
-                            {{
-                                (beginTime = pointParameters.conditions.beginTime, void 0),
-                                (endTime = pointParameters.conditions.endTime, void 0)
-                            }}
+                        <ant-form-item label="选择时间" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                            {{ ((beginTime = pointParameters.conditions.beginTime), void 0) }}
+                            {{ ((endTime = pointParameters.conditions.endTime), void 0) }}
                             <ant-range-picker
-                                :value="[
-                                    beginTime ? moment(beginTime) : undefined,
-                                    endTime ? moment(endTime) : undefined
-                                ]"
+                                :value="[beginTime ? moment(beginTime) : undefined, endTime ? moment(endTime) : undefined]"
                                 :showTime="{ format: 'HH:mm' }"
                                 format="YYYY-MM-DD HH:mm"
                                 @change="handleRangePickerChange"
@@ -54,37 +39,19 @@
                     </ant-col>
 
                     <ant-col :span="6">
-                        <ant-button
-                            class="sl-search"
-                            type="primary"
-                            @click="search"
-                            >搜索</ant-button
-                        >
+                        <ant-button class="sl-search" type="primary" @click="search">搜索</ant-button>
                     </ant-col>
                 </ant-row>
             </div>
         </div>
 
-        <ant-button class="sl-tool" type="primary" @click="openPointModal"
-            >上分</ant-button
-        >
+        <ant-button class="sl-tool" type="primary" @click="openPointModal">上分</ant-button>
 
-        <ant-button
-            class="sl-tool"
-            type="primary"
-            @click="openTransferModal"
-            >转账</ant-button
-        >
-        
+        <ant-button class="sl-tool" type="primary" @click="openTransferModal">转账</ant-button>
+
         <ant-button class="sl-tool" type="primary" @click="exportReport">导出报表</ant-button>
 
-        <ant-table
-            :columns="columns"
-            :rowKey="record => record.date"
-            :dataSource="list"
-            :pagination="false"
-            :loading="isPageLoading"
-        >
+        <ant-table :columns="columns" :rowKey="record => record.date" :dataSource="list" :pagination="false" :loading="isPageLoading">
             <span slot="date" slot-scope="record">
                 {{ record.date | dateFormat }}
             </span>
@@ -102,23 +69,11 @@
             @showSizeChange="handlePageSizeChange"
         />
 
-        <PointModal
-            v-model="isPointShow"
-            title="系统账户上分"
-            @submit="handlePointSubmit"
-        />
+        <PointModal v-model="isPointShow" title="系统账户上分" @submit="handlePointSubmit" />
 
-        <TransferModal
-            v-model="isTransferShow"
-            title="系统转账"
-            @submit="handleTransferSubmit"
-        />
+        <TransferModal v-model="isTransferShow" title="系统转账" @submit="handleTransferSubmit" />
 
-        <SecondVerify
-            v-model="isSecondVerifyShow"
-            :title="'谷歌验证码'"
-            @submit="handleSecondVerifySubmit"
-        />
+        <SecondVerify v-model="isSecondVerifyShow" :title="'谷歌验证码'" @submit="handleSecondVerifySubmit" />
     </div>
 </template>
 

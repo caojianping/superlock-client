@@ -1,26 +1,21 @@
 import Validator, { ValidationResult } from 'jpts-validator';
+import Utils from '@/ts/utils';
 import { Urls, CaxiosType, CONSTANTS } from '@/ts/config';
-import { Utils, Caxios, md5 } from '@/ts/common';
-import { LoginForm } from '@/ts/models';
+import { Caxios, md5 } from '@/ts/common';
+import { LoginFormModel } from '@/ts/models';
 
 export class GoogleService {
     // 获取谷歌认证密钥
-    public async fetchGoogleKey(loginForm: LoginForm): Promise<string> {
+    public async fetchGoogleKey(loginForm: LoginFormModel): Promise<string> {
         if (!loginForm) return Promise.reject('参数不可以为空');
 
-        const key = 'login';
+        const key = 'googleKey';
         let { username } = loginForm,
             validator = new Validator();
-        validator.addRule(
-            key,
-            { name: 'username', value: username },
-            { required: true },
-            { required: '用户名不可以为空' }
-        );
+        validator.addRule(key, { name: 'username', value: username }, { required: true }, { required: '用户名不可以为空' });
 
         let result: ValidationResult = validator.execute(key);
-        if (!result.status)
-            return Promise.reject(Utils.getFirstValue(result.data));
+        if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
         let gakey = await Caxios.get<string | null>(
             {
@@ -35,34 +30,18 @@ export class GoogleService {
     }
 
     // 绑定谷歌认证
-    public async bindGoogle(loginForm: LoginForm): Promise<string> {
+    public async bindGoogle(loginForm: LoginFormModel): Promise<string> {
         if (!loginForm) return Promise.reject('参数不可以为空');
 
-        const key = 'login';
+        const key = 'bindGoogle';
         let { username, password, code } = loginForm,
             validator = new Validator();
-        validator.addRule(
-            key,
-            { name: 'username', value: username },
-            { required: true },
-            { required: '用户名不可以为空' }
-        );
-        validator.addRule(
-            key,
-            { name: 'password', value: password },
-            { required: true },
-            { required: '密码不可以为空' }
-        );
-        validator.addRule(
-            key,
-            { name: 'code', value: code },
-            { required: true },
-            { required: '验证码不可以为空' }
-        );
+        validator.addRule(key, { name: 'username', value: username }, { required: true }, { required: '用户名不可以为空' });
+        validator.addRule(key, { name: 'password', value: password }, { required: true }, { required: '密码不可以为空' });
+        validator.addRule(key, { name: 'code', value: code }, { required: true }, { required: '验证码不可以为空' });
 
         let validateResult: ValidationResult = validator.execute(key);
-        if (!validateResult.status)
-            return Promise.reject(Utils.getFirstValue(validateResult.data));
+        if (!validateResult.status) return Promise.reject(Utils.getFirstValue(validateResult.data));
 
         let result = await Caxios.post<any>(
             {

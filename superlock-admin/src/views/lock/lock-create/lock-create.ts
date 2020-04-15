@@ -1,10 +1,13 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
+import Utils from '@/ts/utils';
 import { ResponseCode } from '@/ts/config';
-import { Utils, Prompt } from '@/ts/common';
-import { ProjectForm, SecondVerifyResult } from '@/ts/models';
+import { Prompt } from '@/ts/common';
+import { SecondVerifyResult, ProjectFormModel } from '@/ts/models';
+
 import SecondVerify from '@/components/common/second-verify';
 
 const lockModule = namespace('lock');
@@ -14,14 +17,10 @@ const lockModule = namespace('lock');
     components: { SecondVerify }
 })
 export default class LockCreate extends Vue {
-    @lockModule.State('projectForm') projectForm!: ProjectForm;
-
+    @lockModule.State('projectForm') projectForm!: ProjectFormModel;
     @lockModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @lockModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
-    @lockModule.Action('crateLockProject') crateLockProject!: (
-        isCode: boolean
-    ) => any;
+    @lockModule.Action('crateProject') crateProject!: (isCode: boolean) => any;
 
     isSecondVerifyShow: boolean = false; // 是否显示二次验证
 
@@ -35,7 +34,7 @@ export default class LockCreate extends Vue {
     // 提交锁仓信息
     async submit(isCode: boolean) {
         try {
-            let result = await this.crateLockProject(isCode);
+            let result = await this.crateProject(isCode);
             if (!result) Prompt.error('锁仓创建失败');
             else this.$router.push({ path: '/lock/project' });
         } catch (error) {

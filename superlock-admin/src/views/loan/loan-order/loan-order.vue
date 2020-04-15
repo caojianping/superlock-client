@@ -16,17 +16,11 @@
 
         <ant-button class="sl-tool" type="primary">导出报表</ant-button>
 
-        <ant-table
-            :columns="columns"
-            :rowKey="record => record.serial"
-            :dataSource="list"
-            :pagination="false"
-            :loading="isPageLoading"
-        />
+        <ant-table :columns="columns" :rowKey="record => record.serial" :dataSource="list" :pagination="false" :loading="isPageLoading" />
 
         <ant-pagination
-            :current="recordParameters.pageNum"
-            :pageSize="recordParameters.pageSize"
+            :current="loanParameters.pageNum"
+            :pageSize="loanParameters.pageSize"
             :total="totalCount"
             :pageSizeOptions="pageSizeOptions"
             :showTotal="total => `共有 ${total} 条记录`"
@@ -38,6 +32,6 @@
     </div>
 </template>
 
-<style src="./loan-record.less" lang="less" scoped />
+<style src="./loan-order.less" lang="less" scoped />
 
-<script src="./loan-record.ts" />
+<script src="./loan-order.ts" />

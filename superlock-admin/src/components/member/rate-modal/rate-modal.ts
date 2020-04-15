@@ -1,8 +1,11 @@
 import Vue from 'vue';
 import { Component, Prop, Model, Watch } from 'vue-property-decorator';
 import { ValidationResult } from 'jpts-validator';
-import { Utils, Prompt } from '@/ts/common';
-import { RateForm, ISelectOption } from '@/ts/models';
+
+import Utils from '@/ts/utils';
+import { Prompt } from '@/ts/common';
+import { ISelectOption } from '@/ts/interfaces';
+import { RateFormModel } from '@/ts/models';
 import { MemberService } from '@/ts/services';
 
 @Component({
@@ -15,7 +18,7 @@ export default class RateModal extends Vue {
     @Prop() readonly projectOptions!: Array<ISelectOption>; // 项目选项列表
 
     isShow: boolean = this.value; // 是否显示模态框
-    rateForm: RateForm = new RateForm(); // 利率表单
+    rateForm: RateFormModel = new RateFormModel(); // 利率表单
 
     // 处理表单change事件
     handleFormChange(key: string, value: any) {
@@ -32,10 +35,7 @@ export default class RateModal extends Vue {
     // 提交利率信息
     async submit() {
         let rateForm = this.rateForm,
-            result: ValidationResult = MemberService.validateRateForm(
-                rateForm,
-                false
-            );
+            result: ValidationResult = MemberService.validateRateForm(rateForm, false);
         if (!result.status) {
             Prompt.error(Utils.getFirstValue(result.data));
             return;
@@ -49,7 +49,7 @@ export default class RateModal extends Vue {
     watchValue(value: boolean) {
         this.isShow = value;
         if (value) {
-            let rateForm = new RateForm();
+            let rateForm = new RateFormModel();
             rateForm.code = undefined;
             this.rateForm = rateForm;
         }

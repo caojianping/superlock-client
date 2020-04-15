@@ -1,18 +1,14 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { Utils } from './utils';
-import { Prompt } from './prompt';
-import { Token } from './token';
-import { UsbToken } from './usb-token';
-import { CaxiosType, ResponseCode, CONSTANTS } from '@/ts/config';
-import {
-    ResponseResult,
-    BusinessError,
-    SecondVerifyResult,
-    TokenInfo
-} from '@/ts/models';
 import store from '@/store';
 import TYPES from '@/store/types';
 import Router from '@/router';
+import { CaxiosType, ResponseCode, CONSTANTS } from '@/ts/config';
+import { ResponseResult, BusinessError, SecondVerifyResult, TokenInfo } from '@/ts/models';
+
+import Utils from '@/ts/utils';
+import { Prompt } from './prompt';
+import { Token } from './token';
+import { UsbToken } from './usb-token';
 
 const isIE9 = Utils.isIE9();
 
@@ -23,30 +19,33 @@ export class Caxios {
     private static commonOptions: any = {
         responseType: 'json',
         timeout: CONSTANTS.TIMEOUT
-        // withCredentials: true
     };
 
     // 设置headers
-    private static setHeaders(
-        type: CaxiosType = CaxiosType.Default,
-        options: any = {}
-    ) {
+    private static setHeaders(type: CaxiosType = CaxiosType.Default, options: any = {}, isCode: boolean = false) {
         if (!options['headers']) {
             options['headers'] = {};
         }
 
-        if (
-            type === CaxiosType.FullLoadingToken ||
-            type === CaxiosType.PageLoadingToken ||
-            type === CaxiosType.Token
-        ) {
+        // 设置默认请求头内容类型
+        if (options.method === 'POST') {
+            if (!options['headers']['Content-Type']) {
+                options['headers']['Content-Type'] = 'application/json; charset=UTF-8';
+            }
+        }
+
+        // 处理token
+        if (type === CaxiosType.FullLoadingToken || type === CaxiosType.PageLoadingToken || type === CaxiosType.Token) {
             let tokenInfo: TokenInfo = Token.getTokenInfo();
             options['headers'][CONSTANTS.HEADER_TOKEN] = tokenInfo.token;
         }
 
-        if (options.method === 'POST') {
-            options['headers']['Content-Type'] =
-                'application/json; charset=UTF-8';
+        // 处理谷歌验证码
+        if (isCode) {
+            let code = Token.getCode();
+            if (!code) throw new Error('谷歌验证码不可以为空');
+
+            options['headers'][CONSTANTS.HEADER_CODE] = code;
         }
         return options;
     }
@@ -54,10 +53,7 @@ export class Caxios {
     // 设置usb token
     private static async setUsbToken(options: any = {}) {
         try {
-            let usbToken = await UsbToken.sendMessage(
-                options.url,
-                options.data
-            );
+            let usbToken = await UsbToken.sendMessage(options.url, options.data);
             if (usbToken) {
                 options['headers']['cert'] = usbToken.cert;
                 options['headers']['sign'] = usbToken.sign;
@@ -72,19 +68,13 @@ export class Caxios {
 
     // 设置loading
     private static setLoading(type: CaxiosType, isShow: boolean): void {
-        if (
-            type === CaxiosType.FullLoading ||
-            type === CaxiosType.FullLoadingToken
-        ) {
+        if (type === CaxiosType.FullLoading || type === CaxiosType.FullLoadingToken) {
             store.commit(TYPES.SET_LOADING, {
                 key: 'isFullLoading',
                 value: isShow
             });
         }
-        if (
-            type === CaxiosType.PageLoading ||
-            type === CaxiosType.PageLoadingToken
-        ) {
+        if (type === CaxiosType.PageLoading || type === CaxiosType.PageLoadingToken) {
             store.commit(TYPES.SET_LOADING, {
                 key: 'isPageLoading',
                 value: isShow
@@ -93,15 +83,12 @@ export class Caxios {
     }
 
     // axios调用
-    public static async invoke<T>(
-        options: AxiosRequestConfig,
-        type: CaxiosType = CaxiosType.Default
-    ): Promise<T> {
+    public static async invoke<T>(options: AxiosRequestConfig, type: CaxiosType = CaxiosType.Default, isCode: boolean = false): Promise<T> {
         if (!options) return Promise.reject('axios请求参数配置不可以为空');
 
         Caxios.setLoading(type, true);
 
-        options = Caxios.setHeaders(type, options);
+        options = Caxios.setHeaders(type, options, isCode);
         options = await Caxios.setUsbToken(options);
 
         let method = options.method || 'GET',
@@ -155,23 +142,20 @@ export class Caxios {
         // 兼容IE9
         if (isIE9) {
             let request = response.request;
-            if (
-                request &&
-                request.responseType === 'json' &&
-                request.responseText
-            ) {
+            if (request && request.responseType === 'json' && request.responseText) {
                 response.data = JSON.parse(request.responseText);
             }
+        }
+
+        // 处理谷歌验证码
+        if (isCode) {
+            Token.removeCode();
         }
 
         let resp = response.data;
         if (!resp) throw new BusinessError(999, '无效的响应数据');
 
-        let result = new ResponseResult<T>(
-            Number(resp.code),
-            resp.data,
-            resp.message
-        );
+        let result = new ResponseResult<T>(Number(resp.code), resp.data, resp.message);
         if (!result) throw new BusinessError(999, '无效的响应数据');
 
         let code: number = result.code,
@@ -201,24 +185,18 @@ export class Caxios {
     }
 
     // GET方法请求
-    public static async get<T>(
-        options: AxiosRequestConfig,
-        type: CaxiosType = CaxiosType.Default
-    ): Promise<T> {
+    public static async get<T>(options: AxiosRequestConfig, type: CaxiosType = CaxiosType.Default, isCode: boolean = false): Promise<T> {
         if (!options) return Promise.reject('axios配置参数不可以为空');
 
         options['method'] = 'GET';
-        return await Caxios.invoke<T>(options, type);
+        return await Caxios.invoke<T>(options, type, isCode);
     }
 
     // POST方法请求
-    public static async post<T>(
-        options: AxiosRequestConfig,
-        type: CaxiosType = CaxiosType.Default
-    ): Promise<T> {
+    public static async post<T>(options: AxiosRequestConfig, type: CaxiosType = CaxiosType.Default, isCode: boolean = false): Promise<T> {
         if (!options) return Promise.reject('axios配置参数不可以为空');
 
         options['method'] = 'POST';
-        return await Caxios.invoke<T>(options, type);
+        return await Caxios.invoke<T>(options, type, isCode);
     }
 }

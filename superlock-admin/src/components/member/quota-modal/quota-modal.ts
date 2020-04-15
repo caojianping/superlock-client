@@ -1,8 +1,10 @@
 import Vue from 'vue';
 import { Component, Prop, Model, Watch } from 'vue-property-decorator';
 import { ValidationResult } from 'jpts-validator';
-import { Utils, Prompt } from '@/ts/common';
-import { QuotaForm, BrokerModel } from '@/ts/models';
+
+import Utils from '@/ts/utils';
+import { Prompt } from '@/ts/common';
+import { QuotaFormModel, BrokerModel } from '@/ts/models';
 import { MemberService } from '@/ts/services';
 
 @Component({
@@ -15,7 +17,7 @@ export default class QuotaModal extends Vue {
     @Prop() readonly broker!: BrokerModel; // 券商数据
 
     isShow: boolean = this.value; // 是否显示模态框
-    quotaForm: QuotaForm = new QuotaForm(); // 额度表单
+    quotaForm: QuotaFormModel = new QuotaFormModel(); // 额度表单
 
     // 处理表单change事件
     handleFormChange(key: string, value: any) {
@@ -32,10 +34,7 @@ export default class QuotaModal extends Vue {
     // 提交额度
     async submit() {
         let quotaForm = this.quotaForm,
-            result: ValidationResult = MemberService.validateQuotaForm(
-                quotaForm,
-                false
-            );
+            result: ValidationResult = MemberService.validateQuotaForm(quotaForm, false);
         if (!result.status) {
             Prompt.error(Utils.getFirstValue(result.data));
             return;
@@ -49,7 +48,7 @@ export default class QuotaModal extends Vue {
     watchValue(value: boolean) {
         this.isShow = value;
         if (value) {
-            let quotaForm = new QuotaForm();
+            let quotaForm = new QuotaFormModel();
             quotaForm.uid = this.broker.uid;
             quotaForm.code = undefined;
             this.quotaForm = quotaForm;

@@ -1,8 +1,10 @@
 import Vue from 'vue';
 import { Component, Prop, Model, Watch } from 'vue-property-decorator';
 import { ValidationResult } from 'jpts-validator';
+
+import Utils from '@/ts/utils';
 import { OperationType } from '@/ts/config';
-import { Utils, Prompt } from '@/ts/common';
+import { Prompt } from '@/ts/common';
 import { RechargePoundageModel } from '@/ts/models';
 import { RechargeService } from '@/ts/services';
 
@@ -34,11 +36,7 @@ export default class PoundageModal extends Vue {
     // 提交手续费信息
     async submit() {
         let { type, rechargePoundage } = this,
-            result: ValidationResult = RechargeService.validatePoundage(
-                rechargePoundage,
-                false,
-                type
-            );
+            result: ValidationResult = RechargeService.validatePoundage(rechargePoundage, false, type);
         if (!result.status) {
             Prompt.error(Utils.getFirstValue(result.data));
             return;
@@ -62,8 +60,7 @@ export default class PoundageModal extends Vue {
                     rechargePoundage.tokenType = poundage.tokenType;
                     rechargePoundage.type = poundage.type;
                     rechargePoundage.feeToken = poundage.feeToken;
-                    rechargePoundage.chargeRate =
-                        Number(poundage.chargeRate) * 100;
+                    rechargePoundage.chargeRate = Number(poundage.chargeRate) * 100;
                 }
             }
             this.rechargePoundage = rechargePoundage;

@@ -1,6 +1,6 @@
 import TYPES from '@/store/types';
 import { IActionContext, IFundState } from '@/store/interfaces';
-import { PageResult, FundRecordModel } from '@/ts/models';
+import { PageResult, FundModel } from '@/ts/models';
 import { FundService } from '@/ts/services';
 
 const fundState: IFundState = {
@@ -87,32 +87,21 @@ export default {
         }
     },
     actions: {
-        // 获取资金记录分页列表
-        async fetchPageFundRecords(
-            context: IActionContext<IFundState>
-        ): Promise<void> {
-            let { commit, state } = context,
-                parameters = state.parameters;
+        // 获取资金列表
+        async fetchFunds(context: IActionContext<IFundState>): Promise<void> {
+            let { commit, state } = context;
             try {
-                let result: PageResult<FundRecordModel> = await fundService.fetchPageFundRecords(
-                    parameters
-                );
+                let result: PageResult<FundModel> = await fundService.fetchFunds(state.parameters);
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
-                commit(TYPES.SET_STATES, {
-                    totalCount: 0,
-                    list: []
-                });
+                commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
                 return Promise.reject(error);
             }
         },
 
-        // 导出资金记录
-        async exportFundRecords(
-            context: IActionContext<IFundState>
-        ): Promise<string> {
-            let state = context.state;
-            return await fundService.exportFundRecords(state.parameters);
+        // 导出资金列表
+        async exportFunds(context: IActionContext<IFundState>): Promise<string> {
+            return await fundService.exportFunds(context.state.parameters);
         }
     }
 };

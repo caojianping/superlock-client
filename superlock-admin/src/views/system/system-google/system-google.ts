@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import { Utils } from '@/ts/common';
+import Utils from '@/ts/utils';
 
 @Component({
     name: 'SystemGoogle',

@@ -1,15 +1,7 @@
 import TYPES from '@/store/types';
 import { IActionContext, IPointState } from '@/store/interfaces';
 import { Prompt } from '@/ts/common';
-import {
-    PageResult,
-    PointRecordModel,
-    PointAccountModel,
-    PointForm,
-    TransferForm,
-    TransferInfo,
-    PointInfo
-} from '@/ts/models';
+import { PageResult, PointModel, PointAccountModel, PointFormModel, TransferFormModel, TransferInfoModel, PointInfoModel } from '@/ts/models';
 import { PointService } from '@/ts/services';
 
 const pointState: IPointState = {
@@ -31,10 +23,10 @@ const pointState: IPointState = {
     list: [],
 
     pointInfos: [],
-    transferInfo: new TransferInfo(),
+    transferInfo: new TransferInfoModel(),
 
-    pointForm: new PointForm(),
-    transferForm: new TransferForm()
+    pointForm: new PointFormModel(),
+    transferForm: new TransferFormModel()
 };
 
 const pointService = new PointService();
@@ -68,48 +60,35 @@ export default {
             state.list = [];
 
             state.pointInfos = [];
-            state.transferInfo = new TransferInfo();
+            state.transferInfo = new TransferInfoModel();
 
-            state.pointForm = new PointForm();
-            state.transferForm = new TransferForm();
+            state.pointForm = new PointFormModel();
+            state.transferForm = new TransferFormModel();
         }
     },
     actions: {
-        // 获取上分记录分页列表
-        async fetchPagePointRecords(
-            context: IActionContext<IPointState>
-        ): Promise<void> {
-            let { commit, state } = context,
-                parameters = state.pointParameters;
+        // 获取上分列表
+        async fetchPoints(context: IActionContext<IPointState>): Promise<void> {
+            let { commit, state } = context;
             try {
-                let result: PageResult<PointRecordModel> = await pointService.fetchPagePointRecords(
-                    parameters
-                );
+                let result: PageResult<PointModel> = await pointService.fetchPoints(state.pointParameters);
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
-                commit(TYPES.SET_STATES, {
-                    totalCount: 0,
-                    list: []
-                });
+                commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
                 return Promise.reject(error);
             }
         },
 
-        // 导出上分记录
-        async exportPointRecords(
-            context: IActionContext<IPointState>
-        ): Promise<string> {
-            let state = context.state;
-            return await pointService.exportPointRecords(state.pointParameters);
+        // 导出上分列表
+        async exportPoints(context: IActionContext<IPointState>): Promise<string> {
+            return await pointService.exportPoints(context.state.pointParameters);
         },
 
         // 获取上分信息
-        async fetchPointInfo(
-            context: IActionContext<IPointState>
-        ): Promise<void> {
+        async fetchPointInfo(context: IActionContext<IPointState>): Promise<void> {
             let commit = context.commit;
             try {
-                let pointInfos: Array<PointInfo> = await pointService.fetchPointInfo();
+                let pointInfos: Array<PointInfoModel> = await pointService.fetchPointInfo();
                 commit(TYPES.SET_STATES, { pointInfos });
             } catch (error) {
                 commit(TYPES.SET_STATES, { pointInfos: [] });
@@ -118,56 +97,35 @@ export default {
         },
 
         // 设置上分信息
-        async setPointInfo(
-            context: IActionContext<IPointState>,
-            isCode: boolean = false
-        ): Promise<boolean> {
-            let state = context.state;
-            return await pointService.setPointInfo(state.pointForm, isCode);
+        async setPointInfo(context: IActionContext<IPointState>, isCode: boolean = false): Promise<boolean> {
+            return await pointService.setPointInfo(context.state.pointForm, isCode);
         },
 
         // 获取转账信息
-        async fetchTransferInfo(
-            context: IActionContext<IPointState>
-        ): Promise<void> {
+        async fetchTransferInfo(context: IActionContext<IPointState>): Promise<void> {
             let commit = context.commit;
             try {
-                let transferInfo: TransferInfo = await pointService.fetchTransferInfo();
+                let transferInfo: TransferInfoModel = await pointService.fetchTransferInfo();
                 commit(TYPES.SET_STATES, { transferInfo });
             } catch (error) {
-                commit(TYPES.SET_STATES, { transferInfo: new TransferInfo() });
+                commit(TYPES.SET_STATES, { transferInfo: new TransferInfoModel() });
                 Prompt.error(error.message || error);
             }
         },
 
         // 设置转账信息
-        async setTransferInfo(
-            context: IActionContext<IPointState>,
-            isCode: boolean = false
-        ): Promise<boolean> {
-            let state = context.state;
-            return await pointService.setTransferInfo(
-                state.transferForm,
-                isCode
-            );
+        async setTransferInfo(context: IActionContext<IPointState>, isCode: boolean = false): Promise<boolean> {
+            return await pointService.setTransferInfo(context.state.transferForm, isCode);
         },
 
         // 获取系统账号分页列表
-        async fetchPagePointAccounts(
-            context: IActionContext<IPointState>
-        ): Promise<void> {
-            let { commit, state } = context,
-                parameters = state.accountParameters;
+        async fetchPointAccounts(context: IActionContext<IPointState>): Promise<void> {
+            let { commit, state } = context;
             try {
-                let result: PageResult<PointAccountModel> = await pointService.fetchPagePointAccounts(
-                    parameters
-                );
+                let result: PageResult<PointAccountModel> = await pointService.fetchPointAccounts(state.accountParameters);
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
-                commit(TYPES.SET_STATES, {
-                    totalCount: 0,
-                    list: []
-                });
+                commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
                 return Promise.reject(error);
             }
         }

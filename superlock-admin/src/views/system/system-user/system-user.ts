@@ -1,18 +1,15 @@
 import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
-import { Modal } from 'ant-design-vue';
-import TYPES from '@/store/types';
-import { ResponseCode, OperationType } from '@/ts/config';
-import { Prompt, Utils } from '@/ts/common';
-import {
-    IPageParameters,
-    SecondVerifyResult,
-    UserModel,
-    UserForm,
-    PasswordForm
-} from '@/ts/models';
 
+import TYPES from '@/store/types';
+import Utils from '@/ts/utils';
+import { ResponseCode, OperationType } from '@/ts/config';
+import { Prompt } from '@/ts/common';
+import { IPageParameters } from '@/ts/interfaces';
+import { SecondVerifyResult, UserModel, UserFormModel, PasswordFormModel } from '@/ts/models';
+
+import { Modal } from 'ant-design-vue';
 import SecondVerify from '@/components/common/second-verify';
 import UserModal from '@/components/system/user-modal';
 import PasswordModal from '@/components/system/password-modal';
@@ -32,28 +29,23 @@ const enum SecondVerifyType {
     components: { SecondVerify, UserModal, PasswordModal }
 })
 export default class SystemUser extends Vue {
-    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
     @State('isPageLoading') isPageLoading!: boolean;
+    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
 
     @systemModule.State('roleOptions') roleOptions!: Array<any>;
     @systemModule.State('parameters') parameters!: IPageParameters<null>;
     @systemModule.State('totalCount') totalCount!: number;
     @systemModule.State('list') list!: Array<UserModel>;
-
-    @systemModule.State('userForm') userForm!: UserForm;
-    @systemModule.State('passwordForm') passwordForm!: PasswordForm;
-
+    @systemModule.State('userForm') userForm!: UserFormModel;
+    @systemModule.State('passwordForm') passwordForm!: PasswordFormModel;
     @systemModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @systemModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
     @systemModule.Action('fetchRoles') fetchRoles!: () => any;
     @systemModule.Action('fetchUsers') fetchUsers!: () => any;
     @systemModule.Action('addUser') addUser!: (isCode: boolean) => any;
     @systemModule.Action('updateUser') updateUser!: (isCode: boolean) => any;
     @systemModule.Action('deleteUser') deleteUser!: (payload: any) => any;
-    @systemModule.Action('resetPassword') resetPassword!: (
-        isCode: boolean
-    ) => any;
+    @systemModule.Action('resetPassword') resetPassword!: (isCode: boolean) => any;
     @systemModule.Action('resetGa') resetGa!: (payload: any) => any;
 
     isSecondVerifyShow: boolean = false; // 是否显示二次验证
@@ -108,16 +100,12 @@ export default class SystemUser extends Vue {
     }
 
     // 私有函数：设置用户信息，添加或者更新
-    async _setUser(userForm: UserForm, isCode: boolean) {
+    async _setUser(userForm: UserFormModel, isCode: boolean) {
         try {
             this.setStates({ userForm });
             let operation = this.currentOperation,
-                result =
-                    operation === OperationType.Add
-                        ? await this.addUser(isCode)
-                        : await this.updateUser(isCode);
-            if (!result)
-                Prompt.error(`用户${['添加', '更新'][operation - 1]}失败`);
+                result = operation === OperationType.Add ? await this.addUser(isCode) : await this.updateUser(isCode);
+            if (!result) Prompt.error(`用户${['添加', '更新'][operation - 1]}失败`);
             else await this.fetchUsers();
         } catch (error) {
             let code = error.code;
@@ -133,7 +121,7 @@ export default class SystemUser extends Vue {
     }
 
     // 私有函数：重置密码信息
-    async _resetPassword(passwordForm: PasswordForm, isCode: boolean) {
+    async _resetPassword(passwordForm: PasswordFormModel, isCode: boolean) {
         try {
             this.setStates({ passwordForm });
             let result = await this.resetPassword(isCode);
@@ -201,9 +189,7 @@ export default class SystemUser extends Vue {
         this.isUserShow = true;
         this.currentUser = user;
         this.currentOperation = type;
-        this.currentType = OperationType.Add
-            ? SecondVerifyType.Add
-            : SecondVerifyType.Edit;
+        this.currentType = OperationType.Add ? SecondVerifyType.Add : SecondVerifyType.Edit;
     }
 
     // 打开密码模态框
@@ -244,12 +230,12 @@ export default class SystemUser extends Vue {
     }
 
     // 处理用户模态框submit事件
-    async handleUserSubmit(userForm: UserForm) {
+    async handleUserSubmit(userForm: UserFormModel) {
         this._setUser(userForm, false);
     }
 
     // 处理密码模态框submit事件
-    async handlePasswordSubmit(passwordForm: PasswordForm) {
+    async handlePasswordSubmit(passwordForm: PasswordFormModel) {
         await this._resetPassword(passwordForm, false);
     }
 

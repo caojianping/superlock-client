@@ -1,9 +1,12 @@
 import Vue from 'vue';
 import { Component, Prop, Model, Watch } from 'vue-property-decorator';
 import { ValidationResult } from 'jpts-validator';
+
+import Utils from '@/ts/utils';
 import { AreaCodes, CONSTANTS } from '@/ts/config';
-import { Utils, Prompt } from '@/ts/common';
-import { BrokerForm, ISelectOption } from '@/ts/models';
+import { Prompt } from '@/ts/common';
+import { ISelectOption } from '@/ts/interfaces';
+import { BrokerFormModel } from '@/ts/models';
 import { MemberService } from '@/ts/services';
 
 @Component({
@@ -20,16 +23,12 @@ export default class BrokerModal extends Vue {
     })); // 国家地区选项列表
 
     isShow: boolean = this.value; // 是否显示模态框
-    brokerForm: BrokerForm = new BrokerForm(); // 券商表单
+    brokerForm: BrokerFormModel = new BrokerFormModel(); // 券商表单
 
     // 搜索过滤国家区号列表
     filterAreaCodes(input: any, option: any) {
         let tinput = input.toLowerCase();
-        return (
-            option.componentOptions.children[0].text
-                .toLowerCase()
-                .indexOf(tinput) > -1
-        );
+        return option.componentOptions.children[0].text.toLowerCase().indexOf(tinput) > -1;
     }
 
     // 处理表单change事件
@@ -47,10 +46,7 @@ export default class BrokerModal extends Vue {
     // 提交券商信息
     async submit() {
         let brokerForm = this.brokerForm,
-            result: ValidationResult = MemberService.validateBrokerForm(
-                brokerForm,
-                false
-            );
+            result: ValidationResult = MemberService.validateBrokerForm(brokerForm, false);
         if (!result.status) {
             Prompt.error(Utils.getFirstValue(result.data));
             return;
@@ -64,7 +60,7 @@ export default class BrokerModal extends Vue {
     watchValue(value: boolean) {
         this.isShow = value;
         if (value) {
-            let brokerForm = new BrokerForm();
+            let brokerForm = new BrokerFormModel();
             brokerForm.areaCode = CONSTANTS.CHINA_AREA_CODE;
             brokerForm.code = undefined;
             this.brokerForm = brokerForm;

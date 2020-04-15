@@ -14,46 +14,25 @@
             <div class="sl-block-body">
                 <ant-row :gutter="24">
                     <ant-col :span="8">
-                        <ant-form-item
-                            label="项目ID"
-                            :label-col="{ span: 6 }"
-                            :wrapper-col="{ span: 18 }"
-                        >
+                        <ant-form-item label="项目ID" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
                                 :value="projectParameters.conditions.projectId"
                                 allowClear
                                 placeholder="请输入项目ID"
-                                @change="
-                                    handleFormChange(
-                                        'projectId',
-                                        $event.target.value
-                                    )
-                                "
+                                @change="handleFormChange('projectId', $event.target.value)"
                             />
                         </ant-form-item>
                     </ant-col>
 
                     <ant-col :span="8">
-                        <ant-button
-                            class="sl-search"
-                            type="primary"
-                            @click="search"
-                            >搜索</ant-button
-                        >
+                        <ant-button class="sl-search" type="primary" @click="search">搜索</ant-button>
                     </ant-col>
                 </ant-row>
             </div>
         </div>
 
-        <ant-table
-            class="mt32px"
-            :columns="columns"
-            :rowKey="record => record.id"
-            :dataSource="list"
-            :pagination="false"
-            :loading="isPageLoading"
-        >
+        <ant-table class="mt32px" :columns="columns" :rowKey="record => record.id" :dataSource="list" :pagination="false" :loading="isPageLoading">
             <span slot="quota" slot-scope="record">
                 {{ record.quota | digitPrecision(6) }}
             </span>
@@ -64,15 +43,10 @@
                 {{ record.createTime | dateFormat }}
             </span>
             <span slot="enable" slot-scope="record">
-                {{ ['停用', '启用'][record.enable === true ? 1: 0] }}
+                {{ ['停用', '启用'][record.enable === true ? 1 : 0] }}
             </span>
             <template slot="operation" slot-scope="record">
-                <ant-button
-                    type="default"
-                    size="small"
-                    @click="openProjectModal(record)"
-                    >修改</ant-button
-                >
+                <ant-button type="default" size="small" @click="openProjectModal(record)">修改</ant-button>
             </template>
         </ant-table>
 
@@ -88,18 +62,9 @@
             @showSizeChange="handlePageSizeChange"
         />
 
-        <ProjectModal
-            v-model="isShow"
-            title="锁仓项目修改"
-            :project="currentProject"
-            @submit="handleProjectSubmit"
-        />
+        <ProjectModal v-model="isShow" title="锁仓项目修改" :project="currentProject" @submit="handleProjectSubmit" />
 
-        <SecondVerify
-            v-model="isSecondVerifyShow"
-            title="谷歌验证码"
-            @submit="handleSecondVerifySubmit"
-        />
+        <SecondVerify v-model="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
     </div>
 </template>
 

@@ -1,10 +1,12 @@
 import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
+import Utils from '@/ts/utils';
 import { OperationType, ResponseCode } from '@/ts/config';
-import { Utils, Prompt } from '@/ts/common';
-import { RechargePoundageModel, SecondVerifyResult } from '@/ts/models';
+import { Prompt } from '@/ts/common';
+import { SecondVerifyResult, RechargePoundageModel } from '@/ts/models';
 
 import SecondVerify from '@/components/common/second-verify';
 import PoundageModal from '@/components/recharge/poundage-modal';
@@ -22,20 +24,14 @@ const enum SecondVerifyType {
 })
 export default class RechargePoundage extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
+
     @rechargeModule.State('list') list!: Array<RechargePoundageModel>;
     @rechargeModule.State('poundage') poundage!: RechargePoundageModel;
-
-    @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (
-        payload: any
-    ) => any;
+    @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @rechargeModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
-    @rechargeModule.Action('fetchRechargePoundages')
-    fetchRechargePoundages!: () => any;
-    @rechargeModule.Action('addRechargePoundage')
-    addRechargePoundage!: (isCode: boolean) => any;
-    @rechargeModule.Action('updateRechargePoundage')
-    updateRechargePoundage!: (isCode: boolean) => any;
+    @rechargeModule.Action('fetchRechargePoundages') fetchRechargePoundages!: () => any;
+    @rechargeModule.Action('addRechargePoundage') addRechargePoundage!: (isCode: boolean) => any;
+    @rechargeModule.Action('updateRechargePoundage') updateRechargePoundage!: (isCode: boolean) => any;
 
     isSecondVerifyShow: boolean = false; // 是否显示二次验证
     isPoundageShow: boolean = false; // 是否显示模态框
@@ -76,14 +72,8 @@ export default class RechargePoundage extends Vue {
         try {
             this.setStates({ poundage });
             let operation = this.currentOperation,
-                result =
-                    operation === OperationType.Add
-                        ? await this.addRechargePoundage(isCode)
-                        : await this.updateRechargePoundage(isCode);
-            if (!result)
-                Prompt.error(
-                    `手续费设置${['添加', '更新'][operation - 1]}失败`
-                );
+                result = operation === OperationType.Add ? await this.addRechargePoundage(isCode) : await this.updateRechargePoundage(isCode);
+            if (!result) Prompt.error(`手续费设置${['添加', '更新'][operation - 1]}失败`);
             else await this.fetchRechargePoundages();
         } catch (error) {
             let code = error.code;
@@ -103,9 +93,7 @@ export default class RechargePoundage extends Vue {
         this.isPoundageShow = true;
         this.currentPoundage = poundage;
         this.currentOperation = type;
-        this.currentType = OperationType.Add
-            ? SecondVerifyType.Add
-            : SecondVerifyType.Edit;
+        this.currentType = OperationType.Add ? SecondVerifyType.Add : SecondVerifyType.Edit;
     }
 
     // 处理手续费模态框submit事件

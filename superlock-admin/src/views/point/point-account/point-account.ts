@@ -1,13 +1,11 @@
 import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
-import { Utils, Prompt } from '@/ts/common';
-import {
-    IPageParameters,
-    IPointRecordPageParameters,
-    PointAccountModel
-} from '@/ts/models';
+import Utils from '@/ts/utils';
+import { IPageParameters, IPointPageParameters } from '@/ts/interfaces';
+import { PointAccountModel } from '@/ts/models';
 
 const pointModule = namespace('point');
 
@@ -16,20 +14,15 @@ const pointModule = namespace('point');
     components: {}
 })
 export default class PointAccount extends Vue {
-    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
     @State('isPageLoading') isPageLoading!: boolean;
+    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
 
-    @pointModule.State('accountParameters') accountParameters!: IPageParameters<
-        IPointRecordPageParameters
-    >;
+    @pointModule.State('accountParameters') accountParameters!: IPageParameters<IPointPageParameters>;
     @pointModule.State('totalCount') totalCount!: number;
     @pointModule.State('list') list!: Array<PointAccountModel>;
-
     @pointModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @pointModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
-    @pointModule.Action('fetchPagePointAccounts')
-    fetchPagePointAccounts!: () => any;
+    @pointModule.Action('fetchPointAccounts') fetchPointAccounts!: () => any;
 
     columns: Array<any> = [
         {
@@ -64,7 +57,7 @@ export default class PointAccount extends Vue {
         accountParameters.pageNum = page;
         accountParameters.pageSize = pageSize;
         this.setStates({ accountParameters });
-        this.fetchPagePointAccounts();
+        this.fetchPointAccounts();
     }
 
     // 处理页尺寸change事件
@@ -73,7 +66,7 @@ export default class PointAccount extends Vue {
         accountParameters.pageNum = 1;
         accountParameters.pageSize = pageSize;
         this.setStates({ accountParameters });
-        this.fetchPagePointAccounts();
+        this.fetchPointAccounts();
     }
 
     created() {
@@ -82,6 +75,6 @@ export default class PointAccount extends Vue {
 
     mounted() {
         Utils.jumpTop();
-        this.fetchPagePointAccounts();
+        this.fetchPointAccounts();
     }
 }

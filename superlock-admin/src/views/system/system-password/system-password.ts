@@ -1,10 +1,13 @@
 import Vue from 'vue';
 import { namespace, Mutation, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
+import Utils from '@/ts/utils';
 import { ResponseCode } from '@/ts/config';
-import { Utils, Prompt, Token } from '@/ts/common';
-import { PasswordForm, SecondVerifyResult, TokenInfo } from '@/ts/models';
+import { Prompt, Token } from '@/ts/common';
+import { SecondVerifyResult, TokenInfo, PasswordFormModel } from '@/ts/models';
+
 import SecondVerify from '@/components/common/second-verify';
 
 const systemModule = namespace('system');
@@ -17,11 +20,9 @@ export default class SystemPassword extends Vue {
     @State('tokenInfo') tokenInfo!: TokenInfo;
     @Mutation(TYPES.CLEAR_STATES) clearRootStates!: () => any;
 
-    @systemModule.State('passwordForm') passwordForm!: PasswordForm;
-
+    @systemModule.State('passwordForm') passwordForm!: PasswordFormModel;
     @systemModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @systemModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
     @systemModule.Action('setPassword') setPassword!: (isCode: boolean) => any;
 
     isSecondVerifyShow: boolean = false; // 是否显示二次验证

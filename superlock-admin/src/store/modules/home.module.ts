@@ -1,12 +1,12 @@
 import TYPES from '@/store/types';
 import { IActionContext, IHomeState } from '@/store/interfaces';
 import { Prompt } from '@/ts/common';
-import { HomeModel, InitInfoForm } from '@/ts/models';
+import { HomeModel, InitInfoFormModel } from '@/ts/models';
 import { HomeService } from '@/ts/services';
 
 const homeState: IHomeState = {
     homeData: new HomeModel(),
-    initInfoForm: new InitInfoForm()
+    initInfoForm: new InitInfoFormModel()
 };
 
 const homeService = new HomeService();
@@ -23,14 +23,12 @@ export default {
         },
         [TYPES.CLEAR_STATES](state: IHomeState) {
             state.homeData = new HomeModel();
-            state.initInfoForm = new InitInfoForm();
+            state.initInfoForm = new InitInfoFormModel();
         }
     },
     actions: {
         // 获取首页数据
-        async fetchHomeData(
-            context: IActionContext<IHomeState>
-        ): Promise<void> {
+        async fetchHomeData(context: IActionContext<IHomeState>): Promise<void> {
             const commit = context.commit;
             try {
                 let homeData = await homeService.fetchHomeData();
@@ -42,26 +40,20 @@ export default {
         },
 
         // 获取初始信息
-        async fetchInitInfo(
-            context: IActionContext<IHomeState>
-        ): Promise<void> {
+        async fetchInitInfo(context: IActionContext<IHomeState>): Promise<void> {
             const commit = context.commit;
             try {
                 let initInfo = await homeService.fetchInitInfo();
                 commit(TYPES.SET_STATES, { initInfoForm: initInfo });
             } catch (error) {
-                commit(TYPES.SET_STATES, { initInfoForm: new InitInfoForm() });
+                commit(TYPES.SET_STATES, { initInfoForm: new InitInfoFormModel() });
                 Prompt.error(error.message || error);
             }
         },
 
         // 设置初始信息
-        async setInitInfo(
-            context: IActionContext<IHomeState>,
-            isCode: boolean = false
-        ): Promise<boolean> {
-            const state = context.state;
-            return await homeService.setInitInfo(state.initInfoForm, isCode);
+        async setInitInfo(context: IActionContext<IHomeState>, isCode: boolean = false): Promise<boolean> {
+            return await homeService.setInitInfo(context.state.initInfoForm, isCode);
         }
     }
 };

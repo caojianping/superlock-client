@@ -1,4 +1,3 @@
-export * from './utils';
 export * from './caxios';
 export * from './md5';
 export * from './token';

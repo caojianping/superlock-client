@@ -7,13 +7,7 @@
             </ant-breadcrumb-item>
         </ant-breadcrumb>
 
-        <ant-table
-            :columns="columns"
-            :rowKey="record => record.serial"
-            :dataSource="list"
-            :pagination="false"
-            :loading="isPageLoading"
-        />
+        <ant-table :columns="columns" :rowKey="record => record.serial" :dataSource="list" :pagination="false" :loading="isPageLoading" />
 
         <ant-pagination
             :current="accountParameters.pageNum"

@@ -1,30 +1,32 @@
 import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
-import { Utils, Prompt } from '@/ts/common';
-import { ISelectOption, IPageParameters, ILockRecordPageParameters, LockRecordModel } from '@/ts/models';
+import Utils from '@/ts/utils';
+import { Prompt } from '@/ts/common';
+import { ISelectOption, IPageParameters, ILockPageParameters } from '@/ts/interfaces';
+import { LockModel } from '@/ts/models';
 
 const lockModule = namespace('lock');
 
 @Component({
-    name: 'LockRecord',
+    name: 'LockOrder',
     components: {}
 })
-export default class LockRecord extends Vue {
-    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
+export default class LockOrder extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
+    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
+    @State('carrierOptions') carrierOptions!: Array<any>;
 
     @lockModule.State('statusOptions') statusOptions!: Array<ISelectOption>;
-    @lockModule.State('recordParameters') recordParameters!: IPageParameters<ILockRecordPageParameters>;
+    @lockModule.State('lockParameters') lockParameters!: IPageParameters<ILockPageParameters>;
     @lockModule.State('totalCount') totalCount!: number;
-    @lockModule.State('list') list!: Array<LockRecordModel>;
-
+    @lockModule.State('list') list!: Array<LockModel>;
     @lockModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @lockModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
-    @lockModule.Action('fetchPageLockRecords') fetchPageLockRecords!: () => any;
-    @lockModule.Action('exportLockRecords') exportLockRecords!: () => any;
+    @lockModule.Action('fetchLocks') fetchLocks!: () => any;
+    @lockModule.Action('exportLocks') exportLocks!: () => any;
 
     statusColors = {
         '0': 'text-grey',
@@ -52,6 +54,10 @@ export default class LockRecord extends Vue {
         {
             title: 'UID',
             dataIndex: 'uid'
+        },
+        {
+            title: '用户来源',
+            dataIndex: 'userSource'
         },
         {
             title: '锁仓数量(BCB)',
@@ -97,13 +103,6 @@ export default class LockRecord extends Vue {
         }
     ];
 
-    // 自动完成组件数据源
-    dataSource: Array<any> = [
-        { value: '100', text: '运营商一' },
-        { value: '200', text: '运营商二' },
-        { value: '300', text: '运营商三' }
-    ];
-
     // 处理自动完成组件change事件
     filterOption(input: string, option: any) {
         let text = option.componentOptions.children[0].text.toUpperCase(),
@@ -112,21 +111,30 @@ export default class LockRecord extends Vue {
         return text.indexOf(uinput) > -1 || key.indexOf(uinput) > -1;
     }
 
-    // 处理自动完成组件change事件
-    handleAutoCompleteChange(value: any) {
-        let recordParameters = Utils.duplicate(this.recordParameters);
-        recordParameters.conditions['carrierId'] = value;
-        this.setStates({ recordParameters });
+    // 处理表单change事件
+    handleFormChange(key: string, value: string) {
+        console.log('key,value:', key, value);
+        let lockParameters = Utils.duplicate(this.lockParameters);
+        lockParameters.conditions[key] = value;
+        this.setStates({ lockParameters });
+    }
+
+    // 处理日期change事件
+    handleRangePickerChange(dates: Array<any>, dateStrings: Array<string>) {
+        let lockParameters = Utils.duplicate(this.lockParameters);
+        lockParameters.conditions.beginTime = dateStrings[0];
+        lockParameters.conditions.endTime = dateStrings[1];
+        this.setStates({ lockParameters });
     }
 
     // 搜索
     async search() {
         try {
-            let recordParameters = Utils.duplicate(this.recordParameters);
-            console.log('search:', recordParameters);
-            recordParameters.pageNum = 1;
-            this.setStates({ recordParameters });
-            await this.fetchPageLockRecords();
+            let lockParameters = Utils.duplicate(this.lockParameters);
+            console.log('search:', lockParameters);
+            lockParameters.pageNum = 1;
+            this.setStates({ lockParameters });
+            await this.fetchLocks();
         } catch (error) {
             Prompt.error(error.message || error);
         }
@@ -135,7 +143,7 @@ export default class LockRecord extends Vue {
     // 导出报表
     async exportReport() {
         try {
-            let url = await this.exportLockRecords();
+            let url = await this.exportLocks();
             if (!url) Prompt.error('导出失败');
             else window.location.href = url;
         } catch (error) {
@@ -143,37 +151,22 @@ export default class LockRecord extends Vue {
         }
     }
 
-    // 处理表单change事件
-    handleFormChange(key: string, value: string) {
-        let recordParameters = Utils.duplicate(this.recordParameters);
-        recordParameters.conditions[key] = value;
-        this.setStates({ recordParameters });
-    }
-
-    // 处理日期change事件
-    handleRangePickerChange(dates: Array<any>, dateStrings: Array<string>) {
-        let recordParameters = Utils.duplicate(this.recordParameters);
-        recordParameters.conditions.beginTime = dateStrings[0];
-        recordParameters.conditions.endTime = dateStrings[1];
-        this.setStates({ recordParameters });
-    }
-
     // 处理页码change事件
     handlePageNumChange(page: number, pageSize: number) {
-        let recordParameters = this.recordParameters;
-        recordParameters.pageNum = page;
-        recordParameters.pageSize = pageSize;
-        this.setStates({ recordParameters });
-        this.fetchPageLockRecords();
+        let lockParameters = this.lockParameters;
+        lockParameters.pageNum = page;
+        lockParameters.pageSize = pageSize;
+        this.setStates({ lockParameters });
+        this.fetchLocks();
     }
 
     // 处理页尺寸change事件
     handlePageSizeChange(current: number, pageSize: number) {
-        let recordParameters = this.recordParameters;
-        recordParameters.pageNum = 1;
-        recordParameters.pageSize = pageSize;
-        this.setStates({ recordParameters });
-        this.fetchPageLockRecords();
+        let lockParameters = this.lockParameters;
+        lockParameters.pageNum = 1;
+        lockParameters.pageSize = pageSize;
+        this.setStates({ lockParameters });
+        this.fetchLocks();
     }
 
     created() {
@@ -182,6 +175,6 @@ export default class LockRecord extends Vue {
 
     mounted() {
         Utils.jumpTop();
-        this.fetchPageLockRecords();
+        this.fetchLocks();
     }
 }

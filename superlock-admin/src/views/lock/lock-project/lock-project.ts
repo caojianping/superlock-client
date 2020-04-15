@@ -1,16 +1,13 @@
 import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
+import Utils from '@/ts/utils';
 import { ResponseCode } from '@/ts/config';
-import { Utils, Prompt } from '@/ts/common';
-import {
-    IPageParameters,
-    ILockProjectPageParameters,
-    LockProjectModel,
-    ProjectForm,
-    SecondVerifyResult
-} from '@/ts/models';
+import { Prompt } from '@/ts/common';
+import { IPageParameters, IProjectPageParameters } from '@/ts/interfaces';
+import { SecondVerifyResult, ProjectModel, ProjectFormModel } from '@/ts/models';
 
 import SecondVerify from '@/components/common/second-verify';
 import ProjectModal from '@/components/lock/project-modal';
@@ -22,28 +19,20 @@ const lockModule = namespace('lock');
     components: { SecondVerify, ProjectModal }
 })
 export default class LockProject extends Vue {
-    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
     @State('isPageLoading') isPageLoading!: boolean;
+    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
 
-    @lockModule.State('projectParameters') projectParameters!: IPageParameters<
-        ILockProjectPageParameters
-    >;
+    @lockModule.State('projectParameters') projectParameters!: IPageParameters<IProjectPageParameters>;
     @lockModule.State('totalCount') totalCount!: number;
-    @lockModule.State('list') list!: Array<LockProjectModel>;
-
-    @lockModule.State('projectForm') projectForm!: ProjectForm;
-
+    @lockModule.State('list') list!: Array<ProjectModel>;
+    @lockModule.State('projectForm') projectForm!: ProjectFormModel;
     @lockModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @lockModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
-    @lockModule.Action('fetchPageLockProjects')
-    fetchPageLockProjects!: () => any;
-    @lockModule.Action('updateLockProject') updateLockProject!: (
-        isCode: boolean
-    ) => any;
+    @lockModule.Action('fetchProjects') fetchProjects!: () => any;
+    @lockModule.Action('updateProject') updateProject!: (isCode: boolean) => any;
 
     isShow: boolean = false;
-    currentProject: LockProjectModel = new LockProjectModel();
+    currentProject: ProjectModel = new ProjectModel();
 
     isSecondVerifyShow: boolean = false; // 是否显示二次验证
 
@@ -96,23 +85,23 @@ export default class LockProject extends Vue {
         }
     ];
 
+    // 处理表单change事件
+    handleFormChange(key: string, value: string) {
+        let projectParameters = Utils.duplicate(this.projectParameters);
+        projectParameters.conditions[key] = value;
+        this.setStates({ projectParameters });
+    }
+
     // 搜索
     async search() {
         try {
             let projectParameters = Utils.duplicate(this.projectParameters);
             projectParameters.pageNum = 1;
             this.setStates({ projectParameters });
-            await this.fetchPageLockProjects();
+            await this.fetchProjects();
         } catch (error) {
             Prompt.error(error.message || error);
         }
-    }
-
-    // 处理表单change事件
-    handleFormChange(key: string, value: string) {
-        let projectParameters = Utils.duplicate(this.projectParameters);
-        projectParameters.conditions[key] = value;
-        this.setStates({ projectParameters });
     }
 
     // 处理页码change事件
@@ -121,7 +110,7 @@ export default class LockProject extends Vue {
         projectParameters.pageNum = page;
         projectParameters.pageSize = pageSize;
         this.setStates({ projectParameters });
-        this.fetchPageLockProjects();
+        this.fetchProjects();
     }
 
     // 处理页尺寸change事件
@@ -130,22 +119,22 @@ export default class LockProject extends Vue {
         projectParameters.pageNum = 1;
         projectParameters.pageSize = pageSize;
         this.setStates({ projectParameters });
-        this.fetchPageLockProjects();
+        this.fetchProjects();
     }
 
     // 打开项目模态框
-    openProjectModal(project: LockProjectModel) {
+    openProjectModal(project: ProjectModel) {
         this.isShow = true;
         this.currentProject = project;
     }
 
     // 私有函数：提交项目信息
-    async _submitProject(projectForm: ProjectForm, isCode: boolean) {
+    async _submitProject(projectForm: ProjectFormModel, isCode: boolean) {
         try {
             this.setStates({ projectForm });
-            let result = await this.updateLockProject(isCode);
+            let result = await this.updateProject(isCode);
             if (!result) Prompt.error('项目修改失败');
-            else await this.fetchPageLockProjects();
+            else await this.fetchProjects();
         } catch (error) {
             let code = error.code;
             if (code === ResponseCode.SecondVerify) {
@@ -160,7 +149,7 @@ export default class LockProject extends Vue {
     }
 
     // 处理项目模态框submit事件
-    async handleProjectSubmit(projectForm: ProjectForm) {
+    async handleProjectSubmit(projectForm: ProjectFormModel) {
         this._submitProject(projectForm, false);
     }
 
@@ -177,6 +166,6 @@ export default class LockProject extends Vue {
 
     mounted() {
         Utils.jumpTop();
-        this.fetchPageLockProjects();
+        this.fetchProjects();
     }
 }

@@ -3,7 +3,7 @@
         <ant-breadcrumb class="sl-breadcrumb">
             <ant-breadcrumb-item>贷款管理</ant-breadcrumb-item>
             <ant-breadcrumb-item>
-                <router-link to="/loan/record">贷款计息</router-link>
+                <router-link to="/loan/interest">贷款计息</router-link>
             </ant-breadcrumb-item>
         </ant-breadcrumb>
 
@@ -16,13 +16,7 @@
 
         <ant-button class="sl-tool" type="primary">导出报表</ant-button>
 
-        <ant-table
-            :columns="columns"
-            :rowKey="record => record.serial"
-            :dataSource="list"
-            :pagination="false"
-            :loading="isPageLoading"
-        />
+        <ant-table :columns="columns" :rowKey="record => record.serial" :dataSource="list" :pagination="false" :loading="isPageLoading" />
 
         <ant-pagination
             :current="interestParameters.pageNum"

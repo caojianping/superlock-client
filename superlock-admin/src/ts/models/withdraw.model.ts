@@ -1,16 +1,5 @@
-// 提现分页参数
-export interface IWithdrawRecordPageParameters {
-    uid: string; // uid
-    serial: string; // 订单号
-    status: string; // 状态
-    createBeginTime: string;
-    createEndTime: string;
-    finishBeginTime: string;
-    finishEndTime: string;
-}
-
-// 提现实体类模型
-export class WithdrawRecordModel {
+// 提现模型
+export class WithdrawModel {
     public serial!: string; // 订单号
     public uid!: string; // uid
     public address!: string; // 提现到账地址
@@ -22,17 +11,8 @@ export class WithdrawRecordModel {
     public auditStatus!: string; // 审核状态：1待审核；3已审核；5已驳回。
 }
 
-// 转账分页参数
-export interface IWithdrawTransferPageParameters {
-    serial: string; //订单号
-    from: string; // 转账UID
-    to: string; // 到账UID
-    beginTime: string; // 开始时间
-    endTime: string; // 结束时间
-}
-
-// 转账实体类模型
-export class WithdrawTransferModel {
+// 转账模型
+export class TransferModel {
     public serial!: string; // 订单号
     public fromId!: string; // 转账uid
     public toId!: string; // 到账uid

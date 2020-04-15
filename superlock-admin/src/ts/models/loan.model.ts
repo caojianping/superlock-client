@@ -1,9 +1,5 @@
-export interface ILoanRecordPageParameters {}
-
-export class LoanRecordModel {}
-
-export interface ILoanInterestPageParameters {}
+export class LoanModel {}
 
 export class LoanInterestModel {}
 
-export class LoanForm {}
+export class LoanFormModel {}

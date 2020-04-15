@@ -1,18 +1,18 @@
 const baseUrl = process.env.VUE_APP_BASE_URL;
 
 export const Urls = {
-    // 谷歌验证模块
+    // 谷歌验证模块 ok
     google: {
         key: `${baseUrl}/google/getGoogleKey`,
         bind: `${baseUrl}/google/bind`,
         unbind: `${baseUrl}/google/unbind`
     },
-    // 登录模块
+    // 登录模块 ok
     login: {
         login: `${baseUrl}/login`,
         logout: `${baseUrl}/login/logout`
     },
-    // 首页模块
+    // 首页模块 ok
     home: {
         info: `${baseUrl}/mainData`,
         init: {
@@ -20,107 +20,100 @@ export const Urls = {
             set: `${baseUrl}/mainData/initialDataSet`
         }
     },
-    // 充值模块
+    // 充值模块 ok
     recharge: {
-        // 充值记录页面
-        record: {
-            page: `${baseUrl}/recharge/list`, // 充值分页接口
-            export: `${baseUrl}/recharge/export` // 充值导出接口
+        order: {
+            list: `${baseUrl}/recharge/list`,
+            export: `${baseUrl}/recharge/export`
         },
-        // 手续费设置页面
         poundage: {
             list: `${baseUrl}/recharge/fee`,
             add: `${baseUrl}/rechaarge/addFee`,
             update: `${baseUrl}/recharge/updateFee`
         }
     },
-    // 提现模块
+    // 提现模块 ok
     withdraw: {
-        // 提现记录页面
-        record: {
-            page: `${baseUrl}/withdraw/list`, // 提现分页接口
-            export: `${baseUrl}/withdraw/export` // 提现导出接口
+        order: {
+            list: `${baseUrl}/withdraw/list`,
+            export: `${baseUrl}/withdraw/export`
         },
-        // 转账记录页面
         transfer: {
-            page: `${baseUrl}/withdraw/transfer`, // 转账分页接口
-            export: `${baseUrl}/withdraw/transfer/export` // 转账导出接口
+            list: `${baseUrl}/withdraw/transfer`,
+            export: `${baseUrl}/withdraw/transfer/export`
         }
     },
-    // 锁仓模块
+    // 锁仓模块 ok
     lock: {
-        // 锁仓记录页面
-        record: {
-            page: `${baseUrl}/lockPosition/list`,
+        order: {
+            list: `${baseUrl}/lockPosition/list`,
             export: `${baseUrl}/lockPosition/export`
         },
-        create: `${baseUrl}/lockPosition/createProject`, // 锁仓创建
         award: {
             info: `${baseUrl}/lockPosition/rewardInfo`,
             update: `${baseUrl}/lockPosition/rewardSet`
         },
         project: {
-            page: `${baseUrl}/lockPosition/projects`,
+            list: `${baseUrl}/lockPosition/projects`,
+            create: `${baseUrl}/lockPosition/createProject`,
             update: `${baseUrl}/lockPosition/updateProject`
         }
     },
-    // 财务模块
+    // 财务模块 ok
     finance: {
         review: `${baseUrl}/finance/review`,
         // 利息支出页面
         interest: {
-            page: `${baseUrl}/finance/interest`,
+            list: `${baseUrl}/finance/interest`,
             export: `${baseUrl}/finance/interest/export`
         },
         // 直推奖励页面
         direct: {
-            page: `${baseUrl}/finance/pushStraight`,
+            list: `${baseUrl}/finance/pushStraight`,
             export: `${baseUrl}/finance/pushStraight/export`
         },
         // 推广奖励页面
         promote: {
-            page: `${baseUrl}/finance/popularize`,
+            list: `${baseUrl}/finance/popularize`,
             export: `${baseUrl}/finance/popularize/export`
         },
         // 日销奖励页面
         sale: {
-            page: `${baseUrl}/finance/salesEarn`,
+            list: `${baseUrl}/finance/salesEarn`,
             export: `${baseUrl}/finance/salesEarn/export`
         }
     },
-    // 贷款模块
+    // 贷款模块 ok
     loan: {
-        // 贷款记录页面
-        record: {
-            page: '',
+        order: {
+            list: '',
             export: ''
         },
-        // 贷款计息页面
         interest: {
-            page: '',
+            list: '',
             export: ''
         },
         setting: ''
     },
-    // 资金模块
+    // 资金模块 ok
     fund: {
         record: {
-            page: `${baseUrl}/funding/list`,
+            list: `${baseUrl}/funding/list`,
             export: `${baseUrl}/funding/export`
         }
     },
-    // 风控模块
+    // 风控模块 ok
     risk: {
         audit: {
             info: `${baseUrl}/finance/smallTrialExemption`,
             set: `${baseUrl}/finance/smallTrialExemptionSet`
         }
     },
-    // 用户中心模块
+    // 用户中心模块 ok
     member: {
         // 券商列表页面
         broker: {
-            page: `${baseUrl}/broker/list`, // 券商分页列表
+            list: `${baseUrl}/broker/list`, // 券商分页列表
             childs: `${baseUrl}/broker/subordinate`, // 下级分页列表
             rates: `${baseUrl}/broker/rateList`, // 利率分页列表
             types: `${baseUrl}/broker/lockRate`, // 项目类型
@@ -129,11 +122,33 @@ export const Urls = {
             addQuota: `${baseUrl}/broker/addAmount` // 添加额度
         }
     },
-    // 上分模块
+    // 运营商模块 ok
+    carrier: {
+        names: `${baseUrl}/carrier/names`,
+        list: {
+            list: `${baseUrl}/carrier/list`,
+            add: `${baseUrl}/carrier/add`,
+            updatePassword: `${baseUrl}/carrier/updatePwd`,
+            updateMobile: `${baseUrl}/carrier/updateMobile`,
+            updateRebate: `${baseUrl}/carrier/updateRebate`
+        },
+        rebate: {
+            list: `${baseUrl}/carrier/rebates`,
+            export: `${baseUrl}/carrier/rebates/export`
+        },
+        flash: {
+            list: `${baseUrl}/carrier/flash`,
+            export: `${baseUrl}/carrier/flash/export`
+        },
+        withdraw: {
+            list: `${baseUrl}/carrier/withdraw`,
+            export: `${baseUrl}/carrier/withdraw/export`
+        }
+    },
+    // 上分模块 ok
     point: {
-        // 上分记录页面
         record: {
-            page: `${baseUrl}/onPoints/list`,
+            list: `${baseUrl}/onPoints/list`,
             pointInfo: `${baseUrl}/onPoints/pointsInfo`,
             setPoint: `${baseUrl}/onPoints/addmoney`,
             transferInfo: `${baseUrl}/onPoints/transferInfo`,
@@ -142,11 +157,11 @@ export const Urls = {
         },
         accounts: `${baseUrl}/account/list`
     },
-    // 系统模块
+    // 系统模块 ok
     system: {
         user: {
             roles: `${baseUrl}/role/list`,
-            page: `${baseUrl}/user/list`,
+            list: `${baseUrl}/user/list`,
             add: `${baseUrl}/user/add`,
             update: `${baseUrl}/user/update`,
             delete: `${baseUrl}/user/delete`,
@@ -155,23 +170,5 @@ export const Urls = {
         },
         setPassword: `${baseUrl}/login/updatePwd`,
         setGoogle: ''
-    },
-    // 运营商模块
-    carrier: {
-        names: `${baseUrl}/carrier/names`,
-        page: `${baseUrl}/carrier/list`,
-        add: `${baseUrl}/carrier/add`,
-        rebate: {
-            page: `${baseUrl}/carrier/rebates`,
-            export: `${baseUrl}/carrier/rebates/export`
-        },
-        flash: {
-            page: `${baseUrl}/carrier/flash`,
-            export: `${baseUrl}/carrier/flash/export`
-        },
-        withdraw: {
-            page: `${baseUrl}/carrier/withdraw`,
-            export: `${baseUrl}/carrier/withdraw/export`
-        }
     }
 };

@@ -1,9 +1,12 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component, Prop, Model, Watch } from 'vue-property-decorator';
-import Validator, { ValidationResult } from 'jpts-validator';
-import { Utils, Prompt } from '@/ts/common';
-import { PointInfo, PointForm, ISelectOption } from '@/ts/models';
+import { ValidationResult } from 'jpts-validator';
+
+import Utils from '@/ts/utils';
+import { Prompt } from '@/ts/common';
+import { ISelectOption } from '@/ts/interfaces';
+import { PointInfoModel, PointFormModel } from '@/ts/models';
 import { PointService } from '@/ts/services';
 
 const pointModule = namespace('point');
@@ -16,13 +19,13 @@ export default class PointModal extends Vue {
     @Model('close', { type: Boolean }) value!: boolean; // v-model
     @Prop() readonly title!: string; // 标题
 
-    @pointModule.State('pointInfos') pointInfos!: Array<PointInfo>;
+    @pointModule.State('pointInfos') pointInfos!: Array<PointInfoModel>;
     @pointModule.Action('fetchPointInfo') fetchPointInfo!: () => any;
 
     isShow: boolean = this.value; // 是否显示模态框
     coinOptions: Array<ISelectOption> = []; // 币种选项列表
-    pointForm: PointForm = new PointForm(); // 上分表单
-    currentPointInfo: PointInfo = new PointInfo(); // 当前上分信息
+    pointForm: PointFormModel = new PointFormModel(); // 上分表单
+    currentPointInfo: PointInfoModel = new PointInfoModel(); // 当前上分信息
 
     // 处理表单change事件
     handleFormChange(key: string, value: any) {
@@ -34,9 +37,7 @@ export default class PointModal extends Vue {
     // 处理币种change事件
     handleCoinChange(coin: string) {
         let currentPointInfo =
-                this.pointInfos.filter(
-                    (pointInfo: PointInfo) => pointInfo.coin === coin
-                )[0] || new PointInfo(),
+                this.pointInfos.filter((pointInfo: PointInfoModel) => pointInfo.coin === coin)[0] || new PointInfoModel(),
             pointForm = Utils.duplicate(this.pointForm);
         pointForm.accountId = currentPointInfo.id;
         pointForm.coin = currentPointInfo.coin;
@@ -52,10 +53,7 @@ export default class PointModal extends Vue {
     // 提交上分信息
     async submit() {
         let pointForm = this.pointForm,
-            result: ValidationResult = PointService.validatePointInfo(
-                pointForm,
-                false
-            );
+            result: ValidationResult = PointService.validatePointInfo(pointForm, false);
         if (!result.status) {
             Prompt.error(Utils.getFirstValue(result.data));
             return;
@@ -72,7 +70,7 @@ export default class PointModal extends Vue {
         let pointInfos = this.pointInfos;
 
         // 构建币种选项列表
-        this.coinOptions = pointInfos.map((pointInfo: PointInfo) => ({
+        this.coinOptions = pointInfos.map((pointInfo: PointInfoModel) => ({
             label: pointInfo.coin,
             value: pointInfo.coin
         }));
@@ -80,7 +78,7 @@ export default class PointModal extends Vue {
         // 设置第一个系统上分数据为默认数据
         let firstPointInfo = pointInfos[0];
         if (firstPointInfo) {
-            let pointForm = new PointForm();
+            let pointForm = new PointFormModel();
             pointForm.accountId = firstPointInfo.id;
             pointForm.coin = firstPointInfo.coin;
             pointForm.code = undefined;

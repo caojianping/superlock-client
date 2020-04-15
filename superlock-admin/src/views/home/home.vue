@@ -15,7 +15,7 @@
                     <li class="panel-item">
                         <div class="panel-content">
                             <h3>今日新增锁仓</h3>
-                            {{ (todayData = homeData.today || {}, void 0) }}
+                            {{ ((todayData = homeData.today || {}), void 0) }}
                             <table>
                                 <tr>
                                     <td>{{ todayData.lockCount || 0 }}</td>
@@ -88,7 +88,7 @@
                     <li class="panel-item">
                         <div class="panel-content">
                             <h3>累计锁仓</h3>
-                            {{ (totalData = homeData.all || {}, void 0) }}
+                            {{ ((totalData = homeData.all || {}), void 0) }}
                             <table>
                                 <tr>
                                     <td>{{ totalData.lockCount || 0 }}</td>
@@ -166,18 +166,9 @@
             </div>
         </div>
 
-        <InitModal
-            v-model="isShow"
-            title="初始数据设置"
-            :init-info="initInfoForm"
-            @submit="handleInitSubmit"
-        />
+        <InitModal v-model="isShow" title="初始数据设置" :init-info="initInfoForm" @submit="handleInitSubmit" />
 
-        <SecondVerify
-            v-model="isSecondVerifyShow"
-            title="谷歌验证码"
-            @submit="handleSecondVerifySubmit"
-        />
+        <SecondVerify v-model="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
     </div>
 </template>
 

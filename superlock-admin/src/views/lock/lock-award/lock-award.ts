@@ -1,10 +1,13 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
+import Utils from '@/ts/utils';
 import { ResponseCode } from '@/ts/config';
-import { Utils, Prompt } from '@/ts/common';
-import { AwardForm, AwardDailySale, SecondVerifyResult } from '@/ts/models';
+import { Prompt } from '@/ts/common';
+import { SecondVerifyResult, AwardFormModel, AwardDailySaleModel } from '@/ts/models';
+
 import SecondVerify from '@/components/common/second-verify';
 
 const lockModule = namespace('lock');
@@ -14,15 +17,11 @@ const lockModule = namespace('lock');
     components: { SecondVerify }
 })
 export default class LockAward extends Vue {
-    @lockModule.State('awardForm') awardForm!: AwardForm;
-
+    @lockModule.State('awardForm') awardForm!: AwardFormModel;
     @lockModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @lockModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
     @lockModule.Action('fetchLockAward') fetchLockAward!: () => any;
-    @lockModule.Action('updateLockAward') updateLockAward!: (
-        isCode: boolean
-    ) => any;
+    @lockModule.Action('updateLockAward') updateLockAward!: (isCode: boolean) => any;
 
     isSecondVerifyShow: boolean = false; // 是否显示二次验证
 
@@ -36,8 +35,8 @@ export default class LockAward extends Vue {
     // 处理日销表单change事件
     handleDailySaleChange(cindex: number, key: string, value: number) {
         let awardForm = Utils.duplicate(this.awardForm),
-            dailySales: Array<AwardDailySale> = awardForm.dailySalesDto;
-        dailySales.forEach((dailySale: AwardDailySale, index: number) => {
+            dailySales: Array<AwardDailySaleModel> = awardForm.dailySalesDto;
+        dailySales.forEach((dailySale: AwardDailySaleModel, index: number) => {
             if (cindex === index) {
                 dailySale[key] = value;
             }
@@ -48,7 +47,7 @@ export default class LockAward extends Vue {
     // 添加日销信息
     addDailySale() {
         let awardForm = Utils.duplicate(this.awardForm);
-        awardForm.dailySalesDto.push(new AwardDailySale());
+        awardForm.dailySalesDto.push(new AwardDailySaleModel());
         this.setStates({ awardForm });
     }
 

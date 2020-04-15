@@ -1,3 +1,15 @@
+export interface IAreaCode {
+    id: string;
+    name: string;
+    code: string;
+}
+
+export const defaultAreaCode: IAreaCode = {
+    name: 'China (中国)',
+    id: 'cn',
+    code: '86'
+};
+
 export const AreaCodes = [
     {
         n: 'Afghanistan (‫افغانستان‬‎)',
