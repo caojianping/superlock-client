@@ -26,14 +26,14 @@ export default {
     },
     actions: {
         // 登录
-        async login(context: IActionContext<ILoginState>, isCode: boolean = false): Promise<string> {
+        async login(context: IActionContext<ILoginState>, isCode: boolean = false): Promise<boolean> {
             let { commit, state } = context,
                 loginForm = state.loginForm,
                 token = await loginService.login(loginForm, isCode),
                 tokenInfo = new TokenInfo(token, loginForm.username);
             Token.setTokenInfo(tokenInfo);
             commit(TYPES.SET_STATES, { tokenInfo }, { root: true });
-            return token;
+            return true;
         },
 
         // 退出

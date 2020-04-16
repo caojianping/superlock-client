@@ -87,10 +87,9 @@ export default {
             payload: {
                 name: string;
                 isCode: boolean;
-                code: string;
             }
         ): Promise<boolean> {
-            return await systemService.deleteUser(payload.name, payload.isCode, payload.code);
+            return await systemService.deleteUser(payload.name, payload.isCode);
         },
 
         // 重置密码
@@ -104,10 +103,9 @@ export default {
             payload: {
                 name: string;
                 isCode: boolean;
-                code: string;
             }
         ): Promise<boolean> {
-            return await systemService.resetGa(payload.name, payload.isCode, payload.code);
+            return await systemService.resetGa(payload.name, payload.isCode);
         },
 
         // 设置密码

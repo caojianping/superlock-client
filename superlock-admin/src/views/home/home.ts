@@ -4,12 +4,11 @@ import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { ResponseCode } from '@/ts/config';
 import { Prompt } from '@/ts/common';
-import { SecondVerifyResult, HomeModel, InitInfoFormModel } from '@/ts/models';
+import { HomeModel, InitInfoFormModel } from '@/ts/models';
 
 import SecondVerify from '@/components/common/second-verify';
-import InitModal from '@/components/home/init-modal';
+import InitModal from '@/components/modals/init-modal';
 
 const homeModule = namespace('home');
 
@@ -19,6 +18,7 @@ const homeModule = namespace('home');
 })
 export default class Home extends Vue {
     @State('isFullLoading') isFullLoading!: boolean;
+    @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
     @Mutation(TYPES.SET_STATES) setRootStates!: (payload: any) => any;
 
     @homeModule.State('homeData') homeData!: HomeModel;
@@ -31,7 +31,6 @@ export default class Home extends Vue {
     @homeModule.Action('setInitInfo') setInitInfo!: (isCode: boolean) => any;
 
     isShow: boolean = false; // 是否显示模态框
-    isSecondVerifyShow: boolean = false; // 是否显示二次验证
 
     // 打开初始信息模态框
     openInitModal() {
@@ -52,16 +51,8 @@ export default class Home extends Vue {
             }
             this.setRootStates({ isFullLoading: false });
         } catch (error) {
-            let code = error.code;
-            if (code === ResponseCode.SecondVerify) {
-                let data = error.data as SecondVerifyResult;
-                if (data.verifyMethod === '001') {
-                    this.isSecondVerifyShow = true;
-                }
-            } else {
-                await this.fetchInitInfo(); // 设置接口出错时，为了模态框打开显示错误数据，重新调用刷新一次数据
-                Prompt.error(error.message || error);
-            }
+            await this.fetchInitInfo(); // 设置接口出错时，为了模态框打开显示错误数据，重新调用刷新一次数据
+            Prompt.error(error.message || error);
             this.setRootStates({ isFullLoading: false });
         }
     }
@@ -72,10 +63,8 @@ export default class Home extends Vue {
     }
 
     // 处理二次验证submit事件
-    async handleSecondVerifySubmit(code: string) {
-        let initInfoForm = Utils.duplicate(this.initInfoForm);
-        initInfoForm.code = code;
-        await this._submitInitInfo(initInfoForm, true);
+    async handleSecondVerifySubmit() {
+        await this._submitInitInfo(this.initInfoForm, true);
     }
 
     // 获取数据

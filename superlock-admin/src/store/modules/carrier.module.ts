@@ -5,6 +5,15 @@ import { PageResult, CarrierFormModel, CarrierModel, RebateOrderModel, FlashOrde
 import { CarrierService } from '@/ts/services';
 
 const carrierState: ICarrierState = {
+    cycleOptions: [
+        { label: '1周', value: '1_周' },
+        { label: '2周', value: '2_周' },
+        { label: '3周', value: '3_周' },
+        { label: '1个月', value: '1_月' },
+        { label: '3个月', value: '3_月' },
+        { label: '6个月', value: '6_月' }
+    ],
+
     operationType: OperationType.Add,
     formType: CarrierFormType.CarrierForm,
     carrierForm: new CarrierFormModel(),

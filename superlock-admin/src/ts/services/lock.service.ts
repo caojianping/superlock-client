@@ -1,6 +1,6 @@
 import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
-import { Urls, CONSTANTS, CaxiosType, OperationType } from '@/ts/config';
+import { Urls, CaxiosType, OperationType } from '@/ts/config';
 import { Caxios } from '@/ts/common';
 import { IPageParameters, ILockPageParameters, IProjectPageParameters } from '@/ts/interfaces';
 import { PageResult, LockModel, ProjectModel, ProjectFormModel, AwardFormModel, AwardDailySaleModel } from '@/ts/models';
@@ -29,11 +29,11 @@ export class LockService {
     }
 
     // 验证项目表单
-    public static validateProjectForm(projectForm: ProjectFormModel, isCode: boolean, type: OperationType): ValidationResult {
+    public static validateProjectForm(projectForm: ProjectFormModel, type: OperationType): ValidationResult {
         if (!projectForm) return { status: false, data: { projectForm: '参数不可以为空' } };
 
-        const key = 'project';
-        let { id, memo, length, quota, rate, enable, code, originQuota, originRate } = projectForm,
+        let key = 'project',
+            { id, memo, length, quota, rate, enable, originQuota, originRate } = projectForm,
             validator = new Validator();
         validator.addRule(key, { name: 'memo', value: memo }, { required: true }, { required: '项目名称不可以为空' });
         if (type === OperationType.Add) {
@@ -85,9 +85,6 @@ export class LockService {
             );
             validator.addRule(key, { name: 'enable', value: enable }, { required: true }, { required: '项目状态不可以为空' });
         }
-        if (isCode) {
-            validator.addRule(key, { name: 'code', value: code }, { required: true }, { required: '验证码不可以为空' });
-        }
         return validator.execute(key);
     }
 
@@ -125,13 +122,12 @@ export class LockService {
 
     // 创建项目
     public async crateProject(projectForm: ProjectFormModel, isCode: boolean = false): Promise<boolean> {
-        let result: ValidationResult = LockService.validateProjectForm(projectForm, isCode, OperationType.Add);
+        let result: ValidationResult = LockService.validateProjectForm(projectForm, OperationType.Add);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { memo, length, quota, rate, code } = projectForm;
+        let { memo, length, quota, rate } = projectForm;
         await Caxios.post<any>(
             {
-                headers: isCode ? { [CONSTANTS.HEADER_CODE]: code } : {},
                 url: Urls.lock.project.create,
                 data: {
                     memo,
@@ -140,20 +136,20 @@ export class LockService {
                     rate: (rate / 100).toFixed(4)
                 }
             },
-            CaxiosType.FullLoadingToken
+            CaxiosType.FullLoadingToken,
+            isCode
         );
         return true;
     }
 
     // 更新项目
     public async updateProject(projectForm: ProjectFormModel, isCode: boolean = false): Promise<boolean> {
-        let result: ValidationResult = LockService.validateProjectForm(projectForm, isCode, OperationType.Edit);
+        let result: ValidationResult = LockService.validateProjectForm(projectForm, OperationType.Edit);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { id, memo, quota, rate, enable, code } = projectForm;
+        let { id, memo, quota, rate, enable } = projectForm;
         await Caxios.post<any>(
             {
-                headers: isCode ? { [CONSTANTS.HEADER_CODE]: code } : {},
                 url: Urls.lock.project.update,
                 data: { id, memo, quota, rate: rate / 100, enable }
             },
@@ -172,8 +168,8 @@ export class LockService {
     public async updateLockAward(awardForm: AwardFormModel, isCode: boolean = false): Promise<boolean> {
         if (!awardForm) return Promise.reject('参数不可以为空');
 
-        const key = 'project';
-        let { promotionRate, pushStraightRate, lockAmount, dailySalesDto, code, originPromotionRate } = awardForm,
+        let key = 'award',
+            { promotionRate, pushStraightRate, dailySalesDto, originPromotionRate } = awardForm,
             saleCount = (dailySalesDto || []).length,
             validator = new Validator();
         validator.addRule(
@@ -205,9 +201,6 @@ export class LockService {
         //         min: '最小锁仓数量不可以小于0'
         //     }
         // );
-        if (isCode) {
-            validator.addRule(key, { name: 'code', value: code }, { required: true }, { required: '验证码不可以为空' });
-        }
         validator.addRule(key, { name: 'saleCount', value: saleCount }, { min: 1 }, { min: '日销奖励条目不可以小于等于0' });
         dailySalesDto.forEach((dailySale: AwardDailySaleModel, index: number) => {
             const { sales, rate } = dailySale;
@@ -237,7 +230,6 @@ export class LockService {
 
         await Caxios.post<any>(
             {
-                headers: isCode ? { [CONSTANTS.HEADER_CODE]: code } : {},
                 url: Urls.lock.award.update,
                 data: {
                     promotionRate: (promotionRate / 100).toFixed(4),
@@ -249,7 +241,8 @@ export class LockService {
                     }))
                 }
             },
-            CaxiosType.FullLoadingToken
+            CaxiosType.FullLoadingToken,
+            isCode
         );
         return true;
     }

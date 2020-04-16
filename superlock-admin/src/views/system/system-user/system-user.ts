@@ -4,10 +4,10 @@ import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { ResponseCode, OperationType } from '@/ts/config';
+import { OperationType } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { IPageParameters } from '@/ts/interfaces';
-import { SecondVerifyResult, UserModel, UserFormModel, PasswordFormModel } from '@/ts/models';
+import { UserModel, UserFormModel, PasswordFormModel } from '@/ts/models';
 
 import { Modal } from 'ant-design-vue';
 import SecondVerify from '@/components/common/second-verify';
@@ -30,6 +30,7 @@ const enum SecondVerifyType {
 })
 export default class SystemUser extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
+    @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
 
     @systemModule.State('roleOptions') roleOptions!: Array<any>;
@@ -48,7 +49,6 @@ export default class SystemUser extends Vue {
     @systemModule.Action('resetPassword') resetPassword!: (isCode: boolean) => any;
     @systemModule.Action('resetGa') resetGa!: (payload: any) => any;
 
-    isSecondVerifyShow: boolean = false; // 是否显示二次验证
     isUserShow: boolean = false; // 是否显示用户模态框
     isPasswordShow: boolean = false; // 是否显示密码模态框
 
@@ -81,24 +81,6 @@ export default class SystemUser extends Vue {
         }
     ];
 
-    // 处理页码change事件
-    handlePageNumChange(page: number, pageSize: number) {
-        let parameters = Utils.duplicate(this.parameters);
-        parameters.pageNum = page;
-        parameters.pageSize = pageSize;
-        this.setStates({ parameters });
-        this.fetchUsers();
-    }
-
-    // 处理页尺寸change事件
-    handlePageSizeChange(current: number, pageSize: number) {
-        let parameters = Utils.duplicate(this.parameters);
-        parameters.pageNum = 1;
-        parameters.pageSize = pageSize;
-        this.setStates({ parameters });
-        this.fetchUsers();
-    }
-
     // 私有函数：设置用户信息，添加或者更新
     async _setUser(userForm: UserFormModel, isCode: boolean) {
         try {
@@ -108,15 +90,7 @@ export default class SystemUser extends Vue {
             if (!result) Prompt.error(`用户${['添加', '更新'][operation - 1]}失败`);
             else await this.fetchUsers();
         } catch (error) {
-            let code = error.code;
-            if (code === ResponseCode.SecondVerify) {
-                let data = error.data as SecondVerifyResult;
-                if (data.verifyMethod === '001') {
-                    this.isSecondVerifyShow = true;
-                }
-            } else {
-                Prompt.error(error.message || error);
-            }
+            Prompt.error(error.message || error);
         }
     }
 
@@ -131,56 +105,32 @@ export default class SystemUser extends Vue {
                 await this.fetchUsers();
             }
         } catch (error) {
-            let code = error.code;
-            if (code === ResponseCode.SecondVerify) {
-                let data = error.data as SecondVerifyResult;
-                if (data.verifyMethod === '001') {
-                    this.isSecondVerifyShow = true;
-                }
-            } else {
-                Prompt.error(error.message || error);
-            }
+            Prompt.error(error.message || error);
         }
     }
 
     // 私有函数：删除用户信息
-    async _deleteUser(name: string, isCode: boolean = false, code?: string) {
+    async _deleteUser(name: string, isCode: boolean = false) {
         try {
-            let result = await this.deleteUser({ name, isCode, code });
+            let result = await this.deleteUser({ name, isCode });
             if (!result) Prompt.error('用户删除失败');
             else await this.fetchUsers();
         } catch (error) {
-            let code = error.code;
-            if (code === ResponseCode.SecondVerify) {
-                let data = error.data as SecondVerifyResult;
-                if (data.verifyMethod === '001') {
-                    this.isSecondVerifyShow = true;
-                }
-            } else {
-                Prompt.error(error.message || error);
-            }
+            Prompt.error(error.message || error);
         }
     }
 
     // 私有函数：重置ga信息
-    async _resetGa(name: string, isCode: boolean = false, code?: string) {
+    async _resetGa(name: string, isCode: boolean = false) {
         try {
-            let result = await this.resetGa({ name, isCode, code });
+            let result = await this.resetGa({ name, isCode });
             if (!result) Prompt.error('GA重置失败');
             else {
                 Prompt.success('GA重置成功');
                 await this.fetchUsers();
             }
         } catch (error) {
-            let code = error.code;
-            if (code === ResponseCode.SecondVerify) {
-                let data = error.data as SecondVerifyResult;
-                if (data.verifyMethod === '001') {
-                    this.isSecondVerifyShow = true;
-                }
-            } else {
-                Prompt.error(error.message || error);
-            }
+            Prompt.error(error.message || error);
         }
     }
 
@@ -240,26 +190,40 @@ export default class SystemUser extends Vue {
     }
 
     // 处理二次验证submit事件
-    async handleSecondVerifySubmit(code: string) {
+    async handleSecondVerifySubmit() {
         let user = this.currentUser,
             type = this.currentType;
         if (type === SecondVerifyType.Add || type === SecondVerifyType.Edit) {
-            let userForm = Utils.duplicate(this.userForm);
-            userForm.code = code;
-            await this._setUser(userForm, true);
+            await this._setUser(this.userForm, true);
         } else if (type === SecondVerifyType.Delete) {
             if (user) {
-                await this._deleteUser(user.name, true, code);
+                await this._deleteUser(user.name, true);
             }
         } else if (type === SecondVerifyType.resetPassword) {
-            let passwordForm = Utils.duplicate(this.passwordForm);
-            passwordForm.code = code;
-            await this._resetPassword(passwordForm, true);
+            await this._resetPassword(this.passwordForm, true);
         } else if (type === SecondVerifyType.resetGa) {
             if (user) {
-                await this._resetGa(user.name, true, code);
+                await this._resetGa(user.name, true);
             }
         }
+    }
+
+    // 处理页码change事件
+    handlePageNumChange(page: number, pageSize: number) {
+        let parameters = Utils.duplicate(this.parameters);
+        parameters.pageNum = page;
+        parameters.pageSize = pageSize;
+        this.setStates({ parameters });
+        this.fetchUsers();
+    }
+
+    // 处理页尺寸change事件
+    handlePageSizeChange(current: number, pageSize: number) {
+        let parameters = Utils.duplicate(this.parameters);
+        parameters.pageNum = 1;
+        parameters.pageSize = pageSize;
+        this.setStates({ parameters });
+        this.fetchUsers();
     }
 
     // 获取数据

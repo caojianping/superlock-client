@@ -1,8 +1,7 @@
 import TYPES from '@/store/types';
 import { IActionContext, IWithdrawState } from '@/store/interfaces';
-import { ReviewStatus, ReviewType } from '@/ts/config';
 import { PageResult, WithdrawModel, TransferModel } from '@/ts/models';
-import { WithdrawService, FinanceService } from '@/ts/services';
+import { WithdrawService } from '@/ts/services';
 
 const withdrawState: IWithdrawState = {
     withdrawParameters: {
@@ -34,7 +33,6 @@ const withdrawState: IWithdrawState = {
 };
 
 const withdrawService = new WithdrawService();
-const financeService = new FinanceService();
 
 export default {
     namespaced: true,
@@ -76,17 +74,11 @@ export default {
         }
     },
     actions: {
-        // 设置审查操作
-        async setReview(context: IActionContext<IWithdrawState>, payload: { serial: string; status: ReviewStatus }): Promise<boolean> {
-            return await financeService.setReview(payload.serial, ReviewType.Withdraw, payload.status);
-        },
-
         // 获取提现列表
         async fetchWithdraws(context: IActionContext<IWithdrawState>): Promise<void> {
-            let { commit, state } = context,
-                parameters = state.withdrawParameters;
+            let { commit, state } = context;
             try {
-                let result: PageResult<WithdrawModel> = await withdrawService.fetchWithdraws(parameters);
+                let result: PageResult<WithdrawModel> = await withdrawService.fetchWithdraws(state.withdrawParameters);
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
                 commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
@@ -101,10 +93,9 @@ export default {
 
         // 获取转账列表
         async fetchTransfers(context: IActionContext<IWithdrawState>): Promise<void> {
-            let { commit, state } = context,
-                parameters = state.transferParameters;
+            let { commit, state } = context;
             try {
-                let result: PageResult<TransferModel> = await withdrawService.fetchTransfers(parameters);
+                let result: PageResult<TransferModel> = await withdrawService.fetchTransfers(state.transferParameters);
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
                 commit(TYPES.SET_STATES, { totalCount: 0, list: [] });

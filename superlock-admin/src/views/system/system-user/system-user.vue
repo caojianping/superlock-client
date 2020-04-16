@@ -34,7 +34,7 @@
 
         <PasswordModal v-model="isPasswordShow" title="输入登录密码" :user="currentUser" @submit="handlePasswordSubmit" />
 
-        <SecondVerify v-model="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
+        <SecondVerify :is-show="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
     </div>
 </template>
 

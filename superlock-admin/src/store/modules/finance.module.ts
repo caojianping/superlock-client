@@ -50,9 +50,9 @@ export default {
         // 设置审查操作
         async setReview(
             context: IActionContext<IFinanceState>,
-            payload: { serial: string; type: ReviewType; status: ReviewStatus }
+            payload: { serial: string; type: ReviewType; status: ReviewStatus; isCode?: boolean }
         ): Promise<boolean> {
-            return await financeService.setReview(payload.serial, payload.type, payload.status);
+            return await financeService.setReview(payload.serial, payload.type, payload.status, payload.isCode);
         },
 
         // 获取利息支出列表

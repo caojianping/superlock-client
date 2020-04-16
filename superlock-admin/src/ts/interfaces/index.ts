@@ -83,7 +83,7 @@ export interface IMemberPageParameters {
     uid: string; // UID
     mobileNumber: string; // 手机号
     operatorName: string; // 用户来源ID
-    // todo: 上级UID
+    parent: string; // 上级UID
 }
 
 // 上分分页参数

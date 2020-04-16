@@ -4,13 +4,6 @@ import { PageResult, FundModel } from '@/ts/models';
 import { FundService } from '@/ts/services';
 
 const fundState: IFundState = {
-    coinOptions: [
-        { label: '全部', value: '' },
-        { label: 'BCB', value: 'BCB' },
-        { label: 'DC', value: 'DC' },
-        { label: 'USDT', value: 'USDT' },
-        { label: 'USDTERC', value: 'USDTERC' }
-    ],
     orderOptions: [
         { label: '全部', value: '' },
         { label: '充值', value: '充值' },

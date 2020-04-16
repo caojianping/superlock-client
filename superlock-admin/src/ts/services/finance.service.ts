@@ -6,19 +6,16 @@ import { PageResult, FinanceInterestModel, FinanceDirectModel, FinancePromoteMod
 
 export class FinanceService {
     // 设置审核操作
-    public async setReview(serial: string, type: ReviewType, status: ReviewStatus): Promise<boolean> {
+    public async setReview(serial: string, type: ReviewType, status: ReviewStatus, isCode: boolean = false): Promise<boolean> {
         if (!serial) return Promise.reject('编号不可以为空');
 
         await Caxios.post<any>(
             {
                 url: Urls.finance.review,
-                data: {
-                    serial: serial,
-                    type: type,
-                    status: status
-                }
+                data: { serial, type, status }
             },
-            CaxiosType.PageLoadingToken
+            CaxiosType.PageLoadingToken,
+            isCode
         );
         return true;
     }

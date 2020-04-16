@@ -1,17 +1,17 @@
 import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
-import { CaxiosType, Urls, CONSTANTS } from '@/ts/config';
+import { CaxiosType, Urls } from '@/ts/config';
 import { Caxios, md5 } from '@/ts/common';
 import { ISelectOption, IPageParameters } from '@/ts/interfaces';
 import { UserFormModel, PageResult, UserModel, GoogleFormModel, PasswordFormModel } from '@/ts/models';
 
 export class SystemService {
     // 验证用户表单
-    public static validateUserForm(userForm: UserFormModel, isCode: boolean): ValidationResult {
+    public static validateUserForm(userForm: UserFormModel): ValidationResult {
         if (!userForm) return { status: false, data: { userForm: '参数不可以为空' } };
 
-        const key = 'user';
-        let { name, password, uKey, roleId, code } = userForm,
+        let key = 'user',
+            { name, password, uKey, roleId } = userForm,
             validator = new Validator();
         validator.addRule(key, { name: 'name', value: name }, { required: true }, { required: '用户名不可以为空' });
         if (password !== undefined) {
@@ -19,19 +19,15 @@ export class SystemService {
         }
         validator.addRule(key, { name: 'uKey', value: uKey }, { required: true }, { required: 'uKey不可以为空' });
         validator.addRule(key, { name: 'roleId', value: roleId }, { required: true }, { required: '用户角色不可以为空' });
-        if (isCode) {
-            validator.addRule(key, { name: 'code', value: code }, { required: true }, { required: '验证码不可以为空' });
-        }
-
         return validator.execute(key);
     }
 
     // 验证密码表单
-    public static validatePasswordForm(passwordForm: PasswordFormModel, isCode: boolean): ValidationResult {
+    public static validatePasswordForm(passwordForm: PasswordFormModel): ValidationResult {
         if (!passwordForm) return { status: false, data: { userForm: '参数不可以为空' } };
 
-        const key = 'password';
-        let { name, oldPwd, newPwd, confirmPwd, code } = passwordForm,
+        let key = 'password',
+            { name, oldPwd, newPwd, confirmPwd } = passwordForm,
             validator = new Validator();
         validator.addRule(key, { name: 'name', value: name }, { required: true }, { required: '用户名不可以为空' });
         if (oldPwd !== undefined) {
@@ -39,10 +35,6 @@ export class SystemService {
         }
         validator.addRule(key, { name: 'newPwd', value: newPwd }, { required: true, password: true }, { required: '新密码不可以为空' });
         validator.addRule(key, { name: 'confirmPwd', value: confirmPwd }, { equal: newPwd }, { equal: '两次密码输入不一致' });
-        if (isCode) {
-            validator.addRule(key, { name: 'code', value: code }, { required: true }, { required: '验证码不可以为空' });
-        }
-
         return validator.execute(key);
     }
 
@@ -68,13 +60,12 @@ export class SystemService {
 
     // 添加用户
     public async addUser(userForm: UserFormModel, isCode: boolean = false): Promise<boolean> {
-        let result: ValidationResult = SystemService.validateUserForm(userForm, isCode);
+        let result: ValidationResult = SystemService.validateUserForm(userForm);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { name, password, uKey, roleId, code } = userForm;
+        let { name, password, uKey, roleId } = userForm;
         await Caxios.post<any>(
             {
-                headers: isCode ? { [CONSTANTS.HEADER_CODE]: code } : {},
                 url: Urls.system.user.add,
                 data: {
                     name,
@@ -83,103 +74,97 @@ export class SystemService {
                     roleId
                 }
             },
-            CaxiosType.FullLoadingToken
+            CaxiosType.FullLoadingToken,
+            isCode
         );
         return true;
     }
 
     // 更新用户
     public async updateUser(userForm: UserFormModel, isCode: boolean = false): Promise<boolean> {
-        let result: ValidationResult = SystemService.validateUserForm(userForm, isCode);
+        let result: ValidationResult = SystemService.validateUserForm(userForm);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { name, uKey, roleId, code } = userForm;
+        let { name, uKey, roleId } = userForm;
         await Caxios.post<any>(
             {
-                headers: isCode ? { [CONSTANTS.HEADER_CODE]: code } : {},
                 url: Urls.system.user.update,
                 data: { name, uKey, roleId }
             },
-            CaxiosType.FullLoadingToken
+            CaxiosType.FullLoadingToken,
+            isCode
         );
         return true;
     }
 
     // 删除用户
-    public async deleteUser(name: string, isCode: boolean = false, code: string = '') {
-        const key = 'delete';
-        let validator = new Validator();
+    public async deleteUser(name: string, isCode: boolean = false) {
+        let key = 'delete',
+            validator = new Validator();
         validator.addRule(key, { name: 'name', value: name }, { required: true }, { required: '用户名不可以为空' });
-        if (isCode) {
-            validator.addRule(key, { name: 'code', value: code }, { required: true }, { required: '验证码不可以为空' });
-        }
 
         let result: ValidationResult = validator.execute(key);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
         await Caxios.post<any>(
             {
-                headers: isCode ? { [CONSTANTS.HEADER_CODE]: code } : {},
                 url: Urls.system.user.delete,
                 data: { name: name }
             },
-            CaxiosType.FullLoadingToken
+            CaxiosType.FullLoadingToken,
+            isCode
         );
         return true;
     }
 
     // 重置密码
     public async resetPassword(passwordForm: PasswordFormModel, isCode: boolean = false) {
-        let result: ValidationResult = SystemService.validatePasswordForm(passwordForm, isCode);
+        let result: ValidationResult = SystemService.validatePasswordForm(passwordForm);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { name, newPwd, code } = passwordForm;
+        let { name, newPwd } = passwordForm;
         await Caxios.post<any>(
             {
-                headers: isCode ? { [CONSTANTS.HEADER_CODE]: code } : {},
                 url: Urls.system.user.resetPassword,
                 data: {
                     name: name,
                     password: md5(newPwd)
                 }
             },
-            CaxiosType.FullLoadingToken
+            CaxiosType.FullLoadingToken,
+            isCode
         );
         return true;
     }
 
     // 重置ga
-    public async resetGa(name: string, isCode: boolean = false, code: string = '') {
-        const key = 'resetGa';
-        let validator = new Validator();
+    public async resetGa(name: string, isCode: boolean = false) {
+        let key = 'resetGa',
+            validator = new Validator();
         validator.addRule(key, { name: 'name', value: name }, { required: true }, { required: '用户名不可以为空' });
-        if (isCode) {
-            validator.addRule(key, { name: 'code', value: code }, { required: true }, { required: '验证码不可以为空' });
-        }
 
         let result: ValidationResult = validator.execute(key);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
         await Caxios.post<any>(
             {
-                headers: isCode ? { [CONSTANTS.HEADER_CODE]: code } : {},
                 url: Urls.system.user.resetGa,
                 data: { name: name }
             },
-            CaxiosType.FullLoadingToken
+            CaxiosType.FullLoadingToken,
+            isCode
         );
         return true;
     }
 
     // 设置密码
     public async setPassword(passwordForm: PasswordFormModel, isCode: boolean = false): Promise<boolean> {
-        let result: ValidationResult = SystemService.validatePasswordForm(passwordForm, isCode);
+        let result: ValidationResult = SystemService.validatePasswordForm(passwordForm);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { name, oldPwd, newPwd, code } = passwordForm;
+        let { name, oldPwd, newPwd } = passwordForm;
         await Caxios.post<any>(
             {
-                headers: isCode ? { [CONSTANTS.HEADER_CODE]: code } : {},
                 url: Urls.system.setPassword,
                 data: {
                     name,
@@ -187,7 +172,8 @@ export class SystemService {
                     oldPassWord: md5(oldPwd || '')
                 }
             },
-            CaxiosType.FullLoadingToken
+            CaxiosType.FullLoadingToken,
+            isCode
         );
         return true;
     }

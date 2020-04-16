@@ -34,7 +34,7 @@ export default class InitModal extends Vue {
     // 提交初始信息
     async submit() {
         let initInfoForm = this.initInfoForm,
-            result: ValidationResult = HomeService.validateInitInfoForm(initInfoForm, false);
+            result: ValidationResult = HomeService.validateInitInfoForm(initInfoForm);
         if (!result.status) {
             Prompt.error(Utils.getFirstValue(result.data));
             return;
@@ -52,7 +52,6 @@ export default class InitModal extends Vue {
                 initInfoForm = new InitInfoFormModel();
             initInfoForm.initialTotalLock = initInfo.initialTotalLock;
             initInfoForm.initialRegisteredUser = initInfo.initialRegisteredUser;
-            initInfoForm.code = undefined;
             this.initInfoForm = initInfoForm;
         }
     }

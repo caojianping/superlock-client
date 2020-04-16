@@ -32,22 +32,12 @@ export default class PasswordModal extends Vue {
 
     // 提交登录密码
     async submit() {
-        const key = 'password';
-        let { name, newPwd, confirmPwd } = this.passwordForm,
+        let key = 'password',
+            { name, newPwd, confirmPwd } = this.passwordForm,
             validator = new Validator();
         validator.addRule(key, { name: 'name', value: name }, { required: true }, { required: '用户名不可以为空' });
-        validator.addRule(
-            key,
-            { name: 'newPwd', value: newPwd },
-            { required: true, password: true },
-            { required: '新密码不可以为空' }
-        );
-        validator.addRule(
-            key,
-            { name: 'confirmPwd', value: confirmPwd },
-            { equal: newPwd },
-            { equal: '两次密码输入不一致' }
-        );
+        validator.addRule(key, { name: 'newPwd', value: newPwd }, { required: true, password: true }, { required: '新密码不可以为空' });
+        validator.addRule(key, { name: 'confirmPwd', value: confirmPwd }, { equal: newPwd }, { equal: '两次密码输入不一致' });
 
         let result: ValidationResult = validator.execute(key);
         if (!result.status) {
@@ -66,7 +56,6 @@ export default class PasswordModal extends Vue {
             let passwordForm = new PasswordFormModel();
             passwordForm.name = this.user ? this.user.name : '';
             passwordForm.oldPwd = undefined;
-            passwordForm.code = undefined;
             this.passwordForm = passwordForm;
         }
     }

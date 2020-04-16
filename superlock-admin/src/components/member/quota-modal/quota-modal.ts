@@ -34,7 +34,7 @@ export default class QuotaModal extends Vue {
     // 提交额度
     async submit() {
         let quotaForm = this.quotaForm,
-            result: ValidationResult = MemberService.validateQuotaForm(quotaForm, false);
+            result: ValidationResult = MemberService.validateQuotaForm(quotaForm);
         if (!result.status) {
             Prompt.error(Utils.getFirstValue(result.data));
             return;
@@ -50,7 +50,6 @@ export default class QuotaModal extends Vue {
         if (value) {
             let quotaForm = new QuotaFormModel();
             quotaForm.uid = this.broker.uid;
-            quotaForm.code = undefined;
             this.quotaForm = quotaForm;
         }
     }

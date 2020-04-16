@@ -3,15 +3,15 @@
         <div>
             <ant-row :gutter="24">
                 <ant-col :span="22">
-                    <ant-form-item label="国家" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                    <ant-form-item label="国家、地区" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                         <ant-select
                             :value="brokerForm.areaCode"
                             :options="areaCodeOptions"
                             showSearch
                             allowClear
-                            placeholder="请选择国家区号"
+                            placeholder="请选择国家、地区"
                             @change="handleFormChange('areaCode', $event)"
-                            :filterOption="filterAreaCodes"
+                            :filterOption="areaCodeFilterOption"
                         ></ant-select>
                     </ant-form-item>
                 </ant-col>

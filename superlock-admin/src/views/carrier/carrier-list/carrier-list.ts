@@ -7,11 +7,10 @@ import Utils from '@/ts/utils';
 import { OperationType, CarrierFormType, ResponseCode } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { IPageParameters } from '@/ts/interfaces';
-import { CarrierModel, CarrierFormModel, SecondVerifyResult } from '@/ts/models';
+import { CarrierModel, CarrierFormModel } from '@/ts/models';
 
-import { Modal } from 'ant-design-vue';
 import SecondVerify from '@/components/common/second-verify';
-import CarrierModal from '@/components/carrier/carrier-modal';
+import CarrierModal from '@/components/modals/carrier-modal';
 
 const carrierModule = namespace('carrier');
 
@@ -20,9 +19,9 @@ const carrierModule = namespace('carrier');
     components: { SecondVerify, CarrierModal }
 })
 export default class FundRecord extends Vue {
-    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
     @State('isPageLoading') isPageLoading!: boolean;
     @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
+    @State('pageSizeOptions') pageSizeOptions!: Array<string>;
     @Mutation(TYPES.SET_STATES) setRootStates!: (payload: any) => any;
     @Mutation(TYPES.CLEAR_STATES) clearRootStates!: () => any;
 
@@ -43,7 +42,6 @@ export default class FundRecord extends Vue {
     @carrierModule.Action('updateCarrier') updateCarrier!: (isCode?: boolean) => any;
 
     isCarrierShow: boolean = false; // 是否显示运营商模态框
-    currentCarrier?: CarrierModel = undefined; // 当前运营商数据
 
     columns: Array<any> = [
         {
@@ -56,7 +54,9 @@ export default class FundRecord extends Vue {
         },
         {
             title: '手机号',
-            dataIndex: 'mobileNumber'
+            dataIndex: '',
+            key: 'mobile',
+            scopedSlots: { customRender: 'mobile' }
         },
         {
             title: '锁仓总量(DC)',
@@ -64,11 +64,15 @@ export default class FundRecord extends Vue {
         },
         {
             title: '返点比例(%)',
-            dataIndex: 'rebateRatio'
+            dataIndex: '',
+            key: 'rebateRatio',
+            scopedSlots: { customRender: 'rebateRatio' }
         },
         {
             title: '结算周期',
-            dataIndex: 'billingCycle'
+            dataIndex: '',
+            key: 'cycle',
+            scopedSlots: { customRender: 'cycle' }
         },
         {
             title: '返点总额(DC)',
@@ -114,13 +118,7 @@ export default class FundRecord extends Vue {
                 await this.fetchCarriers();
             }
         } catch (error) {
-            let code = error.code;
-            if (code === ResponseCode.SecondVerify) {
-                let data = error.data as SecondVerifyResult;
-                if (data.verifyMethod === '001') {
-                    this.setRootStates({ isSecondVerifyShow: true });
-                }
-            } else {
+            if (error.code !== ResponseCode.SecondVerify) {
                 Prompt.error(error.message || error);
             }
         }
@@ -132,7 +130,7 @@ export default class FundRecord extends Vue {
     }
 
     // 处理二次验证submit事件
-    async handleSecondVerifySubmit(code: string) {
+    async handleSecondVerifySubmit() {
         this._setCarrier(this.carrierForm, true);
     }
 

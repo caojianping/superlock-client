@@ -4,10 +4,9 @@ import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { ResponseCode } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { IPageParameters, IPointPageParameters } from '@/ts/interfaces';
-import { PointModel, PointFormModel, TransferFormModel, SecondVerifyResult } from '@/ts/models';
+import { PointModel, PointFormModel, TransferFormModel } from '@/ts/models';
 
 import SecondVerify from '@/components/common/second-verify';
 import PointModal from '@/components/point/point-modal';
@@ -26,6 +25,7 @@ const enum SecondVerifyType {
 })
 export default class PointRecord extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
+    @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
 
     @pointModule.State('pointParameters') pointParameters!: IPageParameters<IPointPageParameters>;
@@ -42,8 +42,6 @@ export default class PointRecord extends Vue {
 
     isPointShow: boolean = false;
     isTransferShow: boolean = false;
-
-    isSecondVerifyShow: boolean = false; // 是否显示二次验证
     currentType: SecondVerifyType = SecondVerifyType.PointInfoModel; // 当前二次验证类型
 
     columns: Array<any> = [
@@ -117,24 +115,6 @@ export default class PointRecord extends Vue {
         }
     }
 
-    // 处理页码change事件
-    handlePageNumChange(page: number, pageSize: number) {
-        let pointParameters = Utils.duplicate(this.pointParameters);
-        pointParameters.pageNum = page;
-        pointParameters.pageSize = pageSize;
-        this.setStates({ pointParameters });
-        this.fetchPoints();
-    }
-
-    // 处理页尺寸change事件
-    handlePageSizeChange(current: number, pageSize: number) {
-        let pointParameters = Utils.duplicate(this.pointParameters);
-        pointParameters.pageNum = 1;
-        pointParameters.pageSize = pageSize;
-        this.setStates({ pointParameters });
-        this.fetchPoints();
-    }
-
     // 打开上分模态框
     openPointModal() {
         this.isPointShow = true;
@@ -155,15 +135,7 @@ export default class PointRecord extends Vue {
             if (!result) Prompt.error('操作失败');
             else await this.fetchPoints();
         } catch (error) {
-            let code = error.code;
-            if (code === ResponseCode.SecondVerify) {
-                let data = error.data as SecondVerifyResult;
-                if (data.verifyMethod === '001') {
-                    this.isSecondVerifyShow = true;
-                }
-            } else {
-                Prompt.error(error.message || error);
-            }
+            Prompt.error(error.message || error);
         }
     }
 
@@ -180,15 +152,7 @@ export default class PointRecord extends Vue {
             if (!result) Prompt.error('操作失败');
             else await this.fetchPoints();
         } catch (error) {
-            let code = error.code;
-            if (code === ResponseCode.SecondVerify) {
-                let data = error.data as SecondVerifyResult;
-                if (data.verifyMethod === '001') {
-                    this.isSecondVerifyShow = true;
-                }
-            } else {
-                Prompt.error(error.message || error);
-            }
+            Prompt.error(error.message || error);
         }
     }
 
@@ -198,17 +162,31 @@ export default class PointRecord extends Vue {
     }
 
     // 处理二次验证submit事件
-    async handleSecondVerifySubmit(code: string) {
+    async handleSecondVerifySubmit() {
         let type = this.currentType;
         if (type === SecondVerifyType.PointInfoModel) {
-            let pointForm = Utils.duplicate(this.pointForm);
-            pointForm.code = code;
-            await this._submitPoint(pointForm, true);
+            await this._submitPoint(this.pointForm, true);
         } else if (type === SecondVerifyType.TransferInfoModel) {
-            let transferForm = Utils.duplicate(this.transferForm);
-            transferForm.code = code;
-            await this._submitTransfer(transferForm, true);
+            await this._submitTransfer(this.transferForm, true);
         }
+    }
+
+    // 处理页码change事件
+    handlePageNumChange(page: number, pageSize: number) {
+        let pointParameters = Utils.duplicate(this.pointParameters);
+        pointParameters.pageNum = page;
+        pointParameters.pageSize = pageSize;
+        this.setStates({ pointParameters });
+        this.fetchPoints();
+    }
+
+    // 处理页尺寸change事件
+    handlePageSizeChange(current: number, pageSize: number) {
+        let pointParameters = Utils.duplicate(this.pointParameters);
+        pointParameters.pageNum = 1;
+        pointParameters.pageSize = pageSize;
+        this.setStates({ pointParameters });
+        this.fetchPoints();
     }
 
     created() {

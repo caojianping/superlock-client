@@ -9,24 +9,25 @@ import { TokenInfo } from '@/ts/models';
 export class Token {
     // 设置tokenInfo
     public static setTokenInfo(tokenInfo: TokenInfo) {
-        Cookie.setItem<TokenInfo>(CONSTANTS.TOKEN_INFO, tokenInfo, CONSTANTS.EXPIRES);
+        Cookie.setItem<TokenInfo>(CONSTANTS.CACHE_TOKEN_INFO, tokenInfo, CONSTANTS.EXPIRES);
     }
 
     // 获取tokenInfo
     public static getTokenInfo(): TokenInfo {
-        return Cookie.getItem<TokenInfo>(CONSTANTS.TOKEN_INFO) || new TokenInfo('', '');
+        return Cookie.getItem<TokenInfo>(CONSTANTS.CACHE_TOKEN_INFO) || new TokenInfo('', '');
     }
 
     // 移除tokenInfo
     public static removeTokenInfo(): boolean {
-        Cookie.removeItem(CONSTANTS.TOKEN_INFO);
+        Cookie.removeItem(CONSTANTS.CACHE_TOKEN_INFO);
+        SessionStorage.removeItem(CONSTANTS.CACHE_NAME);
+        SessionStorage.removeItem(CONSTANTS.CACHE_CODE);
         [
             'login/',
             'google/',
             'home/',
             'recharge/',
             'withdraw/',
-            'transfer/',
             'lock/',
             'finance/',
             'loan/',
@@ -42,22 +43,33 @@ export class Token {
         return true;
     }
 
+    // 设置name
+    public static setName(name: string) {
+        SessionStorage.setItem<string>(CONSTANTS.CACHE_NAME, encodeURI(name));
+    }
 
-    // 设置gacode
+    // 获取code
+    public static getName(): string {
+        return SessionStorage.getItem<string>(CONSTANTS.CACHE_NAME) || '';
+    }
+
+    // 移除code
+    public static removeName(): boolean {
+        return SessionStorage.removeItem(CONSTANTS.CACHE_NAME);
+    }
+
+    // 设置code
     public static setCode(code: string) {
-        SessionStorage.setItem<string>(CONSTANTS.HEADER_CODE, code);
+        SessionStorage.setItem<string>(CONSTANTS.CACHE_CODE, code);
     }
 
-    // 获取gacode
+    // 获取code
     public static getCode(): string {
-        return SessionStorage.getItem<string>(CONSTANTS.HEADER_CODE) || '';
+        return SessionStorage.getItem<string>(CONSTANTS.CACHE_CODE) || '';
     }
 
-    // 移除gacode
+    // 移除code
     public static removeCode(): boolean {
-        return SessionStorage.removeItem(CONSTANTS.HEADER_CODE);
+        return SessionStorage.removeItem(CONSTANTS.CACHE_CODE);
     }
-
-
-    
 }

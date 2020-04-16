@@ -22,7 +22,6 @@ export class PointFormModel {
     public coin!: string; // 转账币种
     public value!: number; // 上分数量
     public memo!: string; // 备注
-    public code?: string; // 验证码：谷歌验证码gacode，短信验证码smsCode，邮箱验证码emailCode等
 }
 
 export class TransferFormModel {
@@ -31,7 +30,6 @@ export class TransferFormModel {
     public toId!: number; // 接受转账的系统账户id
     public value!: number; // 转账金额
     public memo!: string; // 备注
-    public code?: string; // 验证码：谷歌验证码gacode，短信验证码smsCode，邮箱验证码emailCode等
 }
 
 export class PointInfoModel {

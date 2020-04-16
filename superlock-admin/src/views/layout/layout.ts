@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 
-import Header from '@/components/layout/header';
-import Sider from '@/components/layout/sider';
-import Footer from '@/components/layout/footer';
+import Header from '@/components/common/header';
+import Sider from '@/components/common/sider';
+import Footer from '@/components/common/footer';
 
 @Component({
     name: 'Layout',

@@ -35,7 +35,7 @@ export default class RateModal extends Vue {
     // 提交利率信息
     async submit() {
         let rateForm = this.rateForm,
-            result: ValidationResult = MemberService.validateRateForm(rateForm, false);
+            result: ValidationResult = MemberService.validateRateForm(rateForm);
         if (!result.status) {
             Prompt.error(Utils.getFirstValue(result.data));
             return;
@@ -49,9 +49,7 @@ export default class RateModal extends Vue {
     watchValue(value: boolean) {
         this.isShow = value;
         if (value) {
-            let rateForm = new RateFormModel();
-            rateForm.code = undefined;
-            this.rateForm = rateForm;
+            this.rateForm = new RateFormModel();
         }
     }
 }

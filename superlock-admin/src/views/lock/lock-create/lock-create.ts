@@ -1,12 +1,11 @@
 import Vue from 'vue';
-import { namespace } from 'vuex-class';
+import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { ResponseCode } from '@/ts/config';
 import { Prompt } from '@/ts/common';
-import { SecondVerifyResult, ProjectFormModel } from '@/ts/models';
+import { ProjectFormModel } from '@/ts/models';
 
 import SecondVerify from '@/components/common/second-verify';
 
@@ -17,12 +16,12 @@ const lockModule = namespace('lock');
     components: { SecondVerify }
 })
 export default class LockCreate extends Vue {
+    @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
+
     @lockModule.State('projectForm') projectForm!: ProjectFormModel;
     @lockModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @lockModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @lockModule.Action('crateProject') crateProject!: (isCode: boolean) => any;
-
-    isSecondVerifyShow: boolean = false; // 是否显示二次验证
 
     // 处理表单change事件
     handleFormChange(key: string, value: any) {
@@ -38,23 +37,12 @@ export default class LockCreate extends Vue {
             if (!result) Prompt.error('锁仓创建失败');
             else this.$router.push({ path: '/lock/project' });
         } catch (error) {
-            let code = error.code;
-            if (code === ResponseCode.SecondVerify) {
-                let data = error.data as SecondVerifyResult;
-                if (data.verifyMethod === '001') {
-                    this.isSecondVerifyShow = true;
-                }
-            } else {
-                Prompt.error(error.message || error);
-            }
+            Prompt.error(error.message || error);
         }
     }
 
     // 处理二次验证submit事件
-    async handleSecondVerifySubmit(code: string) {
-        let projectForm = Utils.duplicate(this.projectForm);
-        projectForm.code = code;
-        this.setStates({ projectForm });
+    async handleSecondVerifySubmit() {
         await this.submit(true);
     }
 

@@ -40,8 +40,7 @@ export default class TransferModal extends Vue {
     handleCoinChange(coin: string) {
         let pointAccounts = this.transferInfo.system_addmoney_account || [],
             currentPointAccount =
-                pointAccounts.filter((pointAccount: TransferPointAccountModel) => pointAccount.coin === coin)[0] ||
-                new TransferPointAccountModel();
+                pointAccounts.filter((pointAccount: TransferPointAccountModel) => pointAccount.coin === coin)[0] || new TransferPointAccountModel();
         this.currentPointAccount = currentPointAccount;
 
         let transferForm = Utils.duplicate(this.transferForm);
@@ -73,7 +72,7 @@ export default class TransferModal extends Vue {
     // 提交转账信息
     async submit() {
         let transferForm = this.transferForm,
-            result: ValidationResult = PointService.validateTransferInfo(transferForm, false);
+            result: ValidationResult = PointService.validateTransferInfo(transferForm);
         if (!result.status) {
             Prompt.error(Utils.getFirstValue(result.data));
             return;
@@ -88,9 +87,7 @@ export default class TransferModal extends Vue {
         if (!coin) return;
 
         let receiptAccounts = this.transferInfo.receipt_account || [],
-            filterAccounts = receiptAccounts.filter(
-                (receiptAccount: TransferReceiptAccountModel) => receiptAccount.coin === coin
-            );
+            filterAccounts = receiptAccounts.filter((receiptAccount: TransferReceiptAccountModel) => receiptAccount.coin === coin);
         this.accountOptions = filterAccounts.map((receiptAccount: TransferReceiptAccountModel) => ({
             label: receiptAccount.account,
             value: receiptAccount.id
@@ -120,7 +117,6 @@ export default class TransferModal extends Vue {
         // 设置币种下拉列表默认值
         let transferForm = new TransferFormModel(),
             firstPointAccount = pointAccounts[0];
-        transferForm.code = undefined;
         if (firstPointAccount) {
             let coin = firstPointAccount.coin;
             transferForm.fromId = firstPointAccount.id;

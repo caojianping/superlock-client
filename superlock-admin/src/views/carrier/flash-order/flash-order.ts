@@ -1,11 +1,11 @@
 import Vue from 'vue';
-import { namespace, State } from 'vuex-class';
+import { namespace, State, Action } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { Prompt } from '@/ts/common';
-import { IPageParameters, IFlashOrderPageParameters } from '@/ts/interfaces';
+import { IPageParameters, IFlashOrderPageParameters, ISelectOption } from '@/ts/interfaces';
 import { FlashOrderModel } from '@/ts/models';
 
 const carrierModule = namespace('carrier');
@@ -17,7 +17,8 @@ const carrierModule = namespace('carrier');
 export default class FlashOrder extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
-    @State('carrierOptions') carrierOptions!: Array<any>;
+    @State('carrierOptions') carrierOptions!: Array<ISelectOption>;
+    @Action('fetchCarrierOptions') fetchCarrierOptions!: () => any;
 
     @carrierModule.State('flashParameters') flashParameters!: IPageParameters<IFlashOrderPageParameters>;
     @carrierModule.State('totalCount') totalCount!: number;
@@ -27,12 +28,19 @@ export default class FlashOrder extends Vue {
     @carrierModule.Action('fetchFlashOrders') fetchFlashOrders!: () => any;
     @carrierModule.Action('exportFlashOrders') exportFlashOrders!: () => any;
 
-    statusOptions: Array<string> = ['成功', '失败', '闪兑中'];
+    statusOptions: Array<ISelectOption> = [
+        { label: '全部', value: '' },
+        { label: '成功', value: '成功' },
+        { label: '失败', value: '失败' },
+        { label: '闪兑中', value: '闪兑中' }
+    ];
 
     columns: Array<any> = [
         {
             title: '订单号',
-            dataIndex: 'serial'
+            dataIndex: '',
+            key: 'serial',
+            scopedSlots: { customRender: 'serial' }
         },
         {
             title: '运营商ID',
@@ -80,12 +88,11 @@ export default class FlashOrder extends Vue {
         }
     ];
 
-    // 自动完成组件filterOption
-    filterOption(input: string, option: any) {
-        let text = option.componentOptions.children[0].text.toUpperCase(),
-            key = option.key,
-            uinput = input.toUpperCase();
-        return text.indexOf(uinput) > -1 || key.indexOf(uinput) > -1;
+    // 运营商过滤选项
+    carrierFilterOption(input: string, option: any) {
+        let text = option.componentOptions.children[0].text.toLowerCase(),
+            tinput = input.toLowerCase();
+        return text.indexOf(tinput) > -1;
     }
 
     // 处理表单change事件
@@ -144,12 +151,20 @@ export default class FlashOrder extends Vue {
         this.fetchFlashOrders();
     }
 
+    // 获取数据
+    async fetchData() {
+        if (this.carrierOptions.length <= 0) {
+            await this.fetchCarrierOptions();
+        }
+        await this.fetchFlashOrders();
+    }
+
     created() {
         this.clearStates();
     }
 
     mounted() {
         Utils.jumpTop();
-        this.fetchFlashOrders();
+        this.fetchData();
     }
 }

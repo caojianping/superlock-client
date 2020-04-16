@@ -13,7 +13,7 @@
             </header>
             <div class="sl-block-body">
                 <ant-row :gutter="24">
-                    <ant-col :span="8">
+                    <ant-col :span="7">
                         <ant-form-item label="订单号" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
@@ -25,7 +25,7 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="8">
+                    <ant-col :span="7">
                         <ant-form-item label="交易币种" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-select
                                 :value="parameters.conditions.coinCode"
@@ -37,7 +37,7 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="8">
+                    <ant-col :span="7">
                         <ant-form-item label="订单类型" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-select
                                 :value="parameters.conditions.orderType"
@@ -51,7 +51,7 @@
                 </ant-row>
 
                 <ant-row :gutter="24">
-                    <ant-col :span="8">
+                    <ant-col :span="7">
                         <ant-form-item label="账户名称" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-select
                                 :value="parameters.conditions.accountName"
@@ -76,7 +76,7 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="4">
+                    <ant-col :span="7">
                         <ant-button class="sl-search" type="primary" @click="search">搜索</ant-button>
                     </ant-col>
                 </ant-row>

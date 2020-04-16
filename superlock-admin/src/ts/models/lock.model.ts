@@ -29,7 +29,6 @@ export class ProjectFormModel {
     public quota!: number; // 项目总额度
     public rate!: number; // 锁仓利率
     public enable?: boolean; // 锁仓状态
-    public code?: string; // 验证码：谷歌验证码gacode，短信验证码smsCode，邮箱验证码emailCode等
 
     // 补充字段：项目总额度、锁仓利率不可以改小
     public originQuota?: number;
@@ -41,7 +40,6 @@ export class AwardFormModel {
     public pushStraightRate!: number; // 直推利率
     public lockAmount!: number; // 最小锁仓数量
     public dailySalesDto: Array<AwardDailySaleModel> = []; // 日销奖励
-    public code?: string; // 验证码：谷歌验证码gacode，短信验证码smsCode，邮箱验证码emailCode等
 
     // 补充字段：推广解锁利率不可以改小
     public originPromotionRate?: number;

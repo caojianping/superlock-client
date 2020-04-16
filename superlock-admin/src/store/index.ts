@@ -2,8 +2,11 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import TYPES from './types';
-import { IRootState } from './interfaces';
+import { AreaCodes, IAreaCode } from '@/ts/config';
+import { IActionContext, IRootState } from './interfaces';
 import { TokenInfo } from '@/ts/models';
+import { CarrierService } from '@/ts/services';
+
 import loginModule from './modules/login.module';
 import googleModule from './modules/google.module';
 import homeModule from './modules/home.module';
@@ -25,9 +28,21 @@ const rootState: IRootState = {
     tokenInfo: new TokenInfo('', ''),
     isFullLoading: false,
     isPageLoading: false,
+    isGoogleAuthShow: false,
     isSecondVerifyShow: false,
 
     pageSizeOptions: ['10', '50', '100', '200', '500', '1000'],
+    areaCodeOptions: AreaCodes.map((areaCode: IAreaCode) => ({
+        label: `${areaCode.name} +${areaCode.code}`,
+        value: areaCode.id
+    })),
+    coinOptions: [
+        { label: '全部', value: '' },
+        { label: 'BCB', value: 'BCB' },
+        { label: 'DC', value: 'DC' },
+        { label: 'USDT', value: 'USDT' },
+        { label: 'USDTERC', value: 'USDTERC' }
+    ],
     withdrawOptions: [
         { label: '全部', value: '' },
         { label: '未提现', value: '0' },
@@ -35,11 +50,7 @@ const rootState: IRootState = {
         { label: '提现成功', value: '20' },
         { label: '提现失败', value: '30' }
     ],
-    carrierOptions: [
-        { value: '100', text: '运营商一' },
-        { value: '200', text: '运营商二' },
-        { value: '300', text: '运营商三' }
-    ],
+    carrierOptions: [],
 
     statusColors: {
         '0': 'text-black',
@@ -62,6 +73,8 @@ const rootState: IRootState = {
         '5': '已驳回'
     }
 };
+
+const carrierService = new CarrierService();
 
 export default new Vuex.Store({
     strict: false,
@@ -93,6 +106,7 @@ export default new Vuex.Store({
             state.tokenInfo = new TokenInfo('', '');
             state.isFullLoading = false;
             state.isPageLoading = false;
+            state.isGoogleAuthShow = false;
             state.isSecondVerifyShow = false;
 
             state.pageSizeOptions = ['10', '50', '100', '200', '500', '1000'];
@@ -103,5 +117,17 @@ export default new Vuex.Store({
             state[key] = value;
         }
     },
-    actions: {}
+    actions: {
+        // 获取运营商选项列表
+        async fetchCarrierOptions(context: IActionContext<IRootState>): Promise<void> {
+            let commit = context.commit;
+            try {
+                let carrierOptions = await carrierService.fetchCarrierOptions();
+                commit(TYPES.SET_STATES, { carrierOptions });
+            } catch (error) {
+                commit(TYPES.SET_STATES, { carrierOptions: [] });
+                return Promise.reject(error);
+            }
+        }
+    }
 });

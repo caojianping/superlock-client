@@ -1,35 +1,43 @@
 import Vue from 'vue';
-import { Component, Prop, Model, Watch } from 'vue-property-decorator';
-import { Prompt } from '@/ts/common';
+import { Mutation } from 'vuex-class';
+import { Component, Prop, Watch } from 'vue-property-decorator';
+
+import TYPES from '@/store/types';
+import { Prompt, Token } from '@/ts/common';
 
 @Component({
     name: 'SecondVerify',
     components: {}
 })
 export default class SecondVerify extends Vue {
-    @Model('close', { type: Boolean }) value!: boolean; // v-model
-    @Prop() readonly title!: string; // 标题
+    @Prop() readonly isShow!: boolean;
+    @Prop() readonly title!: string;
 
-    isShow: boolean = this.value; // 是否显示模态框
-    code: string = ''; // 验证码
+    @Mutation(TYPES.SET_STATES) setRootStates!: (payload: any) => any;
+    @Mutation(TYPES.CLEAR_STATES) clearRootStates!: () => any;
+
+    isModalShow: boolean = false; // 是否显示模态框
+    code: string = ''; // 谷歌验证码
 
     // 处理模态框cancel事件
     handleModalCancel() {
-        this.$emit('close', false);
+        this.setRootStates({ isSecondVerifyShow: false });
     }
 
     // 提交验证码
     async submit() {
         let code = this.code;
         if (!code) {
-            Prompt.warning('验证码不可以为空');
+            Prompt.warning('谷歌验证码不可以为空');
             return;
         }
 
-        this.$emit('close', false);
-        this.$emit('submit', code);
+        Token.setCode(code);
+        this.setRootStates({ isSecondVerifyShow: false });
+        this.$emit('submit');
     }
 
+    // 谷歌验证码获取焦点
     codeFocus() {
         let self = this;
         self.$nextTick(function() {
@@ -40,10 +48,11 @@ export default class SecondVerify extends Vue {
         });
     }
 
-    @Watch('value')
-    watchValue(value: boolean) {
-        this.isShow = value;
-        if (value) {
+    @Watch('isShow')
+    watchIsShow(isShow: boolean) {
+        console.log('二次验证 watchIsShow', isShow);
+        this.isModalShow = isShow;
+        if (isShow) {
             this.code = '';
             this.codeFocus();
         }

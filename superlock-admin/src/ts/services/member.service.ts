@@ -1,6 +1,6 @@
 import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
-import { Urls, CONSTANTS, AreaCodes, CaxiosType } from '@/ts/config';
+import { Urls, AreaCodes, defaultAreaCode, CaxiosType, IAreaCode } from '@/ts/config';
 import { Caxios, md5 } from '@/ts/common';
 import { ISelectOption, IPageParameters, IMemberPageParameters } from '@/ts/interfaces';
 import {
@@ -28,14 +28,14 @@ export class MemberService {
     }
 
     // 验证券商表单
-    public static validateBrokerForm(brokerForm: BrokerFormModel, isCode: boolean): ValidationResult {
+    public static validateBrokerForm(brokerForm: BrokerFormModel): ValidationResult {
         if (!brokerForm) return { status: false, data: { brokerForm: '参数不可以为空' } };
 
-        const key = 'broker';
-        let { areaCode, mobile, totalDegree, password, code } = brokerForm,
+        let key = 'broker',
+            { areaCode, mobile, totalDegree, password } = brokerForm,
             validator = new Validator();
         validator.addRule(key, { name: 'areaCode', value: areaCode }, { required: true }, { required: '国家区号不可以为空' });
-        if (areaCode === CONSTANTS.CHINA_AREA_CODE) {
+        if (areaCode === defaultAreaCode.id) {
             validator.addRule(
                 key,
                 { name: 'mobile', value: mobile },
@@ -43,7 +43,7 @@ export class MemberService {
                 { required: '手机号不可以为空', mobile: '手机号格式不正确' }
             );
         } else {
-            validator.addRule(key, { name: 'mobile', value: mobile }, { required: true }, { required: '手机号不可以为空' });
+            validator.addRule(key, { name: 'mobile', value: mobile }, { required: true, pureDigit: true }, { required: '手机号不可以为空' });
         }
         validator.addRule(
             key,
@@ -52,19 +52,15 @@ export class MemberService {
             { required: '代理额度不可以为空', min: '代理额度不可以小于0' }
         );
         validator.addRule(key, { name: 'password', value: password }, { required: true, password: true }, { required: '初始密码不可以为空' });
-        if (isCode) {
-            validator.addRule(key, { name: 'code', value: code }, { required: true }, { required: '验证码不可以为空' });
-        }
-
         return validator.execute(key);
     }
 
     // 验证利率表单
-    public static validateRateForm(rateForm: RateFormModel, isCode: boolean): ValidationResult {
+    public static validateRateForm(rateForm: RateFormModel): ValidationResult {
         if (!rateForm) return { status: false, data: { rateForm: '参数不可以为空' } };
 
-        const key = 'rate';
-        let { uid, type, rate, code } = rateForm,
+        let key = 'rate',
+            { uid, type, rate } = rateForm,
             validator = new Validator();
         validator.addRule(key, { name: 'uid', value: uid }, { required: true }, { required: 'UID不可以为空' });
         validator.addRule(key, { name: 'type', value: type }, { required: true }, { required: '项目类型不可以为空' });
@@ -78,18 +74,15 @@ export class MemberService {
                 max: '利率不可以大于100'
             }
         );
-        if (isCode) {
-            validator.addRule(key, { name: 'code', value: code }, { required: true }, { required: '验证码不可以为空' });
-        }
         return validator.execute(key);
     }
 
     // 验证额度表单
-    public static validateQuotaForm(quotaForm: QuotaFormModel, isCode: boolean): ValidationResult {
+    public static validateQuotaForm(quotaForm: QuotaFormModel): ValidationResult {
         if (!quotaForm) return { status: false, data: { quotaForm: '参数不可以为空' } };
 
-        const key = 'quota';
-        let { uid, amount, code } = quotaForm,
+        let key = 'quota',
+            { uid, amount } = quotaForm,
             validator = new Validator();
         validator.addRule(key, { name: 'uid', value: uid }, { required: true }, { required: 'UID不可以为空' });
         validator.addRule(
@@ -98,9 +91,6 @@ export class MemberService {
             { required: true, min: 0 },
             { required: '新增额度不可以为空', min: '新增额度不可以小于0' }
         );
-        if (isCode) {
-            validator.addRule(key, { name: 'code', value: code }, { required: true }, { required: '验证码不可以为空' });
-        }
         return validator.execute(key);
     }
 
@@ -147,38 +137,37 @@ export class MemberService {
 
     // 添加券商
     public async addBroker(brokerForm: BrokerFormModel, isCode: boolean = false): Promise<boolean> {
-        let result: ValidationResult = MemberService.validateBrokerForm(brokerForm, isCode);
+        let result: ValidationResult = MemberService.validateBrokerForm(brokerForm);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { areaCode, mobile, totalDegree, password, code } = brokerForm,
-            filterAreaCode = AreaCodes.filter((item: any) => item.i === areaCode)[0];
-        if (!filterAreaCode) return Promise.reject('未找到相对应的国家区号');
+        let { areaCode, mobile, totalDegree, password } = brokerForm,
+            filterAreaCode = AreaCodes.filter((item: IAreaCode) => item.id === areaCode)[0];
+        if (!filterAreaCode) return Promise.reject('未找到对应的国家、地区区号');
 
         await Caxios.post<any>(
             {
-                headers: isCode ? { [CONSTANTS.HEADER_CODE]: code } : {},
                 url: Urls.member.broker.add,
                 data: {
-                    areaCode: '+' + filterAreaCode.d,
+                    areaCode: '+' + filterAreaCode.code,
                     mobile,
                     totalDegree: totalDegree.toFixed(2),
                     password: md5(password)
                 }
             },
-            CaxiosType.FullLoadingToken
+            CaxiosType.FullLoadingToken,
+            isCode
         );
         return true;
     }
 
     // 设置利率
     public async setRate(rateForm: RateFormModel, isCode: boolean = false): Promise<boolean> {
-        let result: ValidationResult = MemberService.validateRateForm(rateForm, isCode);
+        let result: ValidationResult = MemberService.validateRateForm(rateForm);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { uid, type, rate, code } = rateForm;
+        let { uid, type, rate } = rateForm;
         await Caxios.post<any>(
             {
-                headers: isCode ? { [CONSTANTS.HEADER_CODE]: code } : {},
                 url: Urls.member.broker.setRate,
                 data: {
                     uid,
@@ -186,27 +175,28 @@ export class MemberService {
                     rate: (rate / 100).toFixed(4)
                 }
             },
-            CaxiosType.FullLoadingToken
+            CaxiosType.FullLoadingToken,
+            isCode
         );
         return true;
     }
 
     // 添加额度
     public async addQuota(quotaForm: QuotaFormModel, isCode: boolean = false): Promise<boolean> {
-        let result: ValidationResult = MemberService.validateQuotaForm(quotaForm, isCode);
+        let result: ValidationResult = MemberService.validateQuotaForm(quotaForm);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { uid, amount, code } = quotaForm;
+        let { uid, amount } = quotaForm;
         await Caxios.post<any>(
             {
-                headers: isCode ? { [CONSTANTS.HEADER_CODE]: code } : {},
                 url: Urls.member.broker.addQuota,
                 data: {
                     uid,
                     amount: amount.toFixed(2)
                 }
             },
-            CaxiosType.FullLoadingToken
+            CaxiosType.FullLoadingToken,
+            isCode
         );
         return true;
     }

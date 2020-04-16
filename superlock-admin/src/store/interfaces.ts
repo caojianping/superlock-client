@@ -73,11 +73,14 @@ export interface IRootState {
     tokenInfo: TokenInfo; // token信息
     isFullLoading: boolean; // 是否启用全屏加载中UI
     isPageLoading: boolean; // 是否启用分页加载中UI
+    isGoogleAuthShow: boolean; // 是否显示谷歌认证模态框
     isSecondVerifyShow: boolean; // 是否显示二次验证模态框
 
     pageSizeOptions: Array<string>; // 分页尺寸选项
+    areaCodeOptions: Array<ISelectOption>; // 国家地区选项
+    coinOptions: Array<ISelectOption>; // 币种选项
     withdrawOptions: Array<ISelectOption>; // 提现状态选项
-    carrierOptions: Array<any>; // 运营商选项
+    carrierOptions: Array<ISelectOption>; // 运营商选项
 
     statusColors: any;
     auditColors: any;
@@ -106,8 +109,6 @@ export interface IHomeState {
 }
 
 export interface IRechargeState {
-    coinOptions: Array<ISelectOption>;
-
     parameters: IPageParameters<IRechargePageParameters>;
     totalCount: number;
     list: Array<RechargeModel | RechargePoundageModel>;
@@ -152,7 +153,6 @@ export interface ILoanState {
 }
 
 export interface IFundState {
-    coinOptions: Array<ISelectOption>;
     orderOptions: Array<ISelectOption>;
     accountOptions: Array<ISelectOption>;
 
@@ -181,6 +181,22 @@ export interface IMemberState {
     count: number;
 }
 
+export interface ICarrierState {
+    cycleOptions: Array<ISelectOption>;
+
+    operationType: OperationType;
+    formType: CarrierFormType;
+    carrierForm: CarrierFormModel;
+    carrier?: CarrierModel;
+
+    carrierParameters: IPageParameters<null>;
+    rebateParameters: IPageParameters<IRebateOrderPageParameters>;
+    flashParameters: IPageParameters<IFlashOrderPageParameters>;
+    withdrawParameters: IPageParameters<IWithdrawOrderPageParameters>;
+    totalCount: number;
+    list: Array<CarrierModel | RebateOrderModel | FlashOrderModel | WithdrawOrderModel>;
+}
+
 export interface IPointState {
     pointParameters: IPageParameters<IPointPageParameters>;
     accountParameters: IPageParameters<null>;
@@ -204,18 +220,4 @@ export interface ISystemState {
     userForm: UserFormModel;
     passwordForm: PasswordFormModel;
     googleForm: GoogleFormModel;
-}
-
-export interface ICarrierState {
-    operationType: OperationType;
-    formType: CarrierFormType;
-    carrierForm: CarrierFormModel;
-    carrier?: CarrierModel;
-
-    carrierParameters: IPageParameters<null>;
-    rebateParameters: IPageParameters<IRebateOrderPageParameters>;
-    flashParameters: IPageParameters<IFlashOrderPageParameters>;
-    withdrawParameters: IPageParameters<IWithdrawOrderPageParameters>;
-    totalCount: number;
-    list: Array<CarrierModel | RebateOrderModel | FlashOrderModel | WithdrawOrderModel>;
 }

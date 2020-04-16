@@ -10,1230 +10,1274 @@ export const defaultAreaCode: IAreaCode = {
     code: '86'
 };
 
+// 热门国家/地区：中国、泰国、缅甸、马来西亚、越南、柬埔寨、菲律宾、新加坡
+export const HotAreaCodes = [
+    {
+        name: 'China (中国)',
+        id: 'cn',
+        code: '86'
+    },
+    {
+        name: 'Thailand (ไทย)',
+        id: 'th',
+        code: '66'
+    },
+    {
+        name: 'Myanmar (Burma) (မြန်မာ)',
+        id: 'mm',
+        code: '95'
+    },
+    {
+        name: 'Malaysia',
+        id: 'my',
+        code: '60'
+    },
+    {
+        name: 'Vietnam (Việt Nam)',
+        id: 'vn',
+        code: '84'
+    },
+    {
+        name: 'Cambodia (កម្ពុជា)',
+        id: 'kh',
+        code: '855'
+    },
+    {
+        name: 'Philippines',
+        id: 'ph',
+        code: '63'
+    },
+    {
+        name: 'Singapore',
+        id: 'sg',
+        code: '65'
+    }
+];
+
 export const AreaCodes = [
     {
-        n: 'Afghanistan (‫افغانستان‬‎)',
-        i: 'af',
-        d: '93'
+        name: 'Afghanistan (‫افغانستان‬‎)',
+        id: 'af',
+        code: '93'
     },
     {
-        n: 'Åland Islands (Åland)',
-        i: 'ax',
-        d: '358'
+        name: 'Åland Islands (Åland)',
+        id: 'ax',
+        code: '358'
     },
     {
-        n: 'Albania (Shqipëri)',
-        i: 'al',
-        d: '355'
+        name: 'Albania (Shqipëri)',
+        id: 'al',
+        code: '355'
     },
     {
-        n: 'Algeria (‫الجزائر‬‎)',
-        i: 'dz',
-        d: '213'
+        name: 'Algeria (‫الجزائر‬‎)',
+        id: 'dz',
+        code: '213'
     },
     {
-        n: 'American Samoa',
-        i: 'as',
-        d: '1684'
+        name: 'American Samoa',
+        id: 'as',
+        code: '1684'
     },
     {
-        n: 'Andorra',
-        i: 'ad',
-        d: '376'
+        name: 'Andorra',
+        id: 'ad',
+        code: '376'
     },
     {
-        n: 'Angola',
-        i: 'ao',
-        d: '244'
+        name: 'Angola',
+        id: 'ao',
+        code: '244'
     },
     {
-        n: 'Anguilla',
-        i: 'ai',
-        d: '1264'
+        name: 'Anguilla',
+        id: 'ai',
+        code: '1264'
     },
     {
-        n: 'Antigua and Barbuda',
-        i: 'ag',
-        d: '1268'
+        name: 'Antigua and Barbuda',
+        id: 'ag',
+        code: '1268'
     },
     {
-        n: 'Argentina',
-        i: 'ar',
-        d: '54'
+        name: 'Argentina',
+        id: 'ar',
+        code: '54'
     },
     {
-        n: 'Armenia (Հայաստան)',
-        i: 'am',
-        d: '374'
+        name: 'Armenia (Հայաստան)',
+        id: 'am',
+        code: '374'
     },
     {
-        n: 'Aruba',
-        i: 'aw',
-        d: '297'
+        name: 'Aruba',
+        id: 'aw',
+        code: '297'
     },
     {
-        n: 'Australia',
-        i: 'au',
-        d: '61'
+        name: 'Australia',
+        id: 'au',
+        code: '61'
     },
     {
-        n: 'Austria (Österreich)',
-        i: 'at',
-        d: '43'
+        name: 'Austria (Österreich)',
+        id: 'at',
+        code: '43'
     },
     {
-        n: 'Azerbaijan (Azərbaycan)',
-        i: 'az',
-        d: '994'
+        name: 'Azerbaijan (Azərbaycan)',
+        id: 'az',
+        code: '994'
     },
     {
-        n: 'Bahamas',
-        i: 'bs',
-        d: '1242'
+        name: 'Bahamas',
+        id: 'bs',
+        code: '1242'
     },
     {
-        n: 'Bahrain (‫البحرين‬‎)',
-        i: 'bh',
-        d: '973'
+        name: 'Bahrain (‫البحرين‬‎)',
+        id: 'bh',
+        code: '973'
     },
     {
-        n: 'Bangladesh (বাংলাদেশ)',
-        i: 'bd',
-        d: '880'
+        name: 'Bangladesh (বাংলাদেশ)',
+        id: 'bd',
+        code: '880'
     },
     {
-        n: 'Barbados',
-        i: 'bb',
-        d: '1246'
+        name: 'Barbados',
+        id: 'bb',
+        code: '1246'
     },
     {
-        n: 'Belarus (Беларусь)',
-        i: 'by',
-        d: '375'
+        name: 'Belarus (Беларусь)',
+        id: 'by',
+        code: '375'
     },
     {
-        n: 'Belgium (België)',
-        i: 'be',
-        d: '32'
+        name: 'Belgium (België)',
+        id: 'be',
+        code: '32'
     },
     {
-        n: 'Belize',
-        i: 'bz',
-        d: '501'
+        name: 'Belize',
+        id: 'bz',
+        code: '501'
     },
     {
-        n: 'Benin (Bénin)',
-        i: 'bj',
-        d: '229'
+        name: 'Benin (Bénin)',
+        id: 'bj',
+        code: '229'
     },
     {
-        n: 'Bermuda',
-        i: 'bm',
-        d: '1441'
+        name: 'Bermuda',
+        id: 'bm',
+        code: '1441'
     },
     {
-        n: 'Bhutan (འབྲུག)',
-        i: 'bt',
-        d: '975'
+        name: 'Bhutan (འབྲུག)',
+        id: 'bt',
+        code: '975'
     },
     {
-        n: 'Bolivia',
-        i: 'bo',
-        d: '591'
+        name: 'Bolivia',
+        id: 'bo',
+        code: '591'
     },
     {
-        n: 'Bosnia and Herzegovina (Босна и Херцеговина)',
-        i: 'ba',
-        d: '387'
+        name: 'Bosnia and Herzegovina (Босна и Херцеговина)',
+        id: 'ba',
+        code: '387'
     },
     {
-        n: 'Botswana',
-        i: 'bw',
-        d: '267'
+        name: 'Botswana',
+        id: 'bw',
+        code: '267'
     },
     {
-        n: 'Brazil (Brasil)',
-        i: 'br',
-        d: '55'
+        name: 'Brazil (Brasil)',
+        id: 'br',
+        code: '55'
     },
     {
-        n: 'British Indian Ocean Territory',
-        i: 'io',
-        d: '246'
+        name: 'British Indian Ocean Territory',
+        id: 'io',
+        code: '246'
     },
     {
-        n: 'British Virgin Islands',
-        i: 'vg',
-        d: '1284'
+        name: 'British Virgin Islands',
+        id: 'vg',
+        code: '1284'
     },
     {
-        n: 'Brunei',
-        i: 'bn',
-        d: '673'
+        name: 'Brunei',
+        id: 'bn',
+        code: '673'
     },
     {
-        n: 'Bulgaria (България)',
-        i: 'bg',
-        d: '359'
+        name: 'Bulgaria (България)',
+        id: 'bg',
+        code: '359'
     },
     {
-        n: 'Burkina Faso',
-        i: 'bf',
-        d: '226'
+        name: 'Burkina Faso',
+        id: 'bf',
+        code: '226'
     },
     {
-        n: 'Burundi (Uburundi)',
-        i: 'bi',
-        d: '257'
+        name: 'Burundi (Uburundi)',
+        id: 'bi',
+        code: '257'
     },
     {
-        n: 'Cambodia (កម្ពុជា)',
-        i: 'kh',
-        d: '855'
+        name: 'Cambodia (កម្ពុជា)',
+        id: 'kh',
+        code: '855'
     },
     {
-        n: 'Cameroon (Cameroun)',
-        i: 'cm',
-        d: '237'
+        name: 'Cameroon (Cameroun)',
+        id: 'cm',
+        code: '237'
     },
     {
-        n: 'Canada',
-        i: 'ca',
-        d: '1'
+        name: 'Canada',
+        id: 'ca',
+        code: '1'
     },
     {
-        n: 'Cape Verde (Kabu Verdi)',
-        i: 'cv',
-        d: '238'
+        name: 'Cape Verde (Kabu Verdi)',
+        id: 'cv',
+        code: '238'
     },
     {
-        n: 'Caribbean Netherlands',
-        i: 'bq',
-        d: '5997'
+        name: 'Caribbean Netherlands',
+        id: 'bq',
+        code: '5997'
     },
     {
-        n: 'Cayman Islands',
-        i: 'ky',
-        d: '1345'
+        name: 'Cayman Islands',
+        id: 'ky',
+        code: '1345'
     },
     {
-        n: 'Central African Republic (République centrafricaine)',
-        i: 'cf',
-        d: '236'
+        name: 'Central African Republic (République centrafricaine)',
+        id: 'cf',
+        code: '236'
     },
     {
-        n: 'Chad (Tchad)',
-        i: 'td',
-        d: '235'
+        name: 'Chad (Tchad)',
+        id: 'td',
+        code: '235'
     },
     {
-        n: 'Chile',
-        i: 'cl',
-        d: '56'
+        name: 'Chile',
+        id: 'cl',
+        code: '56'
     },
     {
-        n: 'China (中国)',
-        i: 'cn',
-        d: '86'
+        name: 'China (中国)',
+        id: 'cn',
+        code: '86'
     },
     {
-        n: 'Christmas Island',
-        i: 'cx',
-        d: '61'
+        name: 'Christmas Island',
+        id: 'cx',
+        code: '61'
     },
     {
-        n: 'Cocos (Keeling) Islands (Kepulauan Cocos (Keeling))',
-        i: 'cc',
-        d: '61'
+        name: 'Cocos (Keeling) Islands (Kepulauan Cocos (Keeling))',
+        id: 'cc',
+        code: '61'
     },
     {
-        n: 'Colombia',
-        i: 'co',
-        d: '57'
+        name: 'Colombia',
+        id: 'co',
+        code: '57'
     },
     {
-        n: 'Comoros (‫جزر القمر‬‎)',
-        i: 'km',
-        d: '269'
+        name: 'Comoros (‫جزر القمر‬‎)',
+        id: 'km',
+        code: '269'
     },
     {
-        n: 'Congo (DRC) (Jamhuri ya Kidemokrasia ya Kongo)',
-        i: 'cd',
-        d: '243'
+        name: 'Congo (DRC) (Jamhuri ya Kidemokrasia ya Kongo)',
+        id: 'cd',
+        code: '243'
     },
     {
-        n: 'Congo (Republic) (Congo-Brazzaville)',
-        i: 'cg',
-        d: '242'
+        name: 'Congo (Republic) (Congo-Brazzaville)',
+        id: 'cg',
+        code: '242'
     },
     {
-        n: 'Cook Islands',
-        i: 'ck',
-        d: '682'
+        name: 'Cook Islands',
+        id: 'ck',
+        code: '682'
     },
     {
-        n: 'Costa Rica',
-        i: 'cr',
-        d: '506'
+        name: 'Costa Rica',
+        id: 'cr',
+        code: '506'
     },
     {
-        n: 'Côte d’Ivoire',
-        i: 'ci',
-        d: '225'
+        name: 'Côte d’Ivoire',
+        id: 'ci',
+        code: '225'
     },
     {
-        n: 'Croatia (Hrvatska)',
-        i: 'hr',
-        d: '385'
+        name: 'Croatia (Hrvatska)',
+        id: 'hr',
+        code: '385'
     },
     {
-        n: 'Cuba',
-        i: 'cu',
-        d: '53'
+        name: 'Cuba',
+        id: 'cu',
+        code: '53'
     },
     {
-        n: 'Curaçao',
-        i: 'cw',
-        d: '5999'
+        name: 'Curaçao',
+        id: 'cw',
+        code: '5999'
     },
     {
-        n: 'Cyprus (Κύπρος)',
-        i: 'cy',
-        d: '357'
+        name: 'Cyprus (Κύπρος)',
+        id: 'cy',
+        code: '357'
     },
     {
-        n: 'Czech Republic (Česká republika)',
-        i: 'cz',
-        d: '420'
+        name: 'Czech Republic (Česká republika)',
+        id: 'cz',
+        code: '420'
     },
     {
-        n: 'Denmark (Danmark)',
-        i: 'dk',
-        d: '45'
+        name: 'Denmark (Danmark)',
+        id: 'dk',
+        code: '45'
     },
     {
-        n: 'Djibouti',
-        i: 'dj',
-        d: '253'
+        name: 'Djibouti',
+        id: 'dj',
+        code: '253'
     },
     {
-        n: 'Dominica',
-        i: 'dm',
-        d: '1767'
+        name: 'Dominica',
+        id: 'dm',
+        code: '1767'
     },
     {
-        n: 'Dominican Republic (República Dominicana)',
-        i: 'do',
-        d: '1809'
+        name: 'Dominican Republic (República Dominicana)',
+        id: 'do',
+        code: '1809'
     },
     {
-        n: 'Ecuador',
-        i: 'ec',
-        d: '593'
+        name: 'Ecuador',
+        id: 'ec',
+        code: '593'
     },
     {
-        n: 'Egypt (‫مصر‬‎)',
-        i: 'eg',
-        d: '20'
+        name: 'Egypt (‫مصر‬‎)',
+        id: 'eg',
+        code: '20'
     },
     {
-        n: 'El Salvador',
-        i: 'sv',
-        d: '503'
+        name: 'El Salvador',
+        id: 'sv',
+        code: '503'
     },
     {
-        n: 'Equatorial Guinea (Guinea Ecuatorial)',
-        i: 'gq',
-        d: '240'
+        name: 'Equatorial Guinea (Guinea Ecuatorial)',
+        id: 'gq',
+        code: '240'
     },
     {
-        n: 'Eritrea',
-        i: 'er',
-        d: '291'
+        name: 'Eritrea',
+        id: 'er',
+        code: '291'
     },
     {
-        n: 'Estonia (Eesti)',
-        i: 'ee',
-        d: '372'
+        name: 'Estonia (Eesti)',
+        id: 'ee',
+        code: '372'
     },
     {
-        n: 'Ethiopia',
-        i: 'et',
-        d: '251'
+        name: 'Ethiopia',
+        id: 'et',
+        code: '251'
     },
     {
-        n: 'Falkland Islands (Islas Malvinas)',
-        i: 'fk',
-        d: '500'
+        name: 'Falkland Islands (Islas Malvinas)',
+        id: 'fk',
+        code: '500'
     },
     {
-        n: 'Faroe Islands (Føroyar)',
-        i: 'fo',
-        d: '298'
+        name: 'Faroe Islands (Føroyar)',
+        id: 'fo',
+        code: '298'
     },
     {
-        n: 'Fiji',
-        i: 'fj',
-        d: '679'
+        name: 'Fiji',
+        id: 'fj',
+        code: '679'
     },
     {
-        n: 'Finland (Suomi)',
-        i: 'fi',
-        d: '358'
+        name: 'Finland (Suomi)',
+        id: 'fi',
+        code: '358'
     },
     {
-        n: 'France',
-        i: 'fr',
-        d: '33'
+        name: 'France',
+        id: 'fr',
+        code: '33'
     },
     {
-        n: 'French Guiana (Guyane française)',
-        i: 'gf',
-        d: '594'
+        name: 'French Guiana (Guyane française)',
+        id: 'gf',
+        code: '594'
     },
     {
-        n: 'French Polynesia (Polynésie française)',
-        i: 'pf',
-        d: '689'
+        name: 'French Polynesia (Polynésie française)',
+        id: 'pf',
+        code: '689'
     },
     {
-        n: 'Gabon',
-        i: 'ga',
-        d: '241'
+        name: 'Gabon',
+        id: 'ga',
+        code: '241'
     },
     {
-        n: 'Gambia',
-        i: 'gm',
-        d: '220'
+        name: 'Gambia',
+        id: 'gm',
+        code: '220'
     },
     {
-        n: 'Georgia (საქართველო)',
-        i: 'ge',
-        d: '995'
+        name: 'Georgia (საქართველო)',
+        id: 'ge',
+        code: '995'
     },
     {
-        n: 'Germany (Deutschland)',
-        i: 'de',
-        d: '49'
+        name: 'Germany (Deutschland)',
+        id: 'de',
+        code: '49'
     },
     {
-        n: 'Ghana (Gaana)',
-        i: 'gh',
-        d: '233'
+        name: 'Ghana (Gaana)',
+        id: 'gh',
+        code: '233'
     },
     {
-        n: 'Gibraltar',
-        i: 'gi',
-        d: '350'
+        name: 'Gibraltar',
+        id: 'gi',
+        code: '350'
     },
     {
-        n: 'Greece (Ελλάδα)',
-        i: 'gr',
-        d: '30'
+        name: 'Greece (Ελλάδα)',
+        id: 'gr',
+        code: '30'
     },
     {
-        n: 'Greenland (Kalaallit Nunaat)',
-        i: 'gl',
-        d: '299'
+        name: 'Greenland (Kalaallit Nunaat)',
+        id: 'gl',
+        code: '299'
     },
     {
-        n: 'Grenada',
-        i: 'gd',
-        d: '1473'
+        name: 'Grenada',
+        id: 'gd',
+        code: '1473'
     },
     {
-        n: 'Guadeloupe',
-        i: 'gp',
-        d: '590'
+        name: 'Guadeloupe',
+        id: 'gp',
+        code: '590'
     },
     {
-        n: 'Guam',
-        i: 'gu',
-        d: '1671'
+        name: 'Guam',
+        id: 'gu',
+        code: '1671'
     },
     {
-        n: 'Guatemala',
-        i: 'gt',
-        d: '502'
+        name: 'Guatemala',
+        id: 'gt',
+        code: '502'
     },
     {
-        n: 'Guernsey',
-        i: 'gg',
-        d: '44'
+        name: 'Guernsey',
+        id: 'gg',
+        code: '44'
     },
     {
-        n: 'Guinea (Guinée)',
-        i: 'gn',
-        d: '224'
+        name: 'Guinea (Guinée)',
+        id: 'gn',
+        code: '224'
     },
     {
-        n: 'Guinea-Bissau (Guiné Bissau)',
-        i: 'gw',
-        d: '245'
+        name: 'Guinea-Bissau (Guiné Bissau)',
+        id: 'gw',
+        code: '245'
     },
     {
-        n: 'Guyana',
-        i: 'gy',
-        d: '592'
+        name: 'Guyana',
+        id: 'gy',
+        code: '592'
     },
     {
-        n: 'Haiti',
-        i: 'ht',
-        d: '509'
+        name: 'Haiti',
+        id: 'ht',
+        code: '509'
     },
     {
-        n: 'Honduras',
-        i: 'hn',
-        d: '504'
+        name: 'Honduras',
+        id: 'hn',
+        code: '504'
     },
     {
-        n: 'Hong Kong (香港)',
-        i: 'hk',
-        d: '852'
+        name: 'Hong Kong (香港)',
+        id: 'hk',
+        code: '852'
     },
     {
-        n: 'Hungary (Magyarország)',
-        i: 'hu',
-        d: '36'
+        name: 'Hungary (Magyarország)',
+        id: 'hu',
+        code: '36'
     },
     {
-        n: 'Iceland (Ísland)',
-        i: 'is',
-        d: '354'
+        name: 'Iceland (Ísland)',
+        id: 'is',
+        code: '354'
     },
     {
-        n: 'India (भारत)',
-        i: 'in',
-        d: '91'
+        name: 'India (भारत)',
+        id: 'in',
+        code: '91'
     },
     {
-        n: 'Indonesia',
-        i: 'id',
-        d: '62'
+        name: 'Indonesia',
+        id: 'id',
+        code: '62'
     },
     {
-        n: 'Iran (‫ایران‬‎)',
-        i: 'ir',
-        d: '98'
+        name: 'Iran (‫ایران‬‎)',
+        id: 'ir',
+        code: '98'
     },
     {
-        n: 'Iraq (‫العراق‬‎)',
-        i: 'iq',
-        d: '964'
+        name: 'Iraq (‫العراق‬‎)',
+        id: 'iq',
+        code: '964'
     },
     {
-        n: 'Ireland',
-        i: 'ie',
-        d: '353'
+        name: 'Ireland',
+        id: 'ie',
+        code: '353'
     },
     {
-        n: 'Isle of Man',
-        i: 'im',
-        d: '44'
+        name: 'Isle of Man',
+        id: 'im',
+        code: '44'
     },
     {
-        n: 'Israel (‫ישראל‬‎)',
-        i: 'il',
-        d: '972'
+        name: 'Israel (‫ישראל‬‎)',
+        id: 'il',
+        code: '972'
     },
     {
-        n: 'Italy (Italia)',
-        i: 'it',
-        d: '39'
+        name: 'Italy (Italia)',
+        id: 'it',
+        code: '39'
     },
     {
-        n: 'Jamaica',
-        i: 'jm',
-        d: '1876'
+        name: 'Jamaica',
+        id: 'jm',
+        code: '1876'
     },
     {
-        n: 'Japan (日本)',
-        i: 'jp',
-        d: '81'
+        name: 'Japan (日本)',
+        id: 'jp',
+        code: '81'
     },
     {
-        n: 'Jersey',
-        i: 'je',
-        d: '44'
+        name: 'Jersey',
+        id: 'je',
+        code: '44'
     },
     {
-        n: 'Jordan (‫الأردن‬‎)',
-        i: 'jo',
-        d: '962'
+        name: 'Jordan (‫الأردن‬‎)',
+        id: 'jo',
+        code: '962'
     },
     {
-        n: 'Kazakhstan (Казахстан)',
-        i: 'kz',
-        d: '7'
+        name: 'Kazakhstan (Казахстан)',
+        id: 'kz',
+        code: '7'
     },
     {
-        n: 'Kenya',
-        i: 'ke',
-        d: '254'
+        name: 'Kenya',
+        id: 'ke',
+        code: '254'
     },
     {
-        n: 'Kiribati',
-        i: 'ki',
-        d: '686'
+        name: 'Kiribati',
+        id: 'ki',
+        code: '686'
     },
     {
-        n: 'Kosovo (Kosovë)',
-        i: 'xk',
-        d: '377'
+        name: 'Kosovo (Kosovë)',
+        id: 'xk',
+        code: '377'
     },
     {
-        n: 'Kuwait (‫الكويت‬‎)',
-        i: 'kw',
-        d: '965'
+        name: 'Kuwait (‫الكويت‬‎)',
+        id: 'kw',
+        code: '965'
     },
     {
-        n: 'Kyrgyzstan (Кыргызстан)',
-        i: 'kg',
-        d: '996'
+        name: 'Kyrgyzstan (Кыргызстан)',
+        id: 'kg',
+        code: '996'
     },
     {
-        n: 'Laos (ລາວ)',
-        i: 'la',
-        d: '856'
+        name: 'Laos (ລາວ)',
+        id: 'la',
+        code: '856'
     },
     {
-        n: 'Latvia (Latvija)',
-        i: 'lv',
-        d: '371'
+        name: 'Latvia (Latvija)',
+        id: 'lv',
+        code: '371'
     },
     {
-        n: 'Lebanon (‫لبنان‬‎)',
-        i: 'lb',
-        d: '961'
+        name: 'Lebanon (‫لبنان‬‎)',
+        id: 'lb',
+        code: '961'
     },
     {
-        n: 'Lesotho',
-        i: 'ls',
-        d: '266'
+        name: 'Lesotho',
+        id: 'ls',
+        code: '266'
     },
     {
-        n: 'Liberia',
-        i: 'lr',
-        d: '231'
+        name: 'Liberia',
+        id: 'lr',
+        code: '231'
     },
     {
-        n: 'Libya (‫ليبيا‬‎)',
-        i: 'ly',
-        d: '218'
+        name: 'Libya (‫ليبيا‬‎)',
+        id: 'ly',
+        code: '218'
     },
     {
-        n: 'Liechtenstein',
-        i: 'li',
-        d: '423'
+        name: 'Liechtenstein',
+        id: 'li',
+        code: '423'
     },
     {
-        n: 'Lithuania (Lietuva)',
-        i: 'lt',
-        d: '370'
+        name: 'Lithuania (Lietuva)',
+        id: 'lt',
+        code: '370'
     },
     {
-        n: 'Luxembourg',
-        i: 'lu',
-        d: '352'
+        name: 'Luxembourg',
+        id: 'lu',
+        code: '352'
     },
     {
-        n: 'Macau (澳門)',
-        i: 'mo',
-        d: '853'
+        name: 'Macau (澳門)',
+        id: 'mo',
+        code: '853'
     },
     {
-        n: 'Macedonia (FYROM) (Македонија)',
-        i: 'mk',
-        d: '389'
+        name: 'Macedonia (FYROM) (Македонија)',
+        id: 'mk',
+        code: '389'
     },
     {
-        n: 'Madagascar (Madagasikara)',
-        i: 'mg',
-        d: '261'
+        name: 'Madagascar (Madagasikara)',
+        id: 'mg',
+        code: '261'
     },
     {
-        n: 'Malawi',
-        i: 'mw',
-        d: '265'
+        name: 'Malawi',
+        id: 'mw',
+        code: '265'
     },
     {
-        n: 'Malaysia',
-        i: 'my',
-        d: '60'
+        name: 'Malaysia',
+        id: 'my',
+        code: '60'
     },
     {
-        n: 'Maldives',
-        i: 'mv',
-        d: '960'
+        name: 'Maldives',
+        id: 'mv',
+        code: '960'
     },
     {
-        n: 'Mali',
-        i: 'ml',
-        d: '223'
+        name: 'Mali',
+        id: 'ml',
+        code: '223'
     },
     {
-        n: 'Malta',
-        i: 'mt',
-        d: '356'
+        name: 'Malta',
+        id: 'mt',
+        code: '356'
     },
     {
-        n: 'Marshall Islands',
-        i: 'mh',
-        d: '692'
+        name: 'Marshall Islands',
+        id: 'mh',
+        code: '692'
     },
     {
-        n: 'Martinique',
-        i: 'mq',
-        d: '596'
+        name: 'Martinique',
+        id: 'mq',
+        code: '596'
     },
     {
-        n: 'Mauritania (‫موريتانيا‬‎)',
-        i: 'mr',
-        d: '222'
+        name: 'Mauritania (‫موريتانيا‬‎)',
+        id: 'mr',
+        code: '222'
     },
     {
-        n: 'Mauritius (Moris)',
-        i: 'mu',
-        d: '230'
+        name: 'Mauritius (Moris)',
+        id: 'mu',
+        code: '230'
     },
     {
-        n: 'Mayotte',
-        i: 'yt',
-        d: '262'
+        name: 'Mayotte',
+        id: 'yt',
+        code: '262'
     },
     {
-        n: 'Mexico (México)',
-        i: 'mx',
-        d: '52'
+        name: 'Mexico (México)',
+        id: 'mx',
+        code: '52'
     },
     {
-        n: 'Micronesia',
-        i: 'fm',
-        d: '691'
+        name: 'Micronesia',
+        id: 'fm',
+        code: '691'
     },
     {
-        n: 'Moldova (Republica Moldova)',
-        i: 'md',
-        d: '373'
+        name: 'Moldova (Republica Moldova)',
+        id: 'md',
+        code: '373'
     },
     {
-        n: 'Monaco',
-        i: 'mc',
-        d: '377'
+        name: 'Monaco',
+        id: 'mc',
+        code: '377'
     },
     {
-        n: 'Mongolia (Монгол)',
-        i: 'mn',
-        d: '976'
+        name: 'Mongolia (Монгол)',
+        id: 'mn',
+        code: '976'
     },
     {
-        n: 'Montenegro (Crna Gora)',
-        i: 'me',
-        d: '382'
+        name: 'Montenegro (Crna Gora)',
+        id: 'me',
+        code: '382'
     },
     {
-        n: 'Montserrat',
-        i: 'ms',
-        d: '1664'
+        name: 'Montserrat',
+        id: 'ms',
+        code: '1664'
     },
     {
-        n: 'Morocco (‫المغرب‬‎)',
-        i: 'ma',
-        d: '212'
+        name: 'Morocco (‫المغرب‬‎)',
+        id: 'ma',
+        code: '212'
     },
     {
-        n: 'Mozambique (Moçambique)',
-        i: 'mz',
-        d: '258'
+        name: 'Mozambique (Moçambique)',
+        id: 'mz',
+        code: '258'
     },
     {
-        n: 'Myanmar (Burma) (မြန်မာ)',
-        i: 'mm',
-        d: '95'
+        name: 'Myanmar (Burma) (မြန်မာ)',
+        id: 'mm',
+        code: '95'
     },
     {
-        n: 'Namibia (Namibië)',
-        i: 'na',
-        d: '264'
+        name: 'Namibia (Namibië)',
+        id: 'na',
+        code: '264'
     },
     {
-        n: 'Nauru',
-        i: 'nr',
-        d: '674'
+        name: 'Nauru',
+        id: 'nr',
+        code: '674'
     },
     {
-        n: 'Nepal (नेपाल)',
-        i: 'np',
-        d: '977'
+        name: 'Nepal (नेपाल)',
+        id: 'np',
+        code: '977'
     },
     {
-        n: 'Netherlands (Nederland)',
-        i: 'nl',
-        d: '31'
+        name: 'Netherlands (Nederland)',
+        id: 'nl',
+        code: '31'
     },
     {
-        n: 'New Caledonia (Nouvelle-Calédonie)',
-        i: 'nc',
-        d: '687'
+        name: 'New Caledonia (Nouvelle-Calédonie)',
+        id: 'nc',
+        code: '687'
     },
     {
-        n: 'New Zealand',
-        i: 'nz',
-        d: '64'
+        name: 'New Zealand',
+        id: 'nz',
+        code: '64'
     },
     {
-        n: 'Nicaragua',
-        i: 'ni',
-        d: '505'
+        name: 'Nicaragua',
+        id: 'ni',
+        code: '505'
     },
     {
-        n: 'Niger (Nijar)',
-        i: 'ne',
-        d: '227'
+        name: 'Niger (Nijar)',
+        id: 'ne',
+        code: '227'
     },
     {
-        n: 'Nigeria',
-        i: 'ng',
-        d: '234'
+        name: 'Nigeria',
+        id: 'ng',
+        code: '234'
     },
     {
-        n: 'Niue',
-        i: 'nu',
-        d: '683'
+        name: 'Niue',
+        id: 'nu',
+        code: '683'
     },
     {
-        n: 'Norfolk Island',
-        i: 'nf',
-        d: '672'
+        name: 'Norfolk Island',
+        id: 'nf',
+        code: '672'
     },
     {
-        n: 'North Korea (조선 민주주의 인민 공화국)',
-        i: 'kp',
-        d: '850'
+        name: 'North Korea (조선 민주주의 인민 공화국)',
+        id: 'kp',
+        code: '850'
     },
     {
-        n: 'Northern Mariana Islands',
-        i: 'mp',
-        d: '1670'
+        name: 'Northern Mariana Islands',
+        id: 'mp',
+        code: '1670'
     },
     {
-        n: 'Norway (Norge)',
-        i: 'no',
-        d: '47'
+        name: 'Norway (Norge)',
+        id: 'no',
+        code: '47'
     },
     {
-        n: 'Oman (‫عُمان‬‎)',
-        i: 'om',
-        d: '968'
+        name: 'Oman (‫عُمان‬‎)',
+        id: 'om',
+        code: '968'
     },
     {
-        n: 'Pakistan (‫پاکستان‬‎)',
-        i: 'pk',
-        d: '92'
+        name: 'Pakistan (‫پاکستان‬‎)',
+        id: 'pk',
+        code: '92'
     },
     {
-        n: 'Palau',
-        i: 'pw',
-        d: '680'
+        name: 'Palau',
+        id: 'pw',
+        code: '680'
     },
     {
-        n: 'Palestine (‫فلسطين‬‎)',
-        i: 'ps',
-        d: '970'
+        name: 'Palestine (‫فلسطين‬‎)',
+        id: 'ps',
+        code: '970'
     },
     {
-        n: 'Panama (Panamá)',
-        i: 'pa',
-        d: '507'
+        name: 'Panama (Panamá)',
+        id: 'pa',
+        code: '507'
     },
     {
-        n: 'Papua New Guinea',
-        i: 'pg',
-        d: '675'
+        name: 'Papua New Guinea',
+        id: 'pg',
+        code: '675'
     },
     {
-        n: 'Paraguay',
-        i: 'py',
-        d: '595'
+        name: 'Paraguay',
+        id: 'py',
+        code: '595'
     },
     {
-        n: 'Peru (Perú)',
-        i: 'pe',
-        d: '51'
+        name: 'Peru (Perú)',
+        id: 'pe',
+        code: '51'
     },
     {
-        n: 'Philippines',
-        i: 'ph',
-        d: '63'
+        name: 'Philippines',
+        id: 'ph',
+        code: '63'
     },
     {
-        n: 'Pitcairn Islands',
-        i: 'pn',
-        d: '64'
+        name: 'Pitcairn Islands',
+        id: 'pn',
+        code: '64'
     },
     {
-        n: 'Poland (Polska)',
-        i: 'pl',
-        d: '48'
+        name: 'Poland (Polska)',
+        id: 'pl',
+        code: '48'
     },
     {
-        n: 'Portugal',
-        i: 'pt',
-        d: '351'
+        name: 'Portugal',
+        id: 'pt',
+        code: '351'
     },
     {
-        n: 'Puerto Rico',
-        i: 'pr',
-        d: '1787'
+        name: 'Puerto Rico',
+        id: 'pr',
+        code: '1787'
     },
     {
-        n: 'Qatar (‫قطر‬‎)',
-        i: 'qa',
-        d: '974'
+        name: 'Qatar (‫قطر‬‎)',
+        id: 'qa',
+        code: '974'
     },
     {
-        n: 'Réunion (La Réunion)',
-        i: 're',
-        d: '262'
+        name: 'Réunion (La Réunion)',
+        id: 're',
+        code: '262'
     },
     {
-        n: 'Romania (România)',
-        i: 'ro',
-        d: '40'
+        name: 'Romania (România)',
+        id: 'ro',
+        code: '40'
     },
     {
-        n: 'Russia (Россия)',
-        i: 'ru',
-        d: '7'
+        name: 'Russia (Россия)',
+        id: 'ru',
+        code: '7'
     },
     {
-        n: 'Rwanda',
-        i: 'rw',
-        d: '250'
+        name: 'Rwanda',
+        id: 'rw',
+        code: '250'
     },
     {
-        n: 'Saint Barthélemy (Saint-Barthélemy)',
-        i: 'bl',
-        d: '590'
+        name: 'Saint Barthélemy (Saint-Barthélemy)',
+        id: 'bl',
+        code: '590'
     },
     {
-        n: 'Saint Helena',
-        i: 'sh',
-        d: '290'
+        name: 'Saint Helena',
+        id: 'sh',
+        code: '290'
     },
     {
-        n: 'Saint Kitts and Nevis',
-        i: 'kn',
-        d: '1869'
+        name: 'Saint Kitts and Nevis',
+        id: 'kn',
+        code: '1869'
     },
     {
-        n: 'Saint Lucia',
-        i: 'lc',
-        d: '1758'
+        name: 'Saint Lucia',
+        id: 'lc',
+        code: '1758'
     },
     {
-        n: 'Saint Martin (Saint-Martin (partie française))',
-        i: 'mf',
-        d: '590'
+        name: 'Saint Martin (Saint-Martin (partie française))',
+        id: 'mf',
+        code: '590'
     },
     {
-        n: 'Saint Pierre and Miquelon (Saint-Pierre-et-Miquelon)',
-        i: 'pm',
-        d: '508'
+        name: 'Saint Pierre and Miquelon (Saint-Pierre-et-Miquelon)',
+        id: 'pm',
+        code: '508'
     },
     {
-        n: 'Saint Vincent and the Grenadines',
-        i: 'vc',
-        d: '1784'
+        name: 'Saint Vincent and the Grenadines',
+        id: 'vc',
+        code: '1784'
     },
     {
-        n: 'Samoa',
-        i: 'ws',
-        d: '685'
+        name: 'Samoa',
+        id: 'ws',
+        code: '685'
     },
     {
-        n: 'San Marino',
-        i: 'sm',
-        d: '378'
+        name: 'San Marino',
+        id: 'sm',
+        code: '378'
     },
     {
-        n: 'São Tomé and Príncipe (São Tomé e Príncipe)',
-        i: 'st',
-        d: '239'
+        name: 'São Tomé and Príncipe (São Tomé e Príncipe)',
+        id: 'st',
+        code: '239'
     },
     {
-        n: 'Saudi Arabia (‫المملكة العربية السعودية‬‎)',
-        i: 'sa',
-        d: '966'
+        name: 'Saudi Arabia (‫المملكة العربية السعودية‬‎)',
+        id: 'sa',
+        code: '966'
     },
     {
-        n: 'Senegal (Sénégal)',
-        i: 'sn',
-        d: '221'
+        name: 'Senegal (Sénégal)',
+        id: 'sn',
+        code: '221'
     },
     {
-        n: 'Serbia (Србија)',
-        i: 'rs',
-        d: '381'
+        name: 'Serbia (Србија)',
+        id: 'rs',
+        code: '381'
     },
     {
-        n: 'Seychelles',
-        i: 'sc',
-        d: '248'
+        name: 'Seychelles',
+        id: 'sc',
+        code: '248'
     },
     {
-        n: 'Sierra Leone',
-        i: 'sl',
-        d: '232'
+        name: 'Sierra Leone',
+        id: 'sl',
+        code: '232'
     },
     {
-        n: 'Singapore',
-        i: 'sg',
-        d: '65'
+        name: 'Singapore',
+        id: 'sg',
+        code: '65'
     },
     {
-        n: 'Sint Maarten',
-        i: 'sx',
-        d: '1721'
+        name: 'Sint Maarten',
+        id: 'sx',
+        code: '1721'
     },
     {
-        n: 'Slovakia (Slovensko)',
-        i: 'sk',
-        d: '421'
+        name: 'Slovakia (Slovensko)',
+        id: 'sk',
+        code: '421'
     },
     {
-        n: 'Slovenia (Slovenija)',
-        i: 'si',
-        d: '386'
+        name: 'Slovenia (Slovenija)',
+        id: 'si',
+        code: '386'
     },
     {
-        n: 'Solomon Islands',
-        i: 'sb',
-        d: '677'
+        name: 'Solomon Islands',
+        id: 'sb',
+        code: '677'
     },
     {
-        n: 'Somalia (Soomaaliya)',
-        i: 'so',
-        d: '252'
+        name: 'Somalia (Soomaaliya)',
+        id: 'so',
+        code: '252'
     },
     {
-        n: 'South Africa',
-        i: 'za',
-        d: '27'
+        name: 'South Africa',
+        id: 'za',
+        code: '27'
     },
     {
-        n: 'South Georgia & South Sandwich Islands',
-        i: 'gs',
-        d: '500'
+        name: 'South Georgia & South Sandwich Islands',
+        id: 'gs',
+        code: '500'
     },
     {
-        n: 'South Korea (대한민국)',
-        i: 'kr',
-        d: '82'
+        name: 'South Korea (대한민국)',
+        id: 'kr',
+        code: '82'
     },
     {
-        n: 'South Sudan (‫جنوب السودان‬‎)',
-        i: 'ss',
-        d: '211'
+        name: 'South Sudan (‫جنوب السودان‬‎)',
+        id: 'ss',
+        code: '211'
     },
     {
-        n: 'Spain (España)',
-        i: 'es',
-        d: '34'
+        name: 'Spain (España)',
+        id: 'es',
+        code: '34'
     },
     {
-        n: 'Sri Lanka (ශ්‍රී ලංකාව)',
-        i: 'lk',
-        d: '94'
+        name: 'Sri Lanka (ශ්‍රී ලංකාව)',
+        id: 'lk',
+        code: '94'
     },
     {
-        n: 'Sudan (‫السودان‬‎)',
-        i: 'sd',
-        d: '249'
+        name: 'Sudan (‫السودان‬‎)',
+        id: 'sd',
+        code: '249'
     },
     {
-        n: 'Suriname',
-        i: 'sr',
-        d: '597'
+        name: 'Suriname',
+        id: 'sr',
+        code: '597'
     },
     {
-        n: 'Svalbard and Jan Mayen (Svalbard og Jan Mayen)',
-        i: 'sj',
-        d: '4779'
+        name: 'Svalbard and Jan Mayen (Svalbard og Jan Mayen)',
+        id: 'sj',
+        code: '4779'
     },
     {
-        n: 'Swaziland',
-        i: 'sz',
-        d: '268'
+        name: 'Swaziland',
+        id: 'sz',
+        code: '268'
     },
     {
-        n: 'Sweden (Sverige)',
-        i: 'se',
-        d: '46'
+        name: 'Sweden (Sverige)',
+        id: 'se',
+        code: '46'
     },
     {
-        n: 'Switzerland (Schweiz)',
-        i: 'ch',
-        d: '41'
+        name: 'Switzerland (Schweiz)',
+        id: 'ch',
+        code: '41'
     },
     {
-        n: 'Syria (‫سوريا‬‎)',
-        i: 'sy',
-        d: '963'
+        name: 'Syria (‫سوريا‬‎)',
+        id: 'sy',
+        code: '963'
     },
     {
-        n: 'Taiwan (台灣)',
-        i: 'tw',
-        d: '886'
+        name: 'Taiwan (台灣)',
+        id: 'tw',
+        code: '886'
     },
     {
-        n: 'Tajikistan',
-        i: 'tj',
-        d: '992'
+        name: 'Tajikistan',
+        id: 'tj',
+        code: '992'
     },
     {
-        n: 'Tanzania',
-        i: 'tz',
-        d: '255'
+        name: 'Tanzania',
+        id: 'tz',
+        code: '255'
     },
     {
-        n: 'Thailand (ไทย)',
-        i: 'th',
-        d: '66'
+        name: 'Thailand (ไทย)',
+        id: 'th',
+        code: '66'
     },
     {
-        n: 'Timor-Leste',
-        i: 'tl',
-        d: '670'
+        name: 'Timor-Leste',
+        id: 'tl',
+        code: '670'
     },
     {
-        n: 'Togo',
-        i: 'tg',
-        d: '228'
+        name: 'Togo',
+        id: 'tg',
+        code: '228'
     },
     {
-        n: 'Tokelau',
-        i: 'tk',
-        d: '690'
+        name: 'Tokelau',
+        id: 'tk',
+        code: '690'
     },
     {
-        n: 'Tonga',
-        i: 'to',
-        d: '676'
+        name: 'Tonga',
+        id: 'to',
+        code: '676'
     },
     {
-        n: 'Trinidad and Tobago',
-        i: 'tt',
-        d: '1868'
+        name: 'Trinidad and Tobago',
+        id: 'tt',
+        code: '1868'
     },
     {
-        n: 'Tunisia (‫تونس‬‎)',
-        i: 'tn',
-        d: '216'
+        name: 'Tunisia (‫تونس‬‎)',
+        id: 'tn',
+        code: '216'
     },
     {
-        n: 'Turkey (Türkiye)',
-        i: 'tr',
-        d: '90'
+        name: 'Turkey (Türkiye)',
+        id: 'tr',
+        code: '90'
     },
     {
-        n: 'Turkmenistan',
-        i: 'tm',
-        d: '993'
+        name: 'Turkmenistan',
+        id: 'tm',
+        code: '993'
     },
     {
-        n: 'Turks and Caicos Islands',
-        i: 'tc',
-        d: '1649'
+        name: 'Turks and Caicos Islands',
+        id: 'tc',
+        code: '1649'
     },
     {
-        n: 'Tuvalu',
-        i: 'tv',
-        d: '688'
+        name: 'Tuvalu',
+        id: 'tv',
+        code: '688'
     },
     {
-        n: 'Uganda',
-        i: 'ug',
-        d: '256'
+        name: 'Uganda',
+        id: 'ug',
+        code: '256'
     },
     {
-        n: 'Ukraine (Україна)',
-        i: 'ua',
-        d: '380'
+        name: 'Ukraine (Україна)',
+        id: 'ua',
+        code: '380'
     },
     {
-        n: 'United Arab Emirates (‫الإمارات العربية المتحدة‬‎)',
-        i: 'ae',
-        d: '971'
+        name: 'United Arab Emirates (‫الإمارات العربية المتحدة‬‎)',
+        id: 'ae',
+        code: '971'
     },
     {
-        n: 'United Kingdom',
-        i: 'gb',
-        d: '44'
+        name: 'United Kingdom',
+        id: 'gb',
+        code: '44'
     },
     {
-        n: 'United States',
-        i: 'us',
-        d: '1'
+        name: 'United States',
+        id: 'us',
+        code: '1'
     },
     {
-        n: 'U.S. Virgin Islands',
-        i: 'vi',
-        d: '1340'
+        name: 'U.S. Virgin Islands',
+        id: 'vi',
+        code: '1340'
     },
     {
-        n: 'Uruguay',
-        i: 'uy',
-        d: '598'
+        name: 'Uruguay',
+        id: 'uy',
+        code: '598'
     },
     {
-        n: 'Uzbekistan (Oʻzbekiston)',
-        i: 'uz',
-        d: '998'
+        name: 'Uzbekistan (Oʻzbekiston)',
+        id: 'uz',
+        code: '998'
     },
     {
-        n: 'Vanuatu',
-        i: 'vu',
-        d: '678'
+        name: 'Vanuatu',
+        id: 'vu',
+        code: '678'
     },
     {
-        n: 'Vatican City (Città del Vaticano)',
-        i: 'va',
-        d: '379'
+        name: 'Vatican City (Città del Vaticano)',
+        id: 'va',
+        code: '379'
     },
     {
-        n: 'Venezuela',
-        i: 've',
-        d: '58'
+        name: 'Venezuela',
+        id: 've',
+        code: '58'
     },
     {
-        n: 'Vietnam (Việt Nam)',
-        i: 'vn',
-        d: '84'
+        name: 'Vietnam (Việt Nam)',
+        id: 'vn',
+        code: '84'
     },
     {
-        n: 'Wallis and Futuna',
-        i: 'wf',
-        d: '681'
+        name: 'Wallis and Futuna',
+        id: 'wf',
+        code: '681'
     },
     {
-        n: 'Western Sahara (‫الصحراء الغربية‬‎)',
-        i: 'eh',
-        d: '212'
+        name: 'Western Sahara (‫الصحراء الغربية‬‎)',
+        id: 'eh',
+        code: '212'
     },
     {
-        n: 'Yemen (‫اليمن‬‎)',
-        i: 'ye',
-        d: '967'
+        name: 'Yemen (‫اليمن‬‎)',
+        id: 'ye',
+        code: '967'
     },
     {
-        n: 'Zambia',
-        i: 'zm',
-        d: '260'
+        name: 'Zambia',
+        id: 'zm',
+        code: '260'
     },
     {
-        n: 'Zimbabwe',
-        i: 'zw',
-        d: '263'
+        name: 'Zimbabwe',
+        id: 'zw',
+        code: '263'
     }
 ];

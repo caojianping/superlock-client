@@ -43,7 +43,7 @@ export default {
         async setFreeTrial(context: IActionContext<IRiskState>, isCode: boolean = false): Promise<boolean> {
             let { type, freeTrial } = context.state,
                 value = [freeTrial.withdrawLimit, freeTrial.everyrewardLimit, freeTrial.promotionrewardLimit, freeTrial.lockAmount][type - 1];
-            return await riskService.setFreeTrial(type, value, isCode, freeTrial.code);
+            return await riskService.setFreeTrial(type, value, isCode);
         }
     }
 };

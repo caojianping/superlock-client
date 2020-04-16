@@ -36,29 +36,19 @@ export default class UserModal extends Vue {
 
     // 提交用户信息
     async submit() {
-        const key = 'user';
-        let type = this.type,
+        let key = 'user',
+            type = this.type,
             id = this.user ? this.user.id : '',
             { name, password, uKey, roleId } = this.userForm,
             validator = new Validator();
         if (type === OperationType.Add) {
-            validator.addRule(
-                key,
-                { name: 'password', value: password },
-                { required: true, password: true },
-                { required: '密码不可以为空' }
-            );
+            validator.addRule(key, { name: 'password', value: password }, { required: true, password: true }, { required: '密码不可以为空' });
         } else if (type === OperationType.Edit) {
             validator.addRule(key, { name: 'id', value: id }, { required: true }, { required: '用户编号不可以为空' });
         }
         validator.addRule(key, { name: 'name', value: name }, { required: true }, { required: '用户名不可以为空' });
         validator.addRule(key, { name: 'uKey', value: uKey }, { required: true }, { required: 'uKey不可以为空' });
-        validator.addRule(
-            key,
-            { name: 'roleId', value: roleId },
-            { required: true },
-            { required: '用户角色不可以为空' }
-        );
+        validator.addRule(key, { name: 'roleId', value: roleId }, { required: true }, { required: '用户角色不可以为空' });
 
         let result: ValidationResult = validator.execute(key);
         if (!result.status) {
@@ -76,7 +66,6 @@ export default class UserModal extends Vue {
         if (value) {
             let userForm = new UserFormModel(),
                 type = this.type;
-            userForm.code = undefined;
             this.title = ['添加用户', '用户资料修改'][type - 1];
             if (type === OperationType.Add) {
                 userForm.password = '';

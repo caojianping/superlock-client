@@ -17,8 +17,8 @@ const fundModule = namespace('fund');
 export default class FundRecord extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
-
-    @fundModule.State('coinOptions') coinOptions!: Array<ISelectOption>;
+    @State('coinOptions') coinOptions!: Array<ISelectOption>;
+    
     @fundModule.State('orderOptions') orderOptions!: Array<ISelectOption>;
     @fundModule.State('accountOptions') accountOptions!: Array<ISelectOption>;
     @fundModule.State('parameters') parameters!: IPageParameters<IFundPageParameters>;

@@ -13,7 +13,7 @@
             </header>
             <div class="sl-block-body">
                 <ant-row :gutter="24">
-                    <ant-col :span="8">
+                    <ant-col :span="7">
                         <ant-form-item label="订单号" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
@@ -24,7 +24,7 @@
                             />
                         </ant-form-item>
                     </ant-col>
-                    <ant-col :span="8">
+                    <ant-col :span="7">
                         <ant-form-item label="到账地址" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
@@ -35,22 +35,23 @@
                             />
                         </ant-form-item>
                     </ant-col>
-                    <ant-col :span="8">
+                    <ant-col :span="7">
                         <ant-form-item label="运营商名称" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-                            <ant-auto-complete
+                            <ant-select
                                 :value="withdrawParameters.conditions.carrierId"
-                                :data-source="carrierOptions"
-                                :filterOption="filterOption"
+                                :options="carrierOptions"
+                                showSearch
+                                allowClear
                                 placeholder="请输入运营商名称"
                                 @change="handleFormChange('carrierId', $event)"
-                                @select="handleFormChange('carrierId', $event)"
-                            />
+                                :filterOption="carrierFilterOption"
+                            ></ant-select>
                         </ant-form-item>
                     </ant-col>
                 </ant-row>
 
                 <ant-row :gutter="24">
-                    <ant-col :span="8">
+                    <ant-col :span="7">
                         <ant-form-item label="状态" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-select
                                 class="sl-select"
@@ -62,7 +63,7 @@
                             ></ant-select>
                         </ant-form-item>
                     </ant-col>
-                    <ant-col :span="12">
+                    <ant-col :span="10">
                         <ant-form-item label="选择时间" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             {{ ((beginTime = withdrawParameters.conditions.beginTime), void 0) }}
                             {{ ((endTime = withdrawParameters.conditions.endTime), void 0) }}
@@ -74,7 +75,7 @@
                             ></ant-range-picker>
                         </ant-form-item>
                     </ant-col>
-                    <ant-col :span="4">
+                    <ant-col :span="7">
                         <ant-button class="sl-search" type="primary" @click="search">搜索</ant-button>
                     </ant-col>
                 </ant-row>
@@ -83,16 +84,32 @@
 
         <ant-button class="sl-tool" type="primary" @click="exportReport">导出报表</ant-button>
 
-        <ant-table :columns="columns" :rowKey="record => record.carrierId" :dataSource="list" :pagination="false" :loading="isPageLoading">
+        <ant-table :columns="columns" :rowKey="record => record.serial" :dataSource="list" :pagination="false" :loading="isPageLoading">
+            <ant-tooltip class="w100px" slot="serial" slot-scope="record">
+                <template slot="title">{{ record.serial }}</template>
+                {{ record.serial }}
+            </ant-tooltip>
+            <ant-tooltip class="w100px" slot="address" slot-scope="record">
+                <template slot="title">{{ record.address }}</template>
+                {{ record.address }}
+            </ant-tooltip>
             <span slot="createTime" slot-scope="record">
                 {{ record.createTime | dateFormat }}
             </span>
             <span slot="endTime" slot-scope="record">
                 {{ record.endTime | dateFormat }}
             </span>
-            <template slot="operation">
-                <ant-button class="w65px" type="danger" size="small">驳回</ant-button>
-                <ant-button class="w65px" type="default" size="small">审核</ant-button>
+            <span :class="statusColors[record.status]" slot="status" slot-scope="record">
+                {{ statusNames[record.status] }}
+            </span>
+            <span :class="auditColors[record.auditStatus]" slot="auditStatus" slot-scope="record">
+                {{ auditNames[record.auditStatus] }}
+            </span>
+            <template slot="operation" slot-scope="record">
+                <template v-if="record.status === '0' && record.auditStatus === '1'">
+                    <ant-button type="default" size="small" @click="setOperate(record.serial, 3)">审核</ant-button>
+                    <ant-button type="danger" size="small" @click="setOperate(record.serial, 5)">驳回</ant-button>
+                </template>
             </template>
         </ant-table>
 
@@ -107,6 +124,8 @@
             @change="handlePageNumChange"
             @showSizeChange="handlePageSizeChange"
         />
+
+        <SecondVerify :is-show="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
     </div>
 </template>
 

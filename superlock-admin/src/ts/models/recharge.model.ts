@@ -1,3 +1,4 @@
+// 充值模型
 export class RechargeModel {
     public serial!: string; // 订单号
     public uid!: string; // uid
@@ -9,17 +10,15 @@ export class RechargeModel {
     public rate!: string; // 用户汇率
     public rechargeCoinCode!: string; // 入账币种
     public rechargeAmount!: string; // 入账数量
-
-    // 新增字段
     public lockRate!: string; // 锁仓汇率
     public profit!: string; // 手续费
     public commissionRate!: string; // 手续费比例
 }
 
+// 充值手续费模型
 export class RechargePoundageModel {
     public tokenType!: string; // 交易币种
     public type!: string; // 交易类型
     public feeToken!: string; // 手续币种
     public chargeRate!: number; // 手续费比例
-    public code?: string; // 验证码：谷歌验证码gacode，短信验证码smsCode，邮箱验证码emailCode等
 }

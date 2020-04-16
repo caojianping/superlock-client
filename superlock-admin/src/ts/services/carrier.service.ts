@@ -1,8 +1,8 @@
 import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
-import { CaxiosType, CarrierFormType, Urls, CONSTANTS, AreaCodes } from '@/ts/config';
+import { Urls, AreaCodes, defaultAreaCode, IAreaCode, CaxiosType, CarrierFormType } from '@/ts/config';
 import { Caxios, md5 } from '@/ts/common';
-import { IPageParameters, IRebateOrderPageParameters, IFlashOrderPageParameters, IWithdrawOrderPageParameters } from '@/ts/interfaces';
+import { IPageParameters, IRebateOrderPageParameters, IFlashOrderPageParameters, IWithdrawOrderPageParameters, ISelectOption } from '@/ts/interfaces';
 import { PageResult, CarrierFormModel, CarrierModel, RebateOrderModel, FlashOrderModel, WithdrawOrderModel } from '@/ts/models';
 
 export class CarrierService {
@@ -10,15 +10,15 @@ export class CarrierService {
     public static validateCarrierForm(carrierForm: CarrierFormModel, formType: CarrierFormType): ValidationResult {
         if (!carrierForm) return { status: false, data: { brokerForm: '参数不可以为空' } };
 
-        const key = 'carrierForm';
-        let { carrierId, carrierName, areaCode, mobile, loginPwd, rebateRatio, billingCycle, unit } = carrierForm,
+        let key = 'carrierForm',
+            { carrierId, carrierName, areaCode, mobile, loginPwd, rebateRatio, billingCycle, unit } = carrierForm,
             validator = new Validator();
         if (formType === CarrierFormType.CarrierForm) {
             validator.addRule(key, { name: 'carrierName', value: carrierName }, { required: true }, { required: '运营商不可以为空' });
-            if (areaCode === CONSTANTS.CHINA_AREA_CODE) {
+            if (areaCode === defaultAreaCode.id) {
                 validator.addRule(key, { name: 'mobile', value: mobile }, { required: true, mobile: true }, { required: '手机号不可以为空' });
             } else {
-                validator.addRule(key, { name: 'mobile', value: mobile }, { required: true }, { required: '手机号不可以为空' });
+                validator.addRule(key, { name: 'mobile', value: mobile }, { required: true, pureDigit: true }, { required: '手机号不可以为空' });
             }
             validator.addRule(key, { name: 'loginPwd', value: loginPwd }, { required: true, password: true }, { required: '登录密码不可以为空' });
             validator.addRule(key, { name: 'rebateRatio', value: rebateRatio }, { required: true }, { required: '返点比例(%)不可以为空' });
@@ -29,11 +29,12 @@ export class CarrierService {
             validator.addRule(key, { name: 'loginPwd', value: loginPwd }, { required: true, password: true }, { required: '登录密码不可以为空' });
         } else if (formType === CarrierFormType.CarrierMobileForm) {
             validator.addRule(key, { name: 'carrierId', value: carrierId }, { required: true }, { required: '运营商编号不可以为空' });
-            if (areaCode === CONSTANTS.CHINA_AREA_CODE) {
+            if (areaCode === defaultAreaCode.id) {
                 validator.addRule(key, { name: 'mobile', value: mobile }, { required: true, mobile: true }, { required: '手机号不可以为空' });
             } else {
-                validator.addRule(key, { name: 'mobile', value: mobile }, { required: true }, { required: '手机号不可以为空' });
+                validator.addRule(key, { name: 'mobile', value: mobile }, { required: true, pureDigit: true }, { required: '手机号不可以为空' });
             }
+            validator.addRule(key, { name: 'loginPwd', value: loginPwd }, { required: true, password: true }, { required: '登录密码不可以为空' });
         } else if (formType === CarrierFormType.CarrierRebateForm) {
             validator.addRule(key, { name: 'carrierId', value: carrierId }, { required: true }, { required: '运营商不可以为空' });
             validator.addRule(key, { name: 'rebateRatio', value: rebateRatio }, { required: true }, { required: '返点比例(%)不可以为空' });
@@ -41,6 +42,15 @@ export class CarrierService {
             validator.addRule(key, { name: 'unit', value: unit }, { required: true }, { required: '单位（周、月）不可以为空' });
         }
         return validator.execute(key);
+    }
+
+    // 获取运营商选项列表
+    public async fetchCarrierOptions(): Promise<Array<ISelectOption>> {
+        let result = await Caxios.get<Array<any> | null>({ url: Urls.carrier.cache }, CaxiosType.Token);
+        return (result || []).map((item: any) => ({
+            label: item.carrierName,
+            value: item.carrierId
+        }));
     }
 
     // 获取运营商列表
@@ -65,17 +75,17 @@ export class CarrierService {
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
         let { carrierName, areaCode, mobile, loginPwd, rebateRatio, billingCycle, unit } = carrierForm,
-            filterAreaCode = AreaCodes.filter((item: any) => item.i === areaCode)[0];
-        if (!filterAreaCode) return Promise.reject('未找到相对应的国家区号');
+            filterAreaCode = AreaCodes.filter((item: IAreaCode) => item.id === areaCode)[0];
+        if (!filterAreaCode) return Promise.reject('未找到对应的国家、地区区号');
 
         await Caxios.post<any>(
             {
                 url: Urls.carrier.list.add,
                 data: {
                     carrierName,
-                    areaCode: '+' + filterAreaCode.d,
+                    areaCode: '+' + filterAreaCode.code,
                     mobile,
-                    loginPwd: md5(loginPwd),
+                    pwd: md5(loginPwd),
                     rebateRatio,
                     billingCycle,
                     unit
@@ -93,10 +103,10 @@ export class CarrierService {
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
         let { carrierId, areaCode, mobile, loginPwd, rebateRatio, billingCycle, unit } = carrierForm,
-            filterAreaCode = AreaCodes.filter((item: any) => item.i === areaCode)[0];
-        if (!filterAreaCode) return Promise.reject('未找到相对应的国家区号');
+            filterAreaCode = AreaCodes.filter((item: IAreaCode) => item.id === areaCode)[0];
+        if (formType === CarrierFormType.CarrierMobileForm && !filterAreaCode) return Promise.reject('未找到对应的国家、地区区号');
 
-        let tAreaCode = '+' + filterAreaCode.d,
+        let tAreaCode = filterAreaCode ? '+' + filterAreaCode.code : '',
             pwd = md5(loginPwd);
         await Caxios.post<any>(
             {
@@ -107,7 +117,7 @@ export class CarrierService {
                 }[formType],
                 data: {
                     2: { carrierId, pwd },
-                    3: { carrierId, areaCode: tAreaCode, mobileNumber: mobile, pwd },
+                    3: { carrierId, areaCode: tAreaCode, mobile, pwd },
                     4: { carrierId, rebateRatio, billingCycle, unit }
                 }[formType]
             },

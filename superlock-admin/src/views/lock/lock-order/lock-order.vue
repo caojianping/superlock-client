@@ -40,14 +40,15 @@
 
                     <ant-col :span="7">
                         <ant-form-item label="用户来源" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-                            <ant-auto-complete
+                            <ant-select
                                 :value="lockParameters.conditions.carrierId"
-                                :data-source="carrierOptions"
-                                :filterOption="filterOption"
+                                :options="carrierOptions"
+                                showSearch
+                                allowClear
                                 placeholder="请输入用户来源"
                                 @change="handleFormChange('carrierId', $event)"
-                                @select="handleFormChange('carrierId', $event)"
-                            />
+                                :filterOption="carrierFilterOption"
+                            ></ant-select>
                         </ant-form-item>
                     </ant-col>
                 </ant-row>

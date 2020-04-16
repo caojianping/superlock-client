@@ -8,7 +8,7 @@ Vue.filter('dateFormat', function(value: string, format: string = 'yyyy-MM-dd hh
 });
 
 Vue.filter('ratePercent', function(value: string | number, precision: number = 2) {
-    return Utils.digitPercent(value, precision) + '%';
+    return Utils.digitPercent(value, precision, true) + '%';
 });
 
 Vue.filter('digitPrecision', function(value: string | number, precision: number = 2) {

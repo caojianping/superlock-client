@@ -1,14 +1,14 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import Router from '@/router';
 import store from '@/store';
 import TYPES from '@/store/types';
-import Router from '@/router';
-import { CaxiosType, ResponseCode, CONSTANTS } from '@/ts/config';
-import { ResponseResult, BusinessError, SecondVerifyResult, TokenInfo } from '@/ts/models';
 
 import Utils from '@/ts/utils';
+import { CaxiosType, ResponseCode, CONSTANTS } from '@/ts/config';
 import { Prompt } from './prompt';
 import { Token } from './token';
 import { UsbToken } from './usb-token';
+import { ResponseResult, BusinessError, SecondVerifyResult, TokenInfo } from '@/ts/models';
 
 const isIE9 = Utils.isIE9();
 
@@ -22,7 +22,7 @@ export class Caxios {
     };
 
     // 设置headers
-    private static setHeaders(type: CaxiosType = CaxiosType.Default, options: any = {}, isCode: boolean = false) {
+    private static setHeaders(type: CaxiosType = CaxiosType.Default, options: any = {}, isCode: boolean = false, isName: boolean = false) {
         if (!options['headers']) {
             options['headers'] = {};
         }
@@ -40,13 +40,20 @@ export class Caxios {
             options['headers'][CONSTANTS.HEADER_TOKEN] = tokenInfo.token;
         }
 
+        // 处理用户名称
+        if (isName) {
+            let name = Token.getName();
+            if (!name) throw new Error('用户名称不可以为空');
+            options['headers'][CONSTANTS.HEADER_NAME] = name;
+        }
+
         // 处理谷歌验证码
         if (isCode) {
             let code = Token.getCode();
             if (!code) throw new Error('谷歌验证码不可以为空');
-
             options['headers'][CONSTANTS.HEADER_CODE] = code;
         }
+
         return options;
     }
 
@@ -74,6 +81,7 @@ export class Caxios {
                 value: isShow
             });
         }
+
         if (type === CaxiosType.PageLoading || type === CaxiosType.PageLoadingToken) {
             store.commit(TYPES.SET_LOADING, {
                 key: 'isPageLoading',
@@ -83,12 +91,16 @@ export class Caxios {
     }
 
     // axios调用
-    public static async invoke<T>(options: AxiosRequestConfig, type: CaxiosType = CaxiosType.Default, isCode: boolean = false): Promise<T> {
+    public static async invoke<T>(
+        options: AxiosRequestConfig,
+        type: CaxiosType = CaxiosType.Default,
+        isCode: boolean = false,
+        isName: boolean = false
+    ): Promise<T> {
         if (!options) return Promise.reject('axios请求参数配置不可以为空');
 
         Caxios.setLoading(type, true);
-
-        options = Caxios.setHeaders(type, options, isCode);
+        options = Caxios.setHeaders(type, options, isCode, isName);
         options = await Caxios.setUsbToken(options);
 
         let method = options.method || 'GET',
@@ -147,10 +159,11 @@ export class Caxios {
             }
         }
 
+        // 处理用户名称
+        isName && Token.removeName();
+
         // 处理谷歌验证码
-        if (isCode) {
-            Token.removeCode();
-        }
+        isCode && Token.removeCode();
 
         let resp = response.data;
         if (!resp) throw new BusinessError(999, '无效的响应数据');
@@ -164,13 +177,23 @@ export class Caxios {
         if (code === ResponseCode.Success) {
             // 成功
             return data as T;
+        } else if (code === ResponseCode.GoogleAuth) {
+            // 谷歌认证
+            store.commit(TYPES.SET_STATES, { isGoogleAuthShow: true });
+            return Promise.reject('');
         } else if (code === ResponseCode.SecondVerify) {
             // 二次验证
-            throw new BusinessError<SecondVerifyResult>(code, message, data);
+            let vdata = data as SecondVerifyResult;
+            if (vdata.verifyMethod === '001') {
+                // 谷歌验证码
+                store.commit(TYPES.SET_STATES, { isSecondVerifyShow: true });
+            }
+            return Promise.reject('');
         } else if (code === ResponseCode.TokenExpired) {
             // token失效
             Token.removeTokenInfo();
             store.commit(TYPES.CLEAR_STATES);
+
             // 登录页面，Router.push会报NavigatorDuplicated异常，提示在UI层处理
             let hash = window.location.hash;
             if (hash.indexOf('/login') < 0) {
@@ -185,18 +208,28 @@ export class Caxios {
     }
 
     // GET方法请求
-    public static async get<T>(options: AxiosRequestConfig, type: CaxiosType = CaxiosType.Default, isCode: boolean = false): Promise<T> {
+    public static async get<T>(
+        options: AxiosRequestConfig,
+        type: CaxiosType = CaxiosType.Default,
+        isCode: boolean = false,
+        isName: boolean = false
+    ): Promise<T> {
         if (!options) return Promise.reject('axios配置参数不可以为空');
 
         options['method'] = 'GET';
-        return await Caxios.invoke<T>(options, type, isCode);
+        return await Caxios.invoke<T>(options, type, isCode, isName);
     }
 
     // POST方法请求
-    public static async post<T>(options: AxiosRequestConfig, type: CaxiosType = CaxiosType.Default, isCode: boolean = false): Promise<T> {
+    public static async post<T>(
+        options: AxiosRequestConfig,
+        type: CaxiosType = CaxiosType.Default,
+        isCode: boolean = false,
+        isName: boolean = false
+    ): Promise<T> {
         if (!options) return Promise.reject('axios配置参数不可以为空');
 
         options['method'] = 'POST';
-        return await Caxios.invoke<T>(options, type, isCode);
+        return await Caxios.invoke<T>(options, type, isCode, isName);
     }
 }

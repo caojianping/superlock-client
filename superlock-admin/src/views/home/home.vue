@@ -168,7 +168,7 @@
 
         <InitModal v-model="isShow" title="初始数据设置" :init-info="initInfoForm" @submit="handleInitSubmit" />
 
-        <SecondVerify v-model="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
+        <SecondVerify :is-show="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
     </div>
 </template>
 

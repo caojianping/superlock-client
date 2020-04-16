@@ -36,8 +36,7 @@ export default class PointModal extends Vue {
 
     // 处理币种change事件
     handleCoinChange(coin: string) {
-        let currentPointInfo =
-                this.pointInfos.filter((pointInfo: PointInfoModel) => pointInfo.coin === coin)[0] || new PointInfoModel(),
+        let currentPointInfo = this.pointInfos.filter((pointInfo: PointInfoModel) => pointInfo.coin === coin)[0] || new PointInfoModel(),
             pointForm = Utils.duplicate(this.pointForm);
         pointForm.accountId = currentPointInfo.id;
         pointForm.coin = currentPointInfo.coin;
@@ -53,7 +52,7 @@ export default class PointModal extends Vue {
     // 提交上分信息
     async submit() {
         let pointForm = this.pointForm,
-            result: ValidationResult = PointService.validatePointInfo(pointForm, false);
+            result: ValidationResult = PointService.validatePointInfo(pointForm);
         if (!result.status) {
             Prompt.error(Utils.getFirstValue(result.data));
             return;
@@ -81,7 +80,6 @@ export default class PointModal extends Vue {
             let pointForm = new PointFormModel();
             pointForm.accountId = firstPointInfo.id;
             pointForm.coin = firstPointInfo.coin;
-            pointForm.code = undefined;
             this.pointForm = pointForm;
             this.currentPointInfo = firstPointInfo;
         }

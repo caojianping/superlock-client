@@ -1,12 +1,11 @@
 import Vue from 'vue';
-import { namespace } from 'vuex-class';
+import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { ResponseCode } from '@/ts/config';
 import { Prompt } from '@/ts/common';
-import { SecondVerifyResult, AwardFormModel, AwardDailySaleModel } from '@/ts/models';
+import { AwardFormModel, AwardDailySaleModel } from '@/ts/models';
 
 import SecondVerify from '@/components/common/second-verify';
 
@@ -17,13 +16,13 @@ const lockModule = namespace('lock');
     components: { SecondVerify }
 })
 export default class LockAward extends Vue {
+    @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
+
     @lockModule.State('awardForm') awardForm!: AwardFormModel;
     @lockModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @lockModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @lockModule.Action('fetchLockAward') fetchLockAward!: () => any;
     @lockModule.Action('updateLockAward') updateLockAward!: (isCode: boolean) => any;
-
-    isSecondVerifyShow: boolean = false; // 是否显示二次验证
 
     // 处理表单change事件
     handleFormChange(key: string, value: any) {
@@ -68,23 +67,12 @@ export default class LockAward extends Vue {
                 await this.fetchLockAward();
             }
         } catch (error) {
-            let code = error.code;
-            if (code === ResponseCode.SecondVerify) {
-                let data = error.data as SecondVerifyResult;
-                if (data.verifyMethod === '001') {
-                    this.isSecondVerifyShow = true;
-                }
-            } else {
-                Prompt.error(error.message || error);
-            }
+            Prompt.error(error.message || error);
         }
     }
 
     // 处理二次验证submit事件
-    async handleSecondVerifySubmit(code: string) {
-        let awardForm = Utils.duplicate(this.awardForm);
-        awardForm.code = code;
-        this.setStates({ awardForm });
+    async handleSecondVerifySubmit() {
         await this.submit(true);
     }
 

@@ -83,10 +83,9 @@ export default {
     actions: {
         // 获取锁仓列表
         async fetchLocks(context: IActionContext<ILockState>): Promise<void> {
-            let { commit, state } = context,
-                parameters = state.lockParameters;
+            let { commit, state } = context;
             try {
-                let result: PageResult<LockModel> = await lockService.fetchLocks(parameters);
+                let result: PageResult<LockModel> = await lockService.fetchLocks(state.lockParameters);
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
                 commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
@@ -101,10 +100,9 @@ export default {
 
         // 获取项目列表
         async fetchProjects(context: IActionContext<ILockState>): Promise<void> {
-            let { commit, state } = context,
-                parameters = state.projectParameters;
+            let { commit, state } = context;
             try {
-                let result: PageResult<ProjectModel> = await lockService.fetchProjects(parameters);
+                let result: PageResult<ProjectModel> = await lockService.fetchProjects(state.projectParameters);
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
                 commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
@@ -124,7 +122,7 @@ export default {
 
         // 获取锁仓奖励信息
         async fetchLockAward(context: IActionContext<ILockState>): Promise<void> {
-            let { commit, state } = context;
+            let commit = context.commit;
             try {
                 let awardForm = await lockService.fetchLockAward();
                 awardForm.originPromotionRate = awardForm.promotionRate;

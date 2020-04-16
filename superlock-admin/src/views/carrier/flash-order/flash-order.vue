@@ -52,14 +52,15 @@
                     </ant-col>
                     <ant-col :span="8">
                         <ant-form-item label="运营商名称" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-                            <ant-auto-complete
+                            <ant-select
                                 :value="flashParameters.conditions.carrierId"
-                                :data-source="carrierOptions"
-                                :filterOption="filterOption"
+                                :options="carrierOptions"
+                                showSearch
+                                allowClear
                                 placeholder="请输入运营商名称"
                                 @change="handleFormChange('carrierId', $event)"
-                                @select="handleFormChange('carrierId', $event)"
-                            />
+                                :filterOption="carrierFilterOption"
+                            ></ant-select>
                         </ant-form-item>
                     </ant-col>
                     <ant-col :span="4">
@@ -72,6 +73,10 @@
         <ant-button class="sl-tool" type="primary" @click="exportReport">导出报表</ant-button>
 
         <ant-table :columns="columns" :rowKey="record => record.carrierId" :dataSource="list" :pagination="false" :loading="isPageLoading">
+            <ant-tooltip class="w100px" slot="serial" slot-scope="record">
+                <template slot="title">{{ record.serial }}</template>
+                {{ record.serial }}
+            </ant-tooltip>
             <span slot="createTime" slot-scope="record">
                 {{ record.createTime | dateFormat }}
             </span>

@@ -4,9 +4,8 @@ import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { ResponseCode } from '@/ts/config';
 import { Prompt, Token } from '@/ts/common';
-import { SecondVerifyResult, TokenInfo, PasswordFormModel } from '@/ts/models';
+import { TokenInfo, PasswordFormModel } from '@/ts/models';
 
 import SecondVerify from '@/components/common/second-verify';
 
@@ -18,14 +17,13 @@ const systemModule = namespace('system');
 })
 export default class SystemPassword extends Vue {
     @State('tokenInfo') tokenInfo!: TokenInfo;
+    @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
     @Mutation(TYPES.CLEAR_STATES) clearRootStates!: () => any;
 
     @systemModule.State('passwordForm') passwordForm!: PasswordFormModel;
     @systemModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @systemModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @systemModule.Action('setPassword') setPassword!: (isCode: boolean) => any;
-
-    isSecondVerifyShow: boolean = false; // 是否显示二次验证
 
     // 处理表单change事件
     handleFormChange(key: string, value: any) {
@@ -49,23 +47,12 @@ export default class SystemPassword extends Vue {
                 }, 1688);
             }
         } catch (error) {
-            let code = error.code;
-            if (code === ResponseCode.SecondVerify) {
-                let data = error.data as SecondVerifyResult;
-                if (data.verifyMethod === '001') {
-                    this.isSecondVerifyShow = true;
-                }
-            } else {
-                Prompt.error(error.message || error);
-            }
+            Prompt.error(error.message || error);
         }
     }
 
     // 处理二次验证submit事件
-    async handleSecondVerifySubmit(code: string) {
-        let passwordForm = Utils.duplicate(this.passwordForm);
-        passwordForm.code = code;
-        this.setStates({ passwordForm });
+    async handleSecondVerifySubmit() {
         await this.submit(true);
     }
 

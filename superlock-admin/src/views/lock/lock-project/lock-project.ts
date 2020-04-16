@@ -4,13 +4,12 @@ import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { ResponseCode } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { IPageParameters, IProjectPageParameters } from '@/ts/interfaces';
-import { SecondVerifyResult, ProjectModel, ProjectFormModel } from '@/ts/models';
+import { ProjectModel, ProjectFormModel } from '@/ts/models';
 
 import SecondVerify from '@/components/common/second-verify';
-import ProjectModal from '@/components/lock/project-modal';
+import ProjectModal from '@/components/modals/project-modal';
 
 const lockModule = namespace('lock');
 
@@ -20,6 +19,7 @@ const lockModule = namespace('lock');
 })
 export default class LockProject extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
+    @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
 
     @lockModule.State('projectParameters') projectParameters!: IPageParameters<IProjectPageParameters>;
@@ -33,8 +33,6 @@ export default class LockProject extends Vue {
 
     isShow: boolean = false;
     currentProject: ProjectModel = new ProjectModel();
-
-    isSecondVerifyShow: boolean = false; // 是否显示二次验证
 
     columns: Array<any> = [
         {
@@ -128,7 +126,7 @@ export default class LockProject extends Vue {
         this.currentProject = project;
     }
 
-    // 私有函数：提交项目信息
+    // 私有函数：提交项目
     async _submitProject(projectForm: ProjectFormModel, isCode: boolean) {
         try {
             this.setStates({ projectForm });
@@ -136,15 +134,7 @@ export default class LockProject extends Vue {
             if (!result) Prompt.error('项目修改失败');
             else await this.fetchProjects();
         } catch (error) {
-            let code = error.code;
-            if (code === ResponseCode.SecondVerify) {
-                let data = error.data as SecondVerifyResult;
-                if (data.verifyMethod === '001') {
-                    this.isSecondVerifyShow = true;
-                }
-            } else {
-                Prompt.error(error.message || error);
-            }
+            Prompt.error(error.message || error);
         }
     }
 
@@ -154,10 +144,8 @@ export default class LockProject extends Vue {
     }
 
     // 处理二次验证submit事件
-    async handleSecondVerifySubmit(code: string) {
-        let projectForm = Utils.duplicate(this.projectForm);
-        projectForm.code = code;
-        await this._submitProject(projectForm, true);
+    async handleSecondVerifySubmit() {
+        await this._submitProject(this.projectForm, true);
     }
 
     created() {

@@ -16,6 +16,7 @@ export class BrokerModel {
     public lockReward!: string; // 个人锁仓收益
     public subRewardValue!: string; // 解锁奖励收益
     public createTime!: string; // 创建时间
+    public parent!: string; // 上级uid
 }
 
 export class BrokerChildModel {
@@ -42,18 +43,15 @@ export class BrokerFormModel {
     public mobile!: string; // 手机号
     public totalDegree!: number; // 代理额度
     public password!: string; // 初始密码
-    public code?: string; // 验证码：谷歌验证码gacode，短信验证码smsCode，邮箱验证码emailCode等
 }
 
 export class RateFormModel {
     public uid!: string;
     public type!: string;
     public rate!: number;
-    public code?: string; // 验证码：谷歌验证码gacode，短信验证码smsCode，邮箱验证码emailCode等
 }
 
 export class QuotaFormModel {
     public uid!: string;
     public amount!: number;
-    public code?: string; // 验证码：谷歌验证码gacode，短信验证码smsCode，邮箱验证码emailCode等
 }

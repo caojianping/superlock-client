@@ -16,5 +16,4 @@ export class HomeModel {
 export class InitInfoFormModel {
     public initialTotalLock!: number; // 初始锁仓总额
     public initialRegisteredUser!: number; // 初始注册用户
-    public code?: string; // 验证码：谷歌验证码gacode，短信验证码smsCode，邮箱验证码emailCode等
 }

@@ -27,14 +27,15 @@
                     </ant-col>
                     <ant-col :span="8">
                         <ant-form-item label="运营商名称" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-                            <ant-auto-complete
+                            <ant-select
                                 :value="rebateParameters.conditions.carrierId"
-                                :data-source="carrierOptions"
-                                :filterOption="filterOption"
+                                :options="carrierOptions"
+                                showSearch
+                                allowClear
                                 placeholder="请输入运营商名称"
                                 @change="handleFormChange('carrierId', $event)"
-                                @select="handleFormChange('carrierId', $event)"
-                            />
+                                :filterOption="carrierFilterOption"
+                            ></ant-select>
                         </ant-form-item>
                     </ant-col>
                     <ant-col :span="4">
@@ -47,15 +48,22 @@
         <ant-button class="sl-tool" type="primary" @click="exportReport">导出报表</ant-button>
 
         <ant-table :columns="columns" :rowKey="record => record.carrierId" :dataSource="list" :pagination="false" :loading="isPageLoading">
+            <ant-tooltip class="w100px" slot="serial" slot-scope="record">
+                <template slot="title">{{ record.serial }}</template>
+                {{ record.serial }}
+            </ant-tooltip>
             <span slot="createTime" slot-scope="record">
                 {{ record.createTime | dateFormat }}
             </span>
             <span slot="endTime" slot-scope="record">
                 {{ record.endTime | dateFormat }}
             </span>
-            <template slot="operation">
-                <ant-button class="w65px" type="danger" size="small">驳回</ant-button>
-                <ant-button class="w65px" type="default" size="small">审核</ant-button>
+            <span :class="statusColors[record.status]" slot="status" slot-scope="record">
+                {{ statusNames[record.status] }}
+            </span>
+            <template slot="operation" slot-scope="record">
+                <ant-button v-if="record.status !== '3'" type="default" size="small" @click="setOperate(record.fundSerial, 3)">审核</ant-button>
+                <ant-button v-if="record.status === '1'" type="danger" size="small" @click="setOperate(record.fundSerial, 5)">驳回</ant-button>
             </template>
         </ant-table>
 
@@ -70,6 +78,8 @@
             @change="handlePageNumChange"
             @showSizeChange="handlePageSizeChange"
         />
+
+        <SecondVerify :is-show="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
     </div>
 </template>
 

@@ -1,3 +1,4 @@
+// 资金模型
 export class FundModel {
     public orderId!: string; // 订单号
     public orderType!: string; // 订单类型

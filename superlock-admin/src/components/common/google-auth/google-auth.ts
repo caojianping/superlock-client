@@ -1,18 +1,21 @@
 import Vue from 'vue';
-import { namespace } from 'vuex-class';
-import { Component, Prop, Model, Watch } from 'vue-property-decorator';
+import { namespace, Mutation } from 'vuex-class';
+import { Component, Prop, Watch } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
-import { Prompt } from '@/ts/common';
+import { Prompt, Token } from '@/ts/common';
 import { LoginFormModel } from '@/ts/models';
 
 const googleModule = namespace('google');
 
 @Component({ name: 'GoogleAuth' })
 export default class GoogleAuth extends Vue {
-    @Model('close', { type: Boolean }) value!: boolean; // v-model
-    @Prop() readonly loginForm!: LoginFormModel; // 登录表单，组件模式下，关键参数不建议使用vuex中数据，建议以参数形式传递
-    @Prop() readonly title!: string; // 标题
+    @Prop() readonly isShow!: boolean;
+    @Prop() readonly title!: string;
+    @Prop() readonly loginForm!: LoginFormModel;
+
+    @Mutation(TYPES.SET_STATES) setRootStates!: (payload: any) => any;
+    @Mutation(TYPES.CLEAR_STATES) clearRootStates!: () => any;
 
     @googleModule.State('googlePlayUrl') googlePlayUrl!: string; // 谷歌支付地址
     @googleModule.State('appStoreUrl') appStoreUrl!: string; // app-store地址
@@ -30,7 +33,7 @@ export default class GoogleAuth extends Vue {
     @googleModule.Action('fetchGoogleKey') fetchGoogleKey!: (loginForm: LoginFormModel) => any;
     @googleModule.Action('bindGoogle') bindGoogle!: (loginForm: LoginFormModel) => any;
 
-    isShow: boolean = this.value; // 是否显示模态框
+    isModalShow: boolean = false; // 是否显示模态框
 
     // 刷新谷歌密钥
     async refreshGoogleKey() {
@@ -47,31 +50,44 @@ export default class GoogleAuth extends Vue {
 
     // 处理模态框cancel事件
     handleModalCancel() {
-        this.$emit('close', false);
+        this.setRootStates({ isSecondVerifyShow: false });
     }
 
     // 提交谷歌认证
     async submit() {
-        let loginForm = this.loginForm;
-        if (loginForm) {
-            try {
-                let result = await this.bindGoogle(loginForm);
-                if (!result) Prompt.error('谷歌认证绑定失败');
-                else {
-                    this.$emit('close', false);
-                    this.$emit('submit', this.gacode);
-                }
-            } catch (error) {
-                Prompt.error(error.message || error);
+        try {
+            let { gacode, loginForm } = this;
+            if (!gacode) {
+                Prompt.error('谷歌验证码不可以为空');
+                return;
             }
+
+            if (!loginForm) {
+                Prompt.error('登录表单不可以为空');
+                return;
+            }
+
+            this.setStates({ isLoading: true });
+            Token.setCode(gacode);
+            let result = await this.bindGoogle(loginForm);
+            this.setStates({ isLoading: false });
+            if (!result) Prompt.error('谷歌认证绑定失败');
+            else {
+                this.setRootStates({ isSecondVerifyShow: false });
+                this.$emit('submit');
+            }
+        } catch (error) {
+            this.setStates({ isLoading: false });
+            Prompt.error(error.message || error);
         }
     }
 
-    @Watch('value')
-    watchValue(value: boolean) {
-        this.isShow = value;
+    @Watch('isShow')
+    watchIsShow(isShow: boolean) {
+        console.log('谷歌认证 watchIsShow', isShow);
+        this.isModalShow = isShow;
         let loginForm = this.loginForm;
-        if (value && loginForm) {
+        if (isShow && loginForm) {
             this.clearStates();
             this.fetchGoogleKey(loginForm);
         }

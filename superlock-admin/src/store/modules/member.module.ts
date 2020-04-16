@@ -24,7 +24,8 @@ const memberState: IMemberState = {
         conditions: {
             uid: '',
             mobileNumber: '',
-            operatorName: ''
+            operatorName: '',
+            parent: ''
         },
         pageNum: 1,
         pageSize: 10
@@ -56,7 +57,8 @@ export default {
                 conditions: {
                     uid: '',
                     mobileNumber: '',
-                    operatorName: ''
+                    operatorName: '',
+                    parent: ''
                 },
                 pageNum: 1,
                 pageSize: 10
@@ -106,10 +108,9 @@ export default {
 
         // 获取利率列表
         async fetchRates(context: IActionContext<IMemberState>): Promise<void> {
-            let { commit, state } = context,
-                parameters = state.parameters;
+            let { commit, state } = context;
             try {
-                let result: PageResult<RateModel> = await memberService.fetchRates(parameters);
+                let result: PageResult<RateModel> = await memberService.fetchRates(state.parameters);
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
                 commit(TYPES.SET_STATES, { totalCount: 0, list: [] });

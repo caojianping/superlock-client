@@ -9,14 +9,17 @@ import { Prompt } from '@/ts/common';
 import { IPageParameters, IFinancePageParameters } from '@/ts/interfaces';
 import { FinanceInterestModel } from '@/ts/models';
 
+import SecondVerify from '@/components/common/second-verify';
+
 const financeModule = namespace('finance');
 
 @Component({
     name: 'FinanceInterest',
-    components: {}
+    components: { SecondVerify }
 })
 export default class FinanceInterest extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
+    @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
     @State('statusColors') statusColors!: any;
     @State('auditColors') auditColors!: any;
@@ -30,7 +33,10 @@ export default class FinanceInterest extends Vue {
     @financeModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @financeModule.Action('fetchFinanceInterests') fetchFinanceInterests!: () => any;
     @financeModule.Action('exportFinanceInterests') exportFinanceInterests!: () => any;
-    @financeModule.Action('setReview') setReviewAction!: (payload: any) => any;
+    @financeModule.Action('setReview') setReview!: (payload: any) => any;
+
+    serial: string = '';
+    status: ReviewStatus = ReviewStatus.Audit;
 
     columns: Array<any> = [
         {
@@ -94,8 +100,8 @@ export default class FinanceInterest extends Vue {
         {
             title: '操作',
             dataIndex: '',
-            key: 'review',
-            scopedSlots: { customRender: 'review' }
+            key: 'operation',
+            scopedSlots: { customRender: 'operation' }
         }
     ];
 
@@ -137,6 +143,29 @@ export default class FinanceInterest extends Vue {
         }
     }
 
+    // 设置审查操作
+    async _setReview(isCode: boolean = false) {
+        try {
+            let { serial, status } = this,
+                result = await this.setReview({ serial, type: ReviewType.Interest, status, isCode });
+            if (!result) Prompt.error('操作失败');
+            else await this.fetchFinanceInterests();
+        } catch (error) {
+            Prompt.error(error.message || error);
+        }
+    }
+
+    // 设置操作
+    async setOperate(serial: string, status: ReviewStatus) {
+        this.setStates({ serial, status });
+        await this._setReview(false);
+    }
+
+    // 处理二次验证submit事件
+    async handleSecondVerifySubmit() {
+        await this._setReview(true);
+    }
+
     // 处理页码change事件
     handlePageNumChange(page: number, pageSize: number) {
         let parameters = Utils.duplicate(this.parameters);
@@ -153,21 +182,6 @@ export default class FinanceInterest extends Vue {
         parameters.pageSize = pageSize;
         this.setStates({ parameters });
         this.fetchFinanceInterests();
-    }
-
-    // 设置审查操作
-    async setReview(serial: string, status: ReviewStatus) {
-        try {
-            let result = await this.setReviewAction({
-                serial,
-                type: ReviewType.Interest,
-                status
-            });
-            if (!result) Prompt.error('操作失败');
-            else await this.fetchFinanceInterests();
-        } catch (error) {
-            Prompt.error(error.message || error);
-        }
     }
 
     created() {

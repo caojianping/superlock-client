@@ -17,7 +17,8 @@
             </header>
             <div class="sl-block-body">
                 <ant-row :gutter="24">
-                    <ant-col :span="6">
+                    {{ ((colSpan = type === 0 ? 6 : 5), void 0) }}
+                    <ant-col :span="colSpan">
                         <ant-form-item label="UID" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
@@ -29,7 +30,7 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="6">
+                    <ant-col :span="colSpan">
                         <ant-form-item label="手机号" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
@@ -41,15 +42,28 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="6">
+                    <ant-col :span="colSpan">
                         <ant-form-item label="用户来源" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-                            <ant-auto-complete
+                            <ant-select
                                 :value="parameters.conditions.operatorName"
-                                :data-source="carrierOptions"
-                                :filterOption="filterOption"
+                                :options="carrierOptions"
+                                showSearch
+                                allowClear
                                 placeholder="请输入用户来源称"
                                 @change="handleFormChange('operatorName', $event)"
-                                @select="handleFormChange('operatorName', $event)"
+                                :filterOption="carrierFilterOption"
+                            ></ant-select>
+                        </ant-form-item>
+                    </ant-col>
+
+                    <ant-col v-if="type !== 0" :span="colSpan">
+                        <ant-form-item label="上级UID" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                            <ant-input
+                                type="text"
+                                :value="parameters.conditions.parent"
+                                allowClear
+                                placeholder="请输入上级UID"
+                                @change="handleFormChange('parent', $event.target.value)"
                             />
                         </ant-form-item>
                     </ant-col>
@@ -119,7 +133,7 @@
 
         <QuotaModal v-model="isQuotaShow" title="添加额度" :broker="currentBroker" @submit="handleQuotaSubmit" />
 
-        <SecondVerify v-model="isSecondVerifyShow" :title="'谷歌验证码'" @submit="handleSecondVerifySubmit" />
+        <SecondVerify :is-show="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
     </div>
 </template>
 

@@ -77,7 +77,7 @@ export default class MemberBrokerChild extends Vue {
     }
 
     created() {
-        let params = this.$route.params,
+        let params: any = this.$route.params || {},
             uid = params.uid,
             parameters = Utils.duplicate(this.parameters);
         this.uid = uid;

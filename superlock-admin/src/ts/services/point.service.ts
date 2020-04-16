@@ -1,17 +1,17 @@
 import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
-import { Urls, CONSTANTS, CaxiosType } from '@/ts/config';
+import { Urls, CaxiosType } from '@/ts/config';
 import { Caxios } from '@/ts/common';
 import { IPageParameters, IPointPageParameters } from '@/ts/interfaces';
 import { PageResult, PointModel, PointAccountModel, PointFormModel, TransferFormModel, PointInfoModel, TransferInfoModel } from '@/ts/models';
 
 export class PointService {
     // 验证上分信息
-    public static validatePointInfo(pointForm: PointFormModel, isCode: boolean): ValidationResult {
+    public static validatePointInfo(pointForm: PointFormModel): ValidationResult {
         if (!pointForm) return { status: false, data: { pointForm: '参数不可以为空' } };
 
-        const key = 'point';
-        let { accountId, coin, value, code } = pointForm,
+        let key = 'point',
+            { accountId, coin, value } = pointForm,
             validator = new Validator();
         validator.addRule(key, { name: 'accountId', value: accountId }, { required: true }, { required: '上分账户ID不可以为空' });
         validator.addRule(key, { name: 'coin', value: coin }, { required: true }, { required: '上分币种不可以为空' });
@@ -21,18 +21,15 @@ export class PointService {
             { required: true, min: 0 },
             { required: '上分数量不可以为空', min: '上分数量不可以小于0' }
         );
-        if (isCode) {
-            validator.addRule(key, { name: 'code', value: code }, { required: true }, { required: '验证码不可以为空' });
-        }
         return validator.execute(key);
     }
 
     // 验证转账信息
-    public static validateTransferInfo(transferForm: TransferFormModel, isCode: boolean): ValidationResult {
+    public static validateTransferInfo(transferForm: TransferFormModel): ValidationResult {
         if (!transferForm) return { status: false, data: { transferForm: '参数不可以为空' } };
 
-        const key = 'transfer';
-        let { fromId, toId, coin, value, code } = transferForm,
+        let key = 'transfer',
+            { fromId, toId, coin, value } = transferForm,
             validator = new Validator();
         validator.addRule(key, { name: 'fromId', value: fromId }, { required: true }, { required: '上分账户ID不可以为空' });
         validator.addRule(key, { name: 'toId', value: toId }, { required: true }, { required: '转账账户ID不可以为空' });
@@ -43,9 +40,6 @@ export class PointService {
             { required: true, min: 0 },
             { required: '转账数量不可以为空', min: '转账数量不可以小于0' }
         );
-        if (isCode) {
-            validator.addRule(key, { name: 'code', value: code }, { required: true }, { required: '验证码不可以为空' });
-        }
         return validator.execute(key);
     }
 
@@ -78,18 +72,16 @@ export class PointService {
 
     // 设置上分信息
     public async setPointInfo(pointForm: PointFormModel, isCode: boolean = false): Promise<boolean> {
-        let result: ValidationResult = PointService.validatePointInfo(pointForm, isCode);
+        let result: ValidationResult = PointService.validatePointInfo(pointForm);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { code } = pointForm;
-        delete pointForm.code;
         await Caxios.post<any>(
             {
-                headers: isCode ? { [CONSTANTS.HEADER_CODE]: code } : {},
                 url: Urls.point.record.setPoint,
                 data: pointForm
             },
-            CaxiosType.FullLoadingToken
+            CaxiosType.FullLoadingToken,
+            isCode
         );
         return true;
     }
@@ -102,18 +94,16 @@ export class PointService {
 
     // 设置转账信息
     public async setTransferInfo(transferForm: TransferFormModel, isCode: boolean = false): Promise<boolean> {
-        let result: ValidationResult = PointService.validateTransferInfo(transferForm, isCode);
+        let result: ValidationResult = PointService.validateTransferInfo(transferForm);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { code } = transferForm;
-        delete transferForm.code;
         await Caxios.post<any>(
             {
-                headers: isCode ? { [CONSTANTS.HEADER_CODE]: code } : {},
                 url: Urls.point.record.setTransfer,
                 data: transferForm
             },
-            CaxiosType.FullLoadingToken
+            CaxiosType.FullLoadingToken,
+            isCode
         );
         return true;
     }

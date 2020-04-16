@@ -35,7 +35,7 @@ export default class ProjectModal extends Vue {
     // 提交锁仓项目信息
     async submit() {
         let projectForm = this.projectForm,
-            result: ValidationResult = LockService.validateProjectForm(projectForm, false, OperationType.Edit);
+            result: ValidationResult = LockService.validateProjectForm(projectForm, OperationType.Edit);
         if (!result.status) {
             Prompt.error(Utils.getFirstValue(result.data));
             return;
@@ -58,7 +58,6 @@ export default class ProjectModal extends Vue {
             projectForm.quota = quota;
             projectForm.rate = rate;
             projectForm.enable = project.enable;
-            projectForm.code = undefined;
             projectForm.originQuota = quota;
             projectForm.originRate = rate;
             this.projectForm = projectForm;

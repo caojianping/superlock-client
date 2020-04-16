@@ -1,16 +1,16 @@
 import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
-import { Urls, CaxiosType, CONSTANTS } from '@/ts/config';
+import { Urls, CaxiosType } from '@/ts/config';
 import { Caxios } from '@/ts/common';
 import { HomeModel, InitInfoFormModel } from '@/ts/models';
 
 export class HomeService {
     // 验证初始信息表单
-    public static validateInitInfoForm(initInfoForm: InitInfoFormModel, isCode: boolean): ValidationResult {
+    public static validateInitInfoForm(initInfoForm: InitInfoFormModel): ValidationResult {
         if (!initInfoForm) return { status: false, data: { initInfoForm: '参数不可以为空' } };
 
-        const key = 'initInfo';
-        let { initialTotalLock, initialRegisteredUser, code } = initInfoForm,
+        let key = 'initInfo',
+            { initialTotalLock, initialRegisteredUser } = initInfoForm,
             validator = new Validator();
         validator.addRule(
             key,
@@ -30,9 +30,6 @@ export class HomeService {
                 min: '初始注册用户不可以小于0'
             }
         );
-        if (isCode) {
-            validator.addRule(key, { name: 'code', value: code }, { required: true }, { required: '验证码不可以为空' });
-        }
         return validator.execute(key);
     }
 
@@ -55,20 +52,20 @@ export class HomeService {
 
     // 获取初始信息数据
     public async setInitInfo(initInfoForm: InitInfoFormModel, isCode: boolean = false): Promise<boolean> {
-        let result: ValidationResult = HomeService.validateInitInfoForm(initInfoForm, isCode);
+        let result: ValidationResult = HomeService.validateInitInfoForm(initInfoForm);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { initialTotalLock, initialRegisteredUser, code } = initInfoForm;
+        let { initialTotalLock, initialRegisteredUser } = initInfoForm;
         await Caxios.post<InitInfoFormModel | null>(
             {
-                headers: isCode ? { [CONSTANTS.HEADER_CODE]: code } : {},
                 url: Urls.home.init.set,
                 data: {
                     initialTotalLock,
                     initialRegisteredUser
                 }
             },
-            CaxiosType.Token
+            CaxiosType.Token,
+            isCode
         );
         return true;
     }

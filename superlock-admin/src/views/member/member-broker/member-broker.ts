@@ -1,13 +1,12 @@
 import Vue from 'vue';
-import { namespace, State } from 'vuex-class';
+import { namespace, State, Action } from 'vuex-class';
 import { Component, Watch } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { ResponseCode } from '@/ts/config';
 import { Prompt } from '@/ts/common';
-import { IPageParameters, IMemberPageParameters } from '@/ts/interfaces';
-import { BrokerModel, BrokerFormModel, RateFormModel, QuotaFormModel, SecondVerifyResult } from '@/ts/models';
+import { IPageParameters, IMemberPageParameters, ISelectOption } from '@/ts/interfaces';
+import { BrokerModel, BrokerFormModel, RateFormModel, QuotaFormModel } from '@/ts/models';
 
 import SecondVerify from '@/components/common/second-verify';
 import BrokerModal from '@/components/member/broker-modal';
@@ -28,8 +27,10 @@ const enum SecondVerifyType {
 })
 export default class MemberBroker extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
+    @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
-    @State('carrierOptions') carrierOptions!: Array<any>;
+    @State('carrierOptions') carrierOptions!: Array<ISelectOption>;
+    @Action('fetchCarrierOptions') fetchCarrierOptions!: () => any;
 
     @memberModule.State('parameters') parameters!: IPageParameters<IMemberPageParameters>;
     @memberModule.State('totalCount') totalCount!: number;
@@ -51,18 +52,15 @@ export default class MemberBroker extends Vue {
     isRateShow: boolean = false;
     isQuotaShow: boolean = false;
     currentBroker: BrokerModel = new BrokerModel();
-
-    isSecondVerifyShow: boolean = false; // 是否显示二次验证
     currentType: SecondVerifyType = SecondVerifyType.Broker; // 当前二次验证类型
 
     columns: Array<any> = [];
 
-    // 处理自动完成组件change事件
-    filterOption(input: string, option: any) {
-        let text = option.componentOptions.children[0].text.toUpperCase(),
-            key = option.key,
-            uinput = input.toUpperCase();
-        return text.indexOf(uinput) > -1 || key.indexOf(uinput) > -1;
+    // 运营商过滤选项
+    carrierFilterOption(input: string, option: any) {
+        let text = option.componentOptions.children[0].text.toLowerCase(),
+            tinput = input.toLowerCase();
+        return text.indexOf(tinput) > -1;
     }
 
     // 处理表单change事件
@@ -104,24 +102,6 @@ export default class MemberBroker extends Vue {
         this.currentType = SecondVerifyType.Quota;
     }
 
-    // 处理页码change事件
-    handlePageNumChange(page: number, pageSize: number) {
-        let parameters = Utils.duplicate(this.parameters);
-        parameters.pageNum = page;
-        parameters.pageSize = pageSize;
-        this.setStates({ parameters });
-        this.fetchBrokers();
-    }
-
-    // 处理页尺寸change事件
-    handlePageSizeChange(current: number, pageSize: number) {
-        let parameters = Utils.duplicate(this.parameters);
-        parameters.pageNum = 1;
-        parameters.pageSize = pageSize;
-        this.setStates({ parameters });
-        this.fetchBrokers();
-    }
-
     // 私有函数：提交券商信息
     async _submitBroker(brokerForm: BrokerFormModel, isCode: boolean) {
         try {
@@ -130,15 +110,7 @@ export default class MemberBroker extends Vue {
             if (!result) Prompt.error('券商添加失败');
             else await this.fetchBrokers();
         } catch (error) {
-            let code = error.code;
-            if (code === ResponseCode.SecondVerify) {
-                let data = error.data as SecondVerifyResult;
-                if (data.verifyMethod === '001') {
-                    this.isSecondVerifyShow = true;
-                }
-            } else {
-                Prompt.error(error.message || error);
-            }
+            Prompt.error(error.message || error);
         }
     }
 
@@ -155,15 +127,7 @@ export default class MemberBroker extends Vue {
             if (!result) Prompt.error('利率设置失败');
             else await this.fetchBrokers();
         } catch (error) {
-            let code = error.code;
-            if (code === ResponseCode.SecondVerify) {
-                let data = error.data as SecondVerifyResult;
-                if (data.verifyMethod === '001') {
-                    this.isSecondVerifyShow = true;
-                }
-            } else {
-                Prompt.error(error.message || error);
-            }
+            Prompt.error(error.message || error);
         }
     }
 
@@ -180,15 +144,7 @@ export default class MemberBroker extends Vue {
             if (!result) Prompt.error('额度添加失败');
             else await this.fetchBrokers();
         } catch (error) {
-            let code = error.code;
-            if (code === ResponseCode.SecondVerify) {
-                let data = error.data as SecondVerifyResult;
-                if (data.verifyMethod === '001') {
-                    this.isSecondVerifyShow = true;
-                }
-            } else {
-                Prompt.error(error.message || error);
-            }
+            Prompt.error(error.message || error);
         }
     }
 
@@ -198,21 +154,33 @@ export default class MemberBroker extends Vue {
     }
 
     // 处理二次验证submit事件
-    async handleSecondVerifySubmit(code: string) {
+    async handleSecondVerifySubmit() {
         let type = this.currentType;
         if (type === SecondVerifyType.Broker) {
-            let brokerForm = Utils.duplicate(this.brokerForm);
-            brokerForm.code = code;
-            await this._submitBroker(brokerForm, true);
+            await this._submitBroker(this.brokerForm, true);
         } else if (type === SecondVerifyType.Rate) {
-            let rateForm = Utils.duplicate(this.rateForm);
-            rateForm.code = code;
-            await this._submitRate(rateForm, true);
+            await this._submitRate(this.rateForm, true);
         } else if (type === SecondVerifyType.Quota) {
-            let quotaForm = Utils.duplicate(this.quotaForm);
-            quotaForm.code = code;
-            await this._submitQuota(quotaForm, true);
+            await this._submitQuota(this.quotaForm, true);
         }
+    }
+
+    // 处理页码change事件
+    handlePageNumChange(page: number, pageSize: number) {
+        let parameters = Utils.duplicate(this.parameters);
+        parameters.pageNum = page;
+        parameters.pageSize = pageSize;
+        this.setStates({ parameters });
+        this.fetchBrokers();
+    }
+
+    // 处理页尺寸change事件
+    handlePageSizeChange(current: number, pageSize: number) {
+        let parameters = Utils.duplicate(this.parameters);
+        parameters.pageNum = 1;
+        parameters.pageSize = pageSize;
+        this.setStates({ parameters });
+        this.fetchBrokers();
     }
 
     // 初始化数据
@@ -313,23 +281,15 @@ export default class MemberBroker extends Vue {
                           dataIndex: 'userSource'
                       },
                       {
+                          title: '上级UID',
+                          dataIndex: 'parent'
+                      },
+                      {
                           title: '账户资产(BCB)',
                           dataIndex: '',
                           key: 'amount',
                           scopedSlots: { customRender: 'amount' }
                       },
-                      //   {
-                      //       title: '总额度(DC)',
-                      //       dataIndex: '',
-                      //       key: 'totalDegree',
-                      //       scopedSlots: { customRender: 'totalDegree' }
-                      //   },
-                      //   {
-                      //       title: '剩余额度(DC)',
-                      //       dataIndex: '',
-                      //       key: 'remainingCredit',
-                      //       scopedSlots: { customRender: 'remainingCredit' }
-                      //   },
                       {
                           title: '个人锁仓总量(BCB)',
                           dataIndex: '',
@@ -367,6 +327,9 @@ export default class MemberBroker extends Vue {
     // 获取数据
     async fetchData() {
         try {
+            if (this.carrierOptions.length <= 0) {
+                await this.fetchCarrierOptions();
+            }
             await this.fetchBrokers();
             await this.fetchProjectTypes();
         } catch (error) {

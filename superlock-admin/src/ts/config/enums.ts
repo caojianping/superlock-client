@@ -18,15 +18,17 @@ export const enum ResponseCode {
 
 // 操作类型
 export const enum OperationType {
-    Add = 1,
-    Edit = 2
+    Add = 1, // 添加
+    Edit = 2 // 编辑
 }
 
 // 审查类型（审核、驳回操作）
 export const enum ReviewType {
     Withdraw = 0, // 提现
-    Interest = 1, // 利息
-    Promote = 2 // 推广
+    Interest = 1, // 利息支出
+    Promote = 2, // 推广奖励
+    Loan = 3, // 贷款订单
+    Rebate = 4 // 返点订单
 }
 
 // 审查状态

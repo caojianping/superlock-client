@@ -1,12 +1,12 @@
 import Vue from 'vue';
-import { namespace } from 'vuex-class';
+import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { ResponseCode, FreeTrialType } from '@/ts/config';
+import { FreeTrialType } from '@/ts/config';
 import { Prompt } from '@/ts/common';
-import { SecondVerifyResult, FreeTrialModel } from '@/ts/models';
+import { FreeTrialModel } from '@/ts/models';
 
 import SecondVerify from '@/components/common/second-verify';
 
@@ -17,14 +17,14 @@ const riskModule = namespace('risk');
     components: { SecondVerify }
 })
 export default class RiskAudit extends Vue {
+    @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
+
     @riskModule.State('type') type!: FreeTrialType;
     @riskModule.State('freeTrial') freeTrial!: FreeTrialModel;
     @riskModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @riskModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @riskModule.Action('fetchFreeTrial') fetchFreeTrial!: () => any;
     @riskModule.Action('setFreeTrial') setFreeTrial!: (isCode: boolean) => any;
-
-    isSecondVerifyShow: boolean = false; // 是否显示二次验证
 
     // 处理表单change事件
     handleFormChange(key: string, value: any) {
@@ -42,23 +42,12 @@ export default class RiskAudit extends Vue {
             if (!result) Prompt.error(`${msg}设置失败`);
             else Prompt.success(`${msg}设置成功`);
         } catch (error) {
-            let code = error.code;
-            if (code === ResponseCode.SecondVerify) {
-                let data = error.data as SecondVerifyResult;
-                if (data.verifyMethod === '001') {
-                    this.isSecondVerifyShow = true;
-                }
-            } else {
-                Prompt.error(error.message || error);
-            }
+            Prompt.error(error.message || error);
         }
     }
 
     // 处理二次验证submit事件
-    async handleSecondVerifySubmit(code: string) {
-        let freeTrial = Utils.duplicate(this.freeTrial);
-        freeTrial.code = code;
-        this.setStates({ freeTrial });
+    async handleSecondVerifySubmit() {
         await this.submit(this.type, true);
     }
 

@@ -1,17 +1,17 @@
 import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
-import { Urls, CONSTANTS, CaxiosType, OperationType } from '@/ts/config';
+import { Urls, CaxiosType, OperationType } from '@/ts/config';
 import { Caxios } from '@/ts/common';
 import { IPageParameters, IRechargePageParameters } from '@/ts/interfaces';
 import { PageResult, RechargeModel, RechargePoundageModel } from '@/ts/models';
 
 export class RechargeService {
     // 验证手续费设置
-    public static validatePoundage(poundage: RechargePoundageModel, isCode: boolean, type: OperationType): ValidationResult {
+    public static validatePoundage(poundage: RechargePoundageModel, type: OperationType): ValidationResult {
         if (!poundage) return { status: false, data: { projectForm: '参数不可以为空' } };
 
-        const key = 'poundage';
-        let { tokenType, type: ptype, feeToken, chargeRate, code } = poundage,
+        let key = 'poundage',
+            { tokenType, type: ptype, feeToken, chargeRate } = poundage,
             validator = new Validator();
         validator.addRule(key, { name: 'tokenType', value: tokenType }, { required: true }, { required: '交易币种不可以为空' });
         if (type === OperationType.Add) {
@@ -28,9 +28,6 @@ export class RechargeService {
                 max: '手续费比例不可以大于100'
             }
         );
-        if (isCode) {
-            validator.addRule(key, { name: 'code', value: code }, { required: true }, { required: '验证码不可以为空' });
-        }
         return validator.execute(key);
     }
 
@@ -55,23 +52,21 @@ export class RechargeService {
         return result || '';
     }
 
-    // 获取手续费设置列表
+    // 获取手续费列表
     public async fetchRechargePoundages(): Promise<Array<RechargePoundageModel>> {
         let result = await Caxios.get<Array<RechargePoundageModel> | null>({ url: Urls.recharge.poundage.list }, CaxiosType.PageLoadingToken);
         if (!result) return [];
         return result as Array<RechargePoundageModel>;
     }
 
-    // 添加手续费设置
+    // 添加手续费
     public async addRechargePoundage(poundage: RechargePoundageModel, isCode: boolean = false): Promise<boolean> {
-        let result: ValidationResult = RechargeService.validatePoundage(poundage, isCode, OperationType.Add);
+        let result: ValidationResult = RechargeService.validatePoundage(poundage, OperationType.Add);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { tokenType, type, feeToken, chargeRate, code } = poundage;
-        delete poundage.code;
+        let { tokenType, type, feeToken, chargeRate } = poundage;
         await Caxios.post<any>(
             {
-                headers: isCode ? { [CONSTANTS.HEADER_CODE]: code } : {},
                 url: Urls.recharge.poundage.add,
                 data: {
                     tokenType,
@@ -80,28 +75,28 @@ export class RechargeService {
                     chargeRate: (chargeRate / 100).toFixed(4)
                 }
             },
-            CaxiosType.FullLoadingToken
+            CaxiosType.FullLoadingToken,
+            isCode
         );
         return true;
     }
 
-    // 更新手续费设置
+    // 更新手续费
     public async updateRechargePoundage(poundage: RechargePoundageModel, isCode: boolean = false): Promise<boolean> {
-        let result: ValidationResult = RechargeService.validatePoundage(poundage, isCode, OperationType.Edit);
+        let result: ValidationResult = RechargeService.validatePoundage(poundage, OperationType.Edit);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { tokenType, chargeRate, code } = poundage;
-        delete poundage.code;
+        let { tokenType, chargeRate } = poundage;
         await Caxios.post<any>(
             {
-                headers: isCode ? { [CONSTANTS.HEADER_CODE]: code } : {},
                 url: Urls.recharge.poundage.update,
                 data: {
                     tokenType,
                     chargeRate: (chargeRate / 100).toFixed(4)
                 }
             },
-            CaxiosType.FullLoadingToken
+            CaxiosType.FullLoadingToken,
+            isCode
         );
         return true;
     }

@@ -1,11 +1,12 @@
 export const CONSTANTS = {
     TIMEOUT: 20000, // 超时时间20秒，单位：毫秒
-    EXPIRES: 2 * 3600 * 1000, // 过期时间2小时
-    TOKEN_INFO: 'TOKEN_INFO', // tokenInfo
+    EXPIRES: 7200000, // 过期时间2小时
 
-    HEADER_NAME: 'name',
-    HEADER_CODE: 'gacode',
-    HEADER_TOKEN: 'token',
+    CACHE_TOKEN_INFO: 'CACHE_TOKEN_INFO', // 缓存tokenInfo
+    CACHE_NAME: 'CACHE_NAME', // 缓存name
+    CACHE_CODE: 'CACHE_CODE', // 缓存code
 
-    CHINA_AREA_CODE: 'cn'
+    HEADER_TOKEN: 'token', // 请求头token
+    HEADER_NAME: 'name', // 请求头name
+    HEADER_CODE: 'gacode' // 请求头code
 };

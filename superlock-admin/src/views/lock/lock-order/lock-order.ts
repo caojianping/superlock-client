@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { namespace, State } from 'vuex-class';
+import { namespace, State, Action } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
@@ -17,7 +17,8 @@ const lockModule = namespace('lock');
 export default class LockOrder extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
-    @State('carrierOptions') carrierOptions!: Array<any>;
+    @State('carrierOptions') carrierOptions!: Array<ISelectOption>;
+    @Action('fetchCarrierOptions') fetchCarrierOptions!: () => any;
 
     @lockModule.State('statusOptions') statusOptions!: Array<ISelectOption>;
     @lockModule.State('lockParameters') lockParameters!: IPageParameters<ILockPageParameters>;
@@ -103,17 +104,15 @@ export default class LockOrder extends Vue {
         }
     ];
 
-    // 处理自动完成组件change事件
-    filterOption(input: string, option: any) {
-        let text = option.componentOptions.children[0].text.toUpperCase(),
-            key = option.key,
-            uinput = input.toUpperCase();
-        return text.indexOf(uinput) > -1 || key.indexOf(uinput) > -1;
+    // 运营商过滤选项
+    carrierFilterOption(input: string, option: any) {
+        let text = option.componentOptions.children[0].text.toLowerCase(),
+            tinput = input.toLowerCase();
+        return text.indexOf(tinput) > -1;
     }
 
     // 处理表单change事件
     handleFormChange(key: string, value: string) {
-        console.log('key,value:', key, value);
         let lockParameters = Utils.duplicate(this.lockParameters);
         lockParameters.conditions[key] = value;
         this.setStates({ lockParameters });
@@ -131,7 +130,6 @@ export default class LockOrder extends Vue {
     async search() {
         try {
             let lockParameters = Utils.duplicate(this.lockParameters);
-            console.log('search:', lockParameters);
             lockParameters.pageNum = 1;
             this.setStates({ lockParameters });
             await this.fetchLocks();
@@ -169,12 +167,20 @@ export default class LockOrder extends Vue {
         this.fetchLocks();
     }
 
+    // 获取数据
+    async fetchData() {
+        if (this.carrierOptions.length <= 0) {
+            await this.fetchCarrierOptions();
+        }
+        await this.fetchLocks();
+    }
+
     created() {
         this.clearStates();
     }
 
     mounted() {
         Utils.jumpTop();
-        this.fetchLocks();
+        this.fetchData();
     }
 }

@@ -399,13 +399,14 @@ function digitZeroize(digit: number): string {
 }
 
 // 数字百分比
-function digitPercent(digit: string | number, precision: number = 2) {
+function digitPercent(digit: string | number, precision: number = 2, isString: boolean = false) {
     if (isNullOrUndefined(digit)) return digit;
 
     let ndigit = Number(digit);
     if (isNaN(ndigit)) return digit;
 
-    return Number((ndigit * 100).toFixed(precision));
+    if (!isString) return Number((ndigit * 100).toFixed(precision));
+    return (ndigit * 100).toFixed(precision);
 }
 
 // 数字精度

@@ -38,7 +38,7 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="7">
+                    <ant-col :span="6">
                         <ant-form-item label="状态" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-select
                                 :value="withdrawParameters.conditions.status"
@@ -77,7 +77,7 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="7">
+                    <ant-col :span="6">
                         <ant-button class="sl-search" type="primary" @click="search">搜索</ant-button>
                     </ant-col>
                 </ant-row>
@@ -107,10 +107,10 @@
             <span :class="auditColors[record.auditStatus]" slot="auditStatus" slot-scope="record">
                 {{ auditNames[record.auditStatus] }}
             </span>
-            <template slot="review" slot-scope="record">
+            <template slot="operation" slot-scope="record">
                 <template v-if="record.status === '0' && record.auditStatus === '1'">
-                    <ant-button type="default" size="small" @click="setReview(record.serial, 3)">审核</ant-button>
-                    <ant-button type="danger" size="small" @click="setReview(record.serial, 5)">驳回</ant-button>
+                    <ant-button type="default" size="small" @click="setOperate(record.serial, 3)">审核</ant-button>
+                    <ant-button type="danger" size="small" @click="setOperate(record.serial, 5)">驳回</ant-button>
                 </template>
             </template>
         </ant-table>
@@ -126,6 +126,8 @@
             @change="handlePageNumChange"
             @showSizeChange="handlePageSizeChange"
         />
+
+        <SecondVerify :is-show="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
     </div>
 </template>
 

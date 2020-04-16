@@ -124,7 +124,7 @@ export const Urls = {
     },
     // 运营商模块 ok
     carrier: {
-        names: `${baseUrl}/carrier/names`,
+        cache: `${baseUrl}/carrier/cache`,
         list: {
             list: `${baseUrl}/carrier/list`,
             add: `${baseUrl}/carrier/add`,

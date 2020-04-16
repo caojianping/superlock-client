@@ -1,12 +1,11 @@
 import Vue from 'vue';
-import { namespace } from 'vuex-class';
+import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { ResponseCode } from '@/ts/config';
 import { Prompt } from '@/ts/common';
-import { SecondVerifyResult, LoginFormModel } from '@/ts/models';
+import { LoginFormModel } from '@/ts/models';
 
 import GoogleAuth from '@/components/common/google-auth';
 import SecondVerify from '@/components/common/second-verify';
@@ -18,12 +17,13 @@ const loginModule = namespace('login');
     components: { GoogleAuth, SecondVerify }
 })
 export default class Login extends Vue {
+    @State('isGoogleAuthShow') isGoogleAuthShow!: boolean;
+    @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
+
     @loginModule.State('loginForm') loginForm!: LoginFormModel;
     @loginModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
+    @loginModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @loginModule.Action('login') login!: (isCode: boolean) => any;
-
-    isGoogleAuthShow: boolean = false; // 是否显示谷歌认证
-    isSecondVerifyShow: boolean = false; // 是否显示二次验证
 
     // 处理表单change事件
     handleFormChange(key: string, event: any) {
@@ -32,43 +32,28 @@ export default class Login extends Vue {
         this.setStates({ loginForm });
     }
 
-    // 提交登录信息
+    // 提交登录表单
     async submit(isCode: boolean) {
         try {
-            await this.login(isCode);
-            this.$router.push({ path: '/home' });
+            let result = await this.login(isCode);
+            if (!result) Prompt.error('登录失败');
+            else this.$router.push({ path: '/home' });
         } catch (error) {
-            let code = error.code;
-            if (code === ResponseCode.GoogleAuth) {
-                this.isGoogleAuthShow = true;
-            } else if (code === ResponseCode.SecondVerify) {
-                let data = error.data as SecondVerifyResult;
-                if (data.verifyMethod === '001') {
-                    this.isSecondVerifyShow = true;
-                }
-            } else {
-                Prompt.error(error.message || error);
-            }
+            Prompt.error(error.message || error);
         }
     }
 
     // 处理谷歌认证submit事件
-    handleGoogleAuthSubmit(code: string) {
-        let loginForm = this.loginForm;
-        loginForm.code = code;
-        this.setStates({ loginForm });
+    handleGoogleAuthSubmit() {
         this.$router.push({ path: '/home' });
     }
 
     // 处理二次验证submit事件
-    async handleSecondVerifySubmit(code: string) {
-        let loginForm = this.loginForm;
-        loginForm.code = code;
-        this.setStates({ loginForm });
+    async handleSecondVerifySubmit() {
         await this.submit(true);
     }
 
-    // 用户名获取焦点
+    // 用户名称获取焦点
     usernameFocus() {
         let self = this;
         self.$nextTick(function() {

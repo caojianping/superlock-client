@@ -1,26 +1,15 @@
 <template>
-    <ant-modal
-        v-model="isShow"
-        :title="title"
-        :footer="null"
-        @cancel="handleModalCancel"
-    >
+    <ant-modal v-model="isShow" :title="title" :footer="null" @cancel="handleModalCancel">
         <div>
             <ant-row :gutter="24">
                 <ant-col :span="20">
-                    <ant-form-item
-                        label="UID"
-                        :label-col="{ span: 8 }"
-                        :wrapper-col="{ span: 16 }"
-                    >
+                    <ant-form-item label="UID" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                         <ant-input
                             type="text"
                             :value="rateForm.uid"
                             allowClear
                             placeholder="请输入UID"
-                            @change="
-                                handleFormChange('uid', $event.target.value)
-                            "
+                            @change="handleFormChange('uid', $event.target.value)"
                             @keyup.enter="submit"
                         />
                     </ant-form-item>
@@ -29,11 +18,7 @@
 
             <ant-row :gutter="24">
                 <ant-col :span="20">
-                    <ant-form-item
-                        label="项目类型"
-                        :label-col="{ span: 8 }"
-                        :wrapper-col="{ span: 16 }"
-                    >
+                    <ant-form-item label="项目类型" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                         <ant-select
                             :value="rateForm.type"
                             :options="projectOptions"
@@ -47,11 +32,7 @@
 
             <ant-row :gutter="24">
                 <ant-col :span="20">
-                    <ant-form-item
-                        label="利率(%)"
-                        :label-col="{ span: 8 }"
-                        :wrapper-col="{ span: 16 }"
-                    >
+                    <ant-form-item label="利率(%)" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                         <ant-input-number
                             :value="rateForm.rate"
                             :min="0"
@@ -66,9 +47,7 @@
             </ant-row>
 
             <ant-row :gutter="24">
-                <ant-button class="sl-submit" type="primary" @click="submit"
-                    >保存</ant-button
-                >
+                <ant-button class="sl-submit" type="primary" @click="submit">保存</ant-button>
             </ant-row>
         </div>
     </ant-modal>

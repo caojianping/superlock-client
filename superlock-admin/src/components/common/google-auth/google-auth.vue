@@ -1,12 +1,5 @@
 <template>
-    <ant-modal
-        v-model="isShow"
-        :title="title"
-        :width="700"
-        :footer="null"
-        :style="{ top: '32px' }"
-        @cancel="handleModalCancel"
-    >
+    <ant-modal v-model="isModalShow" :title="title" :width="700" :footer="null" :style="{ top: '32px' }" @cancel="handleModalCancel">
         <ul class="steps">
             <li class="step-item flex">
                 <div class="step-number">第一步</div>
@@ -57,14 +50,7 @@
                             @change="handleFormChange('gacode', $event)"
                             @keyup.enter="submit"
                         ></ant-input>
-                        <ant-button
-                            class="gacode-btn"
-                            type="primary"
-                            :disabled="isDisabled"
-                            :loading="isLoading"
-                            @click="submit"
-                            >确定</ant-button
-                        >
+                        <ant-button class="gacode-btn" type="primary" :disabled="isDisabled" :loading="isLoading" @click="submit">确定</ant-button>
                     </div>
                 </div>
             </li>

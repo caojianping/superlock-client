@@ -4,13 +4,6 @@ import { PageResult, RechargeModel, RechargePoundageModel } from '@/ts/models';
 import { RechargeService } from '@/ts/services';
 
 const rechargeState: IRechargeState = {
-    coinOptions: [
-        { label: '全部', value: '' },
-        { label: 'BCB', value: 'BCB' },
-        { label: 'DC', value: 'DC' },
-        { label: 'USDT', value: 'USDT' },
-        { label: 'USDTERC', value: 'USDTERC' }
-    ],
     parameters: {
         conditions: {
             uid: '',
@@ -60,10 +53,9 @@ export default {
     actions: {
         // 获取充值列表
         async fetchRecharges(context: IActionContext<IRechargeState>): Promise<void> {
-            let { commit, state } = context,
-                parameters = state.parameters;
+            let { commit, state } = context;
             try {
-                let result: PageResult<RechargeModel> = await rechargeService.fetchRecharges(parameters);
+                let result: PageResult<RechargeModel> = await rechargeService.fetchRecharges(state.parameters);
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
                 commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
@@ -71,7 +63,7 @@ export default {
             }
         },
 
-        // 导出充值记录
+        // 导出充值列表
         async exportRecharges(context: IActionContext<IRechargeState>): Promise<string> {
             return await rechargeService.exportRecharges(context.state.parameters);
         },

@@ -64,7 +64,7 @@
 
         <ProjectModal v-model="isShow" title="锁仓项目修改" :project="currentProject" @submit="handleProjectSubmit" />
 
-        <SecondVerify v-model="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
+        <SecondVerify :is-show="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
     </div>
 </template>
 

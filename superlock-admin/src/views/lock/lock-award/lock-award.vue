@@ -71,9 +71,7 @@
                                         <th>达标日销数量（DC）</th>
                                         <th>达标返奖利率(%)</th>
                                         <th>
-                                            <ant-button type="default" size="small" @click="addDailySale"
-                                                >添加</ant-button
-                                            >
+                                            <ant-button type="default" size="small" @click="addDailySale">添加</ant-button>
                                         </th>
                                     </tr>
                                 </thead>
@@ -100,9 +98,7 @@
                                             />
                                         </td>
                                         <td>
-                                            <ant-button type="danger" size="small" @click="removeDailySale(index)"
-                                                >删除</ant-button
-                                            >
+                                            <ant-button type="danger" size="small" @click="removeDailySale(index)">删除</ant-button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -117,7 +113,7 @@
             </div>
         </div>
 
-        <SecondVerify v-model="isSecondVerifyShow" :title="'谷歌验证码'" @submit="handleSecondVerifySubmit" />
+        <SecondVerify :is-show="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
     </div>
 </template>
 

@@ -36,7 +36,7 @@ export default class PoundageModal extends Vue {
     // 提交手续费信息
     async submit() {
         let { type, rechargePoundage } = this,
-            result: ValidationResult = RechargeService.validatePoundage(rechargePoundage, false, type);
+            result: ValidationResult = RechargeService.validatePoundage(rechargePoundage, type);
         if (!result.status) {
             Prompt.error(Utils.getFirstValue(result.data));
             return;
@@ -52,7 +52,6 @@ export default class PoundageModal extends Vue {
         if (value) {
             let type = this.type,
                 rechargePoundage = new RechargePoundageModel();
-            rechargePoundage.code = undefined;
             this.title = ['新增手续费设置', '修改手续费设置'][type - 1];
             if (type === OperationType.Edit) {
                 let poundage = this.poundage;

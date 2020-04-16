@@ -89,12 +89,12 @@
             <span :class="auditColors[record.auditStatus]" slot="auditStatus" slot-scope="record">
                 {{ auditNames[record.auditStatus] }}
             </span>
-            <template slot="review" slot-scope="record">
+            <template slot="operation" slot-scope="record">
                 <template v-if="record.status === '0'">
-                    <ant-button v-if="record.auditStatus !== '3'" type="default" size="small" @click="setReview(record.fundSerial, 3)"
+                    <ant-button v-if="record.auditStatus !== '3'" type="default" size="small" @click="setOperate(record.fundSerial, 3)"
                         >审核</ant-button
                     >
-                    <ant-button v-if="record.auditStatus === '1'" type="danger" size="small" @click="setReview(record.fundSerial, 5)"
+                    <ant-button v-if="record.auditStatus === '1'" type="danger" size="small" @click="setOperate(record.fundSerial, 5)"
                         >驳回</ant-button
                     >
                 </template>
@@ -112,6 +112,8 @@
             @change="handlePageNumChange"
             @showSizeChange="handlePageSizeChange"
         />
+
+        <SecondVerify :is-show="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
     </div>
 </template>
 

@@ -17,8 +17,8 @@ const rechargeModule = namespace('recharge');
 export default class RechargeOrder extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
+    @State('coinOptions') coinOptions!: Array<ISelectOption>;
 
-    @rechargeModule.State('coinOptions') coinOptions!: Array<ISelectOption>;
     @rechargeModule.State('parameters') parameters!: IPageParameters<IRechargePageParameters>;
     @rechargeModule.State('totalCount') totalCount!: number;
     @rechargeModule.State('list') list!: Array<RechargeModel>;
