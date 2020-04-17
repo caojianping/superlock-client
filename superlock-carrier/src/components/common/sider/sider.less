@@ -1,0 +1,89 @@
+@import '../../../less/vars.less';
+@import '../../../less/mixins.less';
+
+.sider {
+    position: fixed;
+    top: @header-height;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    display: block;
+    width: @menu-width;
+    background-color: #2f323a;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    &::-webkit-scrollbar-track {
+        background-color: rgb(239, 239, 239);
+        border-radius: 2px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: #bfbfbf;
+        border-radius: 10px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: #999;
+    }
+    &::-webkit-scrollbar-corner {
+        background-color: transparent;
+    }
+
+    .menus {
+        padding: 60px 0;
+
+        .menu-item {
+            .menu-link {
+                display: block;
+                padding: 0 24px;
+                height: @menu-height;
+                .font-styles(14px, normal, @menu-height, #cbcbcb, left);
+                text-decoration: none;
+                background-color: #2f323a;
+
+                &:hover {
+                    color: @lightgreen;
+                }
+
+                span {
+                    margin-left: 12px !important;
+                }
+
+                &.active {
+                    color: white;
+                    background-color: @lightgreen;
+                }
+
+                .anticon {
+                    float: right;
+                    margin-top: 21px;
+                    font-size: 12px;
+                }
+            }
+
+            .submenus {
+                .submenu-item {
+                    .submenu-link {
+                        display: block;
+                        width: 100%;
+                        height: 40px;
+                        .font-styles(12px, normal, 40px, white, left);
+                        text-indent: 56px;
+                        text-decoration: none;
+                        background-color: #222;
+
+                        &.active {
+                            color: @lightgreen;
+                        }
+
+                        &:hover {
+                            color: @lightgreen;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

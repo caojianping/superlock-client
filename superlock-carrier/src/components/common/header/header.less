@@ -1,0 +1,49 @@
+@import '../../../less/vars.less';
+@import '../../../less/mixins.less';
+
+.header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1;
+    display: block;
+    height: @header-height;
+    background-color: #22242a;
+
+    .logo {
+        display: block;
+        float: left;
+        margin: 12px 0 0 48px;
+        width: 99px;
+        height: 32px;
+
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .welcome,
+    .logout {
+        float: right;
+        .font-styles(14px, normal, @header-height, white, center);
+    }
+
+    .logout {
+        margin-right: 48px;
+
+        span {
+            margin-left: 8px;
+            vertical-align: middle;
+
+            &:hover {
+                color: @lightgreen;
+            }
+        }
+    }
+
+    .welcome {
+        margin-right: 96px;
+    }
+}

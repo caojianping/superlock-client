@@ -1,0 +1,65 @@
+@import './vars.less';
+@import './mixins.less';
+
+// icon样式
+.icon {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% 100%;
+
+    &.icon-home {
+        background-image: url('../assets/images/icon/icon-home.png');
+
+        &.active {
+            background-image: url('../assets/images/icon/icon-home-active.png');
+        }
+    }
+
+    &.icon-lock {
+        background-image: url('../assets/images/icon/icon-lock.png');
+
+        &.active {
+            background-image: url('../assets/images/icon/icon-lock-active.png');
+        }
+    }
+
+    &.icon-finance {
+        background-image: url('../assets/images/icon/icon-finance.png');
+
+        &.active {
+            background-image: url('../assets/images/icon/icon-finance-active.png');
+        }
+    }
+
+    &.icon-member {
+        background-image: url('../assets/images/icon/icon-member.png');
+
+        &.active {
+            background-image: url('../assets/images/icon/icon-member-active.png');
+        }
+    }
+
+    &.icon-carrier {
+        background-image: url('../assets/images/icon/icon-carrier.png');
+
+        &.active {
+            background-image: url('../assets/images/icon/icon-carrier-active.png');
+        }
+    }
+
+    &.icon-system {
+        background-image: url('../assets/images/icon/icon-system.png');
+
+        &.active {
+            background-image: url('../assets/images/icon/icon-system-active.png');
+        }
+    }
+
+    &.icon-logout {
+        background-image: url('../assets/images/icon/icon-logout.png');
+    }
+}

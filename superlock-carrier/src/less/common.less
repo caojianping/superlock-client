@@ -1,0 +1,219 @@
+@import './vars.less';
+@import './mixins.less';
+
+// 清除浮动样式
+.clearfix {
+    *zoom: 1;
+
+    &:after {
+        display: block;
+        height: 0;
+        content: '';
+        clear: both;
+        visibility: hidden;
+        overflow: hidden;
+    }
+}
+
+.fl {
+    float: left !important;
+}
+
+.fr {
+    float: right !important;
+}
+
+// flex布局
+.flex {
+    display: flex !important;
+}
+
+// 显示、消失样式
+.show {
+    display: block !important;
+}
+
+.hide {
+    display: none !important;
+}
+
+// 字段对齐样式
+.text-left {
+    text-align: left !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+// 文本颜色样式
+.text-green {
+    color: @lightgreen;
+}
+
+.text-red {
+    color: #ff523b;
+}
+
+.text-grey {
+    color: #999;
+}
+
+.text-black {
+    color: @black;
+}
+
+// 内外边距、宽高等样式
+.mt32px {
+    margin-top: 32px;
+}
+
+.mt4px {
+    margin-top: 4px;
+}
+
+.w65px {
+    width: 65px !important;
+}
+
+.w80px {
+    width: 80px !important;
+}
+
+.w100px {
+    display: inline-block;
+    .text-ellipse(100px);
+}
+
+// superlock全局通用样式，带sl前缀
+.sl-spin.ant-spin-nested-loading {
+    height: 100%;
+
+    & > div > .ant-spin {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 9999;
+        margin-top: -60px;
+        margin-left: -60px;
+        width: 120px;
+        height: 120px;
+        color: white;
+        border-radius: 4px;
+        background-color: rgba(50, 50, 50, 0.88);
+
+        .ant-spin-dot i {
+            color: white;
+            background-color: white;
+        }
+    }
+
+    .ant-spin-container {
+        height: 100%;
+        opacity: 1;
+    }
+}
+
+.sl-container {
+    padding: 0 24px 16px;
+    min-width: 900px;
+}
+
+.sl-breadcrumb {
+    margin: 0 -24px 16px;
+    padding: 9.5px 24px;
+    background-color: white;
+
+    .ant-breadcrumb-link > a {
+        color: @lightgreen;
+    }
+}
+
+.sl-block {
+    .sl-block-header {
+        padding: 16px 0;
+
+        .sl-block-title {
+            padding-left: 8px;
+            .font-styles(18px, normal, 1, @black, left);
+            border-left: 4px solid @lightgreen;
+        }
+    }
+
+    .sl-block-body {
+        padding: 24px 0 0;
+        min-width: 1050px;
+        background-color: white;
+        border: 1px solid #eee;
+
+        label {
+            color: @gray;
+        }
+    }
+}
+
+.sl-form {
+    margin: 96px auto 64px;
+    width: 650px;
+    background-color: white;
+    border: 1px solid #eee;
+
+    &.large {
+        width: 850px;
+    }
+
+    .sl-form-header {
+        padding: 29px 0 32px 31px;
+
+        .sl-form-title {
+            padding-left: 8px;
+            .font-styles(18px, normal, 1, @black, left);
+            border-left: 4px solid @lightgreen;
+        }
+    }
+
+    .sl-form-body {
+        padding: 32px 0 48px;
+
+        label {
+            color: @deepgray;
+        }
+    }
+}
+
+.sl-tip {
+    padding-left: 0 !important;
+    height: 36px;
+    .font-styles(12px, normal, 36px, @gray, left);
+}
+
+.sl-search,
+.sl-tool,
+.sl-submit {
+    width: 90px;
+    height: 36px;
+    font-size: 14px;
+    line-height: 34px;
+}
+
+.sl-search {
+    margin-top: 2px;
+    margin-left: 32px;
+}
+
+.sl-tool {
+    margin: 32px 8px 24px 0;
+
+    &.large {
+        width: 100px;
+    }
+}
+
+.sl-submit {
+    display: block;
+    margin: 16px auto;
+}

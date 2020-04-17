@@ -1,0 +1,72 @@
+@import '../../less/vars.less';
+@import '../../less/mixins.less';
+
+.login {
+    width: 100%;
+    min-width: 900px;
+    height: 100%;
+    min-height: 650px;
+    background: white url('../../assets/images/login/login-bg.png') no-repeat center bottom;
+    background-size: 100% auto;
+
+    .login-main {
+        margin: auto;
+
+        .login-title {
+            padding: 120px 0 32px;
+            .font-styles(40px, bold, 1.5, @black, center);
+        }
+
+        .login-content {
+            display: flex;
+            margin: auto;
+            width: 700px;
+            background-color: white;
+            .box-shadow(0 0 32px 0 rgba(197, 197, 197, 0.5));
+
+            .login-banner,
+            .login-form {
+                width: 350px;
+                height: 350px;
+            }
+
+            .login-banner {
+                background: @green url('../../assets/images/login/login-banner.png') no-repeat center center;
+                background-size: 250px 160px;
+            }
+
+            .login-form {
+                display: block;
+                padding: 0 32px;
+
+                li {
+                    margin: 12px 0;
+
+                    &:first-child {
+                        padding: 16px 0 4px;
+                        .font-styles(26px, normal, 1, #111, left);
+                    }
+
+                    label {
+                        display: block;
+                        padding: 4px 0;
+                        .font-styles(14px, normal, 1.2, @black, left);
+                    }
+
+                    .ant-btn.ant-btn-primary {
+                        margin-top: 16px;
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+
+    @media screen {
+        @media (max-height: 750px) {
+            .login-main > .login-title {
+                padding: 56px 0 32px;
+            }
+        }
+    }
+}
