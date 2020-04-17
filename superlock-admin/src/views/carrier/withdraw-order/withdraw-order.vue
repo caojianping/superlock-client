@@ -24,8 +24,8 @@
                             />
                         </ant-form-item>
                     </ant-col>
-                    <ant-col :span="7">
-                        <ant-form-item label="到账地址" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                    <ant-col :span="9">
+                        <ant-form-item label="到账地址" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
                             <ant-input
                                 type="text"
                                 :value="withdrawParameters.conditions.address"
@@ -36,7 +36,7 @@
                         </ant-form-item>
                     </ant-col>
                     <ant-col :span="7">
-                        <ant-form-item label="运营商名称" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                        <ant-form-item label="运营商名称" :label-col="{ span: 7 }" :wrapper-col="{ span: 17 }">
                             <ant-select
                                 :value="withdrawParameters.conditions.carrierId"
                                 :options="carrierOptions"
@@ -63,8 +63,8 @@
                             ></ant-select>
                         </ant-form-item>
                     </ant-col>
-                    <ant-col :span="10">
-                        <ant-form-item label="选择时间" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                    <ant-col :span="9">
+                        <ant-form-item label="选择时间" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
                             {{ ((beginTime = withdrawParameters.conditions.beginTime), void 0) }}
                             {{ ((endTime = withdrawParameters.conditions.endTime), void 0) }}
                             <ant-range-picker

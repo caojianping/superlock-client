@@ -26,7 +26,7 @@
                     </ant-col>
 
                     <ant-col :span="9">
-                        <ant-form-item label="订单状态" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                        <ant-form-item label="订单状态" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
                             <ant-select
                                 class="sl-select"
                                 :value="lockParameters.conditions.status"
@@ -67,7 +67,7 @@
                     </ant-col>
 
                     <ant-col :span="9">
-                        <ant-form-item label="选择时间" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                        <ant-form-item label="选择时间" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
                             {{ ((beginTime = lockParameters.conditions.beginTime), void 0) }}
                             {{ ((endTime = lockParameters.conditions.endTime), void 0) }}
                             <ant-range-picker

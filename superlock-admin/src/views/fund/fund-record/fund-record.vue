@@ -25,8 +25,8 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="7">
-                        <ant-form-item label="交易币种" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                    <ant-col :span="9">
+                        <ant-form-item label="交易币种" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
                             <ant-select
                                 :value="parameters.conditions.coinCode"
                                 :options="coinOptions"
@@ -63,7 +63,7 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="10">
+                    <ant-col :span="9">
                         <ant-form-item label="选择时间" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
                             {{ ((beginTime = parameters.conditions.beginTime), void 0) }}
                             {{ ((endTime = parameters.conditions.endTime), void 0) }}

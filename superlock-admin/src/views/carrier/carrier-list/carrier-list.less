@@ -1,2 +1,12 @@
 @import '../../../less/vars.less';
 @import '../../../less/mixins.less';
+
+/deep/ .ant-table table {
+    min-width: 1300px !important;
+
+    thead > tr > th:last-child,
+    tbody > tr > td:last-child {
+        padding: 0 0 0 4px;
+        width: 235px;
+    }
+}

@@ -1,7 +1,7 @@
 // 下拉列表选项
 export interface ISelectOption {
-    label: string;
-    value: string | number;
+    label: string; // 标签
+    value: string | number; // 数值
 }
 
 // 分页参数
@@ -88,9 +88,9 @@ export interface IMemberPageParameters {
 
 // 上分分页参数
 export interface IPointPageParameters {
-    uid: string;
-    beginTime: string;
-    endTime: string;
+    uid: string; // UID
+    beginTime: string; // 开始时间
+    endTime: string; // 结束时间
 }
 
 // 返点订单分页参数

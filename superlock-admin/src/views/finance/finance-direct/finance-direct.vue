@@ -26,7 +26,7 @@
                     </ant-col>
 
                     <ant-col :span="6">
-                        <ant-form-item label="UID" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
+                        <ant-form-item label="UID" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
                                 :value="parameters.conditions.uid"
@@ -51,7 +51,7 @@
                     </ant-col>
 
                     <ant-col :span="3">
-                        <ant-button class="sl-search" type="primary" @click="search">搜索</ant-button>
+                        <ant-button class="sl-search" type="primary" @click="search" style="margin-left: 0">搜索</ant-button>
                     </ant-col>
                 </ant-row>
             </div>

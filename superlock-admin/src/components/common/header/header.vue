@@ -1,7 +1,7 @@
 <template>
     <header class="header">
         <a class="logo" href="/home">
-            <img src="@/assets/images/logo.png" alt="锁仓宝" />
+            <img src="@/assets/logo.png" alt="锁仓宝" />
         </a>
 
         <a class="logout" href="javascript: void(0)" @click="logout">

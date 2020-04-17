@@ -31,13 +31,11 @@
                                 type="text"
                                 :value="transferParameters.conditions.to"
                                 allowClear
-                                placeholder="请输入转账UID"
+                                placeholder="请输入到账UID"
                                 @change="handleFormChange('to', $event.target.value)"
                             />
                         </ant-form-item>
                     </ant-col>
-
-                    <ant-col :span="8"></ant-col>
                 </ant-row>
 
                 <ant-row :gutter="24">

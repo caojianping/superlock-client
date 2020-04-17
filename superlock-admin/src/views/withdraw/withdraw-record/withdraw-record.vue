@@ -25,8 +25,8 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="10">
-                        <ant-form-item label="创建时间" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                    <ant-col :span="9">
+                        <ant-form-item label="创建时间" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
                             {{ ((createBeginTime = withdrawParameters.conditions.createBeginTime), void 0) }}
                             {{ ((createEndTime = withdrawParameters.conditions.createEndTime), void 0) }}
                             <ant-range-picker
@@ -38,7 +38,7 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="6">
+                    <ant-col :span="7">
                         <ant-form-item label="状态" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-select
                                 :value="withdrawParameters.conditions.status"
@@ -64,8 +64,8 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="10">
-                        <ant-form-item label="完结时间" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                    <ant-col :span="9">
+                        <ant-form-item label="完结时间" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
                             {{ ((finishBeginTime = withdrawParameters.conditions.finishBeginTime), void 0) }}
                             {{ ((finishEndTime = withdrawParameters.conditions.finishEndTime), void 0) }}
                             <ant-range-picker
@@ -77,7 +77,7 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="6">
+                    <ant-col :span="7">
                         <ant-button class="sl-search" type="primary" @click="search">搜索</ant-button>
                     </ant-col>
                 </ant-row>

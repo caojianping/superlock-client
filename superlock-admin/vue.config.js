@@ -1,4 +1,6 @@
 module.exports = {
+    publicPath: './',
+    lintOnSave: false,
     pwa: {
         iconPaths: {
             favicon32: 'favicon.ico',
@@ -20,8 +22,6 @@ module.exports = {
             }
         }
     },
-    lintOnSave: false,
-    publicPath: './',
     devServer: {
         host: 'localhost',
         port: 10002,

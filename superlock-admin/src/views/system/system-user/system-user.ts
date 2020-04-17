@@ -226,10 +226,10 @@ export default class SystemUser extends Vue {
         this.fetchUsers();
     }
 
-    // 获取数据
-    async fetchData() {
-        await this.fetchRoles();
-        await this.fetchUsers();
+    // 获取数据，并发获取
+    fetchData() {
+        this.fetchRoles();
+        this.fetchUsers();
     }
 
     created() {

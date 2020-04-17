@@ -51,7 +51,7 @@
                     </ant-col>
 
                     <ant-col :span="3">
-                        <ant-button class="sl-search" type="primary" @click="search">搜索</ant-button>
+                        <ant-button class="sl-search" type="primary" @click="search" style="margin-left: 0">搜索</ant-button>
                     </ant-col>
                 </ant-row>
             </div>

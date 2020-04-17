@@ -24,7 +24,7 @@
                             />
                         </ant-form-item>
                     </ant-col>
-                    <ant-col :span="12">
+                    <ant-col :span="10">
                         <ant-form-item label="选择时间" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             {{ ((beginTime = flashParameters.conditions.beginTime), void 0) }}
                             {{ ((endTime = flashParameters.conditions.endTime), void 0) }}
@@ -50,7 +50,7 @@
                             ></ant-select>
                         </ant-form-item>
                     </ant-col>
-                    <ant-col :span="8">
+                    <ant-col :span="10">
                         <ant-form-item label="运营商名称" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-select
                                 :value="flashParameters.conditions.carrierId"
@@ -63,7 +63,7 @@
                             ></ant-select>
                         </ant-form-item>
                     </ant-col>
-                    <ant-col :span="4">
+                    <ant-col :span="6">
                         <ant-button class="sl-search" type="primary" @click="search">搜索</ant-button>
                     </ant-col>
                 </ant-row>

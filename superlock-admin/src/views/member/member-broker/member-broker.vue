@@ -17,8 +17,7 @@
             </header>
             <div class="sl-block-body">
                 <ant-row :gutter="24">
-                    {{ ((colSpan = type === 0 ? 6 : 5), void 0) }}
-                    <ant-col :span="colSpan">
+                    <ant-col :span="type === 0 ? 7 : 5">
                         <ant-form-item label="UID" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
@@ -30,7 +29,7 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="colSpan">
+                    <ant-col :span="type === 0 ? 7 : 5">
                         <ant-form-item label="手机号" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
@@ -42,22 +41,22 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="colSpan">
-                        <ant-form-item label="用户来源" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                    <ant-col :span="type === 0 ? 7 : 6">
+                        <ant-form-item label="用户来源" :label-col="{ span: 7 }" :wrapper-col="{ span: 17 }">
                             <ant-select
                                 :value="parameters.conditions.operatorName"
                                 :options="carrierOptions"
                                 showSearch
                                 allowClear
-                                placeholder="请输入用户来源称"
+                                placeholder="请输入用户来源"
                                 @change="handleFormChange('operatorName', $event)"
                                 :filterOption="carrierFilterOption"
                             ></ant-select>
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col v-if="type !== 0" :span="colSpan">
-                        <ant-form-item label="上级UID" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                    <ant-col v-if="type !== 0" :span="5">
+                        <ant-form-item label="上级UID" :label-col="{ span: 7 }" :wrapper-col="{ span: 17 }">
                             <ant-input
                                 type="text"
                                 :value="parameters.conditions.parent"
@@ -68,8 +67,8 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="4">
-                        <ant-button class="sl-search" type="primary" @click="search">搜索</ant-button>
+                    <ant-col :span="3">
+                        <ant-button class="sl-search" type="primary" @click="search" style="margin-left: 0">搜索</ant-button>
                     </ant-col>
                 </ant-row>
             </div>

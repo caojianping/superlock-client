@@ -7,7 +7,14 @@
             </ant-breadcrumb-item>
         </ant-breadcrumb>
 
-        <ant-table :columns="columns" :rowKey="record => record.accountId" :dataSource="list" :pagination="false" :loading="isPageLoading" />
+        <ant-table
+            class="mt32px"
+            :columns="columns"
+            :rowKey="record => record.accountId"
+            :dataSource="list"
+            :pagination="false"
+            :loading="isPageLoading"
+        />
 
         <ant-pagination
             :current="accountParameters.pageNum"
