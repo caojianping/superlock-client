@@ -81,7 +81,7 @@
                                 </div>
                             </a>
                         </li>
-                        <li class="optimize-item">
+                        <!-- <li class="optimize-item">
                             <a class="clearfix" :href="qualitySelectionLinks[1]">
                                 <img src="../../assets/images/home/top02.png" alt="" />
                                 <div>
@@ -91,7 +91,7 @@
                                     </p>
                                 </div>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>
