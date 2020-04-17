@@ -1,7 +1,7 @@
 import TYPES from '@/store/types';
 import { IActionContext, ILockState } from '@/store/interfaces';
 import { Prompt } from '@/ts/common';
-import { PageResult, LockModel, ProjectModel, ProjectFormModel, AwardFormModel } from '@/ts/models';
+import { PageResult, LockModel, ProjectModel, AwardFormModel } from '@/ts/models';
 import { LockService } from '@/ts/services';
 
 const lockState: ILockState = {
@@ -21,8 +21,7 @@ const lockState: ILockState = {
             serial: '',
             status: '',
             beginTime: '',
-            endTime: '',
-            carrierId: ''
+            endTime: ''
         },
         pageNum: 1,
         pageSize: 10
@@ -37,7 +36,6 @@ const lockState: ILockState = {
     totalCount: 0,
     list: [],
 
-    projectForm: new ProjectFormModel(),
     awardForm: new AwardFormModel()
 };
 
@@ -60,8 +58,7 @@ export default {
                     serial: '',
                     status: '',
                     beginTime: '',
-                    endTime: '',
-                    carrierId: ''
+                    endTime: ''
                 },
                 pageNum: 1,
                 pageSize: 10
@@ -76,7 +73,6 @@ export default {
             state.totalCount = 0;
             state.list = [];
 
-            state.projectForm = new ProjectFormModel();
             state.awardForm = new AwardFormModel();
         }
     },
@@ -110,22 +106,11 @@ export default {
             }
         },
 
-        // 创建锁仓
-        async crateProject(context: IActionContext<ILockState>, isCode: boolean = false): Promise<boolean> {
-            return await lockService.crateProject(context.state.projectForm, isCode);
-        },
-
-        // 更新项目
-        async updateProject(context: IActionContext<ILockState>, isCode: boolean = false): Promise<boolean> {
-            return await lockService.updateProject(context.state.projectForm, isCode);
-        },
-
         // 获取锁仓奖励信息
         async fetchLockAward(context: IActionContext<ILockState>): Promise<void> {
             let commit = context.commit;
             try {
                 let awardForm = await lockService.fetchLockAward();
-                awardForm.originPromotionRate = awardForm.promotionRate;
                 if (!awardForm.dailySalesDto) {
                     awardForm.dailySalesDto = [];
                 }
@@ -134,11 +119,6 @@ export default {
                 commit(TYPES.SET_STATES, { awardForm: new AwardFormModel() });
                 Prompt.error(error.message || error);
             }
-        },
-
-        // 更新锁仓奖励信息
-        async updateLockAward(context: IActionContext<ILockState>, isCode: boolean = false): Promise<boolean> {
-            return await lockService.updateLockAward(context.state.awardForm, isCode);
         }
     }
 };

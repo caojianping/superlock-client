@@ -17,7 +17,6 @@ import {
     HomeModel,
     LockModel,
     ProjectModel,
-    ProjectFormModel,
     AwardFormModel,
     FinanceInterestModel,
     FinanceDirectModel,
@@ -30,7 +29,6 @@ import {
     QuotaFormModel,
     RateFormModel,
     PasswordFormModel,
-    InitInfoFormModel,
     CarrierFormModel,
     CarrierModel,
     RebateOrderModel,
@@ -54,7 +52,6 @@ export interface IRootState {
     areaCodeOptions: Array<ISelectOption>; // 国家地区选项
     coinOptions: Array<ISelectOption>; // 币种选项
     withdrawOptions: Array<ISelectOption>; // 提现状态选项
-    carrierOptions: Array<ISelectOption>; // 运营商选项
 
     statusColors: any;
     auditColors: any;
@@ -68,8 +65,7 @@ export interface ILoginState {
 }
 
 export interface IHomeState {
-    homeData: HomeModel; // 今日数据
-    initInfoForm: InitInfoFormModel; // 初始信息表单
+    homeData: HomeModel; // 首页数据
 }
 
 export interface ILockState {
@@ -80,7 +76,6 @@ export interface ILockState {
     totalCount: number;
     list: Array<LockModel | ProjectModel>;
 
-    projectForm: ProjectFormModel;
     awardForm: AwardFormModel;
 }
 

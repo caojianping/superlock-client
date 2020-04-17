@@ -13,20 +13,18 @@
             </header>
             <div class="sl-block-body">
                 <ant-row :gutter="24">
-                    <ant-col :span="9">
-                        <ant-form-item label="运营商名称" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-                            <ant-select
-                                :value="rebateParameters.conditions.carrierId"
-                                :options="carrierOptions"
-                                showSearch
+                    <ant-col :span="8">
+                        <ant-form-item label="订单号" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                            <ant-input
+                                type="text"
+                                :value="rebateParameters.conditions.serial"
                                 allowClear
-                                placeholder="请输入运营商名称"
-                                @change="handleFormChange('carrierId', $event)"
-                                :filterOption="carrierFilterOption"
-                            ></ant-select>
+                                placeholder="请输入订单号"
+                                @change="handleFormChange('serial', $event.target.value)"
+                            />
                         </ant-form-item>
                     </ant-col>
-                    <ant-col :span="9">
+                    <ant-col :span="10">
                         <ant-form-item label="选择时间" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
                             {{ ((beginTime = rebateParameters.conditions.beginTime), void 0) }}
                             {{ ((endTime = rebateParameters.conditions.endTime), void 0) }}
@@ -79,7 +77,7 @@
             @showSizeChange="handlePageSizeChange"
         />
 
-        <SecondVerify :is-show="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
+        <SecondVerify :is-show="isSecondVerifyShow" @submit="handleSecondVerifySubmit" />
     </div>
 </template>
 

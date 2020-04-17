@@ -26,7 +26,7 @@ const carrierState: ICarrierState = {
     },
     rebateParameters: {
         conditions: {
-            carrierId: '',
+            serial: '',
             beginTime: '',
             endTime: ''
         },
@@ -36,8 +36,6 @@ const carrierState: ICarrierState = {
     flashParameters: {
         conditions: {
             serial: '',
-            carrierId: '',
-            status: '',
             beginTime: '',
             endTime: ''
         },
@@ -47,9 +45,8 @@ const carrierState: ICarrierState = {
     withdrawParameters: {
         conditions: {
             serial: '',
-            carrierId: '',
-            status: '',
             address: '',
+            hash: '',
             beginTime: '',
             endTime: ''
         },
@@ -84,7 +81,7 @@ export default {
             };
             state.rebateParameters = {
                 conditions: {
-                    carrierId: '',
+                    serial: '',
                     beginTime: '',
                     endTime: ''
                 },
@@ -94,8 +91,6 @@ export default {
             state.flashParameters = {
                 conditions: {
                     serial: '',
-                    carrierId: '',
-                    status: '',
                     beginTime: '',
                     endTime: ''
                 },
@@ -105,9 +100,8 @@ export default {
             state.withdrawParameters = {
                 conditions: {
                     serial: '',
-                    carrierId: '',
-                    status: '',
                     address: '',
+                    hash: '',
                     beginTime: '',
                     endTime: ''
                 },

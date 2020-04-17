@@ -18,9 +18,7 @@
                             placeholder="请选择国家、地区区号"
                             @change="handleFormChange('areaCode', $event)"
                             :filterOption="areaCodeFilterOption"
-                        >
-                            <ant-icon slot="prefix" type="user" />
-                        </ant-select>
+                        />
                     </li>
                     <li>
                         <label for="mobile">手机号</label>
@@ -34,7 +32,7 @@
                             @change="handleFormChange('mobile', $event)"
                             @keyup.enter="submit(false)"
                         >
-                            <ant-icon slot="prefix" type="user" />
+                            <ant-icon slot="prefix" type="phone" />
                         </ant-input>
                     </li>
 
@@ -60,7 +58,7 @@
             </div>
         </div>
 
-        <SecondVerify :is-show="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
+        <SecondVerify :is-show="isSecondVerifyShow" :is-login="true" @submit="handleSecondVerifySubmit" />
     </div>
 </template>
 

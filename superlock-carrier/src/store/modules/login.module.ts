@@ -34,19 +34,19 @@ export default {
                 result = await loginService.login(loginForm, isCode);
             if (!result) return false;
 
-            let { token, username } = result;
-            if (!token || !username) return false;
+            let { token, name } = result;
+            if (!token || !name) return false;
 
             let { areaCode, mobile } = loginForm,
-                tokenInfo = new TokenInfo(token, username, areaCode, mobile);
+                tokenInfo = new TokenInfo(token, name, areaCode, mobile);
             Token.setTokenInfo(tokenInfo);
             commit(TYPES.SET_STATES, { tokenInfo }, { root: true });
             return true;
         },
 
         // 获取短信验证码
-        async fetchSmsCode(context: IActionContext<ILoginState>): Promise<boolean> {
-            return await loginService.fetchSmsCode(context.state.loginForm);
+        async fetchSmsCode(context: IActionContext<ILoginState>, payload: { areaCode: string; mobile: string }): Promise<boolean> {
+            return await loginService.fetchSmsCode(payload.areaCode, payload.mobile);
         },
 
         // 退出

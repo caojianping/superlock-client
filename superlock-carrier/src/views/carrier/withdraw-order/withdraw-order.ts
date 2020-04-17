@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { namespace, State, Action } from 'vuex-class';
+import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
@@ -23,10 +23,8 @@ export default class WithdrawOrder extends Vue {
     @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
     @State('withdrawOptions') withdrawOptions!: Array<ISelectOption>;
-    @State('carrierOptions') carrierOptions!: Array<ISelectOption>;
     @State('auditColors') auditColors!: any;
     @State('auditNames') auditNames!: any;
-    @Action('fetchCarrierOptions') fetchCarrierOptions!: () => any;
 
     @carrierModule.State('withdrawParameters') withdrawParameters!: IPageParameters<IWithdrawOrderPageParameters>;
     @carrierModule.State('totalCount') totalCount!: number;
@@ -115,13 +113,6 @@ export default class WithdrawOrder extends Vue {
         }
     ];
 
-    // 运营商过滤选项
-    carrierFilterOption(input: string, option: any) {
-        let text = option.componentOptions.children[0].text.toLowerCase(),
-            tinput = input.toLowerCase();
-        return text.indexOf(tinput) > -1;
-    }
-
     // 处理表单change事件
     handleFormChange(key: string, value: string) {
         let withdrawParameters = Utils.duplicate(this.withdrawParameters);
@@ -201,20 +192,12 @@ export default class WithdrawOrder extends Vue {
         this.fetchWithdrawOrders();
     }
 
-    // 获取数据
-    async fetchData() {
-        if (this.carrierOptions.length <= 0) {
-            await this.fetchCarrierOptions();
-        }
-        await this.fetchWithdrawOrders();
-    }
-
     created() {
         this.clearStates();
     }
 
     mounted() {
         Utils.jumpTop();
-        this.fetchData();
+        this.fetchWithdrawOrders();
     }
 }

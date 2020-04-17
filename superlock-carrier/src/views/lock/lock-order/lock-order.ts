@@ -17,8 +17,6 @@ const lockModule = namespace('lock');
 export default class LockOrder extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
-    @State('carrierOptions') carrierOptions!: Array<ISelectOption>;
-    @Action('fetchCarrierOptions') fetchCarrierOptions!: () => any;
 
     @lockModule.State('statusOptions') statusOptions!: Array<ISelectOption>;
     @lockModule.State('lockParameters') lockParameters!: IPageParameters<ILockPageParameters>;
@@ -55,10 +53,6 @@ export default class LockOrder extends Vue {
         {
             title: 'UID',
             dataIndex: 'uid'
-        },
-        {
-            title: '用户来源',
-            dataIndex: 'userSource'
         },
         {
             title: '锁仓数量(BCB)',
@@ -103,13 +97,6 @@ export default class LockOrder extends Vue {
             scopedSlots: { customRender: 'status' }
         }
     ];
-
-    // 运营商过滤选项
-    carrierFilterOption(input: string, option: any) {
-        let text = option.componentOptions.children[0].text.toLowerCase(),
-            tinput = input.toLowerCase();
-        return text.indexOf(tinput) > -1;
-    }
 
     // 处理表单change事件
     handleFormChange(key: string, value: string) {
@@ -166,21 +153,13 @@ export default class LockOrder extends Vue {
         this.setStates({ lockParameters });
         this.fetchLocks();
     }
-
-    // 获取数据
-    async fetchData() {
-        if (this.carrierOptions.length <= 0) {
-            await this.fetchCarrierOptions();
-        }
-        await this.fetchLocks();
-    }
-
+    
     created() {
         this.clearStates();
     }
 
     mounted() {
         Utils.jumpTop();
-        this.fetchData();
+        this.fetchLocks();
     }
 }

@@ -25,7 +25,7 @@
                         </ant-form-item>
                     </ant-col>
                     <ant-col :span="10">
-                        <ant-form-item label="选择时间" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                        <ant-form-item label="选择时间" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
                             {{ ((beginTime = flashParameters.conditions.beginTime), void 0) }}
                             {{ ((endTime = flashParameters.conditions.endTime), void 0) }}
                             <ant-range-picker
@@ -34,33 +34,6 @@
                                 format="YYYY-MM-DD HH:mm"
                                 @change="handleRangePickerChange"
                             ></ant-range-picker>
-                        </ant-form-item>
-                    </ant-col>
-                </ant-row>
-                <ant-row :gutter="24">
-                    <ant-col :span="8">
-                        <ant-form-item label="状态" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-                            <ant-select
-                                class="sl-select"
-                                :value="flashParameters.conditions.status"
-                                :options="statusOptions"
-                                allowClear
-                                placeholder="请选择状态"
-                                @change="handleFormChange('status', $event)"
-                            ></ant-select>
-                        </ant-form-item>
-                    </ant-col>
-                    <ant-col :span="10">
-                        <ant-form-item label="运营商名称" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-                            <ant-select
-                                :value="flashParameters.conditions.carrierId"
-                                :options="carrierOptions"
-                                showSearch
-                                allowClear
-                                placeholder="请输入运营商名称"
-                                @change="handleFormChange('carrierId', $event)"
-                                :filterOption="carrierFilterOption"
-                            ></ant-select>
                         </ant-form-item>
                     </ant-col>
                     <ant-col :span="6">

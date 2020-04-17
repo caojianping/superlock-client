@@ -37,8 +37,8 @@ export class LoginService {
             {
                 url: Urls.login.login,
                 data: {
-                    areaCode: '+' + filterAreaCode.code,
-                    name: mobile,
+                    area: '+' + filterAreaCode.code,
+                    mobile: mobile,
                     password: md5(password)
                 }
             },
@@ -49,13 +49,19 @@ export class LoginService {
     }
 
     // 获取短信验证码
-    public async fetchSmsCode(loginForm: LoginFormModel): Promise<boolean> {
-        let result: ValidationResult = LoginService.validateLoginForm(loginForm, true);
+    public async fetchSmsCode(areaCode: string, mobile: string): Promise<boolean> {
+        let loginForm = LoginFormModel.createInstance(areaCode, mobile),
+            result: ValidationResult = LoginService.validateLoginForm(loginForm);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { areaCode, mobile } = loginForm,
-            url = Urls.login.smsCode,
-            parameters = Utils.buildParameters({ areaCode, mobile });
+        let filterAreaCode = AreaCodes.filter((item: IAreaCode) => item.id === areaCode)[0];
+        if (!filterAreaCode) return Promise.reject('未找到对应的国家、地区区号');
+
+        let url = Urls.login.smsCode,
+            parameters = Utils.buildParameters({
+                area: encodeURIComponent('+' + filterAreaCode.code),
+                mobile
+            });
         await Caxios.get<any>({ url: `${url}?${parameters}` }, CaxiosType.FullLoading);
         return true;
     }

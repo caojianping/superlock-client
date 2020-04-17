@@ -1,7 +1,6 @@
 export class LockModel {
     public serial!: string; // 订单号
     public uid!: string; // uid
-    public userSource!: string; // 用户来源
     public amount!: string; // 锁仓数量
     public rate!: string; // 锁仓汇率
     public value!: string; // 锁仓价值
@@ -22,27 +21,11 @@ export class ProjectModel {
     public enable!: boolean; // 状态
 }
 
-export class ProjectFormModel {
-    public id?: number; // 项目编号
-    public memo!: string; // 项目名称
-    public length!: number; // 项目周期
-    public quota!: number; // 项目总额度
-    public rate!: number; // 锁仓利率
-    public enable?: boolean; // 锁仓状态
-
-    // 补充字段：项目总额度、锁仓利率不可以改小
-    public originQuota?: number;
-    public originRate?: number;
-}
-
 export class AwardFormModel {
     public promotionRate!: number; // 推广解锁利率
     public pushStraightRate!: number; // 直推利率
     public lockAmount!: number; // 最小锁仓数量
     public dailySalesDto: Array<AwardDailySaleModel> = []; // 日销奖励
-
-    // 补充字段：推广解锁利率不可以改小
-    public originPromotionRate?: number;
 }
 
 export class AwardDailySaleModel {

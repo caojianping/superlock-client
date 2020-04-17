@@ -23,7 +23,7 @@ export default class Sider extends Vue {
             path: '/lock',
             icon: 'lock',
             items: [
-                { name: '锁仓订单', route: '/lock/order' },
+                { name: '锁仓记录', route: '/lock/order' },
                 { name: '奖励设置', route: '/lock/award' },
                 { name: '项目列表', route: '/lock/project' }
             ],

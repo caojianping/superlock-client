@@ -1,12 +1,12 @@
 import Vue from 'vue';
-import { namespace, State, Action } from 'vuex-class';
+import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { ReviewType, ReviewStatus } from '@/ts/config';
 import { Prompt } from '@/ts/common';
-import { IPageParameters, IRebateOrderPageParameters, ISelectOption } from '@/ts/interfaces';
+import { IPageParameters, IRebateOrderPageParameters } from '@/ts/interfaces';
 import { RebateOrderModel } from '@/ts/models';
 
 import SecondVerify from '@/components/common/second-verify';
@@ -22,8 +22,6 @@ export default class RebateOrder extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
     @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
-    @State('carrierOptions') carrierOptions!: Array<ISelectOption>;
-    @Action('fetchCarrierOptions') fetchCarrierOptions!: () => any;
 
     @carrierModule.State('rebateParameters') rebateParameters!: IPageParameters<IRebateOrderPageParameters>;
     @carrierModule.State('totalCount') totalCount!: number;
@@ -106,13 +104,6 @@ export default class RebateOrder extends Vue {
         }
     ];
 
-    // 运营商过滤选项
-    carrierFilterOption(input: string, option: any) {
-        let text = option.componentOptions.children[0].text.toLowerCase(),
-            tinput = input.toLowerCase();
-        return text.indexOf(tinput) > -1;
-    }
-
     // 处理表单change事件
     handleFormChange(key: string, value: string) {
         let rebateParameters = Utils.duplicate(this.rebateParameters);
@@ -192,20 +183,12 @@ export default class RebateOrder extends Vue {
         this.fetchRebateOrders();
     }
 
-    // 获取数据
-    async fetchData() {
-        if (this.carrierOptions.length <= 0) {
-            await this.fetchCarrierOptions();
-        }
-        await this.fetchRebateOrders();
-    }
-
     created() {
         this.clearStates();
     }
 
     mounted() {
         Utils.jumpTop();
-        this.fetchData();
+        this.fetchRebateOrders();
     }
 }

@@ -1,12 +1,11 @@
 import TYPES from '@/store/types';
 import { IActionContext, IHomeState } from '@/store/interfaces';
 import { Prompt } from '@/ts/common';
-import { HomeModel, InitInfoFormModel } from '@/ts/models';
+import { HomeModel } from '@/ts/models';
 import { HomeService } from '@/ts/services';
 
 const homeState: IHomeState = {
-    homeData: new HomeModel(),
-    initInfoForm: new InitInfoFormModel()
+    homeData: new HomeModel()
 };
 
 const homeService = new HomeService();
@@ -23,7 +22,6 @@ export default {
         },
         [TYPES.CLEAR_STATES](state: IHomeState) {
             state.homeData = new HomeModel();
-            state.initInfoForm = new InitInfoFormModel();
         }
     },
     actions: {
@@ -37,23 +35,6 @@ export default {
                 commit(TYPES.SET_STATES, { homeData: new HomeModel() });
                 Prompt.error(error.message || error);
             }
-        },
-
-        // 获取初始信息
-        async fetchInitInfo(context: IActionContext<IHomeState>): Promise<void> {
-            const commit = context.commit;
-            try {
-                let initInfo = await homeService.fetchInitInfo();
-                commit(TYPES.SET_STATES, { initInfoForm: initInfo });
-            } catch (error) {
-                commit(TYPES.SET_STATES, { initInfoForm: new InitInfoFormModel() });
-                Prompt.error(error.message || error);
-            }
-        },
-
-        // 设置初始信息
-        async setInitInfo(context: IActionContext<IHomeState>, isCode: boolean = false): Promise<boolean> {
-            return await homeService.setInitInfo(context.state.initInfoForm, isCode);
         }
     }
 };

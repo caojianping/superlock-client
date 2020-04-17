@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { namespace, State, Action } from 'vuex-class';
+import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
@@ -17,8 +17,6 @@ const carrierModule = namespace('carrier');
 export default class FlashOrder extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
-    @State('carrierOptions') carrierOptions!: Array<ISelectOption>;
-    @Action('fetchCarrierOptions') fetchCarrierOptions!: () => any;
 
     @carrierModule.State('flashParameters') flashParameters!: IPageParameters<IFlashOrderPageParameters>;
     @carrierModule.State('totalCount') totalCount!: number;
@@ -151,20 +149,12 @@ export default class FlashOrder extends Vue {
         this.fetchFlashOrders();
     }
 
-    // 获取数据
-    async fetchData() {
-        if (this.carrierOptions.length <= 0) {
-            await this.fetchCarrierOptions();
-        }
-        await this.fetchFlashOrders();
-    }
-
     created() {
         this.clearStates();
     }
 
     mounted() {
         Utils.jumpTop();
-        this.fetchData();
+        this.fetchFlashOrders();
     }
 }

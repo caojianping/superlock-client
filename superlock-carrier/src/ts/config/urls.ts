@@ -9,11 +9,7 @@ export const Urls = {
     },
     // 首页模块
     home: {
-        info: `${baseUrl}/mainData`,
-        init: {
-            info: `${baseUrl}/mainData/initialData`,
-            set: `${baseUrl}/mainData/initialDataSet`
-        }
+        data: `${baseUrl}/mainData`
     },
     // 锁仓模块
     lock: {
@@ -21,15 +17,8 @@ export const Urls = {
             list: `${baseUrl}/lockPosition/list`,
             export: `${baseUrl}/lockPosition/export`
         },
-        award: {
-            info: `${baseUrl}/lockPosition/rewardInfo`,
-            update: `${baseUrl}/lockPosition/rewardSet`
-        },
-        project: {
-            list: `${baseUrl}/lockPosition/projects`,
-            create: `${baseUrl}/lockPosition/createProject`,
-            update: `${baseUrl}/lockPosition/updateProject`
-        }
+        awardInfo: `${baseUrl}/lockPosition/rewardInfo`,
+        projects: `${baseUrl}/lockPosition/projects`
     },
     // 财务模块
     finance: {

@@ -6,33 +6,24 @@ import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { Prompt } from '@/ts/common';
 import { IPageParameters, IProjectPageParameters } from '@/ts/interfaces';
-import { ProjectModel, ProjectFormModel } from '@/ts/models';
-
-import SecondVerify from '@/components/common/second-verify';
-import ProjectModal from '@/components/modals/project-modal';
+import { ProjectModel } from '@/ts/models';
 
 const lockModule = namespace('lock');
 
 @Component({
     name: 'LockProject',
-    components: { SecondVerify, ProjectModal }
+    components: {}
 })
 export default class LockProject extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
-    @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
 
     @lockModule.State('projectParameters') projectParameters!: IPageParameters<IProjectPageParameters>;
     @lockModule.State('totalCount') totalCount!: number;
     @lockModule.State('list') list!: Array<ProjectModel>;
-    @lockModule.State('projectForm') projectForm!: ProjectFormModel;
     @lockModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @lockModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @lockModule.Action('fetchProjects') fetchProjects!: () => any;
-    @lockModule.Action('updateProject') updateProject!: (isCode: boolean) => any;
-
-    isShow: boolean = false;
-    currentProject: ProjectModel = new ProjectModel();
 
     columns: Array<any> = [
         {
@@ -74,12 +65,6 @@ export default class LockProject extends Vue {
             dataIndex: '',
             key: 'enable',
             scopedSlots: { customRender: 'enable' }
-        },
-        {
-            title: '操作',
-            dataIndex: '',
-            key: 'operation',
-            scopedSlots: { customRender: 'operation' }
         }
     ];
 
@@ -118,34 +103,6 @@ export default class LockProject extends Vue {
         projectParameters.pageSize = pageSize;
         this.setStates({ projectParameters });
         this.fetchProjects();
-    }
-
-    // 打开项目模态框
-    openProjectModal(project: ProjectModel) {
-        this.isShow = true;
-        this.currentProject = project;
-    }
-
-    // 私有函数：提交项目
-    async _submitProject(projectForm: ProjectFormModel, isCode: boolean) {
-        try {
-            this.setStates({ projectForm });
-            let result = await this.updateProject(isCode);
-            if (!result) Prompt.error('项目修改失败');
-            else await this.fetchProjects();
-        } catch (error) {
-            Prompt.error(error.message || error);
-        }
-    }
-
-    // 处理项目模态框submit事件
-    async handleProjectSubmit(projectForm: ProjectFormModel) {
-        this._submitProject(projectForm, false);
-    }
-
-    // 处理二次验证submit事件
-    async handleSecondVerifySubmit() {
-        await this._submitProject(this.projectForm, true);
     }
 
     created() {

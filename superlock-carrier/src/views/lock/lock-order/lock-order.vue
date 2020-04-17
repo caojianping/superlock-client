@@ -3,58 +3,17 @@
         <ant-breadcrumb class="sl-breadcrumb">
             <ant-breadcrumb-item>锁仓管理</ant-breadcrumb-item>
             <ant-breadcrumb-item>
-                <router-link to="/lock/order">锁仓订单</router-link>
+                <router-link to="/lock/order">锁仓记录</router-link>
             </ant-breadcrumb-item>
         </ant-breadcrumb>
 
         <div class="sl-block">
             <header class="sl-block-header">
-                <h2 class="sl-block-title">锁仓订单</h2>
+                <h2 class="sl-block-title">锁仓记录</h2>
             </header>
             <div class="sl-block-body">
                 <ant-row :gutter="24">
-                    <ant-col :span="7">
-                        <ant-form-item label="订单号" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-                            <ant-input
-                                type="text"
-                                :value="lockParameters.conditions.serial"
-                                allowClear
-                                placeholder="请输入订单号"
-                                @change="handleFormChange('serial', $event.target.value)"
-                            />
-                        </ant-form-item>
-                    </ant-col>
-
-                    <ant-col :span="9">
-                        <ant-form-item label="订单状态" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
-                            <ant-select
-                                class="sl-select"
-                                :value="lockParameters.conditions.status"
-                                :options="statusOptions"
-                                allowClear
-                                placeholder="请选择订单状态"
-                                @change="handleFormChange('status', $event)"
-                            ></ant-select>
-                        </ant-form-item>
-                    </ant-col>
-
-                    <ant-col :span="7">
-                        <ant-form-item label="用户来源" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-                            <ant-select
-                                :value="lockParameters.conditions.carrierId"
-                                :options="carrierOptions"
-                                showSearch
-                                allowClear
-                                placeholder="请输入用户来源"
-                                @change="handleFormChange('carrierId', $event)"
-                                :filterOption="carrierFilterOption"
-                            ></ant-select>
-                        </ant-form-item>
-                    </ant-col>
-                </ant-row>
-
-                <ant-row :gutter="24">
-                    <ant-col :span="7">
+                    <ant-col :span="8">
                         <ant-form-item label="UID" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
@@ -66,8 +25,35 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="9">
-                        <ant-form-item label="选择时间" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
+                    <ant-col :span="10">
+                        <ant-form-item label="订单号" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                            <ant-input
+                                type="text"
+                                :value="lockParameters.conditions.serial"
+                                allowClear
+                                placeholder="请输入订单号"
+                                @change="handleFormChange('serial', $event.target.value)"
+                            />
+                        </ant-form-item>
+                    </ant-col>
+                </ant-row>
+
+                <ant-row :gutter="24">
+                    <ant-col :span="8">
+                        <ant-form-item label="订单状态" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                            <ant-select
+                                class="sl-select"
+                                :value="lockParameters.conditions.status"
+                                :options="statusOptions"
+                                allowClear
+                                placeholder="请选择订单状态"
+                                @change="handleFormChange('status', $event)"
+                            ></ant-select>
+                        </ant-form-item>
+                    </ant-col>
+
+                    <ant-col :span="10">
+                        <ant-form-item label="选择时间" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             {{ ((beginTime = lockParameters.conditions.beginTime), void 0) }}
                             {{ ((endTime = lockParameters.conditions.endTime), void 0) }}
                             <ant-range-picker
@@ -79,7 +65,7 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="7">
+                    <ant-col :span="6">
                         <ant-button class="sl-search" type="primary" @click="search">搜索</ant-button>
                     </ant-col>
                 </ant-row>

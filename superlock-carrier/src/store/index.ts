@@ -2,10 +2,9 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import TYPES from './types';
+import { IRootState } from './interfaces';
 import { AreaCodes, IAreaCode } from '@/ts/config';
-import { IActionContext, IRootState } from './interfaces';
 import { TokenInfo } from '@/ts/models';
-import { CarrierService } from '@/ts/services';
 
 import loginModule from './modules/login.module';
 import homeModule from './modules/home.module';
@@ -42,7 +41,6 @@ const rootState: IRootState = {
         { label: '提现成功', value: '20' },
         { label: '提现失败', value: '30' }
     ],
-    carrierOptions: [],
 
     statusColors: {
         '0': 'text-black',
@@ -65,8 +63,6 @@ const rootState: IRootState = {
         '5': '已驳回'
     }
 };
-
-const carrierService = new CarrierService();
 
 export default new Vuex.Store({
     strict: false,
@@ -92,26 +88,11 @@ export default new Vuex.Store({
             state.isFullLoading = false;
             state.isPageLoading = false;
             state.isSecondVerifyShow = false;
-
-            state.pageSizeOptions = ['10', '50', '100', '200', '500', '1000'];
-            state.carrierOptions = [];
         },
         [TYPES.SET_LOADING](state: IRootState, payload: { key: string; value: boolean }) {
             const { key, value } = payload;
             state[key] = value;
         }
     },
-    actions: {
-        // 获取运营商选项列表
-        async fetchCarrierOptions(context: IActionContext<IRootState>): Promise<void> {
-            let commit = context.commit;
-            try {
-                let carrierOptions = await carrierService.fetchCarrierOptions();
-                commit(TYPES.SET_STATES, { carrierOptions });
-            } catch (error) {
-                commit(TYPES.SET_STATES, { carrierOptions: [] });
-                return Promise.reject(error);
-            }
-        }
-    }
+    actions: {}
 });

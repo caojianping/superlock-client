@@ -29,8 +29,6 @@ export default class MemberBroker extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
     @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
-    @State('carrierOptions') carrierOptions!: Array<ISelectOption>;
-    @Action('fetchCarrierOptions') fetchCarrierOptions!: () => any;
 
     @memberModule.State('parameters') parameters!: IPageParameters<IMemberPageParameters>;
     @memberModule.State('totalCount') totalCount!: number;
@@ -55,13 +53,6 @@ export default class MemberBroker extends Vue {
     currentType: SecondVerifyType = SecondVerifyType.Broker; // 当前二次验证类型
 
     columns: Array<any> = [];
-
-    // 运营商过滤选项
-    carrierFilterOption(input: string, option: any) {
-        let text = option.componentOptions.children[0].text.toLowerCase(),
-            tinput = input.toLowerCase();
-        return text.indexOf(tinput) > -1;
-    }
 
     // 处理表单change事件
     handleFormChange(key: string, value: string) {
@@ -327,9 +318,6 @@ export default class MemberBroker extends Vue {
     // 获取数据
     async fetchData() {
         try {
-            if (this.carrierOptions.length <= 0) {
-                await this.fetchCarrierOptions();
-            }
             await this.fetchBrokers();
             await this.fetchProjectTypes();
         } catch (error) {

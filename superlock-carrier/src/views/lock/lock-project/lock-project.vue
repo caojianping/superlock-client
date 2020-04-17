@@ -45,9 +45,6 @@
             <span slot="enable" slot-scope="record">
                 {{ ['停用', '启用'][record.enable === true ? 1 : 0] }}
             </span>
-            <template slot="operation" slot-scope="record">
-                <ant-button type="default" size="small" @click="openProjectModal(record)">修改</ant-button>
-            </template>
         </ant-table>
 
         <ant-pagination
@@ -61,10 +58,6 @@
             @change="handlePageNumChange"
             @showSizeChange="handlePageSizeChange"
         />
-
-        <ProjectModal v-model="isShow" title="锁仓项目修改" :project="currentProject" @submit="handleProjectSubmit" />
-
-        <SecondVerify :is-show="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
     </div>
 </template>
 
