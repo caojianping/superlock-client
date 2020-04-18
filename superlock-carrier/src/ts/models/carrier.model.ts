@@ -1,29 +1,32 @@
-// 运营商表单模型
-export class CarrierFormModel {
-    public carrierId?: number; // 运营商编号
-    public carrierName!: string; // 运营商名称
-    public loginPwd!: string; // 登录密码
-    public areaCode!: string; // 国家和地区区号
-    public mobile!: string; // 手机号
-    public rebateRatio!: number; // 返点比例
-    public billingCycle!: number; // 结算时间
-    public unit!: string; // 周、月
+// 运营商信息模型
+export class CarrierInfoModel {
+    public newLockCount!: number; // 新增锁仓量
+    public totalLock!: number; // 累计锁仓量
+    public totalRebateAmount!: number; // 平台累计返奖
+    public dcBalance!: number; // DC账户余额
+    public bcbBalance!: number; // BCB账户余额
 }
 
-// 运营商模型
-export class CarrierModel {
+// 闪兑表单模型
+export class ExchangeFormModel {
+    public amount!: number; // 兑换数量
+    public maxAmount!: number; // 最大兑换数量
+}
+
+// 闪兑统计模型
+export class ExchangeStatsModel {
+    public serial!: string; // 订单号
+    public dcAmount!: number; // DC数量
+    public bcbAmount!: number; // BCB数量
+    public rate!: number; // 汇率
+}
+
+// 提现表单模型
+export class WithdrawFormModel {
     public carrierId!: number; // 运营商编号
-    public carrierName!: string; // 运营商名称
-    public areaCode!: string; // 国家和地区区号
-    public mobileNumber!: string; // 手机号
-    public totalLock!: string; // 锁仓总量(DC)
-    public rebateRatio!: number; // 返点比例(%)
-    public billingCycle!: number; // 结算时间
-    public unit!: string; // 周、月
-    public totalRebate!: string; // 返点总额(DC)
-    public dcBalance!: string; // 账户余额(DC)
-    public bcbBalance!: string; // 账户余额(BCB)
-    public createTime!: string; // 创建时间
+    public value!: number; // 提现数量
+    public toAddr!: string; // 提现地址
+    public maxAmount!: number; // 最大提现数量
 }
 
 class BaseOrderModel {

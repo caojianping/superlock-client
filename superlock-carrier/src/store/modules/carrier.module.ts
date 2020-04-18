@@ -1,29 +1,22 @@
 import TYPES from '@/store/types';
-import { CarrierFormType, OperationType } from '@/ts/config';
 import { IActionContext, ICarrierState } from '@/store/interfaces';
-import { PageResult, CarrierFormModel, CarrierModel, RebateOrderModel, FlashOrderModel, WithdrawOrderModel } from '@/ts/models';
+import {
+    PageResult,
+    WithdrawFormModel,
+    ExchangeFormModel,
+    ExchangeStatsModel,
+    RebateOrderModel,
+    FlashOrderModel,
+    WithdrawOrderModel
+} from '@/ts/models';
 import { CarrierService } from '@/ts/services';
 
 const carrierState: ICarrierState = {
-    cycleOptions: [
-        { label: '1周', value: '1_周' },
-        { label: '2周', value: '2_周' },
-        { label: '3周', value: '3_周' },
-        { label: '1个月', value: '1_月' },
-        { label: '3个月', value: '3_月' },
-        { label: '6个月', value: '6_月' }
-    ],
+    carrierInfo: undefined,
+    rate: 0,
+    serial: '',
+    withdrawForm: new WithdrawFormModel(),
 
-    operationType: OperationType.Add,
-    formType: CarrierFormType.CarrierForm,
-    carrierForm: new CarrierFormModel(),
-    carrier: undefined,
-
-    carrierParameters: {
-        conditions: null,
-        pageNum: 1,
-        pageSize: 10
-    },
     rebateParameters: {
         conditions: {
             serial: '',
@@ -70,15 +63,11 @@ export default {
             }
         },
         [TYPES.CLEAR_STATES](state: ICarrierState) {
-            state.operationType = OperationType.Add;
-            state.formType = CarrierFormType.CarrierForm;
-            state.carrierForm = new CarrierFormModel();
+            state.carrierInfo = undefined;
+            state.rate = 0;
+            state.serial = '';
+            state.withdrawForm = new WithdrawFormModel();
 
-            state.carrierParameters = {
-                conditions: null,
-                pageNum: 1,
-                pageSize: 10
-            };
             state.rebateParameters = {
                 conditions: {
                     serial: '',
@@ -113,27 +102,46 @@ export default {
         }
     },
     actions: {
-        // 获取运营商列表
-        async fetchCarriers(context: IActionContext<ICarrierState>): Promise<void> {
-            let { commit, state } = context;
+        // 获取运营商信息
+        async fetchCarrierInfo(context: IActionContext<ICarrierState>): Promise<void> {
+            let commit = context.commit;
             try {
-                let result: PageResult<CarrierModel> = await carrierService.fetchCarriers(state.carrierParameters);
-                commit(TYPES.SET_STATES, result);
+                let carrierInfo = await carrierService.fetchCarrierInfo();
+                commit(TYPES.SET_STATES, { carrierInfo });
             } catch (error) {
-                commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
+                commit(TYPES.SET_STATES, { carrierInfo: null });
                 return Promise.reject(error);
             }
         },
 
-        // 添加运营商
-        async addCarrier(context: IActionContext<ICarrierState>, isCode: boolean = false): Promise<boolean> {
-            return await carrierService.addCarrier(context.state.carrierForm, isCode);
+        // 获取兑换汇率
+        async fetchRate(context: IActionContext<ICarrierState>): Promise<void> {
+            let commit = context.commit;
+            try {
+                let rate = await carrierService.fetchRate();
+                commit(TYPES.SET_STATES, { rate });
+            } catch (error) {
+                commit(TYPES.SET_STATES, { rate: 0 });
+                return Promise.reject(error);
+            }
         },
 
-        // 更新运营商
-        async updateCarrier(context: IActionContext<ICarrierState>, isCode: boolean = false): Promise<boolean> {
-            let { formType, carrierForm } = context.state;
-            return await carrierService.updateCarrier(formType, carrierForm, isCode);
+        // 兑换
+        async exchangeCoin(
+            context: IActionContext<ICarrierState>,
+            payload: { exchangeForm: ExchangeFormModel; isCode: boolean }
+        ): Promise<ExchangeStatsModel | null> {
+            return await carrierService.exchangeCoin(payload.exchangeForm, payload.isCode);
+        },
+
+        // 确认兑换
+        async confirmExchangeCoin(context: IActionContext<ICarrierState>, isCode: boolean = false): Promise<boolean> {
+            return await carrierService.confirmExchangeCoin(context.state.serial, isCode);
+        },
+
+        // 提现
+        async withdrawCoin(context: IActionContext<ICarrierState>, isCode: boolean = false): Promise<boolean> {
+            return await carrierService.withdrawCoin(context.state.withdrawForm, isCode);
         },
 
         // 获取返点订单列表

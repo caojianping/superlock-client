@@ -54,8 +54,6 @@
                 </ant-row>
             </div>
         </div>
-
-        <SecondVerify :is-show="isSecondVerifyShow" @submit="handleSecondVerifySubmit" />
     </div>
 </template>
 

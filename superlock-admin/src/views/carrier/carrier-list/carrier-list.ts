@@ -15,10 +15,10 @@ import CarrierModal from '@/components/modals/carrier-modal';
 const carrierModule = namespace('carrier');
 
 @Component({
-    name: 'FundRecord',
+    name: 'CarrierList',
     components: { SecondVerify, CarrierModal }
 })
-export default class FundRecord extends Vue {
+export default class CarrierList extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
     @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;

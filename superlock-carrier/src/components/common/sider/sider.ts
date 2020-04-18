@@ -60,7 +60,7 @@ export default class Sider extends Vue {
             path: '/carrier',
             icon: 'carrier',
             items: [
-                { name: '运营商列表', route: '/carrier/list' },
+                { name: '运营数据', route: '/carrier/index' },
                 { name: '返点订单', route: '/carrier/rebate/order' },
                 { name: '闪兑订单', route: '/carrier/flash/order' },
                 { name: '提现订单', route: '/carrier/withdraw/order' }

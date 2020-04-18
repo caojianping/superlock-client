@@ -1,13 +1,13 @@
-import Carrierlist from '@/views/carrier/carrier-list';
+import CarrierIndex from '@/views/carrier/carrier-index';
 import RebateOrder from '@/views/carrier/rebate-order';
 import FlashOrder from '@/views/carrier/flash-order';
 import WithdrawOrder from '@/views/carrier/withdraw-order';
 
 export default [
     {
-        path: '/carrier/list',
-        name: 'Carrierlist',
-        component: Carrierlist
+        path: '/carrier/index',
+        name: 'CarrierIndex',
+        component: CarrierIndex
     },
     {
         path: '/carrier/rebate/order',

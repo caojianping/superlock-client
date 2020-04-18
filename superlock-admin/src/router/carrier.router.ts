@@ -1,4 +1,4 @@
-import Carrierlist from '@/views/carrier/carrier-list';
+import CarrierList from '@/views/carrier/carrier-list';
 import RebateOrder from '@/views/carrier/rebate-order';
 import FlashOrder from '@/views/carrier/flash-order';
 import WithdrawOrder from '@/views/carrier/withdraw-order';
@@ -6,8 +6,8 @@ import WithdrawOrder from '@/views/carrier/withdraw-order';
 export default [
     {
         path: '/carrier/list',
-        name: 'Carrierlist',
-        component: Carrierlist
+        name: 'CarrierList',
+        component: CarrierList
     },
     {
         path: '/carrier/rebate/order',

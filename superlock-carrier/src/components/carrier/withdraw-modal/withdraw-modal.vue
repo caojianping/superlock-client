@@ -1,0 +1,60 @@
+<template>
+    <ant-modal v-model="isShow" title="提现" :width="600" :footer="null" @cancel="handleModalCancel">
+        <ant-row :gutter="24">
+            <ant-col :span="20">
+                <ant-form-item label="提现币种" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                    <ant-input type="text" value="BCB" disabled />
+                </ant-form-item>
+            </ant-col>
+        </ant-row>
+
+        <ant-row :gutter="24">
+            <ant-col :span="20">
+                <ant-form-item label="账户余额" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                    <ant-input type="text" :value="`${withdrawForm.maxAmount}BCB`" disabled />
+                </ant-form-item>
+            </ant-col>
+        </ant-row>
+
+        <ant-row :gutter="24">
+            <ant-col :span="20">
+                <ant-form-item label="提现数量" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                    <ant-input-number
+                        :value="withdrawForm.value"
+                        :min="0"
+                        :precision="6"
+                        :placeholder="`账户余额${withdrawForm.maxAmount}BCB`"
+                        @change="handleFormChange('value', $event)"
+                        @keyup.enter="submit"
+                    />
+                </ant-form-item>
+            </ant-col>
+            <ant-col :span="4" @click="withdrawAll">全部</ant-col>
+        </ant-row>
+
+        <ant-row :gutter="24">
+            <ant-col :span="20">
+                <ant-form-item label="提现地址" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                    <ant-input
+                        type="text"
+                        :value="withdrawForm.toAddr"
+                        allowClear
+                        placeholder="请输入提现到账地址"
+                        @change="handleFormChange('toAddr', $event.target.value)"
+                        @keyup.enter="submit"
+                    />
+                </ant-form-item>
+            </ant-col>
+        </ant-row>
+
+        <p>当前仅支持BCB提现，账户里的DC可先“一键闪兑”为BCB后再进行提现。</p>
+
+        <ant-row :gutter="24">
+            <ant-button class="sl-submit" type="primary" @click="submit">保存</ant-button>
+        </ant-row>
+    </ant-modal>
+</template>
+
+<style src="./withdraw-modal.less" lang="less" scoped />
+
+<script src="./withdraw-modal.ts" />

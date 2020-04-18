@@ -59,13 +59,12 @@ export const Urls = {
     },
     // 运营商模块
     carrier: {
-        cache: `${baseUrl}/carrier/cache`,
-        list: {
-            list: `${baseUrl}/carrier/list`,
-            add: `${baseUrl}/carrier/add`,
-            updatePassword: `${baseUrl}/carrier/updatePwd`,
-            updateMobile: `${baseUrl}/carrier/updateMobile`,
-            updateRebate: `${baseUrl}/carrier/updateRebate`
+        index: {
+            info: `${baseUrl}/carrier/info`,
+            rate: `${baseUrl}/carrier/rate`,
+            exchange: `${baseUrl}/carrier/cash`,
+            confirmExchange: `${baseUrl}/carrier/confirmCash`,
+            withdraw: `${baseUrl}/carrier/withdrawCoin`
         },
         rebate: {
             list: `${baseUrl}/carrier/rebates`,

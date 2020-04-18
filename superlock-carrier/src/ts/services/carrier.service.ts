@@ -1,125 +1,99 @@
 import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
-import { Urls, AreaCodes, defaultAreaCode, IAreaCode, CaxiosType, CarrierFormType } from '@/ts/config';
-import { Caxios, md5 } from '@/ts/common';
-import { IPageParameters, IRebateOrderPageParameters, IFlashOrderPageParameters, IWithdrawOrderPageParameters, ISelectOption } from '@/ts/interfaces';
-import { PageResult, CarrierFormModel, CarrierModel, RebateOrderModel, FlashOrderModel, WithdrawOrderModel } from '@/ts/models';
+import { Urls, CaxiosType } from '@/ts/config';
+import { Caxios } from '@/ts/common';
+import { IPageParameters, IRebateOrderPageParameters, IFlashOrderPageParameters, IWithdrawOrderPageParameters } from '@/ts/interfaces';
+import {
+    PageResult,
+    CarrierInfoModel,
+    ExchangeFormModel,
+    ExchangeStatsModel,
+    WithdrawFormModel,
+    RebateOrderModel,
+    FlashOrderModel,
+    WithdrawOrderModel
+} from '@/ts/models';
 
 export class CarrierService {
-    // 验证运营商表单
-    public static validateCarrierForm(carrierForm: CarrierFormModel, formType: CarrierFormType): ValidationResult {
-        if (!carrierForm) return { status: false, data: { brokerForm: '参数不可以为空' } };
+    // 验证兑换表单
+    public static validateExchangeForm(exchangeForm: ExchangeFormModel): ValidationResult {
+        if (!exchangeForm) return { status: false, data: { brokerForm: '参数不可以为空' } };
 
-        let key = 'carrierForm',
-            { carrierId, carrierName, areaCode, mobile, loginPwd, rebateRatio, billingCycle, unit } = carrierForm,
+        let key = 'exchangeForm',
+            { amount, maxAmount } = exchangeForm,
             validator = new Validator();
-        if (formType === CarrierFormType.CarrierForm) {
-            validator.addRule(key, { name: 'carrierName', value: carrierName }, { required: true }, { required: '运营商不可以为空' });
-            if (areaCode === defaultAreaCode.id) {
-                validator.addRule(key, { name: 'mobile', value: mobile }, { required: true, mobile: true }, { required: '手机号不可以为空' });
-            } else {
-                validator.addRule(key, { name: 'mobile', value: mobile }, { required: true, pureDigit: true }, { required: '手机号不可以为空' });
+        validator.addRule(
+            key,
+            { name: 'amount', value: amount },
+            { required: true, minExclude: 0, max: maxAmount },
+            {
+                required: '兑换数量不可以为空',
+                minExclude: '兑换数量不可以小于等于0',
+                max: `兑换数量不可以大于${maxAmount}`
             }
-            validator.addRule(key, { name: 'loginPwd', value: loginPwd }, { required: true, password: true }, { required: '登录密码不可以为空' });
-            validator.addRule(key, { name: 'rebateRatio', value: rebateRatio }, { required: true }, { required: '返点比例(%)不可以为空' });
-            validator.addRule(key, { name: 'billingCycle', value: billingCycle }, { required: true }, { required: '结算时间不可以为空' });
-            validator.addRule(key, { name: 'unit', value: unit }, { required: true }, { required: '单位（周、月）不可以为空' });
-        } else if (formType === CarrierFormType.CarrierPasswordForm) {
-            validator.addRule(key, { name: 'carrierId', value: carrierId }, { required: true }, { required: '运营商编号不可以为空' });
-            validator.addRule(key, { name: 'loginPwd', value: loginPwd }, { required: true, password: true }, { required: '登录密码不可以为空' });
-        } else if (formType === CarrierFormType.CarrierMobileForm) {
-            validator.addRule(key, { name: 'carrierId', value: carrierId }, { required: true }, { required: '运营商编号不可以为空' });
-            if (areaCode === defaultAreaCode.id) {
-                validator.addRule(key, { name: 'mobile', value: mobile }, { required: true, mobile: true }, { required: '手机号不可以为空' });
-            } else {
-                validator.addRule(key, { name: 'mobile', value: mobile }, { required: true, pureDigit: true }, { required: '手机号不可以为空' });
-            }
-            validator.addRule(key, { name: 'loginPwd', value: loginPwd }, { required: true, password: true }, { required: '登录密码不可以为空' });
-        } else if (formType === CarrierFormType.CarrierRebateForm) {
-            validator.addRule(key, { name: 'carrierId', value: carrierId }, { required: true }, { required: '运营商不可以为空' });
-            validator.addRule(key, { name: 'rebateRatio', value: rebateRatio }, { required: true }, { required: '返点比例(%)不可以为空' });
-            validator.addRule(key, { name: 'billingCycle', value: billingCycle }, { required: true }, { required: '结算时间不可以为空' });
-            validator.addRule(key, { name: 'unit', value: unit }, { required: true }, { required: '单位（周、月）不可以为空' });
-        }
+        );
         return validator.execute(key);
     }
 
-    // 获取运营商选项列表
-    public async fetchCarrierOptions(): Promise<Array<ISelectOption>> {
-        let result = await Caxios.get<Array<any> | null>({ url: Urls.carrier.cache }, CaxiosType.Token);
-        return (result || []).map((item: any) => ({
-            label: item.carrierName,
-            value: item.carrierId
-        }));
+    // 验证提现表单
+    public static validateWithdrawForm(withdrawForm: WithdrawFormModel): ValidationResult {
+        if (!withdrawForm) return { status: false, data: { brokerForm: '参数不可以为空' } };
+
+        let key = 'exchangeForm',
+            { carrierId, value, toAddr, maxAmount } = withdrawForm,
+            validator = new Validator();
+        validator.addRule(key, { name: 'carrierId', value: carrierId }, { required: true }, { required: '运营商编号不可以为空' });
+        validator.addRule(
+            key,
+            { name: 'value', value: value },
+            { required: true, minExclude: 0, max: maxAmount },
+            {
+                required: '提现数量不可以为空',
+                minExclude: '提现数量不可以小于等于0',
+                max: `提现数量不可以大于${maxAmount}`
+            }
+        );
+        validator.addRule(key, { name: 'toAddr', value: toAddr }, { required: true }, { required: '提现地址不可以为空' });
+        return validator.execute(key);
     }
 
-    // 获取运营商列表
-    public async fetchCarriers(parameters: IPageParameters<null>): Promise<PageResult<CarrierModel>> {
-        let url = Urls.carrier.list.list,
-            result = await Caxios.get<PageResult<CarrierModel> | null>(
-                { url: `${url}?${Utils.buildPageParameters(parameters)}` },
-                CaxiosType.PageLoadingToken
-            );
-        if (!result) return new PageResult<CarrierModel>(0, []);
-
-        (result.list || []).forEach((item: any) => {
-            item['carrierId'] = isNaN(Number(item.carrierId)) ? null : Number(item.carrierId);
-            item['rebateRatio'] = isNaN(Number(item.rebateRatio)) ? null : Number(item.rebateRatio);
-        });
-        return result as PageResult<CarrierModel>;
+    // 获取运营商信息
+    public async fetchCarrierInfo(): Promise<CarrierInfoModel | null> {
+        return await Caxios.get<CarrierInfoModel | null>({ url: Urls.carrier.index.info }, CaxiosType.FullLoadingToken);
     }
 
-    // 添加运营商
-    public async addCarrier(carrierForm: CarrierFormModel, isCode: boolean = false): Promise<boolean> {
-        let result: ValidationResult = CarrierService.validateCarrierForm(carrierForm, CarrierFormType.CarrierForm);
+    // 获取兑换汇率
+    public async fetchRate(): Promise<number> {
+        let parameters = Utils.buildParameters({ coin: 'DC', gotcoin: 'BCB' }),
+            rate = await Caxios.get<any>({ url: `${Urls.carrier.index.rate}?${parameters}` }, CaxiosType.FullLoadingToken);
+        return isNaN(Number(rate)) ? 0 : Number(rate);
+    }
+
+    // 兑换
+    public async exchangeCoin(exchangeForm: ExchangeFormModel, isCode: boolean = false): Promise<ExchangeStatsModel | null> {
+        let result: ValidationResult = CarrierService.validateExchangeForm(exchangeForm);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { carrierName, areaCode, mobile, loginPwd, rebateRatio, billingCycle, unit } = carrierForm,
-            filterAreaCode = AreaCodes.filter((item: IAreaCode) => item.id === areaCode)[0];
-        if (!filterAreaCode) return Promise.reject('未找到对应的国家、地区区号');
+        return await Caxios.post<any>({ url: Urls.carrier.index.exchange, data: exchangeForm.amount }, CaxiosType.FullLoadingToken, isCode);
+    }
 
-        await Caxios.post<any>(
-            {
-                url: Urls.carrier.list.add,
-                data: {
-                    carrierName,
-                    areaCode: '+' + filterAreaCode.code,
-                    mobile,
-                    pwd: md5(loginPwd),
-                    rebateRatio,
-                    billingCycle,
-                    unit
-                }
-            },
-            CaxiosType.FullLoadingToken,
-            isCode
-        );
+    // 确认兑换
+    public async confirmExchangeCoin(serial: string, isCode: boolean = false): Promise<boolean> {
+        if (!serial) return Promise.reject('订单号不可以为空');
+        await Caxios.post<any>({ url: Urls.carrier.index.exchange, data: serial }, CaxiosType.FullLoadingToken, isCode);
         return true;
     }
 
-    // 更新运营商
-    public async updateCarrier(formType: CarrierFormType, carrierForm: CarrierFormModel, isCode: boolean = false): Promise<boolean> {
-        let result: ValidationResult = CarrierService.validateCarrierForm(carrierForm, formType);
+    // 提现
+    public async withdrawCoin(withdrawForm: WithdrawFormModel, isCode: boolean = false): Promise<boolean> {
+        let result: ValidationResult = CarrierService.validateWithdrawForm(withdrawForm);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { carrierId, areaCode, mobile, loginPwd, rebateRatio, billingCycle, unit } = carrierForm,
-            filterAreaCode = AreaCodes.filter((item: IAreaCode) => item.id === areaCode)[0];
-        if (formType === CarrierFormType.CarrierMobileForm && !filterAreaCode) return Promise.reject('未找到对应的国家、地区区号');
-
-        let tAreaCode = filterAreaCode ? '+' + filterAreaCode.code : '',
-            pwd = md5(loginPwd);
+        let { carrierId, value, toAddr } = withdrawForm;
         await Caxios.post<any>(
             {
-                url: {
-                    2: Urls.carrier.list.updatePassword,
-                    3: Urls.carrier.list.updateMobile,
-                    4: Urls.carrier.list.updateRebate
-                }[formType],
-                data: {
-                    2: { carrierId, pwd },
-                    3: { carrierId, areaCode: tAreaCode, mobile, pwd },
-                    4: { carrierId, rebateRatio, billingCycle, unit }
-                }[formType]
+                url: Urls.carrier.index.withdraw,
+                data: { carrierId, value, toAddr }
             },
             CaxiosType.FullLoadingToken,
             isCode

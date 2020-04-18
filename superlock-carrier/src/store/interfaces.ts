@@ -1,5 +1,4 @@
 import { Commit } from 'vuex';
-import { CarrierFormType, OperationType } from '@/ts/config';
 import {
     ISelectOption,
     IPageParameters,
@@ -28,12 +27,12 @@ import {
     BrokerFormModel,
     QuotaFormModel,
     RateFormModel,
-    PasswordFormModel,
-    CarrierFormModel,
-    CarrierModel,
+    CarrierInfoModel,
+    WithdrawFormModel,
     RebateOrderModel,
     FlashOrderModel,
-    WithdrawOrderModel
+    WithdrawOrderModel,
+    PasswordFormModel
 } from '@/ts/models';
 
 export interface IActionContext<T> {
@@ -69,53 +68,50 @@ export interface IHomeState {
 }
 
 export interface ILockState {
-    statusOptions: Array<ISelectOption>;
+    statusOptions: Array<ISelectOption>; // 状态选项
 
-    lockParameters: IPageParameters<ILockPageParameters>;
-    projectParameters: IPageParameters<IProjectPageParameters>;
-    totalCount: number;
-    list: Array<LockModel | ProjectModel>;
+    lockParameters: IPageParameters<ILockPageParameters>; // 锁仓分页参数
+    projectParameters: IPageParameters<IProjectPageParameters>; // 项目分页参数
+    totalCount: number; // 总数量
+    list: Array<LockModel | ProjectModel>; // 列表
 
-    awardForm: AwardFormModel;
+    awardForm: AwardFormModel; // 奖励表单
 }
 
 export interface IFinanceState {
-    parameters: IPageParameters<IFinancePageParameters>;
-    totalCount: number;
-    list: Array<FinanceInterestModel | FinanceDirectModel | FinancePromoteModel | FinanceSaleModel>;
+    parameters: IPageParameters<IFinancePageParameters>; // 财务模块分页参数
+    totalCount: number; // 总数量
+    list: Array<FinanceInterestModel | FinanceDirectModel | FinancePromoteModel | FinanceSaleModel>; // 列表
 }
 
 export interface IMemberState {
-    projectOptions: Array<ISelectOption>;
-    typeOptions: Array<ISelectOption>;
+    projectOptions: Array<ISelectOption>; // 项目选项
+    typeOptions: Array<ISelectOption>; // 类型选项
 
-    parameters: IPageParameters<IMemberPageParameters>;
-    totalCount: number;
-    list: Array<BrokerModel | BrokerChildModel | RateModel>;
+    parameters: IPageParameters<IMemberPageParameters>; // 用户中心模块分页参数
+    totalCount: number; // 总数量
+    list: Array<BrokerModel | BrokerChildModel | RateModel>; // 列表
 
-    brokerForm: BrokerFormModel;
-    rateForm: RateFormModel;
-    quotaForm: QuotaFormModel;
+    brokerForm: BrokerFormModel; // 券商表单
+    rateForm: RateFormModel; // 利率表单
+    quotaForm: QuotaFormModel; // 额度表单
 
-    count: number;
+    count: number; // 下级数量
 }
 
 export interface ICarrierState {
-    cycleOptions: Array<ISelectOption>;
+    carrierInfo?: CarrierInfoModel | null; // 运营商信息
+    rate: number; // 汇率
+    serial: string; // 订单号
+    withdrawForm: WithdrawFormModel; // 提现表单
 
-    operationType: OperationType;
-    formType: CarrierFormType;
-    carrierForm: CarrierFormModel;
-    carrier?: CarrierModel;
-
-    carrierParameters: IPageParameters<null>;
-    rebateParameters: IPageParameters<IRebateOrderPageParameters>;
-    flashParameters: IPageParameters<IFlashOrderPageParameters>;
-    withdrawParameters: IPageParameters<IWithdrawOrderPageParameters>;
-    totalCount: number;
-    list: Array<CarrierModel | RebateOrderModel | FlashOrderModel | WithdrawOrderModel>;
+    rebateParameters: IPageParameters<IRebateOrderPageParameters>; // 返点订单分页参数
+    flashParameters: IPageParameters<IFlashOrderPageParameters>; // 闪兑订单分页参数
+    withdrawParameters: IPageParameters<IWithdrawOrderPageParameters>; // 提现订单分页参数
+    totalCount: number; // 总数量
+    list: Array<RebateOrderModel | FlashOrderModel | WithdrawOrderModel>; // 列表
 }
 
 export interface ISystemState {
-    passwordForm: PasswordFormModel;
+    passwordForm: PasswordFormModel; // 密码表单
 }
