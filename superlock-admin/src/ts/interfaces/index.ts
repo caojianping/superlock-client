@@ -13,6 +13,7 @@ export interface IPageParameters<T> {
 
 // 充值页面参数
 export interface IRechargePageParameters {
+    serial: string; // 订单号
     uid: string; // uid
     hash: string; // 哈希
     coinCode: string; // 币种
@@ -25,10 +26,11 @@ export interface IWithdrawPageParameters {
     uid: string; // uid
     serial: string; // 订单号
     status: string; // 状态
+    address: string; // 到账地址
     createBeginTime: string;
     createEndTime: string;
-    finishBeginTime: string;
-    finishEndTime: string;
+    // finishBeginTime: string;
+    // finishEndTime: string;
 }
 
 // 转账分页参数
@@ -47,7 +49,7 @@ export interface ILockPageParameters {
     status: string; // 订单状态，空代表全部，0创建，10锁仓资金操作中，20操作锁仓资金完成，锁仓中，30锁仓结束，解仓,40锁仓失败
     beginTime: string; // 开始时间
     endTime: string; // 结束时间
-    carrierId: string; // 补充字段：用户来源ID
+    carrierName: string; // 补充字段：运营商名称
 }
 
 // 项目分页参数
@@ -82,7 +84,7 @@ export interface IMemberPageParameters {
     type?: number; // 类型：0券商列表；1代理列表；
     uid: string; // UID
     mobileNumber: string; // 手机号
-    operatorName: string; // 用户来源ID
+    carrierName: string; // 补充字段：运营商名称
     parent: string; // 上级UID
 }
 
@@ -93,9 +95,17 @@ export interface IPointPageParameters {
     endTime: string; // 结束时间
 }
 
+// 运营商分页参数
+export interface ICarrierPageParameters {
+    carrierName: string; // 运营商名称
+    mobile: string; // 手机号
+    beginTime: string; // 开始时间
+    endTime: string; // 结束时间
+}
+
 // 返点订单分页参数
 export interface IRebateOrderPageParameters {
-    carrierId: string; // 运营商编号
+    carrierName: string; // 运营商名称
     beginTime: string; // 开始时间
     endTime: string; // 结束时间
 }
@@ -103,7 +113,7 @@ export interface IRebateOrderPageParameters {
 // 闪兑订单分页参数
 export interface IFlashOrderPageParameters {
     serial: string; // 订单号
-    carrierId: string; // 运营商编号
+    carrierName: string; // 运营商名称
     status: string; // 状态
     beginTime: string; // 开始时间
     endTime: string; // 结束时间
@@ -112,7 +122,7 @@ export interface IFlashOrderPageParameters {
 // 提现订单分页参数
 export interface IWithdrawOrderPageParameters {
     serial: string; // 订单号
-    carrierId: string; // 运营商编号
+    carrierName: string; // 运营商名称
     status: string; // 状态
     address: string; // 到账地址
     beginTime: string; // 开始时间

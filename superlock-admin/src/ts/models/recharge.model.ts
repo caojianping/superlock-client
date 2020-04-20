@@ -13,6 +13,7 @@ export class RechargeModel {
     public lockRate!: string; // 锁仓汇率
     public profit!: string; // 手续费
     public commissionRate!: string; // 手续费比例
+    public status!: string; // 充值状态
 }
 
 // 充值手续费模型

@@ -2,7 +2,14 @@ import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
 import { Urls, AreaCodes, defaultAreaCode, IAreaCode, CaxiosType, CarrierFormType } from '@/ts/config';
 import { Caxios, md5 } from '@/ts/common';
-import { IPageParameters, IRebateOrderPageParameters, IFlashOrderPageParameters, IWithdrawOrderPageParameters, ISelectOption } from '@/ts/interfaces';
+import {
+    IPageParameters,
+    IRebateOrderPageParameters,
+    IFlashOrderPageParameters,
+    IWithdrawOrderPageParameters,
+    ISelectOption,
+    ICarrierPageParameters
+} from '@/ts/interfaces';
 import { PageResult, CarrierFormModel, CarrierModel, RebateOrderModel, FlashOrderModel, WithdrawOrderModel } from '@/ts/models';
 
 export class CarrierService {
@@ -49,15 +56,15 @@ export class CarrierService {
         let result = await Caxios.get<Array<any> | null>({ url: Urls.carrier.cache }, CaxiosType.Token);
         return (result || []).map((item: any) => ({
             label: item.carrierName,
-            value: item.carrierId
+            value: item.carrierName
         }));
     }
 
     // 获取运营商列表
-    public async fetchCarriers(parameters: IPageParameters<null>): Promise<PageResult<CarrierModel>> {
+    public async fetchCarriers(parameters: IPageParameters<ICarrierPageParameters>): Promise<PageResult<CarrierModel>> {
         let url = Urls.carrier.list.list,
             result = await Caxios.get<PageResult<CarrierModel> | null>(
-                { url: `${url}?${Utils.buildPageParameters(parameters)}` },
+                { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'], ['carrierName'])}` },
                 CaxiosType.PageLoadingToken
             );
         if (!result) return new PageResult<CarrierModel>(0, []);
@@ -67,6 +74,16 @@ export class CarrierService {
             item['rebateRatio'] = isNaN(Number(item.rebateRatio)) ? null : Number(item.rebateRatio);
         });
         return result as PageResult<CarrierModel>;
+    }
+
+    // 导出运营商列表
+    public async exportCarriers(parameters: IPageParameters<ICarrierPageParameters>): Promise<string> {
+        let url = Urls.carrier.list.export,
+            result = await Caxios.get<string | null>(
+                { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'], ['carrierName'])}` },
+                CaxiosType.FullLoadingToken
+            );
+        return result || '';
     }
 
     // 添加运营商
@@ -131,7 +148,7 @@ export class CarrierService {
     public async fetchRebateOrders(parameters: IPageParameters<IRebateOrderPageParameters>): Promise<PageResult<RebateOrderModel>> {
         let url = Urls.carrier.rebate.list,
             result = await Caxios.get<PageResult<RebateOrderModel> | null>(
-                { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'])}` },
+                { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'], ['carrierName'])}` },
                 CaxiosType.PageLoadingToken
             );
         if (!result) return new PageResult<RebateOrderModel>(0, []);
@@ -142,7 +159,7 @@ export class CarrierService {
     public async exportRebateOrders(parameters: IPageParameters<IRebateOrderPageParameters>): Promise<string> {
         let url = Urls.carrier.rebate.export,
             result = await Caxios.get<string | null>(
-                { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'])}` },
+                { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'], ['carrierName'])}` },
                 CaxiosType.FullLoadingToken
             );
         return result || '';
@@ -152,7 +169,7 @@ export class CarrierService {
     public async fetchFlashOrders(parameters: IPageParameters<IFlashOrderPageParameters>): Promise<PageResult<FlashOrderModel>> {
         let url = Urls.carrier.flash.list,
             result = await Caxios.get<PageResult<FlashOrderModel> | null>(
-                { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'])}` },
+                { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'], ['carrierName'])}` },
                 CaxiosType.PageLoadingToken
             );
         if (!result) return new PageResult<FlashOrderModel>(0, []);
@@ -163,7 +180,7 @@ export class CarrierService {
     public async exportFlashOrders(parameters: IPageParameters<IFlashOrderPageParameters>): Promise<string> {
         let url = Urls.carrier.flash.export,
             result = await Caxios.get<string | null>(
-                { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'])}` },
+                { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'], ['carrierName'])}` },
                 CaxiosType.FullLoadingToken
             );
         return result || '';
@@ -173,7 +190,7 @@ export class CarrierService {
     public async fetchWithdrawOrders(parameters: IPageParameters<IWithdrawOrderPageParameters>): Promise<PageResult<WithdrawOrderModel>> {
         let url = Urls.carrier.withdraw.list,
             result = await Caxios.get<PageResult<WithdrawOrderModel> | null>(
-                { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'])}` },
+                { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'], ['carrierName'])}` },
                 CaxiosType.PageLoadingToken
             );
         if (!result) return new PageResult<WithdrawOrderModel>(0, []);
@@ -184,7 +201,7 @@ export class CarrierService {
     public async exportWithdrawOrders(parameters: IPageParameters<IWithdrawOrderPageParameters>): Promise<string> {
         let url = Urls.carrier.withdraw.export,
             result = await Caxios.get<string | null>(
-                { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'])}` },
+                { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'], ['carrierName'])}` },
                 CaxiosType.FullLoadingToken
             );
         return result || '';

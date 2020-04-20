@@ -15,7 +15,7 @@
                     {{ ['券商列表', '代理列表'][type] }}
                 </h2>
             </header>
-            <div class="sl-block-body">
+            <div class="sl-block-body mw1200px">
                 <ant-row :gutter="24">
                     {{ ((colSpan = type === 0 ? 8 : 6), void 0) }}
                     <ant-col :span="colSpan">
@@ -67,7 +67,7 @@
         </template>
 
         <ant-table
-            :class="type === 1 ? 'mt32px' : ''"
+            :class="['mw1200px', type === 1 ? '' : 'nowrap', type === 1 ? 'mt32px' : '']"
             :columns="columns"
             :rowKey="record => record.uid"
             :dataSource="list"

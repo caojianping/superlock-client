@@ -55,16 +55,10 @@ export default class RebateOrder extends Vue {
             scopedSlots: { customRender: 'serial' }
         },
         {
-            title: '运营商ID',
-            dataIndex: 'carrierId'
-        },
-        {
-            title: '运营商名称',
-            dataIndex: 'carrierName'
-        },
-        {
-            title: '结算周期',
-            dataIndex: 'billingCycle'
+            title: '返点时间',
+            dataIndex: '',
+            key: 'rebateTime',
+            scopedSlots: { customRender: 'rebateTime' }
         },
         {
             title: '新增锁仓(DC)',
@@ -72,35 +66,21 @@ export default class RebateOrder extends Vue {
         },
         {
             title: '返点比例(%)',
-            dataIndex: 'rebateRatio'
+            dataIndex: '',
+            key: 'rebateRatio',
+            scopedSlots: { customRender: 'rebateRatio' }
         },
         {
-            title: '返点价值(DC)',
+            title: '返点数量(DC)',
             dataIndex: 'rebateValue'
         },
         {
-            title: '创建时间',
-            dataIndex: '',
-            key: 'createTime',
-            scopedSlots: { customRender: 'createTime' }
+            title: '账户余额',
+            dataIndex: 'balance'
         },
         {
-            title: '完结时间',
-            dataIndex: '',
-            key: 'endTime',
-            scopedSlots: { customRender: 'endTime' }
-        },
-        {
-            title: '状态',
-            dataIndex: '',
-            key: 'status',
-            scopedSlots: { customRender: 'status' }
-        },
-        {
-            title: '操作',
-            dataIndex: '',
-            key: 'operation',
-            scopedSlots: { customRender: 'operation' }
+            title: '备注',
+            dataIndex: 'memo'
         }
     ];
 

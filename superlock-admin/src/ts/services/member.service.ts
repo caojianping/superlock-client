@@ -98,7 +98,7 @@ export class MemberService {
     public async fetchBrokers(parameters: IPageParameters<IMemberPageParameters>): Promise<PageResult<BrokerModel>> {
         let url = Urls.member.broker.list,
             result = await Caxios.get<PageResult<BrokerModel> | null>(
-                { url: `${url}?${Utils.buildPageParameters(parameters)}` },
+                { url: `${url}?${Utils.buildPageParameters(parameters, [], ['carrierName'])}` },
                 CaxiosType.PageLoadingToken
             );
         if (!result) return new PageResult<BrokerModel>(0, []);
@@ -117,6 +117,10 @@ export class MemberService {
 
     // 获取利率详情列表
     public async fetchRates(parameters: IPageParameters<IMemberPageParameters>): Promise<PageResult<RateModel>> {
+        delete parameters.conditions.carrierName;
+        delete parameters.conditions.mobileNumber;
+        delete parameters.conditions.parent;
+
         let url = Urls.member.broker.rates,
             result = await Caxios.get<PageResult<RateModel> | null>(
                 { url: `${url}?${Utils.buildPageParameters(parameters)}` },

@@ -31,7 +31,7 @@
                             {{ ((endTime = pointParameters.conditions.endTime), void 0) }}
                             <ant-range-picker
                                 :value="[beginTime ? moment(beginTime) : undefined, endTime ? moment(endTime) : undefined]"
-                                :showTime="{ format: 'HH:mm' }"
+                                :showTime="{ format: 'HH:mm', defaultValue: [moment('00:00', 'HH:mm'), moment('23:59', 'HH:mm')] }"
                                 format="YYYY-MM-DD HH:mm"
                                 @change="handleRangePickerChange"
                             ></ant-range-picker>

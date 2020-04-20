@@ -9,10 +9,11 @@ const withdrawState: IWithdrawState = {
             uid: '',
             serial: '',
             status: '',
+            address: '',
             createBeginTime: '',
-            createEndTime: '',
-            finishBeginTime: '',
-            finishEndTime: ''
+            createEndTime: ''
+            // finishBeginTime: '',
+            // finishEndTime: ''
         },
         pageNum: 1,
         pageSize: 10
@@ -50,10 +51,11 @@ export default {
                     uid: '',
                     serial: '',
                     status: '',
+                    address: '',
                     createBeginTime: '',
-                    createEndTime: '',
-                    finishBeginTime: '',
-                    finishEndTime: ''
+                    createEndTime: ''
+                    // finishBeginTime: '',
+                    // finishEndTime: ''
                 },
                 pageNum: 1,
                 pageSize: 10

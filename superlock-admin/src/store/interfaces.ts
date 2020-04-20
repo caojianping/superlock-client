@@ -14,6 +14,7 @@ import {
     IFundPageParameters,
     IMemberPageParameters,
     IPointPageParameters,
+    ICarrierPageParameters,
     IRebateOrderPageParameters,
     IFlashOrderPageParameters,
     IWithdrawOrderPageParameters
@@ -189,7 +190,7 @@ export interface ICarrierState {
     carrierForm: CarrierFormModel;
     carrier?: CarrierModel;
 
-    carrierParameters: IPageParameters<null>;
+    carrierParameters: IPageParameters<ICarrierPageParameters>;
     rebateParameters: IPageParameters<IRebateOrderPageParameters>;
     flashParameters: IPageParameters<IFlashOrderPageParameters>;
     withdrawParameters: IPageParameters<IWithdrawOrderPageParameters>;

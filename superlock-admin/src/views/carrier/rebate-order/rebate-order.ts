@@ -74,7 +74,9 @@ export default class RebateOrder extends Vue {
         },
         {
             title: '返点比例(%)',
-            dataIndex: 'rebateRatio'
+            dataIndex: '',
+            key: 'rebateRatio',
+            scopedSlots: { customRender: 'rebateRatio' }
         },
         {
             title: '返点价值(DC)',

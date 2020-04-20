@@ -24,7 +24,7 @@ const memberState: IMemberState = {
         conditions: {
             uid: '',
             mobileNumber: '',
-            operatorName: '',
+            carrierName: '',
             parent: ''
         },
         pageNum: 1,
@@ -57,7 +57,7 @@ export default {
                 conditions: {
                     uid: '',
                     mobileNumber: '',
-                    operatorName: '',
+                    carrierName: '',
                     parent: ''
                 },
                 pageNum: 1,

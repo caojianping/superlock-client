@@ -124,13 +124,13 @@ export default class WithdrawRecord extends Vue {
         this.setStates({ withdrawParameters });
     }
 
-    // 处理结束日期change事件
-    handleFinishRangePickerChange(dates: Array<any>, dateStrings: Array<string>) {
-        let withdrawParameters = Utils.duplicate(this.withdrawParameters);
-        withdrawParameters.conditions.finishBeginTime = dateStrings[0];
-        withdrawParameters.conditions.finishEndTime = dateStrings[1];
-        this.setStates({ withdrawParameters });
-    }
+    // // 处理结束日期change事件
+    // handleFinishRangePickerChange(dates: Array<any>, dateStrings: Array<string>) {
+    //     let withdrawParameters = Utils.duplicate(this.withdrawParameters);
+    //     withdrawParameters.conditions.finishBeginTime = dateStrings[0];
+    //     withdrawParameters.conditions.finishEndTime = dateStrings[1];
+    //     this.setStates({ withdrawParameters });
+    // }
 
     // 搜索
     async search() {

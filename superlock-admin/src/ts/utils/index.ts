@@ -363,7 +363,7 @@ function buildParameters(parameters: { [key: string]: any }): string {
 }
 
 // 构建分页查询参数字符串
-function buildPageParameters<T>(parameters: IPageParameters<T>, convertKeys: Array<string> = []): string {
+function buildPageParameters<T>(parameters: IPageParameters<T>, convertFields: Array<string> = [], encodeFields: Array<string> = []): string {
     if (!parameters) return '';
 
     let temp: Array<any> = [],
@@ -371,7 +371,10 @@ function buildPageParameters<T>(parameters: IPageParameters<T>, convertKeys: Arr
     if (conditions) {
         for (const key in conditions) {
             let value: any = conditions[key];
-            if (convertKeys.indexOf(key) > -1) {
+            if (encodeFields.indexOf(key) > -1) {
+                value = encodeURI(value);
+            }
+            if (convertFields.indexOf(key) > -1) {
                 value = dateFormat(String(value), 'yyyyMMddhhmmss', true);
             }
             temp.push(`${key}=${String(value)}`);

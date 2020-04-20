@@ -41,19 +41,11 @@ export default class FlashOrder extends Vue {
             scopedSlots: { customRender: 'serial' }
         },
         {
-            title: '运营商ID',
-            dataIndex: 'carrierId'
-        },
-        {
-            title: '运营商名称',
-            dataIndex: 'carrierName'
-        },
-        {
-            title: '原币种',
+            title: '兑换币种',
             dataIndex: 'coinCode'
         },
         {
-            title: '原币种数量',
+            title: '兑换数量',
             dataIndex: 'amount'
         },
         {
@@ -61,7 +53,7 @@ export default class FlashOrder extends Vue {
             dataIndex: 'flashCoinCode'
         },
         {
-            title: '到账币种数量',
+            title: '到账数量',
             dataIndex: 'flashAmount'
         },
         {

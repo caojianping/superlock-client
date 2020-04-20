@@ -24,19 +24,21 @@
                             />
                         </ant-form-item>
                     </ant-col>
+
                     <ant-col :span="10">
                         <ant-form-item label="选择时间" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             {{ ((beginTime = flashParameters.conditions.beginTime), void 0) }}
                             {{ ((endTime = flashParameters.conditions.endTime), void 0) }}
                             <ant-range-picker
                                 :value="[beginTime ? moment(beginTime) : undefined, endTime ? moment(endTime) : undefined]"
-                                :showTime="{ format: 'HH:mm' }"
+                                :showTime="{ format: 'HH:mm', defaultValue: [moment('00:00', 'HH:mm'), moment('23:59', 'HH:mm')] }"
                                 format="YYYY-MM-DD HH:mm"
                                 @change="handleRangePickerChange"
                             ></ant-range-picker>
                         </ant-form-item>
                     </ant-col>
                 </ant-row>
+
                 <ant-row :gutter="24">
                     <ant-col :span="8">
                         <ant-form-item label="状态" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
@@ -50,19 +52,21 @@
                             ></ant-select>
                         </ant-form-item>
                     </ant-col>
+
                     <ant-col :span="10">
                         <ant-form-item label="运营商名称" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-select
-                                :value="flashParameters.conditions.carrierId"
+                                :value="flashParameters.conditions.carrierName || undefined"
                                 :options="carrierOptions"
                                 showSearch
                                 allowClear
                                 placeholder="请输入运营商名称"
-                                @change="handleFormChange('carrierId', $event)"
+                                @change="handleFormChange('carrierName', $event)"
                                 :filterOption="carrierFilterOption"
                             ></ant-select>
                         </ant-form-item>
                     </ant-col>
+
                     <ant-col :span="6">
                         <ant-button class="sl-search" type="primary" @click="search">搜索</ant-button>
                     </ant-col>

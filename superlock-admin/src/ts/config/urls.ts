@@ -127,6 +127,7 @@ export const Urls = {
         cache: `${baseUrl}/carrier/cache`,
         list: {
             list: `${baseUrl}/carrier/list`,
+            export: `${baseUrl}/carrier/export`,
             add: `${baseUrl}/carrier/add`,
             updatePassword: `${baseUrl}/carrier/updatePwd`,
             updateMobile: `${baseUrl}/carrier/updateMobile`,

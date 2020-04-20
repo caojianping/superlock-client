@@ -20,13 +20,18 @@ const carrierState: ICarrierState = {
     carrier: undefined,
 
     carrierParameters: {
-        conditions: null,
+        conditions: {
+            carrierName: '',
+            mobile: '',
+            beginTime: '',
+            endTime: ''
+        },
         pageNum: 1,
         pageSize: 10
     },
     rebateParameters: {
         conditions: {
-            carrierId: '',
+            carrierName: '',
             beginTime: '',
             endTime: ''
         },
@@ -36,7 +41,7 @@ const carrierState: ICarrierState = {
     flashParameters: {
         conditions: {
             serial: '',
-            carrierId: '',
+            carrierName: '',
             status: '',
             beginTime: '',
             endTime: ''
@@ -47,7 +52,7 @@ const carrierState: ICarrierState = {
     withdrawParameters: {
         conditions: {
             serial: '',
-            carrierId: '',
+            carrierName: '',
             status: '',
             address: '',
             beginTime: '',
@@ -78,13 +83,18 @@ export default {
             state.carrierForm = new CarrierFormModel();
 
             state.carrierParameters = {
-                conditions: null,
+                conditions: {
+                    carrierName: '',
+                    mobile: '',
+                    beginTime: '',
+                    endTime: ''
+                },
                 pageNum: 1,
                 pageSize: 10
             };
             state.rebateParameters = {
                 conditions: {
-                    carrierId: '',
+                    carrierName: '',
                     beginTime: '',
                     endTime: ''
                 },
@@ -94,7 +104,7 @@ export default {
             state.flashParameters = {
                 conditions: {
                     serial: '',
-                    carrierId: '',
+                    carrierName: '',
                     status: '',
                     beginTime: '',
                     endTime: ''
@@ -105,7 +115,7 @@ export default {
             state.withdrawParameters = {
                 conditions: {
                     serial: '',
-                    carrierId: '',
+                    carrierName: '',
                     status: '',
                     address: '',
                     beginTime: '',
@@ -129,6 +139,11 @@ export default {
                 commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
                 return Promise.reject(error);
             }
+        },
+
+        // 导出运营商列表
+        async exportCarriers(context: IActionContext<ICarrierState>): Promise<string> {
+            return await carrierService.exportCarriers(context.state.carrierParameters);
         },
 
         // 添加运营商

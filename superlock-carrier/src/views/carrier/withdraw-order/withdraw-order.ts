@@ -60,12 +60,16 @@ export default class WithdrawOrder extends Vue {
             scopedSlots: { customRender: 'serial' }
         },
         {
-            title: '运营商ID',
-            dataIndex: 'carrierId'
+            title: '提现地址',
+            dataIndex: '',
+            key: 'address',
+            scopedSlots: { customRender: 'address' }
         },
         {
-            title: '运营商名称',
-            dataIndex: 'carrierName'
+            title: '交易hash',
+            dataIndex: '',
+            key: 'hash',
+            scopedSlots: { customRender: 'hash' }
         },
         {
             title: '提现币种',
@@ -76,13 +80,7 @@ export default class WithdrawOrder extends Vue {
             dataIndex: 'amount'
         },
         {
-            title: '到账地址',
-            dataIndex: '',
-            key: 'address',
-            scopedSlots: { customRender: 'address' }
-        },
-        {
-            title: '创建时间',
+            title: '提现时间',
             dataIndex: '',
             key: 'createTime',
             scopedSlots: { customRender: 'createTime' }
@@ -90,26 +88,16 @@ export default class WithdrawOrder extends Vue {
         {
             title: '完结时间',
             dataIndex: '',
-            key: 'endTime',
-            scopedSlots: { customRender: 'endTime' }
+            key: 'finishDate',
+            scopedSlots: { customRender: 'finishDate' }
+        },
+        {
+            title: '账户余额',
+            dataIndex: 'balance'
         },
         {
             title: '状态',
-            dataIndex: '',
-            key: 'status',
-            scopedSlots: { customRender: 'status' }
-        },
-        {
-            title: '审核状态',
-            dataIndex: '',
-            key: 'auditStatus',
-            scopedSlots: { customRender: 'auditStatus' }
-        },
-        {
-            title: '操作',
-            dataIndex: '',
-            key: 'operation',
-            scopedSlots: { customRender: 'operation' }
+            dataIndex: 'status'
         }
     ];
 

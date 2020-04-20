@@ -92,7 +92,7 @@ export class LockService {
     public async fetchLocks(parameters: IPageParameters<ILockPageParameters>): Promise<PageResult<LockModel>> {
         let url = Urls.lock.order.list,
             result = await Caxios.get<PageResult<LockModel> | null>(
-                { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'])}` },
+                { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'], ['carrierName'])}` },
                 CaxiosType.PageLoadingToken
             );
         if (!result) return new PageResult<LockModel>(0, []);
@@ -103,7 +103,7 @@ export class LockService {
     public async exportLocks(parameters: IPageParameters<ILockPageParameters>): Promise<string> {
         let url = Urls.lock.order.export,
             result = await Caxios.get<string | null>(
-                { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'])}` },
+                { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'], ['carrierName'])}` },
                 CaxiosType.FullLoadingToken
             );
         return result || '';

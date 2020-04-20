@@ -15,7 +15,7 @@
                     {{ ['券商列表', '代理列表'][type] }}
                 </h2>
             </header>
-            <div class="sl-block-body">
+            <div class="sl-block-body mw1200px">
                 <ant-row :gutter="24">
                     <ant-col :span="type === 0 ? 7 : 5">
                         <ant-form-item label="UID" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
@@ -44,12 +44,12 @@
                     <ant-col :span="type === 0 ? 7 : 6">
                         <ant-form-item label="用户来源" :label-col="{ span: 7 }" :wrapper-col="{ span: 17 }">
                             <ant-select
-                                :value="parameters.conditions.operatorName"
+                                :value="parameters.conditions.carrierName || undefined"
                                 :options="carrierOptions"
                                 showSearch
                                 allowClear
                                 placeholder="请输入用户来源"
-                                @change="handleFormChange('operatorName', $event)"
+                                @change="handleFormChange('carrierName', $event)"
                                 :filterOption="carrierFilterOption"
                             ></ant-select>
                         </ant-form-item>
@@ -80,7 +80,7 @@
         </template>
 
         <ant-table
-            :class="type === 1 ? 'mt32px' : ''"
+            :class="['mw1200px', type === 1 ? '' : 'nowrap', type === 1 ? 'mt32px' : '']"
             :columns="columns"
             :rowKey="record => record.uid"
             :dataSource="list"

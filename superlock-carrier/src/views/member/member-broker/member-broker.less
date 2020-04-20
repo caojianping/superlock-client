@@ -2,16 +2,9 @@
 @import '../../../less/mixins.less';
 
 /deep/ .ant-table table {
-    min-width: 1200px !important;
-
     thead > tr > th:nth-child(10),
     tbody > tr > td:nth-child(10) {
-        width: 60px;
-    }
-
-    thead > tr > th:last-child,
-    tbody > tr > td:last-child {
-        padding: 0 0 0 4px;
-        width: 80px;
+        padding: 0 8px;
+        white-space: nowrap;
     }
 }

@@ -11,7 +11,7 @@
             <header class="sl-block-header">
                 <h2 class="sl-block-title">锁仓记录</h2>
             </header>
-            <div class="sl-block-body">
+            <div class="sl-block-body mw1200px">
                 <ant-row :gutter="24">
                     <ant-col :span="8">
                         <ant-form-item label="UID" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
@@ -58,7 +58,7 @@
                             {{ ((endTime = lockParameters.conditions.endTime), void 0) }}
                             <ant-range-picker
                                 :value="[beginTime ? moment(beginTime) : undefined, endTime ? moment(endTime) : undefined]"
-                                :showTime="{ format: 'HH:mm' }"
+                                :showTime="{ format: 'HH:mm', defaultValue: [moment('00:00', 'HH:mm'), moment('23:59', 'HH:mm')] }"
                                 format="YYYY-MM-DD HH:mm"
                                 @change="handleRangePickerChange"
                             ></ant-range-picker>
@@ -74,7 +74,14 @@
 
         <ant-button class="sl-tool" type="primary" @click="exportReport">导出报表</ant-button>
 
-        <ant-table :columns="columns" :rowKey="record => record.serial" :dataSource="list" :pagination="false" :loading="isPageLoading">
+        <ant-table
+            class="mw1200px nowrap"
+            :columns="columns"
+            :rowKey="record => record.serial"
+            :dataSource="list"
+            :pagination="false"
+            :loading="isPageLoading"
+        >
             <ant-tooltip class="w100px" slot="serial" slot-scope="record">
                 <template slot="title">{{ record.serial }}</template>
                 {{ record.serial }}

@@ -6,6 +6,7 @@ import { RechargeService } from '@/ts/services';
 const rechargeState: IRechargeState = {
     parameters: {
         conditions: {
+            serial: '',
             uid: '',
             hash: '',
             coinCode: '',
@@ -36,6 +37,7 @@ export default {
         [TYPES.CLEAR_STATES](state: IRechargeState) {
             state.parameters = {
                 conditions: {
+                    serial: '',
                     uid: '',
                     hash: '',
                     coinCode: '',

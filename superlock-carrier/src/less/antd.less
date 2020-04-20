@@ -11,11 +11,29 @@
     width: 100% !important;
 }
 
-.ant-table {
-    .ant-table-thead > tr > th,
-    .ant-table-tbody > tr > td {
-        text-align: center;
-        background-color: white;
+.ant-table-wrapper {
+    .ant-table table {
+        .ant-table-thead > tr > th,
+        .ant-table-tbody > tr > td {
+            text-align: center;
+            background-color: white;
+        }
+    }
+
+    &.nowrap .ant-table table {
+        thead > tr > th:last-child,
+        tbody > tr > td:last-child {
+            padding: 0 4px;
+            white-space: nowrap;
+        }
+    }
+
+    &.mw1200px .ant-table table {
+        min-width: 1200px !important;
+    }
+
+    &.mw1300px .ant-table table {
+        min-width: 1300px !important;
     }
 }
 

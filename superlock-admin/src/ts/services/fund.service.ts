@@ -9,7 +9,7 @@ export class FundService {
     public async fetchFunds(parameters: IPageParameters<IFundPageParameters>): Promise<PageResult<FundModel>> {
         let url = Urls.fund.record.list,
             result = await Caxios.get<PageResult<FundModel> | null>(
-                { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'])}` },
+                { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'], ['accountName', 'orderType'])}` },
                 CaxiosType.PageLoadingToken
             );
         if (!result) return new PageResult<FundModel>(0, []);
@@ -20,7 +20,7 @@ export class FundService {
     public async exportFunds(parameters: IPageParameters<IFundPageParameters>): Promise<string> {
         let url = Urls.fund.record.export,
             result = await Caxios.get<string | null>(
-                { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'])}` },
+                { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'], ['accountName', 'orderType'])}` },
                 CaxiosType.FullLoadingToken
             );
         return result || '';

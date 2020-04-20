@@ -68,7 +68,7 @@ export default class Sider extends Vue {
             toggle: false
         },
         {
-            name: '系统设置',
+            name: '系统管理',
             route: null,
             path: '/system',
             icon: 'system',

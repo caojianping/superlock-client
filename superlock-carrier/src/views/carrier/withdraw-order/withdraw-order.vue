@@ -56,7 +56,7 @@
                             {{ ((endTime = withdrawParameters.conditions.endTime), void 0) }}
                             <ant-range-picker
                                 :value="[beginTime ? moment(beginTime) : undefined, endTime ? moment(endTime) : undefined]"
-                                :showTime="{ format: 'HH:mm' }"
+                                :showTime="{ format: 'HH:mm', defaultValue: [moment('00:00', 'HH:mm'), moment('23:59', 'HH:mm')] }"
                                 format="YYYY-MM-DD HH:mm"
                                 @change="handleRangePickerChange"
                             ></ant-range-picker>
@@ -81,24 +81,16 @@
                 <template slot="title">{{ record.address }}</template>
                 {{ record.address }}
             </ant-tooltip>
+            <ant-tooltip class="w100px" slot="hash" slot-scope="record">
+                <template slot="title">{{ record.hash }}</template>
+                {{ record.hash }}
+            </ant-tooltip>
             <span slot="createTime" slot-scope="record">
                 {{ record.createTime | dateFormat }}
             </span>
-            <span slot="endTime" slot-scope="record">
-                {{ record.endTime | dateFormat }}
+            <span slot="finishDate" slot-scope="record">
+                {{ record.finishDate | dateFormat }}
             </span>
-            <span :class="statusColors[record.status]" slot="status" slot-scope="record">
-                {{ statusNames[record.status] }}
-            </span>
-            <span :class="auditColors[record.auditStatus]" slot="auditStatus" slot-scope="record">
-                {{ auditNames[record.auditStatus] }}
-            </span>
-            <template slot="operation" slot-scope="record">
-                <template v-if="record.status === '0' && record.auditStatus === '1'">
-                    <ant-button type="default" size="small" @click="setOperate(record.serial, 3)">审核</ant-button>
-                    <ant-button type="danger" size="small" @click="setOperate(record.serial, 5)">驳回</ant-button>
-                </template>
-            </template>
         </ant-table>
 
         <ant-pagination

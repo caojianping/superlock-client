@@ -89,6 +89,10 @@ export default class RechargeOrder extends Vue {
         {
             title: '手续费（BCB）',
             dataIndex: 'profit'
+        },
+        {
+            title: '状态',
+            dataIndex: 'status'
         }
     ];
 

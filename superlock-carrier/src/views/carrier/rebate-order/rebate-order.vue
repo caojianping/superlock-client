@@ -30,7 +30,7 @@
                             {{ ((endTime = rebateParameters.conditions.endTime), void 0) }}
                             <ant-range-picker
                                 :value="[beginTime ? moment(beginTime) : undefined, endTime ? moment(endTime) : undefined]"
-                                :showTime="{ format: 'HH:mm' }"
+                                :showTime="{ format: 'HH:mm', defaultValue: [moment('00:00', 'HH:mm'), moment('23:59', 'HH:mm')] }"
                                 format="YYYY-MM-DD HH:mm"
                                 @change="handleRangePickerChange"
                             ></ant-range-picker>
@@ -50,19 +50,12 @@
                 <template slot="title">{{ record.serial }}</template>
                 {{ record.serial }}
             </ant-tooltip>
-            <span slot="createTime" slot-scope="record">
-                {{ record.createTime | dateFormat }}
+            <span slot="rebateTime" slot-scope="record">
+                {{ record.rebateTime | dateFormat }}
             </span>
-            <span slot="endTime" slot-scope="record">
-                {{ record.endTime | dateFormat }}
+            <span slot="rebateRatio" slot-scope="record">
+                {{ record.rebateRatio | ratePercent }}
             </span>
-            <span :class="statusColors[record.status]" slot="status" slot-scope="record">
-                {{ statusNames[record.status] }}
-            </span>
-            <template slot="operation" slot-scope="record">
-                <ant-button v-if="record.status !== '3'" type="default" size="small" @click="setOperate(record.fundSerial, 3)">审核</ant-button>
-                <ant-button v-if="record.status === '1'" type="danger" size="small" @click="setOperate(record.fundSerial, 5)">驳回</ant-button>
-            </template>
         </ant-table>
 
         <ant-pagination

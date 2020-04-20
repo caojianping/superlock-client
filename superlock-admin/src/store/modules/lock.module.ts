@@ -22,7 +22,7 @@ const lockState: ILockState = {
             status: '',
             beginTime: '',
             endTime: '',
-            carrierId: ''
+            carrierName: ''
         },
         pageNum: 1,
         pageSize: 10
@@ -61,7 +61,7 @@ export default {
                     status: '',
                     beginTime: '',
                     endTime: '',
-                    carrierId: ''
+                    carrierName: ''
                 },
                 pageNum: 1,
                 pageSize: 10

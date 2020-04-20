@@ -1,12 +1,12 @@
 import Vue from 'vue';
-import { namespace, State, Mutation } from 'vuex-class';
+import { namespace, State, Mutation, Action } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { OperationType, CarrierFormType, ResponseCode } from '@/ts/config';
 import { Prompt } from '@/ts/common';
-import { IPageParameters } from '@/ts/interfaces';
+import { IPageParameters, ISelectOption, ICarrierPageParameters } from '@/ts/interfaces';
 import { CarrierModel, CarrierFormModel } from '@/ts/models';
 
 import SecondVerify from '@/components/common/second-verify';
@@ -22,15 +22,17 @@ export default class CarrierList extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
     @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
+    @State('carrierOptions') carrierOptions!: Array<ISelectOption>;
     @Mutation(TYPES.SET_STATES) setRootStates!: (payload: any) => any;
     @Mutation(TYPES.CLEAR_STATES) clearRootStates!: () => any;
+    @Action('fetchCarrierOptions') fetchCarrierOptions!: () => any;
 
     @carrierModule.State('operationType') operationType!: OperationType;
     @carrierModule.State('formType') formType!: CarrierFormType;
     @carrierModule.State('carrierForm') carrierForm!: CarrierFormModel;
     @carrierModule.State('carrier') carrier?: CarrierModel;
 
-    @carrierModule.State('carrierParameters') carrierParameters!: IPageParameters<null>;
+    @carrierModule.State('carrierParameters') carrierParameters!: IPageParameters<ICarrierPageParameters>;
     @carrierModule.State('totalCount') totalCount!: number;
     @carrierModule.State('list') list!: Array<CarrierModel>;
 
@@ -38,6 +40,7 @@ export default class CarrierList extends Vue {
     @carrierModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
 
     @carrierModule.Action('fetchCarriers') fetchCarriers!: () => any;
+    @carrierModule.Action('exportCarriers') exportCarriers!: () => any;
     @carrierModule.Action('addCarrier') addCarrier!: (isCode?: boolean) => any;
     @carrierModule.Action('updateCarrier') updateCarrier!: (isCode?: boolean) => any;
 
@@ -100,6 +103,51 @@ export default class CarrierList extends Vue {
         }
     ];
 
+    // 运营商过滤选项
+    carrierFilterOption(input: string, option: any) {
+        let text = option.componentOptions.children[0].text.toLowerCase(),
+            tinput = input.toLowerCase();
+        return text.indexOf(tinput) > -1;
+    }
+
+    // 处理表单change事件
+    handleFormChange(key: string, value: string) {
+        let carrierParameters = Utils.duplicate(this.carrierParameters);
+        carrierParameters.conditions[key] = value;
+        this.setStates({ carrierParameters });
+    }
+
+    // 处理日期change事件
+    handleRangePickerChange(dates: Array<any>, dateStrings: Array<string>) {
+        let carrierParameters = Utils.duplicate(this.carrierParameters);
+        carrierParameters.conditions.beginTime = dateStrings[0];
+        carrierParameters.conditions.endTime = dateStrings[1];
+        this.setStates({ carrierParameters });
+    }
+
+    // 搜索
+    async search() {
+        try {
+            let carrierParameters = Utils.duplicate(this.carrierParameters);
+            carrierParameters.pageNum = 1;
+            this.setStates({ carrierParameters });
+            await this.fetchCarriers();
+        } catch (error) {
+            Prompt.error(error.message || error);
+        }
+    }
+
+    // 导出报表
+    async exportReport() {
+        try {
+            let url = await this.exportCarriers();
+            if (!url) Prompt.error('导出失败');
+            else window.location.href = url;
+        } catch (error) {
+            Prompt.error(error.message || error);
+        }
+    }
+
     // 打开运营商模态框
     openCarrierModal(operationType: OperationType, formType: CarrierFormType, carrier?: CarrierModel) {
         this.isCarrierShow = true;
@@ -152,12 +200,20 @@ export default class CarrierList extends Vue {
         this.fetchCarriers();
     }
 
+    // 获取数据
+    async fetchData() {
+        if (this.carrierOptions.length <= 0) {
+            await this.fetchCarrierOptions();
+        }
+        await this.fetchCarriers();
+    }
+
     created() {
         this.clearStates();
     }
 
     mounted() {
         Utils.jumpTop();
-        this.fetchCarriers();
+        this.fetchData();
     }
 }

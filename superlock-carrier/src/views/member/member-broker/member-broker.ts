@@ -200,10 +200,6 @@ export default class MemberBroker extends Vue {
                           dataIndex: 'mobile'
                       },
                       {
-                          title: '用户来源',
-                          dataIndex: 'userSource'
-                      },
-                      {
                           title: '账户资产(BCB)',
                           dataIndex: '',
                           key: 'amount',
@@ -266,10 +262,6 @@ export default class MemberBroker extends Vue {
                       {
                           title: '手机号',
                           dataIndex: 'mobile'
-                      },
-                      {
-                          title: '用户来源',
-                          dataIndex: 'userSource'
                       },
                       {
                           title: '上级UID',
