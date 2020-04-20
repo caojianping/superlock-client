@@ -70,7 +70,7 @@ export default class SmsCode extends Vue {
                 this.$emit('stop');
             } else {
                 this.setCountdown();
-                Prompt.success('发送成功');
+                // Prompt.success('发送成功');
             }
         } catch (error) {
             this.isSpinning = false;

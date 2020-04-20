@@ -1,5 +1,5 @@
 <template>
-    <ant-modal v-model="isShow" title="提现" :width="600" :footer="null" @cancel="handleModalCancel">
+    <ant-modal v-model="isShow" title="提现" :width="650" :footer="null" @cancel="handleModalCancel">
         <ant-row :gutter="24">
             <ant-col :span="20">
                 <ant-form-item label="提现币种" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
@@ -29,7 +29,7 @@
                     />
                 </ant-form-item>
             </ant-col>
-            <ant-col :span="4" @click="withdrawAll">全部</ant-col>
+            <ant-col class="sl-all" :span="4" @click="withdrawAll">全部</ant-col>
         </ant-row>
 
         <ant-row :gutter="24">
@@ -47,7 +47,7 @@
             </ant-col>
         </ant-row>
 
-        <p>当前仅支持BCB提现，账户里的DC可先“一键闪兑”为BCB后再进行提现。</p>
+        <p class="withdraw-prompt">当前仅支持BCB提现，账户里的DC可先“一键闪兑”为BCB后再进行提现。</p>
 
         <ant-row :gutter="24">
             <ant-button class="sl-submit" type="primary" @click="submit">保存</ant-button>

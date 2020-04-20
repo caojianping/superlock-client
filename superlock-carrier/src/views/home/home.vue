@@ -19,7 +19,7 @@
                                 <tr>
                                     <td>{{ homeData.new_lock_count || 0 }}</td>
                                     <td>
-                                        {{ (homeData.new_lock_amount || 0) | digitPrecision }}
+                                        {{ (homeData.new_lock_amount || 0) | digitPrecision(6) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -37,10 +37,10 @@
                             <table>
                                 <tr>
                                     <td>
-                                        {{ (homeData.tb_rebate_amount || 0) | digitPrecision }}
+                                        {{ (homeData.tb_rebate_amount || 0) | digitPrecision(6) }}
                                     </td>
                                     <td>
-                                        {{ (homeData.rebate_amount || 0) | digitPrecision }}
+                                        {{ (homeData.rebate_amount || 0) | digitPrecision(6) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -61,7 +61,7 @@
                                         {{ homeData.all_lock_count || 0 }}
                                     </td>
                                     <td>
-                                        {{ (homeData.all_lock_amount || 0) | digitPrecision }}
+                                        {{ (homeData.all_lock_amount || 0) | digitPrecision(6) }}
                                     </td>
                                 </tr>
                                 <tr>

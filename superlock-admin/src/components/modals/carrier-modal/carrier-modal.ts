@@ -104,7 +104,7 @@ export default class UserModal extends Vue {
                             carrierForm.loginPwd = '';
                             break;
                         case CarrierFormType.CarrierRebateForm:
-                            carrierForm.rebateRatio = carrier.rebateRatio;
+                            carrierForm.rebateRatio = carrier.rebateRatio * 100;
                             carrierForm.billingCycle = carrier.billingCycle;
                             carrierForm.unit = carrier.unit;
                             this.currentCycle = `${carrier.billingCycle}_${carrier.unit}`;

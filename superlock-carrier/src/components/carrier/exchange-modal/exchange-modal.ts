@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component, Model, Watch } from 'vue-property-decorator';
+import Calculator from 'jts-calculator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
@@ -30,17 +31,51 @@ export default class ExchangeModal extends Vue {
     @carrierModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @carrierModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @carrierModule.Action('fetchRate') fetchRate!: () => any;
-    @carrierModule.Action('exchangeCoin') exchangeCoin!: (payload: any) => any;
+    @carrierModule.Action('presetExchange') presetExchange!: (payload: any) => any;
 
     isShow: boolean = this.value; // 是否显示模态框
     stepType: StepType = StepType.Default; // 步骤类型
     exchangeForm: ExchangeFormModel = new ExchangeFormModel(); // 兑换表单
     exchangeStats: ExchangeStatsModel | null = null; // 兑换统计
 
+    timer: any = null; // 倒计时定时器
+    seconds: number = 300; // 倒计时秒数
+    text: string = ''; // 倒计时文字
+
+    // 清除定时器
+    clearTimer() {
+        if (this.timer) {
+            clearInterval(this.timer);
+        }
+        this.timer = null;
+        this.seconds = 300;
+        this.text = '';
+        this.$emit('close', false);
+    }
+
+    // 设置倒计时
+    setCountdown() {
+        let self = this,
+            { timer, seconds } = self;
+        if (timer) {
+            self.clearTimer();
+        } else {
+            self.text = Utils.dateCountdown(self.seconds);
+            self.timer = setInterval(function() {
+                self.seconds = seconds--;
+                if (self.seconds <= 0) {
+                    self.clearTimer();
+                } else {
+                    self.text = Utils.dateCountdown(self.seconds);
+                }
+            }, 1000);
+        }
+    }
+
     get bcbAmount() {
         let amount = this.exchangeForm.amount || 0,
             rate = this.rate || 0;
-        return amount * rate;
+        return Calculator.multiply(amount, rate, 6);
     }
 
     // 处理模态框cancel事件
@@ -66,7 +101,7 @@ export default class ExchangeModal extends Vue {
     async submitExchange(isCode?: boolean) {
         try {
             let exchangeForm = Utils.duplicate(this.exchangeForm),
-                exchangeStats = await this.exchangeCoin({ exchangeForm, isCode });
+                exchangeStats = await this.presetExchange({ exchangeForm, isCode });
             if (!exchangeStats) {
                 Prompt.error('兑换失败');
                 return;
@@ -79,6 +114,8 @@ export default class ExchangeModal extends Vue {
             this.setStates({ rate: exchangeStats.rate });
 
             this.exchangeStats = exchangeStats;
+
+            this.setCountdown();
         } catch (error) {
             Prompt.error(error.message || error);
         }

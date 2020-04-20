@@ -1,5 +1,5 @@
 <template>
-    <ant-modal v-model="isShow" title="一键闪兑" :width="600" :footer="null" @cancel="handleModalCancel">
+    <ant-modal v-model="isShow" title="一键闪兑" :width="650" :footer="null" @cancel="handleModalCancel">
         <ant-row :gutter="24">
             <ant-col :span="20">
                 <ant-form-item label="闪兑币种" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
@@ -37,7 +37,7 @@
                     />
                 </ant-form-item>
             </ant-col>
-            <ant-col :span="4" @click="exchangeAll">全部</ant-col>
+            <ant-col class="sl-all" :span="4" @click="exchangeAll">全部</ant-col>
         </ant-row>
 
         <ant-row :gutter="24">
@@ -48,12 +48,12 @@
             </ant-col>
         </ant-row>
 
-        <div v-if="stepType === 1">
+        <div v-if="stepType === 1" class="exchange-prompt">
             当前汇率取值来自于当前市场的交易汇率。汇率存在实时变动的可能，实际闪兑汇率以兑换时的市场汇率取值为准。
         </div>
-        <div v-else-if="stepType === 2">
+        <div v-else-if="stepType === 2" class="exchange-prompt countdown">
             <p>请在5分钟内确认是否闪兑。5分钟后订单将自动关闭。</p>
-            <p>闪兑倒计时：4分39秒</p>
+            <p v-html="`闪兑倒计时：<span>${text}</span>`" />
         </div>
 
         <ant-row :gutter="24">

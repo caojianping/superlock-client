@@ -9,7 +9,7 @@
 
         <div class="sl-form">
             <header class="sl-form-header">
-                <h1 class="sl-form-title">奖励设置</h1>
+                <h1 class="sl-form-title">运营数据</h1>
             </header>
             <div class="sl-form-body">
                 {{ ((carrierInfoObj = carrierInfo || {}), void 0) }}
@@ -44,7 +44,7 @@
                         </ant-form-item>
                     </ant-col>
                     <ant-col :span="6">
-                        <ant-button type="primary" @click="openModal(1)">一键闪兑</ant-button>
+                        <ant-button class="mt4px" type="primary" @click="openModal(1)">一键闪兑</ant-button>
                     </ant-col>
                 </ant-row>
 
@@ -55,7 +55,7 @@
                         </ant-form-item>
                     </ant-col>
                     <ant-col :span="6">
-                        <ant-button type="primary" @click="openModal(2)">提现</ant-button>
+                        <ant-button class="mt4px" type="primary" @click="openModal(2)">提现</ant-button>
                     </ant-col>
                 </ant-row>
             </div>

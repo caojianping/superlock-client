@@ -86,7 +86,7 @@ export class CarrierService {
                     areaCode: '+' + filterAreaCode.code,
                     mobile,
                     pwd: md5(loginPwd),
-                    rebateRatio,
+                    rebateRatio: rebateRatio / 100,
                     billingCycle,
                     unit
                 }
@@ -118,7 +118,7 @@ export class CarrierService {
                 data: {
                     2: { carrierId, pwd },
                     3: { carrierId, areaCode: tAreaCode, mobile, pwd },
-                    4: { carrierId, rebateRatio, billingCycle, unit }
+                    4: { carrierId, rebateRatio: rebateRatio / 100, billingCycle, unit }
                 }[formType]
             },
             CaxiosType.FullLoadingToken,

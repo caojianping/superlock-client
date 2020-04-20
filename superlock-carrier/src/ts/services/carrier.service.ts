@@ -69,18 +69,36 @@ export class CarrierService {
         return isNaN(Number(rate)) ? 0 : Number(rate);
     }
 
-    // 兑换
-    public async exchangeCoin(exchangeForm: ExchangeFormModel, isCode: boolean = false): Promise<ExchangeStatsModel | null> {
+    // 预兑换
+    public async presetExchange(exchangeForm: ExchangeFormModel, isCode: boolean = false): Promise<ExchangeStatsModel | null> {
         let result: ValidationResult = CarrierService.validateExchangeForm(exchangeForm);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        return await Caxios.post<any>({ url: Urls.carrier.index.exchange, data: exchangeForm.amount }, CaxiosType.FullLoadingToken, isCode);
+        let stats = await Caxios.post<any>(
+            { url: Urls.carrier.index.presetExchange, data: exchangeForm.amount },
+            CaxiosType.FullLoadingToken,
+            isCode
+        );
+        if (!stats) return null;
+        // let stats: any = {
+        //     invoice: '123456',
+        //     rate: '0.021162',
+        //     dcAmount: '1',
+        //     bcbAmount: '0.021162'
+        // };
+
+        let exchangeStats = new ExchangeStatsModel();
+        exchangeStats.serial = stats.invoice;
+        exchangeStats.rate = isNaN(Number(stats.rate)) ? 0 : Number(stats.rate);
+        exchangeStats.dcAmount = isNaN(Number(stats.dcAmount)) ? 0 : Number(stats.dcAmount);
+        exchangeStats.bcbAmount = isNaN(Number(stats.bcbAmount)) ? 0 : Number(stats.bcbAmount);
+        return exchangeStats;
     }
 
     // 确认兑换
-    public async confirmExchangeCoin(serial: string, isCode: boolean = false): Promise<boolean> {
+    public async confirmExchange(serial: string, isCode: boolean = false): Promise<boolean> {
         if (!serial) return Promise.reject('订单号不可以为空');
-        await Caxios.post<any>({ url: Urls.carrier.index.exchange, data: serial }, CaxiosType.FullLoadingToken, isCode);
+        await Caxios.post<any>({ url: Urls.carrier.index.confirmExchange, data: serial }, CaxiosType.FullLoadingToken, isCode);
         return true;
     }
 

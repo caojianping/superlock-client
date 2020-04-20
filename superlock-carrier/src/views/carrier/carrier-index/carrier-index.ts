@@ -31,7 +31,7 @@ export default class CarrierIndex extends Vue {
     @carrierModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @carrierModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @carrierModule.Action('fetchCarrierInfo') fetchCarrierInfo!: () => any;
-    @carrierModule.Action('confirmExchangeCoin') confirmExchangeCoin!: (isCode?: boolean) => any;
+    @carrierModule.Action('confirmExchange') confirmExchange!: (isCode?: boolean) => any;
     @carrierModule.Action('withdrawCoin') withdrawCoin!: (isCode?: boolean) => any;
 
     isExchangeShow: boolean = false; // 是否显示兑换模态框
@@ -49,7 +49,7 @@ export default class CarrierIndex extends Vue {
         try {
             let modalType = this.modalType,
                 msg = { 1: '兑换', 2: '提现' }[modalType],
-                result = modalType === ModalType.ExchangeModal ? await this.confirmExchangeCoin(isCode) : await this.withdrawCoin(isCode);
+                result = modalType === ModalType.ExchangeModal ? await this.confirmExchange(isCode) : await this.withdrawCoin(isCode);
             if (!result) Prompt.error(`${msg}失败`);
             else {
                 Prompt.success(`${msg}成功`);

@@ -110,7 +110,6 @@ export default {
                 commit(TYPES.SET_STATES, { carrierInfo });
             } catch (error) {
                 commit(TYPES.SET_STATES, { carrierInfo: null });
-                return Promise.reject(error);
             }
         },
 
@@ -122,21 +121,20 @@ export default {
                 commit(TYPES.SET_STATES, { rate });
             } catch (error) {
                 commit(TYPES.SET_STATES, { rate: 0 });
-                return Promise.reject(error);
             }
         },
 
-        // 兑换
-        async exchangeCoin(
+        // 预兑换
+        async presetExchange(
             context: IActionContext<ICarrierState>,
             payload: { exchangeForm: ExchangeFormModel; isCode: boolean }
         ): Promise<ExchangeStatsModel | null> {
-            return await carrierService.exchangeCoin(payload.exchangeForm, payload.isCode);
+            return await carrierService.presetExchange(payload.exchangeForm, payload.isCode);
         },
 
         // 确认兑换
         async confirmExchangeCoin(context: IActionContext<ICarrierState>, isCode: boolean = false): Promise<boolean> {
-            return await carrierService.confirmExchangeCoin(context.state.serial, isCode);
+            return await carrierService.confirmExchange(context.state.serial, isCode);
         },
 
         // 提现
@@ -152,7 +150,6 @@ export default {
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
                 commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
-                return Promise.reject(error);
             }
         },
 
@@ -169,7 +166,6 @@ export default {
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
                 commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
-                return Promise.reject(error);
             }
         },
 
@@ -186,7 +182,6 @@ export default {
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
                 commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
-                return Promise.reject(error);
             }
         },
 
