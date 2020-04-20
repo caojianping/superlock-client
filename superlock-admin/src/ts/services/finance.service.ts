@@ -14,7 +14,7 @@ export class FinanceService {
                 url: Urls.finance.review,
                 data: { serial, type, status }
             },
-            CaxiosType.PageLoadingToken,
+            CaxiosType.FullLoadingToken,
             isCode
         );
         return true;

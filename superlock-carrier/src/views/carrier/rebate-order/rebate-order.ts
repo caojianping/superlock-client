@@ -136,7 +136,8 @@ export default class RebateOrder extends Vue {
 
     // 设置操作
     async setOperate(serial: string, status: ReviewStatus) {
-        this.setStates({ serial, status });
+        this.serial = serial;
+        this.status = status;
         await this._setReview(false);
     }
 
