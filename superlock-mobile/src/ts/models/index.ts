@@ -49,6 +49,13 @@ export class TokenInfo {
     }
 }
 
+// 验证结果
+export class VerifyResult {
+    public needVerify!: number; // 是否需要验证
+    public verifyMode!: string; // 验证方式：100邮箱验证；010短信验证；001谷歌验证；
+    public email?: string; // 邮箱，空时表示未绑定邮箱
+}
+
 // 可提现、可转账额度模型
 export class QuotaModel {
     public amount!: number; // 可提现、可转账BCB额度

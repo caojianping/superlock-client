@@ -2,20 +2,16 @@ import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
 import { Urls, CaxiosType, UserFormType } from '@/ts/config';
 import { Caxios, md5 } from '@/ts/common';
-import { UserFormModel, SecurityFormModel } from '@/ts/models';
+import { UserFormModel, SecurityFormModel, EmailFormModel } from '@/ts/models';
 import { UserService } from './user.service';
 
 export class SecurityService {
     // 校验安全中心表单
     public static validateSecurityForm(securityForm: SecurityFormModel, isSet: boolean = false): ValidationResult {
-        if (!securityForm)
-            return {
-                status: false,
-                data: { userForm: '安全中心表单参数不可以为空' }
-            };
+        if (!securityForm) return { status: false, data: { userForm: '安全中心表单参数不可以为空' } };
 
-        const key = 'withdrawForm';
-        let { oldPassword, newPassword, confirmPassword, smsCode } = securityForm,
+        let key = 'securityForm',
+            { oldPassword, newPassword, confirmPassword, smsCode } = securityForm,
             validator = new Validator();
         if (!isSet) {
             validator.addRule(key, { name: 'oldPassword', value: oldPassword }, { required: true, password: true }, { required: '旧密码不可以为空' });
@@ -25,6 +21,18 @@ export class SecurityService {
         if (isSet) {
             validator.addRule(key, { name: 'smsCode', value: smsCode }, { required: true }, { required: '短信验证码不可以为空' });
         }
+        return validator.execute(key);
+    }
+
+    // 校验邮箱表单
+    public static validateEmailForm(emailForm: EmailFormModel): ValidationResult {
+        if (!emailForm) return { status: false, data: { userForm: '邮箱表单参数不可以为空' } };
+
+        let key = 'emailForm',
+            { emailAddress, emailCode } = emailForm,
+            validator = new Validator();
+        validator.addRule(key, { name: 'emailAddress', value: emailAddress }, { required: true, email: true }, { required: '邮箱地址不可以为空' });
+        validator.addRule(key, { name: 'emailCode', value: emailCode }, { required: true }, { required: '邮箱验证码不可以为空' });
         return validator.execute(key);
     }
 
@@ -97,6 +105,17 @@ export class SecurityService {
                 vfcode: smsCode
             });
         await Caxios.post<any>({ url: `${Urls.security.fundPassword.forget}?${parameters}` }, CaxiosType.LoadingToken);
+        return true;
+    }
+
+    // 绑定邮箱
+    public async bindEmail(emailForm: EmailFormModel): Promise<boolean> {
+        let result: ValidationResult = SecurityService.validateEmailForm(emailForm);
+        if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
+
+        let { emailAddress, emailCode } = emailForm,
+            parameters = Utils.buildParameters({ email: emailAddress, emailVcode: emailCode });
+        await Caxios.post<any>({ url: `${Urls.security.bindEmail}?${parameters}` }, CaxiosType.LoadingToken);
         return true;
     }
 }

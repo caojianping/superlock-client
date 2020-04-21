@@ -1,10 +1,11 @@
 import TYPES from '@/store/types';
 import { IActionContext, ISecurityState } from '@/store/interfaces';
-import { SecurityFormModel } from '@/ts/models';
+import { SecurityFormModel, EmailFormModel } from '@/ts/models';
 import { SecurityService } from '@/ts/services';
 
 const assetState: ISecurityState = {
-    securityForm: new SecurityFormModel()
+    securityForm: new SecurityFormModel(),
+    emailForm: new EmailFormModel()
 };
 
 const securityService = new SecurityService();
@@ -21,25 +22,28 @@ export default {
         },
         [TYPES.CLEAR_STATES](state: ISecurityState) {
             state.securityForm = new SecurityFormModel();
+            state.emailForm = new EmailFormModel();
         }
     },
     actions: {
         // 修改登录密码
         async modifyLoginPassword(context: IActionContext<ISecurityState>): Promise<boolean> {
-            let state = context.state;
-            return await securityService.modifyLoginPassword(state.securityForm);
+            return await securityService.modifyLoginPassword(context.state.securityForm);
         },
 
         // 设置资金密码
         async setFundPassword(context: IActionContext<ISecurityState>): Promise<boolean> {
-            let state = context.state;
-            return await securityService.setFundPassword(state.securityForm);
+            return await securityService.setFundPassword(context.state.securityForm);
         },
 
         // 修改资金密码
         async modifyFundPassword(context: IActionContext<ISecurityState>): Promise<boolean> {
-            let state = context.state;
-            return await securityService.modifyFundPassword(state.securityForm);
+            return await securityService.modifyFundPassword(context.state.securityForm);
+        },
+
+        // 绑定邮箱
+        async bindEmail(context: IActionContext<ISecurityState>): Promise<boolean> {
+            return await securityService.bindEmail(context.state.emailForm);
         }
     }
 };

@@ -2,7 +2,10 @@ const baseUrl = process.env.VUE_APP_BASE_URL;
 
 export const Urls = {
     common: {
-        smsCode: `${baseUrl}/vfcode`, // 获取短信验证码接口
+        verifyMethod: `${baseUrl}/verificationMethod`, // 获取验证方式接口
+        smsCode: `${baseUrl}/vfcode`, // 短信验证码接口
+        emailCode: `${baseUrl}/sendEmailVcode`, // 邮箱验证码接口
+
         quota: `${baseUrl}/project/withdrawableAmount`, // 取可提现额度接口
         exchangeRate: `${baseUrl}/project/exchangeRateToday` // 获取汇率接口
     },
@@ -74,6 +77,7 @@ export const Urls = {
             set: `${baseUrl}/user/setFundPasswd`, // 设置资金密码接口
             modify: `${baseUrl}/user/modifyFundPasswd`, // 修改资金密码接口
             forget: `${baseUrl}/user/forgetFundPasswd` // 忘记资金密码接口
-        }
+        },
+        bindEmail: `${baseUrl}/bindingEmail` // 绑定邮箱
     }
 };

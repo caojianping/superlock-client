@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 
 import TYPES from './types';
 import { IActionContext, IRootState } from './interfaces';
-import { TokenInfo } from '@/ts/models';
+import { TokenInfo, VerifyResult } from '@/ts/models';
 import { CommonService } from '@/ts/services';
 
 import userModule from './modules/user.module';
@@ -57,10 +57,19 @@ export default new Vuex.Store({
         }
     },
     actions: {
+        // 获取验证方式
+        async fetchVerifyMethod(context: IActionContext<IRootState>, payload: { areaCode: string; mobile: string }): Promise<VerifyResult | null> {
+            return await commonService.fetchVerifyMethod(payload.areaCode, payload.mobile);
+        },
+
         // 获取短信验证码
         async fetchSmsCode(context: IActionContext<IRootState>, payload: { areaCode: string; mobile: string }): Promise<boolean> {
-            let { areaCode, mobile } = payload;
-            return await commonService.fetchSmsCode(areaCode, mobile);
+            return await commonService.fetchSmsCode(payload.areaCode, payload.mobile);
+        },
+
+        // 获取邮箱验证码
+        async fetchEmailCode(context: IActionContext<IRootState>, payload: { areaCode: string; mobile: string }): Promise<boolean> {
+            return await commonService.fetchEmailCode(payload.areaCode, payload.mobile);
         },
 
         // 获取可提现、可转账额度
@@ -75,13 +84,7 @@ export default new Vuex.Store({
         },
 
         // 获取今日汇率信息
-        async fetchExchangeRate(
-            context: IActionContext<IRootState>,
-            payload: {
-                fromCoin: string;
-                toCoin: string;
-            }
-        ): Promise<void> {
+        async fetchExchangeRate(context: IActionContext<IRootState>, payload: { fromCoin: string; toCoin: string }): Promise<void> {
             let commit = context.commit;
             try {
                 let exchangeRate = await commonService.fetchExchangeRate(payload.fromCoin, payload.toCoin);

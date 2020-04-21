@@ -34,7 +34,8 @@ import {
     TransferChildModel,
     TransferModel,
     SecurityFormModel,
-    LockResultModel
+    LockResultModel,
+    EmailFormModel
 } from '@/ts/models';
 
 export interface IActionContext<T> {
@@ -142,4 +143,5 @@ export interface ITransferState {
 
 export interface ISecurityState {
     securityForm: SecurityFormModel; // 安全中心表单
+    emailForm: EmailFormModel; // 邮箱表单
 }
