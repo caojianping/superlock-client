@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
-import { Component, Model, Watch } from 'vue-property-decorator';
+import { Component, Model, Watch, Prop } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { Prompt } from '@/ts/common';
@@ -16,6 +17,7 @@ const userModule = namespace('user');
     components: { Popup, CellGroup, Field, Button, Header }
 })
 export default class ForgetForm extends Vue {
+    @Prop() readonly from!: string; // 来源
     @Model('close', { type: Boolean }) value!: boolean; // v-model
 
     @userModule.State('userForm') userForm!: UserFormModel;

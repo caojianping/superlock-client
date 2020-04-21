@@ -1,6 +1,6 @@
 <template>
-    <Popup v-model="isShow" class="full scb-gray" @close="handlePopupClose">
-        <Header title="密码找回" @left="handlePopupClose" />
+    <Popup v-model="isShow" class="full scb-gray">
+        <Header title="密码找回" @left="$router.push(from)" />
 
         <div class="scb-form scb-separator">
             <ul>

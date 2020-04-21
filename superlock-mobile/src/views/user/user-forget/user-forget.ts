@@ -1,33 +1,37 @@
 import Vue from 'vue';
-import { namespace } from 'vuex-class';
+import { namespace, Action, State, Mutation } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
-import { ValidationResult } from 'jpts-validator';
+
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { UserFormType, CONSTANTS, ForgetType } from '@/ts/config';
+import { CONSTANTS, ForgetType } from '@/ts/config';
 import { Prompt } from '@/ts/common';
-import { UserFormModel } from '@/ts/models';
-import { UserService } from '@/ts/services';
+import { UserFormModel, VerifyResult } from '@/ts/models';
 
 import { CellGroup, Cell, Field, Button } from 'vant';
-import Header from '@/components/common/header';
-import SmsCode from '@/components/common/sms-code';
+import VerifyList from '@/components/verify/verify-list';
 import ForgetForm from '@/components/user/forget-form';
 
 const userModule = namespace('user');
 
 @Component({
     name: 'UserForget',
-    components: { CellGroup, Cell, Field, Button, Header, SmsCode, ForgetForm }
+    components: { CellGroup, Cell, Field, Button, VerifyList, ForgetForm }
 })
 export default class UserForget extends Vue {
+    @State('verifyResult') verifyResult?: VerifyResult | null;
+    @Mutation(TYPES.SET_STATES) setRootStates!: (payload: any) => any;
+    @Mutation(TYPES.CLEAR_STATES) clearRootStates!: () => any;
+    @Action('fetchVerifyMethod') fetchVerifyMethod!: (payload: { areaCode: string; mobile: string }) => any;
+
     @userModule.State('userForm') userForm!: UserFormModel;
     @userModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @userModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
 
     yunDun: any = null; // 云盾实例
-    from: string = '';
-    isShow: boolean = false;
+    from: string = ''; // 来源
+    isVerifyShow: boolean = false; // 是否显示验证列表组件
+    isForgetShow: boolean = false; // 是否显示忘记表单组件
 
     // 处理Field组件input事件
     handleFieldInput(key: string, value: any) {
@@ -49,20 +53,30 @@ export default class UserForget extends Vue {
     // 处理ForgetForm组件close事件
     handleForgetFormClose() {
         let userForm = Utils.duplicate(this.userForm);
-        userForm.smsCode = '';
+        userForm.code = '';
         this.setStates({ userForm });
     }
 
-    // 下一步
-    async nextStep() {
-        let userForm = this.userForm,
-            result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.ForgetSmsCode);
-        if (!result.status) {
-            Prompt.error(Utils.getFirstValue(result.data));
-            return;
-        }
+    // 处理验证列表组件submit事件
+    async handleVerifyListSubmit(code: string) {
+        let userForm = Utils.duplicate(this.userForm);
+        userForm.code = code;
+        this.setStates({ userForm });
 
-        this.isShow = true;
+        this.isForgetShow = true;
+    }
+
+    // 处理验证列表组件stop事件
+    handleVerifyListStop() {
+        this.yunDun && this.yunDun.refresh();
+    }
+
+    // 处理验证列表组件back事件
+    handleVerifyListClose(isShow: boolean, isForm: boolean) {
+        console.log('forget close:', isShow, isForm);
+        if (!isForm) {
+            // this.$router.push(this.from);
+        }
     }
 
     // 初始化数据
@@ -96,6 +110,28 @@ export default class UserForget extends Vue {
         } catch (error) {}
     }
 
+    // 获取数据
+    async fetchData() {
+        try {
+            let userForm = Utils.duplicate(this.userForm);
+            await this.fetchVerifyMethod({ areaCode: userForm.areaCode, mobile: userForm.mobile });
+
+            let verifyResult = this.verifyResult;
+            if (!verifyResult) return Prompt.error('验证方式获取失败');
+
+            if (verifyResult.needVerify === 1) {
+                // 需要验证
+                this.isVerifyShow = true;
+                userForm.verifyMode = verifyResult.verifyMode;
+                this.setStates({ userForm });
+            } else {
+                this.isForgetShow = true;
+            }
+        } catch (error) {
+            Prompt.error(error.message || error);
+        }
+    }
+
     created() {
         this.clearStates();
         this.initData();
@@ -103,5 +139,6 @@ export default class UserForget extends Vue {
 
     mounted() {
         this.initYunDun();
+        this.fetchData();
     }
 }

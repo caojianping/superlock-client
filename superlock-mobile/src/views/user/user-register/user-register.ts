@@ -1,13 +1,15 @@
 import Vue from 'vue';
-import { namespace } from 'vuex-class';
+import { namespace, Action, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { RegisterStatus, CONSTANTS } from '@/ts/config';
 import { Prompt } from '@/ts/common';
-import { UserFormModel } from '@/ts/models';
+import { UserFormModel, VerifyResult } from '@/ts/models';
 
 import { Cell, Button } from 'vant';
+import VerifyList from '@/components/verify/verify-list';
 import UserForm from '@/components/user/user-form';
 import WechatPrompt from '@/components/user/wechat-prompt';
 
@@ -15,17 +17,21 @@ const userModule = namespace('user');
 
 @Component({
     name: 'UserRegister',
-    components: { Cell, Button, UserForm, WechatPrompt }
+    components: { Cell, Button, VerifyList, UserForm, WechatPrompt }
 })
 export default class UserRegister extends Vue {
+    @State('verifyResult') verifyResult?: VerifyResult | null;
+    @Action('fetchVerifyMethod') fetchVerifyMethod!: (payload: { areaCode: string; mobile: string }) => any;
+
     @userModule.State('userForm') userForm!: UserFormModel;
     @userModule.State('registerStatus') registerStatus!: RegisterStatus;
     @userModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @userModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-    @userModule.Action('register') registerAction!: () => any;
+    @userModule.Action('register') register!: () => any;
 
     yunDun: any = null; // 云盾实例
-    code: string = ''; // 邀请码
+    invitationCode: string = ''; // 邀请码
+    isVerifyShow: boolean = false; // 是否显示验证列表组件
 
     // 处理UserForm组件change事件
     handleUserFormChange(userForm: UserFormModel) {
@@ -33,22 +39,31 @@ export default class UserRegister extends Vue {
         this.setStates({ userForm });
     }
 
-    // 处理UserForm组件stop事件
-    handleUserFormStop() {
-        this.yunDun && this.yunDun.refresh();
-    }
-
-    // 注册
-    async register() {
+    // 提交注册表单
+    async submit() {
         try {
-            let result = await this.registerAction();
+            let result = await this.register();
             if (!result) Prompt.error('注册失败');
-            else {
-                this.setStates({ registerStatus: RegisterStatus.Success });
-            }
+            else this.setStates({ registerStatus: RegisterStatus.Success });
         } catch (error) {
             Prompt.error(error.message || error);
         }
+    }
+
+    // 处理验证列表组件submit事件
+    async handleVerifyListSubmit(code: string) {
+        let userForm = Utils.duplicate(this.userForm);
+        userForm.code = code;
+        this.setStates({ userForm });
+
+        let result = await this.register();
+        if (!result) Prompt.error('注册失败');
+        else this.setStates({ registerStatus: RegisterStatus.Success });
+    }
+
+    // 处理验证列表组件stop事件
+    handleVerifyListStop() {
+        this.yunDun && this.yunDun.refresh();
     }
 
     // 下载
@@ -65,7 +80,7 @@ export default class UserRegister extends Vue {
     initData() {
         let code = Utils.resolveParameters('code'),
             userForm = UserFormModel.createInstance(code);
-        this.code = code;
+        this.invitationCode = code;
         this.setStates({ userForm });
     }
 

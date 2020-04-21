@@ -8,6 +8,8 @@ export const CONSTANTS = {
         captchaId: '7c80c423944941819e409d0d6639c4dd',
         mode: 'float'
     }, // 验证码选项
+    CUSTOMER_SERVICE: 'https://tb.53kf.com/code/client/b6f248959a7a879ca70f10a8a45143b64/1', // 客服地址
+
     CHINA_AREA_CODE: 'cn', // 中国地区区号
     LOCK_PROJECT: 'LOCK_PROJECT', // 锁仓项目
     LOCK_RESULT: 'LOCK_RESULT', // 锁仓结果

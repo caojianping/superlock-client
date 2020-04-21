@@ -6,15 +6,17 @@ export class UserFormModel {
     public areaCode!: string; // 地区区号
     public mobile!: string; // 手机号
     public password!: string; // 密码(MD5加密)
-    public smsCode!: string; // 短信验证码
     public confirmPassword?: string; // 确认新密码
+
+    public verifyMode!: string; // 验证方式
+    public code!: string; // 验证码
 
     constructor() {
         this.invitationCode = '';
         this.areaCode = defaultAreaCode.code;
         this.mobile = '';
         this.password = '';
-        this.smsCode = '';
+        this.code = '';
     }
 
     public static createInstance(invitationCode: string, areaCode?: string): UserFormModel {
@@ -37,6 +39,7 @@ export class UserInfoModel {
     public nickName!: string; // 昵称
     public generalizationCode!: string; // 推广码
     public referralLink!: string; // 推广链接
+    public email!: string; // 邮箱
 }
 
 // 用户锁仓额度模型

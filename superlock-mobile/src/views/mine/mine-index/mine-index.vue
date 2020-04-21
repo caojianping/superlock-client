@@ -67,6 +67,12 @@
                     <span>消息通知</span>
                 </template>
             </Cell> -->
+            <Cell is-link @click="goCustomerService">
+                <template>
+                    <i class="icon icon-service" />
+                    <span>客服</span>
+                </template>
+            </Cell>
             <Cell is-link to="/setting/center">
                 <template>
                     <i class="icon icon-setting" />

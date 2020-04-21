@@ -58,26 +58,21 @@
                         提示：密码必须由大写字母、小写字母、数字、符号中两种或者两种以上组成，且长度为8-15位。
                     </p>
                 </li>
-                <li v-if="!status">
-                    <h2>短信验证码</h2>
-                    <Field
-                        class="code"
-                        :value="securityForm.smsCode"
-                        clearable
-                        placeholder="请输入短信验证码"
-                        @input="handleFieldInput('smsCode', $event)"
-                    >
-                        <template slot="button">
-                            {{ ((phone = userInfo.phone || {}), void 0) }}
-                            <SmsCode :area-code="phone.area" :mobile="phone.tel" @stop="handleSmsCodeStop" />
-                        </template>
-                    </Field>
-                </li>
                 <li>
                     <Button class="effect-shadow" type="primary" block round @click="submit">确认</Button>
                 </li>
             </ul>
         </div>
+
+        {{ ((phone = userInfo.phone || {}), void 0) }}
+        <VerifyList
+            v-model="isVerifyShow"
+            :area-code="phone.area"
+            :mobile="phone.tel"
+            :verify-result="verifyResult"
+            @submit="handleVerifyListSubmit"
+            @stop="handleVerifyListStop"
+        />
 
         <div id="captcha"></div>
     </div>

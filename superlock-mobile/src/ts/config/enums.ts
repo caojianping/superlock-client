@@ -47,3 +47,10 @@ export const enum PromoteRewardType {
     Unlock = 3, // 解锁奖励
     Sale = 4 // 日销达标奖励
 }
+
+// 验证方式
+export const enum VerifyType {
+    EmailVerify = 1, // 邮箱验证
+    SmsVerify = 2, // 短信验证
+    GoogleVerify = 3 // 谷歌验证
+}

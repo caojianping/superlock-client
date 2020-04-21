@@ -1,0 +1,23 @@
+@import '../../../less/vars.less';
+@import '../../../less/mixins.less';
+
+.verify-popup {
+    /deep/ .van-cell {
+        .van-cell__title {
+            .icon,
+            span {
+                vertical-align: middle;
+            }
+
+            span {
+                margin-left: 0.5rem;
+                .font-styles(1rem, normal, 1.5, @black, left);
+            }
+        }
+
+        &.disabled .van-cell__title span,
+        &.disabled .van-icon {
+            color: @gray !important;
+        }
+    }
+}

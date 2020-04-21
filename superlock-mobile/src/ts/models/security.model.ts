@@ -3,7 +3,9 @@ export class SecurityFormModel {
     public oldPassword?: string; // 旧密码
     public newPassword!: string; // 新密码
     public confirmPassword!: string; // 确认新密码
-    public smsCode?: string; // 短信验证码
+
+    public verifyMode!: string; // 验证方式
+    public code?: string; // 验证码
 }
 
 // 邮箱表单模型

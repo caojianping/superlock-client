@@ -44,9 +44,7 @@ export default {
             let { commit, state } = context,
                 result = await userService.register(state.userForm);
             if (result) {
-                commit(TYPES.SET_STATES, {
-                    registerStatus: RegisterStatus.Success
-                });
+                commit(TYPES.SET_STATES, { registerStatus: RegisterStatus.Success });
             }
             return result;
         },

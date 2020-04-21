@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import { namespace, State, Action } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
-import { AssetStatsModel, EarningsStatsModel, LockModel, PromoteRewardStatsModel, ExchangeRateModel } from '@/ts/models';
+import { AssetStatsModel, EarningsStatsModel, LockModel, PromoteRewardStatsModel, ExchangeRateModel, UserInfoModel } from '@/ts/models';
 
 import { PullRefresh, Toast, CellGroup, Cell, Tabs, Tab } from 'vant';
 import Navs from '@/components/common/navs';
@@ -10,7 +11,9 @@ import Spin from '@/components/common/spin';
 import RechargeCoins from '@/components/recharge/recharge-coins';
 import LockInfo from '@/components/asset/lock-info';
 import EarningsInfo from '@/components/asset/earnings-info';
+import BindGuide from '@/components/common/bind-guide';
 
+const userModule = namespace('user');
 const lockModule = namespace('lock');
 const projectModule = namespace('project');
 
@@ -26,13 +29,17 @@ const projectModule = namespace('project');
         Spin,
         RechargeCoins,
         LockInfo,
-        EarningsInfo
+        EarningsInfo,
+        BindGuide
     }
 })
 export default class AssetIndex extends Vue {
     @State('exchangeRate') exchangeRate?: ExchangeRateModel | null;
     @State('unitTypes') unitTypes!: Array<string>;
     @Action('fetchExchangeRate') fetchExchangeRate!: (payload: any) => any;
+
+    @userModule.State('userInfo') userInfo!: UserInfoModel;
+    @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
 
     @lockModule.State('locks') locks?: Array<LockModel>;
     @lockModule.Action('fetchLocks') fetchLocks!: () => any;
@@ -147,6 +154,7 @@ export default class AssetIndex extends Vue {
 
     // 获取所有数据，全部并发请求
     async fetchData() {
+        this.fetchUserInfo();
         this.fetchExchangeRate({ fromCoin: 'BCB', toCoin: 'DC' });
         this.fetchEarningsStats();
 

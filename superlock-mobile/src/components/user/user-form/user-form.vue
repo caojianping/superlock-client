@@ -8,11 +8,11 @@
 
         <Field type="password" :value="userForm.password" clearable placeholder="请输入登录密码" @input="handleFieldInput('password', $event)" />
 
-        <Field class="code" :value="userForm.smsCode" clearable placeholder="请输入验证码" @input="handleFieldInput('smsCode', $event)">
+        <!-- <Field class="code" :value="userForm.smsCode" clearable placeholder="请输入验证码" @input="handleFieldInput('smsCode', $event)">
             <template slot="button">
                 <SmsCode :area-code="userForm.areaCode" :mobile="userForm.mobile" @stop="handleSmsCodeStop" />
             </template>
-        </Field>
+        </Field> -->
 
         <slot />
     </CellGroup>

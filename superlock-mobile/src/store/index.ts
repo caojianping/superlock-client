@@ -20,6 +20,8 @@ Vue.use(Vuex);
 
 const rootState: IRootState = {
     tokenInfo: new TokenInfo(),
+
+    verifyResult: undefined,
     quota: undefined,
     exchangeRate: undefined,
 
@@ -52,14 +54,22 @@ export default new Vuex.Store({
         },
         [TYPES.CLEAR_STATES](state: IRootState) {
             state.tokenInfo = new TokenInfo();
+
+            state.verifyResult = undefined;
             state.quota = undefined;
             state.exchangeRate = undefined;
         }
     },
     actions: {
         // 获取验证方式
-        async fetchVerifyMethod(context: IActionContext<IRootState>, payload: { areaCode: string; mobile: string }): Promise<VerifyResult | null> {
-            return await commonService.fetchVerifyMethod(payload.areaCode, payload.mobile);
+        async fetchVerifyMethod(context: IActionContext<IRootState>, payload: { areaCode: string; mobile: string }): Promise<void> {
+            let commit = context.commit;
+            try {
+                let verifyResult = await commonService.fetchVerifyMethod(payload.areaCode, payload.mobile);
+                commit(TYPES.SET_STATES, { verifyResult });
+            } catch (error) {
+                commit(TYPES.SET_STATES, { verifyResult: null });
+            }
         },
 
         // 获取短信验证码
@@ -68,8 +78,8 @@ export default new Vuex.Store({
         },
 
         // 获取邮箱验证码
-        async fetchEmailCode(context: IActionContext<IRootState>, payload: { areaCode: string; mobile: string }): Promise<boolean> {
-            return await commonService.fetchEmailCode(payload.areaCode, payload.mobile);
+        async fetchEmailCode(context: IActionContext<IRootState>, payload: { areaCode: string; mobile: string; email: string }): Promise<boolean> {
+            return await commonService.fetchEmailCode(payload.areaCode, payload.mobile, payload.email);
         },
 
         // 获取可提现、可转账额度

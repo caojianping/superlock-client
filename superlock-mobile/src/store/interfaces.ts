@@ -35,7 +35,8 @@ import {
     TransferModel,
     SecurityFormModel,
     LockResultModel,
-    EmailFormModel
+    EmailFormModel,
+    VerifyResult
 } from '@/ts/models';
 
 export interface IActionContext<T> {
@@ -46,6 +47,8 @@ export interface IActionContext<T> {
 
 export interface IRootState {
     tokenInfo: TokenInfo; // token信息
+
+    verifyResult?: VerifyResult | null; // 验证结果
     quota?: QuotaModel | null; // 可提现、可转账额度
     exchangeRate?: ExchangeRateModel | null; // 汇率
 

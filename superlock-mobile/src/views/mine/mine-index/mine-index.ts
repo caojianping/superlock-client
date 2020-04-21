@@ -2,8 +2,10 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import ClipboardJS from 'clipboard';
+
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
+import { CONSTANTS } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { UserInfoModel } from '@/ts/models';
 
@@ -24,6 +26,11 @@ export default class MineIndex extends Vue {
     @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
 
     isShow: boolean = false;
+
+    // 跳转至客服页面
+    goCustomerService() {
+        window.location.href = CONSTANTS.CUSTOMER_SERVICE;
+    }
 
     // 处理修改名称组件submit事件
     handleModifyNameSubmit(name: string) {

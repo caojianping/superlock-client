@@ -11,7 +11,7 @@ export class SecurityService {
         if (!securityForm) return { status: false, data: { userForm: '安全中心表单参数不可以为空' } };
 
         let key = 'securityForm',
-            { oldPassword, newPassword, confirmPassword, smsCode } = securityForm,
+            { oldPassword, newPassword, confirmPassword, verifyMode, code } = securityForm,
             validator = new Validator();
         if (!isSet) {
             validator.addRule(key, { name: 'oldPassword', value: oldPassword }, { required: true, password: true }, { required: '旧密码不可以为空' });
@@ -19,7 +19,9 @@ export class SecurityService {
         validator.addRule(key, { name: 'newPassword', value: newPassword }, { required: true, password: true }, { required: '新密码不可以为空' });
         validator.addRule(key, { name: 'confirmPassword', value: confirmPassword }, { equal: newPassword }, { equal: '两次密码输入不一致' });
         if (isSet) {
-            validator.addRule(key, { name: 'smsCode', value: smsCode }, { required: true }, { required: '短信验证码不可以为空' });
+            if (verifyMode && verifyMode !== '000') {
+                validator.addRule(key, { name: 'code', value: code }, { required: true }, { required: '验证码不可以为空' });
+            }
         }
         return validator.execute(key);
     }
@@ -55,12 +57,13 @@ export class SecurityService {
         let result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.Forget);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { areaCode, mobile, password, smsCode } = userForm,
+        let { areaCode, mobile, password, verifyMode, code } = userForm,
             parameters = Utils.buildParameters({
                 account: [areaCode, mobile].join(','),
                 accountKind: 1,
                 newPasswd: md5(password),
-                vfcode: smsCode
+                verifyMode: verifyMode || '',
+                vfcode: code || ''
             });
         await Caxios.post<any>({ url: `${Urls.security.loginPassword.forget}?${parameters}` }, CaxiosType.Loading);
         return true;
@@ -71,10 +74,11 @@ export class SecurityService {
         let result: ValidationResult = SecurityService.validateSecurityForm(securityForm, true);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { newPassword, smsCode } = securityForm,
+        let { newPassword, verifyMode, code } = securityForm,
             paramters = Utils.buildParameters({
                 passwd: md5(newPassword),
-                vfcode: smsCode
+                verifyMode: verifyMode || '',
+                vfcode: code || ''
             });
         await Caxios.post<any>({ url: `${Urls.security.fundPassword.set}?${paramters}` }, CaxiosType.Token);
         return true;
@@ -99,10 +103,11 @@ export class SecurityService {
         let result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.Forget);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { areaCode, mobile, password, smsCode } = userForm,
+        let { areaCode, mobile, password, verifyMode, code } = userForm,
             parameters = Utils.buildParameters({
                 newPasswd: md5(password),
-                vfcode: smsCode
+                verifyMode: verifyMode || '',
+                vfcode: code || ''
             });
         await Caxios.post<any>({ url: `${Urls.security.fundPassword.forget}?${parameters}` }, CaxiosType.LoadingToken);
         return true;

@@ -2,11 +2,11 @@ import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
 import { Urls, CaxiosType, defaultAreaCode } from '@/ts/config';
 import { Caxios } from '@/ts/common';
-import { QuotaModel, ExchangeRateModel, VerifyResult } from '@/ts/models';
+import { QuotaModel, ExchangeRateModel, VerifyResult, EmailFormModel } from '@/ts/models';
 
 export class CommonService {
-    // 验证手机号码
-    public static validateMobilePhone(areaCode: string, mobile: string) {
+    // 验证短信、邮箱
+    public static validateSmsAndEmail(areaCode: string, mobile: string, email?: string) {
         let key = 'mobilePhone',
             validator = new Validator();
         validator.addRule(key, { name: 'areaCode', value: areaCode }, { required: true }, { required: '国家/地区区号不可以为空' });
@@ -20,23 +20,33 @@ export class CommonService {
                 { required: '手机号不可以为空', pureDigit: '手机号格式不正确' }
             );
         }
+        if (email) {
+            validator.addRule(
+                key,
+                { name: 'email', value: email },
+                { required: true, email: true },
+                { required: '邮箱地址不可以为空', email: '邮箱地址格式不正确' }
+            );
+        }
         return validator.execute(key);
     }
 
     // 获取验证方式
     public async fetchVerifyMethod(areaCode: string, mobile: string): Promise<VerifyResult | null> {
-        let result: ValidationResult = CommonService.validateMobilePhone(areaCode, mobile);
+        let result: ValidationResult = CommonService.validateSmsAndEmail(areaCode, mobile);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        return await Caxios.post<VerifyResult | null>(
-            { url: Urls.common.verifyMethod, data: { account: [areaCode, mobile].join(',') } },
-            CaxiosType.Default
-        );
+        let parameters = Utils.buildParameters({ account: [areaCode, mobile].join(',') }),
+            verifyResult = await Caxios.get<VerifyResult | null>({ url: `${Urls.common.verifyMethod}?${parameters}` }, CaxiosType.Loading);
+        if (verifyResult) {
+            verifyResult.needVerify = isNaN(Number(verifyResult.needVerify)) ? 0 : Number(verifyResult.needVerify);
+        }
+        return verifyResult;
     }
 
     // 获取短信验证码
     public async fetchSmsCode(areaCode: string, mobile: string): Promise<boolean> {
-        let result: ValidationResult = CommonService.validateMobilePhone(areaCode, mobile);
+        let result: ValidationResult = CommonService.validateSmsAndEmail(areaCode, mobile);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
         await Caxios.post<any>({ url: Urls.common.smsCode, data: { account: [areaCode, mobile].join(',') } }, CaxiosType.Default);
@@ -44,11 +54,12 @@ export class CommonService {
     }
 
     // 获取邮箱验证码
-    public async fetchEmailCode(areaCode: string, mobile: string): Promise<boolean> {
-        let result: ValidationResult = CommonService.validateMobilePhone(areaCode, mobile);
+    public async fetchEmailCode(areaCode: string, mobile: string, email: string): Promise<boolean> {
+        let result: ValidationResult = CommonService.validateSmsAndEmail(areaCode, mobile, email);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        await Caxios.post<any>({ url: Urls.common.emailCode, data: { account: [areaCode, mobile].join(',') } }, CaxiosType.Default);
+        let parameters = Utils.buildParameters({ account: [areaCode, mobile].join(','), email });
+        await Caxios.post<VerifyResult | null>({ url: `${Urls.common.emailCode}?${parameters}` }, CaxiosType.Default);
         return true;
     }
 

@@ -54,6 +54,16 @@
     &.priority-title .van-cell .van-cell__value {
         flex: 0 1 auto;
     }
+
+    .van-cell .van-cell__value {
+        .unbind {
+            .font-styles(0.875rem, normal, 1.5, #ffbd5f, left);
+        }
+
+        .binded {
+            .font-styles(0.875rem, normal, 1.5, @gray, left);
+        }
+    }
 }
 
 .van-field.code {
