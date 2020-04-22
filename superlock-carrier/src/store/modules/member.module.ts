@@ -20,11 +20,31 @@ const memberState: IMemberState = {
     ],
     projectOptions: [],
 
-    parameters: {
+    brokerParameters: {
+        conditions: {
+            type: '',
+            uid: '',
+            parent: '',
+            mobileNumber: '',
+            email: ''
+        },
+        pageNum: 1,
+        pageSize: 10
+    },
+    childParameters: {
         conditions: {
             uid: '',
-            mobileNumber: '',
-            parent: ''
+            subordinateUid: '',
+            mobile: '',
+            email: ''
+        },
+        pageNum: 1,
+        pageSize: 10
+    },
+    rateParameters: {
+        conditions: {
+            type: '',
+            uid: ''
         },
         pageNum: 1,
         pageSize: 10
@@ -52,11 +72,31 @@ export default {
             }
         },
         [TYPES.CLEAR_STATES](state: IMemberState) {
-            state.parameters = {
+            state.brokerParameters = {
+                conditions: {
+                    type: '',
+                    uid: '',
+                    parent: '',
+                    mobileNumber: '',
+                    email: ''
+                },
+                pageNum: 1,
+                pageSize: 10
+            };
+            state.childParameters = {
                 conditions: {
                     uid: '',
-                    mobileNumber: '',
-                    parent: ''
+                    subordinateUid: '',
+                    mobile: '',
+                    email: ''
+                },
+                pageNum: 1,
+                pageSize: 10
+            };
+            state.rateParameters = {
+                conditions: {
+                    type: '',
+                    uid: ''
                 },
                 pageNum: 1,
                 pageSize: 10
@@ -76,7 +116,7 @@ export default {
         async fetchBrokers(context: IActionContext<IMemberState>): Promise<void> {
             let { commit, state } = context;
             try {
-                let result: PageResult<BrokerModel> = await memberService.fetchBrokers(state.parameters);
+                let result: PageResult<BrokerModel> = await memberService.fetchBrokers(state.brokerParameters);
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
                 commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
@@ -84,11 +124,16 @@ export default {
             }
         },
 
+        // 导出券商列表
+        async exportBrokers(context: IActionContext<IMemberState>): Promise<string> {
+            return await memberService.exportBrokers(context.state.brokerParameters);
+        },
+
         // 获取券商下级列表
         async fetchBrokerChilds(context: IActionContext<IMemberState>): Promise<void> {
             let { commit, state } = context;
             try {
-                let result: BrokerChildPageResult<BrokerChildModel> = await memberService.fetchBrokerChilds(state.parameters);
+                let result: BrokerChildPageResult<BrokerChildModel> = await memberService.fetchBrokerChilds(state.childParameters);
                 commit(TYPES.SET_STATES, {
                     totalCount: result.totalCount,
                     list: result.list,
@@ -104,11 +149,16 @@ export default {
             }
         },
 
+        // 导出券商下级列表
+        async exportBrokerChilds(context: IActionContext<IMemberState>): Promise<string> {
+            return await memberService.exportBrokerChilds(context.state.childParameters);
+        },
+
         // 获取利率列表
         async fetchRates(context: IActionContext<IMemberState>): Promise<void> {
             let { commit, state } = context;
             try {
-                let result: PageResult<RateModel> = await memberService.fetchRates(state.parameters);
+                let result: PageResult<RateModel> = await memberService.fetchRates(state.rateParameters);
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
                 commit(TYPES.SET_STATES, { totalCount: 0, list: [] });

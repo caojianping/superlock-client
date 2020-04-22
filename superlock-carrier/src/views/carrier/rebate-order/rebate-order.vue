@@ -3,13 +3,13 @@
         <ant-breadcrumb class="sl-breadcrumb">
             <ant-breadcrumb-item>运营商管理</ant-breadcrumb-item>
             <ant-breadcrumb-item>
-                <router-link to="/carrier/rebate/order">返点订单</router-link>
+                <router-link to="/carrier/rebate/order">返点记录</router-link>
             </ant-breadcrumb-item>
         </ant-breadcrumb>
 
         <div class="sl-block">
             <header class="sl-block-header">
-                <h2 class="sl-block-title">返点订单</h2>
+                <h2 class="sl-block-title">返点记录</h2>
             </header>
             <div class="sl-block-body">
                 <ant-row :gutter="24">
@@ -50,8 +50,8 @@
                 <template slot="title">{{ record.serial }}</template>
                 {{ record.serial }}
             </ant-tooltip>
-            <span slot="rebateTime" slot-scope="record">
-                {{ record.rebateTime | dateFormat }}
+            <span slot="endTime" slot-scope="record">
+                {{ record.endTime | dateFormat }}
             </span>
             <span slot="rebateRatio" slot-scope="record">
                 {{ record.rebateRatio | ratePercent }}
@@ -70,7 +70,7 @@
             @showSizeChange="handlePageSizeChange"
         />
 
-        <SecondVerify :is-show="isSecondVerifyShow" @submit="handleSecondVerifySubmit" />
+        <!-- <SecondVerify :is-show="isSecondVerifyShow" @submit="handleSecondVerifySubmit" /> -->
     </div>
 </template>
 

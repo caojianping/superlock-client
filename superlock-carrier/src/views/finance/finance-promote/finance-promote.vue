@@ -93,7 +93,7 @@
             <span :class="statusColors[record.status]" slot="status" slot-scope="record">
                 {{ statusNames[record.status] }}
             </span>
-            <span :class="auditColors[record.auditStatus]" slot="auditStatus" slot-scope="record">
+            <!-- <span :class="auditColors[record.auditStatus]" slot="auditStatus" slot-scope="record">
                 {{ auditNames[record.auditStatus] }}
             </span>
             <template slot="operation" slot-scope="record">
@@ -105,7 +105,7 @@
                         >驳回</ant-button
                     >
                 </template>
-            </template>
+            </template> -->
         </ant-table>
 
         <ant-pagination
@@ -120,7 +120,7 @@
             @showSizeChange="handlePageSizeChange"
         />
 
-        <SecondVerify :is-show="isSecondVerifyShow" @submit="handleSecondVerifySubmit" />
+        <!-- <SecondVerify :is-show="isSecondVerifyShow" @submit="handleSecondVerifySubmit" /> -->
     </div>
 </template>
 

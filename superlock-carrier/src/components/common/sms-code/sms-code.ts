@@ -11,10 +11,11 @@ const loginModule = namespace('login');
 })
 export default class SmsCode extends Vue {
     @Prop({ type: Boolean, default: false }) readonly isInit!: boolean;
-    @Prop() readonly areaCode!: string;
-    @Prop() readonly mobile!: string;
+    // @Prop() readonly areaCode!: string;
+    // @Prop() readonly mobile!: string;
+    @Prop() readonly email!: string;
 
-    @loginModule.Action('fetchSmsCode') fetchSmsCode!: (payload: any) => any;
+    @loginModule.Action('fetchEmailCode') fetchEmailCode!: (email: string) => any;
 
     isSending: boolean = false; // 是否发送短信验证码中
     isSpinning: boolean = false; // 是否加载短信验证码中
@@ -53,16 +54,18 @@ export default class SmsCode extends Vue {
         }
     }
 
-    // 发送短信验证码
-    async sendSmsCode() {
-        console.log('sendSmsCode:', this.isSending, this.areaCode, this.mobile);
+    // 发送验证码
+    async sendCode() {
+        this.clearTimer();
         if (this.isSending) return;
 
-        let { areaCode, mobile } = this;
+        // let { areaCode, mobile } = this;
+        let email = this.email;
         this.isSpinning = true;
         this.isSending = true;
         try {
-            let result = await this.fetchSmsCode({ areaCode, mobile });
+            // let result = await this.fetchSmsCode({ areaCode, mobile });
+            let result = await this.fetchEmailCode(email);
             this.isSpinning = false;
             if (!result) {
                 this.isSending = false;
@@ -81,15 +84,13 @@ export default class SmsCode extends Vue {
     }
 
     mounted() {
-        console.log('mounted', this.areaCode, this.mobile);
-        this.sendSmsCode();
+        this.sendCode();
     }
 
     @Watch('isInit')
     watchIsInit(isInit: boolean) {
-        console.log('watchIsInit:', isInit);
         if (isInit) {
-            this.sendSmsCode();
+            this.sendCode();
         }
     }
 }

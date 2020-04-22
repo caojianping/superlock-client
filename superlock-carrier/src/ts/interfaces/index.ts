@@ -33,12 +33,27 @@ export interface IFinancePageParameters {
     endDate: string; // 派息结束时间
 }
 
-// 会员分页列表
-export interface IMemberPageParameters {
-    type?: number; // 类型：0券商列表；1代理列表；
+// 券商分页列表（代理）
+export interface IBrokerPageParameters {
+    type: string; // 类型：0券商列表；1代理列表；
     uid: string; // UID
+    parent?: string; // 上级UID
     mobileNumber: string; // 手机号
-    parent: string; // 上级UID
+    email: string; // 邮箱
+}
+
+// 券商下级分页列表（代理）
+export interface IBrokerChildPageParameters {
+    uid: string; // UID
+    subordinateUid: string; // 下级UID
+    mobile: string; // 手机号
+    email: string; // 邮箱
+}
+
+// 利率分页列表
+export interface IRatePageParameters {
+    type: string; // 类型：0券商列表；1代理列表；
+    uid: string; // UID
 }
 
 // 返点订单分页参数

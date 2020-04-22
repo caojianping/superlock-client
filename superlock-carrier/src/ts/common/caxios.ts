@@ -162,7 +162,7 @@ export class Caxios {
         } else if (code === ResponseCode.SecondVerify) {
             // 二次验证
             let vdata = data as SecondVerifyResult;
-            if (vdata.verifyMethod === '010') {
+            if (vdata.verifyMethod === '010' || vdata.verifyMethod === '100') {
                 // 短信验证码
                 store.commit(TYPES.SET_STATES, { isSecondVerifyShow: true });
             }

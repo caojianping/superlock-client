@@ -85,8 +85,8 @@
                 <template slot="title">{{ record.hash }}</template>
                 {{ record.hash }}
             </ant-tooltip>
-            <span slot="createTime" slot-scope="record">
-                {{ record.createTime | dateFormat }}
+            <span slot="createDate" slot-scope="record">
+                {{ record.createDate | dateFormat }}
             </span>
             <span slot="finishDate" slot-scope="record">
                 {{ record.finishDate | dateFormat }}
@@ -105,7 +105,7 @@
             @showSizeChange="handlePageSizeChange"
         />
 
-        <SecondVerify :is-show="isSecondVerifyShow" @submit="handleSecondVerifySubmit" />
+        <!-- <SecondVerify :is-show="isSecondVerifyShow" @submit="handleSecondVerifySubmit" /> -->
     </div>
 </template>
 

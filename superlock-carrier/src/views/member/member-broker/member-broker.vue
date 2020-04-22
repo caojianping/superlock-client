@@ -17,12 +17,12 @@
             </header>
             <div class="sl-block-body mw1200px">
                 <ant-row :gutter="24">
-                    {{ ((colSpan = type === 0 ? 8 : 6), void 0) }}
+                    {{ ((colSpan = type === 0 ? 7 : 5), void 0) }}
                     <ant-col :span="colSpan">
                         <ant-form-item label="UID" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
-                                :value="parameters.conditions.uid"
+                                :value="brokerParameters.conditions.uid"
                                 allowClear
                                 placeholder="请输入UID"
                                 @change="handleFormChange('uid', $event.target.value)"
@@ -34,10 +34,22 @@
                         <ant-form-item label="手机号" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
-                                :value="parameters.conditions.mobileNumber"
+                                :value="brokerParameters.conditions.mobileNumber"
                                 allowClear
                                 placeholder="请输入手机号"
                                 @change="handleFormChange('mobileNumber', $event.target.value)"
+                            />
+                        </ant-form-item>
+                    </ant-col>
+
+                    <ant-col :span="colSpan">
+                        <ant-form-item label="邮箱" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                            <ant-input
+                                type="text"
+                                :value="brokerParameters.conditions.email"
+                                allowClear
+                                placeholder="请输入邮箱"
+                                @change="handleFormChange('email', $event.target.value)"
                             />
                         </ant-form-item>
                     </ant-col>
@@ -46,7 +58,7 @@
                         <ant-form-item label="上级UID" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
-                                :value="parameters.conditions.parent"
+                                :value="brokerParameters.conditions.parent"
                                 allowClear
                                 placeholder="请输入上级UID"
                                 @change="handleFormChange('parent', $event.target.value)"
@@ -54,7 +66,7 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="6">
+                    <ant-col :span="3">
                         <ant-button class="sl-search" type="primary" @click="search" style="margin-left: 0">搜索</ant-button>
                     </ant-col>
                 </ant-row>
@@ -64,6 +76,7 @@
         <template v-if="type === 0">
             <!-- <ant-button class="sl-tool" type="primary" @click="openRateModal">利率设置</ant-button> -->
             <ant-button class="sl-tool" type="primary" @click="openBrokerModal">添加券商</ant-button>
+            <ant-button class="sl-tool" type="primary" @click="exportReport">导出报表</ant-button>
         </template>
 
         <ant-table
@@ -102,8 +115,8 @@
         </ant-table>
 
         <ant-pagination
-            :current="parameters.pageNum"
-            :pageSize="parameters.pageSize"
+            :current="brokerParameters.pageNum"
+            :pageSize="brokerParameters.pageSize"
             :total="totalCount"
             :pageSizeOptions="pageSizeOptions"
             :showTotal="total => `共有 ${total} 条记录`"
