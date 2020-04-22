@@ -1,8 +1,10 @@
 <template>
-    <Popup v-model="isShow" class="verify-popup full">
-        <Header :title="isForget ? '找回密码' : '安全验证'" :isBorder="false" @left="isForget ? $router.push(from) : handlePopupClose" />
+    <Popup v-model="isShow" class="verify-list-popup full">
+        <Header :title="isForget ? '找回密码' : '安全验证'" :isBorder="false" @left="isForget ? $router.push(from) : handlePopupClose()" />
 
-        <CellGroup class="scb-separator">
+        <div class="scb-separator" />
+
+        <CellGroup>
             <Cell :class="{ disabled: smsFlag === 0 }" is-link @click="handleSmsVerify">
                 <template slot="title">
                     <i class="icon icon-mobile" />

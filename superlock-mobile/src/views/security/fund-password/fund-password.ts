@@ -5,7 +5,7 @@ import { ValidationResult } from 'jpts-validator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { UserFormType, CONSTANTS, ForgetType } from '@/ts/config';
+import { UserFormType, CONSTANTS, ForgetType, VerifyType } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { VerifyResult, UserInfoModel, UserFormModel, SecurityFormModel } from '@/ts/models';
 import { UserService, SecurityService } from '@/ts/services';
@@ -62,22 +62,17 @@ export default class FundPassword extends Vue {
         try {
             let status = this.userInfo.haveFundPasswd;
             if (!status) {
-                let securityForm = Utils.duplicate(this.securityForm),
+                let securityForm = this.securityForm,
                     result = SecurityService.validateSecurityForm(securityForm, true);
                 if (!result.status) return Prompt.error(Utils.getFirstValue(result.data));
 
                 let phone: any = this.userInfo.phone || {};
                 await this.fetchVerifyMethod({ areaCode: phone.area || '', mobile: phone.tel || '' });
-
                 let verifyResult = this.verifyResult;
                 if (!verifyResult) return Prompt.error('验证方式获取失败');
 
                 if (verifyResult.needVerify === 1) {
-                    // 需要验证
                     this.isVerifyShow = true;
-
-                    securityForm.verifyMode = verifyResult.verifyMode;
-                    this.setStates({ securityForm });
                 } else {
                     let result = await this.setFundPassword();
                     if (!result) Prompt.error(`资金密码设置失败`);
@@ -102,24 +97,32 @@ export default class FundPassword extends Vue {
     }
 
     // 处理验证列表组件submit事件
-    async handleVerifyListSubmit(code: string) {
-        let securityForm = Utils.duplicate(this.securityForm);
-        securityForm.code = code;
-        this.setStates({ securityForm });
+    async handleVerifyListSubmit(verifyType: VerifyType, code: string) {
+        try {
+            let securityForm = Utils.duplicate(this.securityForm);
+            securityForm.verifyMode = ['100', '010', '001'][verifyType - 1];
+            securityForm.code = code;
+            this.setStates({ securityForm });
 
-        let result = await this.setFundPassword();
-        if (!result) Prompt.error(`资金密码设置失败`);
-        else
-            Prompt.success(`资金密码设置成功`).then(() => {
-                if (!status) this.$router.push(this.from);
-                else this.$router.push('/security/center');
-            });
+            let result = await this.setFundPassword();
+            if (!result) Prompt.error(`资金密码设置失败`);
+            else
+                Prompt.success(`资金密码设置成功`).then(() => {
+                    if (!status) this.$router.push(this.from);
+                    else this.$router.push('/security/center');
+                });
+        } catch (error) {
+            Prompt.error(error.message || error);
+        }
     }
 
     // 处理验证列表组件stop事件
     handleVerifyListStop() {
         this.yunDun && this.yunDun.refresh();
     }
+
+    // 处理验证列表组件close事件
+    handleVerifyListClose() {}
 
     // 跳转至忘记密码页面
     goForget() {

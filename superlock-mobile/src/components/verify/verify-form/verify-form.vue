@@ -1,19 +1,15 @@
 <template>
-    <Popup v-model="isShow" class="full">
+    <Popup v-model="isShow" class="verify-form-popup full">
         <Header :title="isForget ? '找回密码' : `${verifyNames[verifyType - 1]}验证码`" @left="handlePopupClose" />
 
-        <div class="scb-form scb-separator">
+        <div class="scb-separator" />
+
+        <div class="scb-form">
             <ul>
                 <li>
                     <h2 v-if="verifyType === 1">您的邮箱：{{ email }}</h2>
                     <h2 v-else-if="verifyType === 2">您的手机号：{{ ['+' + areaCode, mobile].join(',') }}</h2>
-                    <Field
-                        class="code"
-                        :value="code"
-                        clearable
-                        :placeholder="`请输入${verifyNames[verifyType - 1]}验证码`"
-                        @input="handleFieldInput($event)"
-                    >
+                    <Field class="code" v-model="code" clearable :placeholder="`请输入${verifyNames[verifyType - 1]}验证码`">
                         <template slot="button">
                             <VerifyCode
                                 :is-init="isShow"

@@ -2,25 +2,29 @@ import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { SessionStorage } from 'jts-storage';
+
 import TYPES from '@/store/types';
 import { CONSTANTS } from '@/ts/config';
-import { UserLockQuotaModel, ProjectStatsModel, ProjectModel } from '@/ts/models';
+import { UserLockQuotaModel, ProjectStatsModel, ProjectModel, UserInfoModel } from '@/ts/models';
 
 import { PullRefresh, Toast } from 'vant';
 import Navs from '@/components/common/navs';
 import Spin from '@/components/common/spin';
+import BindGuide from '@/components/common/bind-guide';
 
 const userModule = namespace('user');
 const projectModule = namespace('project');
 
 @Component({
     name: 'Home',
-    components: { PullRefresh, Navs, Spin }
+    components: { PullRefresh, Navs, Spin, BindGuide }
 })
 export default class Home extends Vue {
     @State('unitTypes') unitTypes!: Array<string>;
 
     @userModule.State('userLockQuota') userLockQuota?: UserLockQuotaModel | null;
+    @userModule.State('userInfo') userInfo!: UserInfoModel;
+    @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
     @userModule.Action('fetchUserLockQuota') fetchUserLockQuota!: () => any;
 
     @projectModule.State('projectStats') projectStats?: ProjectStatsModel | null;
@@ -51,6 +55,7 @@ export default class Home extends Vue {
         try {
             this.isProjectSpinning = true;
             this.isOptimizeSpinning = true;
+            await this.fetchUserInfo();
             await this.fetchProjectStats();
             this.isProjectSpinning = false;
             this.isOptimizeSpinning = false;

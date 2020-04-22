@@ -62,10 +62,10 @@ export default new Vuex.Store({
     },
     actions: {
         // 获取验证方式
-        async fetchVerifyMethod(context: IActionContext<IRootState>, payload: { areaCode: string; mobile: string }): Promise<void> {
+        async fetchVerifyMethod(context: IActionContext<IRootState>, payload: { areaCode: string; mobile: string; type?: number }): Promise<void> {
             let commit = context.commit;
             try {
-                let verifyResult = await commonService.fetchVerifyMethod(payload.areaCode, payload.mobile);
+                let verifyResult = await commonService.fetchVerifyMethod(payload.areaCode, payload.mobile, payload.type);
                 commit(TYPES.SET_STATES, { verifyResult });
             } catch (error) {
                 commit(TYPES.SET_STATES, { verifyResult: null });

@@ -5,11 +5,10 @@
             :area-code="userForm.areaCode"
             :mobile="userForm.mobile"
             :verify-result="verifyResult"
-            @submit="handleVerifyListSubmit"
             is-forget
             :from="from"
+            @submit="handleVerifyListSubmit"
             @stop="handleVerifyListStop"
-            @close="handleVerifyListClose"
         />
 
         <ForgetForm v-model="isForgetShow" :from="from" @submit="handleForgetFormSubmit" @close="handleForgetFormClose" />

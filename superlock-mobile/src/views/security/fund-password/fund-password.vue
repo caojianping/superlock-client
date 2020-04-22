@@ -72,6 +72,7 @@
             :verify-result="verifyResult"
             @submit="handleVerifyListSubmit"
             @stop="handleVerifyListStop"
+            @close="handleVerifyListClose"
         />
 
         <div id="captcha"></div>

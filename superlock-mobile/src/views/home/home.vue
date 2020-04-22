@@ -119,6 +119,8 @@
                 </div>
             </div>
 
+            <BindGuide v-if="!userInfo.email" path="/asset/index" />
+
             <Navs />
         </div>
     </PullRefresh>

@@ -22,13 +22,13 @@
             <a href="javascript: void(0)" @click="goForget">忘记密码</a>
         </p>
 
-        <VerifyList
+        <VerifyModal
             v-model="isVerifyShow"
             :area-code="userForm.areaCode"
             :mobile="userForm.mobile"
             :verify-result="verifyResult"
-            @submit="handleVerifyListSubmit"
-            @stop="handleVerifyListStop"
+            @submit="handleVerifyModalSubmit"
+            @stop="handleVerifyModalStop"
         />
 
         <div id="captcha"></div>

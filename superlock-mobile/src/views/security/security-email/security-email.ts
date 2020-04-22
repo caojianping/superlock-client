@@ -35,7 +35,6 @@ export default class SecurityEmail extends Vue {
     handleFieldInput(key: string, value: string) {
         let emailForm = Utils.duplicate(this.emailForm);
         emailForm[key] = value;
-        console.log('emailForm:', emailForm);
         this.setStates({ emailForm });
     }
 

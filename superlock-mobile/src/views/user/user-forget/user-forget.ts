@@ -4,7 +4,7 @@ import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { CONSTANTS, ForgetType } from '@/ts/config';
+import { CONSTANTS, ForgetType, VerifyType } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { UserFormModel, VerifyResult } from '@/ts/models';
 
@@ -58,8 +58,9 @@ export default class UserForget extends Vue {
     }
 
     // 处理验证列表组件submit事件
-    async handleVerifyListSubmit(code: string) {
+    async handleVerifyListSubmit(verifyType: VerifyType, code: string) {
         let userForm = Utils.duplicate(this.userForm);
+        userForm.verifyMode = ['100', '010', '001'][verifyType - 1];
         userForm.code = code;
         this.setStates({ userForm });
 
@@ -69,14 +70,6 @@ export default class UserForget extends Vue {
     // 处理验证列表组件stop事件
     handleVerifyListStop() {
         this.yunDun && this.yunDun.refresh();
-    }
-
-    // 处理验证列表组件back事件
-    handleVerifyListClose(isShow: boolean, isForm: boolean) {
-        console.log('forget close:', isShow, isForm);
-        if (!isForm) {
-            // this.$router.push(this.from);
-        }
     }
 
     // 初始化数据
@@ -120,10 +113,7 @@ export default class UserForget extends Vue {
             if (!verifyResult) return Prompt.error('验证方式获取失败');
 
             if (verifyResult.needVerify === 1) {
-                // 需要验证
                 this.isVerifyShow = true;
-                userForm.verifyMode = verifyResult.verifyMode;
-                this.setStates({ userForm });
             } else {
                 this.isForgetShow = true;
             }

@@ -78,6 +78,6 @@ export const Urls = {
             modify: `${baseUrl}/user/modifyFundPasswd`, // 修改资金密码接口
             forget: `${baseUrl}/user/forgetFundPasswd` // 忘记资金密码接口
         },
-        bindEmail: `${baseUrl}/bindingEmail` // 绑定邮箱
+        bindEmail: `${baseUrl}/user/bindingEmail` // 绑定邮箱
     }
 };

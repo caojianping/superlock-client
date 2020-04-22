@@ -28,7 +28,7 @@ export default class VerifyCode extends Vue {
     text: string = '获取验证码'; // 倒计时文字
 
     // 清除定时器
-    clearTimer() {
+    clearTimer(isClear: boolean = false) {
         if (this.timer) {
             clearInterval(this.timer);
         }
@@ -36,7 +36,7 @@ export default class VerifyCode extends Vue {
         this.timer = null;
         this.seconds = 120;
         this.text = '获取验证码';
-        this.$emit('stop');
+        !isClear && this.$emit('stop');
     }
 
     // 设置倒计时
@@ -60,9 +60,9 @@ export default class VerifyCode extends Vue {
 
     // 发送验证码
     async sendCode() {
+        this.clearTimer(true);
         if (this.isSending) return;
 
-        console.log('sendCode:', this.email);
         let { verifyType, areaCode, mobile, email } = this;
         this.isSpinning = true;
         this.isSending = true;
@@ -78,7 +78,6 @@ export default class VerifyCode extends Vue {
                 this.$emit('stop');
             } else {
                 this.setCountdown();
-                // Prompt.success('发送成功');
             }
         } catch (error) {
             this.isSpinning = false;
@@ -96,7 +95,6 @@ export default class VerifyCode extends Vue {
 
     @Watch('isInit')
     watchIsInit(isInit: boolean) {
-        console.log('watchIsInit isInit:', isInit, this.email);
         if (isInit) {
             this.sendCode();
         }

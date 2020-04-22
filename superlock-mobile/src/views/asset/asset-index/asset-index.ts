@@ -11,7 +11,6 @@ import Spin from '@/components/common/spin';
 import RechargeCoins from '@/components/recharge/recharge-coins';
 import LockInfo from '@/components/asset/lock-info';
 import EarningsInfo from '@/components/asset/earnings-info';
-import BindGuide from '@/components/common/bind-guide';
 
 const userModule = namespace('user');
 const lockModule = namespace('lock');
@@ -29,8 +28,7 @@ const projectModule = namespace('project');
         Spin,
         RechargeCoins,
         LockInfo,
-        EarningsInfo,
-        BindGuide
+        EarningsInfo
     }
 })
 export default class AssetIndex extends Vue {

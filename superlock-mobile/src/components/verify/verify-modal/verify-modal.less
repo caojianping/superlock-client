@@ -1,0 +1,57 @@
+@import '../../../less/vars.less';
+@import '../../../less/mixins.less';
+
+.verify-modal {
+    border-radius: 0.5rem;
+
+    /deep/ .modal-header {
+        display: none;
+    }
+
+    /deep/ .modal-body {
+        padding-top: 0.75rem;
+
+        .van-tabs {
+            .van-tabs__nav {
+                .van-tab {
+                    .van-tab__text {
+                        letter-spacing: 0.125rem;
+                    }
+
+                    &.van-tab--active .van-tab__text {
+                        color: @blue;
+                    }
+                }
+
+                .van-tabs__line {
+                    background-color: @blue;
+                }
+            }
+
+            .van-tab__pane {
+                h2 {
+                    padding: 1.5rem 0 0;
+                    text-align: center;
+                }
+
+                .van-cell.code {
+                    margin: 0.5rem 0 1.5rem;
+                }
+
+                p {
+                    padding: 2rem 0;
+                    text-align: center;
+                }
+
+                .btn-container {
+                    text-align: center;
+
+                    .van-button {
+                        margin: 0 5%;
+                        width: 40%;
+                    }
+                }
+            }
+        }
+    }
+}

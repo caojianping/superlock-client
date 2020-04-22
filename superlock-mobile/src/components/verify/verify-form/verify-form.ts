@@ -20,19 +20,13 @@ export default class VerifyForm extends Vue {
     @Prop() readonly mobile!: string; // 手机号
     @Prop() readonly email!: string; // 邮箱
 
-    verifyNames: Array<string> = ['邮箱', '短信', '谷歌'];
+    verifyNames: Array<string> = ['邮箱', '短信'];
     isShow: boolean = false; // 是否显示模态框
     code: string = ''; // 验证码
 
     // 处理弹出框close事件
     handlePopupClose() {
-        console.log('verify-form close');
         this.$emit('close', false);
-    }
-
-    // 处理Field组件input事件
-    handleFieldInput(value: string) {
-        this.code = value;
     }
 
     // 处理验证码组件stop事件

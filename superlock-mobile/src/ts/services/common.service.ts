@@ -32,11 +32,11 @@ export class CommonService {
     }
 
     // 获取验证方式
-    public async fetchVerifyMethod(areaCode: string, mobile: string): Promise<VerifyResult | null> {
+    public async fetchVerifyMethod(areaCode: string, mobile: string, type: number = 2): Promise<VerifyResult | null> {
         let result: ValidationResult = CommonService.validateSmsAndEmail(areaCode, mobile);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let parameters = Utils.buildParameters({ account: [areaCode, mobile].join(',') }),
+        let parameters = Utils.buildParameters({ account: [areaCode, mobile].join(','), type }),
             verifyResult = await Caxios.get<VerifyResult | null>({ url: `${Urls.common.verifyMethod}?${parameters}` }, CaxiosType.Loading);
         if (verifyResult) {
             verifyResult.needVerify = isNaN(Number(verifyResult.needVerify)) ? 0 : Number(verifyResult.needVerify);

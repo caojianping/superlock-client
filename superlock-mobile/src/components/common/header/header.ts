@@ -14,6 +14,7 @@ export default class Header extends Vue {
 
     // 处理左侧点击事件
     handleLeftClick() {
+        console.log('left');
         this.$emit('left');
     }
 

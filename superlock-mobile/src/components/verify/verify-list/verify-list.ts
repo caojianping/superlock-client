@@ -26,11 +26,11 @@ export default class VerifyList extends Vue {
 
     emailFlag: number = 0; // 邮箱验证标志位
     smsFlag: number = 0; // 短信验证标志位
-    googleFlag: number = 0; // 谷歌验证标志位
 
     verifyType: VerifyType = VerifyType.SmsVerify; // 验证类型
     isVerifyShow: boolean = false; // 是否显示验证表单组件
 
+    // 邮箱
     get email() {
         let verifyResult = this.verifyResult;
         if (!verifyResult) return '';
@@ -39,8 +39,7 @@ export default class VerifyList extends Vue {
 
     // 处理弹出框close事件
     handlePopupClose() {
-        console.log('verify-list close');
-        this.$emit('close', false, false);
+        this.$emit('close', false);
     }
 
     // 处理邮箱验证
@@ -75,8 +74,8 @@ export default class VerifyList extends Vue {
 
     // 处理验证表单submit事件
     handleVerifyFormSubmit(code: string) {
-        this.$emit('close', false, true);
-        this.$emit('submit', code);
+        this.$emit('close', false);
+        this.$emit('submit', this.verifyType, code);
     }
 
     // 处理验证表单stop事件
@@ -87,17 +86,14 @@ export default class VerifyList extends Vue {
     // 解析验证方式
     resolveVerifyMode(verifyResult?: VerifyResult | null) {
         let emailFlag = 0,
-            smsFlag = 0,
-            googleFlag = 0;
+            smsFlag = 0;
         if (verifyResult) {
             let parts = (verifyResult.verifyMode || '').split('');
             emailFlag = isNaN(Number(parts[0])) ? 0 : Number(parts[0]);
             smsFlag = isNaN(Number(parts[1])) ? 0 : Number(parts[1]);
-            googleFlag = isNaN(Number(parts[2])) ? 0 : Number(parts[2]);
         }
         this.emailFlag = emailFlag;
         this.smsFlag = smsFlag;
-        this.googleFlag = googleFlag;
     }
 
     @Watch('value')

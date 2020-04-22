@@ -183,8 +183,6 @@
 
             <EarningsInfo v-model="isEarningsInfoShow" />
 
-            <BindGuide v-if="!userInfo.email" path="/asset/index" />
-
             <Navs />
         </div>
     </PullRefresh>
