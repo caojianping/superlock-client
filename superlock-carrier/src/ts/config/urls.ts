@@ -68,7 +68,7 @@ export const Urls = {
             info: `${baseUrl}/carrier/info`,
             rate: `${baseUrl}/carrier/rate`,
             presetExchange: `${baseUrl}/carrier/cash`, // 预兑换
-            confirmExchange: `${baseUrl}/carrier/cashCommint`, // 确认兑换
+            confirmExchange: `${baseUrl}/carrier/cashCommit`, // 确认兑换
             withdraw: `${baseUrl}/carrier/withdrawCoin`
         },
         rebate: {

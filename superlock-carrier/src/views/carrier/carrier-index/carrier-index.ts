@@ -61,8 +61,8 @@ export default class CarrierIndex extends Vue {
     }
 
     // 处理兑换模态框submit事件
-    async handleExchangeModalSubmit(orderId: string) {
-        this.setStates({ orderId });
+    async handleExchangeModalSubmit(serial: string) {
+        this.setStates({ serial });
         this._submitForm(false);
     }
 

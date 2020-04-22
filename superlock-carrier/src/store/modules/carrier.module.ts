@@ -133,7 +133,7 @@ export default {
         },
 
         // 确认兑换
-        async confirmExchangeCoin(context: IActionContext<ICarrierState>, isCode: boolean = false): Promise<boolean> {
+        async confirmExchange(context: IActionContext<ICarrierState>, isCode: boolean = false): Promise<boolean> {
             return await carrierService.confirmExchange(context.state.serial, isCode);
         },
 

@@ -8,5 +8,5 @@ export const CONSTANTS = {
 
     HEADER_TOKEN: 'token', // 请求头token
     HEADER_NAME: 'name', // 请求头name
-    HEADER_CODE: 'smscode' // 请求头code
+    HEADER_CODE: 'emailcode' // 请求头code
 };

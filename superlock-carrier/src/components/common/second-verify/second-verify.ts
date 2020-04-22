@@ -70,7 +70,7 @@ export default class SecondVerify extends Vue {
             let loginForm = this.loginForm;
             // this.areaCode = loginForm.areaCode;
             // this.mobile = loginForm.mobile;
-            this.email = '';
+            this.email = loginForm.email || '';
         } else {
             let tokenInfo = Token.getTokenInfo();
             // this.areaCode = tokenInfo.areaCode;

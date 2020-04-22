@@ -102,6 +102,7 @@ export default class ExchangeModal extends Vue {
         try {
             let exchangeForm = Utils.duplicate(this.exchangeForm),
                 exchangeStats = await this.presetExchange({ exchangeForm, isCode });
+                console.log(exchangeStats);
             if (!exchangeStats) {
                 Prompt.error('兑换失败');
                 return;
