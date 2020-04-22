@@ -54,15 +54,22 @@ export default class UserLogin extends Vue {
             let verifyResult = this.verifyResult;
             if (!verifyResult) return Prompt.error('验证方式获取失败');
 
-            if (verifyResult.needVerify === 1) {
-                this.isVerifyShow = true;
-            } else {
+            let isSpecial = verifyResult.needVerify === 1 && verifyResult.verifyMode === '100' && !verifyResult.email;
+            if (verifyResult.needVerify === 0 || isSpecial) {
+                if (isSpecial) {
+                    let userForm = Utils.duplicate(this.userForm);
+                    userForm.verifyMode = '000';
+                    this.setStates({ userForm });
+                }
+
                 let result = await this.login();
                 if (!result) Prompt.error('登录失败');
                 else {
                     Prompt.success('登录成功');
                     this.$router.push('/home/index');
                 }
+            } else {
+                this.isVerifyShow = true;
             }
         } catch (error) {
             Prompt.error(error.message || error);
