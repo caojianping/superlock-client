@@ -2,7 +2,7 @@ import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
 import { Urls, AreaCodes, defaultAreaCode, CaxiosType, IAreaCode } from '@/ts/config';
 import { Caxios, md5 } from '@/ts/common';
-import { ISelectOption, IPageParameters, IMemberPageParameters } from '@/ts/interfaces';
+import { ISelectOption, IPageParameters, IBrokerPageParameters, IBrokerChildPageParameters, IRatePageParameters } from '@/ts/interfaces';
 import {
     PageResult,
     BrokerChildPageResult,
@@ -95,7 +95,7 @@ export class MemberService {
     }
 
     // 获取券商列表
-    public async fetchBrokers(parameters: IPageParameters<IMemberPageParameters>): Promise<PageResult<BrokerModel>> {
+    public async fetchBrokers(parameters: IPageParameters<IBrokerPageParameters>): Promise<PageResult<BrokerModel>> {
         let url = Urls.member.broker.list,
             result = await Caxios.get<PageResult<BrokerModel> | null>(
                 { url: `${url}?${Utils.buildPageParameters(parameters, [], ['carrierName'])}` },
@@ -105,9 +105,19 @@ export class MemberService {
         return result as PageResult<BrokerModel>;
     }
 
+    // 导出券商列表
+    public async exportBrokers(parameters: IPageParameters<IBrokerPageParameters>): Promise<string> {
+        let url = Urls.member.broker.export,
+            result = await Caxios.get<string | null>(
+                { url: `${url}?${Utils.buildPageParameters(parameters, [], ['carrierName'])}` },
+                CaxiosType.FullLoadingToken
+            );
+        return result || '';
+    }
+
     // 获取券商下级列表
-    public async fetchBrokerChilds(parameters: IPageParameters<IMemberPageParameters>): Promise<BrokerChildPageResult<BrokerChildModel>> {
-        let url = Urls.member.broker.childs,
+    public async fetchBrokerChilds(parameters: IPageParameters<IBrokerChildPageParameters>): Promise<BrokerChildPageResult<BrokerChildModel>> {
+        let url = Urls.member.child.list,
             result = await Caxios.get<PageResult<BrokerChildModel> | null>(
                 { url: `${url}?${Utils.buildPageParameters(parameters)}` },
                 CaxiosType.PageLoadingToken
@@ -115,12 +125,15 @@ export class MemberService {
         return this._buildBrokerChilds(result);
     }
 
-    // 获取利率详情列表
-    public async fetchRates(parameters: IPageParameters<IMemberPageParameters>): Promise<PageResult<RateModel>> {
-        delete parameters.conditions.carrierName;
-        delete parameters.conditions.mobileNumber;
-        delete parameters.conditions.parent;
+    // 导出券商下级列表
+    public async exportBrokerChilds(parameters: IPageParameters<IBrokerChildPageParameters>): Promise<string> {
+        let url = Urls.member.child.export,
+            result = await Caxios.get<string | null>({ url: `${url}?${Utils.buildPageParameters(parameters)}` }, CaxiosType.FullLoadingToken);
+        return result || '';
+    }
 
+    // 获取利率详情列表
+    public async fetchRates(parameters: IPageParameters<IRatePageParameters>): Promise<PageResult<RateModel>> {
         let url = Urls.member.broker.rates,
             result = await Caxios.get<PageResult<RateModel> | null>(
                 { url: `${url}?${Utils.buildPageParameters(parameters)}` },

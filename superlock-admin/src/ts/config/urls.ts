@@ -111,15 +111,18 @@ export const Urls = {
     },
     // 用户中心模块 ok
     member: {
-        // 券商列表页面
         broker: {
             list: `${baseUrl}/broker/list`, // 券商分页列表
-            childs: `${baseUrl}/broker/subordinate`, // 下级分页列表
+            export: `${baseUrl}/broker/export`, // 券商导出
             rates: `${baseUrl}/broker/rateList`, // 利率分页列表
             types: `${baseUrl}/broker/lockRate`, // 项目类型
             add: `${baseUrl}/broker/add`, // 添加券商
             setRate: `${baseUrl}/broker/rateSet`, // 设置利率
             addQuota: `${baseUrl}/broker/addAmount` // 添加额度
+        },
+        child: {
+            list: `${baseUrl}/broker/subordinate`,
+            export: `${baseUrl}/broker/subordinate/export`
         }
     },
     // 运营商模块 ok
@@ -131,7 +134,8 @@ export const Urls = {
             add: `${baseUrl}/carrier/add`,
             updatePassword: `${baseUrl}/carrier/updatePwd`,
             updateMobile: `${baseUrl}/carrier/updateMobile`,
-            updateRebate: `${baseUrl}/carrier/updateRebate`
+            updateRebate: `${baseUrl}/carrier/updateRebate`,
+            updateEmail: `${baseUrl}/carrier/updateEmail`
         },
         rebate: {
             list: `${baseUrl}/carrier/rebates`,

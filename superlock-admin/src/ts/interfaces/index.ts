@@ -17,6 +17,7 @@ export interface IRechargePageParameters {
     uid: string; // uid
     hash: string; // 哈希
     coinCode: string; // 币种
+    address: string; // 充值地址
     beginTime: string; // 开始时间
     endTime: string; // 结束时间
 }
@@ -79,13 +80,28 @@ export interface IFundPageParameters {
     accountName: string; // 账户名称
 }
 
-// 会员分页列表
-export interface IMemberPageParameters {
-    type?: number; // 类型：0券商列表；1代理列表；
+// 券商分页列表（代理）
+export interface IBrokerPageParameters {
+    type: string; // 类型：0券商列表；1代理列表；
     uid: string; // UID
+    parent?: string; // 上级UID
     mobileNumber: string; // 手机号
+    email: string; // 邮箱
     carrierName: string; // 补充字段：运营商名称
-    parent: string; // 上级UID
+}
+
+// 券商下级分页列表（代理）
+export interface IBrokerChildPageParameters {
+    uid: string; // UID
+    subordinateUid: string; // 下级UID
+    mobile: string; // 手机号
+    email: string; // 邮箱
+}
+
+// 利率分页列表
+export interface IRatePageParameters {
+    type: string; // 类型：0券商列表；1代理列表；
+    uid: string; // UID
 }
 
 // 上分分页参数
@@ -99,6 +115,7 @@ export interface IPointPageParameters {
 export interface ICarrierPageParameters {
     carrierName: string; // 运营商名称
     mobile: string; // 手机号
+    email: string; // 邮箱
     beginTime: string; // 开始时间
     endTime: string; // 结束时间
 }

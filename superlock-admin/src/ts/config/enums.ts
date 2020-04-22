@@ -50,5 +50,6 @@ export const enum CarrierFormType {
     CarrierForm = 1,
     CarrierPasswordForm = 2,
     CarrierMobileForm = 3,
-    CarrierRebateForm = 4
+    CarrierRebateForm = 4,
+    CarrierEmailForm = 5 // 新增邮箱表单
 }

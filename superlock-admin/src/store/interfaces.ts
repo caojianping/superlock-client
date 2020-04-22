@@ -12,7 +12,9 @@ import {
     ILoanPageParameters,
     ILoanInterestPageParameters,
     IFundPageParameters,
-    IMemberPageParameters,
+    IBrokerPageParameters,
+    IBrokerChildPageParameters,
+    IRatePageParameters,
     IPointPageParameters,
     ICarrierPageParameters,
     IRebateOrderPageParameters,
@@ -171,7 +173,9 @@ export interface IMemberState {
     projectOptions: Array<ISelectOption>;
     typeOptions: Array<ISelectOption>;
 
-    parameters: IPageParameters<IMemberPageParameters>;
+    brokerParameters: IPageParameters<IBrokerPageParameters>;
+    childParameters: IPageParameters<IBrokerChildPageParameters>;
+    rateParameters: IPageParameters<IRatePageParameters>;
     totalCount: number;
     list: Array<BrokerModel | BrokerChildModel | RateModel>;
 

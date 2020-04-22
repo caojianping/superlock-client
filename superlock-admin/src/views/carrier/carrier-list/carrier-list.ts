@@ -62,6 +62,10 @@ export default class CarrierList extends Vue {
             scopedSlots: { customRender: 'mobile' }
         },
         {
+            title: '邮箱',
+            dataIndex: 'email'
+        },
+        {
             title: '锁仓总量(DC)',
             dataIndex: 'totalLock'
         },

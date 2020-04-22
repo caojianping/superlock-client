@@ -23,6 +23,7 @@ const carrierState: ICarrierState = {
         conditions: {
             carrierName: '',
             mobile: '',
+            email: '',
             beginTime: '',
             endTime: ''
         },
@@ -86,6 +87,7 @@ export default {
                 conditions: {
                     carrierName: '',
                     mobile: '',
+                    email: '',
                     beginTime: '',
                     endTime: ''
                 },

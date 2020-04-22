@@ -86,14 +86,14 @@ export default class WithdrawOrder extends Vue {
         {
             title: '创建时间',
             dataIndex: '',
-            key: 'createTime',
-            scopedSlots: { customRender: 'createTime' }
+            key: 'createDate',
+            scopedSlots: { customRender: 'createDate' }
         },
         {
             title: '完结时间',
             dataIndex: '',
-            key: 'endTime',
-            scopedSlots: { customRender: 'endTime' }
+            key: 'finishDate',
+            scopedSlots: { customRender: 'finishDate' }
         },
         {
             title: '状态',

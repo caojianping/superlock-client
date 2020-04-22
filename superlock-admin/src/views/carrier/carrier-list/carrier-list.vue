@@ -14,7 +14,19 @@
             <div class="sl-block-body mw1300px">
                 <ant-row :gutter="24">
                     <ant-col :span="7">
-                        <ant-form-item label="运营商名称" :label-col="{ span: 7 }" :wrapper-col="{ span: 17 }">
+                        <ant-form-item label="手机号" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                            <ant-input
+                                type="text"
+                                :value="carrierParameters.conditions.mobile"
+                                allowClear
+                                placeholder="请输入手机号"
+                                @change="handleFormChange('mobile', $event.target.value)"
+                            />
+                        </ant-form-item>
+                    </ant-col>
+
+                    <ant-col :span="10">
+                        <ant-form-item label="运营商名称" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-select
                                 :value="carrierParameters.conditions.carrierName || undefined"
                                 :options="carrierOptions"
@@ -26,34 +38,36 @@
                             ></ant-select>
                         </ant-form-item>
                     </ant-col>
+                </ant-row>
 
-                    <ant-col :span="5">
-                        <ant-form-item label="手机号" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                <ant-row :gutter="24">
+                    <ant-col :span="7">
+                        <ant-form-item label="邮箱" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
-                                :value="carrierParameters.conditions.mobile"
+                                :value="carrierParameters.conditions.email"
                                 allowClear
-                                placeholder="请输入手机号"
-                                @change="handleFormChange('b', $event.target.value)"
+                                placeholder="请输入邮箱"
+                                @change="handleFormChange('email', $event.target.value)"
                             />
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="9">
-                        <ant-form-item label="选择时间" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
+                    <ant-col :span="10">
+                        <ant-form-item label="选择时间" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             {{ ((beginTime = carrierParameters.conditions.beginTime), void 0) }}
                             {{ ((endTime = carrierParameters.conditions.endTime), void 0) }}
                             <ant-range-picker
                                 :value="[beginTime ? moment(beginTime) : undefined, endTime ? moment(endTime) : undefined]"
-                                :showTime="{ format: 'HH:mm', defaultValue: [moment('00:00', 'HH:mm'), moment('23:59', 'HH:mm')] }"
-                                format="YYYY-MM-DD HH:mm"
+                                :showTime="{ format: 'HH:mm:ss', defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')] }"
+                                format="YYYY-MM-DD HH:mm:ss"
                                 @change="handleRangePickerChange"
                             ></ant-range-picker>
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="3">
-                        <ant-button class="sl-search" type="primary" @click="search" style="margin-left: 0">搜索</ant-button>
+                    <ant-col :span="7">
+                        <ant-button class="sl-search" type="primary" @click="search">搜索</ant-button>
                     </ant-col>
                 </ant-row>
             </div>
@@ -85,7 +99,8 @@
             <template slot="operation" slot-scope="record">
                 <ant-button class="w65px" type="danger" size="small" @click="openCarrierModal(2, 2, record)">密码重置</ant-button>
                 <ant-button class="w80px" type="default" size="small" @click="openCarrierModal(2, 3, record)">更改手机号</ant-button>
-                <ant-button class="w65px" type="danger" size="small" @click="openCarrierModal(2, 4, record)">返奖设置</ant-button>
+                <ant-button class="w80px" type="danger" size="small" @click="openCarrierModal(2, 5, record)">更改邮箱</ant-button>
+                <ant-button class="w65px" type="default" size="small" @click="openCarrierModal(2, 4, record)">返奖设置</ant-button>
             </template>
         </ant-table>
 

@@ -23,8 +23,8 @@ export default class Sider extends Vue {
             path: '/recharge',
             icon: 'recharge',
             items: [
-                { name: '充值订单', route: '/recharge/order' },
-                { name: '手续费设置', route: '/recharge/poundage' }
+                { name: '充值订单', route: '/recharge/order' }
+                // { name: '手续费设置', route: '/recharge/poundage' }
             ],
             toggle: false
         },

@@ -72,8 +72,8 @@
                             {{ ((endTime = withdrawParameters.conditions.endTime), void 0) }}
                             <ant-range-picker
                                 :value="[beginTime ? moment(beginTime) : undefined, endTime ? moment(endTime) : undefined]"
-                                :showTime="{ format: 'HH:mm', defaultValue: [moment('00:00', 'HH:mm'), moment('23:59', 'HH:mm')] }"
-                                format="YYYY-MM-DD HH:mm"
+                                :showTime="{ format: 'HH:mm:ss', defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')] }"
+                                format="YYYY-MM-DD HH:mm:ss"
                                 @change="handleRangePickerChange"
                             ></ant-range-picker>
                         </ant-form-item>
@@ -104,11 +104,11 @@
                 <template slot="title">{{ record.address }}</template>
                 {{ record.address }}
             </ant-tooltip>
-            <span slot="createTime" slot-scope="record">
-                {{ record.createTime | dateFormat }}
+            <span slot="createDate" slot-scope="record">
+                {{ record.createDate | dateFormat }}
             </span>
-            <span slot="endTime" slot-scope="record">
-                {{ record.endTime | dateFormat }}
+            <span slot="finishDate" slot-scope="record">
+                {{ record.finishDate | dateFormat }}
             </span>
             <span :class="statusColors[record.status]" slot="status" slot-scope="record">
                 {{ statusNames[record.status] }}

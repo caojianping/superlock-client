@@ -43,7 +43,7 @@
                                 :value="parameters.conditions.orderType"
                                 :options="orderOptions"
                                 allowClear
-                                placeholder="请选择币种"
+                                placeholder="请选择订单类型"
                                 @change="handleFormChange('orderType', $event)"
                             ></ant-select>
                         </ant-form-item>
@@ -52,12 +52,12 @@
 
                 <ant-row :gutter="24">
                     <ant-col :span="7">
-                        <ant-form-item label="账户名称" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                        <ant-form-item label="账户类型" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-select
                                 :value="parameters.conditions.accountName"
                                 :options="accountOptions"
                                 allowClear
-                                placeholder="请选择币种"
+                                placeholder="请选择账户类型"
                                 @change="handleFormChange('accountName', $event)"
                             ></ant-select>
                         </ant-form-item>
@@ -69,8 +69,8 @@
                             {{ ((endTime = parameters.conditions.endTime), void 0) }}
                             <ant-range-picker
                                 :value="[beginTime ? moment(beginTime) : undefined, endTime ? moment(endTime) : undefined]"
-                                :showTime="{ format: 'HH:mm', defaultValue: [moment('00:00', 'HH:mm'), moment('23:59', 'HH:mm')] }"
-                                format="YYYY-MM-DD HH:mm"
+                                :showTime="{ format: 'HH:mm:ss', defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')] }"
+                                format="YYYY-MM-DD HH:mm:ss"
                                 @change="handleRangePickerChange"
                             ></ant-range-picker>
                         </ant-form-item>

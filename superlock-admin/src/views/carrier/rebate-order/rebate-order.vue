@@ -33,8 +33,8 @@
                             {{ ((endTime = rebateParameters.conditions.endTime), void 0) }}
                             <ant-range-picker
                                 :value="[beginTime ? moment(beginTime) : undefined, endTime ? moment(endTime) : undefined]"
-                                :showTime="{ format: 'HH:mm', defaultValue: [moment('00:00', 'HH:mm'), moment('23:59', 'HH:mm')] }"
-                                format="YYYY-MM-DD HH:mm"
+                                :showTime="{ format: 'HH:mm:ss', defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')] }"
+                                format="YYYY-MM-DD HH:mm:ss"
                                 @change="handleRangePickerChange"
                             ></ant-range-picker>
                         </ant-form-item>
@@ -67,8 +67,8 @@
                 {{ statusNames[record.status] }}
             </span>
             <template slot="operation" slot-scope="record">
-                <ant-button v-if="record.status !== '3'" type="default" size="small" @click="setOperate(record.fundSerial, 3)">审核</ant-button>
-                <ant-button v-if="record.status === '1'" type="danger" size="small" @click="setOperate(record.fundSerial, 5)">驳回</ant-button>
+                <ant-button v-if="record.status !== '3'" type="default" size="small" @click="setOperate(record.serial, 3)">审核</ant-button>
+                <ant-button v-if="record.status === '1'" type="danger" size="small" @click="setOperate(record.serial, 5)">驳回</ant-button>
             </template>
         </ant-table>
 

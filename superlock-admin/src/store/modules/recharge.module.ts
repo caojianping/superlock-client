@@ -10,6 +10,7 @@ const rechargeState: IRechargeState = {
             uid: '',
             hash: '',
             coinCode: '',
+            address: '',
             beginTime: '',
             endTime: ''
         },
@@ -41,6 +42,7 @@ export default {
                     uid: '',
                     hash: '',
                     coinCode: '',
+                    address: '',
                     beginTime: '',
                     endTime: ''
                 },
