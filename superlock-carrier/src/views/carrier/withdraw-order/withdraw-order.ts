@@ -67,8 +67,8 @@ export default class WithdrawOrder extends Vue {
         {
             title: '交易hash',
             dataIndex: '',
-            key: 'hash',
-            scopedSlots: { customRender: 'hash' }
+            key: 'txHash',
+            scopedSlots: { customRender: 'txHash' }
         },
         {
             title: '提现币种',

@@ -19,7 +19,7 @@
         <ant-row :gutter="24">
             <ant-col :span="20">
                 <ant-form-item label="当前汇率" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-                    <ant-input type="text" :value="`1 DC = ${rate} BCB`" disabled />
+                    <ant-input type="text" :value="`1 DC = ${rate || 0} BCB`" disabled />
                 </ant-form-item>
             </ant-col>
         </ant-row>
@@ -31,7 +31,7 @@
                         :value="exchangeForm.amount"
                         :min="0"
                         :precision="6"
-                        :placeholder="`账户余额${exchangeForm.maxAmount}DC`"
+                        :placeholder="`账户余额${exchangeForm.maxAmount || 0}DC`"
                         @change="handleFormChange('amount', $event)"
                         @keyup.enter="submit"
                     />

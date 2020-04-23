@@ -57,7 +57,7 @@ export class FlashOrderModel extends BaseOrderModel {
 
 // 提现订单模型
 export class WithdrawOrderModel extends BaseOrderModel {
-    public hash!: string; // 交易hash
+    public txHash!: string; // 交易hash
     public coinCode!: string; // 提现币种
     public amount!: string; // 提现数量
     public address!: string; // 到账地址

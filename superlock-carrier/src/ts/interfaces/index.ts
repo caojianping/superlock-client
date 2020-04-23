@@ -74,7 +74,7 @@ export interface IFlashOrderPageParameters {
 export interface IWithdrawOrderPageParameters {
     serial: string; // 订单号
     address: string; // 提现地址
-    hash: string;// 交易hash
+    txHash: string; // 交易hash
     beginTime: string; // 开始时间
     endTime: string; // 结束时间
 }

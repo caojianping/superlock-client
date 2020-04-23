@@ -39,7 +39,7 @@ const carrierState: ICarrierState = {
         conditions: {
             serial: '',
             address: '',
-            hash: '',
+            txHash: '',
             beginTime: '',
             endTime: ''
         },
@@ -90,7 +90,7 @@ export default {
                 conditions: {
                     serial: '',
                     address: '',
-                    hash: '',
+                    txHash: '',
                     beginTime: '',
                     endTime: ''
                 },

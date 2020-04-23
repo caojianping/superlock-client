@@ -42,10 +42,10 @@
                         <ant-form-item label="交易hash" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
-                                :value="withdrawParameters.conditions.hash"
+                                :value="withdrawParameters.conditions.txHash"
                                 allowClear
                                 placeholder="请输入交易hash"
-                                @change="handleFormChange('hash', $event.target.value)"
+                                @change="handleFormChange('txHash', $event.target.value)"
                             />
                         </ant-form-item>
                     </ant-col>
@@ -81,9 +81,9 @@
                 <template slot="title">{{ record.address }}</template>
                 {{ record.address }}
             </ant-tooltip>
-            <ant-tooltip class="w100px" slot="hash" slot-scope="record">
-                <template slot="title">{{ record.hash }}</template>
-                {{ record.hash }}
+            <ant-tooltip class="w100px" slot="txHash" slot-scope="record">
+                <template slot="title">{{ record.txHash }}</template>
+                {{ record.txHash }}
             </ant-tooltip>
             <span slot="createDate" slot-scope="record">
                 {{ record.createDate | dateFormat }}
