@@ -79,7 +79,9 @@ export default class SmsCode extends Vue {
     }
 
     mounted() {
-        this.sendCode();
+        if (this.isInit) {
+            this.sendCode();
+        }
     }
 
     @Watch('isInit')
