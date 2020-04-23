@@ -50,13 +50,14 @@ export default class VerifyList extends Vue {
         let email = this.email;
         if (!email) {
             let from = this.from;
-            if (from.indexOf('/user/login') > -1) {
+            console.log('from:', from);
+            if (from && from.indexOf('/user/login') > -1) {
                 Prompt.warning('请联系客服找回密码').then(() => {
                     window.location.href = CONSTANTS.CUSTOMER_SERVICE;
                 });
             } else {
                 Prompt.warning('未绑定邮箱，请先到安全中心绑定邮箱').then(() => {
-                    this.$router.push('/security/email');
+                    this.$router.push({ path: '/security/email', query: { from: from }});
                 });
             }
         } else {

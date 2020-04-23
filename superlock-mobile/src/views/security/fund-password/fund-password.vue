@@ -70,6 +70,7 @@
             :area-code="phone.area"
             :mobile="phone.tel"
             :verify-result="verifyResult"
+            from='/security/fund/password'
             @submit="handleVerifyListSubmit"
             @stop="handleVerifyListStop"
             @close="handleVerifyListClose"

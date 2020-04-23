@@ -51,6 +51,7 @@
             :area-code="userForm.areaCode"
             :mobile="userForm.mobile"
             :verify-result="verifyResult"
+            from='/user/register'
             @submit="handleVerifyListSubmit"
             @stop="handleVerifyListStop"
         />
