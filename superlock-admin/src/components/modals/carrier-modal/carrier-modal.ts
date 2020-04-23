@@ -88,6 +88,7 @@ export default class UserModal extends Vue {
             let carrierForm = new CarrierFormModel();
             if (operationType === OperationType.Add) {
                 carrierForm.areaCode = defaultAreaCode.id;
+                this.currentCycle = '';
             } else if (operationType === OperationType.Edit) {
                 let carrier = this.carrier;
                 if (carrier) {

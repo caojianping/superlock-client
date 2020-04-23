@@ -47,7 +47,7 @@
         <ant-table
             class="mt32px"
             :columns="columns"
-            :rowKey="record => record.serial"
+            :rowKey="record => `${record.uid}_${record.type}_${record.projectName}_${record.rateType}_${record.rate}`"
             :dataSource="list"
             :pagination="false"
             :loading="isPageLoading"
