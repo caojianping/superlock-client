@@ -34,6 +34,7 @@
                                 allowClear
                                 placeholder="请输入运营商名称"
                                 @change="handleFormChange('carrierName', $event)"
+                                @search="handleFormChange('carrierName', $event)"
                                 :filterOption="carrierFilterOption"
                             ></ant-select>
                         </ant-form-item>

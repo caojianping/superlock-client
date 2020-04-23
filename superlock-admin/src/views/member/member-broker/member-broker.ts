@@ -351,9 +351,7 @@ export default class MemberBroker extends Vue {
     // 获取数据
     async fetchData() {
         try {
-            if (this.carrierOptions.length <= 0) {
-                await this.fetchCarrierOptions();
-            }
+            await this.fetchCarrierOptions();
             await this.fetchBrokers();
             await this.fetchProjectTypes();
         } catch (error) {

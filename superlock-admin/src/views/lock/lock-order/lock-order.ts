@@ -169,9 +169,7 @@ export default class LockOrder extends Vue {
 
     // 获取数据
     async fetchData() {
-        if (this.carrierOptions.length <= 0) {
-            await this.fetchCarrierOptions();
-        }
+        await this.fetchCarrierOptions();
         await this.fetchLocks();
     }
 

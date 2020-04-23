@@ -25,6 +25,7 @@
                             allowClear
                             placeholder="请选择国家、地区"
                             @change="handleFormChange('areaCode', $event)"
+                            @search="handleFormChange('areaCode', $event)"
                             :filterOption="areaCodeFilterOption"
                         ></ant-select>
                     </ant-form-item>
@@ -156,6 +157,7 @@
                                 allowClear
                                 placeholder="请选择国家、地区"
                                 @change="handleFormChange('areaCode', $event)"
+                                @search="handleFormChange('areaCode', $event)"
                                 :filterOption="areaCodeFilterOption"
                             ></ant-select>
                         </ant-form-item>
