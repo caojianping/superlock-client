@@ -1,6 +1,6 @@
 <template>
     <div class="recharge-address">
-        <Header title="充值地址" @left="$router.back(-1)" />
+        <Header title="充值地址" @left="$router.push('/mine/index')" />
 
         <div v-if="rechargeCoins" class="scb-separator">
             <p v-if="rechargeCoins.length <= 0" class="scb-none">暂无充值地址数据</p>
