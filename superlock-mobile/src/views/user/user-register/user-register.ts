@@ -4,8 +4,8 @@ import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { RegisterStatus, CONSTANTS } from '@/ts/config';
-import { Prompt } from '@/ts/common';
+import { RegisterStatus } from '@/ts/config';
+import { Prompt, Captcha } from '@/ts/common';
 import { UserFormModel, VerifyResult } from '@/ts/models';
 
 import { Cell, Button } from 'vant';
@@ -29,9 +29,9 @@ export default class UserRegister extends Vue {
     @userModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @userModule.Action('register') register!: () => any;
 
-    yunDun: any = null; // 云盾实例
+    captcha: any = null; // 云盾短信验证码实例
     invitationCode: string = ''; // 邀请码
-    isVerifyShow: boolean = false; // 是否显示验证列表组件
+    isVerifyShow: boolean = false; // 是否显示验证模态框组件
 
     // 处理UserForm组件change事件
     handleUserFormChange(userForm: UserFormModel) {
@@ -63,7 +63,7 @@ export default class UserRegister extends Vue {
 
     // 处理验证列表组件stop事件
     handleVerifyListStop() {
-        this.yunDun && this.yunDun.refresh();
+        this.captcha && this.captcha.refresh();
     }
 
     // 下载
@@ -84,20 +84,14 @@ export default class UserRegister extends Vue {
         this.setStates({ userForm });
     }
 
-    // 初始化云盾
-    initYunDun() {
+    // 初始化云盾短信验证码
+    async initCaptcha() {
         try {
-            let self = this;
-            if (window['initNECaptcha']) {
-                window['initNECaptcha'](
-                    CONSTANTS.CAPTCHA_OPTIONS,
-                    function onload(instance) {
-                        self.yunDun = instance;
-                    },
-                    function onerror() {}
-                );
-            }
-        } catch (error) {}
+            let captcha = await Captcha.initCaptcha();
+            this.captcha = captcha;
+        } catch (error) {
+            this.captcha = null;
+        }
     }
 
     created() {
@@ -106,6 +100,6 @@ export default class UserRegister extends Vue {
     }
 
     mounted() {
-        this.initYunDun();
+        this.initCaptcha();
     }
 }

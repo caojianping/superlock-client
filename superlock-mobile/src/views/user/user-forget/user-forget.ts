@@ -4,8 +4,8 @@ import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { CONSTANTS, ForgetType, VerifyType } from '@/ts/config';
-import { Prompt } from '@/ts/common';
+import { ForgetType, VerifyType } from '@/ts/config';
+import { Prompt, Captcha } from '@/ts/common';
 import { UserFormModel, VerifyResult } from '@/ts/models';
 
 import { CellGroup, Cell, Field, Button } from 'vant';
@@ -28,7 +28,7 @@ export default class UserForget extends Vue {
     @userModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @userModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
 
-    yunDun: any = null; // 云盾实例
+    captcha: any = null; // 云盾短信验证码实例
     from: string = ''; // 来源
     isVerifyShow: boolean = false; // 是否显示验证列表组件
     isForgetShow: boolean = false; // 是否显示忘记表单组件
@@ -38,11 +38,6 @@ export default class UserForget extends Vue {
         let userForm = Utils.duplicate(this.userForm);
         userForm[key] = value;
         this.setStates({ userForm });
-    }
-
-    // 处理SmsCode组件stop事件
-    handleSmsCodeStop() {
-        this.yunDun && this.yunDun.refresh();
     }
 
     // 处理ForgetForm组件submit事件
@@ -69,7 +64,7 @@ export default class UserForget extends Vue {
 
     // 处理验证列表组件stop事件
     handleVerifyListStop() {
-        this.yunDun && this.yunDun.refresh();
+        this.captcha && this.captcha.refresh();
     }
 
     // 初始化数据
@@ -87,20 +82,14 @@ export default class UserForget extends Vue {
         this.setStates({ userForm });
     }
 
-    // 初始化云盾
-    initYunDun() {
+    // 初始化云盾短信验证码
+    async initCaptcha() {
         try {
-            let self = this;
-            if (window['initNECaptcha']) {
-                window['initNECaptcha'](
-                    CONSTANTS.CAPTCHA_OPTIONS,
-                    function onload(instance) {
-                        self.yunDun = instance;
-                    },
-                    function onerror() {}
-                );
-            }
-        } catch (error) {}
+            let captcha = await Captcha.initCaptcha();
+            this.captcha = captcha;
+        } catch (error) {
+            this.captcha = null;
+        }
     }
 
     // 获取数据
@@ -128,7 +117,7 @@ export default class UserForget extends Vue {
     }
 
     mounted() {
-        this.initYunDun();
+        this.initCaptcha();
         this.fetchData();
     }
 }

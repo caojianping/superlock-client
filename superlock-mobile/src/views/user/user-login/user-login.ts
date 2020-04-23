@@ -6,7 +6,7 @@ import { ValidationResult } from 'jpts-validator';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { CONSTANTS, UserFormType, ForgetType, VerifyType } from '@/ts/config';
-import { Prompt } from '@/ts/common';
+import { Prompt, Captcha } from '@/ts/common';
 import { UserFormModel, VerifyResult } from '@/ts/models';
 import { UserService } from '@/ts/services';
 
@@ -29,7 +29,7 @@ export default class UserLogin extends Vue {
     @userModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @userModule.Action('login') login!: () => any;
 
-    yunDun: any = null; // 云盾实例
+    captcha: any = null; // 云盾短信验证码实例
     invitationCode: string = ''; // 邀请码
     isVerifyShow: boolean = false; // 是否显示验证模态框组件
 
@@ -64,7 +64,7 @@ export default class UserLogin extends Vue {
 
     // 处理验证模态框stop事件
     handleVerifyModalStop() {
-        this.yunDun && this.yunDun.refresh();
+        this.captcha && this.captcha.refresh();
     }
 
     // 提交登录表单
@@ -133,20 +133,14 @@ export default class UserLogin extends Vue {
         this.invitationCode = code;
     }
 
-    // 初始化云盾
-    initYunDun() {
+    // 初始化云盾短信验证码
+    async initCaptcha() {
         try {
-            let self = this;
-            if (window['initNECaptcha']) {
-                window['initNECaptcha'](
-                    CONSTANTS.CAPTCHA_OPTIONS,
-                    function onload(instance) {
-                        self.yunDun = instance;
-                    },
-                    function onerror() {}
-                );
-            }
-        } catch (error) {}
+            let captcha = await Captcha.initCaptcha();
+            this.captcha = captcha;
+        } catch (error) {
+            this.captcha = null;
+        }
     }
 
     created() {
@@ -155,6 +149,6 @@ export default class UserLogin extends Vue {
     }
 
     mounted() {
-        this.initYunDun();
+        this.initCaptcha();
     }
 }

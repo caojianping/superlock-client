@@ -5,8 +5,8 @@ import { ValidationResult } from 'jpts-validator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { UserFormType, CONSTANTS, ForgetType, VerifyType } from '@/ts/config';
-import { Prompt } from '@/ts/common';
+import { UserFormType, ForgetType, VerifyType } from '@/ts/config';
+import { Prompt, Captcha } from '@/ts/common';
 import { VerifyResult, UserInfoModel, UserFormModel, SecurityFormModel } from '@/ts/models';
 import { UserService, SecurityService } from '@/ts/services';
 
@@ -39,7 +39,7 @@ export default class FundPassword extends Vue {
     @securityModule.Action('setFundPassword') setFundPassword!: () => any;
     @securityModule.Action('modifyFundPassword') modifyFundPassword!: () => any;
 
-    yunDun: any = null; // 云盾实例
+    captcha: any = null; // 云盾短信验证码实例
     from: string = ''; // 来源
     isNewPasswordVisible: boolean = false;
     isConfirmPasswordVisible: boolean = false;
@@ -118,7 +118,7 @@ export default class FundPassword extends Vue {
 
     // 处理验证列表组件stop事件
     handleVerifyListStop() {
-        this.yunDun && this.yunDun.refresh();
+        this.captcha && this.captcha.refresh();
     }
 
     // 处理验证列表组件close事件
@@ -154,20 +154,14 @@ export default class FundPassword extends Vue {
         this.from = query.from || '';
     }
 
-    // 初始化云盾
-    initYunDun() {
+    // 初始化云盾短信验证码
+    async initCaptcha() {
         try {
-            let self = this;
-            if (window['initNECaptcha']) {
-                window['initNECaptcha'](
-                    CONSTANTS.CAPTCHA_OPTIONS,
-                    function onload(instance) {
-                        self.yunDun = instance;
-                    },
-                    function onerror() {}
-                );
-            }
-        } catch (error) {}
+            let captcha = await Captcha.initCaptcha();
+            this.captcha = captcha;
+        } catch (error) {
+            this.captcha = null;
+        }
     }
 
     created() {
@@ -177,7 +171,7 @@ export default class FundPassword extends Vue {
     }
 
     mounted() {
-        this.initYunDun();
+        this.initCaptcha();
         this.fetchUserInfo(true);
     }
 }
