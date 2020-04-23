@@ -42,20 +42,16 @@ export default class VerifyCode extends Vue {
     // 设置倒计时
     setCountdown() {
         let self = this,
-            { timer, seconds } = self;
-        if (timer) {
-            self.clearTimer();
-        } else {
-            self.text = `${self.seconds}秒`;
-            self.timer = setInterval(function() {
-                self.seconds = seconds--;
-                if (self.seconds <= 0) {
-                    self.clearTimer();
-                } else {
-                    self.text = `${self.seconds}秒`;
-                }
-            }, 1000);
-        }
+            seconds = self.seconds;
+        self.text = `${seconds}秒`;
+        self.timer = setInterval(function() {
+            self.seconds = seconds--;
+            if (self.seconds <= 0) {
+                self.clearTimer();
+            } else {
+                self.text = `${self.seconds}秒`;
+            }
+        }, 1000);
     }
 
     // 发送验证码

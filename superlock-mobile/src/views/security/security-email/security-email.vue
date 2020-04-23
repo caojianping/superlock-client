@@ -24,13 +24,7 @@
                     >
                         <template slot="button">
                             {{ ((phone = userInfo.phone || {}), void 0) }}
-                            <VerifyCode
-                                :is-init="false"
-                                :verify-type="verifyType"
-                                :area-code="phone.area"
-                                :mobile="phone.tel"
-                                :email="emailForm.emailAddress"
-                            />
+                            <VerifyCode :verify-type="verifyType" :area-code="phone.area" :mobile="phone.tel" :email="emailForm.emailAddress" />
                         </template>
                     </Field>
                 </li>

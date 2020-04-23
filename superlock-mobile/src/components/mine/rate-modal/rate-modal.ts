@@ -61,7 +61,6 @@ export default class RateModal extends Vue {
                     defaultRateForm.unit = rate.unit;
                     defaultRateForm.value = rate.childValue;
                     defaultRateForm.max = rate.value;
-                    console.log(defaultRateForm);
                     defaultRateForms.push(defaultRateForm);
                 });
                 this.defaultRateForms = defaultRateForms;

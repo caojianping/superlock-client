@@ -30,7 +30,6 @@ export default {
             }
         },
         [TYPES.CLEAR_STATES](state: IWithdrawState, withoutSelected: boolean = false) {
-            console.log('withoutSelected: ', withoutSelected);
             state.withdrawForm = new WithdrawFormModel();
 
             state.pageNum = 1;
