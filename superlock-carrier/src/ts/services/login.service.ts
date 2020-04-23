@@ -41,7 +41,7 @@ export class LoginService {
 
         let url = Urls.login.smsCode,
             parameters = Utils.buildParameters({ area: encodeURIComponent('+' + filterAreaCode.code), mobile });
-        await Caxios.get<any>({ url: `${url}?${parameters}` }, CaxiosType.FullLoading);
+        await Caxios.get<any>({ url: `${url}?${parameters}` }, CaxiosType.Default);
         return true;
     }
 
@@ -53,7 +53,7 @@ export class LoginService {
 
         let url = Urls.login.emailCode,
             parameters = Utils.buildParameters({ email: loginForm.email });
-        await Caxios.get<any>({ url: `${url}?${parameters}` }, CaxiosType.FullLoading);
+        await Caxios.get<any>({ url: `${url}?${parameters}` }, CaxiosType.Default);
         return true;
     }
 

@@ -1,5 +1,5 @@
 <template>
-    <ant-modal v-model="isShow" title="一键闪兑" :width="650" :footer="null" @cancel="handleModalCancel">
+    <ant-modal v-model="isShow" title="一键闪兑" :width="650" :footer="null" :maskClosable="stepType === 1" @cancel="handleModalCancel">
         <ant-row :gutter="24">
             <ant-col :span="20">
                 <ant-form-item label="闪兑币种" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
@@ -38,7 +38,7 @@
                     />
                 </ant-form-item>
             </ant-col>
-            <ant-col :class="['sl-all', { disabled: stepType === 2 }]" :span="4" @click="exchangeAll">全部</ant-col>
+            <ant-col v-if="stepType === 1" :class="['sl-all', { disabled: stepType === 2 }]" :span="4" @click="exchangeAll">全部</ant-col>
         </ant-row>
 
         <ant-row :gutter="24">

@@ -24,7 +24,7 @@ export default class SmsCode extends Vue {
     text: string = '获取验证码'; // 倒计时文字
 
     // 清除定时器
-    clearTimer() {
+    clearTimer(isClear: boolean = false) {
         if (this.timer) {
             clearInterval(this.timer);
         }
@@ -32,31 +32,27 @@ export default class SmsCode extends Vue {
         this.timer = null;
         this.seconds = 120;
         this.text = '获取验证码';
-        this.$emit('stop');
+        !isClear && this.$emit('stop');
     }
 
     // 设置倒计时
     setCountdown() {
         let self = this,
-            { timer, seconds } = self;
-        if (timer) {
-            self.clearTimer();
-        } else {
-            self.text = `${self.seconds}秒`;
-            self.timer = setInterval(function() {
-                self.seconds = seconds--;
-                if (self.seconds <= 0) {
-                    self.clearTimer();
-                } else {
-                    self.text = `${self.seconds}秒`;
-                }
-            }, 1000);
-        }
+            seconds = self.seconds;
+        self.text = `${seconds}秒`;
+        self.timer = setInterval(function() {
+            self.seconds = seconds--;
+            if (self.seconds <= 0) {
+                self.clearTimer();
+            } else {
+                self.text = `${self.seconds}秒`;
+            }
+        }, 1000);
     }
 
     // 发送验证码
     async sendCode() {
-        this.clearTimer();
+        this.clearTimer(true);
         if (this.isSending) return;
 
         // let { areaCode, mobile } = this;
@@ -73,7 +69,6 @@ export default class SmsCode extends Vue {
                 this.$emit('stop');
             } else {
                 this.setCountdown();
-                // Prompt.success('发送成功');
             }
         } catch (error) {
             this.isSpinning = false;
