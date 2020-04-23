@@ -88,6 +88,9 @@
             <span slot="endTime" slot-scope="record">
                 {{ record.endTime | dateFormat }}
             </span>
+            <span :class="statusColors[record.status]" slot="status" slot-scope="record">
+                {{ statusNames[record.status] }}
+            </span>
         </ant-table>
 
         <ant-pagination

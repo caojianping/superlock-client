@@ -31,13 +31,14 @@
                         :value="exchangeForm.amount"
                         :min="0"
                         :precision="6"
+                        :disabled="stepType === 2"
                         :placeholder="`账户余额${exchangeForm.maxAmount || 0}DC`"
                         @change="handleFormChange('amount', $event)"
                         @keyup.enter="submit"
                     />
                 </ant-form-item>
             </ant-col>
-            <ant-col class="sl-all" :span="4" @click="exchangeAll">全部</ant-col>
+            <ant-col :class="['sl-all', { disabled: stepType === 2 }]" :span="4" @click="exchangeAll">全部</ant-col>
         </ant-row>
 
         <ant-row :gutter="24">

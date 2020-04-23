@@ -29,6 +29,7 @@ const carrierState: ICarrierState = {
     flashParameters: {
         conditions: {
             serial: '',
+            status: '',
             beginTime: '',
             endTime: ''
         },
@@ -38,6 +39,7 @@ const carrierState: ICarrierState = {
     withdrawParameters: {
         conditions: {
             serial: '',
+            status: '',
             address: '',
             txHash: '',
             beginTime: '',
@@ -80,6 +82,7 @@ export default {
             state.flashParameters = {
                 conditions: {
                     serial: '',
+                    status: '',
                     beginTime: '',
                     endTime: ''
                 },
@@ -89,6 +92,7 @@ export default {
             state.withdrawParameters = {
                 conditions: {
                     serial: '',
+                    status: '',
                     address: '',
                     txHash: '',
                     beginTime: '',

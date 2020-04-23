@@ -13,7 +13,7 @@
             </header>
             <div class="sl-block-body">
                 <ant-row :gutter="24">
-                    <ant-col :span="8">
+                    <ant-col :span="7">
                         <ant-form-item label="订单号" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
@@ -24,8 +24,9 @@
                             />
                         </ant-form-item>
                     </ant-col>
-                    <ant-col :span="10">
-                        <ant-form-item label="提现地址" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+
+                    <ant-col :span="9">
+                        <ant-form-item label="提现地址" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
                             <ant-input
                                 type="text"
                                 :value="withdrawParameters.conditions.address"
@@ -35,10 +36,23 @@
                             />
                         </ant-form-item>
                     </ant-col>
+
+                    <ant-col :span="7">
+                        <ant-form-item label="状态" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                            <ant-select
+                                class="sl-select"
+                                :value="withdrawParameters.conditions.status"
+                                :options="withdrawOptions"
+                                allowClear
+                                placeholder="请选择状态"
+                                @change="handleFormChange('status', $event)"
+                            ></ant-select>
+                        </ant-form-item>
+                    </ant-col>
                 </ant-row>
 
                 <ant-row :gutter="24">
-                    <ant-col :span="8">
+                    <ant-col :span="7">
                         <ant-form-item label="交易hash" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
@@ -50,8 +64,8 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="10">
-                        <ant-form-item label="选择时间" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                    <ant-col :span="9">
+                        <ant-form-item label="选择时间" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
                             {{ ((beginTime = withdrawParameters.conditions.beginTime), void 0) }}
                             {{ ((endTime = withdrawParameters.conditions.endTime), void 0) }}
                             <ant-range-picker
@@ -63,7 +77,7 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="6">
+                    <ant-col :span="7">
                         <ant-button class="sl-search" type="primary" @click="search">搜索</ant-button>
                     </ant-col>
                 </ant-row>
@@ -90,6 +104,9 @@
             </span>
             <span slot="finishDate" slot-scope="record">
                 {{ record.finishDate | dateFormat }}
+            </span>
+            <span :class="statusColors[record.status]" slot="status" slot-scope="record">
+                {{ statusNames[record.status] }}
             </span>
         </ant-table>
 

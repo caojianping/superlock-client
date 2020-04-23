@@ -13,7 +13,7 @@
             </header>
             <div class="sl-block-body">
                 <ant-row :gutter="24">
-                    <ant-col :span="8">
+                    <ant-col :span="6">
                         <ant-form-item label="订单号" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
@@ -24,7 +24,21 @@
                             />
                         </ant-form-item>
                     </ant-col>
-                    <ant-col :span="10">
+
+                    <ant-col :span="6">
+                        <ant-form-item label="状态" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                            <ant-select
+                                class="sl-select"
+                                :value="flashParameters.conditions.status"
+                                :options="statusOptions"
+                                allowClear
+                                placeholder="请选择状态"
+                                @change="handleFormChange('status', $event)"
+                            ></ant-select>
+                        </ant-form-item>
+                    </ant-col>
+
+                    <ant-col :span="9">
                         <ant-form-item label="选择时间" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
                             {{ ((beginTime = flashParameters.conditions.beginTime), void 0) }}
                             {{ ((endTime = flashParameters.conditions.endTime), void 0) }}
@@ -36,8 +50,9 @@
                             ></ant-range-picker>
                         </ant-form-item>
                     </ant-col>
-                    <ant-col :span="6">
-                        <ant-button class="sl-search" type="primary" @click="search">搜索</ant-button>
+
+                    <ant-col :span="3">
+                        <ant-button class="sl-search" type="primary" @click="search" style="margin-left: 0">搜索</ant-button>
                     </ant-col>
                 </ant-row>
             </div>
@@ -55,6 +70,9 @@
             </span>
             <span slot="endTime" slot-scope="record">
                 {{ record.endTime | dateFormat }}
+            </span>
+            <span :class="statusColors[record.status]" slot="status" slot-scope="record">
+                {{ statusNames[record.status] }}
             </span>
         </ant-table>
 

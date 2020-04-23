@@ -96,7 +96,9 @@ export default class WithdrawOrder extends Vue {
         },
         {
             title: '状态',
-            dataIndex: 'status'
+            dataIndex: '',
+            key: 'status',
+            scopedSlots: { customRender: 'status' }
         }
     ];
 
