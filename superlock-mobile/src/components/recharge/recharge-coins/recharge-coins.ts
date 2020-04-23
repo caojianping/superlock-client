@@ -1,12 +1,15 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component, Model, Watch } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
-import { RechargeCoinModel } from '@/ts/models';
+import { Prompt } from '@/ts/common';
+import { UserInfoModel, RechargeCoinModel } from '@/ts/models';
 
 import { Popup, CellGroup, Cell } from 'vant';
 import Spin from '@/components/common/spin';
 
+const userModule = namespace('user');
 const rechargeModule = namespace('recharge');
 
 @Component({
@@ -15,6 +18,9 @@ const rechargeModule = namespace('recharge');
 })
 export default class RechargeCoins extends Vue {
     @Model('close', { type: Boolean }) value!: boolean; // v-model
+
+    @userModule.State('userInfo') userInfo!: UserInfoModel;
+    @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
 
     @rechargeModule.State('rechargeCoins') rechargeCoins?: Array<RechargeCoinModel>;
     @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
@@ -29,8 +35,24 @@ export default class RechargeCoins extends Vue {
         this.$emit('close', false);
     }
 
+    goCode(rechargeCoin: any) {
+        let haveFundPasswd = this.userInfo.haveFundPasswd;
+        if (!haveFundPasswd) {
+            Prompt.info('为保障您的资金安全，请先设置一下资金密码').then(() => {
+                this.$router.push({
+                    path: '/security/fund/password',
+                    query: { from: '/asset/index' }
+                });
+            });
+            return;
+        } else {
+            this.$router.push(`/recharge/code/${rechargeCoin.symbol}`);
+        }
+    }
+
     // 获取数据
     async fetchData() {
+        await this.fetchUserInfo();
         let rechargeCoins = this.rechargeCoins;
         if (!rechargeCoins || rechargeCoins.length <= 0) {
             this.isSpinning = true;
