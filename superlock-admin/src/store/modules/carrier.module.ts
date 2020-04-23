@@ -56,6 +56,7 @@ const carrierState: ICarrierState = {
             carrierName: '',
             status: '',
             address: '',
+            txHash: '',
             beginTime: '',
             endTime: ''
         },
@@ -120,6 +121,7 @@ export default {
                     carrierName: '',
                     status: '',
                     address: '',
+                    txHash: '',
                     beginTime: '',
                     endTime: ''
                 },

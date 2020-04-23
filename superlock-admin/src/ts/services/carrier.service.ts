@@ -21,12 +21,13 @@ export class CarrierService {
             { carrierId, carrierName, areaCode, mobile, email, loginPwd, rebateRatio, billingCycle, unit } = carrierForm,
             validator = new Validator();
         if (formType === CarrierFormType.CarrierForm) {
-            validator.addRule(key, { name: 'carrierName', value: carrierName }, { required: true }, { required: '运营商不可以为空' });
+            validator.addRule(key, { name: 'carrierName', value: carrierName }, { required: true }, { required: '运营商名称不可以为空' });
             if (areaCode === defaultAreaCode.id) {
                 validator.addRule(key, { name: 'mobile', value: mobile }, { required: true, mobile: true }, { required: '手机号不可以为空' });
             } else {
                 validator.addRule(key, { name: 'mobile', value: mobile }, { required: true, pureDigit: true }, { required: '手机号不可以为空' });
             }
+            validator.addRule(key, { name: 'email', value: email }, { required: true, email: true }, { required: '邮箱不可以为空' });
             validator.addRule(key, { name: 'loginPwd', value: loginPwd }, { required: true, password: true }, { required: '登录密码不可以为空' });
             validator.addRule(key, { name: 'rebateRatio', value: rebateRatio }, { required: true }, { required: '返点比例(%)不可以为空' });
             validator.addRule(key, { name: 'billingCycle', value: billingCycle }, { required: true }, { required: '结算时间不可以为空' });
@@ -95,7 +96,7 @@ export class CarrierService {
         let result: ValidationResult = CarrierService.validateCarrierForm(carrierForm, CarrierFormType.CarrierForm);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { carrierName, areaCode, mobile, loginPwd, rebateRatio, billingCycle, unit } = carrierForm,
+        let { carrierName, areaCode, mobile, email, loginPwd, rebateRatio, billingCycle, unit } = carrierForm,
             filterAreaCode = AreaCodes.filter((item: IAreaCode) => item.id === areaCode)[0];
         if (!filterAreaCode) return Promise.reject('未找到对应的国家、地区区号');
 
@@ -106,6 +107,7 @@ export class CarrierService {
                     carrierName,
                     areaCode: '+' + filterAreaCode.code,
                     mobile,
+                    email,
                     pwd: md5(loginPwd),
                     rebateRatio: rebateRatio / 100,
                     billingCycle,

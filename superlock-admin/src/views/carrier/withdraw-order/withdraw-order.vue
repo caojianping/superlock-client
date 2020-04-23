@@ -25,20 +25,8 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="9">
-                        <ant-form-item label="到账地址" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
-                            <ant-input
-                                type="text"
-                                :value="withdrawParameters.conditions.address"
-                                allowClear
-                                placeholder="请输入到账地址"
-                                @change="handleFormChange('address', $event.target.value)"
-                            />
-                        </ant-form-item>
-                    </ant-col>
-
                     <ant-col :span="7">
-                        <ant-form-item label="运营商名称" :label-col="{ span: 7 }" :wrapper-col="{ span: 17 }">
+                        <ant-form-item label="运营商名称" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-select
                                 :value="withdrawParameters.conditions.carrierName || undefined"
                                 :options="carrierOptions"
@@ -48,6 +36,19 @@
                                 @change="handleFormChange('carrierName', $event)"
                                 :filterOption="carrierFilterOption"
                             ></ant-select>
+                        </ant-form-item>
+                    </ant-col>
+
+                    <ant-col :span="9">
+                        <ant-form-item label="选择时间" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
+                            {{ ((beginTime = withdrawParameters.conditions.beginTime), void 0) }}
+                            {{ ((endTime = withdrawParameters.conditions.endTime), void 0) }}
+                            <ant-range-picker
+                                :value="[beginTime ? moment(beginTime) : undefined, endTime ? moment(endTime) : undefined]"
+                                :showTime="{ format: 'HH:mm:ss', defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')] }"
+                                format="YYYY-MM-DD HH:mm:ss"
+                                @change="handleRangePickerChange"
+                            ></ant-range-picker>
                         </ant-form-item>
                     </ant-col>
                 </ant-row>
@@ -66,21 +67,32 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="9">
-                        <ant-form-item label="选择时间" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
-                            {{ ((beginTime = withdrawParameters.conditions.beginTime), void 0) }}
-                            {{ ((endTime = withdrawParameters.conditions.endTime), void 0) }}
-                            <ant-range-picker
-                                :value="[beginTime ? moment(beginTime) : undefined, endTime ? moment(endTime) : undefined]"
-                                :showTime="{ format: 'HH:mm:ss', defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')] }"
-                                format="YYYY-MM-DD HH:mm:ss"
-                                @change="handleRangePickerChange"
-                            ></ant-range-picker>
+                    <ant-col :span="7">
+                        <ant-form-item label="到账地址" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                            <ant-input
+                                type="text"
+                                :value="withdrawParameters.conditions.address"
+                                allowClear
+                                placeholder="请输入到账地址"
+                                @change="handleFormChange('address', $event.target.value)"
+                            />
                         </ant-form-item>
                     </ant-col>
 
                     <ant-col :span="7">
-                        <ant-button class="sl-search" type="primary" @click="search">搜索</ant-button>
+                        <ant-form-item label="交易hash" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                            <ant-input
+                                type="text"
+                                :value="withdrawParameters.conditions.txHash"
+                                allowClear
+                                placeholder="请输入交易hash"
+                                @change="handleFormChange('txHash', $event.target.value)"
+                            />
+                        </ant-form-item>
+                    </ant-col>
+
+                    <ant-col :span="3">
+                        <ant-button class="sl-search" type="primary" @click="search" style="margin-left: 0">搜索</ant-button>
                     </ant-col>
                 </ant-row>
             </div>
@@ -103,6 +115,10 @@
             <ant-tooltip class="w100px" slot="address" slot-scope="record">
                 <template slot="title">{{ record.address }}</template>
                 {{ record.address }}
+            </ant-tooltip>
+            <ant-tooltip class="w100px" slot="txHash" slot-scope="record">
+                <template slot="title">{{ record.txHash }}</template>
+                {{ record.txHash }}
             </ant-tooltip>
             <span slot="createDate" slot-scope="record">
                 {{ record.createDate | dateFormat }}

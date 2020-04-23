@@ -142,6 +142,7 @@ export interface IWithdrawOrderPageParameters {
     carrierName: string; // 运营商名称
     status: string; // 状态
     address: string; // 到账地址
+    txHash: string; // 交易hash
     beginTime: string; // 开始时间
     endTime: string; // 结束时间
 }

@@ -62,6 +62,7 @@ export class WithdrawOrderModel extends BaseOrderModel {
     public coinCode!: string; // 提现币种
     public amount!: string; // 提现数量
     public address!: string; // 到账地址
+    public txHash!: string; // 交易hash
     public status!: string; // 状态：0未提现；10提现中；20提现成功；30提现失败。
     public auditStatus!: string; // 审核状态：1待审核；3已审核；5已驳回。
     public createDate!: string; // 创建时间

@@ -84,6 +84,12 @@ export default class WithdrawOrder extends Vue {
             scopedSlots: { customRender: 'address' }
         },
         {
+            title: '交易hash',
+            dataIndex: '',
+            key: 'txHash',
+            scopedSlots: { customRender: 'txHash' }
+        },
+        {
             title: '创建时间',
             dataIndex: '',
             key: 'createDate',
