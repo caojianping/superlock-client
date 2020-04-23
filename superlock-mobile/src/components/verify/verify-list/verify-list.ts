@@ -49,13 +49,13 @@ export default class VerifyList extends Vue {
         this.verifyType = VerifyType.EmailVerify;
         let email = this.email;
         if (!email) {
-            let path = this.$route.path;
-            if (path.indexOf('/user/login') > -1) {
-                Prompt.warning('您还没有绑定邮箱，请您先联系客服').then(() => {
+            let from = this.from;
+            if (from.indexOf('/user/login') > -1) {
+                Prompt.warning('请联系客服找回密码').then(() => {
                     window.location.href = CONSTANTS.CUSTOMER_SERVICE;
                 });
             } else {
-                Prompt.warning('您还没有绑定邮箱，请您先绑定邮箱').then(() => {
+                Prompt.warning('未绑定邮箱，请先到安全中心绑定邮箱').then(() => {
                     this.$router.push('/security/email');
                 });
             }

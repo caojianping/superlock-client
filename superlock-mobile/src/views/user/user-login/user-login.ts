@@ -43,39 +43,6 @@ export default class UserLogin extends Vue {
         this.setStates({ userForm });
     }
 
-    // 提交登录表单
-    async submit() {
-        try {
-            let userForm = this.userForm,
-                result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.Login);
-            if (!result.status) return Prompt.error(Utils.getFirstValue(result.data));
-
-            await this.fetchVerifyMethod({ areaCode: userForm.areaCode, mobile: userForm.mobile, type: 1 });
-            let verifyResult = this.verifyResult;
-            if (!verifyResult) return Prompt.error('验证方式获取失败');
-
-            let isSpecial = verifyResult.needVerify === 1 && verifyResult.verifyMode === '100' && !verifyResult.email;
-            if (verifyResult.needVerify === 0 || isSpecial) {
-                if (isSpecial) {
-                    let userForm = Utils.duplicate(this.userForm);
-                    userForm.verifyMode = '000';
-                    this.setStates({ userForm });
-                }
-
-                let result = await this.login();
-                if (!result) Prompt.error('登录失败');
-                else {
-                    Prompt.success('登录成功');
-                    this.$router.push('/home/index');
-                }
-            } else {
-                this.isVerifyShow = true;
-            }
-        } catch (error) {
-            Prompt.error(error.message || error);
-        }
-    }
-
     // 处理验证模态框submit事件
     async handleVerifyModalSubmit(verifyType: VerifyType, code: string) {
         try {
@@ -100,20 +67,64 @@ export default class UserLogin extends Vue {
         this.yunDun && this.yunDun.refresh();
     }
 
-    // 跳转至忘记密码页面
-    goForget() {
-        let { userForm, invitationCode } = this,
-            result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.ForgetMobile);
-        if (!result.status) return Prompt.error(Utils.getFirstValue(result.data));
+    // 提交登录表单
+    async submit() {
+        try {
+            let userForm = Utils.duplicate(this.userForm),
+                result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.Login);
+            if (!result.status) return Prompt.error(Utils.getFirstValue(result.data));
 
-        this.$router.push({
-            path: `/user/forget/${ForgetType.LoginPassword}`,
-            query: {
-                from: `/user/login?code=${invitationCode}`,
-                areaCode: userForm.areaCode,
-                mobile: userForm.mobile
+            await this.fetchVerifyMethod({ areaCode: userForm.areaCode, mobile: userForm.mobile, type: 1 });
+            let verifyResult = this.verifyResult;
+            if (!verifyResult) return Prompt.error('验证方式获取失败');
+
+            let isSpecial = verifyResult.needVerify === 1 && verifyResult.verifyMode === '100' && !verifyResult.email;
+            if (verifyResult.needVerify === 0 || isSpecial) {
+                userForm.verifyMode = '000';
+                this.setStates({ userForm });
+
+                let result = await this.login();
+                if (!result) Prompt.error('登录失败');
+                else {
+                    Prompt.success('登录成功');
+                    this.$router.push('/home/index');
+                }
+            } else {
+                this.isVerifyShow = true;
             }
-        });
+        } catch (error) {
+            Prompt.error(error.message || error);
+        }
+    }
+
+    // 跳转至忘记密码页面
+    async goForget() {
+        try {
+            let userForm = Utils.duplicate(this.userForm),
+                result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.ForgetMobile);
+            if (!result.status) return Prompt.error(Utils.getFirstValue(result.data));
+
+            await this.fetchVerifyMethod({ areaCode: userForm.areaCode, mobile: userForm.mobile, type: 2 });
+            let verifyResult = this.verifyResult;
+            if (!verifyResult) return Prompt.error('验证方式获取失败');
+
+            let isSpecial = verifyResult.needVerify === 1 && verifyResult.verifyMode === '100' && !verifyResult.email;
+            if (verifyResult.needVerify === 0 || isSpecial) {
+                Prompt.warning('请联系客服找回密码');
+            } else {
+                let invitationCode = this.invitationCode;
+                this.$router.push({
+                    path: `/user/forget/${ForgetType.LoginPassword}`,
+                    query: {
+                        from: `/user/login?code=${invitationCode}`,
+                        areaCode: userForm.areaCode,
+                        mobile: userForm.mobile
+                    }
+                });
+            }
+        } catch (error) {
+            Prompt.error(error.message || error);
+        }
     }
 
     // 初始化数据

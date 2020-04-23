@@ -25,7 +25,6 @@ export default class VerifyModal extends Vue {
     emailFlag: number = 0; // 邮箱验证标志位
     smsFlag: number = 0; // 短信验证标志位
 
-    verifyNames: Array<string> = ['邮箱', '短信'];
     activeTab: number = 0; // 当前、活跃的选项卡
     code: string = ''; // 验证码
 
@@ -57,9 +56,9 @@ export default class VerifyModal extends Vue {
 
     // 提交验证码
     submit() {
-        let { verifyNames, activeTab, code } = this;
+        let { activeTab, code } = this;
         if (!code) {
-            Prompt.warning(`${verifyNames[activeTab]}验证码不可以为空`);
+            Prompt.warning(`${['短信', '邮箱'][activeTab]}验证码不可以为空`);
             return;
         }
 

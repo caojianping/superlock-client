@@ -30,7 +30,7 @@
                     </div>
                 </template>
                 <template v-else>
-                    <p>您还没有绑定邮箱，请您先联系客服</p>
+                    <p>请联系客服找回密码</p>
                     <div class="btn-container">
                         <Button class="effect-shadow" type="default" round @click="handleModalClose">取消</Button>
                         <Button class="effect-shadow" type="primary" round @click="goCustomerService">确认</Button>
