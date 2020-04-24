@@ -1,5 +1,5 @@
 <template>
-    <ant-modal v-model="isShow" title="一键闪兑" :width="650" :footer="null" @cancel="handleModalCancel">
+    <ant-modal v-model="isShow" title="一键闪兑" :width="650" :footer="null" :maskClosable="stepType === 1" @cancel="handleModalCancel">
         <ant-row :gutter="24">
             <ant-col :span="20">
                 <ant-form-item label="闪兑币种" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
@@ -19,7 +19,7 @@
         <ant-row :gutter="24">
             <ant-col :span="20">
                 <ant-form-item label="当前汇率" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-                    <ant-input type="text" :value="`1 DC = ${rate} BCB`" disabled />
+                    <ant-input type="text" :value="`1 DC = ${rate || 0} BCB`" disabled />
                 </ant-form-item>
             </ant-col>
         </ant-row>
@@ -31,13 +31,14 @@
                         :value="exchangeForm.amount"
                         :min="0"
                         :precision="6"
-                        :placeholder="`账户余额${exchangeForm.maxAmount}DC`"
+                        :disabled="stepType === 2"
+                        :placeholder="`账户余额${exchangeForm.maxAmount || 0}DC`"
                         @change="handleFormChange('amount', $event)"
                         @keyup.enter="submit"
                     />
                 </ant-form-item>
             </ant-col>
-            <ant-col class="sl-all" :span="4" @click="exchangeAll">全部</ant-col>
+            <ant-col v-if="stepType === 1" :class="['sl-all', { disabled: stepType === 2 }]" :span="4" @click="exchangeAll">全部</ant-col>
         </ant-row>
 
         <ant-row :gutter="24">

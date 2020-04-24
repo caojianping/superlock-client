@@ -6,7 +6,7 @@ import { LoginService } from '@/ts/services';
 
 const loginState: ILoginState = {
     loginForm: new LoginFormModel(),
-    smsCode: ''
+    code: ''
 };
 
 const loginService = new LoginService();
@@ -23,7 +23,7 @@ export default {
         },
         [TYPES.CLEAR_STATES](state: ILoginState) {
             state.loginForm = new LoginFormModel();
-            state.smsCode = '';
+            state.code = '';
         }
     },
     actions: {
@@ -37,8 +37,7 @@ export default {
             let { token, name } = result;
             if (!token || !name) return false;
 
-            let { areaCode, mobile } = loginForm,
-                tokenInfo = new TokenInfo(token, name, areaCode, mobile);
+            let tokenInfo = new TokenInfo(token, name, '', '', loginForm.email || '');
             Token.setTokenInfo(tokenInfo);
             commit(TYPES.SET_STATES, { tokenInfo }, { root: true });
             return true;
@@ -47,6 +46,11 @@ export default {
         // 获取短信验证码
         async fetchSmsCode(context: IActionContext<ILoginState>, payload: { areaCode: string; mobile: string }): Promise<boolean> {
             return await loginService.fetchSmsCode(payload.areaCode, payload.mobile);
+        },
+
+        // 获取邮箱验证码
+        async fetchEmailCode(context: IActionContext<ILoginState>, email: string): Promise<boolean> {
+            return await loginService.fetchEmailCode(email);
         },
 
         // 退出

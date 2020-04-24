@@ -119,11 +119,13 @@ export default new Vuex.Store({
     },
     actions: {
         // 获取运营商选项列表
-        async fetchCarrierOptions(context: IActionContext<IRootState>): Promise<void> {
-            let commit = context.commit;
+        async fetchCarrierOptions(context: IActionContext<IRootState>, isRefresh?: boolean): Promise<void> {
+            let { commit, state } = context;
             try {
-                let carrierOptions = await carrierService.fetchCarrierOptions();
-                commit(TYPES.SET_STATES, { carrierOptions });
+                if (state.carrierOptions.length <= 0 || isRefresh) {
+                    let carrierOptions = await carrierService.fetchCarrierOptions();
+                    commit(TYPES.SET_STATES, { carrierOptions });
+                }
             } catch (error) {
                 commit(TYPES.SET_STATES, { carrierOptions: [] });
                 return Promise.reject(error);

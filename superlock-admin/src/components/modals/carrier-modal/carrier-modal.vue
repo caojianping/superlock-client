@@ -25,6 +25,7 @@
                             allowClear
                             placeholder="请选择国家、地区"
                             @change="handleFormChange('areaCode', $event)"
+                            @search="handleFormChange('areaCode', $event)"
                             :filterOption="areaCodeFilterOption"
                         ></ant-select>
                     </ant-form-item>
@@ -39,6 +40,20 @@
                             allowClear
                             placeholder="请输入手机号"
                             @change="handleFormChange('mobile', $event.target.value)"
+                            @keyup.enter="submit"
+                        />
+                    </ant-form-item>
+                </ant-col>
+            </ant-row>
+            <ant-row :gutter="24">
+                <ant-col :span="22">
+                    <ant-form-item label="邮箱" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                        <ant-input
+                            type="text"
+                            :value="carrierForm.email"
+                            allowClear
+                            placeholder="请输入邮箱"
+                            @change="handleFormChange('email', $event.target.value)"
                             @keyup.enter="submit"
                         />
                     </ant-form-item>
@@ -99,10 +114,17 @@
                     </ant-form-item>
                 </ant-col>
             </ant-row>
-            <ant-row :gutter="24">
+            <ant-row :gutter="24" v-if="formType !== 5">
                 <ant-col :span="22">
                     <ant-form-item label="手机号" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                         <ant-input type="text" :value="carrier ? [carrier.areaCode, carrier.mobileNumber].join(',') : ''" disabled />
+                    </ant-form-item>
+                </ant-col>
+            </ant-row>
+            <ant-row :gutter="24" v-if="formType === 5">
+                <ant-col :span="22">
+                    <ant-form-item label="原邮箱地址" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                        <ant-input type="text" :value="carrier ? carrier.email : ''" disabled />
                     </ant-form-item>
                 </ant-col>
             </ant-row>
@@ -135,6 +157,7 @@
                                 allowClear
                                 placeholder="请选择国家、地区"
                                 @change="handleFormChange('areaCode', $event)"
+                                @search="handleFormChange('areaCode', $event)"
                                 :filterOption="areaCodeFilterOption"
                             ></ant-select>
                         </ant-form-item>
@@ -192,6 +215,37 @@
                             <ant-radio-group :value="currentCycle" @change="handleRadioChange">
                                 <ant-radio v-for="(cycle, index) in cycleOptions" :key="index" :value="cycle.value">{{ cycle.label }}</ant-radio>
                             </ant-radio-group>
+                        </ant-form-item>
+                    </ant-col>
+                </ant-row>
+            </template>
+
+            <template v-else-if="formType === 5">
+                <ant-row :gutter="24">
+                    <ant-col :span="22">
+                        <ant-form-item label="新邮箱地址" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                            <ant-input
+                                type="text"
+                                :value="carrierForm.email"
+                                allowClear
+                                placeholder="请输入新邮箱地址"
+                                @change="handleFormChange('email', $event.target.value)"
+                                @keyup.enter="submit"
+                            />
+                        </ant-form-item>
+                    </ant-col>
+                </ant-row>
+                <ant-row :gutter="24">
+                    <ant-col :span="22">
+                        <ant-form-item label="新登录密码" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                            <ant-input
+                                type="password"
+                                :value="carrierForm.loginPwd"
+                                allowClear
+                                placeholder="8-15位大小写字母、数字、特殊字符任意两种组成"
+                                @change="handleFormChange('loginPwd', $event.target.value)"
+                                @keyup.enter="submit"
+                            />
                         </ant-form-item>
                     </ant-col>
                 </ant-row>

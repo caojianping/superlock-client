@@ -13,7 +13,7 @@
             </header>
             <div class="sl-block-body">
                 <ant-row :gutter="24">
-                    <ant-col :span="8">
+                    <ant-col :span="6">
                         <ant-form-item label="订单号" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
@@ -24,20 +24,35 @@
                             />
                         </ant-form-item>
                     </ant-col>
-                    <ant-col :span="10">
+
+                    <ant-col :span="6">
+                        <ant-form-item label="状态" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                            <ant-select
+                                class="sl-select"
+                                :value="flashParameters.conditions.status"
+                                :options="statusOptions"
+                                allowClear
+                                placeholder="请选择状态"
+                                @change="handleFormChange('status', $event)"
+                            ></ant-select>
+                        </ant-form-item>
+                    </ant-col>
+
+                    <ant-col :span="9">
                         <ant-form-item label="选择时间" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
                             {{ ((beginTime = flashParameters.conditions.beginTime), void 0) }}
                             {{ ((endTime = flashParameters.conditions.endTime), void 0) }}
                             <ant-range-picker
                                 :value="[beginTime ? moment(beginTime) : undefined, endTime ? moment(endTime) : undefined]"
-                                :showTime="{ format: 'HH:mm', defaultValue: [moment('00:00', 'HH:mm'), moment('23:59', 'HH:mm')] }"
-                                format="YYYY-MM-DD HH:mm"
+                                :showTime="{ format: 'HH:mm:ss', defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')] }"
+                                format="YYYY-MM-DD HH:mm:ss"
                                 @change="handleRangePickerChange"
                             ></ant-range-picker>
                         </ant-form-item>
                     </ant-col>
-                    <ant-col :span="6">
-                        <ant-button class="sl-search" type="primary" @click="search">搜索</ant-button>
+
+                    <ant-col :span="3">
+                        <ant-button class="sl-search" type="primary" @click="search" style="margin-left: 0">搜索</ant-button>
                     </ant-col>
                 </ant-row>
             </div>
@@ -45,7 +60,7 @@
 
         <ant-button class="sl-tool" type="primary" @click="exportReport">导出报表</ant-button>
 
-        <ant-table :columns="columns" :rowKey="record => record.carrierId" :dataSource="list" :pagination="false" :loading="isPageLoading">
+        <ant-table :columns="columns" :rowKey="record => record.serial" :dataSource="list" :pagination="false" :loading="isPageLoading">
             <ant-tooltip class="w100px" slot="serial" slot-scope="record">
                 <template slot="title">{{ record.serial }}</template>
                 {{ record.serial }}
@@ -55,6 +70,9 @@
             </span>
             <span slot="endTime" slot-scope="record">
                 {{ record.endTime | dateFormat }}
+            </span>
+            <span :class="statusColors[record.status]" slot="status" slot-scope="record">
+                {{ statusNames[record.status] }}
             </span>
         </ant-table>
 

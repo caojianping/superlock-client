@@ -81,13 +81,14 @@ export default class UserModal extends Vue {
             // 设置标题
             let { operationType, formType } = this,
                 operationMsg = { 1: '添加', 2: '设置' },
-                formMsg = { 1: '', 2: '密码', 3: '手机号', 4: '返奖' };
+                formMsg = { 1: '', 2: '密码', 3: '手机号', 4: '返奖', 5: '邮箱' };
             this.title = `${operationMsg[operationType]}运营商${formMsg[formType]}`;
 
             // 设置表单
             let carrierForm = new CarrierFormModel();
             if (operationType === OperationType.Add) {
                 carrierForm.areaCode = defaultAreaCode.id;
+                this.currentCycle = '';
             } else if (operationType === OperationType.Edit) {
                 let carrier = this.carrier;
                 if (carrier) {
@@ -108,6 +109,10 @@ export default class UserModal extends Vue {
                             carrierForm.billingCycle = carrier.billingCycle;
                             carrierForm.unit = carrier.unit;
                             this.currentCycle = `${carrier.billingCycle}_${carrier.unit}`;
+                            break;
+                        case CarrierFormType.CarrierEmailForm:
+                            carrierForm.email = '';
+                            carrierForm.loginPwd = '';
                             break;
                         default:
                             break;

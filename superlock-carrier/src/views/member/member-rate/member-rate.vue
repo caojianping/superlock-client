@@ -17,7 +17,7 @@
                         <ant-form-item label="UID" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
-                                :value="parameters.conditions.uid"
+                                :value="rateParameters.conditions.uid"
                                 allowClear
                                 placeholder="请输入UID"
                                 @change="handleFormChange('uid', $event.target.value)"
@@ -28,7 +28,7 @@
                     <ant-col :span="8">
                         <ant-form-item label="用户类型" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-select
-                                :value="parameters.conditions.type"
+                                :value="rateParameters.conditions.type"
                                 :options="typeOptions"
                                 allowClear
                                 placeholder="请选择用户类型"
@@ -47,15 +47,15 @@
         <ant-table
             class="mt32px"
             :columns="columns"
-            :rowKey="record => record.serial"
+            :rowKey="record => `${record.uid}_${record.type}_${record.projectName}_${record.rateType}_${record.rate}`"
             :dataSource="list"
             :pagination="false"
             :loading="isPageLoading"
         />
 
         <ant-pagination
-            :current="parameters.pageNum"
-            :pageSize="parameters.pageSize"
+            :current="rateParameters.pageNum"
+            :pageSize="rateParameters.pageSize"
             :total="totalCount"
             :pageSizeOptions="pageSizeOptions"
             :showTotal="total => `共有 ${total} 条记录`"

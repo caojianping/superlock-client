@@ -55,19 +55,19 @@ export default class Login extends Vue {
         await this.submit(true);
     }
 
-    // 手机号获取焦点
-    mobileFocus() {
+    // 邮箱获取焦点
+    emailFocus() {
         let self = this;
         self.$nextTick(function() {
-            let $mobile: any = self.$refs.mobile;
-            if ($mobile) {
-                $mobile.focus();
+            let $email: any = self.$refs.email;
+            if ($email) {
+                $email.focus();
             }
         });
     }
 
     mounted() {
         Utils.jumpTop();
-        this.mobileFocus();
+        this.emailFocus();
     }
 }

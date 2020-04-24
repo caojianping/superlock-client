@@ -25,7 +25,7 @@ export default class CarrierList extends Vue {
     @State('carrierOptions') carrierOptions!: Array<ISelectOption>;
     @Mutation(TYPES.SET_STATES) setRootStates!: (payload: any) => any;
     @Mutation(TYPES.CLEAR_STATES) clearRootStates!: () => any;
-    @Action('fetchCarrierOptions') fetchCarrierOptions!: () => any;
+    @Action('fetchCarrierOptions') fetchCarrierOptions!: (isRefresh?: boolean) => any;
 
     @carrierModule.State('operationType') operationType!: OperationType;
     @carrierModule.State('formType') formType!: CarrierFormType;
@@ -60,6 +60,10 @@ export default class CarrierList extends Vue {
             dataIndex: '',
             key: 'mobile',
             scopedSlots: { customRender: 'mobile' }
+        },
+        {
+            title: '邮箱',
+            dataIndex: 'email'
         },
         {
             title: '锁仓总量(DC)',
@@ -163,6 +167,7 @@ export default class CarrierList extends Vue {
             if (!result) Prompt.error('操作失败');
             else {
                 Prompt.success('操作成功');
+                await this.fetchCarrierOptions(true);
                 await this.fetchCarriers();
             }
         } catch (error) {
@@ -202,9 +207,7 @@ export default class CarrierList extends Vue {
 
     // 获取数据
     async fetchData() {
-        if (this.carrierOptions.length <= 0) {
-            await this.fetchCarrierOptions();
-        }
+        await this.fetchCarrierOptions();
         await this.fetchCarriers();
     }
 

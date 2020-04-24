@@ -43,16 +43,18 @@ export class TokenInfo {
     public username: string;
     public areaCode: string; // 补充字段：国家、地区区号
     public mobile: string; // 补充字段：手机号
+    public email: string; // 补充字段：邮箱
 
-    constructor(token: string, usrename: string, areaCode: string, mobile: string) {
+    constructor(token: string, usrename: string, areaCode: string, mobile: string, email: string) {
         this.token = token;
         this.username = usrename;
         this.areaCode = areaCode;
         this.mobile = mobile;
+        this.email = email;
     }
 
     public static createInstance(): TokenInfo {
-        return new TokenInfo('', '', '', '');
+        return new TokenInfo('', '', '', '', '');
     }
 }
 

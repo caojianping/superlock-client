@@ -10,17 +10,51 @@ export class LoginService {
         if (!loginForm) return { status: false, data: { loginForm: '参数不可以为空' } };
 
         let key = 'login',
-            { areaCode, mobile, password } = loginForm,
+            { areaCode, mobile, email, password } = loginForm,
             validator = new Validator();
-        if (areaCode === defaultAreaCode.id) {
-            validator.addRule(key, { name: 'mobile', value: mobile }, { required: true, mobile: true }, { required: '手机号不可以为空' });
-        } else {
-            validator.addRule(key, { name: 'mobile', value: mobile }, { required: true, pureDigit: true }, { required: '手机号不可以为空' });
+        if (areaCode !== undefined && mobile !== undefined) {
+            if (areaCode === defaultAreaCode.id) {
+                validator.addRule(key, { name: 'mobile', value: mobile }, { required: true, mobile: true }, { required: '手机号不可以为空' });
+            } else {
+                validator.addRule(key, { name: 'mobile', value: mobile }, { required: true, pureDigit: true }, { required: '手机号不可以为空' });
+            }
         }
+
+        if (email !== undefined) {
+            validator.addRule(key, { name: 'email', value: email }, { required: true, email: true }, { required: '邮箱不可以为空' });
+        }
+
         if (isPassword) {
             validator.addRule(key, { name: 'password', value: password }, { required: true }, { required: '密码不可以为空' });
         }
         return validator.execute(key);
+    }
+
+    // 获取短信验证码
+    public async fetchSmsCode(areaCode: string, mobile: string): Promise<boolean> {
+        let loginForm = LoginFormModel.createMobileInstance(areaCode, mobile),
+            result: ValidationResult = LoginService.validateLoginForm(loginForm, false);
+        if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
+
+        let filterAreaCode = AreaCodes.filter((item: IAreaCode) => item.id === areaCode)[0];
+        if (!filterAreaCode) return Promise.reject('未找到对应的国家、地区区号');
+
+        let url = Urls.login.smsCode,
+            parameters = Utils.buildParameters({ area: encodeURIComponent('+' + filterAreaCode.code), mobile });
+        await Caxios.get<any>({ url: `${url}?${parameters}` }, CaxiosType.Default);
+        return true;
+    }
+
+    // 获取邮箱验证码
+    public async fetchEmailCode(email: string): Promise<boolean> {
+        let loginForm = LoginFormModel.createEmailInstance(email),
+            result: ValidationResult = LoginService.validateLoginForm(loginForm, false);
+        if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
+
+        let url = Urls.login.emailCode,
+            parameters = Utils.buildParameters({ email: loginForm.email });
+        await Caxios.get<any>({ url: `${url}?${parameters}` }, CaxiosType.Default);
+        return true;
     }
 
     // 登录
@@ -28,42 +62,33 @@ export class LoginService {
         let result: ValidationResult = LoginService.validateLoginForm(loginForm, true);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { areaCode, mobile, password } = loginForm,
-            filterAreaCode = AreaCodes.filter((item: IAreaCode) => item.id === areaCode)[0];
-        if (!filterAreaCode) return Promise.reject('未找到对应的国家、地区区号');
+        // let { areaCode, mobile, password } = loginForm,
+        //     filterAreaCode = AreaCodes.filter((item: IAreaCode) => item.id === areaCode)[0];
+        // if (!filterAreaCode) return Promise.reject('未找到对应的国家、地区区号');
 
-        Token.setName(mobile);
+        // Token.setName(mobile);
+        // return await Caxios.post<any>(
+        //     {
+        //         url: Urls.login.login,
+        //         data: {
+        //             area: '+' + filterAreaCode.code,
+        //             mobile: mobile,
+        //             password: md5(password)
+        //         }
+        //     },
+        //     CaxiosType.FullLoading,
+        //     isCode,
+        //     true
+        // );
+
+        let { email, password } = loginForm;
+        Token.setName(email || '');
         return await Caxios.post<any>(
-            {
-                url: Urls.login.login,
-                data: {
-                    area: '+' + filterAreaCode.code,
-                    mobile: mobile,
-                    password: md5(password)
-                }
-            },
+            { url: Urls.login.login, data: { email: email || '', password: md5(password) } },
             CaxiosType.FullLoading,
             isCode,
             true
         );
-    }
-
-    // 获取短信验证码
-    public async fetchSmsCode(areaCode: string, mobile: string): Promise<boolean> {
-        let loginForm = LoginFormModel.createInstance(areaCode, mobile),
-            result: ValidationResult = LoginService.validateLoginForm(loginForm);
-        if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
-
-        let filterAreaCode = AreaCodes.filter((item: IAreaCode) => item.id === areaCode)[0];
-        if (!filterAreaCode) return Promise.reject('未找到对应的国家、地区区号');
-
-        let url = Urls.login.smsCode,
-            parameters = Utils.buildParameters({
-                area: encodeURIComponent('+' + filterAreaCode.code),
-                mobile
-            });
-        await Caxios.get<any>({ url: `${url}?${parameters}` }, CaxiosType.FullLoading);
-        return true;
     }
 
     // 退出

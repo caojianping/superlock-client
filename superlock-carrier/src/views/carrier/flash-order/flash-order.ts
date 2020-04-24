@@ -28,10 +28,26 @@ export default class FlashOrder extends Vue {
 
     statusOptions: Array<ISelectOption> = [
         { label: '全部', value: '' },
-        { label: '成功', value: '成功' },
-        { label: '失败', value: '失败' },
-        { label: '闪兑中', value: '闪兑中' }
+        { label: '成功', value: '20' },
+        { label: '失败', value: '30' },
+        { label: '闪兑中', value: '10' },
+        { label: '订单创建中', value: '0' },
+        { label: '订单已关闭', value: '40' }
     ];
+    statusNames: any = {
+        '0': '订单创建中',
+        '10': '闪兑中',
+        '20': '成功',
+        '30': '失败',
+        '40': '订单已关闭'
+    };
+    statusColors: any = {
+        '0': 'text-black',
+        '10': 'text-grey',
+        '20': 'text-green',
+        '30': 'text-red',
+        '40': 'text-grey'
+    };
 
     columns: Array<any> = [
         {
@@ -74,7 +90,9 @@ export default class FlashOrder extends Vue {
         },
         {
             title: '状态',
-            dataIndex: 'status'
+            dataIndex: '',
+            key: 'status',
+            scopedSlots: { customRender: 'status' }
         }
     ];
 

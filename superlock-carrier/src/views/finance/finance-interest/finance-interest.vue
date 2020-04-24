@@ -43,8 +43,8 @@
                             {{ ((endDate = parameters.conditions.endDate), void 0) }}
                             <ant-range-picker
                                 :value="[beginDate ? moment(beginDate) : undefined, endDate ? moment(endDate) : undefined]"
-                                :showTime="{ format: 'HH:mm', defaultValue: [moment('00:00', 'HH:mm'), moment('23:59', 'HH:mm')] }"
-                                format="YYYY-MM-DD HH:mm"
+                                :showTime="{ format: 'HH:mm:ss', defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')] }"
+                                format="YYYY-MM-DD HH:mm:ss"
                                 @change="handleRangePickerChange"
                             ></ant-range-picker>
                         </ant-form-item>
@@ -93,7 +93,7 @@
             <span :class="statusColors[record.status]" slot="status" slot-scope="record">
                 {{ statusNames[record.status] }}
             </span>
-            <span :class="auditColors[record.auditStatus]" slot="auditStatus" slot-scope="record">
+            <!-- <span :class="auditColors[record.auditStatus]" slot="auditStatus" slot-scope="record">
                 {{ auditNames[record.auditStatus] }}
             </span>
             <template slot="operation" slot-scope="record">
@@ -105,7 +105,7 @@
                         >驳回</ant-button
                     >
                 </template>
-            </template>
+            </template> -->
         </ant-table>
 
         <ant-pagination
@@ -120,7 +120,7 @@
             @showSizeChange="handlePageSizeChange"
         />
 
-        <SecondVerify :is-show="isSecondVerifyShow" @submit="handleSecondVerifySubmit" />
+        <!-- <SecondVerify :is-show="isSecondVerifyShow" @submit="handleSecondVerifySubmit" /> -->
     </div>
 </template>
 

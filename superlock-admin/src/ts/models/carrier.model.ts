@@ -5,6 +5,7 @@ export class CarrierFormModel {
     public loginPwd!: string; // 登录密码
     public areaCode!: string; // 国家和地区区号
     public mobile!: string; // 手机号
+    public email!: string; // 邮箱
     public rebateRatio!: number; // 返点比例
     public billingCycle!: number; // 结算时间
     public unit!: string; // 周、月
@@ -16,6 +17,7 @@ export class CarrierModel {
     public carrierName!: string; // 运营商名称
     public areaCode!: string; // 国家和地区区号
     public mobileNumber!: string; // 手机号
+    public email!: string; // 邮箱
     public totalLock!: string; // 锁仓总量(DC)
     public rebateRatio!: number; // 返点比例(%)
     public billingCycle!: number; // 结算时间
@@ -60,8 +62,9 @@ export class WithdrawOrderModel extends BaseOrderModel {
     public coinCode!: string; // 提现币种
     public amount!: string; // 提现数量
     public address!: string; // 到账地址
+    public txHash!: string; // 交易hash
     public status!: string; // 状态：0未提现；10提现中；20提现成功；30提现失败。
     public auditStatus!: string; // 审核状态：1待审核；3已审核；5已驳回。
-    public createTime!: string; // 创建时间
+    public createDate!: string; // 创建时间
     public finishDate!: string; // 结束时间
 }

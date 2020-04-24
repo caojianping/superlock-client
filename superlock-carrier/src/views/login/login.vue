@@ -8,7 +8,7 @@
 
                 <ul class="login-form">
                     <li>登录</li>
-                    <li>
+                    <!-- <li>
                         <label for="areaCode">国家、地区</label>
                         <ant-select
                             :value="loginForm.areaCode"
@@ -33,6 +33,22 @@
                             @keyup.enter="submit(false)"
                         >
                             <ant-icon slot="prefix" type="phone" />
+                        </ant-input>
+                    </li> -->
+
+                    <li>
+                        <label for="email">邮箱</label>
+                        <ant-input
+                            ref="email"
+                            id="email"
+                            type="text"
+                            :value="loginForm.email"
+                            allowClear
+                            placeholder="请输入邮箱"
+                            @change="handleFormChange('email', $event)"
+                            @keyup.enter="submit(false)"
+                        >
+                            <ant-icon slot="prefix" type="mail" />
                         </ant-input>
                     </li>
 

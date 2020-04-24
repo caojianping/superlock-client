@@ -11,7 +11,7 @@
         <ant-row :gutter="24">
             <ant-col :span="20">
                 <ant-form-item label="账户余额" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-                    <ant-input type="text" :value="`${withdrawForm.maxAmount}BCB`" disabled />
+                    <ant-input type="text" :value="`${withdrawForm.maxAmount || 0}BCB`" disabled />
                 </ant-form-item>
             </ant-col>
         </ant-row>
@@ -23,7 +23,7 @@
                         :value="withdrawForm.value"
                         :min="0"
                         :precision="6"
-                        :placeholder="`账户余额${withdrawForm.maxAmount}BCB`"
+                        :placeholder="`账户余额${withdrawForm.maxAmount || 0}BCB`"
                         @change="handleFormChange('value', $event)"
                         @keyup.enter="submit"
                     />

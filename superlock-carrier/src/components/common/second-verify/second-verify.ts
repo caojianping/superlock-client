@@ -24,14 +24,15 @@ export default class SecondVerify extends Vue {
     @loginModule.State('loginForm') loginForm!: LoginFormModel;
 
     isModalShow: boolean = false; // 是否显示模态框
-    areaCode: string = ''; // 国家、地区区号
-    mobile: string = ''; // 手机号
-    smsCode: string = ''; // 短信验证码
+    // areaCode: string = ''; // 国家、地区区号
+    // mobile: string = ''; // 手机号
+    email: string = ''; // 邮箱
+    code: string = ''; // 短信验证码
 
-    get filterAreaCode() {
-        let areaCode = this.areaCode;
-        return AreaCodes.filter((item: IAreaCode) => item.id === areaCode)[0] || defaultAreaCode;
-    }
+    // get filterAreaCode() {
+    //     let areaCode = this.areaCode;
+    //     return AreaCodes.filter((item: IAreaCode) => item.id === areaCode)[0] || defaultAreaCode;
+    // }
 
     // 处理模态框cancel事件
     handleModalCancel() {
@@ -40,24 +41,24 @@ export default class SecondVerify extends Vue {
 
     // 提交短信验证码
     async submit() {
-        let smsCode = this.smsCode;
-        if (!smsCode) {
-            Prompt.warning('短信验证码不可以为空');
+        let code = this.code;
+        if (!code) {
+            Prompt.warning('邮箱验证码不可以为空');
             return;
         }
 
-        Token.setCode(smsCode);
+        Token.setCode(code);
         this.setRootStates({ isSecondVerifyShow: false });
         this.$emit('submit');
     }
 
-    // 谷歌验证码获取焦点
-    smsCodeFocus() {
+    // 验证码获取焦点
+    codeFocus() {
         let self = this;
         self.$nextTick(function() {
-            let $smsCode: any = self.$refs.smsCode;
-            if ($smsCode) {
-                $smsCode.focus();
+            let $code: any = self.$refs.code;
+            if ($code) {
+                $code.focus();
             }
         });
     }
@@ -67,15 +68,16 @@ export default class SecondVerify extends Vue {
         let isLogin = this.isLogin;
         if (isLogin) {
             let loginForm = this.loginForm;
-            this.areaCode = loginForm.areaCode;
-            this.mobile = loginForm.mobile;
+            // this.areaCode = loginForm.areaCode;
+            // this.mobile = loginForm.mobile;
+            this.email = loginForm.email || '';
         } else {
             let tokenInfo = Token.getTokenInfo();
-            this.areaCode = tokenInfo.areaCode;
-            this.mobile = tokenInfo.mobile;
+            // this.areaCode = tokenInfo.areaCode;
+            // this.mobile = tokenInfo.mobile;
+            this.email = tokenInfo.email;
         }
-        console.log('initData:', isLogin, this.areaCode, this.mobile);
-        this.smsCode = '';
+        this.code = '';
     }
 
     @Watch('isShow')
@@ -83,7 +85,7 @@ export default class SecondVerify extends Vue {
         this.isModalShow = isShow;
         if (isShow) {
             this.initData();
-            this.smsCodeFocus();
+            this.codeFocus();
         }
     }
 }

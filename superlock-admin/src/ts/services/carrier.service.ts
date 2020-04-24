@@ -18,15 +18,16 @@ export class CarrierService {
         if (!carrierForm) return { status: false, data: { brokerForm: '参数不可以为空' } };
 
         let key = 'carrierForm',
-            { carrierId, carrierName, areaCode, mobile, loginPwd, rebateRatio, billingCycle, unit } = carrierForm,
+            { carrierId, carrierName, areaCode, mobile, email, loginPwd, rebateRatio, billingCycle, unit } = carrierForm,
             validator = new Validator();
         if (formType === CarrierFormType.CarrierForm) {
-            validator.addRule(key, { name: 'carrierName', value: carrierName }, { required: true }, { required: '运营商不可以为空' });
+            validator.addRule(key, { name: 'carrierName', value: carrierName }, { required: true }, { required: '运营商名称不可以为空' });
             if (areaCode === defaultAreaCode.id) {
                 validator.addRule(key, { name: 'mobile', value: mobile }, { required: true, mobile: true }, { required: '手机号不可以为空' });
             } else {
                 validator.addRule(key, { name: 'mobile', value: mobile }, { required: true, pureDigit: true }, { required: '手机号不可以为空' });
             }
+            validator.addRule(key, { name: 'email', value: email }, { required: true, email: true }, { required: '邮箱不可以为空' });
             validator.addRule(key, { name: 'loginPwd', value: loginPwd }, { required: true, password: true }, { required: '登录密码不可以为空' });
             validator.addRule(key, { name: 'rebateRatio', value: rebateRatio }, { required: true }, { required: '返点比例(%)不可以为空' });
             validator.addRule(key, { name: 'billingCycle', value: billingCycle }, { required: true }, { required: '结算时间不可以为空' });
@@ -47,6 +48,10 @@ export class CarrierService {
             validator.addRule(key, { name: 'rebateRatio', value: rebateRatio }, { required: true }, { required: '返点比例(%)不可以为空' });
             validator.addRule(key, { name: 'billingCycle', value: billingCycle }, { required: true }, { required: '结算时间不可以为空' });
             validator.addRule(key, { name: 'unit', value: unit }, { required: true }, { required: '单位（周、月）不可以为空' });
+        } else if (formType === CarrierFormType.CarrierEmailForm) {
+            validator.addRule(key, { name: 'carrierId', value: carrierId }, { required: true }, { required: '运营商编号不可以为空' });
+            validator.addRule(key, { name: 'email', value: email }, { required: true, email: true }, { required: '邮箱不可以为空' });
+            validator.addRule(key, { name: 'loginPwd', value: loginPwd }, { required: true, password: true }, { required: '登录密码不可以为空' });
         }
         return validator.execute(key);
     }
@@ -91,7 +96,7 @@ export class CarrierService {
         let result: ValidationResult = CarrierService.validateCarrierForm(carrierForm, CarrierFormType.CarrierForm);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { carrierName, areaCode, mobile, loginPwd, rebateRatio, billingCycle, unit } = carrierForm,
+        let { carrierName, areaCode, mobile, email, loginPwd, rebateRatio, billingCycle, unit } = carrierForm,
             filterAreaCode = AreaCodes.filter((item: IAreaCode) => item.id === areaCode)[0];
         if (!filterAreaCode) return Promise.reject('未找到对应的国家、地区区号');
 
@@ -102,6 +107,7 @@ export class CarrierService {
                     carrierName,
                     areaCode: '+' + filterAreaCode.code,
                     mobile,
+                    email,
                     pwd: md5(loginPwd),
                     rebateRatio: rebateRatio / 100,
                     billingCycle,
@@ -119,7 +125,7 @@ export class CarrierService {
         let result: ValidationResult = CarrierService.validateCarrierForm(carrierForm, formType);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { carrierId, areaCode, mobile, loginPwd, rebateRatio, billingCycle, unit } = carrierForm,
+        let { carrierId, areaCode, mobile, email, loginPwd, rebateRatio, billingCycle, unit } = carrierForm,
             filterAreaCode = AreaCodes.filter((item: IAreaCode) => item.id === areaCode)[0];
         if (formType === CarrierFormType.CarrierMobileForm && !filterAreaCode) return Promise.reject('未找到对应的国家、地区区号');
 
@@ -130,12 +136,14 @@ export class CarrierService {
                 url: {
                     2: Urls.carrier.list.updatePassword,
                     3: Urls.carrier.list.updateMobile,
-                    4: Urls.carrier.list.updateRebate
+                    4: Urls.carrier.list.updateRebate,
+                    5: Urls.carrier.list.updateEmail
                 }[formType],
                 data: {
                     2: { carrierId, pwd },
                     3: { carrierId, areaCode: tAreaCode, mobile, pwd },
-                    4: { carrierId, rebateRatio: rebateRatio / 100, billingCycle, unit }
+                    4: { carrierId, rebateRatio: rebateRatio / 100, billingCycle, unit },
+                    5: { carrierId, email, pwd }
                 }[formType]
             },
             CaxiosType.FullLoadingToken,

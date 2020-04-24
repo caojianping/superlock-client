@@ -5,7 +5,9 @@ import {
     ILockPageParameters,
     IProjectPageParameters,
     IFinancePageParameters,
-    IMemberPageParameters,
+    IBrokerPageParameters,
+    IBrokerChildPageParameters,
+    IRatePageParameters,
     IRebateOrderPageParameters,
     IFlashOrderPageParameters,
     IWithdrawOrderPageParameters
@@ -60,7 +62,7 @@ export interface IRootState {
 
 export interface ILoginState {
     loginForm: LoginFormModel; // 登录表单
-    smsCode: string; // 短信验证码
+    code: string; // 验证码
 }
 
 export interface IHomeState {
@@ -88,7 +90,9 @@ export interface IMemberState {
     projectOptions: Array<ISelectOption>; // 项目选项
     typeOptions: Array<ISelectOption>; // 类型选项
 
-    parameters: IPageParameters<IMemberPageParameters>; // 用户中心模块分页参数
+    brokerParameters: IPageParameters<IBrokerPageParameters>;
+    childParameters: IPageParameters<IBrokerChildPageParameters>;
+    rateParameters: IPageParameters<IRatePageParameters>;
     totalCount: number; // 总数量
     list: Array<BrokerModel | BrokerChildModel | RateModel>; // 列表
 

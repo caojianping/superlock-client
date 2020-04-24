@@ -6209,10 +6209,10 @@ jest@^24.9.0:
     import-local "^2.0.0"
     jest-cli "^24.9.0"
 
-jpts-validator@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/jpts-validator/-/jpts-validator-1.0.1.tgz#082ef798a2eaacc40bd818477c1c2888ae16739f"
-  integrity sha512-KHDsM47iRmeS7fZ2H2ry3y5A1JXORLf9bgpRjOiw7697+994qjdSASvXuHuq858l/58Glmiez12h/NYZKRB5Ow==
+jpts-validator@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/jpts-validator/-/jpts-validator-1.0.4.tgz#2c022099cef8f335f19b20a74c2e83d8b149155d"
+  integrity sha512-/AX3jcb5sVvZnsTe7mDYjc7k2GYatZNyvRPXsFtt7QWO178naRtxsLMsDB/ifC681BcLFDFk6H4sCOeDTbdZeQ==
 
 js-beautify@^1.6.12, js-beautify@^1.6.14:
   version "1.10.3"

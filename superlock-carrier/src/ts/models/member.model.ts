@@ -8,6 +8,7 @@ export class BrokerChildPageResult<T> extends PageResult<T> {
 export class BrokerModel {
     public uid!: string; // 关联uid
     public mobile!: string; // 手机号
+    public email!: string; // 邮箱
     public userSource!: string; // 用户来源
     public amount!: string; // 可用BCB数量
     public totalDegree!: string; // 总额度
@@ -22,6 +23,7 @@ export class BrokerModel {
 export class BrokerChildModel {
     public uid!: string; // 关联uid
     public mobile!: string; // 手机号
+    public email!: string; // 邮箱
     public totalDegree!: string; // 总额度
     public totalLock!: string; // 个人锁仓总量
     public totalPromote!: string; // 累计推广数量
@@ -41,6 +43,7 @@ export class RateModel {
 export class BrokerFormModel {
     public areaCode!: string; // 地区码
     public mobile!: string; // 手机号
+    public email!: string; // 邮箱
     public totalDegree!: number; // 代理额度
     public password!: string; // 初始密码
 }

@@ -5,7 +5,7 @@ import { Component, Watch } from 'vue-property-decorator';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { Prompt } from '@/ts/common';
-import { IPageParameters, IMemberPageParameters, ISelectOption } from '@/ts/interfaces';
+import { IPageParameters, IBrokerPageParameters, ISelectOption } from '@/ts/interfaces';
 import { BrokerModel, BrokerFormModel, RateFormModel, QuotaFormModel } from '@/ts/models';
 
 import SecondVerify from '@/components/common/second-verify';
@@ -32,7 +32,7 @@ export default class MemberBroker extends Vue {
     @State('carrierOptions') carrierOptions!: Array<ISelectOption>;
     @Action('fetchCarrierOptions') fetchCarrierOptions!: () => any;
 
-    @memberModule.State('parameters') parameters!: IPageParameters<IMemberPageParameters>;
+    @memberModule.State('brokerParameters') brokerParameters!: IPageParameters<IBrokerPageParameters>;
     @memberModule.State('totalCount') totalCount!: number;
     @memberModule.State('list') list!: Array<BrokerModel>;
     @memberModule.State('projectOptions') projectOptions!: Array<any>;
@@ -42,6 +42,7 @@ export default class MemberBroker extends Vue {
     @memberModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @memberModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @memberModule.Action('fetchBrokers') fetchBrokers!: () => any;
+    @memberModule.Action('exportBrokers') exportBrokers!: () => any;
     @memberModule.Action('fetchProjectTypes') fetchProjectTypes!: () => any;
     @memberModule.Action('addBroker') addBroker!: (isCode: boolean) => any;
     @memberModule.Action('setRate') setRate!: (isCode: boolean) => any;
@@ -65,18 +66,29 @@ export default class MemberBroker extends Vue {
 
     // 处理表单change事件
     handleFormChange(key: string, value: string) {
-        let parameters = Utils.duplicate(this.parameters);
-        parameters.conditions[key] = value;
-        this.setStates({ parameters });
+        let brokerParameters = Utils.duplicate(this.brokerParameters);
+        brokerParameters.conditions[key] = value;
+        this.setStates({ brokerParameters });
     }
 
     // 搜索
     async search() {
         try {
-            let parameters = Utils.duplicate(this.parameters);
-            parameters.pageNum = 1;
-            this.setStates({ parameters });
+            let brokerParameters = Utils.duplicate(this.brokerParameters);
+            brokerParameters.pageNum = 1;
+            this.setStates({ brokerParameters });
             await this.fetchBrokers();
+        } catch (error) {
+            Prompt.error(error.message || error);
+        }
+    }
+
+    // 导出报表
+    async exportReport() {
+        try {
+            let url = await this.exportBrokers();
+            if (!url) Prompt.error('导出失败');
+            else window.location.href = url;
         } catch (error) {
             Prompt.error(error.message || error);
         }
@@ -167,19 +179,19 @@ export default class MemberBroker extends Vue {
 
     // 处理页码change事件
     handlePageNumChange(page: number, pageSize: number) {
-        let parameters = Utils.duplicate(this.parameters);
-        parameters.pageNum = page;
-        parameters.pageSize = pageSize;
-        this.setStates({ parameters });
+        let brokerParameters = Utils.duplicate(this.brokerParameters);
+        brokerParameters.pageNum = page;
+        brokerParameters.pageSize = pageSize;
+        this.setStates({ brokerParameters });
         this.fetchBrokers();
     }
 
     // 处理页尺寸change事件
     handlePageSizeChange(current: number, pageSize: number) {
-        let parameters = Utils.duplicate(this.parameters);
-        parameters.pageNum = 1;
-        parameters.pageSize = pageSize;
-        this.setStates({ parameters });
+        let brokerParameters = Utils.duplicate(this.brokerParameters);
+        brokerParameters.pageNum = 1;
+        brokerParameters.pageSize = pageSize;
+        this.setStates({ brokerParameters });
         this.fetchBrokers();
     }
 
@@ -188,10 +200,14 @@ export default class MemberBroker extends Vue {
         let type = isNaN(Number(params.type)) ? 0 : Number(params.type);
         this.type = type;
         this.setStates({
-            parameters: {
+            brokerParameters: {
                 conditions: {
+                    type: String(type),
                     uid: '',
-                    type: type
+                    parent: '',
+                    mobileNumber: '',
+                    email: '',
+                    carrierName: ''
                 },
                 pageNum: 1,
                 pageSize: 10
@@ -207,6 +223,10 @@ export default class MemberBroker extends Vue {
                       {
                           title: '手机号',
                           dataIndex: 'mobile'
+                      },
+                      {
+                          title: '邮箱',
+                          dataIndex: 'email'
                       },
                       {
                           title: '用户来源',
@@ -277,6 +297,10 @@ export default class MemberBroker extends Vue {
                           dataIndex: 'mobile'
                       },
                       {
+                          title: '邮箱',
+                          dataIndex: 'email'
+                      },
+                      {
                           title: '用户来源',
                           dataIndex: 'userSource'
                       },
@@ -327,9 +351,7 @@ export default class MemberBroker extends Vue {
     // 获取数据
     async fetchData() {
         try {
-            if (this.carrierOptions.length <= 0) {
-                await this.fetchCarrierOptions();
-            }
+            await this.fetchCarrierOptions();
             await this.fetchBrokers();
             await this.fetchProjectTypes();
         } catch (error) {

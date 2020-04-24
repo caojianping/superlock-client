@@ -23,6 +23,7 @@ const carrierState: ICarrierState = {
         conditions: {
             carrierName: '',
             mobile: '',
+            email: '',
             beginTime: '',
             endTime: ''
         },
@@ -55,6 +56,7 @@ const carrierState: ICarrierState = {
             carrierName: '',
             status: '',
             address: '',
+            txHash: '',
             beginTime: '',
             endTime: ''
         },
@@ -86,6 +88,7 @@ export default {
                 conditions: {
                     carrierName: '',
                     mobile: '',
+                    email: '',
                     beginTime: '',
                     endTime: ''
                 },
@@ -118,6 +121,7 @@ export default {
                     carrierName: '',
                     status: '',
                     address: '',
+                    txHash: '',
                     beginTime: '',
                     endTime: ''
                 },

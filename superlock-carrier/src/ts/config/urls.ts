@@ -3,8 +3,9 @@ const baseUrl = process.env.VUE_APP_BASE_URL;
 export const Urls = {
     // 登录模块
     login: {
-        login: `${baseUrl}/login`,
         smsCode: `${baseUrl}/login/sms`,
+        emailCode: `${baseUrl}/login/email`,
+        login: `${baseUrl}/login`,
         logout: `${baseUrl}/login/logout`
     },
     // 首页模块
@@ -49,12 +50,16 @@ export const Urls = {
         // 券商列表页面
         broker: {
             list: `${baseUrl}/broker/list`, // 券商分页列表
-            childs: `${baseUrl}/broker/subordinate`, // 下级分页列表
+            export: `${baseUrl}/broker/export`, // 券商导出
             rates: `${baseUrl}/broker/rateList`, // 利率分页列表
             types: `${baseUrl}/broker/lockRate`, // 项目类型
             add: `${baseUrl}/broker/add`, // 添加券商
             setRate: `${baseUrl}/broker/rateSet`, // 设置利率
             addQuota: `${baseUrl}/broker/addAmount` // 添加额度
+        },
+        child: {
+            list: `${baseUrl}/broker/subordinate`,
+            export: `${baseUrl}/broker/subordinate/export`
         }
     },
     // 运营商模块
@@ -63,7 +68,7 @@ export const Urls = {
             info: `${baseUrl}/carrier/info`,
             rate: `${baseUrl}/carrier/rate`,
             presetExchange: `${baseUrl}/carrier/cash`, // 预兑换
-            confirmExchange: `${baseUrl}/carrier/cashCommint`, // 确认兑换
+            confirmExchange: `${baseUrl}/carrier/cashCommit`, // 确认兑换
             withdraw: `${baseUrl}/carrier/withdrawCoin`
         },
         rebate: {

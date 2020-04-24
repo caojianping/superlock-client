@@ -31,8 +31,8 @@
                             {{ ((endTime = flashParameters.conditions.endTime), void 0) }}
                             <ant-range-picker
                                 :value="[beginTime ? moment(beginTime) : undefined, endTime ? moment(endTime) : undefined]"
-                                :showTime="{ format: 'HH:mm', defaultValue: [moment('00:00', 'HH:mm'), moment('23:59', 'HH:mm')] }"
-                                format="YYYY-MM-DD HH:mm"
+                                :showTime="{ format: 'HH:mm:ss', defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')] }"
+                                format="YYYY-MM-DD HH:mm:ss"
                                 @change="handleRangePickerChange"
                             ></ant-range-picker>
                         </ant-form-item>
@@ -62,6 +62,7 @@
                                 allowClear
                                 placeholder="请输入运营商名称"
                                 @change="handleFormChange('carrierName', $event)"
+                                @search="handleFormChange('carrierName', $event)"
                                 :filterOption="carrierFilterOption"
                             ></ant-select>
                         </ant-form-item>
@@ -76,7 +77,7 @@
 
         <ant-button class="sl-tool" type="primary" @click="exportReport">导出报表</ant-button>
 
-        <ant-table :columns="columns" :rowKey="record => record.carrierId" :dataSource="list" :pagination="false" :loading="isPageLoading">
+        <ant-table :columns="columns" :rowKey="record => record.serial" :dataSource="list" :pagination="false" :loading="isPageLoading">
             <ant-tooltip class="w100px" slot="serial" slot-scope="record">
                 <template slot="title">{{ record.serial }}</template>
                 {{ record.serial }}
@@ -86,6 +87,9 @@
             </span>
             <span slot="endTime" slot-scope="record">
                 {{ record.endTime | dateFormat }}
+            </span>
+            <span :class="statusColors[record.status]" slot="status" slot-scope="record">
+                {{ statusNames[record.status] }}
             </span>
         </ant-table>
 

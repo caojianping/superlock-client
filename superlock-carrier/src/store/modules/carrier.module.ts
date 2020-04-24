@@ -29,6 +29,7 @@ const carrierState: ICarrierState = {
     flashParameters: {
         conditions: {
             serial: '',
+            status: '',
             beginTime: '',
             endTime: ''
         },
@@ -38,8 +39,9 @@ const carrierState: ICarrierState = {
     withdrawParameters: {
         conditions: {
             serial: '',
+            status: '',
             address: '',
-            hash: '',
+            txHash: '',
             beginTime: '',
             endTime: ''
         },
@@ -80,6 +82,7 @@ export default {
             state.flashParameters = {
                 conditions: {
                     serial: '',
+                    status: '',
                     beginTime: '',
                     endTime: ''
                 },
@@ -89,8 +92,9 @@ export default {
             state.withdrawParameters = {
                 conditions: {
                     serial: '',
+                    status: '',
                     address: '',
-                    hash: '',
+                    txHash: '',
                     beginTime: '',
                     endTime: ''
                 },
@@ -133,7 +137,7 @@ export default {
         },
 
         // 确认兑换
-        async confirmExchangeCoin(context: IActionContext<ICarrierState>, isCode: boolean = false): Promise<boolean> {
+        async confirmExchange(context: IActionContext<ICarrierState>, isCode: boolean = false): Promise<boolean> {
             return await carrierService.confirmExchange(context.state.serial, isCode);
         },
 

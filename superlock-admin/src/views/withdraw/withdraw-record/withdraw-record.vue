@@ -31,7 +31,7 @@
                                 type="text"
                                 :value="withdrawParameters.conditions.address"
                                 allowClear
-                                placeholder="请输入UID"
+                                placeholder="请输入到账地址"
                                 @change="handleFormChange('address', $event.target.value)"
                             />
                         </ant-form-item>
@@ -69,8 +69,8 @@
                             {{ ((createEndTime = withdrawParameters.conditions.createEndTime), void 0) }}
                             <ant-range-picker
                                 :value="[createBeginTime ? moment(createBeginTime) : undefined, createEndTime ? moment(createEndTime) : undefined]"
-                                :showTime="{ format: 'HH:mm', defaultValue: [moment('00:00', 'HH:mm'), moment('23:59', 'HH:mm')] }"
-                                format="YYYY-MM-DD HH:mm"
+                                :showTime="{ format: 'HH:mm:ss', defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')] }"
+                                format="YYYY-MM-DD HH:mm:ss"
                                 @change="handleCreateRangePickerChange"
                             ></ant-range-picker>
                         </ant-form-item>
@@ -82,8 +82,8 @@
                             {{ ((finishEndTime = withdrawParameters.conditions.finishEndTime), void 0) }}
                             <ant-range-picker
                                 :value="[finishBeginTime ? moment(finishBeginTime) : undefined, finishEndTime ? moment(finishEndTime) : undefined]"
-                                :showTime="{ format: 'HH:mm', defaultValue: [moment('00:00', 'HH:mm'), moment('23:59', 'HH:mm')] }"
-                                format="YYYY-MM-DD HH:mm"
+                                :showTime="{ format: 'HH:mm:ss', defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')] }"
+                                format="YYYY-MM-DD HH:mm:ss"
                                 @change="handleFinishRangePickerChange"
                             ></ant-range-picker>
                         </ant-form-item>

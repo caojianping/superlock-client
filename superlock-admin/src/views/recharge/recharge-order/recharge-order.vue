@@ -19,14 +19,14 @@
                                 type="text"
                                 :value="parameters.conditions.serial"
                                 allowClear
-                                placeholder="请输入UID"
+                                placeholder="请输入订单号"
                                 @change="handleFormChange('serial', $event.target.value)"
                             />
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="9">
-                        <ant-form-item label="交易hash" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
+                    <ant-col :span="7">
+                        <ant-form-item label="交易hash" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
                                 :value="parameters.conditions.hash"
@@ -37,15 +37,16 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="7">
-                        <ant-form-item label="UID" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-                            <ant-input
-                                type="text"
-                                :value="parameters.conditions.uid"
-                                allowClear
-                                placeholder="请输入UID"
-                                @change="handleFormChange('uid', $event.target.value)"
-                            />
+                    <ant-col :span="9">
+                        <ant-form-item label="选择时间" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
+                            {{ ((beginTime = parameters.conditions.beginTime), void 0) }}
+                            {{ ((endTime = parameters.conditions.endTime), void 0) }}
+                            <ant-range-picker
+                                :value="[beginTime ? moment(beginTime) : undefined, endTime ? moment(endTime) : undefined]"
+                                :showTime="{ format: 'HH:mm:ss', defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')] }"
+                                format="YYYY-MM-DD HH:mm:ss"
+                                @change="handleRangePickerChange"
+                            ></ant-range-picker>
                         </ant-form-item>
                     </ant-col>
                 </ant-row>
@@ -63,20 +64,31 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="9">
-                        <ant-form-item label="选择时间" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
-                            {{ ((beginTime = parameters.conditions.beginTime), void 0) }}
-                            {{ ((endTime = parameters.conditions.endTime), void 0) }}
-                            <ant-range-picker
-                                :value="[beginTime ? moment(beginTime) : undefined, endTime ? moment(endTime) : undefined]"
-                                :showTime="{ format: 'HH:mm', defaultValue: [moment('00:00', 'HH:mm'), moment('23:59', 'HH:mm')] }"
-                                format="YYYY-MM-DD HH:mm"
-                                @change="handleRangePickerChange"
-                            ></ant-range-picker>
+                    <ant-col :span="7">
+                        <ant-form-item label="UID" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                            <ant-input
+                                type="text"
+                                :value="parameters.conditions.uid"
+                                allowClear
+                                placeholder="请输入UID"
+                                @change="handleFormChange('uid', $event.target.value)"
+                            />
                         </ant-form-item>
                     </ant-col>
 
                     <ant-col :span="7">
+                        <ant-form-item label="充值地址" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                            <ant-input
+                                type="text"
+                                :value="parameters.conditions.address"
+                                allowClear
+                                placeholder="请输入充值地址"
+                                @change="handleFormChange('address', $event.target.value)"
+                            />
+                        </ant-form-item>
+                    </ant-col>
+
+                    <ant-col :span="3">
                         <ant-button class="sl-search" type="primary" @click="search">搜索</ant-button>
                     </ant-col>
                 </ant-row>

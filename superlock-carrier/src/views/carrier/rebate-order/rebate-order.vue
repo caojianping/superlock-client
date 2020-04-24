@@ -3,13 +3,13 @@
         <ant-breadcrumb class="sl-breadcrumb">
             <ant-breadcrumb-item>运营商管理</ant-breadcrumb-item>
             <ant-breadcrumb-item>
-                <router-link to="/carrier/rebate/order">返点订单</router-link>
+                <router-link to="/carrier/rebate/order">返点记录</router-link>
             </ant-breadcrumb-item>
         </ant-breadcrumb>
 
         <div class="sl-block">
             <header class="sl-block-header">
-                <h2 class="sl-block-title">返点订单</h2>
+                <h2 class="sl-block-title">返点记录</h2>
             </header>
             <div class="sl-block-body">
                 <ant-row :gutter="24">
@@ -30,8 +30,8 @@
                             {{ ((endTime = rebateParameters.conditions.endTime), void 0) }}
                             <ant-range-picker
                                 :value="[beginTime ? moment(beginTime) : undefined, endTime ? moment(endTime) : undefined]"
-                                :showTime="{ format: 'HH:mm', defaultValue: [moment('00:00', 'HH:mm'), moment('23:59', 'HH:mm')] }"
-                                format="YYYY-MM-DD HH:mm"
+                                :showTime="{ format: 'HH:mm:ss', defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')] }"
+                                format="YYYY-MM-DD HH:mm:ss"
                                 @change="handleRangePickerChange"
                             ></ant-range-picker>
                         </ant-form-item>
@@ -45,13 +45,13 @@
 
         <ant-button class="sl-tool" type="primary" @click="exportReport">导出报表</ant-button>
 
-        <ant-table :columns="columns" :rowKey="record => record.carrierId" :dataSource="list" :pagination="false" :loading="isPageLoading">
+        <ant-table :columns="columns" :rowKey="record => record.serial" :dataSource="list" :pagination="false" :loading="isPageLoading">
             <ant-tooltip class="w100px" slot="serial" slot-scope="record">
                 <template slot="title">{{ record.serial }}</template>
                 {{ record.serial }}
             </ant-tooltip>
-            <span slot="rebateTime" slot-scope="record">
-                {{ record.rebateTime | dateFormat }}
+            <span slot="endTime" slot-scope="record">
+                {{ record.endTime | dateFormat }}
             </span>
             <span slot="rebateRatio" slot-scope="record">
                 {{ record.rebateRatio | ratePercent }}
@@ -70,7 +70,7 @@
             @showSizeChange="handlePageSizeChange"
         />
 
-        <SecondVerify :is-show="isSecondVerifyShow" @submit="handleSecondVerifySubmit" />
+        <!-- <SecondVerify :is-show="isSecondVerifyShow" @submit="handleSecondVerifySubmit" /> -->
     </div>
 </template>
 

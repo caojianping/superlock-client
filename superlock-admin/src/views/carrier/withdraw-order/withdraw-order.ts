@@ -84,16 +84,22 @@ export default class WithdrawOrder extends Vue {
             scopedSlots: { customRender: 'address' }
         },
         {
+            title: '交易hash',
+            dataIndex: '',
+            key: 'txHash',
+            scopedSlots: { customRender: 'txHash' }
+        },
+        {
             title: '创建时间',
             dataIndex: '',
-            key: 'createTime',
-            scopedSlots: { customRender: 'createTime' }
+            key: 'createDate',
+            scopedSlots: { customRender: 'createDate' }
         },
         {
             title: '完结时间',
             dataIndex: '',
-            key: 'endTime',
-            scopedSlots: { customRender: 'endTime' }
+            key: 'finishDate',
+            scopedSlots: { customRender: 'finishDate' }
         },
         {
             title: '状态',
@@ -204,9 +210,7 @@ export default class WithdrawOrder extends Vue {
 
     // 获取数据
     async fetchData() {
-        if (this.carrierOptions.length <= 0) {
-            await this.fetchCarrierOptions();
-        }
+        await this.fetchCarrierOptions();
         await this.fetchWithdrawOrders();
     }
 

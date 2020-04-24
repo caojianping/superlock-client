@@ -35,7 +35,7 @@ class BaseOrderModel {
 
 // 返点订单模型
 export class RebateOrderModel extends BaseOrderModel {
-    public rebateTime!: string; // 返点时间
+    public endTime!: string; // 返点时间
     public lockAmount!: string; // 新增锁仓(DC)
     public rebateRatio!: string; // 返点比例(%)
     public rebateValue!: string; // 返点数量(DC)
@@ -57,11 +57,11 @@ export class FlashOrderModel extends BaseOrderModel {
 
 // 提现订单模型
 export class WithdrawOrderModel extends BaseOrderModel {
-    public hash!: string; // 交易hash
+    public txHash!: string; // 交易hash
     public coinCode!: string; // 提现币种
     public amount!: string; // 提现数量
     public address!: string; // 到账地址
-    public createTime!: string; // 创建时间
+    public createDate!: string; // 创建时间
     public finishDate!: string; // 结束时间
     public balance!: string; // 账户余额
     public status!: string; // 状态：0未提现；10提现中；20提现成功；30提现失败。

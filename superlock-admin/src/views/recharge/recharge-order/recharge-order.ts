@@ -64,12 +64,12 @@ export default class RechargeOrder extends Vue {
             title: '充值数量',
             dataIndex: 'amount'
         },
+        // {
+        //     title: '锁定汇率',
+        //     dataIndex: 'lockRate'
+        // },
         {
-            title: '锁定汇率',
-            dataIndex: 'lockRate'
-        },
-        {
-            title: '用户汇率',
+            title: '汇率',
             dataIndex: 'rate'
         },
         {
@@ -80,16 +80,16 @@ export default class RechargeOrder extends Vue {
             title: '入账数量',
             dataIndex: 'rechargeAmount'
         },
-        {
-            title: '手续费比例',
-            dataIndex: '',
-            key: 'commissionRate',
-            scopedSlots: { customRender: 'commissionRate' }
-        },
-        {
-            title: '手续费（BCB）',
-            dataIndex: 'profit'
-        },
+        // {
+        //     title: '手续费比例',
+        //     dataIndex: '',
+        //     key: 'commissionRate',
+        //     scopedSlots: { customRender: 'commissionRate' }
+        // },
+        // {
+        //     title: '手续费（BCB）',
+        //     dataIndex: 'profit'
+        // },
         {
             title: '状态',
             dataIndex: 'status'

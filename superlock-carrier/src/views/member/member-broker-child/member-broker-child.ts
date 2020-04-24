@@ -4,7 +4,8 @@ import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { IPageParameters, IMemberPageParameters } from '@/ts/interfaces';
+import { Prompt } from '@/ts/common';
+import { IPageParameters, IBrokerChildPageParameters } from '@/ts/interfaces';
 import { BrokerChildModel } from '@/ts/models';
 
 const memberModule = namespace('member');
@@ -17,13 +18,14 @@ export default class MemberBrokerChild extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
 
-    @memberModule.State('parameters') parameters!: IPageParameters<IMemberPageParameters>;
+    @memberModule.State('childParameters') childParameters!: IPageParameters<IBrokerChildPageParameters>;
     @memberModule.State('totalCount') totalCount!: number;
     @memberModule.State('list') list!: Array<BrokerChildModel>;
     @memberModule.State('count') count!: number;
     @memberModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @memberModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @memberModule.Action('fetchBrokerChilds') fetchBrokerChilds!: () => any;
+    @memberModule.Action('exportBrokerChilds') exportBrokerChilds!: () => any;
 
     uid: string = '';
 
@@ -36,10 +38,10 @@ export default class MemberBrokerChild extends Vue {
             title: '手机号',
             dataIndex: 'mobile'
         },
-        // {
-        //     title: '总代理额度(DC)',
-        //     dataIndex: 'totalDegree'
-        // },
+        {
+            title: '邮箱',
+            dataIndex: 'email'
+        },
         {
             title: '个人锁仓数量(DC)',
             dataIndex: 'totalLock'
@@ -58,31 +60,61 @@ export default class MemberBrokerChild extends Vue {
         }
     ];
 
+    // 处理表单change事件
+    handleFormChange(key: string, value: string) {
+        let childParameters = Utils.duplicate(this.childParameters);
+        childParameters.conditions[key] = value;
+        this.setStates({ childParameters });
+    }
+
+    // 搜索
+    async search() {
+        try {
+            let childParameters = Utils.duplicate(this.childParameters);
+            childParameters.pageNum = 1;
+            this.setStates({ childParameters });
+            await this.fetchBrokerChilds();
+        } catch (error) {
+            Prompt.error(error.message || error);
+        }
+    }
+
+    // 导出报表
+    async exportReport() {
+        try {
+            let url = await this.exportBrokerChilds();
+            if (!url) Prompt.error('导出失败');
+            else window.location.href = url;
+        } catch (error) {
+            Prompt.error(error.message || error);
+        }
+    }
+
     // 处理页码change事件
     handlePageNumChange(page: number, pageSize: number) {
-        let parameters = Utils.duplicate(this.parameters);
-        parameters.pageNum = page;
-        parameters.pageSize = pageSize;
-        this.setStates({ parameters });
+        let childParameters = Utils.duplicate(this.childParameters);
+        childParameters.pageNum = page;
+        childParameters.pageSize = pageSize;
+        this.setStates({ childParameters });
         this.fetchBrokerChilds();
     }
 
     // 处理页尺寸change事件
     handlePageSizeChange(current: number, pageSize: number) {
-        let parameters = Utils.duplicate(this.parameters);
-        parameters.pageNum = 1;
-        parameters.pageSize = pageSize;
-        this.setStates({ parameters });
+        let childParameters = Utils.duplicate(this.childParameters);
+        childParameters.pageNum = 1;
+        childParameters.pageSize = pageSize;
+        this.setStates({ childParameters });
         this.fetchBrokerChilds();
     }
 
     created() {
         let params: any = this.$route.params || {},
             uid = params.uid,
-            parameters = Utils.duplicate(this.parameters);
+            childParameters = Utils.duplicate(this.childParameters);
         this.uid = uid;
-        parameters.conditions.uid = uid;
-        this.setStates({ parameters, totalCount: 0, list: [] });
+        childParameters.conditions.uid = uid;
+        this.setStates({ childParameters, totalCount: 0, list: [] });
     }
 
     mounted() {

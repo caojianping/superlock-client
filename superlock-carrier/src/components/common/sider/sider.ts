@@ -61,7 +61,7 @@ export default class Sider extends Vue {
             icon: 'carrier',
             items: [
                 { name: '运营数据', route: '/carrier/index' },
-                { name: '返点订单', route: '/carrier/rebate/order' },
+                { name: '返点记录', route: '/carrier/rebate/order' },
                 { name: '闪兑订单', route: '/carrier/flash/order' },
                 { name: '提现订单', route: '/carrier/withdraw/order' }
             ],
