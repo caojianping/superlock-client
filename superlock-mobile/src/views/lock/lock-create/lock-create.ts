@@ -3,10 +3,11 @@ import { Component } from 'vue-property-decorator';
 import { namespace, State } from 'vuex-class';
 import { SessionStorage } from 'jts-storage';
 import { ValidationResult } from 'jpts-validator';
+
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { CONSTANTS } from '@/ts/config';
-import { Prompt } from '@/ts/common';
+import { Prompt, Token } from '@/ts/common';
 import { UserLockQuotaModel, ProjectModel, LockFormModel, AssetStatsModel, UserInfoModel, LockResultModel } from '@/ts/models';
 import { LockService } from '@/ts/services';
 
@@ -51,20 +52,21 @@ export default class LockCreate extends Vue {
 
     // 提交锁仓
     async submit() {
+        let result: ValidationResult = LockService.validateLockForm(this.lockForm, false);
+        if (!result.status) {
+            Prompt.error(Utils.getFirstValue(result.data));
+            return;
+        }
+
         let haveFundPasswd = this.userInfo.haveFundPasswd;
         if (!haveFundPasswd) {
             Prompt.info('您未设置资金密码，请先设置资金密码').then(() => {
+                Token.setFundFrom('/lock/create');
                 this.$router.push({
                     path: '/security/fund/password',
                     query: { from: '/lock/create' }
                 });
             });
-            return;
-        }
-
-        let result: ValidationResult = LockService.validateLockForm(this.lockForm, false);
-        if (!result.status) {
-            Prompt.error(Utils.getFirstValue(result.data));
             return;
         }
 

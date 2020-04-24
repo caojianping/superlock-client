@@ -2,9 +2,10 @@ import Vue from 'vue';
 import { namespace, State, Action } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { ValidationResult } from 'jpts-validator';
+
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { Prompt } from '@/ts/common';
+import { Prompt, Token } from '@/ts/common';
 import { QuotaModel, UserInfoModel, WithdrawFormModel, WithdrawAddressModel } from '@/ts/models';
 import { WithdrawService } from '@/ts/services';
 
@@ -57,20 +58,21 @@ export default class WithdrawIndex extends Vue {
 
     // 提交提现
     async submit() {
+        let result: ValidationResult = WithdrawService.validateWithdrawForm(this.withdrawForm, false);
+        if (!result.status) {
+            Prompt.error(Utils.getFirstValue(result.data));
+            return;
+        }
+
         let haveFundPasswd = this.userInfo.haveFundPasswd;
         if (!haveFundPasswd) {
             Prompt.info('您未设置资金密码，请先设置资金密码').then(() => {
+                Token.setFundFrom('/withdraw/index');
                 this.$router.push({
                     path: '/security/fund/password',
                     query: { from: '/withdraw/index' }
                 });
             });
-            return;
-        }
-
-        let result: ValidationResult = WithdrawService.validateWithdrawForm(this.withdrawForm, false);
-        if (!result.status) {
-            Prompt.error(Utils.getFirstValue(result.data));
             return;
         }
 
@@ -121,7 +123,6 @@ export default class WithdrawIndex extends Vue {
         if (selectedWithdrawAddress) {
             // 如果已经有选择的提现地址
             withdrawForm.address = selectedWithdrawAddress.address;
-            this.setStates({ withdrawForm });
         } else {
             // 如果没有选择的提现地址（大部分情况为第一次提现操作时），那么将第一个提现地址设置为已选择提现地址
             if (!this.withdrawAddresses || this.withdrawAddresses.length <= 0) {
@@ -131,12 +132,10 @@ export default class WithdrawIndex extends Vue {
             let firstAddress = (this.withdrawAddresses || [])[0];
             if (firstAddress) {
                 withdrawForm.address = firstAddress.address;
-                this.setStates({
-                    withdrawForm,
-                    selectedWithdrawAddress: firstAddress
-                });
+                this.setStates({ selectedWithdrawAddress: firstAddress });
             }
         }
+        this.setStates({ withdrawForm });
         Toast.clear();
     }
 

@@ -16,5 +16,7 @@ export const CONSTANTS = {
     RECHARGE: 'RECHARGE', // 充值信息
     WITHDRAW: 'WITHDRAW', // 提现信息
     TRANSFER: 'TRANSFER', // 转账信息
-    CHILD: 'CHILD' // 下级信息
+    CHILD: 'CHILD', // 下级信息
+
+    FUND_FROM: 'FUND_FROM' // 资金密码页面来源
 };

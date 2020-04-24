@@ -1,6 +1,6 @@
 <template>
     <div class="security-email scb-gray">
-        <Header title="绑定邮箱" @left="$router.push(from || '/security/center')" />
+        <Header title="绑定邮箱" @left="$router.push(from)" />
 
         <div class="scb-form scb-separator">
             <ul>

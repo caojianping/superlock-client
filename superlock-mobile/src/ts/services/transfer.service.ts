@@ -13,9 +13,15 @@ export class TransferService {
                 data: { userForm: '转账表单参数不可以为空' }
             };
 
-        const key = 'transferForm';
-        let { toUid, quota, fundPasswd, maxAmount } = transferForm,
+        let key = 'transferForm',
+            { toUid, quota, fundPasswd, maxAmount } = transferForm,
             validator = new Validator();
+        validator.addRule(
+            key,
+            { name: 'maxAmount', value: maxAmount },
+            { required: true, minExclude: 0 },
+            { required: '可用余额不足', minExclude: '可用余额不足' }
+        );
         validator.addRule(key, { name: 'toUid', value: toUid }, { required: true }, { required: '收款人UID不可以为空' });
         validator.addRule(
             key,
@@ -23,7 +29,7 @@ export class TransferService {
             { required: true, minExclude: 0, max: maxAmount },
             {
                 required: '转账金额不可以为空',
-                min: '转账金额不可以小于等于0',
+                minExclude: '转账金额不可以小于等于0',
                 max: `转账金额不可以大于${maxAmount}`
             }
         );

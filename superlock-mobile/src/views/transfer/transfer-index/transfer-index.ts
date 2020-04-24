@@ -2,9 +2,10 @@ import Vue from 'vue';
 import { namespace, State, Action } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { ValidationResult } from 'jpts-validator';
+
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { Prompt } from '@/ts/common';
+import { Prompt, Token } from '@/ts/common';
 import { QuotaModel, UserInfoModel, TransferFormModel, TransferChildModel, TransferModel } from '@/ts/models';
 import { TransferService } from '@/ts/services';
 
@@ -57,20 +58,21 @@ export default class TransferIndex extends Vue {
 
     // 提交转账
     async submit() {
+        let result: ValidationResult = TransferService.validateTransferForm(this.transferForm, false);
+        if (!result.status) {
+            Prompt.error(Utils.getFirstValue(result.data));
+            return;
+        }
+
         let haveFundPasswd = this.userInfo.haveFundPasswd;
         if (!haveFundPasswd) {
             Prompt.info('您未设置资金密码，请先设置资金密码').then(() => {
+                Token.setFundFrom('/transfer/index');
                 this.$router.push({
                     path: '/security/fund/password',
                     query: { from: '/transfer/index' }
                 });
             });
-            return;
-        }
-
-        let result: ValidationResult = TransferService.validateTransferForm(this.transferForm, false);
-        if (!result.status) {
-            Prompt.error(Utils.getFirstValue(result.data));
             return;
         }
 
@@ -121,8 +123,8 @@ export default class TransferIndex extends Vue {
         if (selectedTransferChild) {
             // 如果已经有选择的转账下级
             transferForm.toUid = selectedTransferChild.uid;
-            this.setStates({ transferForm });
         }
+        this.setStates({ transferForm });
         Toast.clear();
     }
 

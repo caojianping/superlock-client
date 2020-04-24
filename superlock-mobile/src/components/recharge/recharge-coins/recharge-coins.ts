@@ -3,7 +3,7 @@ import { namespace } from 'vuex-class';
 import { Component, Model, Watch } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
-import { Prompt } from '@/ts/common';
+import { Prompt, Token } from '@/ts/common';
 import { UserInfoModel, RechargeCoinModel } from '@/ts/models';
 
 import { Popup, CellGroup, Cell } from 'vant';
@@ -39,6 +39,7 @@ export default class RechargeCoins extends Vue {
         let haveFundPasswd = this.userInfo.haveFundPasswd;
         if (!haveFundPasswd) {
             Prompt.info('为保障您的资金安全，请先设置一下资金密码').then(() => {
+                Token.setFundFrom('/asset/index');
                 this.$router.push({
                     path: '/security/fund/password',
                     query: { from: '/asset/index' }

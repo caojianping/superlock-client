@@ -13,9 +13,15 @@ export class WithdrawService {
                 data: { userForm: '提现表单参数不可以为空' }
             };
 
-        const key = 'withdrawForm';
-        let { address, amount, fundPasswd, remark, maxAmount } = withdrawForm,
+        let key = 'withdrawForm',
+            { address, amount, fundPasswd, remark, maxAmount } = withdrawForm,
             validator = new Validator();
+        validator.addRule(
+            key,
+            { name: 'maxAmount', value: maxAmount },
+            { required: true, minExclude: 0 },
+            { required: '可用余额不足', minExclude: '可用余额不足' }
+        );
         validator.addRule(key, { name: 'address', value: address }, { required: true }, { required: '提现地址不可以为空' });
         validator.addRule(
             key,
@@ -23,7 +29,7 @@ export class WithdrawService {
             { required: true, minExclude: 0, max: maxAmount },
             {
                 required: '提现金额不可以为空',
-                min: '提现金额不可以小于等于0',
+                minExclude: '提现金额不可以小于等于0',
                 max: `提现金额不可以大于${maxAmount}`
             }
         );

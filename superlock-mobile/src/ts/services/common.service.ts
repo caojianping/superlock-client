@@ -65,7 +65,13 @@ export class CommonService {
 
     // 获取可提现、可转账额度
     public async fetchQuota(): Promise<QuotaModel | null> {
-        return await Caxios.get<QuotaModel | null>({ url: Urls.common.quota }, CaxiosType.Token);
+        let quota = await Caxios.get<QuotaModel | null>({ url: Urls.common.quota }, CaxiosType.Token);
+        if (!quota) return null;
+        else {
+            quota.amount = isNaN(Number(quota.amount)) ? 0 : Number(quota.amount);
+            quota.valuationAmount = isNaN(Number(quota.valuationAmount)) ? 0 : Number(quota.valuationAmount);
+            return quota;
+        }
     }
 
     // 获取汇率信息

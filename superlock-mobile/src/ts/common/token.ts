@@ -3,6 +3,7 @@ import store from '@/store';
 import TYPES from '@/store/types';
 import { CONSTANTS } from '@/ts/config';
 import { TokenInfo } from '@/ts/models';
+import { SessionStorage } from 'jts-storage';
 
 export class Token {
     // 设置tokenInfo
@@ -21,6 +22,22 @@ export class Token {
         ['user/', 'child/', 'project/', 'transaction/', 'lock/', 'recharge/', 'withdraw/', 'transfer/', 'security/'].forEach((item: string) => {
             store.commit(item + TYPES.CLEAR_STATES);
         });
+        return true;
+    }
+
+    // 补充一个来源缓存，暂时放在此类中
+    public static setFundFrom(from: string) {
+        SessionStorage.setItem<string>(CONSTANTS.FUND_FROM, from);
+    }
+
+    // 补充一个来源缓存，暂时放在此类中
+    public static getFundFrom(): string {
+        return SessionStorage.getItem<string>(CONSTANTS.FUND_FROM) || '';
+    }
+
+    // 补充一个来源缓存，暂时放在此类中
+    public static removeFundFrom(): boolean {
+        SessionStorage.removeItem(CONSTANTS.FUND_FROM);
         return true;
     }
 }

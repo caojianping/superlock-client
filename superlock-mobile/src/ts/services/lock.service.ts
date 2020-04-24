@@ -13,9 +13,15 @@ export class LockService {
                 data: { userForm: '锁仓表单参数不可以为空' }
             };
 
-        const key = 'lockForm';
-        let { length, unit, rate, amount, fundPasswd, minAmount, maxAmount } = lockForm,
+        let key = 'lockForm',
+            { length, unit, rate, amount, fundPasswd, minAmount, maxAmount } = lockForm,
             validator = new Validator();
+        validator.addRule(
+            key,
+            { name: 'maxAmount', value: maxAmount },
+            { required: true, minExclude: 0 },
+            { required: '可用余额不足', minExclude: '可用余额不足' }
+        );
         validator.addRule(key, { name: 'length', value: length }, { required: true }, { required: '锁仓长度不可以为空' });
         validator.addRule(key, { name: 'unit', value: unit }, { required: true }, { required: '锁仓单位不可以为空' });
         validator.addRule(key, { name: 'rate', value: rate }, { required: true }, { required: '锁仓利率不可以为空' });

@@ -45,8 +45,7 @@ export default class SecurityEmail extends Vue {
             if (!result) Prompt.error('邮箱绑定失败');
             else
                 Prompt.success('邮箱绑定成功').then(() => {
-                    if (!status) this.$router.push(this.from);
-                    else this.$router.push('/security/center');
+                    this.$router.push(this.from);
                 });
         } catch (error) {
             Prompt.error(error.message || error);
@@ -56,7 +55,7 @@ export default class SecurityEmail extends Vue {
     // 初始化数据
     initData() {
         let query: any = this.$route.query || {};
-        this.from = query.from || '';
+        this.from = query.from || '/security/index';
     }
 
     created() {

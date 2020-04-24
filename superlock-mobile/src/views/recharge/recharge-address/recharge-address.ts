@@ -3,7 +3,7 @@ import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
-import { Prompt } from '@/ts/common';
+import { Prompt, Token } from '@/ts/common';
 import { UserInfoModel, RechargeCoinModel } from '@/ts/models';
 
 import { CellGroup, Cell } from 'vant';
@@ -29,6 +29,7 @@ export default class RechargeAddress extends Vue {
         let haveFundPasswd = this.userInfo.haveFundPasswd;
         if (!haveFundPasswd) {
             Prompt.info('为保障您的资金安全，请先设置一下资金密码').then(() => {
+                Token.setFundFrom('/recharge/address');
                 this.$router.push({
                     path: '/security/fund/password',
                     query: { from: '/recharge/address' }

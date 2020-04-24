@@ -6,7 +6,7 @@ import { ValidationResult } from 'jpts-validator';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { UserFormType, ForgetType, VerifyType } from '@/ts/config';
-import { Prompt, Captcha } from '@/ts/common';
+import { Prompt, Captcha, Token } from '@/ts/common';
 import { VerifyResult, UserInfoModel, UserFormModel, SecurityFormModel } from '@/ts/models';
 import { UserService, SecurityService } from '@/ts/services';
 
@@ -78,8 +78,7 @@ export default class FundPassword extends Vue {
                     if (!result) Prompt.error(`资金密码设置失败`);
                     else
                         Prompt.success(`资金密码设置成功`).then(() => {
-                            if (!status) this.$router.push(this.from);
-                            else this.$router.push('/security/center');
+                            this.$router.push(this.from);
                         });
                 }
             } else {
@@ -87,8 +86,7 @@ export default class FundPassword extends Vue {
                 if (!result) Prompt.error(`资金密码修改失败`);
                 else
                     Prompt.success(`资金密码修改成功`).then(() => {
-                        if (!status) this.$router.push(this.from);
-                        else this.$router.push('/security/center');
+                        this.$router.push(this.from);
                     });
             }
         } catch (error) {
@@ -108,8 +106,7 @@ export default class FundPassword extends Vue {
             if (!result) Prompt.error(`资金密码设置失败`);
             else
                 Prompt.success(`资金密码设置成功`).then(() => {
-                    if (!status) this.$router.push(this.from);
-                    else this.$router.push('/security/center');
+                    this.$router.push(this.from);
                 });
         } catch (error) {
             Prompt.error(error.message || error);
@@ -151,7 +148,8 @@ export default class FundPassword extends Vue {
     // 初始化数据
     initData() {
         let query: any = this.$route.query || {};
-        this.from = query.from || '';
+        this.from = query.from || Token.getFundFrom();
+        console.log('from:', this.from);
     }
 
     // 初始化云盾短信验证码

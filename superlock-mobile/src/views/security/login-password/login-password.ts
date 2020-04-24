@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { ValidationResult } from 'jpts-validator';
+
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { UserFormType, ForgetType } from '@/ts/config';
@@ -76,8 +77,9 @@ export default class LoginPassword extends Vue {
             let result = await this.modifyLoginPassword();
             if (!result) Prompt.error('登录密码修改失败');
             else {
-                Prompt.success('登录密码修改成功');
-                this.$router.push('/security/center');
+                Prompt.success('登录密码修改成功').then(() => {
+                    this.$router.push('/security/center');
+                });
             }
         } catch (error) {
             Prompt.error(error.message || error);

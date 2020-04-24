@@ -1,7 +1,7 @@
 <template>
     <div class="fund-password scb-gray">
         {{ ((status = userInfo.haveFundPasswd), void 0) }}
-        <Header :title="`${{ false: '设置', true: '修改' }[status] || ''}资金密码`" @left="$router.push(from || '/security/center')" />
+        <Header :title="`${{ false: '设置', true: '修改' }[status] || ''}资金密码`" @left="$router.push(from)" />
 
         <div class="scb-form scb-separator">
             <ul>
@@ -70,7 +70,7 @@
             :area-code="phone.area"
             :mobile="phone.tel"
             :verify-result="verifyResult"
-            from='/security/fund/password'
+            from="/security/fund/password"
             @submit="handleVerifyListSubmit"
             @stop="handleVerifyListStop"
             @close="handleVerifyListClose"
