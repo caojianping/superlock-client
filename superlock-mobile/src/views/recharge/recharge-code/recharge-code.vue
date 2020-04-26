@@ -6,7 +6,7 @@
 
         <div class="recharge-code-container scb-separator">
             <div class="recharge-code-content">
-                <h1>扫一扫，向我付款</h1>
+                <h1 :class="{ special: rechargeCoin !== 'BCB' }">扫一扫，向我付款</h1>
                 <h2 v-if="rechargeCoin !== 'BCB'">最小充值数量：{{ minAmount }}个{{ rechargeCoin }}</h2>
                 <qriously :value="rechargeAddressQrcode" :size="180" />
                 <p>{{ rechargeAddress }}</p>

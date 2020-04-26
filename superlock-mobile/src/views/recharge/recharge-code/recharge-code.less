@@ -13,11 +13,20 @@
             > h1 {
                 padding: 1.5rem 0 2rem;
                 .font-styles(1rem, normal, 1, @black, center);
+
+                &.special {
+                    padding-bottom: 0;
+                }
             }
 
             > h2 {
-                margin: -1.5rem 0 0.5rem;
-                .font-styles(0.8125rem, normal, 1.8, #f9785f, center);
+                display: inline-block;
+                margin: 0.5rem auto;
+                padding: 0 0.5rem;
+                height: 1.375rem;
+                .font-styles(0.8125rem, normal, 1.375rem, #f9785f, center);
+                background-color: #ffebe7;
+                border-radius: 0.75rem;
             }
 
             > p {
