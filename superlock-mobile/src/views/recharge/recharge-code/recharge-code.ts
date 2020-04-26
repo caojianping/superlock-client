@@ -22,9 +22,11 @@ export default class RechargeCode extends Vue {
 
     @rechargeModule.State('rechargeCoin') rechargeCoin!: string;
     @rechargeModule.State('rechargeAddress') rechargeAddress!: string;
+    @rechargeModule.State('minAmount') minAmount!: number;
     @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @rechargeModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @rechargeModule.Action('fetchRechargeAddress') fetchRechargeAddress!: () => any;
+    @rechargeModule.Action('fetchMinAmount') fetchMinAmount!: () => any;
 
     // 充值地址二维码
     get rechargeAddressQrcode() {
@@ -62,6 +64,7 @@ export default class RechargeCode extends Vue {
         });
         let rechargeCoin = this.rechargeCoin;
         if (rechargeCoin !== 'BCB') {
+            await this.fetchMinAmount();
             await this.fetchExchangeRate({ fromCoin: rechargeCoin, toCoin: 'BCB' });
         }
         await this.fetchRechargeAddress();

@@ -7,6 +7,7 @@
         <div class="recharge-code-container scb-separator">
             <div class="recharge-code-content">
                 <h1>扫一扫，向我付款</h1>
+                <h2 v-if="rechargeCoin !== 'BCB'">最小充值数量：{{ minAmount }}个{{ rechargeCoin }}</h2>
                 <qriously :value="rechargeAddressQrcode" :size="180" />
                 <p>{{ rechargeAddress }}</p>
                 <Button id="address" class="effect-tripple" type="primary" size="small" round :data-clipboard-text="rechargeAddress">复制地址</Button>
@@ -19,7 +20,7 @@
             <p>所有转入的币种都将折算为BCB</p>
         </div>
 
-        <RechargePrompt />
+        <RechargePrompt :recharge-coin="rechargeCoin" :min-amount="minAmount" />
     </div>
 </template>
 

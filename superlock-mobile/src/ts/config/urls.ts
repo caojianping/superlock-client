@@ -53,7 +53,8 @@ export const Urls = {
     recharge: {
         coins: `${baseUrl}/project/rechargeCoinList`, // 获取充值币种列表接口
         address: `${baseUrl}/project/rechargeAddresses`, // 获取充值地址接口
-        list: `${baseUrl}/project/rechargeRecord` // 获取充值列表接口
+        list: `${baseUrl}/project/rechargeRecord`, // 获取充值列表接口
+        minAmount: `${baseUrl}/project/minRechargeAmount` // 获取充值最小金额接口
     },
     withdraw: {
         execute: `${baseUrl}/project/withdrawCoin`, // 执行提现接口

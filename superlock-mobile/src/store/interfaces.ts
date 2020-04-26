@@ -113,6 +113,7 @@ export interface IRechargeState {
     rechargeCoins?: Array<RechargeCoinModel>; // 充值币种列表
     rechargeCoin: string; // 充值币种
     rechargeAddress: string; // 充值地址
+    minAmount: number; // 最小充值金额
 
     pageNum: number; // 分页索引
     pageSize: number; // 分页尺寸

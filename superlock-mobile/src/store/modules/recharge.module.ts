@@ -7,6 +7,7 @@ const rechargeState: IRechargeState = {
     rechargeCoins: undefined,
     rechargeCoin: '',
     rechargeAddress: '',
+    minAmount: 0,
 
     pageNum: 1,
     pageSize: 15,
@@ -32,6 +33,7 @@ export default {
             state.rechargeCoins = undefined;
             state.rechargeCoin = '';
             state.rechargeAddress = '';
+            state.minAmount = 0;
 
             state.pageNum = 1;
             state.pageSize = 15;
@@ -88,6 +90,17 @@ export default {
                 commit(TYPES.SET_STATES, { recharges: [] });
                 isPending = false;
                 return [];
+            }
+        },
+
+        // 获取充值最小金额
+        async fetchMinAmount(context: IActionContext<IRechargeState>): Promise<void> {
+            let { commit, state } = context;
+            try {
+                let minAmount = await rechargeService.fetchMinAmount(state.rechargeCoin);
+                commit(TYPES.SET_STATES, { minAmount });
+            } catch (error) {
+                commit(TYPES.SET_STATES, { minAmount: 0 });
             }
         }
     }

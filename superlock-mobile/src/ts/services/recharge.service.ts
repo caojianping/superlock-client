@@ -34,4 +34,10 @@ export class RechargeService {
         );
         return result || [];
     }
+
+    // 获取最小充值金额
+    public async fetchMinAmount(coin: string): Promise<number> {
+        let result = await Caxios.get<any>({ url: `${Urls.recharge.minAmount}?coin=${coin}` }, CaxiosType.Token);
+        return Number(result);
+    }
 }
