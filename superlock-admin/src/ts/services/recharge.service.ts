@@ -2,8 +2,8 @@ import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
 import { Urls, CaxiosType, OperationType } from '@/ts/config';
 import { Caxios } from '@/ts/common';
-import { IPageParameters, IRechargePageParameters } from '@/ts/interfaces';
-import { PageResult, RechargeModel, RechargePoundageModel } from '@/ts/models';
+import { IPageParameters, IRechargePageParameters, IRechargeAddressPageParameters } from '@/ts/interfaces';
+import { PageResult, RechargeModel, RechargePoundageModel, RechargeAddressModel } from '@/ts/models';
 
 export class RechargeService {
     // 验证手续费设置
@@ -99,5 +99,23 @@ export class RechargeService {
             isCode
         );
         return true;
+    }
+
+    // 获取充值地址列表
+    public async fetchRechargeAddresses(parameters: IPageParameters<IRechargeAddressPageParameters>): Promise<PageResult<RechargeAddressModel>> {
+        let url = Urls.recharge.address.list,
+            result = await Caxios.get<PageResult<RechargeAddressModel> | null>(
+                { url: `${url}?${Utils.buildPageParameters(parameters)}` },
+                CaxiosType.PageLoadingToken
+            );
+        if (!result) return new PageResult<RechargeAddressModel>(0, []);
+        return result as PageResult<RechargeAddressModel>;
+    }
+
+    // 导出充值地址列表
+    public async exportRechargeAddresses(parameters: IPageParameters<IRechargeAddressPageParameters>): Promise<string> {
+        let url = Urls.recharge.address.export,
+            result = await Caxios.get<string | null>({ url: `${url}?${Utils.buildPageParameters(parameters)}` }, CaxiosType.FullLoadingToken);
+        return result || '';
     }
 }

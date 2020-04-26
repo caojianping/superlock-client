@@ -1,136 +1,79 @@
 import Vue from 'vue';
-import { namespace, State, Mutation, Action } from 'vuex-class';
+import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { OperationType, CarrierFormType, ResponseCode } from '@/ts/config';
 import { Prompt } from '@/ts/common';
-import { IPageParameters, ISelectOption, ICarrierPageParameters } from '@/ts/interfaces';
-import { CarrierModel, CarrierFormModel } from '@/ts/models';
-
-import SecondVerify from '@/components/common/second-verify';
-import CarrierModal from '@/components/modals/carrier-modal';
+import { ISelectOption, IPageParameters, IRechargeReportPageParameters } from '@/ts/interfaces';
+import { RechargeReportModel } from '@/ts/models';
 
 const reportModule = namespace('report');
 
 @Component({
     name: 'RechargeReport',
-    components: { SecondVerify, CarrierModal }
+    components: {}
 })
 export default class RechargeReport extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
+    @State('coinOptions') coinOptions!: Array<ISelectOption>;
 
-    @reportModule.State('operationType') operationType!: OperationType;
-    @reportModule.State('formType') formType!: CarrierFormType;
-    @reportModule.State('carrierForm') carrierForm!: CarrierFormModel;
-    @reportModule.State('carrier') carrier?: CarrierModel;
+    @reportModule.State('rechargeParameters') rechargeParameters!: IPageParameters<IRechargeReportPageParameters>;
+    @reportModule.State('totalCount') totalCount!: number;
+    @reportModule.State('list') list!: Array<RechargeReportModel>;
 
-    @carrierModule.State('carrierParameters') carrierParameters!: IPageParameters<ICarrierPageParameters>;
-    @carrierModule.State('totalCount') totalCount!: number;
-    @carrierModule.State('list') list!: Array<CarrierModel>;
+    @reportModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
+    @reportModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
 
-    @carrierModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
-    @carrierModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
-    @carrierModule.Action('fetchCarriers') fetchCarriers!: () => any;
-    @carrierModule.Action('exportCarriers') exportCarriers!: () => any;
-    @carrierModule.Action('addCarrier') addCarrier!: (isCode?: boolean) => any;
-    @carrierModule.Action('updateCarrier') updateCarrier!: (isCode?: boolean) => any;
-
-    isCarrierShow: boolean = false; // 是否显示运营商模态框
+    @reportModule.Action('fetchRechargeReports') fetchRechargeReports!: () => any;
+    @reportModule.Action('exportRechargeReports') exportRechargeReports!: () => any;
 
     columns: Array<any> = [
         {
-            title: '运营商ID',
-            dataIndex: 'carrierId'
+            title: '日期',
+            dataIndex: 'date'
         },
         {
-            title: '运营商名称',
-            dataIndex: 'carrierName'
+            title: '充值币种',
+            dataIndex: 'coinCode'
         },
         {
-            title: '手机号',
-            dataIndex: '',
-            key: 'mobile',
-            scopedSlots: { customRender: 'mobile' }
+            title: '充值数量',
+            dataIndex: 'amount'
         },
         {
-            title: '邮箱',
-            dataIndex: 'email'
+            title: '入账币种',
+            dataIndex: 'gotCoin'
         },
         {
-            title: '锁仓总量(DC)',
-            dataIndex: 'totalLock'
-        },
-        {
-            title: '返点比例(%)',
-            dataIndex: '',
-            key: 'rebateRatio',
-            scopedSlots: { customRender: 'rebateRatio' }
-        },
-        {
-            title: '结算周期',
-            dataIndex: '',
-            key: 'cycle',
-            scopedSlots: { customRender: 'cycle' }
-        },
-        {
-            title: '返点总额(DC)',
-            dataIndex: 'totalRebate'
-        },
-        {
-            title: '账户余额(DC)',
-            dataIndex: 'dcBalance'
-        },
-        {
-            title: '账户余额(BCB)',
-            dataIndex: 'bcbBalance'
-        },
-        {
-            title: '创建时间',
-            dataIndex: '',
-            key: 'createTime',
-            scopedSlots: { customRender: 'createTime' }
-        },
-        {
-            title: '操作',
-            dataIndex: '',
-            key: 'operation',
-            scopedSlots: { customRender: 'operation' }
+            title: '入账数量',
+            dataIndex: 'gotAmount'
         }
     ];
 
-    // 运营商过滤选项
-    carrierFilterOption(input: string, option: any) {
-        let text = option.componentOptions.children[0].text.toLowerCase(),
-            tinput = input.toLowerCase();
-        return text.indexOf(tinput) > -1;
-    }
-
     // 处理表单change事件
     handleFormChange(key: string, value: string) {
-        let carrierParameters = Utils.duplicate(this.carrierParameters);
-        carrierParameters.conditions[key] = value;
-        this.setStates({ carrierParameters });
+        let rechargeParameters = Utils.duplicate(this.rechargeParameters);
+        rechargeParameters.conditions[key] = value;
+        this.setStates({ rechargeParameters });
     }
 
     // 处理日期change事件
     handleRangePickerChange(dates: Array<any>, dateStrings: Array<string>) {
-        let carrierParameters = Utils.duplicate(this.carrierParameters);
-        carrierParameters.conditions.beginTime = dateStrings[0];
-        carrierParameters.conditions.endTime = dateStrings[1];
-        this.setStates({ carrierParameters });
+        let rechargeParameters = Utils.duplicate(this.rechargeParameters);
+        rechargeParameters.conditions.beginTime = dateStrings[0];
+        rechargeParameters.conditions.endTime = dateStrings[1];
+        this.setStates({ rechargeParameters });
     }
 
     // 搜索
     async search() {
         try {
-            let carrierParameters = Utils.duplicate(this.carrierParameters);
-            carrierParameters.pageNum = 1;
-            this.setStates({ carrierParameters });
-            await this.fetchCarriers();
+            let rechargeParameters = Utils.duplicate(this.rechargeParameters);
+            rechargeParameters.pageNum = 1;
+            this.setStates({ rechargeParameters });
+            await this.fetchRechargeReports();
         } catch (error) {
             Prompt.error(error.message || error);
         }
@@ -139,7 +82,7 @@ export default class RechargeReport extends Vue {
     // 导出报表
     async exportReport() {
         try {
-            let url = await this.exportCarriers();
+            let url = await this.exportRechargeReports();
             if (!url) Prompt.error('导出失败');
             else window.location.href = url;
         } catch (error) {
@@ -147,63 +90,22 @@ export default class RechargeReport extends Vue {
         }
     }
 
-    // 打开运营商模态框
-    openCarrierModal(operationType: OperationType, formType: CarrierFormType, carrier?: CarrierModel) {
-        this.isCarrierShow = true;
-        this.setStates({ operationType, formType, carrier });
-    }
-
-    // 私有函数：设置运营商
-    async _setCarrier(carrierForm: CarrierFormModel, isCode?: boolean) {
-        try {
-            this.setStates({ carrierForm });
-            let operationType = this.operationType,
-                result = operationType === OperationType.Add ? await this.addCarrier(isCode) : await this.updateCarrier(isCode);
-            if (!result) Prompt.error('操作失败');
-            else {
-                Prompt.success('操作成功');
-                await this.fetchCarrierOptions(true);
-                await this.fetchCarriers();
-            }
-        } catch (error) {
-            if (error.code !== ResponseCode.SecondVerify) {
-                Prompt.error(error.message || error);
-            }
-        }
-    }
-
-    // 处理运营商模态框submit事件
-    async handleCarrierModalSubmit(carrierForm: CarrierFormModel) {
-        this._setCarrier(carrierForm, false);
-    }
-
-    // 处理二次验证submit事件
-    async handleSecondVerifySubmit() {
-        this._setCarrier(this.carrierForm, true);
-    }
-
     // 处理页码change事件
     handlePageNumChange(page: number, pageSize: number) {
-        let carrierParameters = Utils.duplicate(this.carrierParameters);
-        carrierParameters.pageNum = page;
-        carrierParameters.pageSize = pageSize;
-        this.setStates({ carrierParameters });
-        this.fetchCarriers();
+        let rechargeParameters = Utils.duplicate(this.rechargeParameters);
+        rechargeParameters.pageNum = page;
+        rechargeParameters.pageSize = pageSize;
+        this.setStates({ rechargeParameters });
+        this.fetchRechargeReports();
     }
 
     // 处理页尺寸change事件
     handlePageSizeChange(current: number, pageSize: number) {
-        let carrierParameters = Utils.duplicate(this.carrierParameters);
-        carrierParameters.pageNum = 1;
-        carrierParameters.pageSize = pageSize;
-        this.setStates({ carrierParameters });
-        this.fetchCarriers();
-    }
-
-    // 获取数据
-    async fetchData() {
-        await this.fetchCarrierOptions();
-        await this.fetchCarriers();
+        let rechargeParameters = Utils.duplicate(this.rechargeParameters);
+        rechargeParameters.pageNum = 1;
+        rechargeParameters.pageSize = pageSize;
+        this.setStates({ rechargeParameters });
+        this.fetchRechargeReports();
     }
 
     created() {
@@ -212,6 +114,6 @@ export default class RechargeReport extends Vue {
 
     mounted() {
         Utils.jumpTop();
-        this.fetchData();
+        this.fetchRechargeReports();
     }
 }

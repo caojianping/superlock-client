@@ -12,9 +12,9 @@ export * from './fund.model';
 export * from './risk.model';
 export * from './member.model';
 export * from './carrier.model';
+export * from './report.model';
 export * from './point.model';
 export * from './system.model';
-export * from './report.model';
 
 // 业务型错误
 export class BusinessError<T> implements Error {

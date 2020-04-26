@@ -1,10 +1,10 @@
 import TYPES from '@/store/types';
 import { IActionContext, IRechargeState } from '@/store/interfaces';
-import { PageResult, RechargeModel, RechargePoundageModel } from '@/ts/models';
+import { PageResult, RechargeModel, RechargePoundageModel, RechargeAddressModel } from '@/ts/models';
 import { RechargeService } from '@/ts/services';
 
 const rechargeState: IRechargeState = {
-    parameters: {
+    rechargeParameters: {
         conditions: {
             serial: '',
             uid: '',
@@ -13,6 +13,16 @@ const rechargeState: IRechargeState = {
             address: '',
             beginTime: '',
             endTime: ''
+        },
+        pageNum: 1,
+        pageSize: 10
+    },
+    addressParameters: {
+        conditions: {
+            uid: '',
+            coinCode: '',
+            address: '',
+            mobile: ''
         },
         pageNum: 1,
         pageSize: 10
@@ -36,7 +46,7 @@ export default {
             }
         },
         [TYPES.CLEAR_STATES](state: IRechargeState) {
-            state.parameters = {
+            state.rechargeParameters = {
                 conditions: {
                     serial: '',
                     uid: '',
@@ -45,6 +55,16 @@ export default {
                     address: '',
                     beginTime: '',
                     endTime: ''
+                },
+                pageNum: 1,
+                pageSize: 10
+            };
+            state.addressParameters = {
+                conditions: {
+                    uid: '',
+                    coinCode: '',
+                    address: '',
+                    mobile: ''
                 },
                 pageNum: 1,
                 pageSize: 10
@@ -59,7 +79,7 @@ export default {
         async fetchRecharges(context: IActionContext<IRechargeState>): Promise<void> {
             let { commit, state } = context;
             try {
-                let result: PageResult<RechargeModel> = await rechargeService.fetchRecharges(state.parameters);
+                let result: PageResult<RechargeModel> = await rechargeService.fetchRecharges(state.rechargeParameters);
                 commit(TYPES.SET_STATES, result);
             } catch (error) {
                 commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
@@ -69,7 +89,7 @@ export default {
 
         // 导出充值列表
         async exportRecharges(context: IActionContext<IRechargeState>): Promise<string> {
-            return await rechargeService.exportRecharges(context.state.parameters);
+            return await rechargeService.exportRecharges(context.state.rechargeParameters);
         },
 
         // 获取手续费设置列表
@@ -92,6 +112,23 @@ export default {
         // 更新手续费设置
         async updateRechargePoundage(context: IActionContext<IRechargeState>, isCode: boolean = false): Promise<boolean> {
             return await rechargeService.updateRechargePoundage(context.state.poundage, isCode);
+        },
+
+        // 获取充值地址列表
+        async fetchRechargeAddresses(context: IActionContext<IRechargeState>): Promise<void> {
+            let { commit, state } = context;
+            try {
+                let result: PageResult<RechargeAddressModel> = await rechargeService.fetchRechargeAddresses(state.addressParameters);
+                commit(TYPES.SET_STATES, result);
+            } catch (error) {
+                commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
+                return Promise.reject(error);
+            }
+        },
+
+        // 导出充值地址列表
+        async exportRechargeAddresses(context: IActionContext<IRechargeState>): Promise<string> {
+            return await rechargeService.exportRechargeAddresses(context.state.addressParameters);
         }
     }
 };

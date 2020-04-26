@@ -19,6 +19,7 @@ import fundModule from './modules/fund.module';
 import riskModule from './modules/risk.module';
 import memberModule from './modules/member.module';
 import carrierModule from './modules/carrier.module';
+import reportModule from './modules/report.module';
 import pointModule from './modules/point.module';
 import systemModule from './modules/system.module';
 
@@ -91,6 +92,7 @@ export default new Vuex.Store({
         risk: riskModule,
         member: memberModule,
         carrier: carrierModule,
+        report: reportModule,
         point: pointModule,
         system: systemModule
     },

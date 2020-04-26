@@ -23,8 +23,9 @@ export default class Sider extends Vue {
             path: '/recharge',
             icon: 'recharge',
             items: [
-                { name: '充值订单', route: '/recharge/order' }
-                // { name: '手续费设置', route: '/recharge/poundage' }
+                { name: '充值订单', route: '/recharge/order' },
+                // { name: '手续费设置', route: '/recharge/poundage' },
+                { name: '地址管理', route: '/recharge/address' }
             ],
             toggle: false
         },
@@ -116,6 +117,19 @@ export default class Sider extends Vue {
                 { name: '返点订单', route: '/carrier/rebate/order' },
                 { name: '闪兑订单', route: '/carrier/flash/order' },
                 { name: '提现订单', route: '/carrier/withdraw/order' }
+            ],
+            toggle: false
+        },
+        {
+            name: '数据报表',
+            route: null,
+            path: '/report',
+            icon: 'carrier',
+            items: [
+                { name: '充值报表', route: '/report/recharge' },
+                { name: '锁仓报表', route: '/report/lock' },
+                { name: '支出报表', route: '/report/expend' },
+                { name: '用户报表', route: '/report/user' }
             ],
             toggle: false
         },

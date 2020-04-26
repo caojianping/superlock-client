@@ -19,6 +19,7 @@ import MemberRouter from './member.router';
 import CarrierRouter from './carrier.router';
 import PointRouter from './point.router';
 import SystemRouter from './system.router';
+import ReportRouter from './report.router';
 
 Vue.use(Router);
 
@@ -48,7 +49,8 @@ const routes = [
             ...MemberRouter,
             ...CarrierRouter,
             ...PointRouter,
-            ...SystemRouter
+            ...SystemRouter,
+            ...ReportRouter
         ]
     }
 ];

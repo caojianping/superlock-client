@@ -28,8 +28,10 @@ export default class RechargePoundage extends Vue {
 
     @rechargeModule.State('list') list!: Array<RechargePoundageModel>;
     @rechargeModule.State('poundage') poundage!: RechargePoundageModel;
+
     @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @rechargeModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
+    
     @rechargeModule.Action('fetchRechargePoundages') fetchRechargePoundages!: () => any;
     @rechargeModule.Action('addRechargePoundage') addRechargePoundage!: (isCode: boolean) => any;
     @rechargeModule.Action('updateRechargePoundage') updateRechargePoundage!: (isCode: boolean) => any;

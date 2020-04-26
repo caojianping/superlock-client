@@ -53,3 +53,11 @@ export const enum CarrierFormType {
     CarrierRebateForm = 4,
     CarrierEmailForm = 5 // 新增邮箱表单
 }
+
+// 报表类型
+export const enum ReportType {
+    RechargeReport = 1,
+    LockReport = 2,
+    ExpendReport = 3,
+    UserReport = 4
+}

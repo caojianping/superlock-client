@@ -30,6 +30,10 @@ export const Urls = {
             list: `${baseUrl}/recharge/fee`,
             add: `${baseUrl}/rechaarge/addFee`,
             update: `${baseUrl}/recharge/updateFee`
+        },
+        address: {
+            list: `${baseUrl}/recharge/address/list`,
+            export: `${baseUrl}/recharge/address/export`
         }
     },
     // 提现模块 ok

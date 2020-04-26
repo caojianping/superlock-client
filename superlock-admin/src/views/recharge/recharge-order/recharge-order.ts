@@ -19,7 +19,7 @@ export default class RechargeOrder extends Vue {
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
     @State('coinOptions') coinOptions!: Array<ISelectOption>;
 
-    @rechargeModule.State('parameters') parameters!: IPageParameters<IRechargePageParameters>;
+    @rechargeModule.State('rechargeParameters') rechargeParameters!: IPageParameters<IRechargePageParameters>;
     @rechargeModule.State('totalCount') totalCount!: number;
     @rechargeModule.State('list') list!: Array<RechargeModel>;
     @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
@@ -64,10 +64,6 @@ export default class RechargeOrder extends Vue {
             title: '充值数量',
             dataIndex: 'amount'
         },
-        // {
-        //     title: '锁定汇率',
-        //     dataIndex: 'lockRate'
-        // },
         {
             title: '汇率',
             dataIndex: 'rate'
@@ -80,16 +76,6 @@ export default class RechargeOrder extends Vue {
             title: '入账数量',
             dataIndex: 'rechargeAmount'
         },
-        // {
-        //     title: '手续费比例',
-        //     dataIndex: '',
-        //     key: 'commissionRate',
-        //     scopedSlots: { customRender: 'commissionRate' }
-        // },
-        // {
-        //     title: '手续费（BCB）',
-        //     dataIndex: 'profit'
-        // },
         {
             title: '状态',
             dataIndex: 'status'
@@ -98,25 +84,25 @@ export default class RechargeOrder extends Vue {
 
     // 处理表单change事件
     handleFormChange(key: string, value: string) {
-        let parameters = Utils.duplicate(this.parameters);
-        parameters.conditions[key] = value;
-        this.setStates({ parameters });
+        let rechargeParameters = Utils.duplicate(this.rechargeParameters);
+        rechargeParameters.conditions[key] = value;
+        this.setStates({ rechargeParameters });
     }
 
     // 处理日期change事件
     handleRangePickerChange(dates: Array<any>, dateStrings: Array<string>) {
-        let parameters = Utils.duplicate(this.parameters);
-        parameters.conditions.beginTime = dateStrings[0];
-        parameters.conditions.endTime = dateStrings[1];
-        this.setStates({ parameters });
+        let rechargeParameters = Utils.duplicate(this.rechargeParameters);
+        rechargeParameters.conditions.beginTime = dateStrings[0];
+        rechargeParameters.conditions.endTime = dateStrings[1];
+        this.setStates({ rechargeParameters });
     }
 
     // 搜索
     async search() {
         try {
-            let parameters = Utils.duplicate(this.parameters);
-            parameters.pageNum = 1;
-            this.setStates({ parameters });
+            let rechargeParameters = Utils.duplicate(this.rechargeParameters);
+            rechargeParameters.pageNum = 1;
+            this.setStates({ rechargeParameters });
             await this.fetchRecharges();
         } catch (error) {
             Prompt.error(error.message || error);
@@ -136,19 +122,19 @@ export default class RechargeOrder extends Vue {
 
     // 处理页码change事件
     handlePageNumChange(page: number, pageSize: number) {
-        let parameters = Utils.duplicate(this.parameters);
-        parameters.pageNum = page;
-        parameters.pageSize = pageSize;
-        this.setStates({ parameters });
+        let rechargeParameters = Utils.duplicate(this.rechargeParameters);
+        rechargeParameters.pageNum = page;
+        rechargeParameters.pageSize = pageSize;
+        this.setStates({ rechargeParameters });
         this.fetchRecharges();
     }
 
     // 处理页尺寸change事件
     handlePageSizeChange(current: number, pageSize: number) {
-        let parameters = Utils.duplicate(this.parameters);
-        parameters.pageNum = 1;
-        parameters.pageSize = pageSize;
-        this.setStates({ parameters });
+        let rechargeParameters = Utils.duplicate(this.rechargeParameters);
+        rechargeParameters.pageNum = 1;
+        rechargeParameters.pageSize = pageSize;
+        this.setStates({ rechargeParameters });
         this.fetchRecharges();
     }
 

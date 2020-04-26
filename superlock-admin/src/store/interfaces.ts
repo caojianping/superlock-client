@@ -1,5 +1,5 @@
 import { Commit } from 'vuex';
-import { FreeTrialType, CarrierFormType, OperationType } from '@/ts/config';
+import { FreeTrialType, CarrierFormType, OperationType, ReportType } from '@/ts/config';
 import {
     ISelectOption,
     IPageParameters,
@@ -19,7 +19,12 @@ import {
     ICarrierPageParameters,
     IRebateOrderPageParameters,
     IFlashOrderPageParameters,
-    IWithdrawOrderPageParameters
+    IWithdrawOrderPageParameters,
+    ILockReportPageParameters,
+    IExpendReportPageParameters,
+    IUserReportPageParameters,
+    IRechargeReportPageParameters,
+    IRechargeAddressPageParameters
 } from '@/ts/interfaces';
 import {
     TokenInfo,
@@ -63,7 +68,12 @@ import {
     CarrierModel,
     RebateOrderModel,
     FlashOrderModel,
-    WithdrawOrderModel
+    WithdrawOrderModel,
+    RechargeReportModel,
+    LockReportModel,
+    ExpendReportModel,
+    UserReportModel,
+    RechargeAddressModel
 } from '@/ts/models';
 
 export interface IActionContext<T> {
@@ -112,9 +122,10 @@ export interface IHomeState {
 }
 
 export interface IRechargeState {
-    parameters: IPageParameters<IRechargePageParameters>;
+    rechargeParameters: IPageParameters<IRechargePageParameters>;
+    addressParameters: IPageParameters<IRechargeAddressPageParameters>;
     totalCount: number;
-    list: Array<RechargeModel | RechargePoundageModel>;
+    list: Array<RechargeModel | RechargePoundageModel | RechargeAddressModel>;
 
     poundage: RechargePoundageModel;
 }
@@ -225,4 +236,14 @@ export interface ISystemState {
     userForm: UserFormModel;
     passwordForm: PasswordFormModel;
     googleForm: GoogleFormModel;
+}
+
+export interface IReportState {
+    reportType: ReportType;
+    rechargeParameters: IPageParameters<IRechargeReportPageParameters>;
+    lockParameters: IPageParameters<ILockReportPageParameters>;
+    expendParameters: IPageParameters<IExpendReportPageParameters>;
+    userParameters: IPageParameters<IUserReportPageParameters>;
+    totalCount: number;
+    list: Array<RechargeReportModel | LockReportModel | ExpendReportModel | UserReportModel>;
 }

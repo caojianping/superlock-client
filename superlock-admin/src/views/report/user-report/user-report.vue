@@ -3,32 +3,32 @@
         <ant-breadcrumb class="sl-breadcrumb">
             <ant-breadcrumb-item>数据报表</ant-breadcrumb-item>
             <ant-breadcrumb-item>
-                <router-link to="/report/recharge">充值报表</router-link>
+                <router-link to="/report/user">用户报表</router-link>
             </ant-breadcrumb-item>
         </ant-breadcrumb>
 
         <div class="sl-block">
             <header class="sl-block-header">
-                <h2 class="sl-block-title">充值报表</h2>
+                <h2 class="sl-block-title">用户报表</h2>
             </header>
             <div class="sl-block-body">
                 <ant-row :gutter="24">
                     <ant-col :span="7">
-                        <ant-form-item label="充值币种" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                        <ant-form-item label="用户类型" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-select
-                                :value="rechargeParameters.conditions.coinCode"
-                                :options="coinOptions"
+                                :value="userParameters.conditions.type"
+                                :options="typeOptions"
                                 allowClear
-                                placeholder="请选择充值币种"
-                                @change="handleFormChange('coinCode', $event)"
+                                placeholder="请选择用户类型"
+                                @change="handleFormChange('type', $event)"
                             ></ant-select>
                         </ant-form-item>
                     </ant-col>
 
                     <ant-col :span="10">
                         <ant-form-item label="选择时间" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-                            {{ ((beginTime = rechargeParameters.conditions.beginTime), void 0) }}
-                            {{ ((endTime = rechargeParameters.conditions.endTime), void 0) }}
+                            {{ ((beginTime = userParameters.conditions.beginTime), void 0) }}
+                            {{ ((endTime = userParameters.conditions.endTime), void 0) }}
                             <ant-range-picker
                                 :value="[beginTime ? moment(beginTime) : undefined, endTime ? moment(endTime) : undefined]"
                                 :showTime="{ format: 'HH:mm:ss', defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')] }"
@@ -49,15 +49,15 @@
 
         <ant-table
             :columns="columns"
-            :rowKey="record => `${record.date}_${record.coinCode}_${record.amount}_${record.gotCoin}_${record.gotAmount}`"
+            :rowKey="record => `${record.date}_${record.type}_${record.count}`"
             :dataSource="list"
             :pagination="false"
             :loading="isPageLoading"
         />
 
         <ant-pagination
-            :current="rechargeParameters.pageNum"
-            :pageSize="rechargeParameters.pageSize"
+            :current="userParameters.pageNum"
+            :pageSize="userParameters.pageSize"
             :total="totalCount"
             :pageSizeOptions="pageSizeOptions"
             :showTotal="total => `共有 ${total} 条记录`"
@@ -69,6 +69,6 @@
     </div>
 </template>
 
-<style src="./recharge-report.less" lang="less" scoped />
+<style src="./user-report.less" lang="less" scoped />
 
-<script src="./recharge-report.ts" />
+<script src="./user-report.ts" />

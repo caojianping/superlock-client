@@ -22,6 +22,14 @@ export interface IRechargePageParameters {
     endTime: string; // 结束时间
 }
 
+// 充值地址页面参数
+export interface IRechargeAddressPageParameters {
+    uid: string; // uid
+    coinCode: string; // 充值币种
+    address: string; // 充值地址
+    mobile: string; // 手机号
+}
+
 // 提现分页参数
 export interface IWithdrawPageParameters {
     uid: string; // uid
