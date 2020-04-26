@@ -146,3 +146,29 @@ export interface IWithdrawOrderPageParameters {
     endTime: string; // 结束时间
     carrierName: string; // 运营商名称
 }
+
+export interface IRechargeReportPageParameters {
+    coinCode: string; // 充值币种
+    beginTime: string; // 开始时间
+    endTime: string; // 结束时间
+}
+
+export interface ILockReportPageParameters {
+    length: string; // 锁仓期限值
+    unit: string; // 锁仓期限单位
+    beginTime: string; // 开始时间
+    endTime: string; // 结束时间
+}
+
+export interface IExpendReportPageParameters {
+    length: string; // 锁仓期限值
+    unit: string; // 锁仓期限单位
+    beginTime: string; // 开始时间
+    endTime: string; // 结束时间
+}
+
+export interface IUserReportPageParameters {
+    type: string; // 用户类型
+    beginTime: string; // 开始时间
+    endTime: string; // 结束时间
+}

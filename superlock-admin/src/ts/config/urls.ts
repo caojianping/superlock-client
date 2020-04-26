@@ -175,5 +175,23 @@ export const Urls = {
         },
         setPassword: `${baseUrl}/login/updatePwd`,
         setGoogle: ''
+    },
+    report: {
+        recharge: {
+            list: `${baseUrl}/report/recharge`,
+            export: `${baseUrl}/report/recharge/export`
+        },
+        lock: {
+            list: `${baseUrl}/report/lock`,
+            export: `${baseUrl}/report/lock/export`
+        },
+        expend: {
+            list: `${baseUrl}/report/expenditure`,
+            export: `${baseUrl}/report/expenditure/export`
+        },
+        user: {
+            list: `${baseUrl}/report/user`,
+            export: `${baseUrl}/report/user/export`
+        }
     }
 };
