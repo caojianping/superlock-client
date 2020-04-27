@@ -76,7 +76,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(dailySale, index) in awardForm.dailySalesDto" :key="index">
+                                    <tr v-for="(dailySale, index) in awardForm.dailySalesDto || []" :key="index">
                                         <td>
                                             <ant-input-number
                                                 :value="dailySale.sales"

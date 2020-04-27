@@ -38,7 +38,7 @@
                     </ant-col>
 
                     <ant-col :span="5">
-                        <ant-form-item label="充值地址" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                        <ant-form-item label="充值地址" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                             <ant-input
                                 type="text"
                                 :value="addressParameters.conditions.address"
@@ -50,7 +50,7 @@
                     </ant-col>
 
                     <ant-col :span="5">
-                        <ant-form-item label="选择币种" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                        <ant-form-item label="选择币种" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                             <ant-select
                                 :value="addressParameters.conditions.coinCode"
                                 :options="coinOptions"

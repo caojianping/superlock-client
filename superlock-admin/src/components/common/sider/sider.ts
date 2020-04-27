@@ -182,7 +182,7 @@ export default class Sider extends Vue {
             path = route.path;
         this.path = path;
         this.menus.forEach((menu: any, index: number) => {
-            if (menu.items && path.indexOf(menu.path) > -1) {
+            if (menu.items && path.indexOf(menu.path) === 0) {
                 menu.toggle = true;
                 self.$set(self.menus, index, menu);
             }

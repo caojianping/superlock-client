@@ -17,7 +17,7 @@
                         <ant-form-item label="用户类型" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-select
                                 :value="userParameters.conditions.type"
-                                :options="typeOptions"
+                                :options="userTypeOptions"
                                 allowClear
                                 placeholder="请选择用户类型"
                                 @change="handleFormChange('type', $event)"
@@ -31,8 +31,7 @@
                             {{ ((endTime = userParameters.conditions.endTime), void 0) }}
                             <ant-range-picker
                                 :value="[beginTime ? moment(beginTime) : undefined, endTime ? moment(endTime) : undefined]"
-                                :showTime="{ format: 'HH:mm:ss', defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')] }"
-                                format="YYYY-MM-DD HH:mm:ss"
+                                format="YYYY-MM-DD"
                                 @change="handleRangePickerChange"
                             ></ant-range-picker>
                         </ant-form-item>
@@ -48,6 +47,7 @@
         <ant-button class="sl-tool" type="primary" @click="exportReport">导出报表</ant-button>
 
         <ant-table
+            class="stats"
             :columns="columns"
             :rowKey="record => `${record.date}_${record.type}_${record.count}`"
             :dataSource="list"

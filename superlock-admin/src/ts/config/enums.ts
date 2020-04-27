@@ -61,3 +61,9 @@ export const enum ReportType {
     ExpendReport = 3,
     UserReport = 4
 }
+
+// 虚拟数据类型
+export const enum VirtualType {
+    LockVirtual = 1,
+    RegisterVirtual = 2
+}

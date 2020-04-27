@@ -5,7 +5,7 @@ import { Component } from 'vue-property-decorator';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { Prompt } from '@/ts/common';
-import { IPageParameters, ILockReportPageParameters } from '@/ts/interfaces';
+import { IPageParameters, ILockReportPageParameters, ISelectOption } from '@/ts/interfaces';
 import { LockReportModel } from '@/ts/models';
 
 const reportModule = namespace('report');
@@ -18,6 +18,7 @@ export default class LockReport extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
 
+    @reportModule.State('cycleOptions') cycleOptions!: Array<ISelectOption>;
     @reportModule.State('lockParameters') lockParameters!: IPageParameters<ILockReportPageParameters>;
     @reportModule.State('totalCount') totalCount!: number;
     @reportModule.State('list') list!: Array<LockReportModel>;
@@ -25,8 +26,11 @@ export default class LockReport extends Vue {
     @reportModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @reportModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
 
+    @reportModule.Action('fetchLockCycles') fetchLockCycles!: () => any;
     @reportModule.Action('fetchLockReports') fetchLockReports!: () => any;
     @reportModule.Action('exportLockReports') exportLockReports!: () => any;
+
+    lockUnits: Array<string> = ['天', '月', '年'];
 
     columns: Array<any> = [
         {
@@ -41,11 +45,15 @@ export default class LockReport extends Vue {
         },
         {
             title: '锁仓价值(DC)',
-            dataIndex: 'lockValue'
+            dataIndex: '',
+            key: 'lockValue',
+            scopedSlots: { customRender: 'lockValue' }
         },
         {
             title: '锁仓数量(BCB)',
-            dataIndex: 'lockAmount'
+            dataIndex: '',
+            key: 'lockAmount',
+            scopedSlots: { customRender: 'lockAmount' }
         }
     ];
 
@@ -54,6 +62,18 @@ export default class LockReport extends Vue {
         let lockParameters = Utils.duplicate(this.lockParameters);
         lockParameters.conditions[key] = value;
         this.setStates({ lockParameters });
+    }
+
+    // 处理锁仓期限change事件
+    handleCycleChange(value: string) {
+        let parts = (value || '').split('_'),
+            length = parts[0] || '',
+            unit = parts[1] || '',
+            lockParameters = Utils.duplicate(this.lockParameters);
+        lockParameters.conditions.length = length;
+        lockParameters.conditions.unit = unit;
+        this.setStates({ lockParameters });
+        console.log('123:', value, parts);
     }
 
     // 处理日期change事件
@@ -111,6 +131,7 @@ export default class LockReport extends Vue {
 
     mounted() {
         Utils.jumpTop();
+        this.fetchLockCycles();
         this.fetchLockReports();
     }
 }

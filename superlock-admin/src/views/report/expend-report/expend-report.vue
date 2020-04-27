@@ -14,8 +14,14 @@
             <div class="sl-block-body">
                 <ant-row :gutter="24">
                     <ant-col :span="7">
-                        <ant-form-item label="锁仓期限" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-                            <ant-select :options="[]" allowClear placeholder="请选择锁仓期限"></ant-select>
+                        <ant-form-item label="支出类型" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                            <ant-select
+                                :value="expendParameters.conditions.type"
+                                :options="expendTypeOptions"
+                                allowClear
+                                placeholder="请选择支出类型"
+                                @change="handleFormChange('type', $event)"
+                            ></ant-select>
                         </ant-form-item>
                     </ant-col>
 
@@ -25,8 +31,7 @@
                             {{ ((endTime = expendParameters.conditions.endTime), void 0) }}
                             <ant-range-picker
                                 :value="[beginTime ? moment(beginTime) : undefined, endTime ? moment(endTime) : undefined]"
-                                :showTime="{ format: 'HH:mm:ss', defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')] }"
-                                format="YYYY-MM-DD HH:mm:ss"
+                                format="YYYY-MM-DD"
                                 @change="handleRangePickerChange"
                             ></ant-range-picker>
                         </ant-form-item>
@@ -42,12 +47,20 @@
         <ant-button class="sl-tool" type="primary" @click="exportReport">导出报表</ant-button>
 
         <ant-table
+            class="stats"
             :columns="columns"
             :rowKey="record => `${record.date}_${record.type}_${record.dcAmount}_${record.bcbAmount}`"
             :dataSource="list"
             :pagination="false"
             :loading="isPageLoading"
-        />
+        >
+            <span slot="dcAmount" slot-scope="record">
+                {{ record.dcAmount | digitPrecision(6) }}
+            </span>
+            <span slot="bcbAmount" slot-scope="record">
+                {{ record.bcbAmount | digitPrecision(6) }}
+            </span>
+        </ant-table>
 
         <ant-pagination
             :current="expendParameters.pageNum"

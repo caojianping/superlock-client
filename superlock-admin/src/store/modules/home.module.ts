@@ -1,12 +1,16 @@
 import TYPES from '@/store/types';
 import { IActionContext, IHomeState } from '@/store/interfaces';
+import { VirtualType } from '@/ts/config';
 import { Prompt } from '@/ts/common';
-import { HomeModel, InitInfoFormModel } from '@/ts/models';
+import { HomeModel, InitModel, VirtualModel } from '@/ts/models';
 import { HomeService } from '@/ts/services';
 
 const homeState: IHomeState = {
-    homeData: new HomeModel(),
-    initInfoForm: new InitInfoFormModel()
+    home: new HomeModel(),
+    init: new InitModel(),
+
+    type: VirtualType.LockVirtual,
+    virtual: new VirtualModel()
 };
 
 const homeService = new HomeService();
@@ -22,8 +26,11 @@ export default {
             }
         },
         [TYPES.CLEAR_STATES](state: IHomeState) {
-            state.homeData = new HomeModel();
-            state.initInfoForm = new InitInfoFormModel();
+            state.home = new HomeModel();
+            state.init = new InitModel();
+
+            state.type = VirtualType.LockVirtual;
+            state.virtual = new VirtualModel();
         }
     },
     actions: {
@@ -31,29 +38,47 @@ export default {
         async fetchHomeData(context: IActionContext<IHomeState>): Promise<void> {
             const commit = context.commit;
             try {
-                let homeData = await homeService.fetchHomeData();
-                commit(TYPES.SET_STATES, { homeData: homeData });
+                let home = await homeService.fetchHomeData();
+                commit(TYPES.SET_STATES, { home });
             } catch (error) {
-                commit(TYPES.SET_STATES, { homeData: new HomeModel() });
+                commit(TYPES.SET_STATES, { home: new HomeModel() });
                 Prompt.error(error.message || error);
             }
         },
 
-        // 获取初始信息
-        async fetchInitInfo(context: IActionContext<IHomeState>): Promise<void> {
+        // 获取初始化数据
+        async fetchInitData(context: IActionContext<IHomeState>): Promise<void> {
             const commit = context.commit;
             try {
-                let initInfo = await homeService.fetchInitInfo();
-                commit(TYPES.SET_STATES, { initInfoForm: initInfo });
+                let init = await homeService.fetchInitData();
+                commit(TYPES.SET_STATES, { init });
             } catch (error) {
-                commit(TYPES.SET_STATES, { initInfoForm: new InitInfoFormModel() });
+                commit(TYPES.SET_STATES, { init: new InitModel() });
                 Prompt.error(error.message || error);
             }
         },
 
         // 设置初始信息
-        async setInitInfo(context: IActionContext<IHomeState>, isCode: boolean = false): Promise<boolean> {
-            return await homeService.setInitInfo(context.state.initInfoForm, isCode);
+        async setInitData(context: IActionContext<IHomeState>, isCode: boolean = false): Promise<boolean> {
+            return await homeService.setInitData(context.state.init, isCode);
+        },
+
+        // 获取模拟数据
+        async fetchVirtualData(context: IActionContext<IHomeState>): Promise<void> {
+            let { commit, state } = context;
+            try {
+                let virtual = await homeService.fetchVirtualData(state.type);
+                commit(TYPES.SET_STATES, { virtual });
+            } catch (error) {
+                commit(TYPES.SET_STATES, { virtual: new VirtualModel() });
+                Prompt.error(error.message || error);
+            }
+        },
+
+        // 设置模拟数据
+        async setVirtualData(context: IActionContext<IHomeState>, isCode: boolean = false): Promise<boolean> {
+            let state = context.state;
+            return await homeService.setVirtualData(state.type, state.virtual, isCode);
         }
     }
 };

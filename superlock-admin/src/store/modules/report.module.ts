@@ -2,10 +2,24 @@ import TYPES from '@/store/types';
 import { IActionContext, IReportState } from '@/store/interfaces';
 import { ReportType } from '@/ts/config';
 import { PageResult, RechargeReportModel, LockReportModel, ExpendReportModel, UserReportModel } from '@/ts/models';
-import { ReportService } from '@/ts/services';
+import { LockService, ReportService } from '@/ts/services';
 
 const reportState: IReportState = {
     reportType: ReportType.RechargeReport,
+    cycleOptions: [],
+    expendTypeOptions: [
+        { label: '全部', value: '' },
+        { label: '利息支出', value: '利息支出' },
+        { label: '直推奖励', value: '直推奖励' },
+        { label: '推广奖励', value: '推广奖励' },
+        { label: '日销奖励', value: '日销奖励' }
+    ],
+    userTypeOptions: [
+        { label: '全部', value: '' },
+        { label: '券商', value: '券商' },
+        { label: '代理', value: '代理' }
+    ],
+
     rechargeParameters: {
         conditions: {
             coinCode: '',
@@ -27,8 +41,7 @@ const reportState: IReportState = {
     },
     expendParameters: {
         conditions: {
-            length: '',
-            unit: '',
+            type: '',
             beginTime: '',
             endTime: ''
         },
@@ -48,6 +61,7 @@ const reportState: IReportState = {
     list: []
 };
 
+const lockService = new LockService();
 const reportService = new ReportService();
 
 export default {
@@ -61,6 +75,9 @@ export default {
             }
         },
         [TYPES.CLEAR_STATES](state: IReportState) {
+            state.reportType = ReportType.RechargeReport;
+            state.cycleOptions = [];
+
             state.rechargeParameters = {
                 conditions: {
                     coinCode: '',
@@ -82,8 +99,7 @@ export default {
             };
             state.expendParameters = {
                 conditions: {
-                    length: '',
-                    unit: '',
+                    type: '',
                     beginTime: '',
                     endTime: ''
                 },
@@ -104,6 +120,18 @@ export default {
         }
     },
     actions: {
+        // 获取锁仓期限列表
+        async fetchLockCycles(context: IActionContext<IReportState>): Promise<void> {
+            let commit = context.commit;
+            try {
+                let lockCycles = await lockService.fetchLockCycles();
+                commit(TYPES.SET_STATES, { cycleOptions: lockCycles });
+            } catch (error) {
+                commit(TYPES.SET_STATES, { cycleOptions: [] });
+                return Promise.reject(error);
+            }
+        },
+
         // 获取充值报表列表
         async fetchRechargeReports(context: IActionContext<IReportState>): Promise<void> {
             let { commit, state } = context;

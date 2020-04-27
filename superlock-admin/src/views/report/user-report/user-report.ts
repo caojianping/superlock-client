@@ -18,6 +18,7 @@ export default class UserReport extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
 
+    @reportModule.State('userTypeOptions') userTypeOptions!: Array<ISelectOption>;
     @reportModule.State('userParameters') userParameters!: IPageParameters<IUserReportPageParameters>;
     @reportModule.State('totalCount') totalCount!: number;
     @reportModule.State('list') list!: Array<UserReportModel>;
@@ -27,12 +28,6 @@ export default class UserReport extends Vue {
 
     @reportModule.Action('fetchUserReports') fetchUserReports!: () => any;
     @reportModule.Action('exportUserReports') exportUserReports!: () => any;
-
-    typeOptions: Array<ISelectOption> = [
-        { label: '全部', value: '' },
-        { label: '券商', value: '券商' },
-        { label: '代理', value: '代理' }
-    ];
 
     columns: Array<any> = [
         {

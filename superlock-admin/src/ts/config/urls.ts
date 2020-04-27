@@ -18,6 +18,10 @@ export const Urls = {
         init: {
             info: `${baseUrl}/mainData/initialData`,
             set: `${baseUrl}/mainData/initialDataSet`
+        },
+        virtual: {
+            info: `${baseUrl}/mainData/virtual`,
+            set: `${baseUrl}/mainData/setVirtual`
         }
     },
     // 充值模块 ok
@@ -32,7 +36,7 @@ export const Urls = {
             update: `${baseUrl}/recharge/updateFee`
         },
         address: {
-            list: `${baseUrl}/recharge/address/list`,
+            list: `${baseUrl}/recharge/address`,
             export: `${baseUrl}/recharge/address/export`
         }
     },
@@ -61,7 +65,8 @@ export const Urls = {
             list: `${baseUrl}/lockPosition/projects`,
             create: `${baseUrl}/lockPosition/createProject`,
             update: `${baseUrl}/lockPosition/updateProject`
-        }
+        },
+        cycles: `${baseUrl}/lockPosition/cycle`
     },
     // 财务模块 ok
     finance: {

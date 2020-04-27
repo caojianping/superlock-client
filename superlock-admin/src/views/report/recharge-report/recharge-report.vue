@@ -31,8 +31,7 @@
                             {{ ((endTime = rechargeParameters.conditions.endTime), void 0) }}
                             <ant-range-picker
                                 :value="[beginTime ? moment(beginTime) : undefined, endTime ? moment(endTime) : undefined]"
-                                :showTime="{ format: 'HH:mm:ss', defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('23:59:59', 'HH:mm:ss')] }"
-                                format="YYYY-MM-DD HH:mm:ss"
+                                format="YYYY-MM-DD"
                                 @change="handleRangePickerChange"
                             ></ant-range-picker>
                         </ant-form-item>
@@ -48,12 +47,20 @@
         <ant-button class="sl-tool" type="primary" @click="exportReport">导出报表</ant-button>
 
         <ant-table
+            class="stats"
             :columns="columns"
             :rowKey="record => `${record.date}_${record.coinCode}_${record.amount}_${record.gotCoin}_${record.gotAmount}`"
             :dataSource="list"
             :pagination="false"
             :loading="isPageLoading"
-        />
+        >
+            <span slot="amount" slot-scope="record">
+                {{ record.amount | digitPrecision(6) }}
+            </span>
+            <span slot="gotAmount" slot-scope="record">
+                {{ record.gotAmount | digitPrecision(6) }}
+            </span>
+        </ant-table>
 
         <ant-pagination
             :current="rechargeParameters.pageNum"

@@ -11,6 +11,7 @@ import {
     InputNumber,
     Select,
     DatePicker,
+    TimePicker,
     Radio,
     Switch,
     Button,
@@ -36,6 +37,7 @@ export default function antd() {
     Vue.component('ant-select', Select);
     Vue.component('ant-select-option', Select.Option);
     Vue.component('ant-date-picker', DatePicker);
+    Vue.component('ant-time-picker', TimePicker);
     Vue.component('ant-range-picker', DatePicker.RangePicker);
     Vue.component('ant-radio-group', Radio.Group);
     Vue.component('ant-radio', Radio);

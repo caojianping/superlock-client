@@ -34,7 +34,7 @@ export default class LockAward extends Vue {
     // 处理日销表单change事件
     handleDailySaleChange(cindex: number, key: string, value: number) {
         let awardForm = Utils.duplicate(this.awardForm),
-            dailySales: Array<AwardDailySaleModel> = awardForm.dailySalesDto;
+            dailySales: Array<AwardDailySaleModel> = awardForm.dailySalesDto || [];
         dailySales.forEach((dailySale: AwardDailySaleModel, index: number) => {
             if (cindex === index) {
                 dailySale[key] = value;
@@ -46,6 +46,9 @@ export default class LockAward extends Vue {
     // 添加日销信息
     addDailySale() {
         let awardForm = Utils.duplicate(this.awardForm);
+        if (!Array.isArray(awardForm.dailySalesDto)) {
+            awardForm.dailySalesDto = [];
+        }
         awardForm.dailySalesDto.push(new AwardDailySaleModel());
         this.setStates({ awardForm });
     }
@@ -53,6 +56,9 @@ export default class LockAward extends Vue {
     // 删除日销信息
     removeDailySale(cindex: number) {
         let awardForm = Utils.duplicate(this.awardForm);
+        if (!Array.isArray(awardForm.dailySalesDto)) {
+            awardForm.dailySalesDto = [];
+        }
         awardForm.dailySalesDto.splice(cindex, 1);
         this.setStates({ awardForm });
     }

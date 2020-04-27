@@ -169,8 +169,7 @@ export interface ILockReportPageParameters {
 }
 
 export interface IExpendReportPageParameters {
-    length: string; // 锁仓期限值
-    unit: string; // 锁仓期限单位
+    type: string; // 支出类型
     beginTime: string; // 开始时间
     endTime: string; // 结束时间
 }

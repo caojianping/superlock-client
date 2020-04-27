@@ -16,7 +16,7 @@ export class LockReportModel {
 
 export class ExpendReportModel {
     public date!: string; // 日期
-    public type!: number; // 支出类型
+    public type!: string; // 支出类型
     public dcAmount!: string; // 支出价值(DC)
     public bcbAmount!: string; // 支出数量(BCB)
 }
@@ -24,5 +24,5 @@ export class ExpendReportModel {
 export class UserReportModel {
     public date!: string; // 日期
     public type!: string; // 用户类型
-    public count!: number; // 新增人数
+    public count!: string; // 新增人数
 }

@@ -40,7 +40,9 @@ export default class RechargeReport extends Vue {
         },
         {
             title: '充值数量',
-            dataIndex: 'amount'
+            dataIndex: '',
+            key: 'amount',
+            scopedSlots: { customRender: 'amount' }
         },
         {
             title: '入账币种',
@@ -48,7 +50,9 @@ export default class RechargeReport extends Vue {
         },
         {
             title: '入账数量',
-            dataIndex: 'gotAmount'
+            dataIndex: '',
+            key: 'gotAmount',
+            scopedSlots: { customRender: 'gotAmount' }
         }
     ];
 

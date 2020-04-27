@@ -5,7 +5,7 @@ import { Component } from 'vue-property-decorator';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { Prompt } from '@/ts/common';
-import { IPageParameters, IExpendReportPageParameters } from '@/ts/interfaces';
+import { IPageParameters, IExpendReportPageParameters, ISelectOption } from '@/ts/interfaces';
 import { ExpendReportModel } from '@/ts/models';
 
 const reportModule = namespace('report');
@@ -18,6 +18,7 @@ export default class ExpendReport extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
 
+    @reportModule.State('expendTypeOptions') expendTypeOptions!: Array<ISelectOption>;
     @reportModule.State('expendParameters') expendParameters!: IPageParameters<IExpendReportPageParameters>;
     @reportModule.State('totalCount') totalCount!: number;
     @reportModule.State('list') list!: Array<ExpendReportModel>;
@@ -39,11 +40,15 @@ export default class ExpendReport extends Vue {
         },
         {
             title: '支出价值(DC)',
-            dataIndex: 'dcAmount'
+            dataIndex: '',
+            key: 'dcAmount',
+            scopedSlots: { customRender: 'dcAmount' }
         },
         {
             title: '支出数量(BCB)',
-            dataIndex: 'bcbAmount'
+            dataIndex: '',
+            key: 'bcbAmount',
+            scopedSlots: { customRender: 'bcbAmount' }
         }
     ];
 
