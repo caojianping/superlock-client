@@ -231,24 +231,25 @@ export class LockService {
         // );
         validator.addRule(key, { name: 'saleCount', value: saleCount }, { min: 1 }, { min: '日销奖励条目不可以小于等于0' });
         dailySalesDto.forEach((dailySale: AwardDailySaleModel, index: number) => {
-            const { sales, rate } = dailySale;
+            let { sales, rate } = dailySale,
+                cindex = index + 1;
             validator.addRule(
                 key,
-                { name: 'sales', value: sales },
+                { name: 'sales' + cindex, value: sales },
                 { required: true, min: 0 },
                 {
-                    required: `第${index + 1}条日销奖励的达标日销数量不可以为空`,
-                    min: `第${index + 1}条日销奖励的达标日销数量不可以小于0`
+                    required: `第${cindex}条日销奖励的达标日销数量不可以为空`,
+                    min: `第${cindex}条日销奖励的达标日销数量不可以小于0`
                 }
             );
             validator.addRule(
                 key,
-                { name: 'rate', value: rate },
+                { name: 'rate' + cindex, value: rate },
                 { required: true, min: 0, max: 100 },
                 {
-                    required: `第${index + 1}条日销奖励的达标返奖利率不可以为空`,
-                    min: `第${index + 1}条日销奖励的达标返奖利率不可以小于0`,
-                    max: `第${index + 1}条日销奖励的达标返奖利率不可以大于100`
+                    required: `第${cindex}条日销奖励的达标返奖利率不可以为空`,
+                    min: `第${cindex}条日销奖励的达标返奖利率不可以小于0`,
+                    max: `第${cindex}条日销奖励的达标返奖利率不可以大于100`
                 }
             );
         });

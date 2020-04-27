@@ -36,7 +36,6 @@ export default class VirtualModal extends Vue {
 
     // 处理表单change事件
     handleFormChange(key: string, value: any) {
-        console.log(key, typeof value, value);
         let virtual = Utils.duplicate(this.virtual);
         virtual[key] = value;
         this.setStates({ virtual });

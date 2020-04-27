@@ -37,7 +37,6 @@ export class HomeService {
     public static validateVirtual(type: VirtualType, virtual: VirtualModel): ValidationResult {
         if (!virtual) return { status: false, data: { initInfoForm: '参数不可以为空' } };
 
-        console.log('virtual:', virtual);
         let msg = ['锁仓', '注册'][type - 1],
             initMsg = ['初始锁仓总额', '初始注册用户'][type - 1],
             key = 'virtual',
@@ -63,11 +62,12 @@ export class HomeService {
         );
         virtualDtos.forEach((section: VirtualSectionModel, index: number) => {
             let { startTime, endTime, interval, minValue, maxValue } = section,
-                text = `第${index + 1}条${msg}时间段的`;
-            validator.addRule(key, { name: 'startTime', value: startTime }, { required: true }, { required: `${text}开始时间不可以为空` });
+                cindex = index + 1,
+                text = `第${cindex}条${msg}时间段的`;
+            validator.addRule(key, { name: 'startTime' + cindex, value: startTime }, { required: true }, { required: `${text}开始时间不可以为空` });
             validator.addRule(
                 key,
-                { name: 'endTime', value: endTime },
+                { name: 'endTime' + cindex, value: endTime },
                 { required: true, minExclude: startTime },
                 {
                     required: `${text}结束时间不可以为空`,
@@ -76,7 +76,7 @@ export class HomeService {
             );
             validator.addRule(
                 key,
-                { name: 'interval', value: interval },
+                { name: 'interval' + cindex, value: interval },
                 { required: true, minExclude: 0 },
                 {
                     required: `${text}时间间隔不可以为空`,
@@ -85,7 +85,7 @@ export class HomeService {
             );
             validator.addRule(
                 key,
-                { name: 'minValue', value: minValue },
+                { name: 'minValue' + cindex, value: minValue },
                 { required: true, min: 0 },
                 {
                     required: `${text}最小值不可以为空`,
@@ -94,7 +94,7 @@ export class HomeService {
             );
             validator.addRule(
                 key,
-                { name: 'maxValue', value: maxValue },
+                { name: 'maxValue' + cindex, value: maxValue },
                 { required: true, minExclude: minValue },
                 {
                     required: `${text}最大值不可以为空`,

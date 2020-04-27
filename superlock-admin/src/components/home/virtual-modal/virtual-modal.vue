@@ -37,6 +37,7 @@
                                     <ant-time-picker
                                         :value="startTime ? moment(startTime, 'HH:mm') : undefined"
                                         format="HH:mm"
+                                        :defaultValue="moment('00:00', 'HH:mm')"
                                         placeholder="开始时间"
                                         @change="(time, timeStr) => handleSectionChange(index, 'startTime', timeStr)"
                                     />
@@ -44,6 +45,7 @@
                                     <ant-time-picker
                                         :value="endTime ? moment(endTime, 'HH:mm') : undefined"
                                         format="HH:mm"
+                                        :defaultValue="moment('00:00', 'HH:mm')"
                                         placeholder="结束时间"
                                         @change="(time, timeStr) => handleSectionChange(index, 'endTime', timeStr)"
                                     />
