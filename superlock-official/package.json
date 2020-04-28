@@ -64,5 +64,10 @@
         "maintained node versions",
         "not dead"
     ],
-    "license": "MIT"
+    "license": "MIT",
+    "prettier": {
+        "printWidth": 150,
+        "tabWidth": 4,
+        "singleQuote": true
+    }
 }

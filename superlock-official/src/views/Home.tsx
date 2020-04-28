@@ -1,4 +1,6 @@
 import React from 'react';
+import androidImg from '../assets/images/android.png';
+import iosImg from '../assets/images/ios.png';
 import androidDownloadImg from '../assets/images/android-download.png';
 import iosDownloadImg from '../assets/images/ios-download.png';
 import bannerImg from '../assets/images/banner.png';
@@ -7,6 +9,12 @@ import intro02Img from '../assets/images/intro02.png';
 import intro03Img from '../assets/images/intro03.png';
 import intro04Img from '../assets/images/intro04.png';
 import intro05Img from '../assets/images/intro05.png';
+import coin01Img from '../assets/images/coin01.png';
+import coin02Img from '../assets/images/coin02.png';
+import coin03Img from '../assets/images/coin03.png';
+import coin04Img from '../assets/images/coin04.png';
+import coin05Img from '../assets/images/coin05.png';
+import coin06Img from '../assets/images/coin06.png';
 import logoImg from '../assets/images/logo.png';
 import logoMobileImg from '../assets/images/logo-mobile.png';
 
@@ -26,8 +34,8 @@ class Home extends React.Component<Home.Props, Home.State> {
     constructor(props) {
         super(props);
         this.state = {
-            title01: '锁仓宝',
-            title02: '锁仓理财首选产品',
+            title01: 'BCB矿场',
+            title02: '锁仓挖矿，理财首选',
             intros: [
                 { name: '高利率，高收益', img: intro01Img },
                 { name: '多种不同理财周期可供选择', img: intro02Img },
@@ -48,23 +56,15 @@ class Home extends React.Component<Home.Props, Home.State> {
                 <div className="container">
                     <div className="header clearfix">
                         <div className="header-content">
-                            <img
-                                className="logo"
-                                src={logoMobileImg}
-                                alt="锁仓宝"
-                            />
+                            <img className="logo" src={logoMobileImg} alt="锁仓宝" />
 
                             <h1 className="title01">{title01}</h1>
                             <h2 className="title02">{title02}</h2>
 
                             <ul className="downloads clearfix">
                                 <li className="download-item">
-                                    <a
-                                        className="download-btn"
-                                        href="https://app.scvip.vip/app/android/WealthShop.apk"
-                                        target="_blank"
-                                    >
-                                        <i></i>
+                                    <a className="download-btn" href="https://app.scvip.vip/app/android/WealthShop.apk" target="_blank">
+                                        <img src={androidImg} alt="" />
                                         <span>安卓下载</span>
                                     </a>
                                     <div className="download-modal">
@@ -77,7 +77,7 @@ class Home extends React.Component<Home.Props, Home.State> {
                                         href="itms-services://?action=download-manifest&url=https://app.scvip.vip/app/ios/manifest.plist"
                                         target="_blank"
                                     >
-                                        <i></i>
+                                        <img src={iosImg} alt="" />
                                         <span>IOS下载</span>
                                     </a>
                                     <div className="download-modal">
@@ -86,11 +86,7 @@ class Home extends React.Component<Home.Props, Home.State> {
                                 </li>
                             </ul>
                         </div>
-                        <img
-                            className="header-banner"
-                            src={bannerImg}
-                            alt="锁仓宝"
-                        />
+                        <img className="header-banner" src={bannerImg} alt="锁仓宝" />
                     </div>
 
                     <ul className="intros clearfix">
@@ -105,17 +101,15 @@ class Home extends React.Component<Home.Props, Home.State> {
 
                 <div className="footer">
                     <img className="logo" src={logoImg} alt="锁仓宝" />
-                    <p className="copyright">
-                        版权所有@2020WealthShop PTE LTD.版权所有
-                    </p>
+                    <p className="copyright">版权所有@2020WealthShop PTE LTD.版权所有</p>
                     <p className="coins">
                         币种支持：
-                        <i></i>
-                        <i></i>
-                        <i></i>
-                        <i></i>
-                        <i></i>
-                        <i></i>
+                        <img src={coin01Img} alt="" />
+                        <img src={coin02Img} alt="" />
+                        <img src={coin03Img} alt="" />
+                        <img src={coin04Img} alt="" />
+                        <img src={coin05Img} alt="" />
+                        <img src={coin06Img} alt="" />
                     </p>
                 </div>
             </div>

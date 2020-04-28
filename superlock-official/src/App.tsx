@@ -17,7 +17,7 @@ class App extends React.Component<App.Props, App.State> {
     constructor(props: App.Props, context?: any) {
         super(props, context);
         this.state = {
-            title: ''
+            title: '',
         };
     }
 
