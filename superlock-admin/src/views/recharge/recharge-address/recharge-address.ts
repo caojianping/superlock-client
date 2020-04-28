@@ -27,6 +27,14 @@ export default class RechargeAddress extends Vue {
     @rechargeModule.Action('fetchRechargeAddresses') fetchRechargeAddresses!: () => any;
     @rechargeModule.Action('exportRechargeAddresses') exportRechargeAddresses!: () => any;
 
+    // 链选项
+    chainOptions: Array<ISelectOption> = [
+        { label: '全部', value: '' },
+        { label: 'BCB', value: 'BCB' },
+        { label: 'BTC', value: 'BTC' },
+        { label: 'ETH', value: 'ETH' }
+    ];
+
     columns: Array<any> = [
         {
             title: 'UID',

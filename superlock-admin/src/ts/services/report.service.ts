@@ -21,20 +21,21 @@ export class ReportService {
             );
         if (!result) return new PageResult<RechargeReportModel>(0, []);
         else {
-            let list = result.list;
+            let coinCode = parameters.conditions.coinCode,
+                list = result.list;
             if (list && list.length > 0) {
                 let totalAmount = 0,
                     totalGotAmount = 0;
                 list.forEach((item: any) => {
                     let amount = isNaN(Number(item.amount)) ? 0 : Number(item.amount),
                         gotAmount = isNaN(Number(item.gotAmount)) ? 0 : Number(item.gotAmount);
-                    totalAmount = Calculator.add(totalAmount, amount, 6);
+                    coinCode && (totalAmount = Calculator.add(totalAmount, amount, 6));
                     totalGotAmount = Calculator.add(totalGotAmount, gotAmount, 6);
                 });
 
                 let rechargeReport = new RechargeReportModel();
                 rechargeReport.date = '合计';
-                rechargeReport.amount = totalAmount.toString();
+                coinCode && (rechargeReport.amount = totalAmount.toString());
                 rechargeReport.gotAmount = totalGotAmount.toString();
                 list.push(rechargeReport);
             }
@@ -160,7 +161,7 @@ export class ReportService {
 
     // 导出用户报表
     public async exportUserReports(parameters: IPageParameters<IUserReportPageParameters>): Promise<string> {
-        let url = Urls.report.user.list,
+        let url = Urls.report.user.export,
             result = await Caxios.get<string | null>(
                 { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'], ['type'], 'yyyyMMdd')}` },
                 CaxiosType.FullLoadingToken

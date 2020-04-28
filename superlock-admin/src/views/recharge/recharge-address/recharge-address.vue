@@ -53,11 +53,11 @@
                         <ant-form-item label="选择币种" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                             <ant-select
                                 :value="addressParameters.conditions.coinCode"
-                                :options="coinOptions"
+                                :options="chainOptions"
                                 allowClear
                                 placeholder="请选择币种"
                                 @change="handleFormChange('coinCode', $event)"
-                            ></ant-select>
+                            />
                         </ant-form-item>
                     </ant-col>
 
