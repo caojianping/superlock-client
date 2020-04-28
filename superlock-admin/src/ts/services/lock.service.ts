@@ -210,16 +210,16 @@ export class LockService {
                 max: '推广解锁利率不可以大于100'
             }
         );
-        validator.addRule(
-            key,
-            { name: 'pushStraightRate', value: pushStraightRate },
-            { required: true, min: 0, max: 100 },
-            {
-                required: '直推利率不可以为空',
-                min: '直推利率不可以小于0',
-                max: '直推利率不可以大于100'
-            }
-        );
+        // validator.addRule(
+        //     key,
+        //     { name: 'pushStraightRate', value: pushStraightRate },
+        //     { required: true, min: 0, max: 100 },
+        //     {
+        //         required: '直推利率不可以为空',
+        //         min: '直推利率不可以小于0',
+        //         max: '直推利率不可以大于100'
+        //     }
+        // );
         // validator.addRule(
         //     key,
         //     { name: 'lockAmount', value: lockAmount },
