@@ -56,7 +56,7 @@
                                         :min="0"
                                         :precision="2"
                                         placeholder="时间间隔"
-                                        @change="handleSectionChange(index, 'rate', $event)"
+                                        @change="handleSectionChange(index, 'interval', $event)"
                                         @keyup.enter="submit(false)"
                                     />
                                     <span>分钟</span>
