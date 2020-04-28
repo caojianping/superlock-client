@@ -6,8 +6,8 @@
         </div>
 
         <header>
-            <img src="../../../assets/images/logo/logo-lg.png" alt="锁仓宝" />
-            <h1>欢迎登录锁仓宝</h1>
+            <img src="../../../assets/images/logo/logo-lg.png" alt="BCB矿场" />
+            <h1>欢迎登录BCB矿场</h1>
         </header>
 
         <UserForm @change="handleUserFormChange">
