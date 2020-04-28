@@ -64,7 +64,7 @@ export class LockService {
             );
             validator.addRule(
                 key,
-                { name: 'rate', value: rate },
+                { name: 'pushRate', value: pushRate },
                 { required: true, min: 0, max: 100 },
                 {
                     required: '直推奖励利率不可以为空',
@@ -95,7 +95,7 @@ export class LockService {
             );
             validator.addRule(
                 key,
-                { name: 'rate', value: rate },
+                { name: 'pushRate', value: pushRate },
                 { required: true, min: 0, max: 100 },
                 {
                     required: '直推奖励利率不可以为空',
