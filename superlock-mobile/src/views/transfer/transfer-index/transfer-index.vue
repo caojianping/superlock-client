@@ -43,7 +43,7 @@
                 <li>
                     <Button class="effect-shadow" type="primary" block round @click="submit">确定转账</Button>
                     <p class="text-orange">
-                        转账功能只支持锁仓宝用户之间的BCB资产互转。
+                        转账功能只支持BCB矿场用户之间的BCB资产互转。
                     </p>
                     <p class="text-orange">请正确填写收款人UID，以免资金错转</p>
                 </li>

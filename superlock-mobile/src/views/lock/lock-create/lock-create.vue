@@ -6,7 +6,7 @@
             {{ ((lockProjectObj = lockProject || {}), void 0) }}
             <ul>
                 <li>
-                    <h1>锁仓宝-{{ lockProjectObj.length + unitTypes[lockProjectObj.unit - 1] }}</h1>
+                    <h1>BCB矿场-{{ lockProjectObj.length + unitTypes[lockProjectObj.unit - 1] }}</h1>
                 </li>
                 <li>
                     <h2>可用余额</h2>
