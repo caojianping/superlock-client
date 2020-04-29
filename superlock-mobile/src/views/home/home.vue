@@ -35,7 +35,7 @@
                     }}
                     <li :class="['project-item', `bg${project.unit}`]" v-for="(project, index) in userLockProjectList" :key="index">
                         <h2 class="project-title scb-border">
-                            <span>{{ `BCB锁仓 - ${project.length}${unitTypes[project.unit - 1]}` }}</span>
+                            <span>{{ `BCB矿场 - ${project.length}${unitTypes[project.unit - 1]}` }}</span>
                             <i :class="['icon', `icon-${['new', 'new', 'hot'][project.unit - 1]}`]" />
                         </h2>
                         <div class="project-body flex">
