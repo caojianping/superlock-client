@@ -35,7 +35,7 @@ class Home extends React.Component<Home.Props, Home.State> {
         super(props);
         this.state = {
             title01: 'BCB矿场',
-            title02: '锁仓挖矿，理财首选',
+            title02: '锁仓<span>挖矿</span>，<span>理财</span>首选',
             intros: [
                 { name: '高利率，高收益', img: intro01Img },
                 { name: '多种不同理财周期可供选择', img: intro02Img },
@@ -56,10 +56,10 @@ class Home extends React.Component<Home.Props, Home.State> {
                 <div className="container">
                     <div className="header clearfix">
                         <div className="header-content">
-                            <img className="logo" src={logoMobileImg} alt="锁仓宝" />
+                            <img className="logo" src={logoMobileImg} alt="BCB矿场" />
 
                             <h1 className="title01">{title01}</h1>
-                            <h2 className="title02">{title02}</h2>
+                            <h2 className="title02" dangerouslySetInnerHTML={{ __html: title02 }} />
 
                             <ul className="downloads clearfix">
                                 <li className="download-item">
@@ -86,7 +86,7 @@ class Home extends React.Component<Home.Props, Home.State> {
                                 </li>
                             </ul>
                         </div>
-                        <img className="header-banner" src={bannerImg} alt="锁仓宝" />
+                        <img className="header-banner" src={bannerImg} alt="BCB矿场" />
                     </div>
 
                     <ul className="intros clearfix">
@@ -100,7 +100,7 @@ class Home extends React.Component<Home.Props, Home.State> {
                 </div>
 
                 <div className="footer">
-                    <img className="logo" src={logoImg} alt="锁仓宝" />
+                    <img className="logo" src={logoImg} alt="BCB矿场" />
                     <p className="copyright">版权所有@2020WealthShop PTE LTD.版权所有</p>
                     <p className="coins">
                         币种支持：

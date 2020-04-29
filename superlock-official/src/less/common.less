@@ -48,11 +48,19 @@
 
             .title01,
             .title02 {
-                .font-styles(50px, bold, 1.4, white, left);
+                .font-styles(56px, bold, 1.5, white, left);
             }
 
             .title01 {
-                padding-top: 140px;
+                padding-top: 220px;
+            }
+
+            .title02 {
+                font-size: 42px;
+
+                span {
+                    color: rgb(210, 255, 0);
+                }
             }
 
             .downloads {
@@ -67,6 +75,7 @@
                         display: block;
                         width: 189px;
                         height: 69px;
+                        text-align: center;
                         background-color: white;
                         .box-shadow(0 4px 21px 0 rgba(10, 44, 109, 0.35));
                         border-radius: 10px;
@@ -78,33 +87,20 @@
                             vertical-align: middle;
                         }
 
-                        // i {
-                        //     margin: 9.5px 8px 9.5px 16px;
-                        //     width: 50px;
-                        //     height: 50px;
-                        //     background-position: center center;
-                        //     background-repeat: no-repeat;
-                        //     background-size: 100% 100%;
-                        // }
-
                         img {
-                            margin: 9.5px 8px 9.5px 16px;
-                            width: 50px;
-                            height: 50px;
+                            margin-right: 12px;
+                            width: 25px;
+                            height: 25px;
                         }
 
                         span {
-                            .font-styles(24px, bold, 69px, #68ca8a, center);
+                            .font-styles(20px, bold, 69px, #07a63d, center);
                         }
                     }
 
-                    // &:first-child > .download-btn > i {
-                    //     background-image: url('../assets/images/android.png');
-                    // }
-
-                    // &:last-child > .download-btn > i {
-                    //     background-image: url('../assets/images/ios.png');
-                    // }
+                    &:last-child > .download-btn > img {
+                        margin-top: -3px;
+                    }
 
                     .download-modal {
                         position: absolute;
@@ -146,14 +142,14 @@
 
         .header-banner {
             float: right;
-            margin-top: 70px;
-            width: 477px;
-            height: 674px;
+            margin-top: 60px;
+            width: 658px;
+            height: 748px;
         }
     }
 
     .intros {
-        margin-top: 80px;
+        margin-top: 125px;
         padding-bottom: 48px;
 
         li {
@@ -199,41 +195,6 @@
             margin: 14px 0;
             .font-styles(14px, normal, 1.5, @font-gray, center);
 
-            // i {
-            //     display: inline-block;
-            //     margin: 0 6px;
-            //     width: 26px;
-            //     height: 26px;
-            //     vertical-align: middle;
-            //     background-position: center center;
-            //     background-repeat: no-repeat;
-            //     background-size: 100% 100%;
-
-            //     &:first-child {
-            //         background-image: url('../assets/images/coin01.png');
-            //     }
-
-            //     &:nth-child(2) {
-            //         background-image: url('../assets/images/coin02.png');
-            //     }
-
-            //     &:nth-child(3) {
-            //         background-image: url('../assets/images/coin03.png');
-            //     }
-
-            //     &:nth-child(4) {
-            //         background-image: url('../assets/images/coin04.png');
-            //     }
-
-            //     &:nth-child(5) {
-            //         background-image: url('../assets/images/coin05.png');
-            //     }
-
-            //     &:last-child {
-            //         background-image: url('../assets/images/coin06.png');
-            //     }
-            // }
-
             img {
                 display: inline-block;
                 margin: 0 6px;
@@ -252,12 +213,21 @@
                     .title02 {
                         font-size: 46px;
                     }
+
+                    .title02 {
+                        font-size: 36px;
+                    }
                 }
 
                 .header-banner {
-                    width: 380px;
-                    height: 537px;
+                    margin-top: 150px;
+                    width: 408px;
+                    height: 465px;
                 }
+            }
+
+            .intros {
+                margin-top: 250px;
             }
         }
 
@@ -282,6 +252,14 @@
                         padding-top: 0;
                     }
 
+                    .title02 {
+                        font-size: 21px;
+
+                        span {
+                            color: white;
+                        }
+                    }
+
                     .downloads {
                         margin: 24px 0;
 
@@ -296,29 +274,14 @@
                                 height: 35px;
                                 border-radius: 5px;
 
-                                // i {
-                                //     margin: 5px 3px 5px 8px;
-                                //     width: 25px;
-                                //     height: 25px;
-                                //     background-position: center center;
-                                //     background-repeat: no-repeat;
-                                //     background-size: 100% 100%;
-                                // }
-
                                 img {
-                                    margin: 5px 3px 5px 8px;
-                                    width: 25px;
-                                    height: 25px;
+                                    margin-right: 6px;
+                                    width: 20px;
+                                    height: 20px;
                                 }
 
                                 span {
-                                    .font-styles(
-                                        16px,
-                                        bold,
-                                        35px,
-                                        #68ca8a,
-                                        center
-                                    );
+                                    .font-styles(14px, bold, 35px,#07a63d, center);
                                 }
                             }
 
@@ -328,6 +291,10 @@
 
                             &:last-child .download-btn {
                                 margin-left: 12px;
+
+                                img {
+                                    margin-top: -2px;
+                                }
                             }
 
                             .download-modal {
