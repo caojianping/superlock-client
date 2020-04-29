@@ -93,19 +93,6 @@
             <span :class="statusColors[record.status]" slot="status" slot-scope="record">
                 {{ statusNames[record.status] }}
             </span>
-            <!-- <span :class="auditColors[record.auditStatus]" slot="auditStatus" slot-scope="record">
-                {{ auditNames[record.auditStatus] }}
-            </span>
-            <template slot="operation" slot-scope="record">
-                <template v-if="record.status === '0'">
-                    <ant-button v-if="record.auditStatus !== '3'" type="default" size="small" @click="setOperate(record.fundSerial, 3)"
-                        >审核</ant-button
-                    >
-                    <ant-button v-if="record.auditStatus === '1'" type="danger" size="small" @click="setOperate(record.fundSerial, 5)"
-                        >驳回</ant-button
-                    >
-                </template>
-            </template> -->
         </ant-table>
 
         <ant-pagination
@@ -119,8 +106,6 @@
             @change="handlePageNumChange"
             @showSizeChange="handlePageSizeChange"
         />
-
-        <!-- <SecondVerify :is-show="isSecondVerifyShow" @submit="handleSecondVerifySubmit" /> -->
     </div>
 </template>
 

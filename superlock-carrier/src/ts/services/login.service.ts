@@ -46,13 +46,13 @@ export class LoginService {
     }
 
     // 获取邮箱验证码
-    public async fetchEmailCode(email: string): Promise<boolean> {
+    public async fetchEmailCode(email: string, password?: string): Promise<boolean> {
         let loginForm = LoginFormModel.createEmailInstance(email),
             result: ValidationResult = LoginService.validateLoginForm(loginForm, false);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
         let url = Urls.login.emailCode,
-            parameters = Utils.buildParameters({ email: loginForm.email });
+            parameters = Utils.buildParameters({ email: loginForm.email, pwd: password ? md5(password) : '' });
         await Caxios.get<any>({ url: `${url}?${parameters}` }, CaxiosType.Default);
         return true;
     }

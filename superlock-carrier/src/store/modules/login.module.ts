@@ -50,7 +50,7 @@ export default {
 
         // 获取邮箱验证码
         async fetchEmailCode(context: IActionContext<ILoginState>, email: string): Promise<boolean> {
-            return await loginService.fetchEmailCode(email);
+            return await loginService.fetchEmailCode(email, context.state.loginForm.password || '');
         },
 
         // 退出

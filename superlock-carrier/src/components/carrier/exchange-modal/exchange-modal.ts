@@ -8,7 +8,7 @@ import Utils from '@/ts/utils';
 import { Prompt } from '@/ts/common';
 import { CarrierInfoModel, ExchangeFormModel, ExchangeStatsModel } from '@/ts/models';
 
-import SecondVerify from '@/components/common/second-verify';
+import VerifyModal from '@/components/verify/verify-modal';
 
 const carrierModule = namespace('carrier');
 
@@ -19,7 +19,7 @@ enum StepType {
 
 @Component({
     name: 'ExchangeModal',
-    components: { SecondVerify }
+    components: { VerifyModal }
 })
 export default class ExchangeModal extends Vue {
     @Model('close', { type: Boolean }) value!: boolean; // v-model
@@ -119,7 +119,7 @@ export default class ExchangeModal extends Vue {
     }
 
     // 处理二次验证submit事件
-    async handleSecondVerifySubmit() {
+    async handleVerifyModalSubmit() {
         await this.submitExchange(true);
     }
 

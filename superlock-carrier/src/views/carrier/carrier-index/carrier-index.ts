@@ -7,7 +7,7 @@ import Utils from '@/ts/utils';
 import { Prompt } from '@/ts/common';
 import { CarrierInfoModel, WithdrawFormModel } from '@/ts/models';
 
-import SecondVerify from '@/components/common/second-verify';
+import VerifyModal from '@/components/verify/verify-modal';
 import ExchangeModal from '@/components/carrier/exchange-modal';
 import WithdrawModal from '@/components/carrier/withdraw-modal';
 
@@ -20,7 +20,7 @@ const enum ModalType {
 
 @Component({
     name: 'CarrierIndex',
-    components: { SecondVerify, ExchangeModal, WithdrawModal }
+    components: { VerifyModal, ExchangeModal, WithdrawModal }
 })
 export default class CarrierIndex extends Vue {
     @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
@@ -73,7 +73,7 @@ export default class CarrierIndex extends Vue {
     }
 
     // 处理二次验证submit事件
-    async handleSecondVerifySubmit() {
+    async handleVerifyModalSubmit() {
         await this._submitForm(true);
     }
 

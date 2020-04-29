@@ -6,10 +6,10 @@ import { Prompt } from '@/ts/common';
 const loginModule = namespace('login');
 
 @Component({
-    name: 'SmsCode',
+    name: 'VerifyCode',
     components: {}
 })
-export default class SmsCode extends Vue {
+export default class VerifyCode extends Vue {
     @Prop({ type: Boolean, default: false }) readonly isInit!: boolean;
     // @Prop() readonly areaCode!: string;
     // @Prop() readonly mobile!: string;
@@ -74,6 +74,7 @@ export default class SmsCode extends Vue {
             this.isSpinning = false;
             this.isSending = false;
             Prompt.error(error.message || error);
+            this.$emit('error');
             this.$emit('stop');
         }
     }

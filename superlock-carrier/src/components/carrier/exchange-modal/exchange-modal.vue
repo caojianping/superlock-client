@@ -62,7 +62,7 @@
             <ant-button v-else-if="stepType === 2" class="sl-submit" type="primary" @click="confirmExchange">确认兑换</ant-button>
         </ant-row>
 
-        <SecondVerify :is-show="isSecondVerifyShow" @submit="handleSecondVerifySubmit" />
+        <VerifyModal :is-show="isSecondVerifyShow" @submit="handleVerifyModalSubmit" />
     </ant-modal>
 </template>
 

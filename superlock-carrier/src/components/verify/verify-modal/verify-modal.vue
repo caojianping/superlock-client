@@ -5,7 +5,7 @@
             <li>您的邮箱：{{ email }}</li>
             <li class="flex">
                 <ant-input ref="code" type="text" v-model="code" allowClear placeholder="请输入邮箱验证码" @keyup.enter="submit" />
-                <SmsCode :is-init="isModalShow" :email="email" />
+                <VerifyCode :is-init="isModalShow" :email="email" @error="handleModalCancel" />
             </li>
             <li>
                 <ant-button class="sl-submit" type="primary" @click="submit">确定</ant-button>
@@ -14,6 +14,6 @@
     </ant-modal>
 </template>
 
-<style src="./second-verify.less" lang="less" scoped />
+<style src="./verify-modal.less" lang="less" scoped />
 
-<script src="./second-verify.ts" />
+<script src="./verify-modal.ts" />

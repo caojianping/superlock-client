@@ -65,7 +65,7 @@
 
         <WithdrawModal v-model="isWithdrawShow" @submit="handleWithdrawModalSubmit" />
 
-        <SecondVerify :is-show="isSecondVerifyShow" @submit="handleSecondVerifySubmit" />
+        <VerifyModal :is-show="isSecondVerifyShow" @submit="handleVerifyModalSubmit" />
     </div>
 </template>
 

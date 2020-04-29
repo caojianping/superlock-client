@@ -7,13 +7,13 @@ import Utils from '@/ts/utils';
 import { Prompt, Token } from '@/ts/common';
 import { TokenInfo, PasswordFormModel } from '@/ts/models';
 
-import SecondVerify from '@/components/common/second-verify';
+import VerifyModal from '@/components/verify/verify-modal';
 
 const systemModule = namespace('system');
 
 @Component({
     name: 'SystemPassword',
-    components: { SecondVerify }
+    components: { VerifyModal }
 })
 export default class SystemPassword extends Vue {
     @State('tokenInfo') tokenInfo!: TokenInfo;
@@ -52,7 +52,7 @@ export default class SystemPassword extends Vue {
     }
 
     // 处理二次验证submit事件
-    async handleSecondVerifySubmit() {
+    async handleVerifyModalSubmit() {
         await this.submit(true);
     }
 

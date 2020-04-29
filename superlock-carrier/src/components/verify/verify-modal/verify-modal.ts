@@ -7,15 +7,15 @@ import { AreaCodes, defaultAreaCode, IAreaCode } from '@/ts/config';
 import { Prompt, Token } from '@/ts/common';
 import { LoginFormModel } from '@/ts/models';
 
-import SmsCode from '@/components/common/sms-code';
+import VerifyCode from '@/components/verify/verify-code';
 
 const loginModule = namespace('login');
 
 @Component({
-    name: 'SecondVerify',
-    components: { SmsCode }
+    name: 'VerifyModal',
+    components: { VerifyCode }
 })
-export default class SecondVerify extends Vue {
+export default class VerifyModal extends Vue {
     @Prop({ type: Boolean, default: false }) readonly isShow!: boolean;
     @Prop({ type: Boolean, default: false }) readonly isLogin!: boolean;
 

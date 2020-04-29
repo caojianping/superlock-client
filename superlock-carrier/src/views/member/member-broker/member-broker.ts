@@ -8,7 +8,7 @@ import { Prompt } from '@/ts/common';
 import { IPageParameters, IBrokerPageParameters } from '@/ts/interfaces';
 import { BrokerModel, BrokerFormModel, RateFormModel, QuotaFormModel } from '@/ts/models';
 
-import SecondVerify from '@/components/common/second-verify';
+import VerifyModal from '@/components/verify/verify-modal';
 import BrokerModal from '@/components/member/broker-modal';
 import QuotaModal from '@/components/member/quota-modal';
 import RateModal from '@/components/member/rate-modal';
@@ -23,7 +23,7 @@ const enum SecondVerifyType {
 
 @Component({
     name: 'MemberBroker',
-    components: { SecondVerify, BrokerModal, QuotaModal, RateModal }
+    components: { VerifyModal, BrokerModal, QuotaModal, RateModal }
 })
 export default class MemberBroker extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
@@ -157,7 +157,7 @@ export default class MemberBroker extends Vue {
     }
 
     // 处理二次验证submit事件
-    async handleSecondVerifySubmit() {
+    async handleVerifyModalSubmit() {
         let type = this.currentType;
         if (type === SecondVerifyType.Broker) {
             await this._submitBroker(this.brokerForm, true);

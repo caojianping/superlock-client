@@ -4,13 +4,10 @@ import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-// import { ReviewType, ReviewStatus } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { ISelectOption, IPageParameters, IWithdrawOrderPageParameters } from '@/ts/interfaces';
 import { WithdrawOrderModel } from '@/ts/models';
-// import SecondVerify from '@/components/common/second-verify';
 
-const financeModule = namespace('finance');
 const carrierModule = namespace('carrier');
 
 @Component({
@@ -19,7 +16,6 @@ const carrierModule = namespace('carrier');
 })
 export default class WithdrawOrder extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
-    // @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
     @State('withdrawOptions') withdrawOptions!: Array<ISelectOption>;
     @State('auditColors') auditColors!: any;
@@ -32,10 +28,6 @@ export default class WithdrawOrder extends Vue {
     @carrierModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @carrierModule.Action('fetchWithdrawOrders') fetchWithdrawOrders!: () => any;
     @carrierModule.Action('exportWithdrawOrders') exportWithdrawOrders!: () => any;
-    // @financeModule.Action('setReview') setReview!: (payload: any) => any;
-
-    // serial: string = '';
-    // status: ReviewStatus = ReviewStatus.Audit;
 
     statusColors: any = {
         '0': 'text-grey',
@@ -139,30 +131,6 @@ export default class WithdrawOrder extends Vue {
             Prompt.error(error.message || error);
         }
     }
-
-    // // 设置审查操作
-    // async _setReview(isCode: boolean = false) {
-    //     try {
-    //         let { serial, status } = this,
-    //             result = await this.setReview({ serial, type: ReviewType.Withdraw, status, isCode });
-    //         if (!result) Prompt.error('操作失败');
-    //         else await this.fetchWithdrawOrders();
-    //     } catch (error) {
-    //         Prompt.error(error.message || error);
-    //     }
-    // }
-
-    // // 设置操作
-    // async setOperate(serial: string, status: ReviewStatus) {
-    //     this.serial = serial;
-    //     this.status = status;
-    //     await this._setReview(false);
-    // }
-
-    // // 处理二次验证submit事件
-    // async handleSecondVerifySubmit() {
-    //     await this._setReview(true);
-    // }
 
     // 处理页码change事件
     handlePageNumChange(page: number, pageSize: number) {

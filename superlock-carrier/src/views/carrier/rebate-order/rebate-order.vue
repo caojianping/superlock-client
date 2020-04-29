@@ -69,8 +69,6 @@
             @change="handlePageNumChange"
             @showSizeChange="handlePageSizeChange"
         />
-
-        <!-- <SecondVerify :is-show="isSecondVerifyShow" @submit="handleSecondVerifySubmit" /> -->
     </div>
 </template>
 

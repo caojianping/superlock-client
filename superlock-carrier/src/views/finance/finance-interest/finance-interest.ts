@@ -4,11 +4,9 @@ import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-// import { ReviewType, ReviewStatus } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { IPageParameters, IFinancePageParameters } from '@/ts/interfaces';
 import { FinanceInterestModel } from '@/ts/models';
-// import SecondVerify from '@/components/common/second-verify';
 
 const financeModule = namespace('finance');
 
@@ -18,7 +16,6 @@ const financeModule = namespace('finance');
 })
 export default class FinanceInterest extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
-    // @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
     @State('statusColors') statusColors!: any;
     @State('auditColors') auditColors!: any;
@@ -32,10 +29,6 @@ export default class FinanceInterest extends Vue {
     @financeModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @financeModule.Action('fetchFinanceInterests') fetchFinanceInterests!: () => any;
     @financeModule.Action('exportFinanceInterests') exportFinanceInterests!: () => any;
-    // @financeModule.Action('setReview') setReview!: (payload: any) => any;
-
-    // serial: string = '';
-    // status: ReviewStatus = ReviewStatus.Audit;
 
     columns: Array<any> = [
         {
@@ -90,18 +83,6 @@ export default class FinanceInterest extends Vue {
             key: 'status',
             scopedSlots: { customRender: 'status' }
         }
-        // {
-        //     title: '审核状态',
-        //     dataIndex: '',
-        //     key: 'auditStatus',
-        //     scopedSlots: { customRender: 'auditStatus' }
-        // },
-        // {
-        //     title: '操作',
-        //     dataIndex: '',
-        //     key: 'operation',
-        //     scopedSlots: { customRender: 'operation' }
-        // }
     ];
 
     // 处理表单change事件
@@ -141,30 +122,6 @@ export default class FinanceInterest extends Vue {
             Prompt.error(error.message || error);
         }
     }
-
-    // // 设置审查操作
-    // async _setReview(isCode: boolean = false) {
-    //     try {
-    //         let { serial, status } = this,
-    //             result = await this.setReview({ serial, type: ReviewType.Interest, status, isCode });
-    //         if (!result) Prompt.error('操作失败');
-    //         else await this.fetchFinanceInterests();
-    //     } catch (error) {
-    //         Prompt.error(error.message || error);
-    //     }
-    // }
-
-    // // 设置操作
-    // async setOperate(serial: string, status: ReviewStatus) {
-    //     this.serial = serial;
-    //     this.status = status;
-    //     await this._setReview(false);
-    // }
-
-    // // 处理二次验证submit事件
-    // async handleSecondVerifySubmit() {
-    //     await this._setReview(true);
-    // }
 
     // 处理页码change事件
     handlePageNumChange(page: number, pageSize: number) {

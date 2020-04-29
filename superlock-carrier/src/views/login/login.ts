@@ -8,13 +8,13 @@ import { Prompt } from '@/ts/common';
 import { ISelectOption } from '@/ts/interfaces';
 import { LoginFormModel } from '@/ts/models';
 
-import SecondVerify from '@/components/common/second-verify';
+import VerifyModal from '@/components/verify/verify-modal';
 
 const loginModule = namespace('login');
 
 @Component({
     name: 'Login',
-    components: { SecondVerify }
+    components: { VerifyModal }
 })
 export default class Login extends Vue {
     @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
@@ -51,7 +51,7 @@ export default class Login extends Vue {
     }
 
     // 处理二次验证submit事件
-    async handleSecondVerifySubmit() {
+    async handleVerifyModalSubmit() {
         await this.submit(true);
     }
 

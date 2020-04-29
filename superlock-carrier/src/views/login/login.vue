@@ -74,7 +74,7 @@
             </div>
         </div>
 
-        <SecondVerify :is-show="isSecondVerifyShow" :is-login="true" @submit="handleSecondVerifySubmit" />
+        <VerifyModal is-login :is-show="isSecondVerifyShow" @submit="handleVerifyModalSubmit" />
     </div>
 </template>
 

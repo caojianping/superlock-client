@@ -132,7 +132,7 @@
 
         <QuotaModal v-model="isQuotaShow" title="添加额度" :broker="currentBroker" @submit="handleQuotaSubmit" />
 
-        <SecondVerify :is-show="isSecondVerifyShow" @submit="handleSecondVerifySubmit" />
+        <VerifyModal :is-show="isSecondVerifyShow" @submit="handleVerifyModalSubmit" />
     </div>
 </template>
 
