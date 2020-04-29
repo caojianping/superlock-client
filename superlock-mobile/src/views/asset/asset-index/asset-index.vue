@@ -82,7 +82,7 @@
                                     <Cell v-for="(lock, index) in locks" :key="index" @click="openLockInfo(lock)">
                                         <template slot="title">
                                             <h2>
-                                                <span>{{ `超级锁仓-${lock.length}${unitTypes[lock.unit - 1]}` }}</span>
+                                                <span>{{ `BCB矿场-${lock.length}${unitTypes[lock.unit - 1]}` }}</span>
                                                 <i :class="lockStyles[lock.status] || 'black'">{{ lockStatuses[lock.status] || lock.remark }}</i>
                                             </h2>
                                             <p>{{ lock.orderId }}</p>
