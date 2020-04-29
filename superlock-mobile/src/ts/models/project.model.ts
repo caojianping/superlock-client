@@ -9,6 +9,7 @@ export class ProjectStatsModel {
     public links!: Array<string>; // 首页轮播图链接
     public qualitySelectionLinks!: Array<string>; // 精品优选链接
     public exchangeHousesLink!: string; //换房链接
+    public rateSetRemind!: boolean; // 利率设置提醒
 }
 
 // 项目模型

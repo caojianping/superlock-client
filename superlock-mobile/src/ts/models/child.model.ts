@@ -21,6 +21,7 @@ export class ChildModel {
     public date!: string; // 激活日期
     public teamUsedQuota!: number; // 团队已用额度
     public rates!: Array<ChildRateModel>; // 利率列表
+    public rateSetRemind!: boolean; // 利率设置提醒
 }
 
 // 下级利率模型
