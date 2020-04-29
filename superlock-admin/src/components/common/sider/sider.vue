@@ -13,7 +13,7 @@
                 <ol v-if="submenus.length > 0" v-show="menu.toggle" class="submenus">
                     <li class="submenu-item" v-for="(submenu, sindex) in submenus" :key="sindex">
                         {{ ((sroute = submenu.route ? '#' + submenu.route : 'javascript: void(0)'), void 0) }}
-                        <a class="submenu-link" :class="{ active: path.indexOf(submenu.route) > -1 }" :href="sroute">
+                        <a class="submenu-link" :class="{ active: path.indexOf(submenu.route) === 0 }" :href="sroute">
                             <span>{{ submenu.name }}</span>
                         </a>
                     </li>

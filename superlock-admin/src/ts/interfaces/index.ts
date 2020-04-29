@@ -22,6 +22,14 @@ export interface IRechargePageParameters {
     endTime: string; // 结束时间
 }
 
+// 充值地址页面参数
+export interface IRechargeAddressPageParameters {
+    uid: string; // uid
+    coinCode: string; // 充值币种
+    address: string; // 充值地址
+    mobile: string; // 手机号
+}
+
 // 提现分页参数
 export interface IWithdrawPageParameters {
     uid: string; // uid
@@ -145,4 +153,29 @@ export interface IWithdrawOrderPageParameters {
     beginTime: string; // 开始时间
     endTime: string; // 结束时间
     carrierName: string; // 运营商名称
+}
+
+export interface IRechargeReportPageParameters {
+    coinCode: string; // 充值币种
+    beginTime: string; // 开始时间
+    endTime: string; // 结束时间
+}
+
+export interface ILockReportPageParameters {
+    length: string; // 锁仓期限值
+    unit: string; // 锁仓期限单位
+    beginTime: string; // 开始时间
+    endTime: string; // 结束时间
+}
+
+export interface IExpendReportPageParameters {
+    type: string; // 支出类型
+    beginTime: string; // 开始时间
+    endTime: string; // 结束时间
+}
+
+export interface IUserReportPageParameters {
+    type: string; // 用户类型
+    beginTime: string; // 开始时间
+    endTime: string; // 结束时间
 }

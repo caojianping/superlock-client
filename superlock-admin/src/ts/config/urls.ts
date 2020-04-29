@@ -18,6 +18,10 @@ export const Urls = {
         init: {
             info: `${baseUrl}/mainData/initialData`,
             set: `${baseUrl}/mainData/initialDataSet`
+        },
+        virtual: {
+            info: `${baseUrl}/mainData/virtual`,
+            set: `${baseUrl}/mainData/setVirtual`
         }
     },
     // 充值模块 ok
@@ -30,6 +34,10 @@ export const Urls = {
             list: `${baseUrl}/recharge/fee`,
             add: `${baseUrl}/rechaarge/addFee`,
             update: `${baseUrl}/recharge/updateFee`
+        },
+        address: {
+            list: `${baseUrl}/recharge/address`,
+            export: `${baseUrl}/recharge/address/export`
         }
     },
     // 提现模块 ok
@@ -57,7 +65,8 @@ export const Urls = {
             list: `${baseUrl}/lockPosition/projects`,
             create: `${baseUrl}/lockPosition/createProject`,
             update: `${baseUrl}/lockPosition/updateProject`
-        }
+        },
+        cycles: `${baseUrl}/lockPosition/cycle`
     },
     // 财务模块 ok
     finance: {
@@ -175,5 +184,23 @@ export const Urls = {
         },
         setPassword: `${baseUrl}/login/updatePwd`,
         setGoogle: ''
+    },
+    report: {
+        recharge: {
+            list: `${baseUrl}/report/recharge`,
+            export: `${baseUrl}/report/recharge/export`
+        },
+        lock: {
+            list: `${baseUrl}/report/lock`,
+            export: `${baseUrl}/report/lock/export`
+        },
+        expend: {
+            list: `${baseUrl}/report/expenditure`,
+            export: `${baseUrl}/report/expenditure/export`
+        },
+        user: {
+            list: `${baseUrl}/report/user`,
+            export: `${baseUrl}/report/user/export`
+        }
     }
 };

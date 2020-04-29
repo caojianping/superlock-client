@@ -1,2 +1,10 @@
-// @import '../../../less/vars.less';
-// @import '../../../less/mixins.less';
+@import '../../../less/vars.less';
+@import '../../../less/mixins.less';
+
+/deep/ .ant-table table {
+    thead > tr > th:nth-child(9),
+    tbody > tr > td:nth-child(9) {
+        padding: 0 8px;
+        white-space: nowrap;
+    }
+}

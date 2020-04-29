@@ -363,7 +363,12 @@ function buildParameters(parameters: { [key: string]: any }): string {
 }
 
 // 构建分页查询参数字符串
-function buildPageParameters<T>(parameters: IPageParameters<T>, convertFields: Array<string> = [], encodeFields: Array<string> = []): string {
+function buildPageParameters<T>(
+    parameters: IPageParameters<T>,
+    convertFields: Array<string> = [],
+    encodeFields: Array<string> = [],
+    format: string = 'yyyyMMddhhmmss'
+): string {
     if (!parameters) return '';
 
     let temp: Array<any> = [],
@@ -375,7 +380,7 @@ function buildPageParameters<T>(parameters: IPageParameters<T>, convertFields: A
                 value = encodeURI(value);
             }
             if (convertFields.indexOf(key) > -1) {
-                value = dateFormat(String(value), 'yyyyMMddhhmmss', true);
+                value = dateFormat(String(value), format, true);
             }
             temp.push(`${key}=${String(value)}`);
         }
@@ -413,13 +418,14 @@ function digitPercent(digit: string | number, precision: number = 2, isString: b
 }
 
 // 数字精度
-function digitPrecision(digit: string | number, precision: number = 2) {
+function digitPrecision(digit: string | number, precision: number = 2, isString: boolean = false) {
     if (isNullOrUndefined(digit)) return digit;
 
     let ndigit = Number(digit);
     if (isNaN(ndigit)) return digit;
 
-    return Number(ndigit.toFixed(precision));
+    if (!isString) return Number(ndigit.toFixed(precision));
+    return ndigit.toFixed(precision);
 }
 
 // json字符串转换函数

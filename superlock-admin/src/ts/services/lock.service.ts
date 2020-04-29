@@ -2,7 +2,7 @@ import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
 import { Urls, CaxiosType, OperationType } from '@/ts/config';
 import { Caxios } from '@/ts/common';
-import { IPageParameters, ILockPageParameters, IProjectPageParameters } from '@/ts/interfaces';
+import { IPageParameters, ILockPageParameters, IProjectPageParameters, ISelectOption } from '@/ts/interfaces';
 import { PageResult, LockModel, ProjectModel, ProjectFormModel, AwardFormModel, AwardDailySaleModel } from '@/ts/models';
 
 export class LockService {
@@ -33,7 +33,7 @@ export class LockService {
         if (!projectForm) return { status: false, data: { projectForm: '参数不可以为空' } };
 
         let key = 'project',
-            { id, memo, length, quota, rate, enable, originQuota, originRate } = projectForm,
+            { id, memo, length, quota, rate, pushRate, enable, originQuota, originRate } = projectForm,
             validator = new Validator();
         validator.addRule(key, { name: 'memo', value: memo }, { required: true }, { required: '项目名称不可以为空' });
         if (type === OperationType.Add) {
@@ -62,6 +62,16 @@ export class LockService {
                     max: '锁仓利率不可以大于100'
                 }
             );
+            validator.addRule(
+                key,
+                { name: 'pushRate', value: pushRate },
+                { required: true, min: 0, max: 100 },
+                {
+                    required: '直推奖励利率不可以为空',
+                    min: '直推奖励利率不可以小于0',
+                    max: '直推奖励利率不可以大于100'
+                }
+            );
         } else if (type === OperationType.Edit) {
             validator.addRule(key, { name: 'id', value: id }, { required: true }, { required: '项目编号不可以为空' });
             validator.addRule(
@@ -81,6 +91,16 @@ export class LockService {
                     required: '锁仓利率不可以为空',
                     min: `锁仓利率不可以小于${originRate}`,
                     max: '锁仓利率不可以大于100'
+                }
+            );
+            validator.addRule(
+                key,
+                { name: 'pushRate', value: pushRate },
+                { required: true, min: 0, max: 100 },
+                {
+                    required: '直推奖励利率不可以为空',
+                    min: '直推奖励利率不可以小于0',
+                    max: '直推奖励利率不可以大于100'
                 }
             );
             validator.addRule(key, { name: 'enable', value: enable }, { required: true }, { required: '项目状态不可以为空' });
@@ -125,7 +145,7 @@ export class LockService {
         let result: ValidationResult = LockService.validateProjectForm(projectForm, OperationType.Add);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { memo, length, quota, rate } = projectForm;
+        let { memo, length, quota, rate, pushRate } = projectForm;
         await Caxios.post<any>(
             {
                 url: Urls.lock.project.create,
@@ -133,7 +153,8 @@ export class LockService {
                     memo,
                     length,
                     quota: String(quota),
-                    rate: (rate / 100).toFixed(4)
+                    rate: (rate / 100).toFixed(4),
+                    pushRate: (pushRate / 100).toFixed(4)
                 }
             },
             CaxiosType.FullLoadingToken,
@@ -147,11 +168,18 @@ export class LockService {
         let result: ValidationResult = LockService.validateProjectForm(projectForm, OperationType.Edit);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { id, memo, quota, rate, enable } = projectForm;
+        let { id, memo, quota, rate, pushRate, enable } = projectForm;
         await Caxios.post<any>(
             {
                 url: Urls.lock.project.update,
-                data: { id, memo, quota, rate: rate / 100, enable }
+                data: {
+                    id,
+                    memo,
+                    quota: String(quota),
+                    rate: (rate / 100).toFixed(4),
+                    pushRate: (pushRate / 100).toFixed(4),
+                    enable
+                }
             },
             CaxiosType.FullLoadingToken
         );
@@ -182,16 +210,16 @@ export class LockService {
                 max: '推广解锁利率不可以大于100'
             }
         );
-        validator.addRule(
-            key,
-            { name: 'pushStraightRate', value: pushStraightRate },
-            { required: true, min: 0, max: 100 },
-            {
-                required: '直推利率不可以为空',
-                min: '直推利率不可以小于0',
-                max: '直推利率不可以大于100'
-            }
-        );
+        // validator.addRule(
+        //     key,
+        //     { name: 'pushStraightRate', value: pushStraightRate },
+        //     { required: true, min: 0, max: 100 },
+        //     {
+        //         required: '直推利率不可以为空',
+        //         min: '直推利率不可以小于0',
+        //         max: '直推利率不可以大于100'
+        //     }
+        // );
         // validator.addRule(
         //     key,
         //     { name: 'lockAmount', value: lockAmount },
@@ -203,24 +231,25 @@ export class LockService {
         // );
         validator.addRule(key, { name: 'saleCount', value: saleCount }, { min: 1 }, { min: '日销奖励条目不可以小于等于0' });
         dailySalesDto.forEach((dailySale: AwardDailySaleModel, index: number) => {
-            const { sales, rate } = dailySale;
+            let { sales, rate } = dailySale,
+                cindex = index + 1;
             validator.addRule(
                 key,
-                { name: 'sales', value: sales },
+                { name: 'sales' + cindex, value: sales },
                 { required: true, min: 0 },
                 {
-                    required: `第${index + 1}条日销奖励的达标日销数量不可以为空`,
-                    min: `第${index + 1}条日销奖励的达标日销数量不可以小于0`
+                    required: `第${cindex}条日销奖励的达标日销数量不可以为空`,
+                    min: `第${cindex}条日销奖励的达标日销数量不可以小于0`
                 }
             );
             validator.addRule(
                 key,
-                { name: 'rate', value: rate },
+                { name: 'rate' + cindex, value: rate },
                 { required: true, min: 0, max: 100 },
                 {
-                    required: `第${index + 1}条日销奖励的达标返奖利率不可以为空`,
-                    min: `第${index + 1}条日销奖励的达标返奖利率不可以小于0`,
-                    max: `第${index + 1}条日销奖励的达标返奖利率不可以大于100`
+                    required: `第${cindex}条日销奖励的达标返奖利率不可以为空`,
+                    min: `第${cindex}条日销奖励的达标返奖利率不可以小于0`,
+                    max: `第${cindex}条日销奖励的达标返奖利率不可以大于100`
                 }
             );
         });
@@ -245,5 +274,14 @@ export class LockService {
             isCode
         );
         return true;
+    }
+
+    // 获取锁仓期限列表
+    public async fetchLockCycles(): Promise<Array<ISelectOption>> {
+        let result = await Caxios.get<any>({ url: Urls.lock.cycles }, CaxiosType.Token);
+        return (result || []).map((item: any) => {
+            let unit = ['天', '月', '年'][item.unit - 1];
+            return { label: item.length + unit, value: item.length + '_' + item.unit };
+        });
     }
 }

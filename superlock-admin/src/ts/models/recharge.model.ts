@@ -23,3 +23,11 @@ export class RechargePoundageModel {
     public feeToken!: string; // 手续币种
     public chargeRate!: number; // 手续费比例
 }
+
+// 充值地址模型
+export class RechargeAddressModel {
+    public uid!: string; // uid
+    public mobile!: string; // 手机号
+    public coinCode!: string; // 充值币种
+    public address!: string; // 充值地址
+}

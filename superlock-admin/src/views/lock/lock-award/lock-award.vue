@@ -28,7 +28,7 @@
                     </ant-col>
                 </ant-row>
 
-                <ant-row :gutter="24">
+                <!-- <ant-row :gutter="24">
                     <ant-col :span="18">
                         <ant-form-item label="直推利率(%)" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
                             <ant-input-number
@@ -42,7 +42,7 @@
                             />
                         </ant-form-item>
                     </ant-col>
-                </ant-row>
+                </ant-row> -->
 
                 <!-- <ant-row :gutter="24">
                     <ant-col :span="18">
@@ -76,7 +76,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(dailySale, index) in awardForm.dailySalesDto" :key="index">
+                                    <tr v-for="(dailySale, index) in awardForm.dailySalesDto || []" :key="index">
                                         <td>
                                             <ant-input-number
                                                 :value="dailySale.sales"

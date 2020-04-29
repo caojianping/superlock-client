@@ -18,6 +18,7 @@ export class ProjectModel {
     public length!: string; // 项目周期
     public quota!: string; // 项目总额度
     public rate!: string; // 锁仓利率
+    public pushRate!: string; // 直推奖励利率
     public createTime!: string; // 项目创建时间
     public enable!: boolean; // 状态
 }
@@ -28,6 +29,7 @@ export class ProjectFormModel {
     public length!: number; // 项目周期
     public quota!: number; // 项目总额度
     public rate!: number; // 锁仓利率
+    public pushRate!: number; // 直推奖励利率
     public enable?: boolean; // 锁仓状态
 
     // 补充字段：项目总额度、锁仓利率不可以改小

@@ -1,3 +1,4 @@
+import Calculator from 'jts-calculator';
 import Utils from '@/ts/utils';
 import { Urls, CaxiosType } from '@/ts/config';
 import { Caxios } from '@/ts/common';
@@ -13,7 +14,22 @@ export class WithdrawService {
                 CaxiosType.PageLoadingToken
             );
         if (!result) return new PageResult<WithdrawModel>(0, []);
-        return result as PageResult<WithdrawModel>;
+        else {
+            let list = result.list;
+            if (list && list.length > 0) {
+                let totalAmount = 0;
+                list.forEach((item: any) => {
+                    let amount = isNaN(Number(item.amount)) ? 0 : Number(item.amount);
+                    totalAmount = Calculator.add(totalAmount, amount, 6);
+                });
+
+                let withdraw = new WithdrawModel();
+                withdraw.serial = '合计';
+                withdraw.amount = totalAmount.toString();
+                list.push(withdraw);
+            }
+            return result;
+        }
     }
 
     // 导出提现列表

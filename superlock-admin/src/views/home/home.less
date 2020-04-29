@@ -2,20 +2,27 @@
 @import '../../less/mixins.less';
 
 .sl-block {
-    .sl-block-header .setting {
-        position: relative;
-        top: -2px;
-        display: inline-block;
-        margin-left: 8px;
-        width: 22px;
-        height: 22px;
-        vertical-align: middle;
-        background: url('../../assets/images/home/setting.png') no-repeat center center;
-        background-size: 100% 100%;
-        cursor: pointer;
+    .sl-block-header {
+        .setting {
+            margin-left: 16px;
+            .font-styles(14px, normal, 1.5, @black, center);
+            cursor: pointer;
 
-        &:hover {
-            opacity: 0.8;
+            i {
+                position: relative;
+                top: -2px;
+                display: inline-block;
+                margin-right: 4px;
+                width: 18px;
+                height: 18px;
+                vertical-align: middle;
+                background: url('../../assets/images/home/setting.png') no-repeat center center;
+                background-size: 100% 100%;
+            }
+
+            &:hover {
+                opacity: 0.8;
+            }
         }
     }
 

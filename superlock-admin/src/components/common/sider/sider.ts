@@ -23,8 +23,9 @@ export default class Sider extends Vue {
             path: '/recharge',
             icon: 'recharge',
             items: [
-                { name: '充值订单', route: '/recharge/order' }
-                // { name: '手续费设置', route: '/recharge/poundage' }
+                { name: '充值订单', route: '/recharge/order' },
+                // { name: '手续费设置', route: '/recharge/poundage' },
+                { name: '地址管理', route: '/recharge/address' }
             ],
             toggle: false
         },
@@ -120,6 +121,19 @@ export default class Sider extends Vue {
             toggle: false
         },
         {
+            name: '数据报表',
+            route: null,
+            path: '/report',
+            icon: 'carrier',
+            items: [
+                { name: '充值报表', route: '/report/recharge' },
+                { name: '锁仓报表', route: '/report/lock' },
+                { name: '支出报表', route: '/report/expend' },
+                { name: '用户报表', route: '/report/user' }
+            ],
+            toggle: false
+        },
+        {
             name: '上分管理',
             route: null,
             path: '/point',
@@ -168,7 +182,7 @@ export default class Sider extends Vue {
             path = route.path;
         this.path = path;
         this.menus.forEach((menu: any, index: number) => {
-            if (menu.items && path.indexOf(menu.path) > -1) {
+            if (menu.items && path.indexOf(menu.path) === 0) {
                 menu.toggle = true;
                 self.$set(self.menus, index, menu);
             }

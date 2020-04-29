@@ -39,6 +39,9 @@
             <span slot="rate" slot-scope="record">
                 {{ record.rate | ratePercent }}
             </span>
+            <span slot="pushRate" slot-scope="record">
+                {{ record.pushRate | ratePercent }}
+            </span>
             <span slot="createTime" slot-scope="record">
                 {{ record.createTime | dateFormat }}
             </span>
@@ -62,9 +65,7 @@
             @showSizeChange="handlePageSizeChange"
         />
 
-        <ProjectModal v-model="isShow" title="锁仓项目修改" :project="currentProject" @submit="handleProjectSubmit" />
-
-        <SecondVerify :is-show="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
+        <ProjectModal v-model="isShow" :project="currentProject" @submit="handleProjectModalSubmit" />
     </div>
 </template>
 

@@ -15,7 +15,7 @@
                     <li class="panel-item">
                         <div class="panel-content">
                             <h3>今日新增锁仓</h3>
-                            {{ ((todayData = homeData.today || {}), void 0) }}
+                            {{ ((todayData = home.today || {}), void 0) }}
                             <table>
                                 <tr>
                                     <td>{{ todayData.lockCount || 0 }}</td>
@@ -80,7 +80,9 @@
             <header class="sl-block-header">
                 <h2 class="sl-block-title">
                     数据总计
-                    <i class="setting" @click="openInitModal"></i>
+                    <!-- <span class="setting" @click="openModal('isInitShow')"><i />初始化设置</span> -->
+                    <span class="setting" @click="openModal('isVirtualShow', 1)"><i />锁仓虚拟数据设置</span>
+                    <span class="setting" @click="openModal('isVirtualShow', 2)"><i />注册虚拟数据设置</span>
                 </h2>
             </header>
             <div class="sl-block-body">
@@ -88,7 +90,7 @@
                     <li class="panel-item">
                         <div class="panel-content">
                             <h3>累计锁仓</h3>
-                            {{ ((totalData = homeData.all || {}), void 0) }}
+                            {{ ((totalData = home.all || {}), void 0) }}
                             <table>
                                 <tr>
                                     <td>{{ totalData.lockCount || 0 }}</td>
@@ -151,7 +153,7 @@
                             <table>
                                 <tr>
                                     <td>
-                                        {{ homeData.registerAllCount || 0 }}
+                                        {{ home.registerAllCount || 0 }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -166,9 +168,9 @@
             </div>
         </div>
 
-        <InitModal v-model="isShow" title="初始数据设置" :init-info="initInfoForm" @submit="handleInitSubmit" />
+        <InitModal v-model="isInitShow" @submit="handleModalSubmit" />
 
-        <SecondVerify :is-show="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
+        <VirtualModal v-model="isVirtualShow" :type="type" @submit="handleModalSubmit" />
     </div>
 </template>
 

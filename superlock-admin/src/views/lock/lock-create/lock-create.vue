@@ -75,6 +75,23 @@
                 </ant-row>
 
                 <ant-row :gutter="24">
+                    <ant-col :span="18">
+                        <ant-form-item label="直推奖励利率(%)" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
+                            <ant-input-number
+                                :value="projectForm.pushRate"
+                                :min="0"
+                                :max="100"
+                                :precision="2"
+                                placeholder="请输入直推奖励利率(%)"
+                                @change="handleFormChange('pushRate', $event)"
+                                @keyup.enter="submit(false)"
+                            />
+                        </ant-form-item>
+                    </ant-col>
+                    <ant-col class="sl-tip" :span="6">根据项目周期设置直推奖励</ant-col>
+                </ant-row>
+
+                <ant-row :gutter="24">
                     <ant-button class="sl-submit" type="primary" @click="submit(false)">创建</ant-button>
                 </ant-row>
             </div>

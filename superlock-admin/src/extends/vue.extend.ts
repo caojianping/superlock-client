@@ -12,7 +12,7 @@ Vue.filter('ratePercent', function(value: string | number, precision: number = 2
 });
 
 Vue.filter('digitPrecision', function(value: string | number, precision: number = 2) {
-    return Utils.digitPrecision(value, precision);
+    return Utils.digitPrecision(value, precision, true);
 });
 
 Vue.directive('focus', {

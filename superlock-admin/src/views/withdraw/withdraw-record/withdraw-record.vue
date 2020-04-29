@@ -99,7 +99,7 @@
         <ant-button class="sl-tool" type="primary" @click="exportReport">导出报表</ant-button>
 
         <ant-table
-            class="mw1200px nowrap"
+            class="mw1200px nowrap stats"
             :columns="columns"
             :rowKey="record => record.serial"
             :dataSource="list"

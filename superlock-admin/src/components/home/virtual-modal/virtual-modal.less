@@ -1,0 +1,32 @@
+@import '../../../less/vars.less';
+@import '../../../less/mixins.less';
+
+.virtual-table {
+    width: 100%;
+
+    thead > tr > th,
+    tbody > tr > td {
+        padding: 4px 8px;
+        text-align: center;
+        white-space: nowrap;
+
+        .ant-time-picker,
+        .ant-input-number {
+            display: inline-block;
+            vertical-align: middle;
+
+            &.ant-time-picker {
+                width: 95px;
+            }
+
+            &.ant-input-number {
+                width: 100px;
+            }
+
+            + span {
+                margin: 0 4px;
+                vertical-align: middle;
+            }
+        }
+    }
+}

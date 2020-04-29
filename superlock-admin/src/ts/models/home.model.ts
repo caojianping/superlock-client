@@ -13,7 +13,20 @@ export class HomeModel {
     public registerAllCount?: string; // 累计注册用户
 }
 
-export class InitInfoFormModel {
+export class InitModel {
     public initialTotalLock!: number; // 初始锁仓总额
     public initialRegisteredUser!: number; // 初始注册用户
+}
+
+export class VirtualSectionModel {
+    public startTime!: string; // 开始时间
+    public endTime!: string; // 结束时间
+    public interval!: number; // 时间间隔
+    public minValue!: number; // 最小值
+    public maxValue!: number; // 最大值
+}
+
+export class VirtualModel {
+    public initialAmount!: number; // 初始数据
+    public virtualDtos!: Array<VirtualSectionModel>;
 }
