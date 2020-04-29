@@ -5,6 +5,27 @@ import { Caxios } from '@/ts/common';
 import { HomeModel, InitModel, VirtualModel, VirtualSectionModel } from '@/ts/models';
 
 export class HomeService {
+    // 判断是否存在重复时间段
+    private static _isRepeatTime(sections: Array<VirtualSectionModel>) {
+        let startTimes: Array<string> = [],
+            endTimes: Array<string> = [];
+        sections.forEach((section: VirtualSectionModel) => {
+            startTimes.push(section.startTime);
+            endTimes.push(section.endTime);
+        });
+
+        startTimes = startTimes.sort();
+        endTimes = endTimes.sort();
+
+        let result = 0;
+        for (let i = 1; i < startTimes.length; i++) {
+            if (startTimes[i] <= endTimes[i - 1]) {
+                result += 1;
+            }
+        }
+        return result > 0;
+    }
+
     // 验证初始化数据
     public static validateInit(init: InitModel): ValidationResult {
         if (!init) return { status: false, data: { initInfoForm: '参数不可以为空' } };
@@ -102,6 +123,9 @@ export class HomeService {
                 }
             );
         });
+
+        let isRepeat = this._isRepeatTime(virtualDtos);
+        validator.addRule(key, { name: 'isRepeat', value: !isRepeat }, { checked: true }, { checked: '存在重复时间段' });
         return validator.execute(key);
     }
 
