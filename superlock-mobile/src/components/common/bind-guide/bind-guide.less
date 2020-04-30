@@ -1,50 +1,59 @@
 @import '../../../less/vars.less';
 @import '../../../less/mixins.less';
 
-.bind-guide {
+.operate-guide {
     position: fixed;
-    right: 0;
+    right: 0.875rem;
     bottom: 3.5625rem;
-    left: 0;
+    left: 0.875rem;
     z-index: 999;
+    background-color: rgba(57, 129, 255, 0.86);
+    border-radius: 1.125rem;
 
-    .bind-guide-container {
-        margin: 0 1rem;
+    /deep/ .van-swipe {
         height: 2.25rem;
-        background-color: rgba(57, 129, 255, 0.86);
-        border-radius: 1.125rem;
 
-        .bind-guide-title {
-            flex: 3;
-            padding-left: 0.75rem;
-            text-align: left;
+        .van-swipe__track {
+            height: 2.25rem;
 
-            .icon,
-            span {
-                display: inline-block;
-                vertical-align: middle;
-            }
+            .van-swipe-item {
+                width: 100% !important;
 
-            span {
-                margin-left: 0.375rem;
-                .font-styles(0.8125rem, normal, 2.25rem, white, left);
-            }
-        }
+                .guide-container {
+                    .guide-title {
+                        flex: 4;
+                        padding-left: 0.5rem;
+                        text-align: left;
 
-        .bind-guide-icon {
-            flex: 1;
-            padding-right: 0.75rem;
-            text-align: right;
+                        .icon,
+                        span {
+                            display: inline-block;
+                            vertical-align: middle;
+                        }
 
-            .icon,
-            span {
-                display: inline-block;
-                vertical-align: middle;
-            }
+                        span {
+                            margin-left: 0.25rem;
+                            .font-styles(0.8125rem, normal, 2.25rem, white, left);
+                        }
+                    }
 
-            span {
-                margin-right: 0.375rem;
-                .font-styles(0.875rem, normal, 2.25rem, #ffca7e, left);
+                    .guide-icon {
+                        flex: 1;
+                        padding-right: 0.5rem;
+                        text-align: right;
+
+                        .icon,
+                        span {
+                            display: inline-block;
+                            vertical-align: middle;
+                        }
+
+                        span {
+                            margin-right: 0.375rem;
+                            .font-styles(0.875rem, normal, 2.25rem, #ffca7e, left);
+                        }
+                    }
+                }
             }
         }
     }

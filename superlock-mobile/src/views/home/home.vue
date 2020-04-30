@@ -119,7 +119,7 @@
                 </div>
             </div>
 
-            <BindGuide v-if="!userInfo.email" path="/home/index" />
+            <BindGuide :is-rate-set="isRateSet" :is-email-bind="isEmailBind" path="/home/index" />
 
             <Navs />
         </div>

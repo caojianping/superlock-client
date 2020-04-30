@@ -11,6 +11,7 @@ import { PullRefresh, Toast } from 'vant';
 import Navs from '@/components/common/navs';
 import Spin from '@/components/common/spin';
 import BindGuide from '@/components/common/bind-guide';
+import Utils from '@/ts/utils';
 
 const userModule = namespace('user');
 const projectModule = namespace('project');
@@ -35,6 +36,26 @@ export default class Home extends Vue {
     isPulling: boolean = false;
     isProjectSpinning: boolean = false;
     isOptimizeSpinning: boolean = false;
+
+    // 是否需要设置利率
+    get isRateSet(): Boolean | undefined {
+        let projectStats = this.projectStats;
+        if (!projectStats) return undefined;
+        else {
+            let rateSetRemind = projectStats.rateSetRemind;
+            if (rateSetRemind === undefined) return undefined;
+            else if (rateSetRemind === null) return false;
+            else return rateSetRemind;
+        }
+    }
+
+    // 是否需要绑定邮箱
+    get isEmailBind(): Boolean | undefined {
+        let userInfo = this.userInfo,
+            email = userInfo.email;
+        if (email === undefined) return undefined;
+        else return email === null || email === '';
+    }
 
     // 跳转至团队首页
     goTeam() {

@@ -39,7 +39,11 @@
                         <Cell v-for="(child, index) in childs" :key="index" is-link @click="goDetail(child)">
                             <div slot="title">
                                 <h2>{{ child.nickName }}</h2>
-                                <p>{{ `UID:${child.uid}` }}</p>
+                                <h3>{{ `UID:${child.uid}` }}</h3>
+                                <p v-if="child.rateSetRemind" class="flex">
+                                    <i class="icon icon-pset" />
+                                    <span>有新项目利率未设置</span>
+                                </p>
                             </div>
                             <div>
                                 <h3>累计推广锁仓</h3>

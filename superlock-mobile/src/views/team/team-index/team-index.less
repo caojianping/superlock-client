@@ -55,7 +55,7 @@
                 h3 {
                     .font-styles(1.5rem, normal, 1.5, @black, center);
                 }
-    
+
                 p {
                     .font-styles(0.875rem, normal, 1.5, @gray, center);
                 }
@@ -79,11 +79,37 @@
             .van-cell__title {
                 h2 {
                     padding-top: 0.15rem;
-                    .font-styles(0.875rem, normal, 1.8, @black, left);
+                    .font-styles(0.875rem, normal, 1.6, @black, left);
+                }
+
+                h3 {
+                    .font-styles(0.75rem, normal, 1.5, @gray, left);
                 }
 
                 p {
-                    .font-styles(0.75rem, normal, 1.5, @gray, left);
+                    margin-top: 0.125rem;
+                    padding: 0.25rem 0;
+                    width: 7.5rem;
+                    font-size: 0;
+                    background-color: #fceeda;
+                    border-radius: 0.25rem;
+
+                    i,
+                    span {
+                        display: inline-block;
+                        vertical-align: middle;
+                    }
+
+                    i {
+                        margin-left: 0.25rem;
+                    }
+
+                    span {
+                        margin-left: -0.35rem;
+                        height: 0.75rem;
+                        .font-styles(0.75rem, normal, 1, #ffa81e, left);
+                        .transform(scale(0.833));
+                    }
                 }
             }
 
@@ -91,7 +117,7 @@
                 padding-right: 0.25rem;
 
                 h3 {
-                    padding-top: 0.35rem;
+                    padding-top: 0.5rem;
                     .font-styles(0.75rem, normal, 1.5, @black, right);
                 }
 
