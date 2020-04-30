@@ -37,12 +37,16 @@ body {
     font-size: 14px;
     line-height: 1.5;
     background: white url('../assets/images/bg.png') no-repeat 0 0;
-    background-size: cover;
+    background-size: 100% 872px;
 
     @media screen {
+        @media (max-width: 992px) {
+            background-size: 100% 700px;
+        }
+
         @media (max-width: 768px) {
             background-image: url('../assets/images/bg-mobile.png');
-            background-size: contain;
+            background-size: 100% 260px;
         }
     }
 }

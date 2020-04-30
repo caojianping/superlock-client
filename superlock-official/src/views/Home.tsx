@@ -101,7 +101,7 @@ class Home extends React.Component<Home.Props, Home.State> {
 
                 <div className="footer">
                     <img className="logo" src={logoImg} alt="BCB矿场" />
-                    <p className="copyright">版权所有@2020WealthShop PTE LTD.版权所有</p>
+                    <p className="copyright">版权所有@2020BCB Miner PTE LTD.版权所有</p>
                     <p className="coins">
                         币种支持：
                         <img src={coin01Img} alt="" />
