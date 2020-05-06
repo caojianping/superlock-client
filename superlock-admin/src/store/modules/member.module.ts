@@ -8,7 +8,10 @@ import {
     BrokerFormModel,
     RateFormModel,
     QuotaFormModel,
-    BrokerChildPageResult
+    BrokerChildPageResult,
+    MigrationFormModel,
+    MigrationModel,
+    MigrationInfoModel
 } from '@/ts/models';
 import { MemberService } from '@/ts/services';
 
@@ -50,12 +53,27 @@ const memberState: IMemberState = {
         pageNum: 1,
         pageSize: 10
     },
+    migrationParameters: {
+        conditions: {
+            mobile: '',
+            email: '',
+            brokerName: '',
+            carrierName: '',
+            beginTime: '',
+            endTime: ''
+        },
+        pageNum: 1,
+        pageSize: 10
+    },
     totalCount: 0,
     list: [],
 
     brokerForm: new BrokerFormModel(),
     rateForm: new RateFormModel(),
     quotaForm: new QuotaFormModel(),
+
+    migrationInfo: undefined,
+    migrationForm: new MigrationFormModel(),
 
     count: 0
 };
@@ -103,12 +121,27 @@ export default {
                 pageNum: 1,
                 pageSize: 10
             };
+            state.migrationParameters = {
+                conditions: {
+                    mobile: '',
+                    email: '',
+                    brokerName: '',
+                    carrierName: '',
+                    beginTime: '',
+                    endTime: ''
+                },
+                pageNum: 1,
+                pageSize: 10
+            };
             state.totalCount = 0;
             state.list = [];
 
             state.brokerForm = new BrokerFormModel();
             state.rateForm = new RateFormModel();
             state.quotaForm = new QuotaFormModel();
+
+            state.migrationInfo = undefined;
+            state.migrationForm = new MigrationFormModel();
 
             state.count = 0;
         }
@@ -192,6 +225,40 @@ export default {
         // 添加额度
         async addQuota(context: IActionContext<IMemberState>, isCode: boolean = false): Promise<boolean> {
             return await memberService.addQuota(context.state.quotaForm, isCode);
+        },
+
+        // 获取迁移列表
+        async fetchMigrations(context: IActionContext<IMemberState>): Promise<void> {
+            let { commit, state } = context;
+            try {
+                let result: PageResult<MigrationModel> = await memberService.fetchMigrations(state.migrationParameters);
+                commit(TYPES.SET_STATES, result);
+            } catch (error) {
+                commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
+                return Promise.reject(error);
+            }
+        },
+
+        // 导出迁移列表
+        async exportMigrations(context: IActionContext<IMemberState>): Promise<string> {
+            return await memberService.exportMigrations(context.state.migrationParameters);
+        },
+
+        // 获取迁移信息
+        async fetchMigrationInfo(context: IActionContext<IMemberState>): Promise<void> {
+            let commit = context.commit;
+            try {
+                let migrationInfo: MigrationInfoModel | null = await memberService.fetchMigrationInfo();
+                commit(TYPES.SET_STATES, { migrationInfo });
+            } catch (error) {
+                commit(TYPES.SET_STATES, { migrationInfo: null });
+                return Promise.reject(error);
+            }
+        },
+
+        // 执行迁移
+        async execMigration(context: IActionContext<IMemberState>, isCode: boolean = false): Promise<boolean> {
+            return await memberService.execMigration(context.state.migrationForm, isCode);
         }
     }
 };

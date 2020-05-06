@@ -26,7 +26,7 @@ export default class VirtualModal extends Vue {
     @homeModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @homeModule.Mutation(TYPES.CLEAR_STATES) clearStates!: (payload: any) => any;
     @homeModule.Action('fetchVirtualData') fetchVirtualData!: () => any;
-    @homeModule.Action('setVirtualData') setVirtualData!: (isCode: boolean) => any;
+    @homeModule.Action('setVirtualData') setVirtualData!: (isCode?: boolean) => any;
 
     isShow: boolean = this.value; // 是否显示模态框
 
@@ -48,7 +48,6 @@ export default class VirtualModal extends Vue {
 
     // 处理时间段change事件
     handleSectionChange(cindex: number, key: string, value: any) {
-        console.log(cindex, key, typeof value, value);
         let virtual = Utils.duplicate(this.virtual),
             sections: Array<VirtualSectionModel> = virtual.virtualDtos || [];
         sections.forEach((section: VirtualSectionModel, index: number) => {
@@ -80,7 +79,7 @@ export default class VirtualModal extends Vue {
     }
 
     // 提交模拟数据
-    async submit(isCode: boolean) {
+    async submit(isCode?: boolean) {
         try {
             let result = await this.setVirtualData(isCode);
             if (!result) Prompt.error(`${this.msg}模拟数据设置失败`);
@@ -92,11 +91,6 @@ export default class VirtualModal extends Vue {
         } catch (error) {
             Prompt.error(error.message || error);
         }
-    }
-
-    // 处理二次验证submit事件
-    async handleSecondVerifySubmit() {
-        await this.submit(true);
     }
 
     @Watch('value')

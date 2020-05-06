@@ -1,20 +1,21 @@
 import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component, Prop, Model, Watch } from 'vue-property-decorator';
-import { ValidationResult } from 'jpts-validator';
 
+import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { OperationType, CarrierFormType, AreaCodes, IAreaCode, defaultAreaCode } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { ISelectOption } from '@/ts/interfaces';
 import { CarrierFormModel, CarrierModel } from '@/ts/models';
-import { CarrierService } from '@/ts/services';
+
+import SecondVerify from '@/components/common/second-verify';
 
 const carrierModule = namespace('carrier');
 
 @Component({
     name: 'UserModal',
-    components: {}
+    components: { SecondVerify }
 })
 export default class UserModal extends Vue {
     @Model('close', { type: Boolean }) value!: boolean; // v-model
@@ -22,12 +23,18 @@ export default class UserModal extends Vue {
     @Prop() readonly formType!: CarrierFormType; // 表单类型
     @Prop() readonly carrier?: CarrierModel; // 运营商参数
 
+    @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
     @State('areaCodeOptions') areaCodeOptions!: Array<ISelectOption>;
+
     @carrierModule.State('cycleOptions') cycleOptions!: Array<ISelectOption>;
+    @carrierModule.State('carrierForm') carrierForm!: CarrierFormModel;
+    @carrierModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
+    @carrierModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
+    @carrierModule.Action('addCarrier') addCarrier!: (isCode?: boolean) => any;
+    @carrierModule.Action('updateCarrier') updateCarrier!: (isCode?: boolean) => any;
 
     isShow: boolean = this.value; // 是否显示模态框
     title: string = ''; // 标题
-    carrierForm: CarrierFormModel = new CarrierFormModel(); // 运营商表单
     currentCycle: string = '';
 
     // 国家地区过滤选项
@@ -41,7 +48,7 @@ export default class UserModal extends Vue {
     handleFormChange(key: string, value: any) {
         let carrierForm = Utils.duplicate(this.carrierForm);
         carrierForm[key] = value;
-        this.carrierForm = carrierForm;
+        this.setStates({ carrierForm });
     }
 
     // 处理单选按钮change事件
@@ -53,7 +60,7 @@ export default class UserModal extends Vue {
             carrierForm = Utils.duplicate(this.carrierForm);
         carrierForm.billingCycle = Number(parts[0]);
         carrierForm.unit = parts[1];
-        this.carrierForm = carrierForm;
+        this.setStates({ carrierForm });
     }
 
     // 处理模态框cancel事件
@@ -61,17 +68,20 @@ export default class UserModal extends Vue {
         this.$emit('close', false);
     }
 
-    // 提交运营商信息
-    async submit() {
-        let { formType, carrierForm } = this,
-            result: ValidationResult = CarrierService.validateCarrierForm(carrierForm, formType);
-        if (!result.status) {
-            Prompt.error(Utils.getFirstValue(result.data));
-            return;
+    // 提交运营商表单
+    async submit(isCode?: boolean) {
+        try {
+            let operationType = this.operationType,
+                result = operationType === OperationType.Add ? await this.addCarrier(isCode) : await this.updateCarrier(isCode);
+            if (!result) Prompt.error('操作失败');
+            else {
+                Prompt.success('操作成功');
+                this.$emit('close', false);
+                this.$emit('submit');
+            }
+        } catch (error) {
+            Prompt.error(error.message || error);
         }
-
-        this.$emit('close', false);
-        this.$emit('submit', this.carrierForm);
     }
 
     @Watch('value')
@@ -119,7 +129,7 @@ export default class UserModal extends Vue {
                     }
                 }
             }
-            this.carrierForm = carrierForm;
+            this.setStates({ carrierForm });
         }
     }
 }

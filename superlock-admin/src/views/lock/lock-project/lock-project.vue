@@ -49,7 +49,7 @@
                 {{ ['停用', '启用'][record.enable === true ? 1 : 0] }}
             </span>
             <template slot="operation" slot-scope="record">
-                <ant-button type="default" size="small" @click="openProjectModal(record)">修改</ant-button>
+                <ant-button type="default" size="small" @click="openModal(record)">修改</ant-button>
             </template>
         </ant-table>
 
@@ -65,7 +65,7 @@
             @showSizeChange="handlePageSizeChange"
         />
 
-        <ProjectModal v-model="isShow" :project="currentProject" @submit="handleProjectModalSubmit" />
+        <ProjectModal v-model="isProjectShow" :project="project" @submit="handleModalSubmit" />
     </div>
 </template>
 

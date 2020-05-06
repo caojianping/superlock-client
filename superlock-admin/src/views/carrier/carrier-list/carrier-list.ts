@@ -4,23 +4,21 @@ import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { OperationType, CarrierFormType, ResponseCode } from '@/ts/config';
+import { OperationType, CarrierFormType } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { IPageParameters, ISelectOption, ICarrierPageParameters } from '@/ts/interfaces';
-import { CarrierModel, CarrierFormModel } from '@/ts/models';
+import { CarrierModel } from '@/ts/models';
 
-import SecondVerify from '@/components/common/second-verify';
 import CarrierModal from '@/components/modals/carrier-modal';
 
 const carrierModule = namespace('carrier');
 
 @Component({
     name: 'CarrierList',
-    components: { SecondVerify, CarrierModal }
+    components: { CarrierModal }
 })
 export default class CarrierList extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
-    @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
     @State('carrierOptions') carrierOptions!: Array<ISelectOption>;
     @Mutation(TYPES.SET_STATES) setRootStates!: (payload: any) => any;
@@ -29,22 +27,16 @@ export default class CarrierList extends Vue {
 
     @carrierModule.State('operationType') operationType!: OperationType;
     @carrierModule.State('formType') formType!: CarrierFormType;
-    @carrierModule.State('carrierForm') carrierForm!: CarrierFormModel;
     @carrierModule.State('carrier') carrier?: CarrierModel;
-
     @carrierModule.State('carrierParameters') carrierParameters!: IPageParameters<ICarrierPageParameters>;
     @carrierModule.State('totalCount') totalCount!: number;
     @carrierModule.State('list') list!: Array<CarrierModel>;
-
     @carrierModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @carrierModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
     @carrierModule.Action('fetchCarriers') fetchCarriers!: () => any;
     @carrierModule.Action('exportCarriers') exportCarriers!: () => any;
-    @carrierModule.Action('addCarrier') addCarrier!: (isCode?: boolean) => any;
-    @carrierModule.Action('updateCarrier') updateCarrier!: (isCode?: boolean) => any;
 
-    isCarrierShow: boolean = false; // 是否显示运营商模态框
+    isCarrierShow: boolean = false;
 
     columns: Array<any> = [
         {
@@ -152,39 +144,16 @@ export default class CarrierList extends Vue {
         }
     }
 
-    // 打开运营商模态框
-    openCarrierModal(operationType: OperationType, formType: CarrierFormType, carrier?: CarrierModel) {
+    // 打开模态框
+    openModal(operationType: OperationType, formType: CarrierFormType, carrier?: CarrierModel) {
         this.isCarrierShow = true;
         this.setStates({ operationType, formType, carrier });
     }
 
-    // 私有函数：设置运营商
-    async _setCarrier(carrierForm: CarrierFormModel, isCode?: boolean) {
-        try {
-            this.setStates({ carrierForm });
-            let operationType = this.operationType,
-                result = operationType === OperationType.Add ? await this.addCarrier(isCode) : await this.updateCarrier(isCode);
-            if (!result) Prompt.error('操作失败');
-            else {
-                Prompt.success('操作成功');
-                await this.fetchCarrierOptions(true);
-                await this.fetchCarriers();
-            }
-        } catch (error) {
-            if (error.code !== ResponseCode.SecondVerify) {
-                Prompt.error(error.message || error);
-            }
-        }
-    }
-
-    // 处理运营商模态框submit事件
-    async handleCarrierModalSubmit(carrierForm: CarrierFormModel) {
-        this._setCarrier(carrierForm, false);
-    }
-
-    // 处理二次验证submit事件
-    async handleSecondVerifySubmit() {
-        this._setCarrier(this.carrierForm, true);
+    // 处理模态框submit事件
+    async handleModalSubmit() {
+        await this.fetchCarrierOptions(true);
+        await this.fetchCarriers();
     }
 
     // 处理页码change事件

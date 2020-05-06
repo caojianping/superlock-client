@@ -24,7 +24,7 @@ export default class InitModal extends Vue {
     @homeModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @homeModule.Mutation(TYPES.CLEAR_STATES) clearStates!: (payload: any) => any;
     @homeModule.Action('fetchInitData') fetchInitData!: () => any;
-    @homeModule.Action('setInitData') setInitData!: (isCode: boolean) => any;
+    @homeModule.Action('setInitData') setInitData!: (isCode?: boolean) => any;
 
     isShow: boolean = this.value; // 是否显示模态框
 
@@ -41,7 +41,7 @@ export default class InitModal extends Vue {
     }
 
     // 提交初始化数据
-    async submit(isCode: boolean) {
+    async submit(isCode?: boolean) {
         try {
             let result = await this.setInitData(isCode);
             if (!result) Prompt.error('初始化数据设置失败');
@@ -53,11 +53,6 @@ export default class InitModal extends Vue {
         } catch (error) {
             Prompt.error(error.message || error);
         }
-    }
-
-    // 处理二次验证submit事件
-    async handleSecondVerifySubmit() {
-        await this.submit(true);
     }
 
     @Watch('value')

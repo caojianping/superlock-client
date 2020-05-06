@@ -27,8 +27,8 @@ export default class LockProject extends Vue {
     @lockModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @lockModule.Action('fetchProjects') fetchProjects!: () => any;
 
-    isShow: boolean = false;
-    currentProject: ProjectModel = new ProjectModel();
+    isProjectShow: boolean = false;
+    project: ProjectModel = new ProjectModel();
 
     columns: Array<any> = [
         {
@@ -104,14 +104,14 @@ export default class LockProject extends Vue {
         }
     }
 
-    // 打开项目模态框
-    openProjectModal(project: ProjectModel) {
-        this.isShow = true;
-        this.currentProject = project;
+    // 打开模态框
+    openModal(project: ProjectModel) {
+        this.isProjectShow = true;
+        this.project = project;
     }
 
-    // 处理项目模态框submit事件
-    handleProjectModalSubmit() {
+    // 处理模态框submit事件
+    handleModalSubmit() {
         this.fetchProjects();
     }
 

@@ -33,7 +33,7 @@
             <ant-button class="sl-submit" type="primary" @click="submit(false)">保存</ant-button>
         </ant-row>
 
-        <SecondVerify :is-show="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
+        <SecondVerify :is-show="isSecondVerifyShow" @submit="submit(true)" />
     </ant-modal>
 </template>
 

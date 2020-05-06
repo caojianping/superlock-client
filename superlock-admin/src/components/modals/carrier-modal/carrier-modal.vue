@@ -10,7 +10,7 @@
                             allowClear
                             placeholder="请输入运营商名称"
                             @change="handleFormChange('carrierName', $event.target.value)"
-                            @keyup.enter="submit"
+                            @keyup.enter="submit(false)"
                         />
                     </ant-form-item>
                 </ant-col>
@@ -40,7 +40,7 @@
                             allowClear
                             placeholder="请输入手机号"
                             @change="handleFormChange('mobile', $event.target.value)"
-                            @keyup.enter="submit"
+                            @keyup.enter="submit(false)"
                         />
                     </ant-form-item>
                 </ant-col>
@@ -54,7 +54,7 @@
                             allowClear
                             placeholder="请输入邮箱"
                             @change="handleFormChange('email', $event.target.value)"
-                            @keyup.enter="submit"
+                            @keyup.enter="submit(false)"
                         />
                     </ant-form-item>
                 </ant-col>
@@ -68,7 +68,7 @@
                             allowClear
                             placeholder="8-15位大小写字母、数字、特殊字符任意两种组成"
                             @change="handleFormChange('loginPwd', $event.target.value)"
-                            @keyup.enter="submit"
+                            @keyup.enter="submit(false)"
                         />
                     </ant-form-item>
                 </ant-col>
@@ -83,7 +83,7 @@
                             :precision="2"
                             placeholder="请输入返点比例(%)"
                             @change="handleFormChange('rebateRatio', $event)"
-                            @keyup.enter="submit"
+                            @keyup.enter="submit(false)"
                         />
                     </ant-form-item>
                 </ant-col>
@@ -139,7 +139,7 @@
                                 allowClear
                                 placeholder="8-15位大小写字母、数字、特殊字符任意两种组成"
                                 @change="handleFormChange('loginPwd', $event.target.value)"
-                                @keyup.enter="submit"
+                                @keyup.enter="submit(false)"
                             />
                         </ant-form-item>
                     </ant-col>
@@ -172,7 +172,7 @@
                                 allowClear
                                 placeholder="请输入新手机号"
                                 @change="handleFormChange('mobile', $event.target.value)"
-                                @keyup.enter="submit"
+                                @keyup.enter="submit(false)"
                             />
                         </ant-form-item>
                     </ant-col>
@@ -186,7 +186,7 @@
                                 allowClear
                                 placeholder="8-15位大小写字母、数字、特殊字符任意两种组成"
                                 @change="handleFormChange('loginPwd', $event.target.value)"
-                                @keyup.enter="submit"
+                                @keyup.enter="submit(false)"
                             />
                         </ant-form-item>
                     </ant-col>
@@ -204,7 +204,7 @@
                                 :precision="2"
                                 placeholder="请输入返点比例(%)"
                                 @change="handleFormChange('rebateRatio', $event)"
-                                @keyup.enter="submit"
+                                @keyup.enter="submit(false)"
                             />
                         </ant-form-item>
                     </ant-col>
@@ -230,7 +230,7 @@
                                 allowClear
                                 placeholder="请输入新邮箱地址"
                                 @change="handleFormChange('email', $event.target.value)"
-                                @keyup.enter="submit"
+                                @keyup.enter="submit(false)"
                             />
                         </ant-form-item>
                     </ant-col>
@@ -244,7 +244,7 @@
                                 allowClear
                                 placeholder="8-15位大小写字母、数字、特殊字符任意两种组成"
                                 @change="handleFormChange('loginPwd', $event.target.value)"
-                                @keyup.enter="submit"
+                                @keyup.enter="submit(false)"
                             />
                         </ant-form-item>
                     </ant-col>
@@ -253,8 +253,10 @@
         </div>
 
         <ant-row :gutter="24">
-            <ant-button class="sl-submit" type="primary" @click="submit">保存</ant-button>
+            <ant-button class="sl-submit" type="primary" @click="submit(false)">保存</ant-button>
         </ant-row>
+
+        <SecondVerify :is-show="isSecondVerifyShow" @submit="submit(true)" />
     </ant-modal>
 </template>
 

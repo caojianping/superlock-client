@@ -86,7 +86,7 @@ export default {
             context: IActionContext<ISystemState>,
             payload: {
                 name: string;
-                isCode: boolean;
+                isCode?: boolean;
             }
         ): Promise<boolean> {
             return await systemService.deleteUser(payload.name, payload.isCode);
@@ -102,7 +102,7 @@ export default {
             context: IActionContext<ISystemState>,
             payload: {
                 name: string;
-                isCode: boolean;
+                isCode?: boolean;
             }
         ): Promise<boolean> {
             return await systemService.resetGa(payload.name, payload.isCode);

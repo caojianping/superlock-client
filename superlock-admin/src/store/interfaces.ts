@@ -24,7 +24,8 @@ import {
     IExpendReportPageParameters,
     IUserReportPageParameters,
     IRechargeReportPageParameters,
-    IRechargeAddressPageParameters
+    IRechargeAddressPageParameters,
+    IMigrationPageParameters
 } from '@/ts/interfaces';
 import {
     TokenInfo,
@@ -74,7 +75,9 @@ import {
     UserReportModel,
     RechargeAddressModel,
     InitModel,
-    VirtualModel
+    VirtualModel,
+    MigrationModel,
+    MigrationFormModel
 } from '@/ts/models';
 
 export interface IActionContext<T> {
@@ -191,12 +194,16 @@ export interface IMemberState {
     brokerParameters: IPageParameters<IBrokerPageParameters>;
     childParameters: IPageParameters<IBrokerChildPageParameters>;
     rateParameters: IPageParameters<IRatePageParameters>;
+    migrationParameters: IPageParameters<IMigrationPageParameters>;
     totalCount: number;
-    list: Array<BrokerModel | BrokerChildModel | RateModel>;
+    list: Array<BrokerModel | BrokerChildModel | RateModel | MigrationModel>;
 
     brokerForm: BrokerFormModel;
     rateForm: RateFormModel;
     quotaForm: QuotaFormModel;
+
+    migrationInfo?: MigrationFormModel | null;
+    migrationForm: MigrationFormModel;
 
     count: number;
 }

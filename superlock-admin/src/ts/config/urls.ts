@@ -132,6 +132,12 @@ export const Urls = {
         child: {
             list: `${baseUrl}/broker/subordinate`,
             export: `${baseUrl}/broker/subordinate/export`
+        },
+        migration: {
+            list: `${baseUrl}/broker/migrationList`,
+            export: `${baseUrl}/broker/migration/export`,
+            info: `${baseUrl}/broker/migration/info`,
+            exec: `${baseUrl}/broker/migration`
         }
     },
     // 运营商模块 ok

@@ -1,5 +1,5 @@
 <template>
-    <ant-modal v-model="isModalShow" :title="title" :width="700" :footer="null" :style="{ top: '32px' }" @cancel="handleModalCancel">
+    <ant-modal v-model="isModalShow" title="绑定谷歌认证" :width="700" :footer="null" :style="{ top: '32px' }" @cancel="handleModalCancel">
         <ul class="steps">
             <li class="step-item flex">
                 <div class="step-number">第一步</div>
@@ -42,10 +42,10 @@
                     </h2>
                     <div class="step-note gacode">
                         <ant-input
+                            ref="code"
                             class="gacode-input"
                             :value="gacode"
                             allowClear
-                            v-focus
                             placeholder="请输入动态密码"
                             @change="handleFormChange('gacode', $event)"
                             @keyup.enter="submit"

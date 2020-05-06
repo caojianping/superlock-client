@@ -102,6 +102,7 @@ export default class Sider extends Vue {
             icon: 'member',
             items: [
                 { name: '券商列表', route: '/member/broker/0' },
+                { name: '迁移记录', route: '/member/migration' },
                 { name: '代理列表', route: '/member/broker/1' },
                 { name: '利率详情', route: '/member/rate' }
             ],

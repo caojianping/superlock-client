@@ -74,7 +74,7 @@
             </div>
         </div>
 
-        <ant-button class="sl-tool large" type="primary" @click="openCarrierModal(1, 1, null)">新增运营商</ant-button>
+        <ant-button class="sl-tool large" type="primary" @click="openModal(1, 1, null)">新增运营商</ant-button>
         <ant-button class="sl-tool" type="primary" @click="exportReport">导出报表</ant-button>
 
         <ant-table
@@ -98,10 +98,10 @@
                 {{ record.createTime | dateFormat }}
             </span>
             <template slot="operation" slot-scope="record">
-                <ant-button class="w65px" type="danger" size="small" @click="openCarrierModal(2, 2, record)">密码重置</ant-button>
-                <ant-button class="w80px" type="default" size="small" @click="openCarrierModal(2, 3, record)">更改手机号</ant-button>
-                <ant-button class="w80px" type="danger" size="small" @click="openCarrierModal(2, 5, record)">更改邮箱</ant-button>
-                <ant-button class="w65px" type="default" size="small" @click="openCarrierModal(2, 4, record)">返奖设置</ant-button>
+                <ant-button class="w65px" type="danger" size="small" @click="openModal(2, 2, record)">密码重置</ant-button>
+                <ant-button class="w80px" type="default" size="small" @click="openModal(2, 3, record)">更改手机号</ant-button>
+                <ant-button class="w80px" type="danger" size="small" @click="openModal(2, 5, record)">更改邮箱</ant-button>
+                <ant-button class="w65px" type="default" size="small" @click="openModal(2, 4, record)">返奖设置</ant-button>
             </template>
         </ant-table>
 
@@ -117,15 +117,7 @@
             @showSizeChange="handlePageSizeChange"
         />
 
-        <CarrierModal
-            v-model="isCarrierShow"
-            :operation-type="operationType"
-            :form-type="formType"
-            :carrier="carrier"
-            @submit="handleCarrierModalSubmit"
-        />
-
-        <SecondVerify :is-show="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
+        <CarrierModal v-model="isCarrierShow" :operation-type="operationType" :form-type="formType" :carrier="carrier" @submit="handleModalSubmit" />
     </div>
 </template>
 

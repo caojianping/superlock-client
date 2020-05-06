@@ -6,28 +6,21 @@ import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { Prompt } from '@/ts/common';
 import { IPageParameters, IBrokerPageParameters, ISelectOption } from '@/ts/interfaces';
-import { BrokerModel, BrokerFormModel, RateFormModel, QuotaFormModel } from '@/ts/models';
+import { BrokerModel } from '@/ts/models';
 
-import SecondVerify from '@/components/common/second-verify';
 import BrokerModal from '@/components/member/broker-modal';
 import QuotaModal from '@/components/member/quota-modal';
 import RateModal from '@/components/member/rate-modal';
+import MigrationModal from '@/components/member/migration-modal';
 
 const memberModule = namespace('member');
 
-const enum SecondVerifyType {
-    Broker = 1,
-    Rate = 2,
-    Quota = 3
-}
-
 @Component({
     name: 'MemberBroker',
-    components: { SecondVerify, BrokerModal, QuotaModal, RateModal }
+    components: { BrokerModal, QuotaModal, RateModal, MigrationModal }
 })
 export default class MemberBroker extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
-    @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
     @State('carrierOptions') carrierOptions!: Array<ISelectOption>;
     @Action('fetchCarrierOptions') fetchCarrierOptions!: () => any;
@@ -35,25 +28,17 @@ export default class MemberBroker extends Vue {
     @memberModule.State('brokerParameters') brokerParameters!: IPageParameters<IBrokerPageParameters>;
     @memberModule.State('totalCount') totalCount!: number;
     @memberModule.State('list') list!: Array<BrokerModel>;
-    @memberModule.State('projectOptions') projectOptions!: Array<any>;
-    @memberModule.State('brokerForm') brokerForm!: BrokerFormModel;
-    @memberModule.State('rateForm') rateForm!: RateFormModel;
-    @memberModule.State('quotaForm') quotaForm!: QuotaFormModel;
     @memberModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @memberModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @memberModule.Action('fetchBrokers') fetchBrokers!: () => any;
     @memberModule.Action('exportBrokers') exportBrokers!: () => any;
-    @memberModule.Action('fetchProjectTypes') fetchProjectTypes!: () => any;
-    @memberModule.Action('addBroker') addBroker!: (isCode: boolean) => any;
-    @memberModule.Action('setRate') setRate!: (isCode: boolean) => any;
-    @memberModule.Action('addQuota') addQuota!: (isCode: boolean) => any;
 
     type: number = 0;
     isBrokerShow: boolean = false;
     isRateShow: boolean = false;
     isQuotaShow: boolean = false;
-    currentBroker: BrokerModel = new BrokerModel();
-    currentType: SecondVerifyType = SecondVerifyType.Broker; // 当前二次验证类型
+    isMigrationShow: boolean = false;
+    broker: BrokerModel = new BrokerModel();
 
     columns: Array<any> = [];
 
@@ -94,87 +79,17 @@ export default class MemberBroker extends Vue {
         }
     }
 
-    // 打开券商模态框
-    openBrokerModal() {
-        this.isBrokerShow = true;
-        this.currentType = SecondVerifyType.Broker;
-    }
-
-    // 打开利率模态框
-    openRateModal(broker: BrokerModel) {
-        this.isRateShow = true;
-        this.currentBroker = broker;
-        this.currentType = SecondVerifyType.Rate;
-    }
-
-    // 打开额度模态框
-    openQuotaModal(broker: BrokerModel) {
-        this.isQuotaShow = true;
-        this.currentBroker = broker;
-        this.currentType = SecondVerifyType.Quota;
-    }
-
-    // 私有函数：提交券商信息
-    async _submitBroker(brokerForm: BrokerFormModel, isCode: boolean) {
-        try {
-            this.setStates({ brokerForm });
-            let result = await this.addBroker(isCode);
-            if (!result) Prompt.error('券商添加失败');
-            else await this.fetchBrokers();
-        } catch (error) {
-            Prompt.error(error.message || error);
+    // 打开模态框
+    openModal(key: string, broker?: BrokerModel) {
+        this[key] = true;
+        if (broker) {
+            this.broker = broker;
         }
     }
 
-    // 处理券商模态框submit事件
-    async handleBrokerSubmit(brokerForm: BrokerFormModel) {
-        await this._submitBroker(brokerForm, false);
-    }
-
-    // 私有函数：提交利率信息
-    async _submitRate(rateForm: RateFormModel, isCode: boolean) {
-        try {
-            this.setStates({ rateForm });
-            let result = await this.setRate(isCode);
-            if (!result) Prompt.error('利率设置失败');
-            else await this.fetchBrokers();
-        } catch (error) {
-            Prompt.error(error.message || error);
-        }
-    }
-
-    // 处理利率商模态框submit事件
-    async handleRateSubmit(rateForm: RateFormModel) {
-        await this._submitRate(rateForm, false);
-    }
-
-    // 私有函数：提交额度信息
-    async _submitQuota(quotaForm: QuotaFormModel, isCode: boolean) {
-        try {
-            this.setStates({ quotaForm });
-            let result = await this.addQuota(isCode);
-            if (!result) Prompt.error('额度添加失败');
-            else await this.fetchBrokers();
-        } catch (error) {
-            Prompt.error(error.message || error);
-        }
-    }
-
-    // 处理额度商模态框submit事件
-    async handleQuotaSubmit(quotaForm: QuotaFormModel) {
-        await this._submitQuota(quotaForm, false);
-    }
-
-    // 处理二次验证submit事件
-    async handleSecondVerifySubmit() {
-        let type = this.currentType;
-        if (type === SecondVerifyType.Broker) {
-            await this._submitBroker(this.brokerForm, true);
-        } else if (type === SecondVerifyType.Rate) {
-            await this._submitRate(this.rateForm, true);
-        } else if (type === SecondVerifyType.Quota) {
-            await this._submitQuota(this.quotaForm, true);
-        }
+    // 处理模态框submit事件
+    handleModalSubmit() {
+        this.fetchBrokers();
     }
 
     // 处理页码change事件
@@ -353,7 +268,6 @@ export default class MemberBroker extends Vue {
         try {
             await this.fetchCarrierOptions();
             await this.fetchBrokers();
-            await this.fetchProjectTypes();
         } catch (error) {
             Prompt.error(error.message || error);
         }

@@ -21,7 +21,7 @@ export default class LockCreate extends Vue {
     @lockModule.State('projectForm') projectForm!: ProjectFormModel;
     @lockModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @lockModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-    @lockModule.Action('crateProject') crateProject!: (isCode: boolean) => any;
+    @lockModule.Action('crateProject') crateProject!: (isCode?: boolean) => any;
 
     // 处理表单change事件
     handleFormChange(key: string, value: any) {
@@ -30,8 +30,8 @@ export default class LockCreate extends Vue {
         this.setStates({ projectForm });
     }
 
-    // 提交锁仓信息
-    async submit(isCode: boolean) {
+    // 提交锁仓表单
+    async submit(isCode?: boolean) {
         try {
             let result = await this.crateProject(isCode);
             if (!result) Prompt.error('锁仓创建失败');
@@ -39,11 +39,6 @@ export default class LockCreate extends Vue {
         } catch (error) {
             Prompt.error(error.message || error);
         }
-    }
-
-    // 处理二次验证submit事件
-    async handleSecondVerifySubmit() {
-        await this.submit(true);
     }
 
     created() {

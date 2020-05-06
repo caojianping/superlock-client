@@ -19,13 +19,11 @@
                 {{ record.chargeRate | ratePercent }}
             </span>
             <template slot="operation" slot-scope="record">
-                <ant-button type="default" size="small" @click="openPoundageModal(2, record)">修改</ant-button>
+                <ant-button type="default" size="small" @click="openModal(2, record)">修改</ant-button>
             </template>
         </ant-table>
 
-        <PoundageModal v-model="isPoundageShow" :type="currentOperation" :poundage="currentPoundage" @submit="handlePoundageSubmit" />
-
-        <SecondVerify :is-show="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
+        <PoundageModal v-model="isPoundageShow" :operation-type="operationType" :data="poundage" @submit="handleModalSubmit" />
     </div>
 </template>
 

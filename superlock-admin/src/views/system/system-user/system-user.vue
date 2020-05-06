@@ -30,11 +30,11 @@
             @showSizeChange="handlePageSizeChange"
         />
 
-        <UserModal v-model="isUserShow" :roleOptions="roleOptions" :type="currentOperation" :user="currentUser" @submit="handleUserSubmit" />
+        <UserModal v-model="isUserShow" :operation-type="operationType" :user="user" @submit="handleModalSubmit" />
 
-        <PasswordModal v-model="isPasswordShow" title="输入登录密码" :user="currentUser" @submit="handlePasswordSubmit" />
+        <PasswordModal v-model="isPasswordShow" :user="user" @submit="handleModalSubmit" />
 
-        <SecondVerify :is-show="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
+        <SecondVerify :is-show="isSecondVerifyShow" @submit="handleSecondVerifySubmit" />
     </div>
 </template>
 

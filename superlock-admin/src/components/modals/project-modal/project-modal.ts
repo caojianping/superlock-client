@@ -55,11 +55,6 @@ export default class ProjectModal extends Vue {
         }
     }
 
-    // 处理二次验证submit事件
-    async handleSecondVerifySubmit() {
-        await this.submit(true);
-    }
-
     @Watch('value')
     watchValue(value: boolean) {
         this.isShow = value;

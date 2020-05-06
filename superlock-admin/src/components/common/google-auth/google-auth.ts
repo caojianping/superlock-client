@@ -11,7 +11,6 @@ const googleModule = namespace('google');
 @Component({ name: 'GoogleAuth' })
 export default class GoogleAuth extends Vue {
     @Prop() readonly isShow!: boolean;
-    @Prop() readonly title!: string;
     @Prop() readonly loginForm!: LoginFormModel;
 
     @Mutation(TYPES.SET_STATES) setRootStates!: (payload: any) => any;
@@ -82,13 +81,24 @@ export default class GoogleAuth extends Vue {
         }
     }
 
+    // 谷歌验证码获取焦点
+    codeFocus() {
+        let self = this;
+        self.$nextTick(function() {
+            let $code: any = self.$refs.code;
+            if ($code) {
+                $code.focus();
+            }
+        });
+    }
+
     @Watch('isShow')
     watchIsShow(isShow: boolean) {
-        console.log('谷歌认证 watchIsShow', isShow);
         this.isModalShow = isShow;
         let loginForm = this.loginForm;
         if (isShow && loginForm) {
             this.clearStates();
+            this.codeFocus();
             this.fetchGoogleKey(loginForm);
         }
     }

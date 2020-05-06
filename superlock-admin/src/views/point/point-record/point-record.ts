@@ -6,43 +6,31 @@ import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { Prompt } from '@/ts/common';
 import { IPageParameters, IPointPageParameters } from '@/ts/interfaces';
-import { PointModel, PointFormModel, TransferFormModel } from '@/ts/models';
+import { PointModel } from '@/ts/models';
 
-import SecondVerify from '@/components/common/second-verify';
 import PointModal from '@/components/point/point-modal';
 import TransferModal from '@/components/point/transfer-modal';
 
 const pointModule = namespace('point');
 
-const enum SecondVerifyType {
-    PointInfoModel = 1,
-    TransferInfoModel = 2
-}
-
 @Component({
     name: 'PointRecord',
-    components: { SecondVerify, PointModal, TransferModal }
+    components: { PointModal, TransferModal }
 })
 export default class PointRecord extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
-    @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
 
     @pointModule.State('pointParameters') pointParameters!: IPageParameters<IPointPageParameters>;
     @pointModule.State('totalCount') totalCount!: number;
     @pointModule.State('list') list!: Array<PointModel>;
-    @pointModule.State('pointForm') pointForm!: PointFormModel;
-    @pointModule.State('transferForm') transferForm!: TransferFormModel;
     @pointModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @pointModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @pointModule.Action('fetchPoints') fetchPoints!: () => any;
     @pointModule.Action('exportPoints') exportPoints!: () => any;
-    @pointModule.Action('setPointInfo') setPointInfo!: (isCode: boolean) => any;
-    @pointModule.Action('setTransferInfo') setTransferInfo!: (isCode: boolean) => any;
 
     isPointShow: boolean = false;
     isTransferShow: boolean = false;
-    currentType: SecondVerifyType = SecondVerifyType.PointInfoModel; // 当前二次验证类型
 
     columns: Array<any> = [
         {
@@ -115,60 +103,14 @@ export default class PointRecord extends Vue {
         }
     }
 
-    // 打开上分模态框
-    openPointModal() {
-        this.isPointShow = true;
-        this.currentType = SecondVerifyType.PointInfoModel;
+    // 打开模态框
+    openModal(key: string) {
+        this[key] = true;
     }
 
-    // 打开转账模态框
-    openTransferModal() {
-        this.isTransferShow = true;
-        this.currentType = SecondVerifyType.TransferInfoModel;
-    }
-
-    // 私有函数：提交上分信息
-    async _submitPoint(pointForm: PointFormModel, isCode: boolean) {
-        try {
-            this.setStates({ pointForm });
-            let result = await this.setPointInfo(isCode);
-            if (!result) Prompt.error('操作失败');
-            else await this.fetchPoints();
-        } catch (error) {
-            Prompt.error(error.message || error);
-        }
-    }
-
-    // 处理上分模态框submit事件
-    async handlePointSubmit(pointForm: PointFormModel) {
-        await this._submitPoint(pointForm, false);
-    }
-
-    // 私有函数：提交转账信息
-    async _submitTransfer(transferForm: TransferFormModel, isCode: boolean) {
-        try {
-            this.setStates({ transferForm });
-            let result = await this.setTransferInfo(isCode);
-            if (!result) Prompt.error('操作失败');
-            else await this.fetchPoints();
-        } catch (error) {
-            Prompt.error(error.message || error);
-        }
-    }
-
-    // 处理转账模态框submit事件
-    async handleTransferSubmit(transferForm: TransferFormModel) {
-        await this._submitTransfer(transferForm, false);
-    }
-
-    // 处理二次验证submit事件
-    async handleSecondVerifySubmit() {
-        let type = this.currentType;
-        if (type === SecondVerifyType.PointInfoModel) {
-            await this._submitPoint(this.pointForm, true);
-        } else if (type === SecondVerifyType.TransferInfoModel) {
-            await this._submitTransfer(this.transferForm, true);
-        }
+    // 处理模态框submit事件
+    handleModalSubmit() {
+        this.fetchPoints();
     }
 
     // 处理页码change事件

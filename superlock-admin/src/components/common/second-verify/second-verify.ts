@@ -50,7 +50,6 @@ export default class SecondVerify extends Vue {
 
     @Watch('isShow')
     watchIsShow(isShow: boolean) {
-        console.log('二次验证 watchIsShow', isShow);
         this.isModalShow = isShow;
         if (isShow) {
             this.code = '';

@@ -28,40 +28,6 @@
                     </ant-col>
                 </ant-row>
 
-                <!-- <ant-row :gutter="24">
-                    <ant-col :span="18">
-                        <ant-form-item label="直推利率(%)" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
-                            <ant-input-number
-                                :value="awardForm.pushStraightRate"
-                                :min="0"
-                                :max="100"
-                                :precision="2"
-                                placeholder="请输入直推利率"
-                                @change="handleFormChange('pushStraightRate', $event)"
-                                @keyup.enter="submit(false)"
-                            />
-                        </ant-form-item>
-                    </ant-col>
-                </ant-row> -->
-
-                <!-- <ant-row :gutter="24">
-                    <ant-col :span="18">
-                        <ant-form-item
-                            label="最小锁仓数量(BCB)"
-                            :label-col="{ span: 8 }"
-                            :wrapper-col="{ span: 16 }"
-                        >
-                            <ant-input-number
-                                :value="awardForm.lockAmount"
-                                :min="0"
-                                placeholder="请输入最小锁仓数量(BCB)"
-                                @change="handleFormChange('lockAmount', $event)"
-                                @keyup.enter="submit(false)"
-                            />
-                        </ant-form-item>
-                    </ant-col>
-                </ant-row> -->
-
                 <ant-row :gutter="24">
                     <ant-col :span="24">
                         <ant-form-item label="日销奖励:" :label-col="{ span: 6 }" :wrapper-col="{ span: 17 }">
@@ -113,7 +79,7 @@
             </div>
         </div>
 
-        <SecondVerify :is-show="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
+        <SecondVerify :is-show="isSecondVerifyShow" @submit="submit(true)" />
     </div>
 </template>
 

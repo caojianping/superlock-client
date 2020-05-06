@@ -40,7 +40,7 @@ export class SystemService {
 
     // 获取角色列表
     public async fetchRoles(): Promise<Array<ISelectOption>> {
-        let roles = await Caxios.get<Array<any> | null>({ url: Urls.system.user.roles }, CaxiosType.Token);
+        let roles = await Caxios.get<Array<any> | null>({ url: Urls.system.user.roles }, CaxiosType.FullLoadingToken);
         return Utils.arraySort(roles || [], 'id', true).map((item: any) => ({
             label: item.name,
             value: item.id

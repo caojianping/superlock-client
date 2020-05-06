@@ -9,7 +9,7 @@
 
         <div class="sl-block">
             <header class="sl-block-header">
-                <h2 class="sl-block-title">上分记录列表</h2>
+                <h2 class="sl-block-title">上分记录</h2>
             </header>
             <div class="sl-block-body">
                 <ant-row :gutter="24">
@@ -45,10 +45,8 @@
             </div>
         </div>
 
-        <ant-button class="sl-tool" type="primary" @click="openPointModal">上分</ant-button>
-
-        <ant-button class="sl-tool" type="primary" @click="openTransferModal">转账</ant-button>
-
+        <ant-button class="sl-tool" type="primary" @click="openModal('isPointShow')">上分</ant-button>
+        <ant-button class="sl-tool" type="primary" @click="openModal('isTransferShow')">转账</ant-button>
         <ant-button class="sl-tool" type="primary" @click="exportReport">导出报表</ant-button>
 
         <ant-table :columns="columns" :rowKey="record => record.date" :dataSource="list" :pagination="false" :loading="isPageLoading">
@@ -69,11 +67,9 @@
             @showSizeChange="handlePageSizeChange"
         />
 
-        <PointModal v-model="isPointShow" title="系统账户上分" @submit="handlePointSubmit" />
+        <PointModal v-model="isPointShow" @submit="handleModalSubmit" />
 
-        <TransferModal v-model="isTransferShow" title="系统转账" @submit="handleTransferSubmit" />
-
-        <SecondVerify :is-show="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
+        <TransferModal v-model="isTransferShow" @submit="handleModalSubmit" />
     </div>
 </template>
 

@@ -88,7 +88,7 @@ export interface IFundPageParameters {
     accountName: string; // 账户名称
 }
 
-// 券商分页列表（代理）
+// 券商分页参数（代理）
 export interface IBrokerPageParameters {
     type: string; // 类型：0券商列表；1代理列表；
     uid: string; // UID
@@ -98,7 +98,7 @@ export interface IBrokerPageParameters {
     carrierName: string; // 补充字段：运营商名称
 }
 
-// 券商下级分页列表（代理）
+// 券商下级分页参数（代理）
 export interface IBrokerChildPageParameters {
     uid: string; // UID
     subordinateUid: string; // 下级UID
@@ -106,7 +106,17 @@ export interface IBrokerChildPageParameters {
     email: string; // 邮箱
 }
 
-// 利率分页列表
+// 迁移分页参数
+export interface IMigrationPageParameters {
+    mobile: string; // 手机号
+    email: string; // 邮箱
+    brokerName: string; // 来源平台
+    carrierName: string; // 迁移平台
+    beginTime: string; // 开始时间
+    endTime: string; // 结束时间
+}
+
+// 利率分页参数
 export interface IRatePageParameters {
     type: string; // 类型：0券商列表；1代理列表；
     uid: string; // UID

@@ -24,7 +24,7 @@ export default class RiskAudit extends Vue {
     @riskModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @riskModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @riskModule.Action('fetchFreeTrial') fetchFreeTrial!: () => any;
-    @riskModule.Action('setFreeTrial') setFreeTrial!: (isCode: boolean) => any;
+    @riskModule.Action('setFreeTrial') setFreeTrial!: (isCode?: boolean) => any;
 
     // 处理表单change事件
     handleFormChange(key: string, value: any) {
@@ -34,7 +34,7 @@ export default class RiskAudit extends Vue {
     }
 
     // 提交免审信息
-    async submit(type: FreeTrialType, isCode: boolean) {
+    async submit(type: FreeTrialType, isCode?: boolean) {
         try {
             this.setStates({ type });
             let msg = ['提现免审', '利息支出免审', '推广奖励免审', '最小锁仓数量'][type - 1],

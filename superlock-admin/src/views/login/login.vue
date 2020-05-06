@@ -46,9 +46,9 @@
             </div>
         </div>
 
-        <GoogleAuth :is-show="isGoogleAuthShow" title="绑定谷歌认证" :login-form="loginForm" @submit="handleGoogleAuthSubmit" />
+        <GoogleAuth :is-show="isGoogleAuthShow" :login-form="loginForm" @submit="handleGoogleAuthSubmit" />
 
-        <SecondVerify :is-show="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
+        <SecondVerify :is-show="isSecondVerifyShow" @submit="submit(true)" />
     </div>
 </template>
 

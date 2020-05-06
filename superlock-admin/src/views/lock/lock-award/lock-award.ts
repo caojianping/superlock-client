@@ -22,7 +22,7 @@ export default class LockAward extends Vue {
     @lockModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @lockModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @lockModule.Action('fetchLockAward') fetchLockAward!: () => any;
-    @lockModule.Action('updateLockAward') updateLockAward!: (isCode: boolean) => any;
+    @lockModule.Action('updateLockAward') updateLockAward!: (isCode?: boolean) => any;
 
     // 处理表单change事件
     handleFormChange(key: string, value: any) {
@@ -64,7 +64,7 @@ export default class LockAward extends Vue {
     }
 
     // 提交奖励信息
-    async submit(isCode: boolean) {
+    async submit(isCode?: boolean) {
         try {
             let result = await this.updateLockAward(isCode);
             if (!result) Prompt.error('奖励设置失败');
@@ -75,11 +75,6 @@ export default class LockAward extends Vue {
         } catch (error) {
             Prompt.error(error.message || error);
         }
-    }
-
-    // 处理二次验证submit事件
-    async handleSecondVerifySubmit() {
-        await this.submit(true);
     }
 
     created() {

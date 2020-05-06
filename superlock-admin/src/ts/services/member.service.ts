@@ -2,7 +2,14 @@ import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
 import { Urls, AreaCodes, defaultAreaCode, CaxiosType, IAreaCode } from '@/ts/config';
 import { Caxios, md5 } from '@/ts/common';
-import { ISelectOption, IPageParameters, IBrokerPageParameters, IBrokerChildPageParameters, IRatePageParameters } from '@/ts/interfaces';
+import {
+    ISelectOption,
+    IPageParameters,
+    IBrokerPageParameters,
+    IBrokerChildPageParameters,
+    IRatePageParameters,
+    IMigrationPageParameters
+} from '@/ts/interfaces';
 import {
     PageResult,
     BrokerChildPageResult,
@@ -11,7 +18,10 @@ import {
     RateModel,
     QuotaFormModel,
     BrokerFormModel,
-    RateFormModel
+    RateFormModel,
+    MigrationModel,
+    MigrationInfoModel,
+    MigrationFormModel
 } from '@/ts/models';
 
 export class MemberService {
@@ -74,6 +84,19 @@ export class MemberService {
                 max: '利率不可以大于100'
             }
         );
+        return validator.execute(key);
+    }
+
+    // 验证迁移表单
+    public static validateMigrationForm(migrationForm: MigrationFormModel): ValidationResult {
+        if (!migrationForm) return { status: false, data: { migrationForm: '参数不可以为空' } };
+
+        let key = 'migration',
+            { uid, operatorId, memo } = migrationForm,
+            validator = new Validator();
+        validator.addRule(key, { name: 'uid', value: uid }, { required: true }, { required: 'UID不可以为空' });
+        validator.addRule(key, { name: 'operatorId', value: operatorId }, { required: true }, { required: '迁移平台不可以为空' });
+        validator.addRule(key, { name: 'memo', value: memo }, { required: true }, { required: '迁移备注不可以为空' });
         return validator.execute(key);
     }
 
@@ -145,7 +168,7 @@ export class MemberService {
 
     // 获取项目类型列表
     public async fetchProjectTypes(): Promise<Array<ISelectOption>> {
-        let result = await Caxios.get<Array<any> | null>({ url: Urls.member.broker.types }, CaxiosType.Token);
+        let result = await Caxios.get<Array<any> | null>({ url: Urls.member.broker.types }, CaxiosType.FullLoadingToken);
         return (result || []).map((item: any) => ({
             label: item.projectName,
             value: item.rateType
@@ -211,6 +234,53 @@ export class MemberService {
                     uid,
                     amount: amount.toFixed(2)
                 }
+            },
+            CaxiosType.FullLoadingToken,
+            isCode
+        );
+        return true;
+    }
+
+    // 获取迁移列表
+    public async fetchMigrations(parameters: IPageParameters<IMigrationPageParameters>): Promise<PageResult<MigrationModel>> {
+        let url = Urls.member.migration.list,
+            result = await Caxios.get<PageResult<MigrationModel> | null>(
+                { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'], ['brokerName', 'carrierName'])}` },
+                CaxiosType.PageLoadingToken
+            );
+        if (!result) return new PageResult<MigrationModel>(0, []);
+        return result as PageResult<MigrationModel>;
+    }
+
+    // 导出迁移列表
+    public async exportMigrations(parameters: IPageParameters<IMigrationPageParameters>): Promise<string> {
+        let url = Urls.member.migration.export,
+            result = await Caxios.get<string | null>(
+                { url: `${url}?${Utils.buildPageParameters(parameters, ['beginTime', 'endTime'], ['brokerName', 'carrierName'])}` },
+                CaxiosType.FullLoadingToken
+            );
+        return result || '';
+    }
+
+    // 获取迁移信息
+    public async fetchMigrationInfo(): Promise<MigrationInfoModel | null> {
+        let result = await Caxios.get<MigrationInfoModel | null>({ url: Urls.member.migration.info }, CaxiosType.FullLoadingToken);
+        if (result) {
+            result.operatorList = (result.operatorList || []).map((item: any) => ({ label: item.operatorName, value: item.operatorId }));
+        }
+        return result;
+    }
+
+    // 执行迁移
+    public async execMigration(migrationForm: MigrationFormModel, isCode: boolean = false): Promise<boolean> {
+        let result: ValidationResult = MemberService.validateMigrationForm(migrationForm);
+        if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
+
+        let { uid, operatorId, memo } = migrationForm;
+        await Caxios.post<any>(
+            {
+                url: Urls.member.migration.exec,
+                data: { uid, operatorId, memo }
             },
             CaxiosType.FullLoadingToken,
             isCode

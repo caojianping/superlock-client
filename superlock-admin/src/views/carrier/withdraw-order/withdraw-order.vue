@@ -153,7 +153,7 @@
             @showSizeChange="handlePageSizeChange"
         />
 
-        <SecondVerify :is-show="isSecondVerifyShow" title="谷歌验证码" @submit="handleSecondVerifySubmit" />
+        <SecondVerify :is-show="isSecondVerifyShow" @submit="handleSecondVerifySubmit" />
     </div>
 </template>
 

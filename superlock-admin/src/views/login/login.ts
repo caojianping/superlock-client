@@ -23,7 +23,7 @@ export default class Login extends Vue {
     @loginModule.State('loginForm') loginForm!: LoginFormModel;
     @loginModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @loginModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-    @loginModule.Action('login') login!: (isCode: boolean) => any;
+    @loginModule.Action('login') login!: (isCode?: boolean) => any;
 
     // 处理表单change事件
     handleFormChange(key: string, event: any) {
@@ -33,7 +33,8 @@ export default class Login extends Vue {
     }
 
     // 提交登录表单
-    async submit(isCode: boolean) {
+    async submit(isCode?: boolean) {
+        console.log('submit isCode:', isCode);
         try {
             let result = await this.login(isCode);
             if (!result) Prompt.error('登录失败');
@@ -46,11 +47,6 @@ export default class Login extends Vue {
     // 处理谷歌认证submit事件
     handleGoogleAuthSubmit() {
         this.$router.push({ path: '/home' });
-    }
-
-    // 处理二次验证submit事件
-    async handleSecondVerifySubmit() {
-        await this.submit(true);
     }
 
     // 用户名称获取焦点
