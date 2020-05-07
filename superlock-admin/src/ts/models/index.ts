@@ -59,9 +59,11 @@ export class TokenInfo {
 export class SecondVerifyResult {
     public type: string; // 验证类型
     public verifyMethod: string; // 验证方式
+    public comGa!: boolean; // 是否为总号
 
-    constructor(type: string, verifyMethod: string) {
+    constructor(type: string, verifyMethod: string, comGa: boolean) {
         this.type = type;
         this.verifyMethod = verifyMethod;
+        this.comGa = comGa;
     }
 }

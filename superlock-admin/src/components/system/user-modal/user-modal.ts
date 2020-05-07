@@ -20,7 +20,7 @@ const systemModule = namespace('system');
 export default class UserModal extends Vue {
     @Model('close', { type: Boolean }) value!: boolean; // v-model
     @Prop() readonly operationType!: OperationType; // 操作类型
-    @Prop() readonly user?: UserModel; // 用户数据
+    @Prop() readonly user!: UserModel; // 用户数据
 
     @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
 

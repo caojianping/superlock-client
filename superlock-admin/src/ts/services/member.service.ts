@@ -1,6 +1,6 @@
 import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
-import { Urls, AreaCodes, defaultAreaCode, CaxiosType, IAreaCode } from '@/ts/config';
+import { Urls, AreaCodes, defaultAreaCode, CaxiosType, IAreaCode, OperationType } from '@/ts/config';
 import { Caxios, md5 } from '@/ts/common';
 import {
     ISelectOption,
@@ -38,12 +38,16 @@ export class MemberService {
     }
 
     // 验证券商表单
-    public static validateBrokerForm(brokerForm: BrokerFormModel): ValidationResult {
+    public static validateBrokerForm(brokerForm: BrokerFormModel, operationType: OperationType): ValidationResult {
         if (!brokerForm) return { status: false, data: { brokerForm: '参数不可以为空' } };
 
         let key = 'broker',
-            { areaCode, mobile, totalDegree, password } = brokerForm,
+            { uid, areaCode, mobile, totalDegree, password } = brokerForm,
             validator = new Validator();
+        if (operationType === OperationType.Edit) {
+            validator.addRule(key, { name: 'uid', value: uid }, { required: true }, { required: 'UID不可以为空' });
+        }
+
         validator.addRule(key, { name: 'areaCode', value: areaCode }, { required: true }, { required: '国家区号不可以为空' });
         if (areaCode === defaultAreaCode.id) {
             validator.addRule(
@@ -55,13 +59,16 @@ export class MemberService {
         } else {
             validator.addRule(key, { name: 'mobile', value: mobile }, { required: true, pureDigit: true }, { required: '手机号不可以为空' });
         }
-        validator.addRule(
-            key,
-            { name: 'totalDegree', value: totalDegree },
-            { required: true, min: 0 },
-            { required: '代理额度不可以为空', min: '代理额度不可以小于0' }
-        );
-        validator.addRule(key, { name: 'password', value: password }, { required: true, password: true }, { required: '初始密码不可以为空' });
+
+        if (operationType === OperationType.Add) {
+            validator.addRule(
+                key,
+                { name: 'totalDegree', value: totalDegree },
+                { required: true, min: 0 },
+                { required: '代理额度不可以为空', min: '代理额度不可以小于0' }
+            );
+            validator.addRule(key, { name: 'password', value: password }, { required: true, password: true }, { required: '初始密码不可以为空' });
+        }
         return validator.execute(key);
     }
 
@@ -177,7 +184,7 @@ export class MemberService {
 
     // 添加券商
     public async addBroker(brokerForm: BrokerFormModel, isCode: boolean = false): Promise<boolean> {
-        let result: ValidationResult = MemberService.validateBrokerForm(brokerForm);
+        let result: ValidationResult = MemberService.validateBrokerForm(brokerForm, OperationType.Add);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
         let { areaCode, mobile, totalDegree, password } = brokerForm,
@@ -200,6 +207,41 @@ export class MemberService {
         return true;
     }
 
+    // 更改手机号
+    public async updateMobile(brokerForm: BrokerFormModel, isCode: boolean = false): Promise<boolean> {
+        let result: ValidationResult = MemberService.validateBrokerForm(brokerForm, OperationType.Edit);
+        if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
+
+        let { uid, areaCode, mobile } = brokerForm,
+            filterAreaCode = AreaCodes.filter((item: IAreaCode) => item.id === areaCode)[0];
+        if (!filterAreaCode) return Promise.reject('未找到对应的国家、地区区号');
+
+        await Caxios.post<any>(
+            {
+                url: Urls.member.broker.updateMobile,
+                data: { uid, areaCode: '+' + filterAreaCode.code, mobile }
+            },
+            CaxiosType.FullLoadingToken,
+            isCode
+        );
+        return true;
+    }
+
+    // 设置禁用状态
+    public async setDisable(uid: string, disable: boolean, isCode: boolean = false): Promise<boolean> {
+        if (!uid) return Promise.reject('UID不可以为空');
+
+        await Caxios.post<any>(
+            {
+                url: Urls.member.broker.setDisable,
+                data: { uid, freeze: disable }
+            },
+            CaxiosType.FullLoadingToken,
+            isCode
+        );
+        return true;
+    }
+
     // 设置利率
     public async setRate(rateForm: RateFormModel, isCode: boolean = false): Promise<boolean> {
         let result: ValidationResult = MemberService.validateRateForm(rateForm);
@@ -209,11 +251,7 @@ export class MemberService {
         await Caxios.post<any>(
             {
                 url: Urls.member.broker.setRate,
-                data: {
-                    uid,
-                    type,
-                    rate: (rate / 100).toFixed(4)
-                }
+                data: { uid, type, rate: (rate / 100).toFixed(4) }
             },
             CaxiosType.FullLoadingToken,
             isCode
@@ -230,10 +268,7 @@ export class MemberService {
         await Caxios.post<any>(
             {
                 url: Urls.member.broker.addQuota,
-                data: {
-                    uid,
-                    amount: amount.toFixed(2)
-                }
+                data: { uid, amount: amount.toFixed(2) }
             },
             CaxiosType.FullLoadingToken,
             isCode
@@ -263,8 +298,10 @@ export class MemberService {
     }
 
     // 获取迁移信息
-    public async fetchMigrationInfo(): Promise<MigrationInfoModel | null> {
-        let result = await Caxios.get<MigrationInfoModel | null>({ url: Urls.member.migration.info }, CaxiosType.FullLoadingToken);
+    public async fetchMigrationInfo(uid: string): Promise<MigrationInfoModel | null> {
+        if (!uid) return Promise.reject('UID不可以为空');
+
+        let result = await Caxios.get<MigrationInfoModel | null>({ url: `${Urls.member.migration.info}?uid=${uid}` }, CaxiosType.FullLoadingToken);
         if (result) {
             result.operatorList = (result.operatorList || []).map((item: any) => ({ label: item.operatorName, value: item.operatorId }));
         }

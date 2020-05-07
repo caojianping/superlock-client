@@ -127,7 +127,9 @@ export const Urls = {
             types: `${baseUrl}/broker/lockRate`, // 项目类型
             add: `${baseUrl}/broker/add`, // 添加券商
             setRate: `${baseUrl}/broker/rateSet`, // 设置利率
-            addQuota: `${baseUrl}/broker/addAmount` // 添加额度
+            addQuota: `${baseUrl}/broker/addAmount`, // 添加额度
+            updateMobile: `${baseUrl}/broker/updateMobile`, // 更改手机号
+            setDisable: `${baseUrl}/broker/fundOperation` // 解禁、禁用券商
         },
         child: {
             list: `${baseUrl}/broker/subordinate`,
@@ -186,7 +188,8 @@ export const Urls = {
             update: `${baseUrl}/user/update`,
             delete: `${baseUrl}/user/delete`,
             resetPassword: `${baseUrl}/user/updatePwd`,
-            resetGa: `${baseUrl}/user/resetGa`
+            resetGa: `${baseUrl}/user/resetGa`,
+            setComGa: `${baseUrl}/user/setComGa`
         },
         setPassword: `${baseUrl}/login/updatePwd`,
         setGoogle: ''

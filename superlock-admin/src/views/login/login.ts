@@ -34,7 +34,6 @@ export default class Login extends Vue {
 
     // 提交登录表单
     async submit(isCode?: boolean) {
-        console.log('submit isCode:', isCode);
         try {
             let result = await this.login(isCode);
             if (!result) Prompt.error('登录失败');

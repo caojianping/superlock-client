@@ -217,6 +217,23 @@ export default {
             return await memberService.addBroker(context.state.brokerForm, isCode);
         },
 
+        // 更改手机号
+        async updateMobile(context: IActionContext<IMemberState>, isCode: boolean = false): Promise<boolean> {
+            return await memberService.updateMobile(context.state.brokerForm, isCode);
+        },
+
+        // 设置禁用状态
+        async setDisable(
+            context: IActionContext<IMemberState>,
+            payload: {
+                uid: string;
+                disable: boolean;
+                isCode?: boolean;
+            }
+        ): Promise<boolean> {
+            return await memberService.setDisable(payload.uid, payload.disable, payload.isCode);
+        },
+
         // 设置利率
         async setRate(context: IActionContext<IMemberState>, isCode: boolean = false): Promise<boolean> {
             return await memberService.setRate(context.state.rateForm, isCode);
@@ -245,10 +262,10 @@ export default {
         },
 
         // 获取迁移信息
-        async fetchMigrationInfo(context: IActionContext<IMemberState>): Promise<void> {
+        async fetchMigrationInfo(context: IActionContext<IMemberState>, uid: string): Promise<void> {
             let commit = context.commit;
             try {
-                let migrationInfo: MigrationInfoModel | null = await memberService.fetchMigrationInfo();
+                let migrationInfo: MigrationInfoModel | null = await memberService.fetchMigrationInfo(uid);
                 commit(TYPES.SET_STATES, { migrationInfo });
             } catch (error) {
                 commit(TYPES.SET_STATES, { migrationInfo: null });

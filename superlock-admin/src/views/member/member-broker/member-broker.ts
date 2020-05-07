@@ -4,10 +4,13 @@ import { Component, Watch } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
+import { OperationType } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { IPageParameters, IBrokerPageParameters, ISelectOption } from '@/ts/interfaces';
 import { BrokerModel } from '@/ts/models';
 
+import { Modal } from 'ant-design-vue';
+import SecondVerify from '@/components/common/second-verify';
 import BrokerModal from '@/components/member/broker-modal';
 import QuotaModal from '@/components/member/quota-modal';
 import RateModal from '@/components/member/rate-modal';
@@ -17,10 +20,11 @@ const memberModule = namespace('member');
 
 @Component({
     name: 'MemberBroker',
-    components: { BrokerModal, QuotaModal, RateModal, MigrationModal }
+    components: { SecondVerify, BrokerModal, QuotaModal, RateModal, MigrationModal }
 })
 export default class MemberBroker extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
+    @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
     @State('carrierOptions') carrierOptions!: Array<ISelectOption>;
     @Action('fetchCarrierOptions') fetchCarrierOptions!: () => any;
@@ -32,8 +36,10 @@ export default class MemberBroker extends Vue {
     @memberModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @memberModule.Action('fetchBrokers') fetchBrokers!: () => any;
     @memberModule.Action('exportBrokers') exportBrokers!: () => any;
+    @memberModule.Action('setDisable') setDisable!: (payload: any) => any;
 
     type: number = 0;
+    operationType: OperationType = OperationType.Add;
     isBrokerShow: boolean = false;
     isRateShow: boolean = false;
     isQuotaShow: boolean = false;
@@ -80,16 +86,50 @@ export default class MemberBroker extends Vue {
     }
 
     // 打开模态框
-    openModal(key: string, broker?: BrokerModel) {
+    openModal(key: string, broker?: BrokerModel, operationType?: OperationType) {
         this[key] = true;
-        if (broker) {
-            this.broker = broker;
-        }
+        broker !== undefined && (this.broker = broker);
+        operationType !== undefined && (this.operationType = operationType);
     }
 
     // 处理模态框submit事件
     handleModalSubmit() {
         this.fetchBrokers();
+    }
+
+    // 设置禁用状态
+    async _setDisable(broker: BrokerModel, isCode?: boolean) {
+        try {
+            let msg = broker.disable ? '解禁' : '禁用',
+                result = await this.setDisable({ uid: broker.uid, disable: !broker.disable, isCode });
+            if (!result) Prompt.error(`${msg}失败`);
+            else {
+                Prompt.success(`${msg}成功`);
+                await this.fetchBrokers();
+            }
+        } catch (error) {
+            Prompt.error(error.message || error);
+        }
+    }
+
+    // 打开确认框
+    openConfirm(broker: BrokerModel) {
+        let self = this,
+            msg = broker.disable ? '解禁' : '禁用';
+        Modal.confirm(<any>{
+            title: '系统提示',
+            content: `确认是否${msg}该券商？`,
+            onOk() {
+                self.broker = broker;
+                self._setDisable(broker, false);
+            },
+            onCancel() {}
+        });
+    }
+
+    // 处理二次验证submit事件
+    async handleSecondVerifySubmit() {
+        this._setDisable(this.broker, true);
     }
 
     // 处理页码change事件
@@ -137,7 +177,9 @@ export default class MemberBroker extends Vue {
                       },
                       {
                           title: '手机号',
-                          dataIndex: 'mobile'
+                          dataIndex: '',
+                          key: 'mobile',
+                          scopedSlots: { customRender: 'mobile' }
                       },
                       {
                           title: '邮箱',
@@ -196,6 +238,12 @@ export default class MemberBroker extends Vue {
                           scopedSlots: { customRender: 'child' }
                       },
                       {
+                          title: '资金操作',
+                          dataIndex: '',
+                          key: 'fundOperation',
+                          scopedSlots: { customRender: 'fundOperation' }
+                      },
+                      {
                           title: '操作',
                           dataIndex: '',
                           key: 'operation',
@@ -209,7 +257,9 @@ export default class MemberBroker extends Vue {
                       },
                       {
                           title: '手机号',
-                          dataIndex: 'mobile'
+                          dataIndex: '',
+                          key: 'mobile',
+                          scopedSlots: { customRender: 'mobile' }
                       },
                       {
                           title: '邮箱',
@@ -252,6 +302,12 @@ export default class MemberBroker extends Vue {
                           dataIndex: '',
                           key: 'child',
                           scopedSlots: { customRender: 'child' }
+                      },
+                      {
+                          title: '资金操作',
+                          dataIndex: '',
+                          key: 'fundOperation',
+                          scopedSlots: { customRender: 'fundOperation' }
                       },
                       {
                           title: '激活时间',

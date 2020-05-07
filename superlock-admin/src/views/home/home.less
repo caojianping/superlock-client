@@ -102,7 +102,7 @@
                     background: linear-gradient(112deg, rgba(78, 151, 235, 1) 0%, rgba(78, 193, 230, 1) 100%);
 
                     table {
-                        width: 75%;
+                        width: 80%;
                     }
 
                     i {
@@ -138,60 +138,56 @@
             }
 
             &.panel-total > .panel-item {
-                &:first-child > .panel-content {
+                &:first-child > .panel-content,
+                &:nth-child(5) > .panel-content {
                     background-color: #f6b160;
                     background: linear-gradient(100deg, rgba(250, 172, 107, 1) 0%, rgba(255, 199, 97, 1) 99%);
-
-                    table {
-                        width: 75%;
-                    }
-
-                    i {
-                        background-image: url('../../assets/images/home/total01.png');
-                    }
                 }
 
                 &:nth-child(2) > .panel-content {
                     background-color: #4cc3e5;
                     background: linear-gradient(65deg, rgba(78, 151, 235, 1) 0%, rgba(78, 193, 230, 1) 100%);
-
-                    table {
-                        width: 80%;
-                    }
-
-                    i {
-                        background-image: url('../../assets/images/home/total02.png');
-                    }
                 }
 
-                &:nth-child(3) > .panel-content {
+                &:nth-child(3) > .panel-content,
+                &:nth-child(4) > .panel-content {
                     background-color: #64b0f2;
                     background: linear-gradient(122deg, rgba(50, 219, 188, 1) 0%, rgba(91, 234, 194, 1) 100%);
-
-                    table {
-                        width: 95%;
-                    }
 
                     i {
                         background-image: url('../../assets/images/home/total03.png');
                     }
                 }
 
-                &:last-child {
-                    flex: 0 0 auto;
+                &:last-child > .panel-content {
+                    background-color: #f18273;
+                    background: linear-gradient(93deg, rgba(242, 106, 107, 1) 0%, rgba(245, 143, 141, 1) 100%);
 
-                    .panel-content {
-                        background-color: #f18273;
-                        background: linear-gradient(93deg, rgba(242, 106, 107, 1) 0%, rgba(245, 143, 141, 1) 100%);
-
-                        table {
-                            width: 95%;
-                        }
-
-                        i {
-                            background-image: url('../../assets/images/home/total04.png');
-                        }
+                    i {
+                        background-image: url('../../assets/images/home/total02.png');
                     }
+                }
+
+                &:first-child > .panel-content > i,
+                &:nth-child(2) > .panel-content > i {
+                    background-image: url('../../assets/images/home/total01.png');
+                }
+
+                &:nth-child(4) > .panel-content > i,
+                &:nth-child(5) > .panel-content > i {
+                    background-image: url('../../assets/images/home/total04.png');
+                }
+
+                &:first-child > .panel-content > table,
+                &:nth-child(2) > .panel-content > table,
+                &:nth-child(3) > .panel-content > table {
+                    width: 80%;
+                }
+
+                &:nth-child(4) > .panel-content > table,
+                &:nth-child(5) > .panel-content > table,
+                &:last-child > .panel-content > table {
+                    width: 95%;
                 }
             }
         }

@@ -49,7 +49,7 @@ export default class GoogleAuth extends Vue {
 
     // 处理模态框cancel事件
     handleModalCancel() {
-        this.setRootStates({ isSecondVerifyShow: false });
+        this.setRootStates({ isGoogleAuthShow: false });
     }
 
     // 提交谷歌认证
@@ -72,7 +72,7 @@ export default class GoogleAuth extends Vue {
             this.setStates({ isLoading: false });
             if (!result) Prompt.error('谷歌认证绑定失败');
             else {
-                this.setRootStates({ isSecondVerifyShow: false });
+                this.setRootStates({ isGoogleAuthShow: false });
                 this.$emit('submit');
             }
         } catch (error) {

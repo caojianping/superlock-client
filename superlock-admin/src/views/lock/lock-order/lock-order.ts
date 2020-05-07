@@ -167,10 +167,10 @@ export default class LockOrder extends Vue {
         this.fetchLocks();
     }
 
-    // 获取数据
-    async fetchData() {
-        await this.fetchCarrierOptions();
-        await this.fetchLocks();
+    // 获取数据，同时请求
+    fetchData() {
+        this.fetchCarrierOptions();
+        this.fetchLocks();
     }
 
     created() {

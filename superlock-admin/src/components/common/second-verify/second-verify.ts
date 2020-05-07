@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { Mutation } from 'vuex-class';
+import { Mutation, State } from 'vuex-class';
 import { Component, Prop, Watch } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
@@ -11,8 +11,8 @@ import { Prompt, Token } from '@/ts/common';
 })
 export default class SecondVerify extends Vue {
     @Prop() readonly isShow!: boolean;
-    @Prop() readonly title!: string;
 
+    @State('isComGa') isComGa!: boolean;
     @Mutation(TYPES.SET_STATES) setRootStates!: (payload: any) => any;
     @Mutation(TYPES.CLEAR_STATES) clearRootStates!: () => any;
 

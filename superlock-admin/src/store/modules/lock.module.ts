@@ -18,6 +18,7 @@ const lockState: ILockState = {
     lockParameters: {
         conditions: {
             uid: '',
+            parentId: '',
             serial: '',
             status: '',
             beginTime: '',
@@ -57,6 +58,7 @@ export default {
             state.lockParameters = {
                 conditions: {
                     uid: '',
+                    parentId: '',
                     serial: '',
                     status: '',
                     beginTime: '',

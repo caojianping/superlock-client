@@ -109,6 +109,29 @@
                     </li>
                     <li class="panel-item">
                         <div class="panel-content">
+                            <h3>实际锁仓</h3>
+                            <table>
+                                <tr>
+                                    <td>{{ totalData.lockCount || 0 }}</td>
+                                    <td>
+                                        {{ (home.rel_lockTotal_bcb_Amount || 0) | digitPrecision }}
+                                    </td>
+                                    <td>
+                                        {{ (home.rel_lockTotal_dc_Amount || 0) | digitPrecision }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>锁仓笔数(笔)</td>
+                                    <td>锁仓总量(BCB)</td>
+                                    <td>锁仓总价值(DC)</td>
+                                </tr>
+                            </table>
+
+                            <i></i>
+                        </div>
+                    </li>
+                    <li class="panel-item">
+                        <div class="panel-content">
                             <h3>累计贷款</h3>
                             <table>
                                 <tr>
@@ -130,23 +153,7 @@
                             <i></i>
                         </div>
                     </li>
-                    <li class="panel-item">
-                        <div class="panel-content">
-                            <h3>累计支出</h3>
-                            <table>
-                                <tr>
-                                    <td>
-                                        {{ totalData.totalExpenditure || 0 }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>锁仓总额(DC)</td>
-                                </tr>
-                            </table>
 
-                            <i></i>
-                        </div>
-                    </li>
                     <li class="panel-item">
                         <div class="panel-content">
                             <h3>累计注册用户</h3>
@@ -158,6 +165,40 @@
                                 </tr>
                                 <tr>
                                     <td>注册用户(人)</td>
+                                </tr>
+                            </table>
+
+                            <i></i>
+                        </div>
+                    </li>
+                    <li class="panel-item">
+                        <div class="panel-content">
+                            <h3>实际注册用户</h3>
+                            <table>
+                                <tr>
+                                    <td>
+                                        {{ home.rel_registerAllCount || 0 }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>注册用户(人)</td>
+                                </tr>
+                            </table>
+
+                            <i></i>
+                        </div>
+                    </li>
+                    <li class="panel-item">
+                        <div class="panel-content">
+                            <h3>累计支出</h3>
+                            <table>
+                                <tr>
+                                    <td>
+                                        {{ totalData.totalExpenditure || 0 }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>锁仓总额(DC)</td>
                                 </tr>
                             </table>
 

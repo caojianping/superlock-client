@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
-import { Component, Model, Watch } from 'vue-property-decorator';
+import { Component, Model, Watch, Prop } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { Prompt } from '@/ts/common';
-import { MigrationInfoModel, MigrationFormModel } from '@/ts/models';
+import { MigrationInfoModel, MigrationFormModel, BrokerModel } from '@/ts/models';
 
 import SecondVerify from '@/components/common/second-verify';
 
@@ -17,6 +17,7 @@ const memberModule = namespace('member');
 })
 export default class MigrationModal extends Vue {
     @Model('close', { type: Boolean }) value!: boolean; // v-model
+    @Prop() readonly broker!: BrokerModel;
 
     @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
 
@@ -24,7 +25,7 @@ export default class MigrationModal extends Vue {
     @memberModule.State('migrationForm') migrationForm!: MigrationFormModel;
     @memberModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @memberModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-    @memberModule.Action('fetchMigrationInfo') fetchMigrationInfo!: () => any;
+    @memberModule.Action('fetchMigrationInfo') fetchMigrationInfo!: (uid: string) => any;
     @memberModule.Action('execMigration') execMigration!: (isCode?: boolean) => any;
 
     isShow: boolean = this.value; // 是否显示模态框
@@ -60,9 +61,11 @@ export default class MigrationModal extends Vue {
     watchValue(value: boolean) {
         this.isShow = value;
         if (value) {
-            let migrationForm = new MigrationFormModel();
+            let broker = this.broker,
+                migrationForm = new MigrationFormModel();
+            migrationForm.uid = broker.uid;
             this.setStates({ migrationForm });
-            this.fetchMigrationInfo();
+            this.fetchMigrationInfo(broker.uid);
         }
     }
 }

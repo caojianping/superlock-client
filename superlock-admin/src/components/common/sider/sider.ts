@@ -125,7 +125,7 @@ export default class Sider extends Vue {
             name: '数据报表',
             route: null,
             path: '/report',
-            icon: 'carrier',
+            icon: 'report',
             items: [
                 { name: '充值报表', route: '/report/recharge' },
                 { name: '锁仓报表', route: '/report/lock' },

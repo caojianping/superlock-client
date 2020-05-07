@@ -108,6 +108,17 @@ export default {
             return await systemService.resetGa(payload.name, payload.isCode);
         },
 
+        // 设置总号
+        async setComGa(
+            context: IActionContext<ISystemState>,
+            payload: {
+                name: string;
+                isCode?: boolean;
+            }
+        ): Promise<boolean> {
+            return await systemService.setComGa(payload.name, payload.isCode);
+        },
+
         // 设置密码
         async setPassword(context: IActionContext<ISystemState>, isCode: boolean = false): Promise<boolean> {
             return await systemService.setPassword(context.state.passwordForm, isCode);

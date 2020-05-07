@@ -38,6 +38,14 @@ export class SystemService {
         return validator.execute(key);
     }
 
+    // 验证用户名
+    public static validateName(name: string): ValidationResult {
+        let key = 'name',
+            validator = new Validator();
+        validator.addRule(key, { name: 'name', value: name }, { required: true }, { required: '用户名不可以为空' });
+        return validator.execute(key);
+    }
+
     // 获取角色列表
     public async fetchRoles(): Promise<Array<ISelectOption>> {
         let roles = await Caxios.get<Array<any> | null>({ url: Urls.system.user.roles }, CaxiosType.FullLoadingToken);
@@ -99,11 +107,7 @@ export class SystemService {
 
     // 删除用户
     public async deleteUser(name: string, isCode: boolean = false) {
-        let key = 'delete',
-            validator = new Validator();
-        validator.addRule(key, { name: 'name', value: name }, { required: true }, { required: '用户名不可以为空' });
-
-        let result: ValidationResult = validator.execute(key);
+        let result: ValidationResult = SystemService.validateName(name);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
         await Caxios.post<any>(
@@ -139,16 +143,28 @@ export class SystemService {
 
     // 重置ga
     public async resetGa(name: string, isCode: boolean = false) {
-        let key = 'resetGa',
-            validator = new Validator();
-        validator.addRule(key, { name: 'name', value: name }, { required: true }, { required: '用户名不可以为空' });
-
-        let result: ValidationResult = validator.execute(key);
+        let result: ValidationResult = SystemService.validateName(name);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
         await Caxios.post<any>(
             {
                 url: Urls.system.user.resetGa,
+                data: { name: name }
+            },
+            CaxiosType.FullLoadingToken,
+            isCode
+        );
+        return true;
+    }
+
+    // 设置总号
+    public async setComGa(name: string, isCode: boolean = false) {
+        let result: ValidationResult = SystemService.validateName(name);
+        if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
+
+        await Caxios.post<any>(
+            {
+                url: Urls.system.user.setComGa,
                 data: { name: name }
             },
             CaxiosType.FullLoadingToken,

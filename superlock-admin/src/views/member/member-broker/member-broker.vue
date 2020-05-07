@@ -91,8 +91,8 @@
 
         <template v-if="type === 0">
             <ant-button class="sl-tool" type="primary" @click="openModal('isRateShow')">利率设置</ant-button>
-            <ant-button class="sl-tool" type="primary" @click="openModal('isBrokerShow')">添加券商</ant-button>
-            <ant-button class="sl-tool" type="primary" @click="openModal('isMigrationShow')">券商迁移</ant-button>
+            <ant-button class="sl-tool" type="primary" @click="openModal('isBrokerShow', undefined, 1)">添加券商</ant-button>
+            <!-- <ant-button class="sl-tool" type="primary" @click="openModal('isMigrationShow')">券商迁移</ant-button> -->
             <ant-button class="sl-tool" type="primary" @click="exportReport">导出报表</ant-button>
         </template>
 
@@ -104,6 +104,7 @@
             :pagination="false"
             :loading="isPageLoading"
         >
+            <span slot="mobile" slot-scope="record">{{ [record.areaCode, record.mobile].join(',') }}</span>
             <span slot="amount" slot-scope="record">
                 {{ record.amount | digitPrecision(6) }}
             </span>
@@ -126,10 +127,17 @@
                 {{ record.createTime | dateFormat }}
             </span>
             <a slot="child" slot-scope="record" :href="`#/member/broker/child/${record.uid}`" style="color: #68CA8A">详情</a>
+            <template slot="fundOperation" slot-scope="record">
+                <ant-button type="danger" size="small" @click="openConfirm(record)">{{ record.disable ? '解禁' : '禁用' }}</ant-button>
+            </template>
             <template slot="operation" slot-scope="record">
-                <ant-button v-if="type === 0" type="default" size="small" @click="openModal('isQuotaShow', record)" style="width: 65px"
+                <ant-button v-if="type === 0" class="w65px" type="default" size="small" @click="openModal('isQuotaShow', record)"
                     >添加额度</ant-button
                 >
+                <ant-button v-if="type === 0" class="w80px" type="danger" size="small" @click="openModal('isBrokerShow', record, 2)"
+                    >更改手机号</ant-button
+                >
+                <ant-button v-if="type === 0" type="default" size="small" @click="openModal('isMigrationShow', record)">迁移</ant-button>
             </template>
         </ant-table>
 
@@ -145,13 +153,15 @@
             @showSizeChange="handlePageSizeChange"
         />
 
-        <BrokerModal v-model="isBrokerShow" @submit="handleModalSubmit" />
+        <BrokerModal v-model="isBrokerShow" :operation-type="operationType" :broker="broker" @submit="handleModalSubmit" />
 
         <RateModal v-model="isRateShow" @submit="handleModalSubmit" />
 
         <QuotaModal v-model="isQuotaShow" :broker="broker" @submit="handleModalSubmit" />
 
-        <MigrationModal v-model="isMigrationShow" @submit="handleModalSubmit" />
+        <MigrationModal v-model="isMigrationShow" :broker="broker" @submit="handleModalSubmit" />
+
+        <SecondVerify :is-show="isSecondVerifyShow" @submit="handleSecondVerifySubmit" />
     </div>
 </template>
 

@@ -98,16 +98,13 @@
         <ant-button class="sl-tool" type="primary" @click="exportReport">导出报表</ant-button>
 
         <ant-table
-            class="mt32px"
             :columns="columns"
             :rowKey="record => `${record.uid}_${record.createTime}`"
             :dataSource="list"
             :pagination="false"
             :loading="isPageLoading"
         >
-            <span slot="mobile" slot-scope="record">
-                {{ [record.area, record.mobile].join(',') }}
-            </span>
+            <span slot="mobile" slot-scope="record">{{ [record.area, record.mobile].join(',') }}</span>
             <span slot="createTime" slot-scope="record">
                 {{ record.createTime | dateFormat }}
             </span>

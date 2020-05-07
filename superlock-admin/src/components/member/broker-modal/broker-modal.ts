@@ -1,13 +1,13 @@
 import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
-import { Component, Model, Watch } from 'vue-property-decorator';
+import { Component, Model, Watch, Prop } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { defaultAreaCode } from '@/ts/config';
+import { defaultAreaCode, OperationType } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { ISelectOption } from '@/ts/interfaces';
-import { BrokerFormModel } from '@/ts/models';
+import { BrokerFormModel, BrokerModel } from '@/ts/models';
 
 import SecondVerify from '@/components/common/second-verify';
 
@@ -19,6 +19,8 @@ const memberModule = namespace('member');
 })
 export default class BrokerModal extends Vue {
     @Model('close', { type: Boolean }) value!: boolean; // v-model
+    @Prop() readonly operationType!: OperationType;
+    @Prop() readonly broker!: BrokerModel;
 
     @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
     @State('areaCodeOptions') areaCodeOptions!: Array<ISelectOption>;
@@ -27,6 +29,7 @@ export default class BrokerModal extends Vue {
     @memberModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @memberModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @memberModule.Action('addBroker') addBroker!: (isCode?: boolean) => any;
+    @memberModule.Action('updateMobile') updateMobile!: (isCode?: boolean) => any;
 
     isShow: boolean = this.value; // 是否显示模态框
 
@@ -52,10 +55,12 @@ export default class BrokerModal extends Vue {
     // 提交券商表单
     async submit(isCode?: boolean) {
         try {
-            let result = await this.addBroker(isCode);
-            if (!result) Prompt.error('券商添加失败');
+            let operationType = this.operationType,
+                msg = { 1: '券商添加', 2: '手机号更改' }[operationType],
+                result = operationType === OperationType.Add ? await this.addBroker(isCode) : await this.updateMobile(isCode);
+            if (!result) Prompt.error(`${msg}失败`);
             else {
-                Prompt.success('券商添加成功');
+                Prompt.success(`${msg}成功`);
                 this.$emit('close', false);
                 this.$emit('submit');
             }
@@ -68,8 +73,12 @@ export default class BrokerModal extends Vue {
     watchValue(value: boolean) {
         this.isShow = value;
         if (value) {
-            let brokerForm = new BrokerFormModel();
+            let operationType = this.operationType,
+                brokerForm = new BrokerFormModel();
             brokerForm.areaCode = defaultAreaCode.id;
+            if (operationType === OperationType.Edit) {
+                brokerForm.uid = this.broker.uid;
+            }
             this.setStates({ brokerForm });
         }
     }

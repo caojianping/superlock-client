@@ -14,6 +14,7 @@ import {
     IFundPageParameters,
     IBrokerPageParameters,
     IBrokerChildPageParameters,
+    IMigrationPageParameters,
     IRatePageParameters,
     IPointPageParameters,
     ICarrierPageParameters,
@@ -24,14 +25,16 @@ import {
     IExpendReportPageParameters,
     IUserReportPageParameters,
     IRechargeReportPageParameters,
-    IRechargeAddressPageParameters,
-    IMigrationPageParameters
+    IRechargeAddressPageParameters
 } from '@/ts/interfaces';
 import {
     TokenInfo,
     LoginFormModel,
     HomeModel,
+    InitModel,
+    VirtualModel,
     RechargeModel,
+    RechargeAddressModel,
     WithdrawModel,
     TransferModel,
     LockModel,
@@ -50,6 +53,8 @@ import {
     BrokerChildModel,
     RateModel,
     BrokerFormModel,
+    MigrationModel,
+    MigrationFormModel,
     QuotaFormModel,
     RateFormModel,
     PointModel,
@@ -72,12 +77,7 @@ import {
     RechargeReportModel,
     LockReportModel,
     ExpendReportModel,
-    UserReportModel,
-    RechargeAddressModel,
-    InitModel,
-    VirtualModel,
-    MigrationModel,
-    MigrationFormModel
+    UserReportModel
 } from '@/ts/models';
 
 export interface IActionContext<T> {
@@ -92,6 +92,7 @@ export interface IRootState {
     isPageLoading: boolean; // 是否启用分页加载中UI
     isGoogleAuthShow: boolean; // 是否显示谷歌认证模态框
     isSecondVerifyShow: boolean; // 是否显示二次验证模态框
+    isComGa: boolean; // 是否为总号
 
     pageSizeOptions: Array<string>; // 分页尺寸选项
     areaCodeOptions: Array<ISelectOption>; // 国家地区选项

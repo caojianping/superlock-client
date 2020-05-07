@@ -4,6 +4,7 @@ export class UserModel {
     public uKey!: string; // UKEY编号
     public roleId!: string; // 角色编号
     public roleName!: string; // 角色名称
+    public comGa!: number; // 问号标识
 }
 
 export class UserFormModel {

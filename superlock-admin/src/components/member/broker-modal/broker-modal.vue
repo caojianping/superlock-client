@@ -1,5 +1,23 @@
 <template>
-    <ant-modal v-model="isShow" title="添加券商" :width="600" :footer="null" @cancel="handleModalCancel">
+    <ant-modal v-model="isShow" :title="{ 1: '添加券商', 2: '更改手机号' }[operationType]" :width="600" :footer="null" @cancel="handleModalCancel">
+        <template v-if="operationType === 2">
+            <ant-row :gutter="24">
+                <ant-col :span="22">
+                    <ant-form-item label="UID" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                        <ant-input type="text" :value="broker.uid" disabled />
+                    </ant-form-item>
+                </ant-col>
+            </ant-row>
+
+            <ant-row :gutter="24">
+                <ant-col :span="22">
+                    <ant-form-item label="原手机号" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                        <ant-input type="text" :value="`+${broker.areaCode},${broker.mobile}`" disabled />
+                    </ant-form-item>
+                </ant-col>
+            </ant-row>
+        </template>
+
         <ant-row :gutter="24">
             <ant-col :span="22">
                 <ant-form-item label="国家、地区" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
@@ -32,34 +50,36 @@
             </ant-col>
         </ant-row>
 
-        <ant-row :gutter="24">
-            <ant-col :span="22">
-                <ant-form-item label="代理额度(DC)" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-                    <ant-input-number
-                        :value="brokerForm.totalDegree"
-                        :min="0"
-                        placeholder="请输入代理额度(DC)"
-                        @change="handleFormChange('totalDegree', $event)"
-                        @keyup.enter="submit(false)"
-                    />
-                </ant-form-item>
-            </ant-col>
-        </ant-row>
+        <template v-if="operationType === 1">
+            <ant-row :gutter="24">
+                <ant-col :span="22">
+                    <ant-form-item label="代理额度(DC)" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                        <ant-input-number
+                            :value="brokerForm.totalDegree"
+                            :min="0"
+                            placeholder="请输入代理额度(DC)"
+                            @change="handleFormChange('totalDegree', $event)"
+                            @keyup.enter="submit(false)"
+                        />
+                    </ant-form-item>
+                </ant-col>
+            </ant-row>
 
-        <ant-row :gutter="24">
-            <ant-col :span="22">
-                <ant-form-item label="初始密码" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-                    <ant-input
-                        type="password"
-                        :value="brokerForm.password"
-                        allowClear
-                        placeholder="8-15位大小写字母、数字、特殊字符任意两种组成"
-                        @change="handleFormChange('password', $event.target.value)"
-                        @keyup.enter="submit(false)"
-                    />
-                </ant-form-item>
-            </ant-col>
-        </ant-row>
+            <ant-row :gutter="24">
+                <ant-col :span="22">
+                    <ant-form-item label="初始密码" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                        <ant-input
+                            type="password"
+                            :value="brokerForm.password"
+                            allowClear
+                            placeholder="8-15位大小写字母、数字、特殊字符任意两种组成"
+                            @change="handleFormChange('password', $event.target.value)"
+                            @keyup.enter="submit(false)"
+                        />
+                    </ant-form-item>
+                </ant-col>
+            </ant-row>
+        </template>
 
         <ant-row :gutter="24">
             <ant-button class="sl-submit" type="primary" @click="submit(false)">保存</ant-button>

@@ -11,6 +11,10 @@ export class HomeModel {
     public today!: HomeDetailModel; // 今日数据
     public all!: HomeDetailModel; // 总计数据
     public registerAllCount?: string; // 累计注册用户
+    public rel_registerAllCount?: number; // 实际注册人数
+    public rel_lockTotalAmount?: number; // 实际锁仓数量
+    public rel_lockTotal_dc_Amount?: number; // 实际锁仓总价值
+    public rel_lockTotal_bcb_Amount?: number; // 实际锁仓总量
 }
 
 export class InitModel {

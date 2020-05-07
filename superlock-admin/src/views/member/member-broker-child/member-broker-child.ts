@@ -36,7 +36,9 @@ export default class MemberBrokerChild extends Vue {
         },
         {
             title: '手机号',
-            dataIndex: 'mobile'
+            dataIndex: '',
+            key: 'mobile',
+            scopedSlots: { customRender: 'mobile' }
         },
         {
             title: '邮箱',

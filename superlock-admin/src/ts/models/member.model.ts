@@ -8,6 +8,7 @@ export class BrokerChildPageResult<T> extends PageResult<T> {
 
 export class BrokerModel {
     public uid!: string; // 关联uid
+    public areaCode!: string; // 国家、地区区号
     public mobile!: string; // 手机号
     public email!: string; // 邮箱
     public userSource!: string; // 用户来源
@@ -19,6 +20,7 @@ export class BrokerModel {
     public subRewardValue!: string; // 解锁奖励收益
     public createTime!: string; // 创建时间
     public parent!: string; // 上级uid
+    public disable!: boolean; // 是否禁用，true已禁用；false未禁用；
 }
 
 export class BrokerChildModel {
@@ -42,6 +44,7 @@ export class RateModel {
 }
 
 export class BrokerFormModel {
+    public uid?: string; // 关联uid
     public areaCode!: string; // 地区码
     public mobile!: string; // 手机号
     public email!: string; // 邮箱

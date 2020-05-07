@@ -18,7 +18,8 @@ const systemModule = namespace('system');
 
 const enum SecondVerifyType {
     DeleteUser = 1,
-    resetGa = 2
+    ResetGa = 2,
+    SetComGa = 3
 }
 
 @Component({
@@ -38,13 +39,14 @@ export default class SystemUser extends Vue {
     @systemModule.Action('fetchUsers') fetchUsers!: () => any;
     @systemModule.Action('deleteUser') deleteUser!: (payload: any) => any;
     @systemModule.Action('resetGa') resetGa!: (payload: any) => any;
+    @systemModule.Action('setComGa') setComGa!: (payload: any) => any;
 
     isUserShow: boolean = false;
     isPasswordShow: boolean = false;
 
     verifyType: SecondVerifyType = SecondVerifyType.DeleteUser;
     operationType: OperationType = OperationType.Add;
-    user?: UserModel;
+    user: UserModel = new UserModel();
 
     columns: Array<any> = [
         {
@@ -64,6 +66,12 @@ export default class SystemUser extends Vue {
             dataIndex: 'roleName'
         },
         {
+            title: '总号',
+            dataIndex: '',
+            key: 'comGa',
+            scopedSlots: { customRender: 'comGa' }
+        },
+        {
             title: '操作',
             dataIndex: '',
             key: 'operation',
@@ -71,17 +79,11 @@ export default class SystemUser extends Vue {
         }
     ];
 
-    // 打开用户模态框
-    openUserModal(operationType: OperationType, user?: UserModel) {
-        this.isUserShow = true;
-        this.user = user;
-        this.operationType = operationType;
-    }
-
-    // 打开密码模态框
-    openPasswordModal(user: UserModel) {
-        this.isPasswordShow = true;
-        this.user = user;
+    // 打开模态框
+    openModal(key: string, user?: UserModel, operationType?: OperationType) {
+        this[key] = true;
+        user !== undefined && (this.user = user);
+        operationType !== undefined && (this.operationType = operationType);
     }
 
     // 处理模态框submit事件
@@ -89,24 +91,23 @@ export default class SystemUser extends Vue {
         this.fetchUsers();
     }
 
-    // 私有函数：删除用户信息
-    async _deleteUser(name: string, isCode?: boolean) {
+    // 设置用户信息
+    async _setUser(verifyType: SecondVerifyType, name: string, isCode?: boolean) {
         try {
-            let result = await this.deleteUser({ name, isCode });
-            if (!result) Prompt.error('用户删除失败');
-            else await this.fetchUsers();
-        } catch (error) {
-            Prompt.error(error.message || error);
-        }
-    }
-
-    // 私有函数：重置ga信息
-    async _resetGa(name: string, isCode?: boolean) {
-        try {
-            let result = await this.resetGa({ name, isCode });
-            if (!result) Prompt.error('GA重置失败');
+            let msg = {
+                    1: '用户删除',
+                    2: 'GA重置',
+                    3: '总号设置'
+                }[verifyType],
+                func = {
+                    1: this.deleteUser,
+                    2: this.resetGa,
+                    3: this.setComGa
+                }[verifyType],
+                result = await func({ name, isCode });
+            if (!result) Prompt.error(`${msg}失败`);
             else {
-                Prompt.success('GA重置成功');
+                Prompt.success(`${msg}成功`);
                 await this.fetchUsers();
             }
         } catch (error) {
@@ -114,31 +115,21 @@ export default class SystemUser extends Vue {
         }
     }
 
-    // 打开删除确认框
-    openDeleteConfirm(user: UserModel) {
-        let self = this;
+    // 打开确认框
+    openConfirm(verifyType: SecondVerifyType, user: UserModel) {
+        let self = this,
+            msg = {
+                1: '删除该用户',
+                2: '重置该用户GA',
+                3: '将该用户设置为总号'
+            }[verifyType];
         Modal.confirm(<any>{
             title: '系统提示',
-            content: '确认是否删除该用户？',
+            content: `确认是否${msg}？`,
             onOk() {
                 self.user = user;
-                self.verifyType = SecondVerifyType.DeleteUser;
-                self._deleteUser(user.name, false);
-            },
-            onCancel() {}
-        });
-    }
-
-    // 打开ga确认框
-    openGaConfirm(user: UserModel) {
-        let self = this;
-        Modal.confirm(<any>{
-            title: '系统提示',
-            content: '确认是否重置该用户GA？',
-            onOk() {
-                self.user = user;
-                self.verifyType = SecondVerifyType.resetGa;
-                self._resetGa(user.name, false);
+                self.verifyType = verifyType;
+                self._setUser(verifyType, user.name, false);
             },
             onCancel() {}
         });
@@ -146,16 +137,7 @@ export default class SystemUser extends Vue {
 
     // 处理二次验证submit事件
     async handleSecondVerifySubmit() {
-        let user = this.user;
-        if (!user) return;
-
-        let name = user.name,
-            verifyType = this.verifyType;
-        if (verifyType === SecondVerifyType.DeleteUser) {
-            await this._deleteUser(name, true);
-        } else if (verifyType === SecondVerifyType.resetGa) {
-            await this._resetGa(name, true);
-        }
+        this._setUser(this.verifyType, this.user.name, true);
     }
 
     // 处理页码change事件

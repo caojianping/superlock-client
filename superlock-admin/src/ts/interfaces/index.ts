@@ -54,6 +54,7 @@ export interface ITransferPageParameters {
 // 锁仓分页参数
 export interface ILockPageParameters {
     uid: string; // UID
+    parentId: string; // 上级UID
     serial: string; // 订单号
     status: string; // 订单状态，空代表全部，0创建，10锁仓资金操作中，20操作锁仓资金完成，锁仓中，30锁仓结束，解仓,40锁仓失败
     beginTime: string; // 开始时间

@@ -85,7 +85,9 @@
 
         <ant-button class="sl-tool" type="primary" @click="exportReport">导出报表</ant-button>
 
-        <ant-table class="mt32px" :columns="columns" :rowKey="record => record.uid" :dataSource="list" :pagination="false" :loading="isPageLoading" />
+        <ant-table :columns="columns" :rowKey="record => record.uid" :dataSource="list" :pagination="false" :loading="isPageLoading">
+            <span slot="mobile" slot-scope="record">{{ [record.areaCode, record.mobile].join(',') }}</span>
+        </ant-table>
 
         <ant-pagination
             :current="childParameters.pageNum"

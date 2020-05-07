@@ -31,6 +31,7 @@ const rootState: IRootState = {
     isPageLoading: false,
     isGoogleAuthShow: false,
     isSecondVerifyShow: false,
+    isComGa: false,
 
     pageSizeOptions: ['10', '50', '100', '200', '500', '1000'],
     areaCodeOptions: AreaCodes.map((areaCode: IAreaCode) => ({
@@ -110,6 +111,7 @@ export default new Vuex.Store({
             state.isPageLoading = false;
             state.isGoogleAuthShow = false;
             state.isSecondVerifyShow = false;
+            state.isComGa = false;
 
             state.pageSizeOptions = ['10', '50', '100', '200', '500', '1000'];
             state.carrierOptions = [];

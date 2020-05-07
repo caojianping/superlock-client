@@ -173,13 +173,21 @@ export class Caxios {
 
         let code: number = result.code,
             data: any = result.data,
-            message: string = result.message;
+            message: string = result.message,
+            hash = window.location.hash;
         if (code === ResponseCode.Success) {
             // 成功
             return data as T;
         } else if (code === ResponseCode.GoogleAuth) {
             // 谷歌认证
-            store.commit(TYPES.SET_STATES, { isGoogleAuthShow: true });
+            if (hash.indexOf('/login') < 0) {
+                Token.removeTokenInfo();
+                store.commit(TYPES.CLEAR_STATES);
+                Prompt.error(message);
+                Router.push({ path: '/login' });
+            } else {
+                store.commit(TYPES.SET_STATES, { isGoogleAuthShow: true });
+            }
             return Promise.reject('');
         } else if (code === ResponseCode.SecondVerify) {
             // 二次验证
@@ -188,6 +196,7 @@ export class Caxios {
                 // 谷歌验证码
                 store.commit(TYPES.SET_STATES, { isSecondVerifyShow: true });
             }
+            store.commit(TYPES.SET_STATES, { isComGa: vdata.comGa });
             return Promise.reject('');
         } else if (code === ResponseCode.TokenExpired) {
             // token失效
@@ -199,8 +208,10 @@ export class Caxios {
             if (hash.indexOf('/login') < 0) {
                 Prompt.error(message);
                 Router.push({ path: '/login' });
+                return Promise.reject('');
+            } else {
+                throw new BusinessError(code, message);
             }
-            throw new BusinessError(code, message);
         } else {
             // 其他异常
             throw new BusinessError(code, message);
