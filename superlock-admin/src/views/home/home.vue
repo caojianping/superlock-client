@@ -20,7 +20,7 @@
                                 <tr>
                                     <td>{{ todayData.lockCount || 0 }}</td>
                                     <td>
-                                        {{ (todayData.lockTotalAmount || 0) | digitPrecision }}
+                                        {{ todayData.lockTotalAmount || 0 }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -39,10 +39,10 @@
                                 <tr>
                                     <td>{{ todayData.loanCount || 0 }}</td>
                                     <td>
-                                        {{ (todayData.loanTotalAmount || 0) | digitPrecision }}
+                                        {{ todayData.loanTotalAmount || 0 }}
                                     </td>
                                     <td>
-                                        {{ (todayData.mortgageTotalAmount || 0) | digitPrecision }}
+                                        {{ todayData.mortgageTotalAmount || 0 }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -95,7 +95,7 @@
                                 <tr>
                                     <td>{{ totalData.lockCount || 0 }}</td>
                                     <td>
-                                        {{ (totalData.lockTotalAmount || 0) | digitPrecision }}
+                                        {{ totalData.lockTotalAmount || 0 }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -114,10 +114,10 @@
                                 <tr>
                                     <td>{{ totalData.lockCount || 0 }}</td>
                                     <td>
-                                        {{ (home.rel_lockTotal_bcb_Amount || 0) | digitPrecision }}
+                                        {{ home.rel_lockTotal_bcb_Amount || 0 }}
                                     </td>
                                     <td>
-                                        {{ (home.rel_lockTotal_dc_Amount || 0) | digitPrecision }}
+                                        {{ home.rel_lockTotal_dc_Amount || 0 }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -137,10 +137,10 @@
                                 <tr>
                                     <td>{{ totalData.loanCount || 0 }}</td>
                                     <td>
-                                        {{ (totalData.loanTotalAmount || 0) | digitPrecision }}
+                                        {{ totalData.loanTotalAmount || 0 }}
                                     </td>
                                     <td>
-                                        {{ (totalData.mortgageTotalAmount || 0) | digitPrecision }}
+                                        {{ totalData.mortgageTotalAmount || 0 }}
                                     </td>
                                 </tr>
                                 <tr>
