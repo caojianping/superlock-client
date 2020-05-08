@@ -12,7 +12,7 @@
             <ant-row :gutter="24">
                 <ant-col :span="22">
                     <ant-form-item label="原手机号" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-                        <ant-input type="text" :value="`+${broker.areaCode},${broker.mobile}`" disabled />
+                        <ant-input type="text" :value="[broker.areaCode, broker.mobile].join(',')" disabled />
                     </ant-form-item>
                 </ant-col>
             </ant-row>

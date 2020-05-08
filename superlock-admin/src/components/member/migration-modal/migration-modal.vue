@@ -3,14 +3,15 @@
         <ant-row :gutter="24">
             <ant-col :span="22">
                 <ant-form-item label="券商UID" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-                    <ant-input
+                    <!-- <ant-input
                         type="text"
                         :value="migrationForm.uid"
                         allowClear
                         placeholder="请输入券商UID"
                         @change="handleFormChange('uid', $event.target.value)"
                         @keyup.enter="submit(false)"
-                    />
+                    /> -->
+                    <ant-input type="text" :value="migrationForm.uid" disabled />
                 </ant-form-item>
             </ant-col>
         </ant-row>
@@ -26,7 +27,7 @@
         <ant-row :gutter="24">
             <ant-col :span="22">
                 <ant-form-item label="当前所属平台ID" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
-                    <ant-input type="text" :value="migrationInfo ? migrationInfo.operatorId : ''" disabled />
+                    <ant-input type="text" :value="migrationInfo ? migrationInfo.operatorId || '--' : '--'" disabled />
                 </ant-form-item>
             </ant-col>
         </ant-row>
