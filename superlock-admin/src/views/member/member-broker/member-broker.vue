@@ -15,7 +15,7 @@
                     {{ ['券商列表', '代理列表'][type] }}
                 </h2>
             </header>
-            <div class="sl-block-body mw1200px">
+            <div class="sl-block-body mw1300px">
                 <ant-row :gutter="24">
                     <ant-col :span="7">
                         <ant-form-item label="UID" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
@@ -97,7 +97,7 @@
         </template>
 
         <ant-table
-            :class="['mw1200px', type === 1 ? '' : 'nowrap', type === 1 ? 'mt32px' : '']"
+            :class="['mw1300px', type === 1 ? '' : 'nowrap', type === 1 ? 'mt32px' : '']"
             :columns="columns"
             :rowKey="record => record.uid"
             :dataSource="list"

@@ -319,14 +319,10 @@ export default class MemberBroker extends Vue {
                   ];
     }
 
-    // 获取数据
-    async fetchData() {
-        try {
-            await this.fetchCarrierOptions();
-            await this.fetchBrokers();
-        } catch (error) {
-            Prompt.error(error.message || error);
-        }
+    // 获取数据，同时请求
+    fetchData() {
+        this.fetchCarrierOptions();
+        this.fetchBrokers();
     }
 
     created() {

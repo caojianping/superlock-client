@@ -11,8 +11,10 @@ const lockState: ILockState = {
         { label: '创建', value: '0' },
         { label: '锁仓资金操作中', value: '10' },
         { label: '锁仓中', value: '20' },
+        { label: '计息中', value: '21' },
         { label: '锁仓到期', value: '30' },
-        { label: '锁仓失败', value: '40' }
+        { label: '锁仓失败', value: '40' },
+        { label: '质押中', value: '50' }
     ],
 
     lockParameters: {

@@ -31,18 +31,22 @@ export default class LockOrder extends Vue {
 
     statusColors = {
         '0': 'text-grey',
-        '10': 'text-green',
+        '10': 'text-black',
         '20': 'text-green',
+        '21': 'text-green',
         '30': 'text-red',
-        '40': 'text-red'
+        '40': 'text-red',
+        '50': 'text-orange'
     };
 
     statusNames = {
         '0': '创建',
         '10': '锁仓资金操作中',
         '20': '锁仓中',
+        '21': '计息中',
         '30': '锁仓到期',
-        '40': '锁仓失败'
+        '40': '锁仓失败',
+        '50': '质押中'
     };
 
     columns: Array<any> = [
