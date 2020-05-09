@@ -63,16 +63,21 @@
                     }
 
                     h3 {
-                        padding: 16px 24px;
+                        padding: 20px 24px 24px;
                         .font-styles(14px, bold, 1.5, white, left);
                     }
 
                     table {
+                        width: 100%;
                         text-align: center;
+
+                        &.w80 {
+                            width: 80%;
+                        }
 
                         tr {
                             &:first-child > td {
-                                font-size: 28px;
+                                font-size: 18px;
                                 line-height: 1.2;
                             }
 
@@ -85,10 +90,10 @@
 
                     i {
                         position: absolute;
-                        top: 16px;
-                        right: 5%;
-                        width: 60px;
-                        height: 60px;
+                        top: 12px;
+                        right: 3%;
+                        width: 48px;
+                        height: 48px;
                         background-repeat: no-repeat;
                         background-position: center center;
                         background-size: 100% 100%;
@@ -101,10 +106,6 @@
                     background-color: #64b0f2;
                     background: linear-gradient(112deg, rgba(78, 151, 235, 1) 0%, rgba(78, 193, 230, 1) 100%);
 
-                    table {
-                        width: 80%;
-                    }
-
                     i {
                         background-image: url('../../assets/images/home/today01.png');
                     }
@@ -114,10 +115,6 @@
                     background-color: #f18273;
                     background: linear-gradient(93deg, rgba(242, 106, 107, 1) 0%, rgba(245, 143, 141, 1) 100%);
 
-                    table {
-                        width: 80%;
-                    }
-
                     i {
                         background-image: url('../../assets/images/home/today02.png');
                     }
@@ -126,10 +123,6 @@
                 &:last-child > .panel-content {
                     background-color: #4cc3e5;
                     background: linear-gradient(121deg, rgba(251, 180, 119, 1) 0%, rgba(255, 198, 98, 1) 100%);
-
-                    table {
-                        width: 95%;
-                    }
 
                     i {
                         background-image: url('../../assets/images/home/today03.png');
@@ -176,18 +169,6 @@
                 &:nth-child(4) > .panel-content > i,
                 &:nth-child(5) > .panel-content > i {
                     background-image: url('../../assets/images/home/total04.png');
-                }
-
-                &:first-child > .panel-content > table,
-                &:nth-child(2) > .panel-content > table,
-                &:nth-child(3) > .panel-content > table {
-                    width: 80%;
-                }
-
-                &:nth-child(4) > .panel-content > table,
-                &:nth-child(5) > .panel-content > table,
-                &:last-child > .panel-content > table {
-                    width: 95%;
                 }
             }
         }
