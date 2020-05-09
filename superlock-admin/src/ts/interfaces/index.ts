@@ -75,9 +75,15 @@ export interface IFinancePageParameters {
     endDate: string; // 派息结束时间
 }
 
-export interface ILoanPageParameters {}
-
-export interface ILoanInterestPageParameters {}
+// 贷款分页参数
+export interface ILoanPageParameters {
+    loanSerial: string; // 贷款订单号
+    lockSerial: string; // 锁仓订单号
+    uid: string; // UID
+    beginTime: string; // 申请开始时间
+    endTime: string; // 申请结束时间
+    status?: string; // 订单状态
+}
 
 // 资金分页参数
 export interface IFundPageParameters {

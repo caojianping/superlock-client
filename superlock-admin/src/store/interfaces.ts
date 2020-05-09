@@ -10,7 +10,6 @@ import {
     IProjectPageParameters,
     IFinancePageParameters,
     ILoanPageParameters,
-    ILoanInterestPageParameters,
     IFundPageParameters,
     IBrokerPageParameters,
     IBrokerChildPageParameters,
@@ -47,7 +46,6 @@ import {
     FinanceSaleModel,
     LoanModel,
     LoanInterestModel,
-    LoanFormModel,
     FundModel,
     BrokerModel,
     BrokerChildModel,
@@ -77,7 +75,8 @@ import {
     RechargeReportModel,
     LockReportModel,
     ExpendReportModel,
-    UserReportModel
+    UserReportModel,
+    LoanInfoModel
 } from '@/ts/models';
 
 export interface IActionContext<T> {
@@ -165,13 +164,14 @@ export interface IFinanceState {
 
 export interface ILoanState {
     statusOptions: Array<ISelectOption>;
+    statusColors: any;
+    statusNames: any;
 
     loanParameters: IPageParameters<ILoanPageParameters>;
-    interestParameters: IPageParameters<ILoanInterestPageParameters>;
     totalCount: number;
     list: Array<LoanModel | LoanInterestModel>;
 
-    loanForm: LoanFormModel;
+    loanInfo: LoanInfoModel;
 }
 
 export interface IFundState {

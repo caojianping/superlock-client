@@ -318,6 +318,39 @@ function arraySort(arrs: any[], field: string = '', isAsc: boolean = false): any
     return arrs;
 }
 
+// 数字转换
+function digitConvert(digit: any): number {
+    let ndigit = Number(digit);
+    return isNaN(ndigit) ? 0 : ndigit;
+}
+
+// 数字补零
+function digitZeroize(digit: number): string {
+    return digit >= 0 && digit < 10 ? `0${String(digit)}` : String(digit);
+}
+
+// 数字百分比
+function digitPercent(digit: string | number, precision: number = 2, isString: boolean = false) {
+    if (isNullOrUndefined(digit)) return digit;
+
+    let ndigit = Number(digit);
+    if (isNaN(ndigit)) return digit;
+
+    if (!isString) return Number((ndigit * 100).toFixed(precision));
+    return (ndigit * 100).toFixed(precision);
+}
+
+// 数字精度
+function digitPrecision(digit: string | number, precision: number = 2, isString: boolean = false) {
+    if (isNullOrUndefined(digit)) return digit;
+
+    let ndigit = Number(digit);
+    if (isNaN(ndigit)) return digit;
+
+    if (!isString) return Number(ndigit.toFixed(precision));
+    return ndigit.toFixed(precision);
+}
+
 // 获取对象key集合
 function getAllKeys(data: any): string[] {
     data = data || {};
@@ -401,33 +434,6 @@ function resolveParameters(key: string): string {
     return unescape(matches[2]);
 }
 
-// 数字补零
-function digitZeroize(digit: number): string {
-    return digit >= 0 && digit < 10 ? `0${String(digit)}` : String(digit);
-}
-
-// 数字百分比
-function digitPercent(digit: string | number, precision: number = 2, isString: boolean = false) {
-    if (isNullOrUndefined(digit)) return digit;
-
-    let ndigit = Number(digit);
-    if (isNaN(ndigit)) return digit;
-
-    if (!isString) return Number((ndigit * 100).toFixed(precision));
-    return (ndigit * 100).toFixed(precision);
-}
-
-// 数字精度
-function digitPrecision(digit: string | number, precision: number = 2, isString: boolean = false) {
-    if (isNullOrUndefined(digit)) return digit;
-
-    let ndigit = Number(digit);
-    if (isNaN(ndigit)) return digit;
-
-    if (!isString) return Number(ndigit.toFixed(precision));
-    return ndigit.toFixed(precision);
-}
-
 // json字符串转换函数
 function parseJSON<T extends object>(value: string = ''): T {
     try {
@@ -506,6 +512,11 @@ const Utils = {
     arrayDistinct, // 数组去重函数（可去重对象）
     arraySort, // 数组排序（可去重对象）
 
+    digitConvert, // 数字转换
+    digitZeroize, // 数字补零
+    digitPercent, // 数字百分比
+    digitPrecision, // 数字精度
+
     getAllKeys, // 获取对象key集合
     getFirstKey, // 获取对象第一个key
     getFirstValue, // 获取对象第一个value
@@ -513,10 +524,6 @@ const Utils = {
     buildParameters, // 构建查询参数字符串
     buildPageParameters, // 构建分页查询参数字符串
     resolveParameters, // 解析参数字符串
-
-    digitZeroize, // 数字补零
-    digitPercent, // 数字百分比
-    digitPrecision, // 数字精度
 
     parseJSON, // json字符串转换函数
     duplicate, // 简易的对象副本函数，对象拷贝范围：对象、对象数组

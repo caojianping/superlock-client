@@ -95,14 +95,17 @@ export const Urls = {
     // 贷款模块 ok
     loan: {
         order: {
-            list: '',
-            export: ''
+            list: `${baseUrl}/loan/list`,
+            export: `${baseUrl}/loan/export`
         },
         interest: {
-            list: '',
-            export: ''
+            list: `${baseUrl}/loan/interest`,
+            export: `${baseUrl}/loan/interest/export`
         },
-        setting: ''
+        setting: {
+            info: `${baseUrl}/loan/info`,
+            set: `${baseUrl}/loan/set`
+        }
     },
     // 资金模块 ok
     fund: {
