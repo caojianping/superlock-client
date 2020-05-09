@@ -11,7 +11,7 @@
             <header class="sl-block-header">
                 <h2 class="sl-block-title">贷款订单列表</h2>
             </header>
-            <div class="sl-block-body">
+            <div class="sl-block-body mw1300px">
                 <ant-row :gutter="24">
                     <ant-col :span="7">
                         <ant-form-item label="UID" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
@@ -86,6 +86,7 @@
         <ant-button class="sl-tool" type="primary" @click="exportReport">导出报表</ant-button>
 
         <ant-table
+            class="mw1300px nowrap"
             :columns="columns"
             :rowKey="record => `${record.uid}_${record.loanSerial}`"
             :dataSource="list"
@@ -101,8 +102,11 @@
                 {{ record.lockSerial }}
             </ant-tooltip>
             <span slot="loanRate" slot-scope="record">{{ record.loanRate | ratePercent }}</span>
-            <span :class="statusColors[record.status]" slot="status" slot-scope="record">
+            <span :class="['loan-status', statusColors[record.status]]" slot="status" slot-scope="record">
                 {{ statusNames[record.status] }}
+            </span>
+            <span :class="['loan-audit', auditColors[record.auditStatus]]" slot="auditStatus" slot-scope="record">
+                {{ auditNames[record.auditStatus] }}
             </span>
             <template slot="operation" slot-scope="record">
                 <template v-if="record.status === '0'">

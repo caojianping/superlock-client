@@ -149,7 +149,7 @@ export default class Sider extends Vue {
             name: '日志管理',
             route: null,
             path: '/log',
-            icon: 'log',
+            icon: 'recharge',
             items: [
                 { name: '用户日志', route: '/log/user' },
                 { name: '系统日志', route: '/log/system' }

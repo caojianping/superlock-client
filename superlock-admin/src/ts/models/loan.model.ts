@@ -1,3 +1,4 @@
+// 贷款模型
 export class LoanModel {
     public loanSerial!: string; // 贷款订单号
     public uid!: string; // UID
@@ -15,8 +16,10 @@ export class LoanModel {
     public repaymentAmount!: string; // 实际还款价值(BCB)
     public repaymentTime!: string; // 还款时间
     public status!: string; // 状态
+    public auditStatus!: string; // 审核状态：1待审核；3已审核；5已驳回。
 }
 
+// 贷款利息模型
 export class LoanInterestModel {
     public loanSerial!: string; // 订单
     public uid!: string; // UID
@@ -29,6 +32,7 @@ export class LoanInterestModel {
     public memo!: string; // 备注
 }
 
+// 贷款信息模型
 export class LoanInfoModel {
     public loanRate!: number; // 贷款年利率(%)
     public loanProportion!: number; // 最大贷款比例(%)

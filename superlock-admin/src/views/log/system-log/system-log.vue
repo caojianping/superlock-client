@@ -47,13 +47,7 @@
 
         <ant-button class="sl-tool" type="primary" @click="exportReport">导出报表</ant-button>
 
-        <ant-table
-            :columns="columns"
-            :rowKey="record => `${record.userName}_${record.operating}_${record.source}_${record.createTime}`"
-            :dataSource="list"
-            :pagination="false"
-            :loading="isPageLoading"
-        />
+        <ant-table :columns="columns" :rowKey="record => record.id" :dataSource="list" :pagination="false" :loading="isPageLoading" />
 
         <ant-pagination
             :current="systemParameters.pageNum"

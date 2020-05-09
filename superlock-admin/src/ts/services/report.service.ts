@@ -27,8 +27,8 @@ export class ReportService {
                 let totalAmount = 0,
                     totalGotAmount = 0;
                 list.forEach((item: any) => {
-                    let amount = isNaN(Number(item.amount)) ? 0 : Number(item.amount),
-                        gotAmount = isNaN(Number(item.gotAmount)) ? 0 : Number(item.gotAmount);
+                    let amount = Utils.digitConvert(item.amount),
+                        gotAmount = Utils.digitConvert(item.gotAmount);
                     coinCode && (totalAmount = Calculator.add(totalAmount, amount, 6));
                     totalGotAmount = Calculator.add(totalGotAmount, gotAmount, 6);
                 });
@@ -67,8 +67,8 @@ export class ReportService {
                 let totalAmount = 0,
                     totalValue = 0;
                 list.forEach((item: any) => {
-                    let amount = isNaN(Number(item.lockAmount)) ? 0 : Number(item.lockAmount),
-                        value = isNaN(Number(item.lockValue)) ? 0 : Number(item.lockValue);
+                    let amount = Utils.digitConvert(item.lockAmount),
+                        value = Utils.digitConvert(item.lockValue);
                     totalAmount = Calculator.add(totalAmount, amount, 6);
                     totalValue = Calculator.add(totalValue, value, 6);
                 });
@@ -107,8 +107,8 @@ export class ReportService {
                 let totalDcAmount = 0,
                     totalBcbAmount = 0;
                 result.list.forEach((item: any) => {
-                    let dcAmount = isNaN(Number(item.dcAmount)) ? 0 : Number(item.dcAmount),
-                        bcbAmount = isNaN(Number(item.bcbAmount)) ? 0 : Number(item.bcbAmount);
+                    let dcAmount = Utils.digitConvert(item.dcAmount),
+                        bcbAmount = Utils.digitConvert(item.bcbAmount);
                     totalDcAmount = Calculator.add(totalDcAmount, dcAmount, 6);
                     totalBcbAmount = Calculator.add(totalBcbAmount, bcbAmount, 6);
                 });
@@ -146,7 +146,7 @@ export class ReportService {
             if (list && list.length > 0) {
                 let totalCount = 0;
                 result.list.forEach((item: any) => {
-                    let count = isNaN(Number(item.count)) ? 0 : Number(item.count);
+                    let count = Utils.digitConvert(item.count);
                     totalCount += count;
                 });
 

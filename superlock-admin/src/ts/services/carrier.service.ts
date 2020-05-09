@@ -75,8 +75,8 @@ export class CarrierService {
         if (!result) return new PageResult<CarrierModel>(0, []);
 
         (result.list || []).forEach((item: any) => {
-            item['carrierId'] = isNaN(Number(item.carrierId)) ? null : Number(item.carrierId);
-            item['rebateRatio'] = isNaN(Number(item.rebateRatio)) ? null : Number(item.rebateRatio);
+            item['carrierId'] = Utils.digitConvert(item.carrierId);
+            item['rebateRatio'] = Utils.digitConvert(item.rebateRatio);
         });
         return result as PageResult<CarrierModel>;
     }

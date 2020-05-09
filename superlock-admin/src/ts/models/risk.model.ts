@@ -1,3 +1,4 @@
+// 免审模型
 export class FreeTrialModel {
     public withdrawLimit!: number; // 提现免审金额
     public everyrewardLimit!: number; // 利息支出免审金额

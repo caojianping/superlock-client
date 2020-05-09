@@ -22,6 +22,8 @@ export default class LoanOrder extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
     @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
+    @State('auditColors') auditColors!: any;
+    @State('auditNames') auditNames!: any;
 
     @loanModule.State('statusOptions') statusOptions!: Array<ISelectOption>;
     @loanModule.State('statusColors') statusColors!: any;
@@ -114,6 +116,12 @@ export default class LoanOrder extends Vue {
             dataIndex: '',
             key: 'status',
             scopedSlots: { customRender: 'status' }
+        },
+        {
+            title: '审核状态',
+            dataIndex: '',
+            key: 'auditStatus',
+            scopedSlots: { customRender: 'auditStatus' }
         },
         {
             title: '操作',

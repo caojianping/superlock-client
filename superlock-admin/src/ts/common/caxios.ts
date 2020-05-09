@@ -5,10 +5,10 @@ import TYPES from '@/store/types';
 
 import Utils from '@/ts/utils';
 import { CaxiosType, ResponseCode, CONSTANTS } from '@/ts/config';
+import { ResponseResult, BusinessError, SecondVerifyResult, TokenInfo } from '@/ts/models';
 import { Prompt } from './prompt';
 import { Token } from './token';
 import { UsbToken } from './usb-token';
-import { ResponseResult, BusinessError, SecondVerifyResult, TokenInfo } from '@/ts/models';
 
 const isIE9 = Utils.isIE9();
 

@@ -34,9 +34,9 @@ export class BusinessError<T> implements Error {
 
 // 响应结果
 export class ResponseResult<T> {
-    code: ResponseCode | number;
-    data: T;
-    message: string;
+    code: ResponseCode | number; // code码
+    data: T; // 数据
+    message: string; // 消息
 
     constructor(code: number, data: T, message: string) {
         this.code = code;
@@ -47,8 +47,8 @@ export class ResponseResult<T> {
 
 // token信息
 export class TokenInfo {
-    public token: string;
-    public username: string;
+    public token: string; // token
+    public username: string; // 用户名
 
     constructor(token: string, usrename: string) {
         this.token = token;

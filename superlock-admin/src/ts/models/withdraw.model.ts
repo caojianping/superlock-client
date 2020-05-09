@@ -1,7 +1,7 @@
 // 提现模型
 export class WithdrawModel {
     public serial!: string; // 订单号
-    public uid!: string; // uid
+    public uid!: string; // UID
     public address!: string; // 提现到账地址
     public coinCode!: string; // 提现币种
     public amount!: string; // 提现数量
@@ -14,8 +14,8 @@ export class WithdrawModel {
 // 转账模型
 export class TransferModel {
     public serial!: string; // 订单号
-    public fromId!: string; // 转账uid
-    public toId!: string; // 到账uid
+    public fromId!: string; // 转账UID
+    public toId!: string; // 到账uUID
     public coin!: string; // 转账币种
     public amount!: string; // 转账数量
     public date!: string; // 创建时间

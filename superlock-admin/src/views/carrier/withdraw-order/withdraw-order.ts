@@ -208,10 +208,10 @@ export default class WithdrawOrder extends Vue {
         this.fetchWithdrawOrders();
     }
 
-    // 获取数据
-    async fetchData() {
-        await this.fetchCarrierOptions();
-        await this.fetchWithdrawOrders();
+    // 获取数据，同时请求
+    fetchData() {
+        this.fetchCarrierOptions();
+        this.fetchWithdrawOrders();
     }
 
     created() {

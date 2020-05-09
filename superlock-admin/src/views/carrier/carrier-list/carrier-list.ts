@@ -174,10 +174,10 @@ export default class CarrierList extends Vue {
         this.fetchCarriers();
     }
 
-    // 获取数据
-    async fetchData() {
-        await this.fetchCarrierOptions();
-        await this.fetchCarriers();
+    // 获取数据，同时请求
+    fetchData() {
+        this.fetchCarrierOptions();
+        this.fetchCarriers();
     }
 
     created() {

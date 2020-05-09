@@ -1,7 +1,7 @@
 // 充值模型
 export class RechargeModel {
     public serial!: string; // 订单号
-    public uid!: string; // uid
+    public uid!: string; // UID
     public hash!: string; // 交易哈希
     public address!: string; // 充值地址
     public date!: string; // 充值时间
@@ -26,7 +26,7 @@ export class RechargePoundageModel {
 
 // 充值地址模型
 export class RechargeAddressModel {
-    public uid!: string; // uid
+    public uid!: string; // UID
     public mobile!: string; // 手机号
     public coinCode!: string; // 充值币种
     public address!: string; // 充值地址

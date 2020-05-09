@@ -1,5 +1,5 @@
 import SystemUser from '@/views/system/system-user';
-import SystemGoogle from '@/views/system/system-google';
+// import SystemGoogle from '@/views/system/system-google';
 import SystemPassword from '@/views/system/system-password';
 
 export default [
@@ -8,11 +8,11 @@ export default [
         name: 'SystemUser',
         component: SystemUser
     },
-    {
-        path: '/system/google',
-        name: 'SystemGoogle',
-        component: SystemGoogle
-    },
+    // {
+    //     path: '/system/google',
+    //     name: 'SystemGoogle',
+    //     component: SystemGoogle
+    // },
     {
         path: '/system/password',
         name: 'SystemPassword',

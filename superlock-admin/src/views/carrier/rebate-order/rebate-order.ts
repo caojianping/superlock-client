@@ -195,10 +195,10 @@ export default class RebateOrder extends Vue {
         this.fetchRebateOrders();
     }
 
-    // 获取数据
-    async fetchData() {
-        await this.fetchCarrierOptions();
-        await this.fetchRebateOrders();
+    // 获取数据，同时请求
+    fetchData() {
+        this.fetchCarrierOptions();
+        this.fetchRebateOrders();
     }
 
     created() {

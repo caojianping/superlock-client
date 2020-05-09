@@ -19,7 +19,7 @@ export class WithdrawService {
             if (list && list.length > 0) {
                 let totalAmount = 0;
                 list.forEach((item: any) => {
-                    let amount = isNaN(Number(item.amount)) ? 0 : Number(item.amount);
+                    let amount = Utils.digitConvert(item.amount);
                     totalAmount = Calculator.add(totalAmount, amount, 6);
                 });
 
