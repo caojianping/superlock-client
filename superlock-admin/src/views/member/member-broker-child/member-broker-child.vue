@@ -23,7 +23,7 @@
                             <td>{{ count || 0 }}</td>
                         </tr>
                         <tr>
-                            <td>锁仓总额(DC)</td>
+                            <td>累计推广数量(DC)</td>
                         </tr>
                     </table>
 

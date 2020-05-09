@@ -172,7 +172,7 @@ export default {
                 commit(TYPES.SET_STATES, {
                     totalCount: result.totalCount,
                     list: result.list,
-                    count: result.subordinate
+                    count: result.totalPromote
                 });
             } catch (error) {
                 commit(TYPES.SET_STATES, {
