@@ -146,6 +146,17 @@ export default class Sider extends Vue {
             toggle: false
         },
         {
+            name: '日志管理',
+            route: null,
+            path: '/log',
+            icon: 'log',
+            items: [
+                { name: '用户日志', route: '/log/user' },
+                { name: '系统日志', route: '/log/system' }
+            ],
+            toggle: false
+        },
+        {
             name: '系统管理',
             route: null,
             path: '/system',

@@ -37,6 +37,7 @@ export class Token {
             'carrier/',
             'report/',
             'point/',
+            'log/',
             'system/'
         ].forEach((item: string) => {
             store.commit(item + TYPES.CLEAR_STATES);

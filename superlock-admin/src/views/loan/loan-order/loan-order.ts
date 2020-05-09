@@ -20,6 +20,7 @@ const loanModule = namespace('loan');
 })
 export default class LoanOrder extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
+    @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
 
     @loanModule.State('statusOptions') statusOptions!: Array<ISelectOption>;

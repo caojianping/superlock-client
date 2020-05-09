@@ -196,3 +196,17 @@ export interface IUserReportPageParameters {
     beginTime: string; // 开始时间
     endTime: string; // 结束时间
 }
+
+// 用户日志分页参数接口
+export interface IUserLogPageParameters {
+    uid: string; // 用户UID
+    beginTime: string; // 开始时间
+    endTime: string; // 结束时间
+}
+
+// 系统日志分页参数接口
+export interface ISystemLogPageParameters {
+    userName: string; // 用户名
+    beginTime: string; // 开始时间
+    endTime: string; // 结束时间
+}

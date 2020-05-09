@@ -92,9 +92,12 @@ export class LoanService {
         let result = await Caxios.get<LoanInfoModel | null>({ url: Urls.loan.setting.info }, CaxiosType.FullLoadingToken),
             loanInfo = new LoanInfoModel();
         if (result) {
-            loanInfo.loanRate = Utils.digitConvert(result.loanRate);
-            loanInfo.loanProportion = Utils.digitConvert(result.loanProportion);
-            loanInfo.loanMinValue = Utils.digitConvert(result.loanMinValue);
+            let loanRate: any = Utils.digitPercent(result.loanRate),
+                loanProportion: any = Utils.digitPercent(result.loanProportion),
+                loanMinValue: number = Utils.digitConvert(result.loanMinValue);
+            loanInfo.loanRate = loanRate;
+            loanInfo.loanProportion = loanProportion;
+            loanInfo.loanMinValue = loanMinValue;
         }
         return loanInfo;
     }
@@ -104,12 +107,18 @@ export class LoanService {
         let result: ValidationResult = LoanService.validateLoanInfo(loanInfo);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        return await Caxios.post<any>(
+        let { loanRate, loanProportion, loanMinValue } = loanInfo;
+        await Caxios.post<any>(
             {
                 url: Urls.loan.setting.set,
-                data: loanInfo
+                data: {
+                    loanRate: Utils.digitPercent(loanRate, 4, false, true),
+                    loanProportion: Utils.digitPercent(loanProportion, 4, false, true),
+                    loanMinValue
+                }
             },
             CaxiosType.FullLoadingToken
         );
+        return true;
     }
 }

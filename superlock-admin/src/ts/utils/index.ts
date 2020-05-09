@@ -318,37 +318,34 @@ function arraySort(arrs: any[], field: string = '', isAsc: boolean = false): any
     return arrs;
 }
 
-// 数字转换
-function digitConvert(digit: any): number {
-    let ndigit = Number(digit);
-    return isNaN(ndigit) ? 0 : ndigit;
-}
-
 // 数字补零
 function digitZeroize(digit: number): string {
     return digit >= 0 && digit < 10 ? `0${String(digit)}` : String(digit);
 }
 
-// 数字百分比
-function digitPercent(digit: string | number, precision: number = 2, isString: boolean = false) {
-    if (isNullOrUndefined(digit)) return digit;
+// 数字转换
+function digitConvert(digit: any): number {
+    if (isNumber(digit)) return digit;
 
     let ndigit = Number(digit);
-    if (isNaN(ndigit)) return digit;
-
-    if (!isString) return Number((ndigit * 100).toFixed(precision));
-    return (ndigit * 100).toFixed(precision);
+    return isNaN(ndigit) ? 0 : ndigit;
 }
 
-// 数字精度
-function digitPrecision(digit: string | number, precision: number = 2, isString: boolean = false) {
-    if (isNullOrUndefined(digit)) return digit;
-
-    let ndigit = Number(digit);
-    if (isNaN(ndigit)) return digit;
+// 数字百分比
+function digitPercent(digit: any, precision: number = 2, isString: boolean = false, isDivide: boolean = false): number | string {
+    let cdigit = digitConvert(digit),
+        ndigit = isDivide ? cdigit / 100 : cdigit * 100;
 
     if (!isString) return Number(ndigit.toFixed(precision));
     return ndigit.toFixed(precision);
+}
+
+// 数字精度
+function digitPrecision(digit: any, precision: number = 2, isString: boolean = false) {
+    let cdigit = digitConvert(digit);
+
+    if (!isString) return Number(cdigit.toFixed(precision));
+    return cdigit.toFixed(precision);
 }
 
 // 获取对象key集合
@@ -512,8 +509,8 @@ const Utils = {
     arrayDistinct, // 数组去重函数（可去重对象）
     arraySort, // 数组排序（可去重对象）
 
-    digitConvert, // 数字转换
     digitZeroize, // 数字补零
+    digitConvert, // 数字转换
     digitPercent, // 数字百分比
     digitPrecision, // 数字精度
 

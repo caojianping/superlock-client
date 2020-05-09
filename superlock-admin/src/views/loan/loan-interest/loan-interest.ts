@@ -51,7 +51,9 @@ export default class LoanInterest extends Vue {
         },
         {
             title: '贷款年利率(%)',
-            dataIndex: 'loanRate'
+            dataIndex: '',
+            key: 'loanRate',
+            scopedSlots: { customRender: 'loanRate' }
         },
         {
             title: '贷款价值(DC)',

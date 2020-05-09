@@ -7,10 +7,10 @@ Vue.filter('dateFormat', function(value: string, format: string = 'yyyy-MM-dd hh
     return Utils.dateFormat(value, format, isZeroize);
 });
 
-Vue.filter('ratePercent', function(value: string | number, precision: number = 2) {
+Vue.filter('ratePercent', function(value: any, precision: number = 2) {
     return Utils.digitPercent(value, precision, true) + '%';
 });
 
-Vue.filter('digitPrecision', function(value: string | number, precision: number = 2) {
+Vue.filter('digitPrecision', function(value: any, precision: number = 2) {
     return Utils.digitPrecision(value, precision, true);
 });

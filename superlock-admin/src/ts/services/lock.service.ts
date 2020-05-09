@@ -12,16 +12,12 @@ export class LockService {
 
         award['promotionRate'] = Utils.digitPercent(award.promotionRate);
         award['pushStraightRate'] = Utils.digitPercent(award.pushStraightRate);
-        if (!Utils.isNullOrUndefined(award.lockAmount)) {
-            award['lockAmount'] = Number(award.lockAmount);
-        }
+        award['lockAmount'] = Utils.digitConvert(award.lockAmount);
 
         let dailySalesDto = award.dailySalesDto || [];
         if (dailySalesDto.length > 0) {
             dailySalesDto.forEach((dailySale: any) => {
-                if (!Utils.isNullOrUndefined(dailySale.sales)) {
-                    dailySale['sales'] = Number(dailySale.sales);
-                }
+                dailySale['sales'] = Utils.digitConvert(dailySale.sales);
                 dailySale['rate'] = Utils.digitPercent(dailySale.rate);
             });
         }
@@ -153,8 +149,8 @@ export class LockService {
                     memo,
                     length,
                     quota: String(quota),
-                    rate: (rate / 100).toFixed(4),
-                    pushRate: (pushRate / 100).toFixed(4)
+                    rate: Utils.digitPercent(rate, 4, true, true),
+                    pushRate: Utils.digitPercent(pushRate, 4, true, true)
                 }
             },
             CaxiosType.FullLoadingToken,
@@ -176,8 +172,8 @@ export class LockService {
                     id,
                     memo,
                     quota: String(quota),
-                    rate: (rate / 100).toFixed(4),
-                    pushRate: (pushRate / 100).toFixed(4),
+                    rate: Utils.digitPercent(rate, 4, true, true),
+                    pushRate: Utils.digitPercent(pushRate, 4, true, true),
                     enable
                 }
             },
@@ -242,12 +238,11 @@ export class LockService {
             {
                 url: Urls.lock.award.update,
                 data: {
-                    promotionRate: (promotionRate / 100).toFixed(4),
-                    pushStraightRate: (pushStraightRate / 100).toFixed(4),
-                    // lockAmount: String(lockAmount),
+                    promotionRate: Utils.digitPercent(promotionRate, 4, true, true),
+                    pushStraightRate: Utils.digitPercent(pushStraightRate, 4, true, true),
                     dailySalesDto: dailySalesDto.map((dailySale: AwardDailySaleModel) => ({
                         sales: String(dailySale.sales),
-                        rate: (dailySale.rate / 100).toFixed(4)
+                        rate: Utils.digitPercent(dailySale.rate, 4, true, true)
                     }))
                 }
             },

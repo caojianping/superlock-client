@@ -21,6 +21,7 @@ import memberModule from './modules/member.module';
 import carrierModule from './modules/carrier.module';
 import reportModule from './modules/report.module';
 import pointModule from './modules/point.module';
+import logModule from './modules/log.module';
 import systemModule from './modules/system.module';
 
 Vue.use(Vuex);
@@ -95,6 +96,7 @@ export default new Vuex.Store({
         carrier: carrierModule,
         report: reportModule,
         point: pointModule,
+        log: logModule,
         system: systemModule
     },
     state: rootState,

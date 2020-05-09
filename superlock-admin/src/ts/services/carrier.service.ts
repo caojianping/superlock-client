@@ -109,7 +109,7 @@ export class CarrierService {
                     mobile,
                     email,
                     pwd: md5(loginPwd),
-                    rebateRatio: rebateRatio / 100,
+                    rebateRatio: Utils.digitPercent(rebateRatio, 4, false, true),
                     billingCycle,
                     unit
                 }
@@ -142,7 +142,7 @@ export class CarrierService {
                 data: {
                     2: { carrierId, pwd },
                     3: { carrierId, areaCode: tAreaCode, mobile, pwd },
-                    4: { carrierId, rebateRatio: rebateRatio / 100, billingCycle, unit },
+                    4: { carrierId, rebateRatio: Utils.digitPercent(rebateRatio, 4, false, true), billingCycle, unit },
                     5: { carrierId, email, pwd }
                 }[formType]
             },

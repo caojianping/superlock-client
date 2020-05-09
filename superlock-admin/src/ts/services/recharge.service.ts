@@ -72,7 +72,7 @@ export class RechargeService {
                     tokenType,
                     type,
                     feeToken,
-                    chargeRate: (chargeRate / 100).toFixed(4)
+                    chargeRate: Utils.digitPercent(chargeRate, 4, true, true)
                 }
             },
             CaxiosType.FullLoadingToken,
@@ -92,7 +92,7 @@ export class RechargeService {
                 url: Urls.recharge.poundage.update,
                 data: {
                     tokenType,
-                    chargeRate: (chargeRate / 100).toFixed(4)
+                    chargeRate: Utils.digitPercent(chargeRate, 4, true, true)
                 }
             },
             CaxiosType.FullLoadingToken,

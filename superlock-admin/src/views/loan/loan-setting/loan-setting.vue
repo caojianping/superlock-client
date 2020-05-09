@@ -42,6 +42,7 @@
                             />
                         </ant-form-item>
                     </ant-col>
+                    <ant-col class="sl-tip" :span="6">与抵押锁仓价值的比例</ant-col>
                 </ant-row>
 
                 <ant-row :gutter="24">

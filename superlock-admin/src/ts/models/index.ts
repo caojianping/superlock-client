@@ -14,6 +14,7 @@ export * from './member.model';
 export * from './carrier.model';
 export * from './report.model';
 export * from './point.model';
+export * from './log.model';
 export * from './system.model';
 
 // 业务型错误

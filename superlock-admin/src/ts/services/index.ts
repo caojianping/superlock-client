@@ -12,4 +12,5 @@ export * from './member.service';
 export * from './carrier.service';
 export * from './report.service';
 export * from './point.service';
+export * from './log.service';
 export * from './system.service';

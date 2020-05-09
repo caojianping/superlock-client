@@ -85,7 +85,13 @@
 
         <ant-button class="sl-tool" type="primary" @click="exportReport">导出报表</ant-button>
 
-        <ant-table :columns="columns" :rowKey="record => record.uid" :dataSource="list" :pagination="false" :loading="isPageLoading">
+        <ant-table
+            :columns="columns"
+            :rowKey="record => `${record.uid}_${record.loanSerial}`"
+            :dataSource="list"
+            :pagination="false"
+            :loading="isPageLoading"
+        >
             <ant-tooltip class="w100px" slot="loanSerial" slot-scope="record">
                 <template slot="uid">{{ record.loanSerial }}</template>
                 {{ record.loanSerial }}

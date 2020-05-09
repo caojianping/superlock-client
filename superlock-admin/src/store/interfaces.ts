@@ -4,6 +4,7 @@ import {
     ISelectOption,
     IPageParameters,
     IRechargePageParameters,
+    IRechargeAddressPageParameters,
     IWithdrawPageParameters,
     ITransferPageParameters,
     ILockPageParameters,
@@ -15,7 +16,6 @@ import {
     IBrokerChildPageParameters,
     IMigrationPageParameters,
     IRatePageParameters,
-    IPointPageParameters,
     ICarrierPageParameters,
     IRebateOrderPageParameters,
     IFlashOrderPageParameters,
@@ -24,7 +24,9 @@ import {
     IExpendReportPageParameters,
     IUserReportPageParameters,
     IRechargeReportPageParameters,
-    IRechargeAddressPageParameters
+    IPointPageParameters,
+    IUserLogPageParameters,
+    ISystemLogPageParameters
 } from '@/ts/interfaces';
 import {
     TokenInfo,
@@ -34,6 +36,7 @@ import {
     VirtualModel,
     RechargeModel,
     RechargeAddressModel,
+    RechargePoundageModel,
     WithdrawModel,
     TransferModel,
     LockModel,
@@ -46,27 +49,17 @@ import {
     FinanceSaleModel,
     LoanModel,
     LoanInterestModel,
+    LoanInfoModel,
     FundModel,
+    FreeTrialModel,
     BrokerModel,
     BrokerChildModel,
-    RateModel,
     BrokerFormModel,
     MigrationModel,
     MigrationFormModel,
     QuotaFormModel,
     RateFormModel,
-    PointModel,
-    PointAccountModel,
-    UserModel,
-    UserFormModel,
-    GoogleFormModel,
-    PasswordFormModel,
-    PointFormModel,
-    TransferFormModel,
-    PointInfoModel,
-    TransferInfoModel,
-    FreeTrialModel,
-    RechargePoundageModel,
+    RateModel,
     CarrierFormModel,
     CarrierModel,
     RebateOrderModel,
@@ -76,7 +69,18 @@ import {
     LockReportModel,
     ExpendReportModel,
     UserReportModel,
-    LoanInfoModel
+    PointModel,
+    PointAccountModel,
+    PointFormModel,
+    PointInfoModel,
+    TransferFormModel,
+    TransferInfoModel,
+    UserLogModel,
+    SystemLogModel,
+    UserModel,
+    UserFormModel,
+    PasswordFormModel,
+    GoogleFormModel
 } from '@/ts/models';
 
 export interface IActionContext<T> {
@@ -225,6 +229,20 @@ export interface ICarrierState {
     list: Array<CarrierModel | RebateOrderModel | FlashOrderModel | WithdrawOrderModel>;
 }
 
+export interface IReportState {
+    reportType: ReportType;
+    cycleOptions: Array<ISelectOption>;
+    expendTypeOptions: Array<ISelectOption>;
+    userTypeOptions: Array<ISelectOption>;
+
+    rechargeParameters: IPageParameters<IRechargeReportPageParameters>;
+    lockParameters: IPageParameters<ILockReportPageParameters>;
+    expendParameters: IPageParameters<IExpendReportPageParameters>;
+    userParameters: IPageParameters<IUserReportPageParameters>;
+    totalCount: number;
+    list: Array<RechargeReportModel | LockReportModel | ExpendReportModel | UserReportModel>;
+}
+
 export interface IPointState {
     pointParameters: IPageParameters<IPointPageParameters>;
     accountParameters: IPageParameters<null>;
@@ -238,6 +256,13 @@ export interface IPointState {
     transferForm: TransferFormModel;
 }
 
+export interface ILogState {
+    userParameters: IPageParameters<IUserLogPageParameters>;
+    systemParameters: IPageParameters<ISystemLogPageParameters>;
+    totalCount: number;
+    list: Array<UserLogModel | SystemLogModel>;
+}
+
 export interface ISystemState {
     roleOptions: Array<ISelectOption>;
 
@@ -248,18 +273,4 @@ export interface ISystemState {
     userForm: UserFormModel;
     passwordForm: PasswordFormModel;
     googleForm: GoogleFormModel;
-}
-
-export interface IReportState {
-    reportType: ReportType;
-    cycleOptions: Array<ISelectOption>;
-    expendTypeOptions: Array<ISelectOption>;
-    userTypeOptions: Array<ISelectOption>;
-
-    rechargeParameters: IPageParameters<IRechargeReportPageParameters>;
-    lockParameters: IPageParameters<ILockReportPageParameters>;
-    expendParameters: IPageParameters<IExpendReportPageParameters>;
-    userParameters: IPageParameters<IUserReportPageParameters>;
-    totalCount: number;
-    list: Array<RechargeReportModel | LockReportModel | ExpendReportModel | UserReportModel>;
 }

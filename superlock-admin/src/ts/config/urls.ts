@@ -170,33 +170,7 @@ export const Urls = {
             export: `${baseUrl}/carrier/withdraw/export`
         }
     },
-    // 上分模块 ok
-    point: {
-        record: {
-            list: `${baseUrl}/onPoints/list`,
-            pointInfo: `${baseUrl}/onPoints/pointsInfo`,
-            setPoint: `${baseUrl}/onPoints/addmoney`,
-            transferInfo: `${baseUrl}/onPoints/transferInfo`,
-            setTransfer: `${baseUrl}/onPoints/transfer`,
-            export: `${baseUrl}/onPoints/export`
-        },
-        accounts: `${baseUrl}/account/list`
-    },
-    // 系统模块 ok
-    system: {
-        user: {
-            roles: `${baseUrl}/role/list`,
-            list: `${baseUrl}/user/list`,
-            add: `${baseUrl}/user/add`,
-            update: `${baseUrl}/user/update`,
-            delete: `${baseUrl}/user/delete`,
-            resetPassword: `${baseUrl}/user/updatePwd`,
-            resetGa: `${baseUrl}/user/resetGa`,
-            setComGa: `${baseUrl}/user/setComGa`
-        },
-        setPassword: `${baseUrl}/login/updatePwd`,
-        setGoogle: ''
-    },
+    // 数据报表模块 ok
     report: {
         recharge: {
             list: `${baseUrl}/report/recharge`,
@@ -214,5 +188,43 @@ export const Urls = {
             list: `${baseUrl}/report/user`,
             export: `${baseUrl}/report/user/export`
         }
+    },
+    // 上分模块 ok
+    point: {
+        record: {
+            list: `${baseUrl}/onPoints/list`,
+            pointInfo: `${baseUrl}/onPoints/pointsInfo`,
+            setPoint: `${baseUrl}/onPoints/addmoney`,
+            transferInfo: `${baseUrl}/onPoints/transferInfo`,
+            setTransfer: `${baseUrl}/onPoints/transfer`,
+            export: `${baseUrl}/onPoints/export`
+        },
+        accounts: `${baseUrl}/account/list`
+    },
+    // 日志模块
+    log: {
+        user: {
+            list: `${baseUrl}/log/user`,
+            export: `${baseUrl}/log/user/export`
+        },
+        system: {
+            list: `${baseUrl}/log/system`,
+            export: `${baseUrl}/log/system/export`
+        }
+    },
+    // 系统模块 ok
+    system: {
+        user: {
+            roles: `${baseUrl}/role/list`,
+            list: `${baseUrl}/user/list`,
+            add: `${baseUrl}/user/add`,
+            update: `${baseUrl}/user/update`,
+            delete: `${baseUrl}/user/delete`,
+            resetPassword: `${baseUrl}/user/updatePwd`,
+            resetGa: `${baseUrl}/user/resetGa`,
+            setComGa: `${baseUrl}/user/setComGa`
+        },
+        setPassword: `${baseUrl}/login/updatePwd`,
+        setGoogle: ''
     }
 };

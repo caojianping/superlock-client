@@ -118,8 +118,15 @@ export default {
         },
 
         // 获取贷款设置信息
-        async fetchLoanInfo(context: IActionContext<ILoanState>): Promise<LoanInfoModel> {
-            return await loanService.fetchLoanInfo();
+        async fetchLoanInfo(context: IActionContext<ILoanState>): Promise<void> {
+            let commit = context.commit;
+            try {
+                let loanInfo = await loanService.fetchLoanInfo();
+                commit(TYPES.SET_STATES, { loanInfo: loanInfo });
+            } catch (error) {
+                commit(TYPES.SET_STATES, { loanInfo: new LoanInfoModel() });
+                return Promise.reject(error);
+            }
         },
 
         // 设置贷款信息
