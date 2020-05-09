@@ -244,7 +244,7 @@ export default class MemberBroker extends Vue {
                           scopedSlots: { customRender: 'fundOperation' }
                       },
                       {
-                          title: '操作',
+                          title: '修改设置',
                           dataIndex: '',
                           key: 'operation',
                           scopedSlots: { customRender: 'operation' }
@@ -304,17 +304,23 @@ export default class MemberBroker extends Vue {
                           scopedSlots: { customRender: 'child' }
                       },
                       {
+                          title: '激活时间',
+                          dataIndex: '',
+                          key: 'createTime',
+                          scopedSlots: { customRender: 'createTime' },
+                          width: '100px'
+                      },
+                      {
                           title: '资金操作',
                           dataIndex: '',
                           key: 'fundOperation',
                           scopedSlots: { customRender: 'fundOperation' }
                       },
                       {
-                          title: '激活时间',
+                          title: '修改设置',
                           dataIndex: '',
-                          key: 'createTime',
-                          scopedSlots: { customRender: 'createTime' },
-                          width: '100px'
+                          key: 'operation',
+                          scopedSlots: { customRender: 'operation' }
                       }
                   ];
     }

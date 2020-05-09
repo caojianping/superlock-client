@@ -97,7 +97,7 @@
         </template>
 
         <ant-table
-            :class="['mw1300px', type === 1 ? '' : 'nowrap', type === 1 ? 'mt32px' : '']"
+            :class="['mw1300px', 'nowrap', type === 1 ? 'mt32px' : '']"
             :columns="columns"
             :rowKey="record => record.uid"
             :dataSource="list"
@@ -126,18 +126,18 @@
             <span slot="createTime" slot-scope="record">
                 {{ record.createTime | dateFormat }}
             </span>
-            <a slot="child" slot-scope="record" :href="`#/member/broker/child/${record.uid}`" style="color: #68CA8A">详情</a>
+            <a class="child-detail" slot="child" slot-scope="record" :href="`#/member/broker/child/${record.uid}`">详情</a>
             <template slot="fundOperation" slot-scope="record">
-                <ant-button type="danger" size="small" @click="openConfirm(record)">{{ record.disable ? '解禁' : '禁用' }}</ant-button>
+                <ant-button :type="record.disable ? 'default' : 'danger'" size="small" @click="openConfirm(record)">{{
+                    record.disable ? '解禁' : '禁用'
+                }}</ant-button>
             </template>
             <template slot="operation" slot-scope="record">
                 <ant-button v-if="type === 0" class="w65px" type="default" size="small" @click="openModal('isQuotaShow', record)"
                     >添加额度</ant-button
                 >
-                <ant-button v-if="type === 0" class="w80px" type="danger" size="small" @click="openModal('isBrokerShow', record, 2)"
-                    >更改手机号</ant-button
-                >
-                <ant-button v-if="type === 0" type="default" size="small" @click="openModal('isMigrationShow', record)">迁移</ant-button>
+                <ant-button class="w80px" type="default" size="small" @click="openModal('isBrokerShow', record, 2)">更改手机号</ant-button>
+                <ant-button v-if="type === 0" type="danger" size="small" @click="openModal('isMigrationShow', record)">迁移</ant-button>
             </template>
         </ant-table>
 
