@@ -83,21 +83,18 @@
             </div>
         </div>
 
-        <ant-button class="sl-tool" type="primary">导出报表</ant-button>
+        <ant-button class="sl-tool" type="primary" @click="exportReport">导出报表</ant-button>
 
         <ant-table :columns="columns" :rowKey="record => record.uid" :dataSource="list" :pagination="false" :loading="isPageLoading">
             <ant-tooltip class="w100px" slot="loanSerial" slot-scope="record">
                 <template slot="uid">{{ record.loanSerial }}</template>
                 {{ record.loanSerial }}
             </ant-tooltip>
-            <ant-tooltip class="w100px" slot="uid" slot-scope="record">
-                <template slot="uid">{{ record.uid }}</template>
-                {{ record.uid }}
-            </ant-tooltip>
             <ant-tooltip class="w100px" slot="lockSerial" slot-scope="record">
                 <template slot="lockSerial">{{ record.lockSerial }}</template>
                 {{ record.lockSerial }}
             </ant-tooltip>
+            <span slot="loanRate" slot-scope="record">{{ record.loanRate | ratePercent }}</span>
             <span :class="statusColors[record.status]" slot="status" slot-scope="record">
                 {{ statusNames[record.status] }}
             </span>

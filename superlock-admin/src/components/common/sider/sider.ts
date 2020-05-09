@@ -67,18 +67,18 @@ export default class Sider extends Vue {
             ],
             toggle: false
         },
-        // {
-        //     name: '贷款管理',
-        //     route: null,
-        //     path: '/loan',
-        //     icon: 'loan',
-        //     items: [
-        //         { name: '贷款订单', route: '/loan/order' },
-        //         { name: '利息记录', route: '/loan/interest' },
-        //         { name: '贷款设置', route: '/loan/setting' }
-        //     ],
-        //     toggle: false
-        // },
+        {
+            name: '贷款管理',
+            route: null,
+            path: '/loan',
+            icon: 'loan',
+            items: [
+                { name: '贷款订单', route: '/loan/order' },
+                { name: '利息记录', route: '/loan/interest' },
+                { name: '贷款设置', route: '/loan/setting' }
+            ],
+            toggle: false
+        },
         {
             name: '资金管理',
             route: null,

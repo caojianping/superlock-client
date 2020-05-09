@@ -50,9 +50,7 @@ export default class LoanOrder extends Vue {
         },
         {
             title: 'UID',
-            dataIndex: '',
-            key: 'uid',
-            scopedSlots: { customRender: 'uid' }
+            dataIndex: 'uid'
         },
         {
             title: '抵押锁仓订单号',
@@ -66,7 +64,9 @@ export default class LoanOrder extends Vue {
         },
         {
             title: '年利率(%)',
-            dataIndex: 'loanRate'
+            dataIndex: '',
+            key: 'loanRate',
+            scopedSlots: { customRender: 'loanRate' }
         },
         {
             title: '贷款价值(DC)',
