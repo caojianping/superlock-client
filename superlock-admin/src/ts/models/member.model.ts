@@ -2,8 +2,8 @@ import { ISelectOption } from '../interfaces';
 import { PageResult } from './page.model';
 
 export class BrokerChildPageResult<T> extends PageResult<T> {
-    public uid!: string;
-    public subordinate!: number;
+    public uid!: string; // UID
+    public totalPromote!: number; // 累计推广数量
 }
 
 export class BrokerModel {

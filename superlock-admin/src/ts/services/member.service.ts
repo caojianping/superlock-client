@@ -32,7 +32,7 @@ export class MemberService {
             let pagger = data.pagger,
                 result = new BrokerChildPageResult<BrokerChildModel>(pagger.totalCount || 0, pagger.list || []);
             result.uid = data.uid;
-            result.subordinate = data.lockAmount;
+            result.totalPromote = data.totalPromote;
             return result;
         }
     }
