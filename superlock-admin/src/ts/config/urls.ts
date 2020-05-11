@@ -9,6 +9,7 @@ export const Urls = {
     },
     // 登录模块
     login: {
+        check: `${baseUrl}/login/checkPwd`, // 校验用户信息接口
         login: `${baseUrl}/login`, // 登录接口
         logout: `${baseUrl}/login/logout` // 注销接口
     },

@@ -15,9 +15,9 @@ import { PageResult, CarrierFormModel, CarrierModel, RebateOrderModel, FlashOrde
 export class CarrierService {
     // 验证运营商表单
     public static validateCarrierForm(carrierForm: CarrierFormModel, formType: CarrierFormType): ValidationResult {
-        if (!carrierForm) return { status: false, data: { brokerForm: '参数不可以为空' } };
+        if (!carrierForm) return { status: false, data: { carrierForm: '参数不可以为空' } };
 
-        let key = 'carrierForm',
+        let key = 'carrier',
             { carrierId, carrierName, areaCode, mobile, email, loginPwd, rebateRatio, billingCycle, unit } = carrierForm,
             validator = new Validator();
         if (formType === CarrierFormType.CarrierForm) {

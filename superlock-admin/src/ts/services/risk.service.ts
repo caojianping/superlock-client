@@ -41,10 +41,7 @@ export class RiskService {
         await Caxios.post<any>(
             {
                 url: Urls.risk.audit.set,
-                data: {
-                    type: type,
-                    value: value
-                }
+                data: { type, value }
             },
             CaxiosType.FullLoadingToken,
             isCode

@@ -28,7 +28,7 @@ export class HomeService {
 
     // 验证初始化数据
     public static validateInit(init: InitModel): ValidationResult {
-        if (!init) return { status: false, data: { initInfoForm: '参数不可以为空' } };
+        if (!init) return { status: false, data: { init: '参数不可以为空' } };
 
         let key = 'init',
             { initialTotalLock, initialRegisteredUser } = init,
@@ -56,7 +56,7 @@ export class HomeService {
 
     // 验证虚拟数据
     public static validateVirtual(type: VirtualType, virtual: VirtualModel): ValidationResult {
-        if (!virtual) return { status: false, data: { initInfoForm: '参数不可以为空' } };
+        if (!virtual) return { status: false, data: { virtual: '参数不可以为空' } };
 
         let msg = ['锁仓', '注册'][type - 1],
             initMsg = ['初始锁仓总额', '初始注册用户'][type - 1],

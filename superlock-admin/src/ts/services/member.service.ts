@@ -99,11 +99,11 @@ export class MemberService {
         if (!migrationForm) return { status: false, data: { migrationForm: '参数不可以为空' } };
 
         let key = 'migration',
-            { uid, operatorId } = migrationForm,
+            { uid, operatorId, memo } = migrationForm,
             validator = new Validator();
         validator.addRule(key, { name: 'uid', value: uid }, { required: true }, { required: 'UID不可以为空' });
-        validator.addRule(key, { name: 'operatorId', value: operatorId }, { required: true }, { required: '迁移平台不可以为空' });
-        // validator.addRule(key, { name: 'memo', value: memo }, { required: true }, { required: '迁移备注不可以为空' });
+        // validator.addRule(key, { name: 'operatorId', value: operatorId }, { required: true }, { required: '迁移平台不可以为空' });
+        validator.addRule(key, { name: 'memo', value: memo }, { required: true }, { required: '迁移备注不可以为空' });
         return validator.execute(key);
     }
 
@@ -303,7 +303,10 @@ export class MemberService {
 
         let result = await Caxios.get<MigrationInfoModel | null>({ url: `${Urls.member.migration.info}?uid=${uid}` }, CaxiosType.FullLoadingToken);
         if (result) {
-            result.operatorList = (result.operatorList || []).map((item: any) => ({ label: item.operatorName, value: item.operatorId }));
+            result.operatorList = (result.operatorList || []).map((item: any) => ({
+                label: item.operatorName || '',
+                value: item.operatorId || ''
+            }));
         }
         return result;
     }
@@ -317,7 +320,7 @@ export class MemberService {
         await Caxios.post<any>(
             {
                 url: Urls.member.migration.exec,
-                data: { uid, operatorId, memo }
+                data: operatorId ? { uid, operatorId, memo } : { uid, memo }
             },
             CaxiosType.FullLoadingToken,
             isCode

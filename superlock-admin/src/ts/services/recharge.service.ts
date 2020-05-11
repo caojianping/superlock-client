@@ -8,7 +8,7 @@ import { PageResult, RechargeModel, RechargePoundageModel, RechargeAddressModel 
 export class RechargeService {
     // 验证手续费设置
     public static validatePoundage(poundage: RechargePoundageModel, type: OperationType): ValidationResult {
-        if (!poundage) return { status: false, data: { projectForm: '参数不可以为空' } };
+        if (!poundage) return { status: false, data: { poundage: '参数不可以为空' } };
 
         let key = 'poundage',
             { tokenType, type: ptype, feeToken, chargeRate } = poundage,

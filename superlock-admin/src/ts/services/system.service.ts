@@ -24,7 +24,7 @@ export class SystemService {
 
     // 验证密码表单
     public static validatePasswordForm(passwordForm: PasswordFormModel): ValidationResult {
-        if (!passwordForm) return { status: false, data: { userForm: '参数不可以为空' } };
+        if (!passwordForm) return { status: false, data: { passwordForm: '参数不可以为空' } };
 
         let key = 'password',
             { name, oldPwd, newPwd, confirmPwd } = passwordForm,
