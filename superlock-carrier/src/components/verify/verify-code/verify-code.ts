@@ -79,16 +79,16 @@ export default class VerifyCode extends Vue {
         }
     }
 
-    mounted() {
-        if (this.isInit) {
-            this.sendCode();
-        }
-    }
+    // mounted() {
+    //     if (this.isInit) {
+    //         this.sendCode();
+    //     }
+    // }
 
-    @Watch('isInit')
-    watchIsInit(isInit: boolean) {
-        if (isInit) {
-            this.sendCode();
-        }
-    }
+    // @Watch('isInit')
+    // watchIsInit(isInit: boolean) {
+    //     if (isInit) {
+    //         this.sendCode();
+    //     }
+    // }
 }

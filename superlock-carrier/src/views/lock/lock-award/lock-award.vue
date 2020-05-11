@@ -15,18 +15,18 @@
                 <ant-row :gutter="24">
                     <ant-col :span="18">
                         <ant-form-item label="推广解锁利率(%)" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
-                            <ant-input-number :value="awardForm.promotionRate" :min="0" :max="100" :precision="2" disabled />
+                            <ant-input-number :value="awardForm.promotionRate" :precision="2" disabled />
                         </ant-form-item>
                     </ant-col>
                 </ant-row>
 
-                <ant-row :gutter="24">
+                <!-- <ant-row :gutter="24">
                     <ant-col :span="18">
                         <ant-form-item label="直推利率(%)" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
-                            <ant-input-number :value="awardForm.pushStraightRate" :min="0" :max="100" :precision="2" disabled />
+                            <ant-input-number :value="awardForm.pushStraightRate" :precision="2" disabled />
                         </ant-form-item>
                     </ant-col>
-                </ant-row>
+                </ant-row> -->
 
                 <ant-row :gutter="24">
                     <ant-col :span="24">
@@ -41,10 +41,10 @@
                                 <tbody>
                                     <tr v-for="(dailySale, index) in awardForm.dailySalesDto" :key="index">
                                         <td>
-                                            <ant-input-number :value="dailySale.sales" :min="0" disabled />
+                                            <ant-input-number :value="dailySale.sales" disabled />
                                         </td>
                                         <td>
-                                            <ant-input-number :value="dailySale.rate" :min="0" :max="100" :precision="2" disabled />
+                                            <ant-input-number :value="dailySale.rate" :precision="2" disabled />
                                         </td>
                                     </tr>
                                 </tbody>

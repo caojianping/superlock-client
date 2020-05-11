@@ -44,7 +44,7 @@
                         </ant-form-item>
                     </ant-col>
                     <ant-col :span="6">
-                        <ant-button class="mt4px" type="primary" @click="openModal(1)">一键闪兑</ant-button>
+                        <ant-button class="mt4px" type="primary" @click="openModal('isExchangeShow')">一键闪兑</ant-button>
                     </ant-col>
                 </ant-row>
 
@@ -55,17 +55,15 @@
                         </ant-form-item>
                     </ant-col>
                     <ant-col :span="6">
-                        <ant-button class="mt4px" type="primary" @click="openModal(2)">提现</ant-button>
+                        <ant-button class="mt4px" type="primary" @click="openModal('isWithdrawShow')">提现</ant-button>
                     </ant-col>
                 </ant-row>
             </div>
         </div>
 
-        <ExchangeModal v-model="isExchangeShow" @submit="handleExchangeModalSubmit" />
+        <ExchangeModal v-model="isExchangeShow" @submit="handleModalSubmit" />
 
-        <WithdrawModal v-model="isWithdrawShow" @submit="handleWithdrawModalSubmit" />
-
-        <VerifyModal :is-show="isSecondVerifyShow" @submit="handleVerifyModalSubmit" />
+        <WithdrawModal v-model="isWithdrawShow" @submit="handleModalSubmit" />
     </div>
 </template>
 

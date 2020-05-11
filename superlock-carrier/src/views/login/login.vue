@@ -46,7 +46,7 @@
                             allowClear
                             placeholder="请输入邮箱"
                             @change="handleFormChange('email', $event)"
-                            @keyup.enter="submit(false)"
+                            @keyup.enter="submit(true, false)"
                         >
                             <ant-icon slot="prefix" type="mail" />
                         </ant-input>
@@ -61,20 +61,20 @@
                             allowClear
                             placeholder="请输入密码"
                             @change="handleFormChange('password', $event)"
-                            @keyup.enter="submit(false)"
+                            @keyup.enter="submit(true, false)"
                         >
                             <ant-icon slot="prefix" type="lock" />
                         </ant-input>
                     </li>
 
                     <li>
-                        <ant-button type="primary" @click="submit(false)">登录</ant-button>
+                        <ant-button type="primary" @click="submit(true, false)">登录</ant-button>
                     </li>
                 </ul>
             </div>
         </div>
 
-        <VerifyModal is-login :is-show="isSecondVerifyShow" @submit="handleVerifyModalSubmit" />
+        <VerifyModal is-login :is-show="isSecondVerifyShow" @submit="submit(false, true)" />
     </div>
 </template>
 

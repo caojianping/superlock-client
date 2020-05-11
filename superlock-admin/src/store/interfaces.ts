@@ -89,6 +89,7 @@ export interface IActionContext<T> {
     rootState: IRootState;
 }
 
+// 根状态接口
 export interface IRootState {
     tokenInfo: TokenInfo; // token信息
     isFullLoading: boolean; // 是否启用全屏加载中UI
@@ -103,12 +104,14 @@ export interface IRootState {
     withdrawOptions: Array<ISelectOption>; // 提现状态选项
     carrierOptions: Array<ISelectOption>; // 运营商选项
 
-    statusColors: any;
-    auditColors: any;
-    statusNames: any;
-    auditNames: any;
+    statusColors: any; // 状态颜色
+    statusNames: any; // 状态名称
+
+    auditColors: any; // 审核颜色
+    auditNames: any; // 审核名称
 }
 
+// 谷歌状态接口
 export interface IGoogleState {
     googlePlayUrl: string; // google-play地址
     appStoreUrl: string; // app-store地址
@@ -117,13 +120,15 @@ export interface IGoogleState {
     gakey: string; // 谷歌密钥
     gacode: string; // 谷歌验证码
 
-    isLoading: boolean;
+    isLoading: boolean; // 是否正在加载中
 }
 
+// 登录状态接口
 export interface ILoginState {
     loginForm: LoginFormModel; // 登录表单
 }
 
+// 首页状态接口
 export interface IHomeState {
     home: HomeModel; // 首页数据
     init: InitModel; // 初始化数据
@@ -132,145 +137,158 @@ export interface IHomeState {
     virtual: VirtualModel; // 虚拟数据
 }
 
+// 充值状态接口
 export interface IRechargeState {
-    rechargeParameters: IPageParameters<IRechargePageParameters>;
-    addressParameters: IPageParameters<IRechargeAddressPageParameters>;
-    totalCount: number;
-    list: Array<RechargeModel | RechargePoundageModel | RechargeAddressModel>;
+    rechargeParameters: IPageParameters<IRechargePageParameters>; // 充值分页参数
+    addressParameters: IPageParameters<IRechargeAddressPageParameters>; // 充值地址分页参数
+    totalCount: number; // 总数量
+    list: Array<RechargeModel | RechargePoundageModel | RechargeAddressModel>; // 列表
 
-    poundage: RechargePoundageModel;
+    poundage: RechargePoundageModel; // 手续费
 }
 
+// 提现状态接口
 export interface IWithdrawState {
-    withdrawParameters: IPageParameters<IWithdrawPageParameters>;
-    transferParameters: IPageParameters<ITransferPageParameters>;
-    totalCount: number;
-    list: Array<WithdrawModel | TransferModel>;
+    withdrawParameters: IPageParameters<IWithdrawPageParameters>; // 提现分页参数
+    transferParameters: IPageParameters<ITransferPageParameters>; // 转账分页参数
+    totalCount: number; // 总数量
+    list: Array<WithdrawModel | TransferModel>; // 列表
 }
 
+// 锁仓状态接口
 export interface ILockState {
-    statusOptions: Array<ISelectOption>;
+    statusOptions: Array<ISelectOption>; // 状态选项
 
-    lockParameters: IPageParameters<ILockPageParameters>;
-    projectParameters: IPageParameters<IProjectPageParameters>;
-    totalCount: number;
-    list: Array<LockModel | ProjectModel>;
+    lockParameters: IPageParameters<ILockPageParameters>; // 锁仓分页参数
+    projectParameters: IPageParameters<IProjectPageParameters>; // 项目分页参数
+    totalCount: number; // 总数量
+    list: Array<LockModel | ProjectModel>; // 列表
 
-    projectForm: ProjectFormModel;
-    awardForm: AwardFormModel;
+    projectForm: ProjectFormModel; // 项目表单
+    awardForm: AwardFormModel; // 奖励表单
 }
 
+// 财务状态接口
 export interface IFinanceState {
-    parameters: IPageParameters<IFinancePageParameters>;
-    totalCount: number;
-    list: Array<FinanceInterestModel | FinanceDirectModel | FinancePromoteModel | FinanceSaleModel>;
+    parameters: IPageParameters<IFinancePageParameters>; // 财务分页参数
+    totalCount: number; // 总数量
+    list: Array<FinanceInterestModel | FinanceDirectModel | FinancePromoteModel | FinanceSaleModel>; // 列表
 }
 
+// 贷款状态接口
 export interface ILoanState {
-    statusOptions: Array<ISelectOption>;
-    statusColors: any;
-    statusNames: any;
+    statusOptions: Array<ISelectOption>; // 状态选项
+    statusColors: any; // 状态颜色
+    statusNames: any; // 状态名称
 
-    loanParameters: IPageParameters<ILoanPageParameters>;
-    totalCount: number;
-    list: Array<LoanModel | LoanInterestModel>;
+    loanParameters: IPageParameters<ILoanPageParameters>; // 贷款分页参数
+    totalCount: number; // 总数量
+    list: Array<LoanModel | LoanInterestModel>; // 列表
 
-    loanInfo: LoanInfoModel;
+    loanInfo: LoanInfoModel; // 贷款信息
 }
 
+// 资金状态接口
 export interface IFundState {
-    orderOptions: Array<ISelectOption>;
-    accountOptions: Array<ISelectOption>;
+    orderOptions: Array<ISelectOption>; // 订单选项
+    accountOptions: Array<ISelectOption>; // 账号选项
 
-    parameters: IPageParameters<IFundPageParameters>;
-    totalCount: number;
-    list: Array<FundModel>;
+    parameters: IPageParameters<IFundPageParameters>; // 资金分页参数
+    totalCount: number; // 总数量
+    list: Array<FundModel>; // 列表
 }
 
+// 风控状态接口
 export interface IRiskState {
-    type: FreeTrialType;
-    freeTrial: FreeTrialModel;
+    type: FreeTrialType; // 免审类型
+    freeTrial: FreeTrialModel; // 免审数据
 }
 
+// 用户中心状态接口
 export interface IMemberState {
-    projectOptions: Array<ISelectOption>;
-    typeOptions: Array<ISelectOption>;
+    projectOptions: Array<ISelectOption>; // 项目选项
+    typeOptions: Array<ISelectOption>; // 类型选项
 
-    brokerParameters: IPageParameters<IBrokerPageParameters>;
-    childParameters: IPageParameters<IBrokerChildPageParameters>;
-    rateParameters: IPageParameters<IRatePageParameters>;
-    migrationParameters: IPageParameters<IMigrationPageParameters>;
-    totalCount: number;
-    list: Array<BrokerModel | BrokerChildModel | RateModel | MigrationModel>;
+    brokerParameters: IPageParameters<IBrokerPageParameters>; // 券商分页参数
+    childParameters: IPageParameters<IBrokerChildPageParameters>; // 券商下级分页参数
+    rateParameters: IPageParameters<IRatePageParameters>; // 利率分页参数
+    migrationParameters: IPageParameters<IMigrationPageParameters>; // 迁移分页参数
+    totalCount: number; // 总数量
+    list: Array<BrokerModel | BrokerChildModel | RateModel | MigrationModel>; // 列表
 
-    brokerForm: BrokerFormModel;
-    rateForm: RateFormModel;
-    quotaForm: QuotaFormModel;
+    brokerForm: BrokerFormModel; // 券商表单
+    rateForm: RateFormModel; // 利率表单
+    quotaForm: QuotaFormModel; // 额度表单
 
-    migrationInfo?: MigrationFormModel | null;
-    migrationForm: MigrationFormModel;
+    migrationInfo?: MigrationFormModel | null; // 迁移信息
+    migrationForm: MigrationFormModel; // 迁移表单
 
-    count: number;
+    count: number; // 下级数量
 }
 
+// 运营商状态接口
 export interface ICarrierState {
-    cycleOptions: Array<ISelectOption>;
+    cycleOptions: Array<ISelectOption>; // 周期选项
 
-    operationType: OperationType;
-    formType: CarrierFormType;
-    carrierForm: CarrierFormModel;
-    carrier?: CarrierModel;
+    operationType: OperationType; // 操作类型
+    formType: CarrierFormType; // 表单类型
+    carrierForm: CarrierFormModel; // 运营商表单
+    carrier?: CarrierModel; // 运营商数据
 
-    carrierParameters: IPageParameters<ICarrierPageParameters>;
-    rebateParameters: IPageParameters<IRebateOrderPageParameters>;
-    flashParameters: IPageParameters<IFlashOrderPageParameters>;
-    withdrawParameters: IPageParameters<IWithdrawOrderPageParameters>;
-    totalCount: number;
-    list: Array<CarrierModel | RebateOrderModel | FlashOrderModel | WithdrawOrderModel>;
+    carrierParameters: IPageParameters<ICarrierPageParameters>; // 运营商分页参数
+    rebateParameters: IPageParameters<IRebateOrderPageParameters>; // 返利订单分页参数
+    flashParameters: IPageParameters<IFlashOrderPageParameters>; // 闪兑订单分页参数
+    withdrawParameters: IPageParameters<IWithdrawOrderPageParameters>; // 提现订单分页参数
+    totalCount: number; // 总数量
+    list: Array<CarrierModel | RebateOrderModel | FlashOrderModel | WithdrawOrderModel>; // 列表
 }
 
+// 报表状态接口
 export interface IReportState {
-    reportType: ReportType;
-    cycleOptions: Array<ISelectOption>;
-    expendTypeOptions: Array<ISelectOption>;
-    userTypeOptions: Array<ISelectOption>;
+    reportType: ReportType; // 报表类型
+    cycleOptions: Array<ISelectOption>; // 周期选项
+    expendTypeOptions: Array<ISelectOption>; // 支出类型选项
+    userTypeOptions: Array<ISelectOption>; // 用户类型选项
 
-    rechargeParameters: IPageParameters<IRechargeReportPageParameters>;
-    lockParameters: IPageParameters<ILockReportPageParameters>;
-    expendParameters: IPageParameters<IExpendReportPageParameters>;
-    userParameters: IPageParameters<IUserReportPageParameters>;
-    totalCount: number;
-    list: Array<RechargeReportModel | LockReportModel | ExpendReportModel | UserReportModel>;
+    rechargeParameters: IPageParameters<IRechargeReportPageParameters>; // 充值报表分页参数
+    lockParameters: IPageParameters<ILockReportPageParameters>; // 锁仓报表分页参数
+    expendParameters: IPageParameters<IExpendReportPageParameters>; // 支出报表分页参数
+    userParameters: IPageParameters<IUserReportPageParameters>; // 用户报表分页参数
+    totalCount: number; // 总数量
+    list: Array<RechargeReportModel | LockReportModel | ExpendReportModel | UserReportModel>; // 列表
 }
 
+// 上分状态接口
 export interface IPointState {
-    pointParameters: IPageParameters<IPointPageParameters>;
-    accountParameters: IPageParameters<null>;
-    totalCount: number;
-    list: Array<PointModel | PointAccountModel>;
+    pointParameters: IPageParameters<IPointPageParameters>; // 上分分页参数
+    accountParameters: IPageParameters<null>; // 账号分页参数
+    totalCount: number; // 总数量
+    list: Array<PointModel | PointAccountModel>; // 列表
 
-    pointInfos: Array<PointInfoModel>;
-    transferInfo: TransferInfoModel;
+    pointInfos: Array<PointInfoModel>; // 上分信息
+    transferInfo: TransferInfoModel; // 转账信息
 
-    pointForm: PointFormModel;
-    transferForm: TransferFormModel;
+    pointForm: PointFormModel; // 上分表单
+    transferForm: TransferFormModel; // 转账表单
 }
 
+// 日志状态接口
 export interface ILogState {
-    userParameters: IPageParameters<IUserLogPageParameters>;
-    systemParameters: IPageParameters<ISystemLogPageParameters>;
-    totalCount: number;
-    list: Array<UserLogModel | SystemLogModel>;
+    userParameters: IPageParameters<IUserLogPageParameters>; // 用户日志分页参数
+    systemParameters: IPageParameters<ISystemLogPageParameters>; // 系统日志分页参数
+    totalCount: number; // 总数量
+    list: Array<UserLogModel | SystemLogModel>; // 列表
 }
 
+// 系统状态接口
 export interface ISystemState {
-    roleOptions: Array<ISelectOption>;
+    roleOptions: Array<ISelectOption>; // 权限选项
 
-    parameters: IPageParameters<null>;
-    totalCount: number;
-    list: Array<UserModel>;
+    parameters: IPageParameters<null>; // 分页参数
+    totalCount: number; // 总数量
+    list: Array<UserModel>; // 列表
 
-    userForm: UserFormModel;
-    passwordForm: PasswordFormModel;
-    googleForm: GoogleFormModel;
+    userForm: UserFormModel; // 用户表单
+    passwordForm: PasswordFormModel; // 密码表单
+    googleForm: GoogleFormModel; // 谷歌表单
 }

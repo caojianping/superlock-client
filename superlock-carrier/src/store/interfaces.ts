@@ -43,6 +43,7 @@ export interface IActionContext<T> {
     rootState: IRootState;
 }
 
+// 根状态接口
 export interface IRootState {
     tokenInfo: TokenInfo; // token信息
     isFullLoading: boolean; // 是否启用全屏加载中UI
@@ -54,21 +55,25 @@ export interface IRootState {
     coinOptions: Array<ISelectOption>; // 币种选项
     withdrawOptions: Array<ISelectOption>; // 提现状态选项
 
-    statusColors: any;
-    auditColors: any;
-    statusNames: any;
-    auditNames: any;
+    statusColors: any; // 状态颜色
+    statusNames: any; // 状态名称
+
+    auditColors: any; // 审核颜色
+    auditNames: any; // 审核名称
 }
 
+// 登录状态接口
 export interface ILoginState {
     loginForm: LoginFormModel; // 登录表单
     code: string; // 验证码
 }
 
+// 首页状态接口
 export interface IHomeState {
     homeData: HomeModel; // 首页数据
 }
 
+// 锁仓状态接口
 export interface ILockState {
     statusOptions: Array<ISelectOption>; // 状态选项
 
@@ -80,12 +85,14 @@ export interface ILockState {
     awardForm: AwardFormModel; // 奖励表单
 }
 
+// 财务状态接口
 export interface IFinanceState {
     parameters: IPageParameters<IFinancePageParameters>; // 财务模块分页参数
     totalCount: number; // 总数量
     list: Array<FinanceInterestModel | FinanceDirectModel | FinancePromoteModel | FinanceSaleModel>; // 列表
 }
 
+// 用户中心状态接口
 export interface IMemberState {
     projectOptions: Array<ISelectOption>; // 项目选项
     typeOptions: Array<ISelectOption>; // 类型选项
@@ -103,6 +110,7 @@ export interface IMemberState {
     count: number; // 下级数量
 }
 
+// 运营商状态接口
 export interface ICarrierState {
     carrierInfo?: CarrierInfoModel | null; // 运营商信息
     rate: number; // 汇率
@@ -116,6 +124,7 @@ export interface ICarrierState {
     list: Array<RebateOrderModel | FlashOrderModel | WithdrawOrderModel>; // 列表
 }
 
+// 系统状态接口
 export interface ISystemState {
     passwordForm: PasswordFormModel; // 密码表单
 }

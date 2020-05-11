@@ -1,29 +1,38 @@
 import Vue from 'vue';
+import { namespace, State } from 'vuex-class';
 import { Component, Prop, Model, Watch } from 'vue-property-decorator';
-import { ValidationResult } from 'jpts-validator';
 
+import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { Prompt } from '@/ts/common';
 import { QuotaFormModel, BrokerModel } from '@/ts/models';
-import { MemberService } from '@/ts/services';
+
+import VerifyModal from '@/components/verify/verify-modal';
+
+const memberModule = namespace('member');
 
 @Component({
     name: 'QuotaModal',
-    components: {}
+    components: { VerifyModal }
 })
 export default class QuotaModal extends Vue {
     @Model('close', { type: Boolean }) value!: boolean; // v-model
-    @Prop() readonly title!: string; // 标题
     @Prop() readonly broker!: BrokerModel; // 券商数据
 
+    @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
+
+    @memberModule.State('quotaForm') quotaForm!: QuotaFormModel;
+    @memberModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
+    @memberModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
+    @memberModule.Action('addQuota') addQuota!: (isCode?: boolean) => any;
+
     isShow: boolean = this.value; // 是否显示模态框
-    quotaForm: QuotaFormModel = new QuotaFormModel(); // 额度表单
 
     // 处理表单change事件
     handleFormChange(key: string, value: any) {
         let quotaForm = Utils.duplicate(this.quotaForm);
         quotaForm[key] = value;
-        this.quotaForm = quotaForm;
+        this.setStates({ quotaForm });
     }
 
     // 处理模态框cancel事件
@@ -31,17 +40,19 @@ export default class QuotaModal extends Vue {
         this.$emit('close', false);
     }
 
-    // 提交额度
-    async submit() {
-        let quotaForm = this.quotaForm,
-            result: ValidationResult = MemberService.validateQuotaForm(quotaForm);
-        if (!result.status) {
-            Prompt.error(Utils.getFirstValue(result.data));
-            return;
+    // 提交额度表单
+    async submit(isCode?: boolean) {
+        try {
+            let result = await this.addQuota(isCode);
+            if (!result) Prompt.error('额度添加失败');
+            else {
+                Prompt.success('额度添加成功');
+                this.$emit('close', false);
+                this.$emit('submit');
+            }
+        } catch (error) {
+            Prompt.error(error.message || error);
         }
-
-        this.$emit('close', false);
-        this.$emit('submit', quotaForm);
     }
 
     @Watch('value')
@@ -50,7 +61,7 @@ export default class QuotaModal extends Vue {
         if (value) {
             let quotaForm = new QuotaFormModel();
             quotaForm.uid = this.broker.uid;
-            this.quotaForm = quotaForm;
+            this.setStates({ quotaForm });
         }
     }
 }

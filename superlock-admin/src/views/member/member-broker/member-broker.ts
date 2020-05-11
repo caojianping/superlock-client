@@ -152,7 +152,7 @@ export default class MemberBroker extends Vue {
 
     // 初始化数据
     initData(params: any) {
-        let type = isNaN(Number(params.type)) ? 0 : Number(params.type);
+        let type = Utils.digitConvert(params.type);
         this.type = type;
         this.setStates({
             brokerParameters: {

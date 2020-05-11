@@ -25,7 +25,7 @@
                         :precision="6"
                         :placeholder="`账户余额${withdrawForm.maxAmount || 0}BCB`"
                         @change="handleFormChange('value', $event)"
-                        @keyup.enter="submit"
+                        @keyup.enter="submit(false)"
                     />
                 </ant-form-item>
             </ant-col>
@@ -41,7 +41,7 @@
                         allowClear
                         placeholder="请输入提现到账地址"
                         @change="handleFormChange('toAddr', $event.target.value)"
-                        @keyup.enter="submit"
+                        @keyup.enter="submit(false)"
                     />
                 </ant-form-item>
             </ant-col>
@@ -50,8 +50,10 @@
         <p class="withdraw-prompt">当前仅支持BCB提现，账户里的DC可先“一键闪兑”为BCB后再进行提现。</p>
 
         <ant-row :gutter="24">
-            <ant-button class="sl-submit" type="primary" @click="submit">保存</ant-button>
+            <ant-button class="sl-submit" type="primary" @click="submit(false)">保存</ant-button>
         </ant-row>
+
+        <VerifyModal :is-show="isSecondVerifyShow" @submit="submit(true)" />
     </ant-modal>
 </template>
 

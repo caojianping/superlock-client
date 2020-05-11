@@ -94,11 +94,11 @@
             :loading="isPageLoading"
         >
             <ant-tooltip class="w100px" slot="loanSerial" slot-scope="record">
-                <template slot="uid">{{ record.loanSerial }}</template>
+                <template slot="title">{{ record.loanSerial }}</template>
                 {{ record.loanSerial }}
             </ant-tooltip>
             <ant-tooltip class="w100px" slot="lockSerial" slot-scope="record">
-                <template slot="lockSerial">{{ record.lockSerial }}</template>
+                <template slot="title">{{ record.lockSerial }}</template>
                 {{ record.lockSerial }}
             </ant-tooltip>
             <span slot="loanRate" slot-scope="record">{{ record.loanRate | ratePercent }}</span>

@@ -64,7 +64,7 @@
             </div>
         </div>
 
-        <VerifyModal :is-show="isSecondVerifyShow" @submit="handleVerifyModalSubmit" />
+        <VerifyModal :is-show="isSecondVerifyShow" @submit="submit(true)" />
     </div>
 </template>
 

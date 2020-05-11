@@ -51,6 +51,12 @@ export default class LockProject extends Vue {
             scopedSlots: { customRender: 'rate' }
         },
         {
+            title: '直推奖励利率(%)',
+            dataIndex: '',
+            key: 'pushRate',
+            scopedSlots: { customRender: 'pushRate' }
+        },
+        {
             title: '项目创建时间',
             dataIndex: '',
             key: 'createTime',

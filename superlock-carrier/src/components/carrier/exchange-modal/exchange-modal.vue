@@ -34,7 +34,7 @@
                         :disabled="stepType === 2"
                         :placeholder="`账户余额${exchangeForm.maxAmount || 0}DC`"
                         @change="handleFormChange('amount', $event)"
-                        @keyup.enter="submit"
+                        @keyup.enter="submit(false)"
                     />
                 </ant-form-item>
             </ant-col>
@@ -58,11 +58,11 @@
         </div>
 
         <ant-row :gutter="24">
-            <ant-button v-if="stepType === 1" class="sl-submit" type="primary" @click="submitExchange(false)">确定</ant-button>
-            <ant-button v-else-if="stepType === 2" class="sl-submit" type="primary" @click="confirmExchange">确认兑换</ant-button>
+            <ant-button v-if="stepType === 1" class="sl-submit" type="primary" @click="submitPresetExchange(false)">确定</ant-button>
+            <ant-button v-else-if="stepType === 2" class="sl-submit" type="primary" @click="submitConfirmExchange(false)">确认兑换</ant-button>
         </ant-row>
 
-        <VerifyModal :is-show="isSecondVerifyShow" @submit="handleVerifyModalSubmit" />
+        <VerifyModal :is-show="isSecondVerifyShow" @submit="submit(true)" />
     </ant-modal>
 </template>
 

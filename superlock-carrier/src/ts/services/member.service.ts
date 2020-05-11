@@ -200,10 +200,7 @@ export class MemberService {
         await Caxios.post<any>(
             {
                 url: Urls.member.broker.addQuota,
-                data: {
-                    uid,
-                    amount: amount.toFixed(2)
-                }
+                data: { uid, amount: amount.toFixed(2) }
             },
             CaxiosType.FullLoadingToken,
             isCode

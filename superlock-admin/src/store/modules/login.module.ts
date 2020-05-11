@@ -41,7 +41,7 @@ export default {
             return true;
         },
 
-        // 退出
+        // 注销
         async logout(context: IActionContext<ILoginState>): Promise<boolean> {
             let commit = context.commit,
                 result = await loginService.logout();
