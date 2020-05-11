@@ -1,3 +1,4 @@
+// 首页数据模型
 export class HomeModel {
     public new_lock_count!: number; // 新增锁仓笔数
     public new_lock_amount!: number; // 新增锁仓总额

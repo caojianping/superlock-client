@@ -155,8 +155,8 @@ export const Urls = {
             updateEmail: `${baseUrl}/carrier/updateEmail` // 更新邮箱接口
         },
         rebate: {
-            list: `${baseUrl}/carrier/rebates`, // 获取返利列表接口
-            export: `${baseUrl}/carrier/rebates/export` // 导出返利列表接口
+            list: `${baseUrl}/carrier/rebates`, // 获取返利订单列表接口
+            export: `${baseUrl}/carrier/rebates/export` // 导出返利订单列表接口
         },
         flash: {
             list: `${baseUrl}/carrier/flash`, // 获取闪兑订单接口

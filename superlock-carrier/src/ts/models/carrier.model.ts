@@ -29,12 +29,13 @@ export class WithdrawFormModel {
     public maxAmount!: number; // 最大提现数量
 }
 
-class BaseOrderModel {
+// 订单基类模型
+class OrderBaseModel {
     public serial!: string; // 订单号
 }
 
 // 返点订单模型
-export class RebateOrderModel extends BaseOrderModel {
+export class RebateOrderModel extends OrderBaseModel {
     public endTime!: string; // 返点时间
     public lockAmount!: string; // 新增锁仓(DC)
     public rebateRatio!: string; // 返点比例(%)
@@ -44,7 +45,7 @@ export class RebateOrderModel extends BaseOrderModel {
 }
 
 // 闪兑订单模型
-export class FlashOrderModel extends BaseOrderModel {
+export class FlashOrderModel extends OrderBaseModel {
     public coinCode!: string; // 兑换币种
     public amount!: string; // 兑换数量
     public flashCoinCode!: string; // 目标币种
@@ -56,7 +57,7 @@ export class FlashOrderModel extends BaseOrderModel {
 }
 
 // 提现订单模型
-export class WithdrawOrderModel extends BaseOrderModel {
+export class WithdrawOrderModel extends OrderBaseModel {
     public txHash!: string; // 交易hash
     public coinCode!: string; // 提现币种
     public amount!: string; // 提现数量

@@ -183,11 +183,7 @@ export class MemberService {
         await Caxios.post<any>(
             {
                 url: Urls.member.broker.setRate,
-                data: {
-                    uid,
-                    type,
-                    rate: (rate / 100).toFixed(4)
-                }
+                data: { uid, type, rate: Utils.digitPercent(rate, 4, true, true) }
             },
             CaxiosType.FullLoadingToken,
             isCode

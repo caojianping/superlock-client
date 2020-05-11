@@ -17,9 +17,9 @@ import {
 export class CarrierService {
     // 验证兑换表单
     public static validateExchangeForm(exchangeForm: ExchangeFormModel): ValidationResult {
-        if (!exchangeForm) return { status: false, data: { brokerForm: '参数不可以为空' } };
+        if (!exchangeForm) return { status: false, data: { exchangeForm: '参数不可以为空' } };
 
-        let key = 'exchangeForm',
+        let key = 'exchange',
             { amount, maxAmount } = exchangeForm,
             validator = new Validator();
         validator.addRule(
@@ -37,9 +37,9 @@ export class CarrierService {
 
     // 验证提现表单
     public static validateWithdrawForm(withdrawForm: WithdrawFormModel): ValidationResult {
-        if (!withdrawForm) return { status: false, data: { brokerForm: '参数不可以为空' } };
+        if (!withdrawForm) return { status: false, data: { withdrawForm: '参数不可以为空' } };
 
-        let key = 'exchangeForm',
+        let key = 'withdraw',
             { carrierId, value, toAddr, maxAmount } = withdrawForm,
             validator = new Validator();
         validator.addRule(key, { name: 'carrierId', value: carrierId }, { required: true }, { required: '运营商编号不可以为空' });
@@ -66,7 +66,7 @@ export class CarrierService {
     public async fetchRate(): Promise<number> {
         let parameters = Utils.buildParameters({ coin: 'DC', gotcoin: 'BCB' }),
             rate = await Caxios.get<any>({ url: `${Urls.carrier.index.rate}?${parameters}` }, CaxiosType.FullLoadingToken);
-        return isNaN(Number(rate)) ? 0 : Number(rate);
+        return Utils.digitConvert(rate);
     }
 
     // 预兑换
@@ -80,18 +80,12 @@ export class CarrierService {
             isCode
         );
         if (!stats) return null;
-        // let stats: any = {
-        //     invoice: '123456',
-        //     rate: '0.021162',
-        //     dcAmount: '1',
-        //     bcbAmount: '0.021162'
-        // };
 
         let exchangeStats = new ExchangeStatsModel();
         exchangeStats.serial = stats.invoice;
-        exchangeStats.rate = isNaN(Number(stats.rate)) ? 0 : Number(stats.rate);
-        exchangeStats.dcAmount = isNaN(Number(stats.dcAmount)) ? 0 : Number(stats.dcAmount);
-        exchangeStats.bcbAmount = isNaN(Number(stats.bcbAmount)) ? 0 : Number(stats.bcbAmount);
+        exchangeStats.rate = Utils.digitConvert(stats.rate);
+        exchangeStats.dcAmount = Utils.digitConvert(stats.dcAmount);
+        exchangeStats.bcbAmount = Utils.digitConvert(stats.bcbAmount);
         return exchangeStats;
     }
 

@@ -318,6 +318,36 @@ function arraySort(arrs: any[], field: string = '', isAsc: boolean = false): any
     return arrs;
 }
 
+// 数字补零
+function digitZeroize(digit: number): string {
+    return digit >= 0 && digit < 10 ? `0${String(digit)}` : String(digit);
+}
+
+// 数字转换
+function digitConvert(digit: any): number {
+    if (isNumber(digit)) return digit;
+
+    let ndigit = Number(digit);
+    return isNaN(ndigit) ? 0 : ndigit;
+}
+
+// 数字百分比
+function digitPercent(digit: any, precision: number = 2, isString: boolean = false, isDivide: boolean = false): number | string {
+    let cdigit = digitConvert(digit),
+        ndigit = isDivide ? cdigit / 100 : cdigit * 100;
+
+    if (!isString) return Number(ndigit.toFixed(precision));
+    return ndigit.toFixed(precision);
+}
+
+// 数字精度
+function digitPrecision(digit: any, precision: number = 2, isString: boolean = false) {
+    let cdigit = digitConvert(digit);
+
+    if (!isString) return Number(cdigit.toFixed(precision));
+    return cdigit.toFixed(precision);
+}
+
 // 获取对象key集合
 function getAllKeys(data: any): string[] {
     data = data || {};
@@ -363,7 +393,12 @@ function buildParameters(parameters: { [key: string]: any }): string {
 }
 
 // 构建分页查询参数字符串
-function buildPageParameters<T>(parameters: IPageParameters<T>, convertFields: Array<string> = [], encodeFields: Array<string> = []): string {
+function buildPageParameters<T>(
+    parameters: IPageParameters<T>,
+    convertFields: Array<string> = [],
+    encodeFields: Array<string> = [],
+    format: string = 'yyyyMMddhhmmss'
+): string {
     if (!parameters) return '';
 
     let temp: Array<any> = [],
@@ -375,7 +410,7 @@ function buildPageParameters<T>(parameters: IPageParameters<T>, convertFields: A
                 value = encodeURI(value);
             }
             if (convertFields.indexOf(key) > -1) {
-                value = dateFormat(String(value), 'yyyyMMddhhmmss', true);
+                value = dateFormat(String(value), format, true);
             }
             temp.push(`${key}=${String(value)}`);
         }
@@ -394,32 +429,6 @@ function resolveParameters(key: string): string {
         return '';
     }
     return unescape(matches[2]);
-}
-
-// 数字补零
-function digitZeroize(digit: number): string {
-    return digit >= 0 && digit < 10 ? `0${String(digit)}` : String(digit);
-}
-
-// 数字百分比
-function digitPercent(digit: string | number, precision: number = 2, isString: boolean = false) {
-    if (isNullOrUndefined(digit)) return digit;
-
-    let ndigit = Number(digit);
-    if (isNaN(ndigit)) return digit;
-
-    if (!isString) return Number((ndigit * 100).toFixed(precision));
-    return (ndigit * 100).toFixed(precision);
-}
-
-// 数字精度
-function digitPrecision(digit: string | number, precision: number = 2) {
-    if (isNullOrUndefined(digit)) return digit;
-
-    let ndigit = Number(digit);
-    if (isNaN(ndigit)) return digit;
-
-    return Number(ndigit.toFixed(precision));
 }
 
 // json字符串转换函数
@@ -500,6 +509,11 @@ const Utils = {
     arrayDistinct, // 数组去重函数（可去重对象）
     arraySort, // 数组排序（可去重对象）
 
+    digitZeroize, // 数字补零
+    digitConvert, // 数字转换
+    digitPercent, // 数字百分比
+    digitPrecision, // 数字精度
+
     getAllKeys, // 获取对象key集合
     getFirstKey, // 获取对象第一个key
     getFirstValue, // 获取对象第一个value
@@ -507,10 +521,6 @@ const Utils = {
     buildParameters, // 构建查询参数字符串
     buildPageParameters, // 构建分页查询参数字符串
     resolveParameters, // 解析参数字符串
-
-    digitZeroize, // 数字补零
-    digitPercent, // 数字百分比
-    digitPrecision, // 数字精度
 
     parseJSON, // json字符串转换函数
     duplicate, // 简易的对象副本函数，对象拷贝范围：对象、对象数组
