@@ -3,13 +3,13 @@
         <ant-breadcrumb class="sl-breadcrumb">
             <ant-breadcrumb-item>锁仓管理</ant-breadcrumb-item>
             <ant-breadcrumb-item>
-                <router-link to="/lock/award">奖励设置</router-link>
+                <router-link to="/lock/award">奖励标准</router-link>
             </ant-breadcrumb-item>
         </ant-breadcrumb>
 
         <div class="sl-form">
             <header class="sl-form-header">
-                <h1 class="sl-form-title">奖励设置</h1>
+                <h1 class="sl-form-title">奖励标准</h1>
             </header>
             <div class="sl-form-body">
                 <ant-row :gutter="24">
