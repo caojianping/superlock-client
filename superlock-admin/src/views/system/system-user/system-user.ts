@@ -41,6 +41,7 @@ export default class SystemUser extends Vue {
     @systemModule.Action('resetGa') resetGa!: (payload: any) => any;
     @systemModule.Action('setComGa') setComGa!: (payload: any) => any;
 
+    isDisable: boolean = false; // 补充变量：此变量是为了避免组件中的二次验证与页面的二次验证冲突
     isUserShow: boolean = false;
     isPasswordShow: boolean = false;
 
@@ -84,10 +85,17 @@ export default class SystemUser extends Vue {
         this[key] = true;
         user !== undefined && (this.user = user);
         operationType !== undefined && (this.operationType = operationType);
+        this.isDisable = true;
+    }
+
+    // 处理模态框close事件
+    handleModalClose() {
+        this.isDisable = false;
     }
 
     // 处理模态框submit事件
     handleModalSubmit() {
+        this.isDisable = false;
         this.fetchUsers();
     }
 

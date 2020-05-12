@@ -153,15 +153,15 @@
             @showSizeChange="handlePageSizeChange"
         />
 
-        <BrokerModal v-model="isBrokerShow" :operation-type="operationType" :broker="broker" @submit="handleModalSubmit" />
+        <BrokerModal v-model="isBrokerShow" :operation-type="operationType" :broker="broker" @close="handleModalClose" @submit="handleModalSubmit" />
 
-        <RateModal v-model="isRateShow" @submit="handleModalSubmit" />
+        <RateModal v-model="isRateShow" @close="handleModalClose" @submit="handleModalSubmit" />
 
-        <QuotaModal v-model="isQuotaShow" :broker="broker" @submit="handleModalSubmit" />
+        <QuotaModal v-model="isQuotaShow" :broker="broker" @close="handleModalClose" @submit="handleModalSubmit" />
 
-        <MigrationModal v-model="isMigrationShow" :broker="broker" @submit="handleModalSubmit" />
+        <MigrationModal v-model="isMigrationShow" :broker="broker" @close="handleModalClose" @submit="handleModalSubmit" />
 
-        <SecondVerify :is-show="isSecondVerifyShow" @submit="handleSecondVerifySubmit" />
+        <SecondVerify :is-show="isSecondVerifyShow && !isDisable" @submit="handleSecondVerifySubmit" />
     </div>
 </template>
 
