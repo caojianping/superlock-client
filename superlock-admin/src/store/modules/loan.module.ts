@@ -7,8 +7,8 @@ const loanState: ILoanState = {
     statusOptions: [
         { label: '已逾期', value: -1 },
         { label: '已创建', value: 0 },
-        { label: '审核失败', value: 3 },
-        { label: '审核中', value: 10 },
+        { label: '审核中', value: 1 },
+        { label: '审核失败', value: 5 },
         { label: '贷款中', value: 20 },
         { label: '爆仓', value: 30 },
         { label: '还款中', value: 40 },
@@ -17,8 +17,8 @@ const loanState: ILoanState = {
     statusColors: {
         '-1': 'text-red',
         '0': 'text-grey',
-        '3': 'text-red',
-        '10': 'text-green',
+        '1': 'text-green',
+        '5': 'text-red',
         '20': 'text-green',
         '30': 'text-orange',
         '40': 'text-green',
@@ -27,8 +27,8 @@ const loanState: ILoanState = {
     statusNames: {
         '-1': '已逾期',
         '0': '已创建',
-        '3': '审核失败',
-        '10': '审核中',
+        '1': '审核中',
+        '5': '审核失败',
         '20': '贷款中',
         '30': '爆仓',
         '40': '还款中',
