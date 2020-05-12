@@ -13,7 +13,7 @@
             </header>
             <div class="sl-block-body mw1300px">
                 <ant-row :gutter="24">
-                    <ant-col :span="7">
+                    <ant-col :span="6">
                         <ant-form-item label="UID" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
@@ -25,8 +25,8 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="9">
-                        <ant-form-item label="贷款订单号" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
+                    <ant-col :span="6">
+                        <ant-form-item label="贷款订单号" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-input
                                 type="text"
                                 :value="loanParameters.conditions.loanSerial"
@@ -37,8 +37,8 @@
                         </ant-form-item>
                     </ant-col>
 
-                    <ant-col :span="7">
-                        <ant-form-item label="锁仓订单号" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                    <ant-col :span="9">
+                        <ant-form-item label="锁仓订单号" :label-col="{ span: 5 }" :wrapper-col="{ span: 19 }">
                             <ant-input
                                 type="text"
                                 :value="loanParameters.conditions.lockSerial"
@@ -51,7 +51,7 @@
                 </ant-row>
 
                 <ant-row :gutter="24">
-                    <ant-col :span="7">
+                    <ant-col :span="6">
                         <ant-form-item label="订单状态" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
                             <ant-select
                                 :value="loanParameters.conditions.status"
@@ -59,6 +59,18 @@
                                 allowClear
                                 placeholder="请选择订单状态"
                                 @change="handleFormChange('status', $event)"
+                            ></ant-select>
+                        </ant-form-item>
+                    </ant-col>
+
+                    <ant-col :span="6">
+                        <ant-form-item label="审核状态" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+                            <ant-select
+                                :value="loanParameters.conditions.auditStatus"
+                                :options="auditOptions"
+                                allowClear
+                                placeholder="请选择审核状态"
+                                @change="handleFormChange('auditStatus', $event)"
                             ></ant-select>
                         </ant-form-item>
                     </ant-col>
@@ -77,7 +89,7 @@
                     </ant-col>
 
                     <ant-col :span="3">
-                        <ant-button class="sl-search" type="primary" @click="search">搜索</ant-button>
+                        <ant-button class="sl-search" type="primary" @click="search" style="margin-left: 0">搜索</ant-button>
                     </ant-col>
                 </ant-row>
             </div>

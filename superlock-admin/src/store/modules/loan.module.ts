@@ -4,11 +4,14 @@ import { PageResult, LoanModel, LoanInterestModel, LoanInfoModel } from '@/ts/mo
 import { LoanService } from '@/ts/services';
 
 const loanState: ILoanState = {
+    auditOptions: [
+        { label: '待审核', value: 1 },
+        { label: '已审核', value: 3 },
+        { label: '已驳回', value: 5 }
+    ],
     statusOptions: [
         { label: '已逾期', value: -1 },
         { label: '已创建', value: 0 },
-        { label: '审核中', value: 1 },
-        { label: '审核失败', value: 5 },
         { label: '贷款中', value: 20 },
         { label: '爆仓', value: 30 },
         { label: '还款中', value: 40 },
@@ -17,8 +20,6 @@ const loanState: ILoanState = {
     statusColors: {
         '-1': 'text-red',
         '0': 'text-grey',
-        '1': 'text-green',
-        '5': 'text-red',
         '20': 'text-green',
         '30': 'text-orange',
         '40': 'text-green',
@@ -27,8 +28,6 @@ const loanState: ILoanState = {
     statusNames: {
         '-1': '已逾期',
         '0': '已创建',
-        '1': '审核中',
-        '5': '审核失败',
         '20': '贷款中',
         '30': '爆仓',
         '40': '还款中',

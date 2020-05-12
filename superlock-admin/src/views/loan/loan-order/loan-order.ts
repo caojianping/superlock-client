@@ -25,6 +25,7 @@ export default class LoanOrder extends Vue {
     @State('auditColors') auditColors!: any;
     @State('auditNames') auditNames!: any;
 
+    @loanModule.State('auditOptions') auditOptions!: Array<ISelectOption>;
     @loanModule.State('statusOptions') statusOptions!: Array<ISelectOption>;
     @loanModule.State('statusColors') statusColors!: any;
     @loanModule.State('statusNames') statusNames!: any;
