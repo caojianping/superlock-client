@@ -49,6 +49,7 @@ export default class UserModal extends Vue {
 
     // 提交用户表单
     async submit(isCode?: boolean) {
+        console.log('submitUser isCode,userForm:', isCode, this.userForm);
         try {
             let operationType = this.operationType,
                 msg = `用户${['添加', '更新'][operationType - 1]}`,

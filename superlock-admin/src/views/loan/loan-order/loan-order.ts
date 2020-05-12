@@ -173,7 +173,7 @@ export default class LoanOrder extends Vue {
     async _setReview(isCode: boolean = false) {
         try {
             let { serial, status } = this,
-                result = await this.setReview({ serial, type: ReviewType.Loan, status, isCode });
+                result = await this.setReview({ serial, type: ReviewType.LoanOrder, status, isCode });
             if (!result) Prompt.error('操作失败');
             else await this.fetchLoans();
         } catch (error) {
