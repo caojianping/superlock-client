@@ -82,10 +82,13 @@ export const Urls = {
         bindEmail: `${baseUrl}/user/bindingEmail` // 绑定邮箱
     },
     loan: {
-        baseInfo: `${baseUrl}/project/loanBaseInfo`, // 获取贷款比例和利息利率接口
+        baseInfo: `${baseUrl}/project/loanBaseInfo`, // 获取基础信息接口（贷款比例和利息利率）
         loanableLocks: `${baseUrl}/project/couldLoanLockList`, // 获取可贷款的锁仓列表接口
         loanableQuota: `${baseUrl}/project/loanQuota`, // 获取可贷款额度接口
         executeLoan: `${baseUrl}/project/loanMoney`, // 执行贷款接口
-        executeRepay: `${baseUrl}/project/repayment` // 执行还贷接口
+        executeRepayment: `${baseUrl}/project/repayment`, // 执行还贷接口
+        list: `${baseUrl}/project/loanOrderList`, // 获取贷款列表接口
+        detail: `${baseUrl}/project/loanOrderDetails`, // 获取贷款详情接口
+        interests: `${baseUrl}/project/loanInterestList` // 获取贷款利息列表
     }
 };

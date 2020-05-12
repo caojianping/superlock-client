@@ -7,6 +7,7 @@ export * from './recharge.model';
 export * from './withdraw.model';
 export * from './transfer.model';
 export * from './security.model';
+export * from './loan.model';
 
 // 业务型错误
 export class BusinessError<T> implements Error {
