@@ -80,5 +80,12 @@ export const Urls = {
             forget: `${baseUrl}/user/forgetFundPasswd` // 忘记资金密码接口
         },
         bindEmail: `${baseUrl}/user/bindingEmail` // 绑定邮箱
+    },
+    loan: {
+        baseInfo: `${baseUrl}/project/loanBaseInfo`, // 获取贷款比例和利息利率接口
+        loanableLocks: `${baseUrl}/project/couldLoanLockList`, // 获取可贷款的锁仓列表接口
+        loanableQuota: `${baseUrl}/project/loanQuota`, // 获取可贷款额度接口
+        executeLoan: `${baseUrl}/project/loanMoney`, // 执行贷款接口
+        executeRepay: `${baseUrl}/project/repayment` // 执行还贷接口
     }
 };

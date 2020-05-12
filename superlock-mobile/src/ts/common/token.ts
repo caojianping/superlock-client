@@ -1,9 +1,9 @@
 import { Cookie } from 'jts-cookie';
+import { SessionStorage } from 'jts-storage';
 import store from '@/store';
 import TYPES from '@/store/types';
 import { CONSTANTS } from '@/ts/config';
 import { TokenInfo } from '@/ts/models';
-import { SessionStorage } from 'jts-storage';
 
 export class Token {
     // 设置tokenInfo

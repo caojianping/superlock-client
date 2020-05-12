@@ -3,6 +3,8 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { Toast } from 'vant';
 
 import Router from '@/router';
+import store from '@/store';
+import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { CaxiosType, CONSTANTS, ResponseCode } from '@/ts/config';
 import { ResponseResult, BusinessError, TokenInfo } from '@/ts/models';
@@ -135,13 +137,17 @@ export class Caxios {
             return data as T;
         } else if (code === ResponseCode.TokenExpired) {
             Token.removeTokenInfo();
+            store.commit(TYPES.CLEAR_STATES);
+
             // 登录页面，Router.push会报NavigatorDuplicated异常，提示在UI层处理
             let hash = window.location.hash;
             if (hash.indexOf('/user/login') < 0) {
                 Prompt.error(message);
                 Router.push({ path: '/user/login' });
+                return Promise.reject('');
+            } else {
+                throw new BusinessError(code, message);
             }
-            throw new BusinessError(code, message);
         } else {
             // 其他异常
             throw new BusinessError(code, message);

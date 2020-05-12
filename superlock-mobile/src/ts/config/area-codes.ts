@@ -1,6 +1,6 @@
 export interface IAreaCode {
-    id: string;
     name: string;
+    id: string;
     code: string;
 }
 
