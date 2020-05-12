@@ -83,6 +83,7 @@ export interface ILoanPageParameters {
     beginTime: string; // 申请开始时间
     endTime: string; // 申请结束时间
     status?: string; // 订单状态
+    auditStatus?: string; // 审核状态
 }
 
 // 资金分页参数接口

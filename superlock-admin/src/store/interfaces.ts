@@ -177,6 +177,7 @@ export interface IFinanceState {
 
 // 贷款状态接口
 export interface ILoanState {
+    auditOptions: Array<ISelectOption>; // 审核选项
     statusOptions: Array<ISelectOption>; // 状态选项
     statusColors: any; // 状态颜色
     statusNames: any; // 状态名称
