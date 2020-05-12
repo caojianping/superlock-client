@@ -36,7 +36,16 @@ import {
     SecurityFormModel,
     LockResultModel,
     EmailFormModel,
-    VerifyResult
+    VerifyResult,
+    LoanBaseInfoModel,
+    LoanableLockModel,
+    LoanableQuotaModel,
+    LoanInterestModel,
+    LoanModel,
+    ApplyFormModel,
+    RepayFormModel,
+    ApplyResultModel,
+    RepayResultModel
 } from '@/ts/models';
 
 export interface IActionContext<T> {
@@ -148,4 +157,25 @@ export interface ITransferState {
 export interface ISecurityState {
     securityForm: SecurityFormModel; // 安全中心表单
     emailForm: EmailFormModel; // 邮箱表单
+}
+
+export interface ILoanState {
+    loanBaseInfo?: LoanBaseInfoModel | null; // 贷款基础信息
+    loanableQuota?: LoanableQuotaModel | null; // 可贷款额度
+
+    pageNum: number; // 分页索引
+    pageSize: number; // 分页尺寸
+    loanableLocks?: Array<LoanableLockModel>; // 可贷款锁仓列表
+    loanInterests?: Array<LoanInterestModel>; // 贷款利息列表
+    loans?: Array<LoanModel>; // 贷款列表
+
+    orderId: string; // 订单编号
+    lockOrderId: string; // 锁仓订单编号
+    loan?: LoanModel | null; // 贷款信息
+
+    applyForm: ApplyFormModel; // 贷款申请表单
+    applyResult?: ApplyResultModel | null; // 贷款申请结果
+
+    repayForm: RepayFormModel; // 贷款偿还表单
+    repayResult?: RepayResultModel | null; // 贷款偿还结果
 }

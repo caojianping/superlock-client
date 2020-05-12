@@ -4,21 +4,23 @@ import { Urls, CaxiosType } from '@/ts/config';
 import { Caxios, md5 } from '@/ts/common';
 import {
     LoanBaseInfoModel,
-    LoanableLockModel,
     LoanableQuotaModel,
-    LoanFormModel,
-    RepaymentFormModel,
+    LoanableLockModel,
     LoanModel,
-    LoanInterestModel
+    LoanInterestModel,
+    ApplyFormModel,
+    ApplyResultModel,
+    RepayFormModel,
+    RepayResultModel
 } from '@/ts/models';
 
 export class LoanService {
     // 校验贷款表单
-    public static validateLoanForm(loanForm: LoanFormModel, isPassword: boolean = true): ValidationResult {
-        if (!loanForm) return { status: false, data: { userForm: '参数不可以为空' } };
+    public static validateApplyForm(applyForm: ApplyFormModel, isPassword: boolean = true): ValidationResult {
+        if (!applyForm) return { status: false, data: { applyForm: '参数不可以为空' } };
 
-        let key = 'loan',
-            { lockOrderId, amount, loanDays, fundPasswd, maxAmount, maxDuration } = loanForm,
+        let key = 'apply',
+            { lockOrderId, amount, loanDays, fundPasswd, maxAmount, maxDuration } = applyForm,
             validator = new Validator();
         validator.addRule(key, { name: 'lockOrderId', value: lockOrderId }, { required: true }, { required: '锁仓订单号不可以为空' });
         validator.addRule(
@@ -48,11 +50,11 @@ export class LoanService {
     }
 
     // 校验还贷表单
-    public static validateRepaymentForm(repaymentForm: RepaymentFormModel, isPassword: boolean = true): ValidationResult {
-        if (!repaymentForm) return { status: false, data: { repaymentForm: '参数不可以为空' } };
+    public static validateRepayForm(repayForm: RepayFormModel, isPassword: boolean = true): ValidationResult {
+        if (!repayForm) return { status: false, data: { repayForm: '参数不可以为空' } };
 
-        let key = 'repayment',
-            { loansSerial, fundPasswd } = repaymentForm,
+        let key = 'repay',
+            { loansSerial, fundPasswd } = repayForm,
             validator = new Validator();
         validator.addRule(key, { name: 'loansSerial', value: loansSerial }, { required: true }, { required: '贷款订单号不可以为空' });
         if (isPassword) {
@@ -61,9 +63,15 @@ export class LoanService {
         return validator.execute(key);
     }
 
-    // 获取基础信息
+    // 获取贷款基础信息
     public async fetchLoanBaseInfo(): Promise<LoanBaseInfoModel | null> {
         return await Caxios.get<LoanBaseInfoModel | null>({ url: Urls.loan.baseInfo }, CaxiosType.Token);
+    }
+
+    // 获取可贷款额度
+    public async fetchLoanableQuota(orderId: string): Promise<LoanableQuotaModel | null> {
+        if (!orderId) return Promise.reject('订单号不可以为空');
+        return await Caxios.get<LoanableQuotaModel | null>({ url: `${Urls.loan.loanableQuota}?orderId=${orderId}` }, CaxiosType.LoadingToken);
     }
 
     // 获取可贷款的锁仓列表
@@ -73,32 +81,6 @@ export class LoanService {
             pageNum === 1 ? CaxiosType.LoadingToken : CaxiosType.Token
         );
         return result || [];
-    }
-
-    // 获取可贷款额度
-    public async fetchLoanableQuota(orderId: string): Promise<LoanableQuotaModel | null> {
-        if (!orderId) return Promise.reject('订单号不可以为空');
-        return await Caxios.get<LoanableQuotaModel | null>({ url: `${Urls.loan.loanableQuota}?orderId=${orderId}` }, CaxiosType.LoadingToken);
-    }
-
-    // 执行贷款
-    public async executeLoan(loanForm: LoanFormModel): Promise<any> {
-        let result: ValidationResult = LoanService.validateLoanForm(loanForm);
-        if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
-
-        let { lockOrderId, amount, loanDays, fundPasswd } = loanForm,
-            parameters = Utils.buildParameters({ lockOrderId, amount, loanDays, fundPasswd: md5(fundPasswd) });
-        return await Caxios.post<any>({ url: `${Urls.loan.executeLoan}?${parameters}` }, CaxiosType.LoadingToken);
-    }
-
-    // 执行还贷
-    public async executeRepayment(repaymentForm: RepaymentFormModel): Promise<any> {
-        let result: ValidationResult = LoanService.validateRepaymentForm(repaymentForm);
-        if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
-
-        let { loansSerial, fundPasswd } = repaymentForm,
-            parameters = Utils.buildParameters({ loansSerial, fundPasswd: md5(fundPasswd) });
-        return await Caxios.post<any>({ url: `${Urls.loan.executeRepayment}?${parameters}` }, CaxiosType.LoadingToken);
     }
 
     // 获取贷款列表
@@ -121,5 +103,25 @@ export class LoanService {
             pageNum === 1 ? CaxiosType.LoadingToken : CaxiosType.Token
         );
         return result || [];
+    }
+
+    // 申请贷款
+    public async applyLoan(applyForm: ApplyFormModel): Promise<ApplyResultModel | null> {
+        let result: ValidationResult = LoanService.validateApplyForm(applyForm);
+        if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
+
+        let { lockOrderId, amount, loanDays, fundPasswd } = applyForm,
+            parameters = Utils.buildParameters({ lockOrderId, amount, loanDays, fundPasswd: md5(fundPasswd) });
+        return await Caxios.post<ApplyResultModel | null>({ url: `${Urls.loan.applyLoan}?${parameters}` }, CaxiosType.LoadingToken);
+    }
+
+    // 偿还贷款
+    public async repayLoan(repayForm: RepayFormModel): Promise<RepayResultModel | null> {
+        let result: ValidationResult = LoanService.validateRepayForm(repayForm);
+        if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
+
+        let { loansSerial, fundPasswd } = repayForm,
+            parameters = Utils.buildParameters({ loansSerial, fundPasswd: md5(fundPasswd) });
+        return await Caxios.post<RepayResultModel | null>({ url: `${Urls.loan.repayLoan}?${parameters}` }, CaxiosType.LoadingToken);
     }
 }

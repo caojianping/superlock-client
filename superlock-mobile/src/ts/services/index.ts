@@ -8,3 +8,4 @@ export * from './recharge.service';
 export * from './withdraw.service';
 export * from './transfer.service';
 export * from './security.service';
+export * from './loan.service';

@@ -15,6 +15,7 @@ import rechargeModule from './modules/recharge.module';
 import withdrawModule from './modules/withdraw.module';
 import transferModule from './modules/transfer.module';
 import securityModule from './modules/security.module';
+import loanModule from './modules/loan.module';
 
 Vue.use(Vuex);
 
@@ -42,7 +43,8 @@ export default new Vuex.Store({
         recharge: rechargeModule,
         withdraw: withdrawModule,
         transfer: transferModule,
-        security: securityModule
+        security: securityModule,
+        loan: loanModule
     },
     state: rootState,
     mutations: {

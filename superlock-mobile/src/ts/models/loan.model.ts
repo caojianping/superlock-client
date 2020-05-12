@@ -26,23 +26,6 @@ export class LoanableQuotaModel {
     public valuationCoin!: string; // 计价额度币种
 }
 
-// 贷款表单模型
-export class LoanFormModel {
-    public lockOrderId!: string; // 锁仓订单号
-    public loanDays!: number; // 贷款时长，单位天
-    public amount!: number; // 贷款金额，单位DC
-    public fundPasswd!: string; // 资金密码
-
-    public maxDuration!: number; // 校验字段： 最大贷款时长
-    public maxAmount!: number; // 校验字段：最大贷款金额
-}
-
-// 还贷表单模型
-export class RepaymentFormModel {
-    public loansSerial!: string; // 贷款订单号
-    public fundPasswd!: string; // 资金密码
-}
-
 // 贷款模型
 export class LoanModel {
     public orderId!: string; // 贷款订单号
@@ -83,3 +66,26 @@ export class LoanInterestModel {
     public amount!: number; // 利息
     public coin!: string; // 币种
 }
+
+// 贷款申请表单模型
+export class ApplyFormModel {
+    public lockOrderId!: string; // 锁仓订单号
+    public loanDays!: number; // 贷款时长，单位天
+    public amount!: number; // 贷款金额，单位DC
+    public fundPasswd!: string; // 资金密码
+
+    public maxDuration!: number; // 校验字段： 最大贷款时长
+    public maxAmount!: number; // 校验字段：最大贷款金额
+}
+
+// 贷款申请结果模型
+export class ApplyResultModel {}
+
+// 贷款偿还表单模型
+export class RepayFormModel {
+    public loansSerial!: string; // 贷款订单号
+    public fundPasswd!: string; // 资金密码
+}
+
+// 贷款偿还结果模型
+export class RepayResultModel {}
