@@ -4,6 +4,11 @@ import { LoanableLockModel, LoanInterestModel, ApplyFormModel, RepayFormModel } 
 import { LoanService } from '@/ts/services';
 
 const loanState: ILoanState = {
+    loanFlags: new Map([
+        [1, '可质押'],
+        [2, '锁仓金额太小，无法质押'],
+        [3, '锁仓即将到期，无法质押']
+    ]),
     loanBaseInfo: undefined,
     loanableQuota: undefined,
 

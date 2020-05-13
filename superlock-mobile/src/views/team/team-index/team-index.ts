@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { SessionStorage } from 'jts-storage';
+
 import TYPES from '@/store/types';
 import { CONSTANTS } from '@/ts/config';
 import { UserLockQuotaModel, LockPromoteRateModel, ChildModel } from '@/ts/models';
@@ -27,8 +28,10 @@ export default class TeamIndex extends Vue {
     @childModule.State('pageNum') pageNum!: number;
     @childModule.State('pageSize') pageSize!: number;
     @childModule.State('childs') childs?: Array<ChildModel>;
+
     @childModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @childModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
+
     @childModule.Action('fetchLockPromoteRates') fetchLockPromoteRates!: () => any;
     @childModule.Action('fetchChilds') fetchChildsAction!: () => any;
 

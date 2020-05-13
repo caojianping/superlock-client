@@ -160,6 +160,8 @@ export interface ISecurityState {
 }
 
 export interface ILoanState {
+    loanFlags: Map<number, string>; // 贷款标志
+
     loanBaseInfo?: LoanBaseInfoModel | null; // 贷款基础信息
     loanableQuota?: LoanableQuotaModel | null; // 可贷款额度
 
