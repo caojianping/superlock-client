@@ -41,7 +41,7 @@
                                 <tbody>
                                     <tr v-for="(dailySale, index) in awardForm.dailySalesDto" :key="index">
                                         <td>
-                                            <ant-input-number :value="dailySale.sales" disabled />
+                                            <ant-input-number :value="dailySale.sales" :precision="6" disabled />
                                         </td>
                                         <td>
                                             <ant-input-number :value="dailySale.rate" :precision="2" disabled />

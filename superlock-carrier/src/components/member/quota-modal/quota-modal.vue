@@ -22,6 +22,7 @@
                     <ant-input-number
                         :value="quotaForm.amount"
                         :min="0"
+                        :precision="6"
                         placeholder="请输入新增额度(DC)"
                         @change="handleFormChange('amount', $event)"
                         @keyup.enter="submit(false)"
