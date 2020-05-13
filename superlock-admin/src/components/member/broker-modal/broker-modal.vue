@@ -57,6 +57,7 @@
                         <ant-input-number
                             :value="brokerForm.totalDegree"
                             :min="0"
+                            :precision="6"
                             placeholder="请输入代理额度(DC)"
                             @change="handleFormChange('totalDegree', $event)"
                             @keyup.enter="submit(false)"

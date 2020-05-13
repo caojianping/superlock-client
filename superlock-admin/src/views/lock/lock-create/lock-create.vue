@@ -49,6 +49,7 @@
                             <ant-input-number
                                 :value="projectForm.quota"
                                 :min="0"
+                                :precision="6"
                                 placeholder="请输入项目总额度(DC)"
                                 @change="handleFormChange('quota', $event)"
                                 @keyup.enter="submit(false)"

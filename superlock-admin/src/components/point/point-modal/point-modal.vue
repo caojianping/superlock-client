@@ -36,6 +36,7 @@
                     <ant-input-number
                         :value="pointForm.value"
                         :min="0"
+                        :precision="6"
                         placeholder="请输入上分数量"
                         @change="handleFormChange('value', $event)"
                         @keyup.enter="submit(false)"
