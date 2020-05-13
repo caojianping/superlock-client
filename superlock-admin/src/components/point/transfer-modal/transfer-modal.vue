@@ -58,6 +58,7 @@
                     <ant-input-number
                         :value="transferForm.value"
                         :min="0"
+                        :precision="6"
                         placeholder="请输入转账数量"
                         @change="handleFormChange('value', $event)"
                         @keyup.enter="submit(false)"

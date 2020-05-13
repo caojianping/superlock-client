@@ -51,8 +51,7 @@
                             <ant-input-number
                                 :value="loanInfo.loanMinValue"
                                 :min="0"
-                                :max="100"
-                                :precision="2"
+                                :precision="6"
                                 placeholder="请输入最小贷款价值(DC)"
                                 @change="handleFormChange('loanMinValue', $event)"
                                 @keyup.enter="submit(false)"
