@@ -1,6 +1,15 @@
+import { SessionStorage } from 'jts-storage';
 import TYPES from '@/store/types';
+import { CONSTANTS } from '@/ts/config';
 import { IActionContext, ILoanState } from '@/store/interfaces';
-import { LoanableLockModel, LoanInterestModel, ApplyFormModel, RepayFormModel } from '@/ts/models';
+import {
+    LoanableLockModel,
+    LoanInterestModel,
+    LoanApplyFormModel,
+    LoanRepayFormModel,
+    LoanApplyResultModel,
+    LoanRepayResultModel
+} from '@/ts/models';
 import { LoanService } from '@/ts/services';
 
 const loanState: ILoanState = {
@@ -9,23 +18,33 @@ const loanState: ILoanState = {
         [2, '锁仓金额太小，无法质押'],
         [3, '锁仓即将到期，无法质押']
     ]),
+    loanStatuses: new Map([
+        [0, '审核中'],
+        [10, '审核失败'],
+        [20, '贷款中'],
+        [30, '爆仓'],
+        [31, '还款中'],
+        [40, '贷款已还清'],
+        [50, '已逾期']
+    ]),
     loanBaseInfo: undefined,
     loanableQuota: undefined,
 
     pageNum: 1,
     pageSize: 15,
     loanableLocks: undefined,
+    loanableLock: undefined,
+
     loanInterests: undefined,
     loans: undefined,
 
-    orderId: '',
-    lockOrderId: '',
+    id: '',
     loan: undefined,
 
-    applyForm: new ApplyFormModel(),
+    applyForm: new LoanApplyFormModel(),
     applyResult: undefined,
 
-    repayForm: new RepayFormModel(),
+    repayForm: new LoanRepayFormModel(),
     repayResult: undefined
 };
 
@@ -50,17 +69,18 @@ export default {
             state.pageNum = 1;
             state.pageSize = 15;
             state.loanableLocks = undefined;
+            state.loanableLock = undefined;
+
             state.loanInterests = undefined;
             state.loans = undefined;
 
-            state.orderId = '';
-            state.lockOrderId = '';
+            state.id = '';
             state.loan = undefined;
 
-            state.applyForm = new ApplyFormModel();
+            state.applyForm = new LoanApplyFormModel();
             state.applyResult = undefined;
 
-            state.repayForm = new RepayFormModel();
+            state.repayForm = new LoanRepayFormModel();
             state.repayResult = undefined;
         }
     },
@@ -76,11 +96,11 @@ export default {
             }
         },
 
-        // 获取贷款基础信息
+        // 获取可贷款额度
         async fetchLoanableQuota(context: IActionContext<ILoanState>): Promise<void> {
             let { commit, state } = context;
             try {
-                let loanableQuota = await loanService.fetchLoanableQuota(state.orderId);
+                let loanableQuota = await loanService.fetchLoanableQuota(state.id);
                 commit(TYPES.SET_STATES, { loanableQuota });
             } catch (error) {
                 commit(TYPES.SET_STATES, { loanableQuota: null });
@@ -131,7 +151,7 @@ export default {
         async fetchLoan(context: IActionContext<ILoanState>): Promise<void> {
             let { commit, state } = context;
             try {
-                let loan = await loanService.fetchLoan(state.lockOrderId);
+                let loan = await loanService.fetchLoan(state.id);
                 commit(TYPES.SET_STATES, { loan });
             } catch (error) {
                 commit(TYPES.SET_STATES, { loan: null });
@@ -145,8 +165,8 @@ export default {
             isPending = true;
             let { commit, state } = context;
             try {
-                let { orderId, pageNum, pageSize, loanInterests } = state,
-                    data = await loanService.fetchLoanInterests(orderId, pageNum, pageSize);
+                let { id, pageNum, pageSize, loanInterests } = state,
+                    data = await loanService.fetchLoanInterests(id, pageNum, pageSize);
                 if (pageNum === 1) {
                     commit(TYPES.SET_STATES, {
                         pageNum: pageNum + 1,
@@ -172,6 +192,7 @@ export default {
             let { commit, state } = context;
             try {
                 let applyResult = await loanService.applyLoan(state.applyForm);
+                applyResult && SessionStorage.setItem<LoanApplyResultModel>(CONSTANTS.LOAN_APPLY_RESULT, applyResult);
                 commit(TYPES.SET_STATES, { applyResult });
             } catch (error) {
                 commit(TYPES.SET_STATES, { applyResult: null });
@@ -183,6 +204,7 @@ export default {
             let { commit, state } = context;
             try {
                 let repayResult = await loanService.repayLoan(state.repayForm);
+                repayResult && SessionStorage.setItem<LoanRepayResultModel>(CONSTANTS.LOAN_REPAY_RESULT, repayResult);
                 commit(TYPES.SET_STATES, { repayResult });
             } catch (error) {
                 commit(TYPES.SET_STATES, { repayResult: null });

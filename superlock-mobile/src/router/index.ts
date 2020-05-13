@@ -13,6 +13,7 @@ import AssetRouter from './asset.router';
 import TransactionRouter from './transaction.router';
 import MineRouter from './mine.router';
 import SecurityRouter from './security.router';
+import LoanRouter from './loan.router';
 
 Vue.use(Router);
 
@@ -31,7 +32,8 @@ const routes = [
     ...AssetRouter,
     ...TransactionRouter,
     ...MineRouter,
-    ...SecurityRouter
+    ...SecurityRouter,
+    ...LoanRouter
 ];
 
 const router = new Router({

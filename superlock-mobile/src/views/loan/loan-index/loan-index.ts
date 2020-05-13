@@ -1,18 +1,20 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
+import { SessionStorage } from 'jts-storage';
 
 import TYPES from '@/store/types';
+import { CONSTANTS } from '@/ts/config';
 import { LoanBaseInfoModel, LoanableLockModel } from '@/ts/models';
 
-import { Toast, PullRefresh, CellGroup, Cell } from 'vant';
+import { Toast, PullRefresh, List, CellGroup, Cell, Button } from 'vant';
 import Header from '@/components/common/header';
 
 const loanModule = namespace('loan');
 
 @Component({
     name: 'LoanIndex',
-    components: { PullRefresh, Header, CellGroup, Cell }
+    components: { PullRefresh, List, CellGroup, Cell, Button, Header }
 })
 export default class LoanIndex extends Vue {
     @loanModule.State('loanFlags') loanFlags!: Map<number, string>;
@@ -31,9 +33,12 @@ export default class LoanIndex extends Vue {
     isLoading: boolean = false; // 是否正在加载
     isFinished: boolean = false; // 是否加载结束
 
-    // 申请贷款
-    applyLoan(loanableLock: LoanableLockModel){
-        if(loanableLock.loanFlag !== 1) return;
+    // 跳转至申请贷款页面
+    goApply(loanableLock: LoanableLockModel) {
+        if (loanableLock.loanFlag !== 1) return;
+
+        this.setStates({ loanableLock });
+        SessionStorage.setItem<LoanableLockModel>(CONSTANTS.LOANABLE_LOCK, loanableLock);
         this.$router.push('/loan/apply');
     }
 

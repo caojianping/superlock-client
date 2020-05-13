@@ -6,10 +6,10 @@
         <div class="loan-info">
             <h1>
                 有锁仓就可贷
-                <span>（最高可贷锁仓价值的{{ loanBaseInfoObj.loanProportion | ratePercent }}）</span>
+                <span>（最高可贷锁仓价值的{{ `${loanBaseInfoObj.loanProportion || '--'}%` }}）</span>
             </h1>
             <h2>
-                贷款年利率：<span>{{ loanBaseInfoObj.loanRate | ratePercent }}</span>
+                贷款年利率：<span>{{ `${loanBaseInfoObj.loanRate || '--'}%` }}</span>
             </h2>
             <ul>
                 <li><i /><span>锁仓抵押</span></li>
@@ -33,12 +33,24 @@
                     finished-text="记录加载完毕"
                     @load="fetchLoanableLocks"
                 >
-                    <CellGroup class="lock-item" v-for="(loanableLock, index) in loanableLocks" :key="index" @click="applyLoan(loanableLock)">
+                    <CellGroup
+                        class="lock-item"
+                        v-for="(loanableLock, index) in loanableLocks"
+                        :key="index"
+                        @click="goApply(loanableLock)"
+                        style="margin-bottom: 1rem;"
+                    >
+                        {{ ((loanFlag = loanableLock.loanFlag), void 0) }}
                         <Cell title="锁仓订单号" :value="loanableLock.orderId" />
-                        <Cell title="锁仓到期时间" :value="loanableLock.endDate" />
+                        <Cell title="锁仓到期时间">
+                            <p>
+                                <span>{{ loanableLock.endDate | dateFormat('yyyy-MM-dd') }}</span>
+                                <Button v-if="loanFlag === 1" class="effect-shadow" type="primary" size="small" round>抵押贷款</Button>
+                            </p>
+                        </Cell>
                         <Cell title="锁仓价值" :value="`${loanableLock.lockValue} ${loanableLock.lockValueCoin}`" />
-                        <Cell v-if="loanableLock.loanFlag !== 1">
-                            <span :class="['lock-flag', `flag${loanableLock.loanFlag}`]">{{ loanFlags.get([loanableLock.loanFlag]) }}</span>
+                        <Cell v-if="loanFlag !== 1">
+                            <span slot="title" :class="['lock-flag', `flag${loanFlag}`]">{{ loanFlags.get(loanFlag) }}</span>
                         </Cell>
                     </CellGroup>
                 </List>

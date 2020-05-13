@@ -42,10 +42,10 @@ import {
     LoanableQuotaModel,
     LoanInterestModel,
     LoanModel,
-    ApplyFormModel,
-    RepayFormModel,
-    ApplyResultModel,
-    RepayResultModel
+    LoanApplyFormModel,
+    LoanRepayFormModel,
+    LoanApplyResultModel,
+    LoanRepayResultModel
 } from '@/ts/models';
 
 export interface IActionContext<T> {
@@ -161,6 +161,7 @@ export interface ISecurityState {
 
 export interface ILoanState {
     loanFlags: Map<number, string>; // 贷款标志
+    loanStatuses: Map<number, string>;// 贷款状态
 
     loanBaseInfo?: LoanBaseInfoModel | null; // 贷款基础信息
     loanableQuota?: LoanableQuotaModel | null; // 可贷款额度
@@ -168,16 +169,17 @@ export interface ILoanState {
     pageNum: number; // 分页索引
     pageSize: number; // 分页尺寸
     loanableLocks?: Array<LoanableLockModel>; // 可贷款锁仓列表
+    loanableLock?: LoanableLockModel | null; // 可贷款锁仓数据
+
     loanInterests?: Array<LoanInterestModel>; // 贷款利息列表
     loans?: Array<LoanModel>; // 贷款列表
 
-    orderId: string; // 订单编号
-    lockOrderId: string; // 锁仓订单编号
+    id: string; // 贷款编号
     loan?: LoanModel | null; // 贷款信息
 
-    applyForm: ApplyFormModel; // 贷款申请表单
-    applyResult?: ApplyResultModel | null; // 贷款申请结果
+    applyForm: LoanApplyFormModel; // 贷款申请表单
+    applyResult?: LoanApplyResultModel | null; // 贷款申请结果
 
-    repayForm: RepayFormModel; // 贷款偿还表单
-    repayResult?: RepayResultModel | null; // 贷款偿还结果
+    repayForm: LoanRepayFormModel; // 贷款偿还表单
+    repayResult?: LoanRepayResultModel | null; // 贷款偿还结果
 }

@@ -8,15 +8,15 @@ import {
     LoanableLockModel,
     LoanModel,
     LoanInterestModel,
-    ApplyFormModel,
-    ApplyResultModel,
-    RepayFormModel,
-    RepayResultModel
+    LoanApplyFormModel,
+    LoanApplyResultModel,
+    LoanRepayFormModel,
+    LoanRepayResultModel
 } from '@/ts/models';
 
 export class LoanService {
     // 校验贷款表单
-    public static validateApplyForm(applyForm: ApplyFormModel, isPassword: boolean = true): ValidationResult {
+    public static validateApplyForm(applyForm: LoanApplyFormModel, isPassword: boolean = true): ValidationResult {
         if (!applyForm) return { status: false, data: { applyForm: '参数不可以为空' } };
 
         let key = 'apply',
@@ -50,7 +50,7 @@ export class LoanService {
     }
 
     // 校验还贷表单
-    public static validateRepayForm(repayForm: RepayFormModel, isPassword: boolean = true): ValidationResult {
+    public static validateRepayForm(repayForm: LoanRepayFormModel, isPassword: boolean = true): ValidationResult {
         if (!repayForm) return { status: false, data: { repayForm: '参数不可以为空' } };
 
         let key = 'repay',
@@ -71,7 +71,7 @@ export class LoanService {
     // 获取可贷款额度
     public async fetchLoanableQuota(orderId: string): Promise<LoanableQuotaModel | null> {
         if (!orderId) return Promise.reject('订单号不可以为空');
-        return await Caxios.get<LoanableQuotaModel | null>({ url: `${Urls.loan.loanableQuota}?orderId=${orderId}` }, CaxiosType.LoadingToken);
+        return await Caxios.get<LoanableQuotaModel | null>({ url: `${Urls.loan.loanableQuota}?orderId=${orderId}` }, CaxiosType.Token);
     }
 
     // 获取可贷款的锁仓列表
@@ -80,6 +80,13 @@ export class LoanService {
             { url: `${Urls.loan.loanableLocks}?${Utils.buildParameters({ pageNum, pageSize })}` },
             pageNum === 1 ? CaxiosType.LoadingToken : CaxiosType.Token
         );
+        (result || []).forEach((item: any) => {
+            item['lockValue'] = Utils.digitConvert(item.lockValue);
+            item['minLoanAmount'] = Utils.digitConvert(item.minLoanAmount);
+            item['maxLoanAmount'] = Utils.digitConvert(item.maxLoanAmount);
+            item['maxLoanDays'] = Utils.digitConvert(item.maxLoanDays);
+            item['loanFlag'] = Utils.digitConvert(item.loanFlag);
+        });
         return result || [];
     }
 
@@ -106,22 +113,22 @@ export class LoanService {
     }
 
     // 申请贷款
-    public async applyLoan(applyForm: ApplyFormModel): Promise<ApplyResultModel | null> {
+    public async applyLoan(applyForm: LoanApplyFormModel): Promise<LoanApplyResultModel | null> {
         let result: ValidationResult = LoanService.validateApplyForm(applyForm);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
         let { lockOrderId, amount, loanDays, fundPasswd } = applyForm,
             parameters = Utils.buildParameters({ lockOrderId, amount, loanDays, fundPasswd: md5(fundPasswd) });
-        return await Caxios.post<ApplyResultModel | null>({ url: `${Urls.loan.applyLoan}?${parameters}` }, CaxiosType.LoadingToken);
+        return await Caxios.post<LoanApplyResultModel | null>({ url: `${Urls.loan.applyLoan}?${parameters}` }, CaxiosType.LoadingToken);
     }
 
     // 偿还贷款
-    public async repayLoan(repayForm: RepayFormModel): Promise<RepayResultModel | null> {
+    public async repayLoan(repayForm: LoanRepayFormModel): Promise<LoanRepayResultModel | null> {
         let result: ValidationResult = LoanService.validateRepayForm(repayForm);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
         let { loansSerial, fundPasswd } = repayForm,
             parameters = Utils.buildParameters({ loansSerial, fundPasswd: md5(fundPasswd) });
-        return await Caxios.post<RepayResultModel | null>({ url: `${Urls.loan.repayLoan}?${parameters}` }, CaxiosType.LoadingToken);
+        return await Caxios.post<LoanRepayResultModel | null>({ url: `${Urls.loan.repayLoan}?${parameters}` }, CaxiosType.LoadingToken);
     }
 }

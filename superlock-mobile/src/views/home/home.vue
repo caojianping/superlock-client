@@ -71,7 +71,8 @@
                             ((qualitySelectionLinks = projectStats.qualitySelectionLinks || []), void 0)
                         }}
                         <li class="optimize-item">
-                            <a class="clearfix" :href="qualitySelectionLinks[0]">
+                            <!-- <a class="clearfix" :href="qualitySelectionLinks[0]"></a> -->
+                            <router-link class="clearfix" to="/loan/index">
                                 <img src="../../assets/images/home/top01.png" alt="" />
                                 <div>
                                     <h2>资产被锁仓，急需用钱怎么办？</h2>
@@ -79,7 +80,7 @@
                                         别着急，资产被锁仓了也没关系，我们可以借钱给你花！
                                     </p>
                                 </div>
-                            </a>
+                            </router-link>
                         </li>
                         <!-- <li class="optimize-item">
                             <a class="clearfix" :href="qualitySelectionLinks[1]">

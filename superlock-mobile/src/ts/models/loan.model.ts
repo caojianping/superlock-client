@@ -68,24 +68,26 @@ export class LoanInterestModel {
 }
 
 // 贷款申请表单模型
-export class ApplyFormModel {
+export class LoanApplyFormModel {
     public lockOrderId!: string; // 锁仓订单号
     public loanDays!: number; // 贷款时长，单位天
     public amount!: number; // 贷款金额，单位DC
     public fundPasswd!: string; // 资金密码
 
-    public maxDuration!: number; // 校验字段： 最大贷款时长
+    public minDuration!: number; // 校验字段：最小贷款时长
+    public maxDuration!: number; // 校验字段：最大贷款时长
+    public minAmount!: number; // 校验字段：最小贷款金额
     public maxAmount!: number; // 校验字段：最大贷款金额
 }
 
 // 贷款申请结果模型
-export class ApplyResultModel {}
+export class LoanApplyResultModel {}
 
 // 贷款偿还表单模型
-export class RepayFormModel {
+export class LoanRepayFormModel {
     public loansSerial!: string; // 贷款订单号
     public fundPasswd!: string; // 资金密码
 }
 
 // 贷款偿还结果模型
-export class RepayResultModel {}
+export class LoanRepayResultModel {}
