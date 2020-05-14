@@ -24,9 +24,14 @@ export default [
         component: LoanApply
     },
     {
-        path: '/loan/apply/result',
+        path: '/loan/apply/result/:id',
         name: 'LoanApplyResult',
         component: LoanApplyResult
+    },
+    {
+        path: '/loan/detail',
+        name: 'LoanDetail',
+        component: LoanDetail
     },
     {
         path: '/loan/detail/:id',

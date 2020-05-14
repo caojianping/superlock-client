@@ -43,9 +43,7 @@ import {
     LoanInterestModel,
     LoanModel,
     LoanApplyFormModel,
-    LoanRepayFormModel,
-    LoanApplyResultModel,
-    LoanRepayResultModel
+    LoanRepayFormModel
 } from '@/ts/models';
 
 export interface IActionContext<T> {
@@ -112,10 +110,13 @@ export interface ITransactionState {
 }
 
 export interface ILockState {
+    lockStatuses: Map<number, string>; // 锁仓状态
+    lockColors: Map<number, string>; // 锁仓颜色
+
     lockProject?: ProjectModel | null; // 锁仓项目
     lockForm: LockFormModel; // 锁仓表单
     lockResult?: LockResultModel | null; // 锁仓结果
-    locks?: Array<LockModel>;
+    locks?: Array<LockModel>; // 锁仓列表
 }
 
 export interface IRechargeState {
@@ -161,7 +162,8 @@ export interface ISecurityState {
 
 export interface ILoanState {
     loanFlags: Map<number, string>; // 贷款标志
-    loanStatuses: Map<number, string>;// 贷款状态
+    loanStatuses: Map<number, string>; // 贷款状态
+    loanColors: Map<number, string>; // 贷款颜色
 
     loanBaseInfo?: LoanBaseInfoModel | null; // 贷款基础信息
     loanableQuota?: LoanableQuotaModel | null; // 可贷款额度
@@ -178,8 +180,5 @@ export interface ILoanState {
     loan?: LoanModel | null; // 贷款信息
 
     applyForm: LoanApplyFormModel; // 贷款申请表单
-    applyResult?: LoanApplyResultModel | null; // 贷款申请结果
-
     repayForm: LoanRepayFormModel; // 贷款偿还表单
-    repayResult?: LoanRepayResultModel | null; // 贷款偿还结果
 }

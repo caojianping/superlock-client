@@ -49,6 +49,9 @@ export class LockService {
     // 获取锁仓列表
     public async fetchLocks(): Promise<Array<LockModel>> {
         let result = await Caxios.get<Array<LockModel> | null>({ url: Urls.lock.list }, CaxiosType.Token);
+        (result || []).forEach((item: any) => {
+            item['status'] = Utils.digitConvert(item.status);
+        });
         return result || [];
     }
 

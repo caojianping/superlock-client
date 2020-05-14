@@ -4,6 +4,23 @@ import { LockFormModel, LockResultModel } from '@/ts/models';
 import { LockService } from '@/ts/services';
 
 const lockState: ILockState = {
+    lockStatuses: new Map([
+        [0, '订单已创建'],
+        [10, '订单处理中'],
+        [20, '锁仓计息中'],
+        [30, '锁仓到期'],
+        [40, '锁仓失败'],
+        [50, '贷款质押中']
+    ]),
+    lockColors: new Map([
+        [0, 'black'],
+        [10, 'gray'],
+        [20, 'green'],
+        [30, 'red'],
+        [40, 'pink'],
+        [50, 'orange']
+    ]),
+
     lockProject: undefined,
     lockForm: new LockFormModel(),
     lockResult: undefined,

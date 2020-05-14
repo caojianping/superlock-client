@@ -167,58 +167,58 @@
                     display: none;
                 }
 
-                .locks {
-                    /deep/ .van-cell__title {
-                        h2 {
-                            span,
-                            i {
-                                display: inline-block;
-                                vertical-align: middle;
-                            }
+                h2 {
+                    span,
+                    i {
+                        display: inline-block;
+                        vertical-align: middle;
+                    }
 
-                            span {
-                                .font-styles(0.875rem, normal, 1.5, @black, left);
-                            }
+                    span {
+                        .font-styles(0.875rem, normal, 1.5, @black, left);
+                    }
 
-                            i {
-                                margin-left: 0.5rem;
-                                padding: 0 0.5rem;
-                                height: 1.5rem;
-                                .font-styles(0.75rem, normal, 1.5rem, @black, center);
-                                border-radius: 0.75rem;
+                    i {
+                        margin-left: 0.5rem;
+                        padding: 0 0.5rem;
+                        height: 1.5rem;
+                        .font-styles(0.75rem, normal, 1.5rem, @black, center);
+                        border-radius: 0.75rem;
 
-                                &.black {
-                                    color: @black;
-                                    background-color: rgba(0, 0, 0, 0.1);
-                                }
-
-                                &.gray {
-                                    color: white;
-                                    background-color: rgba(0, 0, 0, 0.2);
-                                }
-
-                                &.green {
-                                    color: #00c389;
-                                    background-color: #e4fcf7;
-                                }
-
-                                &.red {
-                                    color: #e3783f;
-                                    background-color: #fff4f3;
-                                }
-
-                                &.pink {
-                                    color: white;
-                                    background-color: lightpink;
-                                }
-
-                                &.orange {
-                                    color: #f7c354;
-                                    background-color: #fff7de;
-                                }
-                            }
+                        &.black {
+                            color: @black;
+                            background-color: rgba(0, 0, 0, 0.1);
                         }
 
+                        &.gray {
+                            color: white;
+                            background-color: rgba(0, 0, 0, 0.2);
+                        }
+
+                        &.green {
+                            color: #00c389;
+                            background-color: #e4fcf7;
+                        }
+
+                        &.red {
+                            color: #e3783f;
+                            background-color: #fff4f3;
+                        }
+
+                        &.pink {
+                            color: white;
+                            background-color: lightpink;
+                        }
+
+                        &.orange {
+                            color: #f7c354;
+                            background-color: #fff7de;
+                        }
+                    }
+                }
+
+                .locks {
+                    /deep/ .van-cell__title {
                         p {
                             .font-styles(0.75rem, normal, 1.5, @gray, left);
                         }
@@ -231,6 +231,21 @@
 
                         p {
                             .font-styles(0.75rem, normal, 1.5, @gray, right);
+                        }
+                    }
+                }
+
+                .loans {
+                    /deep/ .van-cell__title {
+                        p {
+                            .font-styles(0.75rem, normal, 1.8, @gray, left);
+                        }
+                    }
+
+                    /deep/ .van-cell__value {
+                        p {
+                            margin-top: 1.5rem;
+                            .font-styles(0.875rem, normal, 1.5, @black, right);
                         }
                     }
                 }

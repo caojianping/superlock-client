@@ -80,14 +80,8 @@ export class LoanApplyFormModel {
     public maxAmount!: number; // 校验字段：最大贷款金额
 }
 
-// 贷款申请结果模型
-export class LoanApplyResultModel {}
-
 // 贷款偿还表单模型
 export class LoanRepayFormModel {
     public loansSerial!: string; // 贷款订单号
     public fundPasswd!: string; // 资金密码
 }
-
-// 贷款偿还结果模型
-export class LoanRepayResultModel {}

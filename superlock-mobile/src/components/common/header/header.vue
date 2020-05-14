@@ -1,5 +1,5 @@
 <template>
-    <NavBar class="header" :border="isBorder">
+    <NavBar :class="['header', isBlue ? 'blue' : '']" :border="isBorder">
         <slot v-if="isLeft" name="left" slot="left">
             <Icon name="arrow-left" @click="handleLeftClick" />
         </slot>

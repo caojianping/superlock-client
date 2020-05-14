@@ -12,6 +12,8 @@ import { LoanService } from '@/ts/services';
 import { Toast, CellGroup, Cell, Button } from 'vant';
 import Header from '@/components/common/header';
 import PasswordModal from '@/components/common/password-modal';
+import { SessionStorage } from 'jts-storage';
+import { CONSTANTS } from '@/ts/config';
 
 const userModule = namespace('user');
 const loanModule = namespace('loan');
@@ -24,14 +26,11 @@ export default class LoanRepay extends Vue {
     @userModule.State('userInfo') userInfo!: UserInfoModel;
     @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
 
-    @loanModule.State('id') id!: string;
     @loanModule.State('loan') loan?: LoanModel | null;
     @loanModule.State('repayForm') repayForm!: LoanRepayFormModel;
 
     @loanModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @loanModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
-    @loanModule.Action('fetchLoan') fetchLoan!: () => any;
     @loanModule.Action('repayLoan') repayLoan!: () => any;
 
     isShow: boolean = false; // 是否显示密码模态框
@@ -47,10 +46,10 @@ export default class LoanRepay extends Vue {
         let haveFundPasswd = this.userInfo.haveFundPasswd;
         if (!haveFundPasswd) {
             Prompt.info('您未设置资金密码，请先设置资金密码').then(() => {
-                Token.setFundFrom(`/loan/repay/${this.id}`);
+                Token.setFundFrom('/loan/repay');
                 this.$router.push({
                     path: '/security/fund/password',
-                    query: { from: `/loan/repay/${this.id}` }
+                    query: { from: '/loan/repay' }
                 });
             });
             return;
@@ -79,22 +78,21 @@ export default class LoanRepay extends Vue {
 
     // 初始化数据
     initData() {
-        let params: any = this.$route.params || {};
-        this.setStates({ id: params.id });
+        let loan = SessionStorage.getItem<LoanModel>(CONSTANTS.LOAN);
+        this.setStates({ loan });
     }
 
     // 获取数据
     async fetchData() {
         Toast.loading({ mask: true, duration: 0, message: '加载中...' });
         await this.fetchUserInfo();
-        !this.loan && (await this.fetchLoan());
 
-        let loan = this.loan,
-            repayForm = Utils.duplicate(this.repayForm);
+        let repayForm = new LoanRepayFormModel(),
+            loan = this.loan;
         if (loan) {
             repayForm.loansSerial = loan.orderId;
-            this.setStates({ repayForm });
         }
+        this.setStates({ repayForm });
         Toast.clear();
     }
 
@@ -103,6 +101,6 @@ export default class LoanRepay extends Vue {
     }
 
     mounted() {
-        this.fetchLoan();
+        this.fetchData();
     }
 }

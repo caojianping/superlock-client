@@ -1,6 +1,6 @@
 <template>
     <div class="loan-detail scb-gray">
-        <Header :title="title" @left="$router.push({ path: '/asset/index', query: { type: 2 } })" />
+        <Header :title="title" @left="$router.push(from)" />
 
         <div v-if="loan !== undefined" class="scb-separator">
             <p v-if="loan === null" class="scb-none">暂无贷款数据</p>
@@ -27,7 +27,7 @@
                     <Cell title="放款汇率" :value="`1${loan.fromCoin} = ${loan.lendExchangeRate}${loan.toCoin}`" />
                     <Cell title="放款币种数量" :value="`${loan.lendAmount} ${loan.lendAmountCoin}`" />
                     <Cell title="预计还款时间" :value="loan.estimatedRepayDate | dateFormat" />
-                    <Cell title="利息总计" :value="`${loan.totalInterest} ${loan.totalInterestCoin}`" is-link :to="`/loan/interest/${id}`" />
+                    <Cell title="利息总计" :value="`${loan.totalInterest} ${loan.totalInterestCoin}`" is-link :to="`/loan/interests/${loan.lockOrderId}`" />
                     <Cell title="应还本息" :value="`${loan.shouldReturnValue} ${loan.shouldReturnValueCoin}`" />
                     <Cell title="状态" :value="loanStatuses.get(loan.status)" />
                 </template>
@@ -43,7 +43,7 @@
                     <Cell title="放款汇率" :value="`1${loan.fromCoin} = ${loan.lendExchangeRate}${loan.toCoin}`" />
                     <Cell title="放款币种数量" :value="`${loan.lendAmount} ${loan.lendAmountCoin}`" />
                     <Cell title="还款时间" :value="loan.repaymentTime | dateFormat" />
-                    <Cell title="利息总计" :value="`${loan.totalInterest} ${loan.totalInterestCoin}`" is-link :to="`/loan/interest/${id}`" />
+                    <Cell title="利息总计" :value="`${loan.totalInterest} ${loan.totalInterestCoin}`" is-link :to="`/loan/interests/${loan.lockOrderId}`" />
                     <Cell title="应还本息" :value="`${loan.shouldReturnValue} ${loan.shouldReturnValueCoin}`" />
                     <Cell title="还款汇率" :value="`1${loan.fromCoin} = ${loan.repaymentExchangeRate}${loan.toCoin}`" />
                     <Cell title="实际还款价值" :value="`${loan.actualRepayment} ${loan.actualRepaymentCoin}`" />
@@ -51,7 +51,7 @@
                 </template>
             </CellGroup>
 
-            <Button v-if="loan && loan.status === 20" class="effect-shadow" type="primary" block round :to="`/loan/repay/${id}`">立即还款</Button>
+            <Button v-if="loan && loan.status === 20" class="effect-shadow" type="primary" block round to="/loan/repay">立即还款</Button>
         </div>
     </div>
 </template>

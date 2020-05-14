@@ -1,6 +1,6 @@
 <template>
     <div class="loan-repay-result scb-gray">
-        <Header title="还款成功" :isBorder="false" @left="$router.push(`/loan/repay/${applyResult ? applyResult.id : ''}`)" />
+        <Header title="还款成功" :isBorder="false" @left="$router.push('/loan/repay')" />
 
         <div>
             <img src="" alt="" />

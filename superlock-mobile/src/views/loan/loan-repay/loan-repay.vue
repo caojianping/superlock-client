@@ -1,6 +1,6 @@
 <template>
     <div class="loan-repay scb-gray">
-        <Header title="贷款偿还" @left="$router.push(`/loan/detail/${id}`)" />
+        <Header title="贷款偿还" @left="$router.push('/loan/detail')" />
 
         <div v-if="loan !== undefined" class="scb-separator">
             <p v-if="loan === null" class="scb-none">暂无贷款数据</p>

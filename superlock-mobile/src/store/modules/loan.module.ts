@@ -2,14 +2,7 @@ import { SessionStorage } from 'jts-storage';
 import TYPES from '@/store/types';
 import { CONSTANTS } from '@/ts/config';
 import { IActionContext, ILoanState } from '@/store/interfaces';
-import {
-    LoanableLockModel,
-    LoanInterestModel,
-    LoanApplyFormModel,
-    LoanRepayFormModel,
-    LoanApplyResultModel,
-    LoanRepayResultModel
-} from '@/ts/models';
+import { LoanableLockModel, LoanInterestModel, LoanApplyFormModel, LoanRepayFormModel } from '@/ts/models';
 import { LoanService } from '@/ts/services';
 
 const loanState: ILoanState = {
@@ -27,6 +20,16 @@ const loanState: ILoanState = {
         [40, '贷款已还清'],
         [50, '已逾期']
     ]),
+    loanColors: new Map([
+        [0, 'green'],
+        [10, 'gray'],
+        [20, 'orange'],
+        [30, 'red'],
+        [31, 'orange'],
+        [40, 'black'],
+        [50, 'pink']
+    ]),
+
     loanBaseInfo: undefined,
     loanableQuota: undefined,
 
@@ -42,10 +45,7 @@ const loanState: ILoanState = {
     loan: undefined,
 
     applyForm: new LoanApplyFormModel(),
-    applyResult: undefined,
-
-    repayForm: new LoanRepayFormModel(),
-    repayResult: undefined
+    repayForm: new LoanRepayFormModel()
 };
 
 const loanService = new LoanService();
@@ -78,10 +78,7 @@ export default {
             state.loan = undefined;
 
             state.applyForm = new LoanApplyFormModel();
-            state.applyResult = undefined;
-
             state.repayForm = new LoanRepayFormModel();
-            state.repayResult = undefined;
         }
     },
     actions: {
@@ -188,27 +185,13 @@ export default {
         },
 
         // 申请贷款
-        async applyLoan(context: IActionContext<ILoanState>): Promise<void> {
-            let { commit, state } = context;
-            try {
-                let applyResult = await loanService.applyLoan(state.applyForm);
-                applyResult && SessionStorage.setItem<LoanApplyResultModel>(CONSTANTS.LOAN_APPLY_RESULT, applyResult);
-                commit(TYPES.SET_STATES, { applyResult });
-            } catch (error) {
-                commit(TYPES.SET_STATES, { applyResult: null });
-            }
+        async applyLoan(context: IActionContext<ILoanState>): Promise<boolean> {
+            return await loanService.applyLoan(context.state.applyForm);
         },
 
         // 偿还贷款
-        async repayLoan(context: IActionContext<ILoanState>): Promise<void> {
-            let { commit, state } = context;
-            try {
-                let repayResult = await loanService.repayLoan(state.repayForm);
-                repayResult && SessionStorage.setItem<LoanRepayResultModel>(CONSTANTS.LOAN_REPAY_RESULT, repayResult);
-                commit(TYPES.SET_STATES, { repayResult });
-            } catch (error) {
-                commit(TYPES.SET_STATES, { repayResult: null });
-            }
+        async repayLoan(context: IActionContext<ILoanState>): Promise<boolean> {
+            return await loanService.repayLoan(context.state.repayForm);
         }
     }
 };

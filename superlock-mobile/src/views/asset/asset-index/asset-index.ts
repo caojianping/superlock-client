@@ -3,17 +3,22 @@ import { namespace, State, Action } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
-import { AssetStatsModel, EarningsStatsModel, LockModel, PromoteRewardStatsModel, ExchangeRateModel, UserInfoModel } from '@/ts/models';
+import Utils from '@/ts/utils';
+import { Token } from '@/ts/common';
+import { ExchangeRateModel, UserInfoModel, LockModel, LoanModel, AssetStatsModel, EarningsStatsModel, PromoteRewardStatsModel } from '@/ts/models';
 
-import { PullRefresh, Toast, CellGroup, Cell, Tabs, Tab } from 'vant';
+import { Toast, PullRefresh, CellGroup, Cell, Tabs, Tab } from 'vant';
 import Navs from '@/components/common/navs';
 import Spin from '@/components/common/spin';
 import RechargeCoins from '@/components/recharge/recharge-coins';
 import LockInfo from '@/components/asset/lock-info';
 import EarningsInfo from '@/components/asset/earnings-info';
+import { SessionStorage } from 'jts-storage';
+import { CONSTANTS } from '@/ts/config';
 
 const userModule = namespace('user');
 const lockModule = namespace('lock');
+const loanModule = namespace('loan');
 const projectModule = namespace('project');
 
 @Component({
@@ -39,34 +44,26 @@ export default class AssetIndex extends Vue {
     @userModule.State('userInfo') userInfo!: UserInfoModel;
     @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
 
+    @lockModule.State('lockStatuses') lockStatuses!: Map<number, string>;
+    @lockModule.State('lockColors') lockColors!: Map<number, string>;
     @lockModule.State('locks') locks?: Array<LockModel>;
     @lockModule.Action('fetchLocks') fetchLocks!: () => any;
+
+    @loanModule.State('loanStatuses') loanStatuses!: Map<number, string>;
+    @loanModule.State('loanColors') loanColors!: Map<number, string>;
+    @loanModule.State('loans') loans?: Array<LoanModel>;
+    @loanModule.Action('fetchLoans') fetchLoans!: () => any;
 
     @projectModule.State('assetStats') assetStats?: AssetStatsModel | null;
     @projectModule.State('earningsStats') earningsStats?: EarningsStatsModel | null;
     @projectModule.State('rewardStats') rewardStats?: PromoteRewardStatsModel | null;
+
     @projectModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @projectModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
+
     @projectModule.Action('fetchAssetStats') fetchAssetStats!: () => any;
     @projectModule.Action('fetchEarningsStats') fetchEarningsStats!: () => any;
     @projectModule.Action('fetchPromoteRewardStats') fetchPromoteRewardStats!: () => any;
-
-    lockStatuses: any = {
-        0: '订单已创建',
-        10: '订单处理中',
-        20: '锁仓计息中',
-        30: '锁仓到期',
-        40: '锁仓失败',
-        50: '贷款质押中'
-    };
-    lockStyles: any = {
-        0: 'black',
-        10: 'gray',
-        20: 'green',
-        30: 'red',
-        40: 'pink',
-        50: 'orange'
-    };
 
     activeTab: number = 0;
 
@@ -109,6 +106,13 @@ export default class AssetIndex extends Vue {
         this.currentLock = lock;
     }
 
+    // 跳转至贷款详情页面
+    goLoanDetail(loan: LoanModel) {
+        Token.setLoanFrom('/asset/index?type=2');
+        SessionStorage.setItem<LoanModel>(CONSTANTS.LOAN, loan);
+        this.$router.push('/loan/detail');
+    }
+
     // 处理选项卡change事件
     async handleTabsChange() {
         this.fetchTabData(this.activeTab);
@@ -116,9 +120,8 @@ export default class AssetIndex extends Vue {
 
     // 初始化数据
     initData() {
-        let query = this.$route.query || {},
-            type = Number(query.type);
-        this.activeTab = isNaN(type) ? 0 : type;
+        let query = this.$route.query || {};
+        this.activeTab = Utils.digitConvert(query.type);
     }
 
     // 获取选项卡数据
@@ -132,13 +135,13 @@ export default class AssetIndex extends Vue {
             caches = {
                 0: this.assetStats,
                 1: this.locks,
-                2: null,
+                2: this.loans,
                 3: this.rewardStats
             },
             funcs = {
                 0: this.fetchAssetStats,
                 1: this.fetchLocks,
-                2: null,
+                2: this.fetchLoans,
                 3: this.fetchPromoteRewardStats
             },
             key = `is${keys[index]}Spinning`,
@@ -157,9 +160,9 @@ export default class AssetIndex extends Vue {
         this.fetchEarningsStats();
 
         let activeTab = this.activeTab;
-        this.fetchTabData(activeTab);
+        this.fetchTabData(activeTab, true);
         if (activeTab !== 0) {
-            this.fetchTabData(0);
+            this.fetchTabData(0, true);
         }
     }
 

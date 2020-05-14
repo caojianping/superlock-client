@@ -1,6 +1,6 @@
 <template>
     <div class="lock-detail">
-        <Header title="锁仓详情" :isBorder="false" @left="$router.push('/home/index')" />
+        <Header title="锁仓详情" is-blue :is-border="false" @left="$router.push('/home/index')" />
 
         <div class="lock-detail-body">
             {{ ((lockProjectObj = lockProject || {}), void 0) }}

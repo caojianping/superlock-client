@@ -12,6 +12,7 @@ export const CONSTANTS = {
 
     CHINA_AREA_CODE: 'cn', // 中国地区区号
     FUND_FROM: 'FUND_FROM', // 资金密码页面来源
+    LOAN_FROM: 'LOAN_FROM', // 贷款详情页面来源
 
     LOCK_PROJECT: 'LOCK_PROJECT', // 锁仓项目
     LOCK_RESULT: 'LOCK_RESULT', // 锁仓结果
@@ -20,6 +21,6 @@ export const CONSTANTS = {
     TRANSFER: 'TRANSFER', // 转账信息
     CHILD: 'CHILD', // 下级信息
     LOANABLE_LOCK: 'LOANABLE_LOCK', // 可贷款锁仓数据
-    LOAN_APPLY_RESULT: 'LOAN_APPLY_RESULT', // 贷款申请结果数据
+    LOAN: 'LOAN', // 贷款申请结果数据
     LOAN_REPAY_RESULT: 'LOAN_REPAY_RESULT' // 贷款偿还结果数据
 };

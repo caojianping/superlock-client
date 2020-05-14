@@ -149,7 +149,6 @@ export default class FundPassword extends Vue {
     initData() {
         let query: any = this.$route.query || {};
         this.from = query.from || Token.getFundFrom();
-        console.log('from:', this.from);
     }
 
     // 初始化云盾短信验证码

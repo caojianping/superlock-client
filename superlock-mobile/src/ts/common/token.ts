@@ -25,19 +25,35 @@ export class Token {
         return true;
     }
 
-    // 补充一个来源缓存，暂时放在此类中
+    // 设置资金页面来源
     public static setFundFrom(from: string) {
         SessionStorage.setItem<string>(CONSTANTS.FUND_FROM, from);
     }
 
-    // 补充一个来源缓存，暂时放在此类中
+    // 获取资金页面来源
     public static getFundFrom(): string {
         return SessionStorage.getItem<string>(CONSTANTS.FUND_FROM) || '';
     }
 
-    // 补充一个来源缓存，暂时放在此类中
+    // 移除资金页面来源
     public static removeFundFrom(): boolean {
         SessionStorage.removeItem(CONSTANTS.FUND_FROM);
+        return true;
+    }
+
+    // 设置贷款页面来源
+    public static setLoanFrom(from: string) {
+        SessionStorage.setItem<string>(CONSTANTS.LOAN_FROM, from);
+    }
+
+    // 获取贷款页面来源
+    public static getLoanFrom(): string {
+        return SessionStorage.getItem<string>(CONSTANTS.LOAN_FROM) || '';
+    }
+
+    // 移除贷款页面来源
+    public static removeLoanFrom(): boolean {
+        SessionStorage.removeItem(CONSTANTS.LOAN_FROM);
         return true;
     }
 }

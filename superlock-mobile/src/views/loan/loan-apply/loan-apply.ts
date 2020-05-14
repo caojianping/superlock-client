@@ -39,7 +39,7 @@ export default class LoanApply extends Vue {
     isShow: boolean = false; // 是否显示密码模态框
 
     // 处理Field组件input事件
-    handleFieldInput(key: string, value: string) {
+    handleFieldInput(key: string, value: any) {
         let applyForm = Utils.duplicate(this.applyForm);
         applyForm[key] = value;
         this.setStates({ applyForm });
@@ -79,7 +79,7 @@ export default class LoanApply extends Vue {
             if (!result) Prompt.error('申请失败');
             else {
                 Prompt.success('申请成功');
-                this.$router.push('/loan/apply/result');
+                this.$router.push(`/loan/apply/result/${applyForm.lockOrderId}`);
             }
         } catch (error) {
             Prompt.error(error.message || error);
@@ -101,7 +101,7 @@ export default class LoanApply extends Vue {
         !this.loanBaseInfo && (await this.fetchLoanBaseInfo());
 
         let loanableLock = this.loanableLock,
-            applyForm = Utils.duplicate(this.applyForm);
+            applyForm = new LoanApplyFormModel();
         if (loanableLock) {
             applyForm.lockOrderId = loanableLock.orderId;
             applyForm.minAmount = loanableLock.minLoanAmount;

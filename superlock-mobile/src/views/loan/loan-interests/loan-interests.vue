@@ -1,6 +1,6 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
-        <Header title="贷款利息" :isBorder="false" @left="$router.push(`/loan/detail/${id}`)" />
+        <Header title="贷款利息" :isBorder="false" @left="$router.push('/loan/detail')" />
 
         <div v-if="loanInterests" class="interest-container">
             <p v-if="loanInterests.length <= 0" class="scb-none">暂无贷款利息</p>
