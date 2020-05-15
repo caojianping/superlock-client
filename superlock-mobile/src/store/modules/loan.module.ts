@@ -1,6 +1,4 @@
-import { SessionStorage } from 'jts-storage';
 import TYPES from '@/store/types';
-import { CONSTANTS } from '@/ts/config';
 import { IActionContext, ILoanState } from '@/store/interfaces';
 import { LoanableLockModel, LoanInterestModel, LoanApplyFormModel, LoanRepayFormModel } from '@/ts/models';
 import { LoanService } from '@/ts/services';

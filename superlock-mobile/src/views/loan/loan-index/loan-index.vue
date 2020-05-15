@@ -48,8 +48,8 @@
                                     </p>
                                 </Cell>
                                 <Cell title="锁仓价值：" :value="`${loanableLock.lockValue} ${loanableLock.lockValueCoin}`" :border="false" />
-                                <Cell v-if="loanFlag !== 1" :class="['lock-flag', `flag${2}`]" :border="false">
-                                    <span slot="title">{{ loanFlags.get(2) }}</span>
+                                <Cell v-if="loanFlag !== 1" :class="['lock-flag', `flag${loanableLock.loanFlag}`]" :border="false">
+                                    <span slot="title">{{ loanFlags.get(loanableLock.loanFlag) }}</span>
                                 </Cell>
                             </CellGroup>
                         </List>
