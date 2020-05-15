@@ -22,12 +22,12 @@ const loanState: ILoanState = {
     ]),
     loanColors: new Map([
         [0, 'green'],
-        [10, 'gray'],
+        [10, 'red'],
         [20, 'orange'],
         [30, 'red'],
         [31, 'orange'],
-        [40, 'black'],
-        [50, 'pink']
+        [40, 'gray'],
+        [50, 'red']
     ]),
 
     loanBaseInfo: undefined,
