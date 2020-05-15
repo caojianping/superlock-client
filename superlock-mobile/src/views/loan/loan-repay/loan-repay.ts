@@ -66,13 +66,9 @@ export default class LoanRepay extends Vue {
 
         try {
             let result = await this.repayLoan();
-            if (!result) Prompt.error('还款失败');
-            else {
-                Prompt.success('还款成功');
-                this.$router.push('/loan/repay/result');
-            }
+            this.$router.push(`/loan/repay/result/${result ? 1 : 0}`);
         } catch (error) {
-            Prompt.error(error.message || error);
+            this.$router.push({ path: '/loan/repay/result/0', query: { msg: error.message || error } });
         }
     }
 

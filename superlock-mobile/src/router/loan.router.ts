@@ -44,7 +44,7 @@ export default [
         component: LoanRepay
     },
     {
-        path: '/loan/repay/result',
+        path: '/loan/repay/result/:type',
         name: 'LoanRepayResult',
         component: LoanRepayResult
     },

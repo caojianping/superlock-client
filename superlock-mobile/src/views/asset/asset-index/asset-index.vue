@@ -99,10 +99,10 @@
                                                 <span>{{ loan.orderId }}</span>
                                                 <i :class="loanColors.get(loan.status) || 'black'">{{ loanStatuses.get(loan.status) }}</i>
                                             </h2>
-                                            <p>{{ loan.applyTime | dateFormat('yyyy-MM-dd') }}</p>
-                                        </template>
-                                        <template slot="default">
-                                            <p>{{ `${loan.loanValuationAmount} ${loan.loanValuationCoin}` }}</p>
+                                            <p class="clearfix">
+                                                <span>{{ loan.applyTime | dateFormat('yyyy-MM-dd') }}</span>
+                                                <span>{{ `${loan.loanValuationAmount} ${loan.loanValuationCoin}` }}</span>
+                                            </p>
                                         </template>
                                     </Cell>
                                 </CellGroup>

@@ -1,0 +1,20 @@
+@import './vars.less';
+@import './mixins.less';
+
+.loan-container {
+    background-color: white;
+    border-radius: 0.375rem;
+    .box-shadow(0 0.125rem 0.25rem 0.125rem rgba(137, 161, 206, 0.06));
+    overflow: hidden;
+}
+
+.loan-footbar {
+    margin-top: 0.75rem;
+    padding: 0.75rem 0;
+    background-color: white;
+
+    /deep/ .van-button {
+        margin: auto;
+        width: 80%;
+    }
+}

@@ -18,28 +18,28 @@ export class LoanService {
         if (!applyForm) return { status: false, data: { applyForm: '参数不可以为空' } };
 
         let key = 'apply',
-            { lockOrderId, amount, loanDays, fundPasswd, maxAmount, maxDuration } = applyForm,
+            { lockOrderId, amount, loanDays, fundPasswd, minAmount, maxAmount, minDuration, maxDuration } = applyForm,
             validator = new Validator();
         console.log('applyForm:', applyForm);
         validator.addRule(key, { name: 'lockOrderId', value: lockOrderId }, { required: true }, { required: '锁仓订单号不可以为空' });
         validator.addRule(
             key,
-            { name: 'amount', value: Utils.digitConvert(amount) },
-            { required: true, minExclude: 0, max: maxAmount },
+            { name: 'amount', value: !Utils.isNullOrUndefined(amount) ? Utils.digitConvert(amount) : amount },
+            { required: true, min: minAmount, max: maxAmount },
             {
-                required: '贷款金额不可以为空',
-                minExclude: '贷款金额不可以小于等于0',
-                max: `贷款金额不可以大于${maxAmount}`
+                required: '贷款价值不可以为空',
+                min: `贷款价值不可以小于${minAmount}`,
+                max: `贷款价值不可以大于${maxAmount}`
             }
         );
         validator.addRule(
             key,
-            { name: 'loanDays', value: Utils.digitConvert(loanDays) },
-            { required: true, min: 1, max: maxDuration },
+            { name: 'loanDays', value: !Utils.isNullOrUndefined(loanDays) ? Utils.digitConvert(loanDays) : loanDays },
+            { required: true, min: minDuration, max: maxDuration },
             {
-                required: '贷款时长不可以为空',
-                min: '贷款时长不可以小于1天',
-                max: `贷款时长不可以大于${maxDuration}`
+                required: '预计可贷时长不可以为空',
+                min: `预计可贷时长不可以小于${minDuration}天`,
+                max: `预计可贷时长不可以大于${maxDuration}`
             }
         );
         if (isPassword) {

@@ -1,2 +1,25 @@
 @import '../../../less/vars.less';
 @import '../../../less/mixins.less';
+
+.scb-gray.loan-apply-result {
+    .scb-separator {
+        padding: 4.8125rem 0 4.375rem;
+        background-color: white;
+
+        img {
+            display: block;
+            margin: 0 auto 2.5625rem;
+            width: 6rem;
+            height: 6rem;
+        }
+
+        p {
+            .font-styles(1rem, normal, 1.5, @blue, center);
+        }
+
+        /deep/ .van-button {
+            margin: 7.5rem auto 0;
+            width: 8.75rem;
+        }
+    }
+}

@@ -1,2 +1,98 @@
 @import '../../../less/vars.less';
 @import '../../../less/mixins.less';
+@import '../../../less/loan.less';
+
+.scb-blue.loan-index {
+    .scb-blue-body {
+        padding-top: 0.5rem;
+
+        .loan-info {
+            padding-top: 1.25rem;
+
+            h1 {
+                padding: 0 0.875rem 0.875rem;
+                .font-styles(1.25rem, normal, 1.2, @black, left);
+
+                span {
+                    font-size: 0.875rem;
+                }
+            }
+
+            h2 {
+                padding: 0 0.875rem 1.125rem;
+                .font-styles(1.125rem, normal, 1.2, @blue, left);
+
+                span {
+                    font-size: 1.5rem;
+                    color: @orange;
+                }
+            }
+        }
+
+        .loan-lock {
+            h2 {
+                padding: 1rem 0 0.5rem;
+                .font-styles(0.9375rem, normal, 1.5, #575757, left);
+            }
+
+            .lock-container > .lock-list > .lock-item {
+                margin-bottom: 0.75rem;
+                padding-top: 0.75rem;
+
+                .van-cell {
+                    padding: 0.4375rem 1rem;
+
+                    &:nth-child(3) {
+                        padding-bottom: 0.75rem;
+                    }
+
+                    .van-cell__title {
+                        flex: 2;
+                        .font-styles(0.875rem, normal, 1.5, #575757, left);
+                    }
+
+                    .van-cell__value {
+                        flex: 3;
+                        .font-styles(0.875rem, normal, 1.5, @gray, left);
+
+                        .van-button {
+                            float: right;
+                            height: 1.5rem;
+                            color: @blue;
+                            line-height: 1.5rem;
+                            border-color: @blue;
+                            border-radius: 0.125rem;
+                            .box-sizing(border-box);
+                        }
+                    }
+
+                    &:first-child .van-cell__value {
+                        color: #575757;
+                    }
+
+                    &.lock-flag {
+                        .van-cell__title {
+                            .font-styles(0.8125rem, normal, 1.5, @black, left);
+                        }
+
+                        &.flag2 {
+                            background-color: #fff6e9;
+
+                            .van-cell__title {
+                                color: @orange;
+                            }
+                        }
+
+                        &.flag3 {
+                            background-color: #f9f9f9;
+
+                            .van-cell__title {
+                                color: #cacaca;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

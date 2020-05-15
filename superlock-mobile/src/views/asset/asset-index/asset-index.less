@@ -237,15 +237,21 @@
 
                 .loans {
                     /deep/ .van-cell__title {
-                        p {
-                            .font-styles(0.75rem, normal, 1.8, @gray, left);
-                        }
-                    }
+                        p > span {
+                            height: 1.5rem;
+                            line-height: 1.5rem;
 
-                    /deep/ .van-cell__value {
-                        p {
-                            margin-top: 1.5rem;
-                            .font-styles(0.875rem, normal, 1.5, @black, right);
+                            &:first-child {
+                                float: left;
+                                font-size: 0.75rem;
+                                color: @gray;
+                            }
+
+                            &:last-child {
+                                float: right;
+                                font-size: 0.875rem;
+                                color: @black;
+                            }
                         }
                     }
                 }

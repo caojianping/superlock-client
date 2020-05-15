@@ -1,2 +1,29 @@
 @import '../../../less/vars.less';
 @import '../../../less/mixins.less';
+@import '../../../less/loan.less';
+
+.scb-blue.loan-intro {
+    .scb-blue-body {
+        padding-top: 0.5rem;
+        padding-bottom: 2rem;
+
+        .loan-info {
+            margin-bottom: 1.5rem;
+
+            h1 {
+                padding: 1.5rem 0.875rem 0.875rem;
+                .font-styles(1.25rem, normal, 1.2, @black, left);
+            }
+        }
+
+        h2 {
+            margin: 0 0 0.75rem;
+            .font-styles(0.9375rem, normal, 1.5, @black, left);
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            .font-styles(0.875rem, normal, 1.5, @gray, left);
+        }
+    }
+}

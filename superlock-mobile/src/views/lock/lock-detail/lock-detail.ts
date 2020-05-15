@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { SessionStorage } from 'jts-storage';
+
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { CONSTANTS } from '@/ts/config';

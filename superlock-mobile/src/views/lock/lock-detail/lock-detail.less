@@ -1,45 +1,25 @@
 @import '../../../less/vars.less';
 @import '../../../less/mixins.less';
 
-.lock-detail {
-    position: relative;
-    z-index: 1;
+.scb-blue.lock-detail {
+    .scb-blue-body {
+        padding-bottom: 8rem;
 
-    &::before {
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 0;
-        display: block;
-        width: 100%;
-        height: 10.5rem;
-        content: '';
-        background-color: @blue;
-    }
+        .lock-container {
+            position: relative;
+            margin-top: 1rem;
+            padding: 0 1rem;
+            background-color: white;
+            border-radius: 1rem;
+            .box-shadow(0 0.125rem 0.25rem 0.125rem rgba(137, 161, 206, 0.06));
 
-    .lock-container {
-        position: relative;
-        margin-top: 1rem;
-        padding: 0 1rem;
-        background-color: white;
-        border-radius: 1rem;
-        .box-shadow(0 1px 0.1875rem 0 rgba(222, 175, 175, 0.5));
-
-        .lock-banner {
-            padding: 1.75rem 0;
-            .font-styles(1.125rem, normal, 1, #219ded, center);
-            background: url('../../../assets/images/lock/line.png') no-repeat center center;
-            background-size: 19.3125rem 0.625rem;
+            .lock-banner {
+                padding: 1.75rem 0;
+                .font-styles(1.125rem, normal, 1, #219ded, center);
+                background: url('../../../assets/images/lock/line.png') no-repeat center center;
+                background-size: 19.3125rem 0.625rem;
+            }
         }
-    }
-    
-    .lock-detail-body {
-        position: absolute;
-        z-index: 3;
-        margin: 2.875rem 0.875rem 5rem;
-        padding-bottom: 5rem;
 
         .lock-detail-title {
             padding: 0.75rem 0;
@@ -331,24 +311,9 @@
         }
     }
 
-    .lock-detail-footer {
-        position: fixed;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 10;
-
-        p {
-            padding: 0.5rem;
-            .font-styles(0.875rem, normal, 1.2, #f8a63d, center);
-            background-color: #ffefda;
-        }
-
-        a {
-            display: block;
-            height: 3.125rem;
-            .font-styles(1rem, normal, 3.125rem, white, center);
-            background-color: @blue;
-        }
+    .scb-blue-footer > p {
+        padding: 0.5rem;
+        .font-styles(0.875rem, normal, 1.2, #f8a63d, center);
+        background-color: #ffefda;
     }
 }

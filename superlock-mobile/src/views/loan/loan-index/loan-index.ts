@@ -9,12 +9,13 @@ import { LoanBaseInfoModel, LoanableLockModel } from '@/ts/models';
 
 import { Toast, PullRefresh, List, CellGroup, Cell, Button } from 'vant';
 import Header from '@/components/common/header';
+import LoanBanner from '@/components/loan/loan-banner';
 
 const loanModule = namespace('loan');
 
 @Component({
     name: 'LoanIndex',
-    components: { PullRefresh, List, CellGroup, Cell, Button, Header }
+    components: { PullRefresh, List, CellGroup, Cell, Button, Header, LoanBanner }
 })
 export default class LoanIndex extends Vue {
     @loanModule.State('loanFlags') loanFlags!: Map<number, string>;

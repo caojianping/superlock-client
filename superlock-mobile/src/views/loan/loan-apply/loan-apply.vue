@@ -1,17 +1,18 @@
 <template>
-    <div class="loan-apply scb-gray">
-        <Header title="贷款申请" :isBorder="false" @left="$router.push('/loan/index')" />
+    <div class="scb-gray loan-apply">
+        <Header title="贷款申请" :is-border="false" @left="$router.push('/loan/index')" />
 
-        <div class="loan-apply-main">
+        <div class="scb-separator">
             <CellGroup>
                 {{ ((loanableLockObj = loanableLock || {}), void 0) }}
                 <Cell title="质押锁仓订单" :value="applyForm.lockOrderId || '--'" />
 
                 <Cell title="贷款价值(DC)">
-                    <div>
+                    <div class="field-container">
                         <Field
                             type="number"
                             :value="applyForm.amount"
+                            :border="false"
                             clearable
                             :placeholder="`> ${applyForm.minAmount || '--'} ${loanableLockObj.minLoanAmountCoin || '--'}`"
                             @input="handleFieldInput('amount', $event)"
@@ -21,10 +22,11 @@
                 </Cell>
 
                 <Cell title="预计可贷时长">
-                    <div>
+                    <div class="field-container">
                         <Field
                             type="number"
                             :value="applyForm.loanDays"
+                            :border="false"
                             clearable
                             placeholder="请输入预计可贷时长"
                             @input="handleFieldInput('loanDays', $event)"

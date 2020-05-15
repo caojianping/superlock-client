@@ -1,9 +1,8 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-
+import { Token } from '@/ts/common';
 import { Button } from 'vant';
 import Header from '@/components/common/header';
-import { Token } from '@/ts/common';
 
 @Component({
     name: 'LoanApplyResult',

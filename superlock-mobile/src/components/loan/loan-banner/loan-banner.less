@@ -1,0 +1,42 @@
+@import '../../../less/vars.less';
+@import '../../../less/mixins.less';
+
+.loan-banner {
+    padding: 1.25rem 0;
+
+    li {
+        flex: 1;
+        text-align: center;
+
+        i,
+        span {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        i {
+            width: 1.5rem;
+            height: 1.5rem;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 100% 100%;
+        }
+
+        &:first-child > i {
+            background-image: url('../../../assets/images/loan/intro01.png');
+        }
+
+        &:nth-child(2) > i {
+            background-image: url('../../../assets/images/loan/intro02.png');
+        }
+
+        &:last-child > i {
+            background-image: url('../../../assets/images/loan/intro03.png');
+        }
+
+        span {
+            margin-left: 0.25rem;
+            .font-styles(0.875rem, normal, 1.5, @black, center);
+        }
+    }
+}

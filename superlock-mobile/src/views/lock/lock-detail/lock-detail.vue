@@ -1,8 +1,8 @@
 <template>
-    <div class="lock-detail">
+    <div class="scb-blue lock-detail">
         <Header title="锁仓详情" is-blue :is-border="false" @left="$router.push('/home/index')" />
 
-        <div class="lock-detail-body">
+        <div class="scb-blue-body">
             {{ ((lockProjectObj = lockProject || {}), void 0) }}
             <h1 class="lock-detail-title">
                 {{ `BCB矿场 - ${lockProjectObj.length}${unitTypes[lockProjectObj.unit - 1]}` }}
@@ -128,7 +128,7 @@
             </div>
         </div>
 
-        <footer class="lock-detail-footer">
+        <footer class="scb-blue-footer">
             <p v-if="!userLockQuota">当前可锁仓额度：-- -- = -- --</p>
             <p v-else>
                 当前可锁仓额度：{{

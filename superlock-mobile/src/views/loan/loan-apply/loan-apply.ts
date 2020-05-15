@@ -77,10 +77,7 @@ export default class LoanApply extends Vue {
         try {
             let result = await this.applyLoan();
             if (!result) Prompt.error('申请失败');
-            else {
-                Prompt.success('申请成功');
-                this.$router.push(`/loan/apply/result/${applyForm.lockOrderId}`);
-            }
+            else this.$router.push(`/loan/apply/result/${applyForm.lockOrderId}`);
         } catch (error) {
             Prompt.error(error.message || error);
         }

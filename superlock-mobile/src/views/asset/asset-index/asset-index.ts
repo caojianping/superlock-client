@@ -47,20 +47,22 @@ export default class AssetIndex extends Vue {
     @lockModule.State('lockStatuses') lockStatuses!: Map<number, string>;
     @lockModule.State('lockColors') lockColors!: Map<number, string>;
     @lockModule.State('locks') locks?: Array<LockModel>;
+    @lockModule.Mutation(TYPES.SET_STATES) setLockStates!: (payload: any) => any;
+    @lockModule.Mutation(TYPES.CLEAR_STATES) clearLockStates!: () => any;
     @lockModule.Action('fetchLocks') fetchLocks!: () => any;
 
     @loanModule.State('loanStatuses') loanStatuses!: Map<number, string>;
     @loanModule.State('loanColors') loanColors!: Map<number, string>;
     @loanModule.State('loans') loans?: Array<LoanModel>;
+    @loanModule.Mutation(TYPES.SET_STATES) setLoanStates!: (payload: any) => any;
+    @loanModule.Mutation(TYPES.CLEAR_STATES) clearLoanStates!: () => any;
     @loanModule.Action('fetchLoans') fetchLoans!: () => any;
 
     @projectModule.State('assetStats') assetStats?: AssetStatsModel | null;
     @projectModule.State('earningsStats') earningsStats?: EarningsStatsModel | null;
     @projectModule.State('rewardStats') rewardStats?: PromoteRewardStatsModel | null;
-
     @projectModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @projectModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
     @projectModule.Action('fetchAssetStats') fetchAssetStats!: () => any;
     @projectModule.Action('fetchEarningsStats') fetchEarningsStats!: () => any;
     @projectModule.Action('fetchPromoteRewardStats') fetchPromoteRewardStats!: () => any;
@@ -174,6 +176,8 @@ export default class AssetIndex extends Vue {
     }
 
     created() {
+        this.clearLockStates();
+        this.clearLoanStates();
         this.clearStates();
         this.initData();
     }

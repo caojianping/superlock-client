@@ -18,8 +18,9 @@ const loanModule = namespace('loan');
     components: { CellGroup, Cell, Button, Header }
 })
 export default class LoanDetail extends Vue {
-    @loanModule.State('id') id!: string;
+    @loanModule.State('loanColors') loanColors!: Map<number, string>;
     @loanModule.State('loanStatuses') loanStatuses!: Map<number, string>;
+    @loanModule.State('id') id!: string;
     @loanModule.State('loan') loan?: LoanModel | null;
 
     @loanModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
