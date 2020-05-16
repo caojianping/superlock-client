@@ -7,7 +7,7 @@ import { ValidationResult } from 'jpts-validator';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { CONSTANTS } from '@/ts/config';
-import { Prompt, Token } from '@/ts/common';
+import { Prompt, From } from '@/ts/common';
 import { UserLockQuotaModel, ProjectModel, LockFormModel, AssetStatsModel, UserInfoModel, LockResultModel } from '@/ts/models';
 import { LockService } from '@/ts/services';
 
@@ -61,7 +61,7 @@ export default class LockCreate extends Vue {
         let haveFundPasswd = this.userInfo.haveFundPasswd;
         if (!haveFundPasswd) {
             Prompt.info('您未设置资金密码，请先设置资金密码').then(() => {
-                Token.setFundFrom('/lock/create');
+                From.setFundFrom('/lock/create');
                 this.$router.push({
                     path: '/security/fund/password',
                     query: { from: '/lock/create' }

@@ -13,7 +13,7 @@
 
             <h2 class="scb-separator">锁仓详情</h2>
 
-            <CellGroup>
+            <CellGroup class="priority-title">
                 <Cell title="锁仓订单号" :value="lock.orderId" />
                 <Cell title="汇率" :value="`1BCB = ${lock.exchangeRate}DC`" />
                 <Cell title="锁仓周期" :value="`${lock.length}${unitTypes[lock.unit - 1]}`" />
@@ -21,7 +21,7 @@
                 <Cell title="开始时间" :value="lock.startTime | dateFormat('yyyy-MM-dd')" />
                 <Cell title="锁仓剩余时间" :value="`${lock.remainingDays}天`" />
                 <Cell title="状态">
-                    <span class="lock-status" :class="lockStyles[lock.status]">{{ lockStatuses[lock.status] }}</span>
+                    <span :class="lockColors[lock.status]">{{ lockStatuses[lock.status] }}</span>
                 </Cell>
                 <Cell title="每日收益价值" :value="`${lock.dcDailyIncome} DC`" />
                 <Cell title="累计收益价值(DC)" :value="`${lock.dcTotalIncome} DC`" />

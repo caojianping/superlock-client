@@ -6,7 +6,7 @@ import { ValidationResult } from 'jpts-validator';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { UserFormType, ForgetType, VerifyType } from '@/ts/config';
-import { Prompt, Captcha, Token } from '@/ts/common';
+import { Prompt, Captcha, From } from '@/ts/common';
 import { VerifyResult, UserInfoModel, UserFormModel, SecurityFormModel } from '@/ts/models';
 import { UserService, SecurityService } from '@/ts/services';
 
@@ -148,7 +148,7 @@ export default class FundPassword extends Vue {
     // 初始化数据
     initData() {
         let query: any = this.$route.query || {};
-        this.from = query.from || Token.getFundFrom();
+        this.from = query.from || From.getFundFrom();
     }
 
     // 初始化云盾短信验证码

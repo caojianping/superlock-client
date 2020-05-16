@@ -7,25 +7,20 @@
             <div v-else>
                 <CellGroup>
                     <Cell title="UID">
-                        <p id="uid" class="child-uid" :data-clipboard-text="child.uid || ''">
-                            <span>{{ child.uid || '' }}</span>
+                        <p class="scb-copy" id="uid" :data-clipboard-text="child.uid">
+                            <span>{{ child.uid }}</span>
                             <i class="icon icon-copy" />
                         </p>
                     </Cell>
                     <Cell title="下级备注" is-link :value="child.nickName || ''" @click="openRemarkModal" />
-                    <Cell
-                        v-for="(childRateForm, index) in childRateForms"
-                        :key="index"
-                        is-link
-                        :value="childRateForm.showValue + childRateForm.suffix"
-                        @click="openRateModal(index)"
-                    >
+                    <Cell v-for="(childRateForm, index) in childRateForms" :key="index" is-link @click="openRateModal(index)">
                         <p slot="title" v-if="childRateForm.type === 1">
                             {{ childRateForm.length + unitTypes[childRateForm.unit - 1] + rateTypes[childRateForm.type - 1] }}
                         </p>
                         <p slot="title" v-else>
                             {{ rateTypes[childRateForm.type - 1] }}
                         </p>
+                        <p>{{ childRateForm.showValue | digitPrecision }}{{ childRateForm.suffix }}</p>
                     </Cell>
                 </CellGroup>
 
@@ -59,7 +54,7 @@
                     {{ currentForm.length + unitTypes[currentForm.unit - 1] + rateTypes[currentForm.type - 1] }}设置
                 </h2>
                 <h2 v-else>{{ rateTypes[currentForm.type - 1] }}设置</h2>
-                <p class="text-left">
+                <p class="align-left">
                     设置下级的锁仓利率，下级的锁仓利率不能高于你的利率。且本次设置的利率不能低于上次设置的利率。
                 </p>
             </template>

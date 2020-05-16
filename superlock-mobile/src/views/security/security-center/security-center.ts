@@ -3,7 +3,7 @@ import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
-import { Token } from '@/ts/common';
+import { From } from '@/ts/common';
 import { UserInfoModel } from '@/ts/models';
 
 import { Icon, CellGroup, Cell } from 'vant';
@@ -22,7 +22,7 @@ export default class SecurityCenter extends Vue {
     @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
 
     goFund() {
-        Token.setFundFrom('/security/center');
+        From.setFundFrom('/security/center');
         this.$router.push({
             path: '/security/fund/password',
             query: { from: '/security/center' }

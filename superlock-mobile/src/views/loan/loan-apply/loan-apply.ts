@@ -7,7 +7,7 @@ import { SessionStorage } from 'jts-storage';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { CONSTANTS } from '@/ts/config';
-import { Prompt, Token } from '@/ts/common';
+import { Prompt, From } from '@/ts/common';
 import { UserInfoModel, LoanBaseInfoModel, LoanableLockModel, LoanApplyFormModel } from '@/ts/models';
 import { LoanService } from '@/ts/services';
 
@@ -56,7 +56,7 @@ export default class LoanApply extends Vue {
         let haveFundPasswd = this.userInfo.haveFundPasswd;
         if (!haveFundPasswd) {
             Prompt.info('您未设置资金密码，请先设置资金密码').then(() => {
-                Token.setFundFrom('/loan/apply');
+                From.setFundFrom('/loan/apply');
                 this.$router.push({
                     path: '/security/fund/password',
                     query: { from: '/loan/apply' }

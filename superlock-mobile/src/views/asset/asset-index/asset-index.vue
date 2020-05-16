@@ -93,14 +93,14 @@
                             <template v-if="!isLoansSpinning && loans">
                                 <p v-if="loans.length <= 0" class="scb-none">暂无贷款记录</p>
                                 <CellGroup v-else class="loans priority-title">
-                                    <Cell v-for="(loan, index) in loans" :key="index" @click="goLoanDetail(loan)">
+                                    <Cell v-for="(loan, index) in loans" :key="index" is-link @click="goLoanDetail(loan)">
                                         <template slot="title">
                                             <h2>
                                                 <span>{{ loan.orderId }}</span>
                                                 <i :class="loanColors.get(loan.status) || 'black'">{{ loanStatuses.get(loan.status) }}</i>
                                             </h2>
                                             <p class="clearfix">
-                                                <span>{{ loan.applyTime | dateFormat('yyyy-MM-dd') }}</span>
+                                                <span>{{ loan.applyTime | dateFormat }}</span>
                                                 <span>{{ `${loan.loanValuationAmount} ${loan.loanValuationCoin}` }}</span>
                                             </p>
                                         </template>

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import { Token } from '@/ts/common';
+import { From } from '@/ts/common';
 import { Button } from 'vant';
 import Header from '@/components/common/header';
 
@@ -13,7 +13,7 @@ export default class LoanApplyResult extends Vue {
 
     // 跳转至贷款详情页面
     goLoanDetail() {
-        Token.setLoanFrom('/loan/index');
+        From.setLoanFrom('/loan/index');
         this.$router.push(`/loan/detail/${this.id}`);
     }
 

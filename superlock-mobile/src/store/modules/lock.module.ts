@@ -13,11 +13,11 @@ const lockState: ILockState = {
         [50, '贷款质押中']
     ]),
     lockColors: new Map([
-        [0, 'black'],
-        [10, 'gray'],
+        [0, 'gray'],
+        [10, 'green'],
         [20, 'green'],
         [30, 'red'],
-        [40, 'pink'],
+        [40, 'gray'],
         [50, 'orange']
     ]),
 

@@ -4,7 +4,7 @@ import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { Token } from '@/ts/common';
+import { From } from '@/ts/common';
 import { ExchangeRateModel, UserInfoModel, LockModel, LoanModel, AssetStatsModel, EarningsStatsModel, PromoteRewardStatsModel } from '@/ts/models';
 
 import { Toast, PullRefresh, CellGroup, Cell, Tabs, Tab } from 'vant';
@@ -110,7 +110,7 @@ export default class AssetIndex extends Vue {
 
     // 跳转至贷款详情页面
     goLoanDetail(loan: LoanModel) {
-        Token.setLoanFrom('/asset/index?type=2');
+        From.setLoanFrom('/asset/index?type=2');
         SessionStorage.setItem<LoanModel>(CONSTANTS.LOAN, loan);
         this.$router.push('/loan/detail');
     }

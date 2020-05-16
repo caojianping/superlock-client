@@ -1,6 +1,6 @@
 <template>
     <div class="recharge-code">
-        <Header :title="`${rechargeCoin}充值地址`" isRight @left="$router.push('/asset/index')">
+        <Header :title="`${rechargeCoin}充值地址`" is-right @left="$router.push(from)">
             <router-link slot="right" to="/recharge/record">明细</router-link>
         </Header>
 

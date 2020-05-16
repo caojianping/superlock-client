@@ -80,6 +80,7 @@
                                         别着急，资产被锁仓了也没关系，我们可以借钱给你花！
                                     </p>
                                 </div>
+                                <i class="icon icon-detail-arrow" />
                             </router-link>
                         </li>
                         <!-- <li class="optimize-item">

@@ -2,8 +2,9 @@ import Vue from 'vue';
 import { namespace, State, Action } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import ClipboardJS from 'clipboard';
+
 import TYPES from '@/store/types';
-import { Prompt } from '@/ts/common';
+import { Prompt, From } from '@/ts/common';
 import { ExchangeRateModel } from '@/ts/models';
 
 import { Toast, Button } from 'vant';
@@ -28,6 +29,8 @@ export default class RechargeCode extends Vue {
     @rechargeModule.Action('fetchRechargeAddress') fetchRechargeAddress!: () => any;
     @rechargeModule.Action('fetchMinAmount') fetchMinAmount!: () => any;
 
+    from: string = '';
+
     // 充值地址二维码
     get rechargeAddressQrcode() {
         let rechargeCoin = this.rechargeCoin || '',
@@ -39,6 +42,9 @@ export default class RechargeCode extends Vue {
     initData() {
         let params: any = this.$route.params || {};
         this.setStates({ rechargeCoin: params.coin || '' });
+
+        let query: any = this.$route.query || {};
+        this.from = query.from || From.getRechargeFrom();
     }
 
     // 复制地址
@@ -57,11 +63,7 @@ export default class RechargeCode extends Vue {
 
     // 获取数据
     async fetchData() {
-        Toast.loading({
-            mask: true,
-            duration: 0,
-            message: '加载中...'
-        });
+        Toast.loading({ mask: true, duration: 0, message: '加载中...' });
         let rechargeCoin = this.rechargeCoin;
         if (rechargeCoin !== 'BCB') {
             await this.fetchMinAmount();
@@ -77,7 +79,7 @@ export default class RechargeCode extends Vue {
     }
 
     mounted() {
-        this.copyAddress();
         this.fetchData();
+        this.copyAddress();
     }
 }

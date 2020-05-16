@@ -7,7 +7,7 @@
             <img v-else-if="type === 1" src="../../../assets/images/loan/repay-success.png" alt="还款成功" />
 
             <h2>{{ title }}！</h2>
-            <p>还款成功！质押锁仓已解锁，锁仓项目已到期，锁仓本金已返回个人账户之中。</p>
+            <p v-if="msg">{{ msg }}</p>
 
             <Button class="effect-shadow" type="primary" block round :to="{ path: '/asset/index', query: { type: 2 } }">完成</Button>
         </div>

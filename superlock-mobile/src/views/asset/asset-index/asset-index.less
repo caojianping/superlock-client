@@ -208,10 +208,8 @@
                 }
 
                 .locks {
-                    /deep/ .van-cell__title {
-                        p {
-                            .font-styles(0.75rem, normal, 1.5, @gray, left);
-                        }
+                    /deep/ .van-cell__title p {
+                        .font-styles(0.75rem, normal, 1.5, @gray, left);
                     }
 
                     /deep/ .van-cell__value {
@@ -226,23 +224,25 @@
                 }
 
                 .loans {
-                    /deep/ .van-cell__title {
-                        p > span {
-                            height: 1.5rem;
-                            line-height: 1.5rem;
+                    /deep/ .van-cell__title > p > span {
+                        height: 1.5rem;
+                        line-height: 1.5rem;
 
-                            &:first-child {
-                                float: left;
-                                font-size: 0.75rem;
-                                color: @gray;
-                            }
-
-                            &:last-child {
-                                float: right;
-                                font-size: 0.875rem;
-                                color: @black;
-                            }
+                        &:first-child {
+                            float: left;
+                            font-size: 0.75rem;
+                            color: @gray;
                         }
+
+                        &:last-child {
+                            float: right;
+                            font-size: 0.875rem;
+                            color: @black;
+                        }
+                    }
+
+                    /deep/ .van-cell__right-icon {
+                        margin-top: 0.75rem;
                     }
                 }
             }

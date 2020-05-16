@@ -4,11 +4,11 @@
 
         <div class="user-info flex">
             <figure>
-                <img src="../../../assets/images/avatar.png" :alt="userInfo.nickName || ''" />
+                <img src="../../../assets/images/avatar.png" :alt="userInfo.nickName" />
             </figure>
             <div>
                 <h2>{{ userInfo.nickName || '--' }}</h2>
-                <p id="uid" :data-clipboard-text="userInfo.userId || ''">
+                <p class="scb-copy" id="uid" :data-clipboard-text="userInfo.userId">
                     <span>UID: {{ userInfo.userId || '--' }}</span>
                     <i class="icon icon-copy" />
                 </p>

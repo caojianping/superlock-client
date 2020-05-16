@@ -49,17 +49,34 @@
     display: none !important;
 }
 
-// 字段对齐样式
-.text-left {
+// 段落对齐样式
+.align-left {
     text-align: left !important;
 }
 
-.text-center {
+.align-center {
     text-align: center !important;
 }
 
-.text-right {
+.align-right {
     text-align: right !important;
+}
+
+// 文本颜色样式
+.text-gray {
+    color: #dadbe0 !important;
+}
+
+.text-green {
+    color: #00c389 !important;
+}
+
+.text-red {
+    color: #e3783f !important;
+}
+
+.text-orange {
+    color: #f7c354 !important;
 }
 
 // app样式
@@ -252,5 +269,17 @@
         .transform(scaleY(0.5));
         .box-sizing(border-box);
         pointer-events: none;
+    }
+}
+
+// 锁仓宝复制样式
+.scb-copy {
+    span,
+    .icon.icon-copy {
+        vertical-align: middle;
+    }
+
+    .icon.icon.icon-copy {
+        margin-left: 0.25rem;
     }
 }

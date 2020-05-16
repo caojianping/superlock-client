@@ -3,10 +3,10 @@ import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
-import { Prompt, Token } from '@/ts/common';
+import { Prompt, From } from '@/ts/common';
 import { UserInfoModel, RechargeCoinModel } from '@/ts/models';
 
-import { CellGroup, Cell } from 'vant';
+import { Toast, CellGroup, Cell } from 'vant';
 import Header from '@/components/common/header';
 
 const userModule = namespace('user');
@@ -23,13 +23,13 @@ export default class RechargeAddress extends Vue {
     @rechargeModule.State('rechargeCoins') rechargeCoins?: Array<RechargeCoinModel>;
     @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @rechargeModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-    @rechargeModule.Action('fetchRechargeCoins') fetchRechargeCoins!: (isLoading: boolean) => any;
+    @rechargeModule.Action('fetchRechargeCoins') fetchRechargeCoins!: (isLoading?: boolean) => any;
 
     goCode(rechargeCoin: any) {
         let haveFundPasswd = this.userInfo.haveFundPasswd;
         if (!haveFundPasswd) {
             Prompt.info('为保障您的资金安全，请先设置一下资金密码').then(() => {
-                Token.setFundFrom('/recharge/address');
+                From.setFundFrom('/recharge/address');
                 this.$router.push({
                     path: '/security/fund/password',
                     query: { from: '/recharge/address' }
@@ -37,13 +37,19 @@ export default class RechargeAddress extends Vue {
             });
             return;
         } else {
-            this.$router.push(`/recharge/code/${rechargeCoin.symbol}`);
+            From.setRechargeFrom('/recharge/address');
+            this.$router.push({
+                path: `/recharge/code/${rechargeCoin.symbol}`,
+                query: { from: '/recharge/address' }
+            });
         }
     }
 
     async fetchData() {
+        Toast.loading({ mask: true, duration: 0, message: '加载中...' });
         await this.fetchUserInfo();
-        await this.fetchRechargeCoins(true);
+        await this.fetchRechargeCoins();
+        Toast.clear();
     }
 
     created() {

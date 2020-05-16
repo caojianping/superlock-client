@@ -5,7 +5,7 @@ import { ValidationResult } from 'jpts-validator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { Prompt, Token } from '@/ts/common';
+import { Prompt, From } from '@/ts/common';
 import { LoanModel, LoanRepayFormModel, UserInfoModel } from '@/ts/models';
 import { LoanService } from '@/ts/services';
 
@@ -46,7 +46,7 @@ export default class LoanRepay extends Vue {
         let haveFundPasswd = this.userInfo.haveFundPasswd;
         if (!haveFundPasswd) {
             Prompt.info('您未设置资金密码，请先设置资金密码').then(() => {
-                Token.setFundFrom('/loan/repay');
+                From.setFundFrom('/loan/repay');
                 this.$router.push({
                     path: '/security/fund/password',
                     query: { from: '/loan/repay' }

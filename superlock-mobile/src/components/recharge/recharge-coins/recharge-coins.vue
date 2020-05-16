@@ -7,7 +7,6 @@
             <Spin :is-spinning="isSpinning" />
 
             <CellGroup v-if="!isSpinning">
-                <!-- <Cell v-for="(rechargeCoin, index) in rechargeCoins || []" :key="index" :to="`/recharge/code/${rechargeCoin.symbol}`"> -->
                 <Cell v-for="(rechargeCoin, index) in rechargeCoins || []" :key="index" @click="goCode(rechargeCoin)">
                     <div slot="title">
                         <img :src="rechargeCoin.icon" :alt="rechargeCoin.symbol" />

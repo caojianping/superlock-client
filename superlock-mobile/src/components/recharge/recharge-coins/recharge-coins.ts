@@ -3,7 +3,7 @@ import { namespace } from 'vuex-class';
 import { Component, Model, Watch } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
-import { Prompt, Token } from '@/ts/common';
+import { Prompt, From } from '@/ts/common';
 import { UserInfoModel, RechargeCoinModel } from '@/ts/models';
 
 import { Popup, CellGroup, Cell } from 'vant';
@@ -25,7 +25,7 @@ export default class RechargeCoins extends Vue {
     @rechargeModule.State('rechargeCoins') rechargeCoins?: Array<RechargeCoinModel>;
     @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @rechargeModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-    @rechargeModule.Action('fetchRechargeCoins') fetchRechargeCoins!: (isLoading: boolean) => any;
+    @rechargeModule.Action('fetchRechargeCoins') fetchRechargeCoins!: (isLoading?: boolean) => any;
 
     isShow: boolean = this.value;
     isSpinning: boolean = false;
@@ -39,7 +39,7 @@ export default class RechargeCoins extends Vue {
         let haveFundPasswd = this.userInfo.haveFundPasswd;
         if (!haveFundPasswd) {
             Prompt.info('为保障您的资金安全，请先设置一下资金密码').then(() => {
-                Token.setFundFrom('/asset/index');
+                From.setFundFrom('/asset/index');
                 this.$router.push({
                     path: '/security/fund/password',
                     query: { from: '/asset/index' }
@@ -47,7 +47,11 @@ export default class RechargeCoins extends Vue {
             });
             return;
         } else {
-            this.$router.push(`/recharge/code/${rechargeCoin.symbol}`);
+            From.setRechargeFrom('/asset/index');
+            this.$router.push({
+                path: `/recharge/code/${rechargeCoin.symbol}`,
+                query: { from: '/asset/index' }
+            });
         }
     }
 
@@ -57,7 +61,7 @@ export default class RechargeCoins extends Vue {
         let rechargeCoins = this.rechargeCoins;
         if (!rechargeCoins || rechargeCoins.length <= 0) {
             this.isSpinning = true;
-            await this.fetchRechargeCoins(false);
+            await this.fetchRechargeCoins();
             this.isSpinning = false;
         }
     }

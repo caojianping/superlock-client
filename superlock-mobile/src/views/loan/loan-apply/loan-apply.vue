@@ -40,7 +40,7 @@
             </CellGroup>
 
             <p>1.预计审核时间3~7个工作日，实际结果以审核确定时间为准。</p>
-            <p>2.审核通过后，发放贷款时会根据当时BCB:DC汇率进行折算为BCB转入您的资金账</p>
+            <p>2.审核通过后，发放贷款时会根据当时BCB:DC汇率进行折算为BCB转入您的资金账户。</p>
 
             <Button class="effect-shadow" type="primary" block round @click="submit">提交申请</Button>
         </div>

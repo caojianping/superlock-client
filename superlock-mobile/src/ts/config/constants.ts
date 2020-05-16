@@ -9,8 +9,9 @@ export const CONSTANTS = {
         mode: 'float'
     }, // 验证码选项
     CUSTOMER_SERVICE: 'https://tb.53kf.com/code/client/b6f248959a7a879ca70f10a8a45143b64/1', // 客服地址
-
     CHINA_AREA_CODE: 'cn', // 中国地区区号
+
+    RECHARGE_FROM: 'LOAN_FROM', // 充值页面来源
     FUND_FROM: 'FUND_FROM', // 资金密码页面来源
     LOAN_FROM: 'LOAN_FROM', // 贷款详情页面来源
 

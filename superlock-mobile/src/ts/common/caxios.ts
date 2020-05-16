@@ -52,13 +52,7 @@ export class Caxios {
     // 设置loading
     private static setLoading(type: CaxiosType, isShow: boolean): void {
         if (type === CaxiosType.Loading || type === CaxiosType.LoadingToken) {
-            isShow
-                ? Toast.loading({
-                      mask: true,
-                      duration: 0,
-                      message: '加载中...'
-                  })
-                : Toast.clear();
+            isShow ? Toast.loading({ mask: true, duration: 0, message: '加载中...' }) : Toast.clear();
         }
     }
 
