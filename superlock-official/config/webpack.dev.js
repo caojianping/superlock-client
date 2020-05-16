@@ -16,7 +16,7 @@ module.exports = merge(base, {
     ],
     devServer: {
         contentBase: utils.resolvePath('dist'),
-        port: 10000,
+        port: 10004,
         hot: true,
         open: true,
         publicPath: '/',

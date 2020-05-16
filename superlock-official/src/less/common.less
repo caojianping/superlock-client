@@ -38,6 +38,34 @@
 
 // 首页样式
 .home {
+    position: relative;
+    min-width: 1300px;
+
+    .langs {
+        position: absolute;
+        top: 24px;
+        right: 48px;
+        .font-styles(20px, normal, 24px, #787, center);
+
+        span {
+            cursor: pointer;
+
+            &.active,
+            &:hover {
+                color: #444;
+            }
+
+            &:hover {
+                position: relative;
+                top: 1px;
+            }
+        }
+
+        i {
+            margin: 0 4px;
+        }
+    }
+
     .header {
         .header-content {
             float: left;
@@ -69,18 +97,16 @@
                 .download-item {
                     position: relative;
                     float: left;
-                    margin-right: 32px;
 
                     .download-btn {
                         display: block;
-                        width: 189px;
+                        width: 240px;
                         height: 69px;
                         text-align: center;
                         background-color: white;
                         .box-shadow(0 4px 21px 0 rgba(10, 44, 109, 0.35));
                         border-radius: 10px;
 
-                        i,
                         img,
                         span {
                             display: inline-block;
@@ -88,18 +114,19 @@
                         }
 
                         img {
-                            margin-right: 12px;
+                            margin-top: -2px;
                             width: 25px;
                             height: 25px;
                         }
 
                         span {
+                            margin-left: 10px;
                             .font-styles(20px, bold, 69px, #07a63d, center);
                         }
                     }
 
-                    &:last-child > .download-btn > img {
-                        margin-top: -3px;
+                    &:first-child {
+                        margin-right: 48px;
                     }
 
                     .download-modal {
@@ -169,8 +196,8 @@
 
             p {
                 padding-top: 8px;
-                max-width: 150px;
-                .font-styles(14px, normal, 1.3, @font-gray, center);
+                max-width: 180px;
+                .font-styles(14px, normal, 1.3, @gray, center);
             }
         }
     }
@@ -188,12 +215,12 @@
 
         .copyright {
             margin: 14px 0;
-            .font-styles(14px, normal, 1.5, @font-gray, center);
+            .font-styles(14px, normal, 1.5, @gray, center);
         }
 
         .coins {
             margin: 14px 0;
-            .font-styles(14px, normal, 1.5, @font-gray, center);
+            .font-styles(14px, normal, 1.5, @gray, center);
 
             img {
                 display: inline-block;
@@ -207,27 +234,63 @@
 
     @media screen {
         @media (max-width: 992px) {
+            min-width: 960px;
+
             .header {
                 .header-content {
                     .title01,
                     .title02 {
-                        font-size: 46px;
+                        text-indent: 8px;
+                        font-size: 42px;
                     }
 
                     .title02 {
-                        font-size: 36px;
+                        font-size: 32px;
+                    }
+
+                    .downloads .download-item {
+                        &:first-child {
+                            margin-left: 8px;
+                            margin-right: 24px;
+                        }
+
+                        .download-btn {
+                            width: 230px;
+
+                            img {
+                                width: 22px;
+                                height: 22px;
+                            }
+
+                            span {
+                                margin-left: 8px;
+                                font-size: 18px;
+                            }
+                        }
                     }
                 }
 
                 .header-banner {
                     margin-top: 150px;
-                    width: 408px;
-                    height: 465px;
+                    width: 442px;
+                    height: 430px;
                 }
             }
         }
 
         @media (max-width: 768px) {
+            min-width: 100%;
+
+            .langs {
+                top: 20px;
+                right: 12px;
+                font-size: 15px;
+
+                i {
+                    margin: 0 2px;
+                }
+            }
+
             .header {
                 .header-content {
                     float: none;
@@ -261,36 +324,31 @@
 
                         .download-item {
                             position: static;
-                            margin-right: 0;
+                            margin: 0 !important;
                             width: 50%;
 
                             .download-btn {
                                 margin: auto;
-                                width: 110px;
+                                width: 150px;
                                 height: 35px;
-                                border-radius: 5px;
 
                                 img {
-                                    margin-right: 6px;
-                                    width: 20px;
-                                    height: 20px;
+                                    width: 18px;
+                                    height: 18px;
                                 }
 
                                 span {
-                                    .font-styles(14px, bold, 35px,#07a63d, center);
+                                    margin-left: 6px;
+                                    .font-styles(12px, bold, 35px,#07a63d, center);
                                 }
                             }
 
                             &:first-child .download-btn {
-                                margin-right: 12px;
+                                margin-right: 8px;
                             }
 
                             &:last-child .download-btn {
-                                margin-left: 12px;
-
-                                img {
-                                    margin-top: -2px;
-                                }
+                                margin-left: 8px;
                             }
 
                             .download-modal {
@@ -330,7 +388,7 @@
                         margin-left: 47px;
                         padding: 0 0 0 6px;
                         max-width: 100%;
-                        .font-styles(14px, normal, 35px, @font-gray, left);
+                        .font-styles(14px, normal, 2, @gray, left);
                     }
                 }
             }
