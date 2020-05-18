@@ -87,15 +87,17 @@ export default class WithdrawIndex extends Vue {
 
         try {
             let result = await this.executeWithdraw();
-            if (!result) Prompt.error('提现失败');
-            else {
-                Prompt.success('提现成功');
-                // todo: 暂时刷新解决下，之后需要跳转至结果页面
-                this.initData();
-                await this.fetchData();
-            }
+            if (!result) this.$router.push({ path: '/withdraw/result/0' });
+            else
+                this.$router.push({
+                    path: '/withdraw/result/1',
+                    query: { address: withdrawForm.address, amount: String(withdrawForm.amount) }
+                });
         } catch (error) {
-            Prompt.error(error.message || error);
+            this.$router.push({
+                path: '/withdraw/result/0',
+                query: { msg: error.message || error }
+            });
         }
     }
 

@@ -2,9 +2,11 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { SessionStorage } from 'jts-storage';
+
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { CONSTANTS } from '@/ts/config';
+import { Clipboard } from '@/ts/common';
 import { TransferModel } from '@/ts/models';
 
 import { CellGroup, Cell } from 'vant';
@@ -35,5 +37,11 @@ export default class TransferDetail extends Vue {
 
     created() {
         this.initData();
+    }
+
+    mounted() {
+        Clipboard.copy('orderId', '交易单号');
+        Clipboard.copy('fromUid', '发款UID');
+        Clipboard.copy('toUid', '收款UID');
     }
 }

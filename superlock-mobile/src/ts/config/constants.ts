@@ -15,6 +15,7 @@ export const CONSTANTS = {
     FUND_FROM: 'FUND_FROM', // 资金密码页面来源
     LOAN_FROM: 'LOAN_FROM', // 贷款详情页面来源
 
+    LOCK: 'LOCK',// 锁仓数据
     LOCK_PROJECT: 'LOCK_PROJECT', // 锁仓项目
     LOCK_RESULT: 'LOCK_RESULT', // 锁仓结果
     RECHARGE: 'RECHARGE', // 充值信息

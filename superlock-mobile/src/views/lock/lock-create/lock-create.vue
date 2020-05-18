@@ -1,6 +1,6 @@
 <template>
     <div class="lock-create scb-gray">
-        <Header title="锁仓" @left="$router.push('/lock/detail')" />
+        <Header title="锁仓" @left="$router.push('/lock/intro')" />
 
         <div class="scb-form scb-separator">
             {{ ((lockProjectObj = lockProject || {}), void 0) }}

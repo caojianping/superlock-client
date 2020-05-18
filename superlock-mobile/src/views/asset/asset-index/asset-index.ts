@@ -1,9 +1,11 @@
 import Vue from 'vue';
 import { namespace, State, Action } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+import { SessionStorage } from 'jts-storage';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
+import { CONSTANTS } from '@/ts/config';
 import { From } from '@/ts/common';
 import { ExchangeRateModel, UserInfoModel, LockModel, LoanModel, AssetStatsModel, EarningsStatsModel, PromoteRewardStatsModel } from '@/ts/models';
 
@@ -11,10 +13,7 @@ import { Toast, PullRefresh, CellGroup, Cell, Tabs, Tab } from 'vant';
 import Navs from '@/components/common/navs';
 import Spin from '@/components/common/spin';
 import RechargeCoins from '@/components/recharge/recharge-coins';
-import LockInfo from '@/components/asset/lock-info';
 import EarningsInfo from '@/components/asset/earnings-info';
-import { SessionStorage } from 'jts-storage';
-import { CONSTANTS } from '@/ts/config';
 
 const userModule = namespace('user');
 const lockModule = namespace('lock');
@@ -32,7 +31,6 @@ const projectModule = namespace('project');
         Navs,
         Spin,
         RechargeCoins,
-        LockInfo,
         EarningsInfo
     }
 })
@@ -79,8 +77,6 @@ export default class AssetIndex extends Vue {
 
     isRechargeCoinsShow: boolean = false;
     isEarningsInfoShow: boolean = false;
-    isLockInfoShow: boolean = false;
-    currentLock: LockModel = new LockModel();
 
     // 跳转页面
     goPage(path: string) {
@@ -102,10 +98,11 @@ export default class AssetIndex extends Vue {
         this.isEarningsInfoShow = true;
     }
 
-    // 打开锁仓详情
-    openLockInfo(lock: LockModel) {
-        this.isLockInfoShow = true;
-        this.currentLock = lock;
+    // 跳转至锁仓详情页面
+    goLockDetail(lock: LockModel) {
+        From.setLoanFrom('/asset/index?type=1');
+        SessionStorage.setItem<LockModel>(CONSTANTS.LOCK, lock);
+        this.$router.push('/lock/detail');
     }
 
     // 跳转至贷款详情页面
