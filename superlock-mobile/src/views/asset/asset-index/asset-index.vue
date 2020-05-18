@@ -64,7 +64,7 @@
                                         <template slot="title">
                                             <h2>
                                                 <span>{{ `BCB矿场-${lock.length}${unitTypes[lock.unit - 1]}` }}</span>
-                                                <i :class="lockColors.get(lock.status) || 'black'">{{
+                                                <i :class="lockColors.get(lock.status) || 'gray'">{{
                                                     lockStatuses.get(lock.status) || lock.remark
                                                 }}</i>
                                             </h2>
@@ -97,7 +97,7 @@
                                         <template slot="title">
                                             <h2>
                                                 <span>{{ loan.orderId }}</span>
-                                                <i :class="loanColors.get(loan.status) || 'black'">{{ loanStatuses.get(loan.status) }}</i>
+                                                <i :class="loanColors.get(loan.status) || 'gray'">{{ loanStatuses.get(loan.status) }}</i>
                                             </h2>
                                             <p class="clearfix">
                                                 <span>{{ loan.applyTime | dateFormat }}</span>
