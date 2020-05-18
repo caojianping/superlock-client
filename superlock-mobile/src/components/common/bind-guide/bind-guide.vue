@@ -9,7 +9,7 @@
                     </div>
                     <router-link class="guide-icon" :to="{ path: '/security/email', query: { from: path } }">
                         <span>去绑定</span>
-                        <i class="icon icon-bind" />
+                        <i class="icon icon-jump" />
                     </router-link>
                 </div>
             </SwipeItem>
@@ -22,7 +22,7 @@
                     </div>
                     <router-link class="guide-icon" :to="{ path: '/team/index', query: { from: path } }">
                         <span>去设置</span>
-                        <i class="icon icon-bind" />
+                        <i class="icon icon-jump" />
                     </router-link>
                 </div>
             </SwipeItem>

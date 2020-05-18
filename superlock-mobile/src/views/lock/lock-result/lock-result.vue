@@ -1,6 +1,6 @@
 <template>
-    <div class="lock-result">
-        <Header title="锁仓成功" :isBorder="false" @left="$router.back(-1)" />
+    <div class="lock-info">
+        <Header title="锁仓成功" :is-border="false" @left="$router.push('/lock/create')" />
 
         <div v-if="lockResult !== undefined">
             <p v-if="lockResult === null" class="scb-none">暂无锁仓信息</p>
@@ -16,8 +16,13 @@
 
                 <h2 class="scb-separator">锁仓详情</h2>
 
-                <CellGroup>
-                    <Cell title="锁仓订单号" :value="lockResult.orderId" />
+                <CellGroup class="priority-value">
+                    <Cell title="锁仓订单号" :value="lockResult.orderId">
+                        <p class="scb-copy" id="orderId" :data-clipboard-text="lockResult.orderId">
+                            <span>{{ lockResult.orderId }}</span>
+                            <i class="icon icon-copy" />
+                        </p>
+                    </Cell>
                     <Cell title="汇率" :value="`1BCB = ${lockResult.exchangeRate}DC`" />
                     <Cell title="锁仓周期" :value="`${lockResult.length}${unitTypes[lockResult.unit - 1]}`" />
                     <Cell title="预期年化利率" :value="lockResult.rate | ratePercent" />

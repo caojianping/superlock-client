@@ -1,7 +1,10 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
+import Utils from '@/ts/utils';
+import { Clipboard } from '@/ts/common';
 import { TransactionInfoModel, RechargeModel, WithdrawModel, TransferModel } from '@/ts/models';
 
 import { CellGroup, Cell } from 'vant';
@@ -22,11 +25,10 @@ export default class TransactionDetail extends Vue {
 
     // 初始化数据
     initData() {
-        let params = this.$route.params || {},
-            { type, orderId } = params;
+        let params = this.$route.params || {};
         this.setStates({
-            type: isNaN(Number(type)) ? 0 : Number(type),
-            orderId: orderId || ''
+            type: Utils.digitConvert(params.type),
+            orderId: params.orderId || ''
         });
     }
 
@@ -36,6 +38,7 @@ export default class TransactionDetail extends Vue {
     }
 
     mounted() {
+        Clipboard.copy('orderId', '交易单号');
         this.fetchTransaction();
     }
 }

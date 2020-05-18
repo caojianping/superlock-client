@@ -31,9 +31,7 @@ export default class WithdrawAddress extends Vue {
         let from = this.from;
         this.$router.push({
             path: from,
-            query: {
-                cache: from === '/withdraw/index' ? 'true' : 'false'
-            }
+            query: { cache: from === '/withdraw/index' ? 'true' : 'false' }
         });
     }
 

@@ -2,7 +2,7 @@ import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
 import { Urls, CaxiosType } from '@/ts/config';
 import { Caxios, md5 } from '@/ts/common';
-import { LockModel, LockFormModel, LockResultModel } from '@/ts/models';
+import { LockModel, LockFormModel, LockResultModel, LockInterestModel } from '@/ts/models';
 
 export class LockService {
     // 校验锁仓表单
@@ -70,5 +70,16 @@ export class LockService {
                 fundPasswd: md5(fundPasswd)
             });
         return await Caxios.post<LockResultModel | null>({ url: `${Urls.lock.create}?${parameters}` }, CaxiosType.LoadingToken);
+    }
+
+    // 获取锁仓利息列表
+    public async fetchLockInterests(orderId: string, pageNum: number = 1, pageSize: number = 10): Promise<Array<LockInterestModel>> {
+        if (!orderId) return Promise.reject('锁仓订单号不可以为空');
+
+        let result = await Caxios.get<Array<LockInterestModel> | null>(
+            { url: `${Urls.lock.interests}?${Utils.buildParameters({ orderId, pageNum, pageSize })}` },
+            pageNum === 1 ? CaxiosType.LoadingToken : CaxiosType.Token
+        );
+        return result || [];
     }
 }

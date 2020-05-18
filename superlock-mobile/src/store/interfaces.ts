@@ -43,7 +43,8 @@ import {
     LoanInterestModel,
     LoanModel,
     LoanApplyFormModel,
-    LoanRepayFormModel
+    LoanRepayFormModel,
+    LockInterestModel
 } from '@/ts/models';
 
 export interface IActionContext<T> {
@@ -115,8 +116,15 @@ export interface ILockState {
 
     lockProject?: ProjectModel | null; // 锁仓项目
     lockForm: LockFormModel; // 锁仓表单
-    lockResult?: LockResultModel | null; // 锁仓结果
+
+    pageNum: number; // 分页索引
+    pageSize: number; // 分页尺寸
+    lockInterests?: Array<LockInterestModel>; // 锁仓利息列表
     locks?: Array<LockModel>; // 锁仓列表
+
+    id: string; // 锁仓编号
+    lock?: LockModel | null; // 锁仓数据
+    lockResult?: LockResultModel | null; // 锁仓结果
 }
 
 export interface IRechargeState {
@@ -170,11 +178,10 @@ export interface ILoanState {
 
     pageNum: number; // 分页索引
     pageSize: number; // 分页尺寸
+    loans?: Array<LoanModel>; // 贷款列表
+    loanInterests?: Array<LoanInterestModel>; // 贷款利息列表
     loanableLocks?: Array<LoanableLockModel>; // 可贷款锁仓列表
     loanableLock?: LoanableLockModel | null; // 可贷款锁仓数据
-
-    loanInterests?: Array<LoanInterestModel>; // 贷款利息列表
-    loans?: Array<LoanModel>; // 贷款列表
 
     id: string; // 贷款编号
     loan?: LoanModel | null; // 贷款信息

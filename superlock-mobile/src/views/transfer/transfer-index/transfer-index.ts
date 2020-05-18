@@ -87,15 +87,17 @@ export default class TransferIndex extends Vue {
 
         try {
             let result = await this.executeTransfer();
-            if (!result) Prompt.error('转账失败');
-            else {
-                Prompt.success('转账成功');
-                // todo: 暂时刷新解决下，之后需要跳转至结果页面
-                this.initData();
-                await this.fetchData();
-            }
+            if (!result) this.$router.push({ path: '/transfer/result/0' });
+            else
+                this.$router.push({
+                    path: '/transfer/result/1',
+                    query: { amount: String(transferForm.quota) }
+                });
         } catch (error) {
-            Prompt.error(error.message || error);
+            this.$router.push({
+                path: '/transfer/result/0',
+                query: { msg: error.message || error }
+            });
         }
     }
 

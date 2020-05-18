@@ -6,15 +6,17 @@ import { Button } from 'vant';
 import Header from '@/components/common/header';
 
 @Component({
-    name: 'LoanRepayResult',
+    name: 'WithdrawResult',
     components: { Button, Header }
 })
-export default class LoanRepayResult extends Vue {
+export default class WithdrawResult extends Vue {
     type: number = -1;
+    address: string = '';
+    amount: string = '';
     msg: string = '';
 
     get title() {
-        return ['还款失败', '还款成功'][this.type] || '';
+        return ['提现失败', '提现成功'][this.type] || '';
     }
 
     // 初始化数据
@@ -23,7 +25,12 @@ export default class LoanRepayResult extends Vue {
         this.type = Utils.digitConvert(params.type);
 
         let query: any = this.$route.query || {};
-        this.msg = query.msg || '';
+        if (this.type === 0) {
+            this.msg = query.msg || '';
+        } else if (this.type === 1) {
+            this.address = query.address || '';
+            this.amount = query.amount || '';
+        }
     }
 
     created() {
