@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
-import ClipboardJS from 'clipboard';
+
 import TYPES from '@/store/types';
-import { Prompt } from '@/ts/common';
+import { Prompt, Clipboard } from '@/ts/common';
 import { UserInfoModel, DefaultRateStatsModel, DefaultRateFormModel } from '@/ts/models';
 
 import { Button } from 'vant';
@@ -65,20 +65,6 @@ export default class InviteFriend extends Vue {
         }
     }
 
-    // 复制地址
-    copyAddress() {
-        let address = document.getElementById('address'),
-            clipboard = new ClipboardJS(address);
-
-        clipboard.on('success', function(e) {
-            Prompt.success('邀请地址复制成功');
-        });
-
-        clipboard.on('error', function(e) {
-            Prompt.error('邀请地址复制失败');
-        });
-    }
-
     // 获取数据
     async fetchData() {
         await this.fetchUserInfo();
@@ -95,7 +81,7 @@ export default class InviteFriend extends Vue {
     }
 
     mounted() {
-        this.copyAddress();
+        Clipboard.copy('address', '邀请地址');
         this.fetchData();
     }
 }

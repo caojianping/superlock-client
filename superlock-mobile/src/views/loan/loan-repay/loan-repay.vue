@@ -9,8 +9,19 @@
             </div>
             <template>
                 <CellGroup class="priority-value">
-                    <Cell title="贷款订单号" :value="loan.orderId" />
-                    <Cell title="质押锁仓订单号" :value="loan.lockOrderId" />
+                    <Cell title="贷款订单号">
+                        <p class="scb-copy" id="orderId" :data-clipboard-text="loan.orderId">
+                            <span>{{ loan.orderId }}</span>
+                            <i class="icon icon-copy" />
+                        </p>
+                    </Cell>
+                    <Cell title="质押锁仓订单号">
+                        <p class="scb-copy" id="lockOrderId" :data-clipboard-text="loan.lockOrderId">
+                            <span>{{ loan.lockOrderId }}</span>
+                            <i class="icon icon-copy" />
+                        </p>
+                    </Cell>
+
                     <Cell title="质押锁仓价值" :value="`${loan.mortgageValuationAmount} ${loan.mortgageValuationCoin}`" />
                     <Cell title="贷款价值" :value="`${loan.loanValuationAmount} ${loan.loanValuationCoin}`" />
                     <Cell title="贷款年利率" :value="`${loan.rate}%`" />

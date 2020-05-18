@@ -42,7 +42,7 @@
                         title="利息总计"
                         :value="`${loan.totalInterest} ${loan.totalInterestCoin}`"
                         is-link
-                        :to="`/loan/interests/${loan.lockOrderId}`"
+                        :to="`/loan/interests/${loan.orderId}`"
                     />
                     <Cell title="应还本息" :value="`${loan.shouldReturnValue} ${loan.shouldReturnValueCoin}`" />
                 </template>
@@ -53,13 +53,13 @@
                     <Cell title="申请时间" :value="loan.applyTime | dateFormat" />
                     <Cell title="放贷时间" :value="loan.lendTime | dateFormat" />
                     <Cell title="放款汇率" :value="`1${loan.fromCoin} = ${loan.lendExchangeRate}${loan.toCoin}`" />
-                    <Cell title="放款币种数量" :value="`${loan.lendAmount} ${loan.lendAmountCoin}`" />
+                    <Cell title="放贷币种数据" :value="`${loan.lendAmount} ${loan.lendAmountCoin}`" />
                     <Cell title="还款时间" :value="loan.repaymentTime | dateFormat" />
                     <Cell
                         title="利息总计"
                         :value="`${loan.totalInterest} ${loan.totalInterestCoin}`"
                         is-link
-                        :to="`/loan/interests/${loan.lockOrderId}`"
+                        :to="`/loan/interests/${loan.orderId}`"
                     />
                     <Cell title="应还本息" :value="`${loan.shouldReturnValue} ${loan.shouldReturnValueCoin}`" />
                     <Cell title="还款汇率" :value="`1${loan.fromCoin} = ${loan.repaymentExchangeRate}${loan.toCoin}`" />
@@ -71,7 +71,7 @@
                 </Cell>
             </CellGroup>
 
-            <div v-if="loan && loan.status === 20" class="loan-footbar">
+            <div v-if="(loan && loan.status === 20) || loan.status === 50" class="loan-footbar">
                 <Button class="effect-shadow" type="primary" block round to="/loan/repay">立即还款</Button>
             </div>
         </div>
