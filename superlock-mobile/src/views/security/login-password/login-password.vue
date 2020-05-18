@@ -3,10 +3,11 @@
         <Header title="登录密码" @left="$router.push('/security/center')" />
 
         <div class="scb-form scb-separator">
+            {{ ((userInfoObj = userInfo || {}), void 0) }}
             <ul>
                 <li>
                     <h1>登录密码</h1>
-                    <p>UID: {{ userInfo.userId || '--' }}</p>
+                    <p>UID: {{ userInfoObj.userId || '--' }}</p>
                 </li>
                 <li>
                     <h2>原密码</h2>

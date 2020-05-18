@@ -2,7 +2,7 @@ import { Commit } from 'vuex';
 import { RegisterStatus, ForgetType } from '@/ts/config';
 import {
     TokenInfo,
-    QuotaModel,
+    UsableQuotaModel,
     UserFormModel,
     UserInfoModel,
     UserLockQuotaModel,
@@ -57,7 +57,7 @@ export interface IRootState {
     tokenInfo: TokenInfo; // token信息
 
     verifyResult?: VerifyResult | null; // 验证结果
-    quota?: QuotaModel | null; // 可提现、可转账额度
+    usableQuota?: UsableQuotaModel | null; // 可提现、可转账额度
     exchangeRate?: ExchangeRateModel | null; // 汇率
 
     unitTypes: Array<string>; // 单位类型
@@ -65,13 +65,13 @@ export interface IRootState {
 }
 
 export interface IUserState {
+    forgetType: ForgetType; //忘记密码类型
+
+    userLockQuota?: UserLockQuotaModel | null; // 用户锁仓额度
+    userInfo?: UserInfoModel | null; // 用户信息
+
     userForm: UserFormModel; // 用户表单
     registerStatus: RegisterStatus; // 注册状态
-
-    userInfo: UserInfoModel; // 用户信息
-    userLockQuota?: UserLockQuotaModel | null; // 用户锁仓额度
-
-    forgetType: ForgetType; //忘记密码类型
 }
 
 export interface IChildState {

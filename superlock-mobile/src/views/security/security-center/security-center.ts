@@ -16,11 +16,12 @@ const userModule = namespace('user');
     components: { Icon, CellGroup, Cell, Header }
 })
 export default class SecurityCenter extends Vue {
-    @userModule.State('userInfo') userInfo!: UserInfoModel;
+    @userModule.State('userInfo') userInfo?: UserInfoModel | null;
     @userModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @userModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-    @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
+    @userModule.Action('fetchUserInfo') fetchUserInfo!: (isLoading?: boolean) => any;
 
+    // 跳转至资金密码页面
     goFund() {
         From.setFundFrom('/security/center');
         this.$router.push({
@@ -30,6 +31,6 @@ export default class SecurityCenter extends Vue {
     }
 
     mounted() {
-        this.fetchUserInfo();
+        !this.userInfo && this.fetchUserInfo(true);
     }
 }

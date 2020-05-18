@@ -1,6 +1,6 @@
 <template>
     <div class="withdraw-address">
-        <Header title="提现地址" isRight @left="goBack">
+        <Header title="提现地址" is-right @left="goBack">
             <span slot="right" @click="openWithdrawSetting">添加地址</span>
         </Header>
 

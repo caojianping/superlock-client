@@ -20,7 +20,7 @@ const securityModule = namespace('security');
     components: { CellGroup, Field, Button, Header, VerifyCode }
 })
 export default class SecurityEmail extends Vue {
-    @userModule.State('userInfo') userInfo!: UserInfoModel;
+    @userModule.State('userInfo') userInfo?: UserInfoModel | null;
     @userModule.Action('fetchUserInfo') fetchUserInfo!: (isLoading?: boolean) => any;
 
     @securityModule.State('emailForm') emailForm!: EmailFormModel;
@@ -43,10 +43,12 @@ export default class SecurityEmail extends Vue {
         try {
             let result = await this.bindEmail();
             if (!result) Prompt.error('邮箱绑定失败');
-            else
+            else {
+                await this.fetchUserInfo(true);
                 Prompt.success('邮箱绑定成功').then(() => {
                     this.$router.push(this.from);
                 });
+            }
         } catch (error) {
             Prompt.error(error.message || error);
         }
@@ -64,6 +66,6 @@ export default class SecurityEmail extends Vue {
     }
 
     mounted() {
-        this.fetchUserInfo(true);
+        !this.userInfo && this.fetchUserInfo(true);
     }
 }

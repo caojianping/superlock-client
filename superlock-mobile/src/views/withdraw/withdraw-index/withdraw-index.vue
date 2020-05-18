@@ -1,6 +1,6 @@
 <template>
     <div class="withdraw-index scb-gray">
-        <Header title="提现" isRight @left="$router.push('/asset/index')">
+        <Header title="提现" is-right @left="$router.push('/asset/index')">
             <router-link slot="right" to="/withdraw/record">明细</router-link>
         </Header>
 
@@ -29,13 +29,13 @@
                     >
                         <span class="text-orange" slot="button" @click="withdrawAll">全部</span>
                     </Field>
-                    {{ ((quotaObj = quota || {}), void 0) }}
+                    {{ ((usableQuotaObj = usableQuota || {}), void 0) }}
                     <p class="text-orange">
                         可提现金额
                         {{
-                            `${quotaObj.amount || '--'} BCB = 
-                            ${quotaObj.valuationAmount || '--'}
-                            ${quotaObj.valuationCoin || '--'}`
+                            `${usableQuotaObj.amount || '--'} BCB = 
+                            ${usableQuotaObj.valuationAmount || '--'}
+                            ${usableQuotaObj.valuationCoin || '--'}`
                         }}
                     </p>
                 </li>

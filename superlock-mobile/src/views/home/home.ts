@@ -24,8 +24,8 @@ export default class Home extends Vue {
     @State('unitTypes') unitTypes!: Array<string>;
 
     @userModule.State('userLockQuota') userLockQuota?: UserLockQuotaModel | null;
-    @userModule.State('userInfo') userInfo!: UserInfoModel;
-    @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
+    @userModule.State('userInfo') userInfo?: UserInfoModel | null;
+    @userModule.Action('fetchUserInfo') fetchUserInfo!: (isLoading?: boolean) => any;
     @userModule.Action('fetchUserLockQuota') fetchUserLockQuota!: () => any;
 
     @projectModule.State('projectStats') projectStats?: ProjectStatsModel | null;
@@ -51,7 +51,7 @@ export default class Home extends Vue {
 
     // 是否需要绑定邮箱
     get isEmailBind(): Boolean | undefined {
-        let userInfo = this.userInfo,
+        let userInfo: any = this.userInfo || {},
             email = userInfo.email;
         if (email === undefined) return undefined;
         else return email === null || email === '';

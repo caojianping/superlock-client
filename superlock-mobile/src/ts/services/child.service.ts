@@ -140,7 +140,7 @@ export class ChildService {
 
     // 获取默认利率统计信息
     public async fetchDefaultRateStats(): Promise<DefaultRateStatsModel | null> {
-        let result = await Caxios.get<any>({ url: Urls.child.defaultRate.stats }, CaxiosType.LoadingToken);
+        let result = await Caxios.get<any>({ url: Urls.child.defaultRate.stats }, CaxiosType.Token);
         if (result) {
             (result.defaultRateList || []).forEach((rate: any) => {
                 rate['value'] = Number(rate.value);

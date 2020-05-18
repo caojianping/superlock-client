@@ -42,7 +42,7 @@ export default class ModifyName extends Vue {
             if (result) {
                 Prompt.success('用户昵称设置成功');
                 this.$emit('close', false);
-                this.$emit('submit', nickname);
+                this.$emit('submit');
             } else {
                 Prompt.error('用户昵称设置失败');
             }

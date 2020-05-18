@@ -17,8 +17,8 @@ const rechargeModule = namespace('recharge');
     components: { CellGroup, Cell, Header }
 })
 export default class RechargeAddress extends Vue {
-    @userModule.State('userInfo') userInfo!: UserInfoModel;
-    @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
+    @userModule.State('userInfo') userInfo?: UserInfoModel | null;
+    @userModule.Action('fetchUserInfo') fetchUserInfo!: (isLoading?: boolean) => any;
 
     @rechargeModule.State('rechargeCoins') rechargeCoins?: Array<RechargeCoinModel>;
     @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
@@ -26,8 +26,7 @@ export default class RechargeAddress extends Vue {
     @rechargeModule.Action('fetchRechargeCoins') fetchRechargeCoins!: (isLoading?: boolean) => any;
 
     goCode(rechargeCoin: any) {
-        let haveFundPasswd = this.userInfo.haveFundPasswd;
-        if (!haveFundPasswd) {
+        if (!this.userInfo || !this.userInfo.haveFundPasswd) {
             Prompt.info('为保障您的资金安全，请先设置一下资金密码').then(() => {
                 From.setFundFrom('/recharge/address');
                 this.$router.push({
@@ -47,7 +46,7 @@ export default class RechargeAddress extends Vue {
 
     async fetchData() {
         Toast.loading({ mask: true, duration: 0, message: '加载中...' });
-        await this.fetchUserInfo();
+        !this.userInfo && (await this.fetchUserInfo());
         await this.fetchRechargeCoins();
         Toast.clear();
     }

@@ -6,7 +6,7 @@
         </div>
 
         <header>
-            <img src="../../../assets/images/logo/logo-lg.png" alt="BCB矿场" />
+            <img src="../../../assets/images/logo.png" alt="BCB矿场" />
             <h1>欢迎登录BCB矿场</h1>
         </header>
 

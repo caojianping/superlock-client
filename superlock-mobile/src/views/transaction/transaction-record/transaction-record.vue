@@ -1,6 +1,6 @@
 <template>
     <div class="transaction-record">
-        <Header title="资金明细" isRight @left="$router.push('/asset/index')">
+        <Header title="资金明细" is-right @left="$router.push('/asset/index')">
             <span slot="right" @click="openFilter">筛选</span>
         </Header>
 

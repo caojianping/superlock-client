@@ -2,14 +2,15 @@
     <div class="mine-index scb-reserved">
         <h1>我的</h1>
 
+        {{ ((userInfoObj = userInfo || {}), void 0) }}
         <div class="user-info flex">
             <figure>
-                <img src="../../../assets/images/avatar.png" :alt="userInfo.nickName" />
+                <img src="../../../assets/images/avatar.png" :alt="userInfoObj.nickName" />
             </figure>
             <div>
-                <h2>{{ userInfo.nickName || '--' }}</h2>
-                <p class="scb-copy" id="uid" :data-clipboard-text="userInfo.userId">
-                    <span>UID: {{ userInfo.userId || '--' }}</span>
+                <h2>{{ userInfoObj.nickName || '--' }}</h2>
+                <p class="scb-copy" id="uid" :data-clipboard-text="userInfoObj.userId">
+                    <span>UID: {{ userInfoObj.userId || '--' }}</span>
                     <i class="icon icon-copy" />
                 </p>
             </div>
@@ -81,7 +82,7 @@
             </Cell>
         </CellGroup>
 
-        <ModifyName v-model="isShow" :name="userInfo.nickName || ''" @submit="handleModifyNameSubmit" />
+        <ModifyName v-model="isShow" :name="userInfoObj.nickName || ''" @submit="handleModifyNameSubmit" />
 
         <Navs />
     </div>

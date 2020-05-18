@@ -27,7 +27,7 @@ export default class FundPassword extends Vue {
     @Mutation(TYPES.CLEAR_STATES) clearRootStates!: () => any;
     @Action('fetchVerifyMethod') fetchVerifyMethod!: (payload: { areaCode: string; mobile: string }) => any;
 
-    @userModule.State('userInfo') userInfo!: UserInfoModel;
+    @userModule.State('userInfo') userInfo?: UserInfoModel | null;
     @userModule.State('userForm') userForm!: UserFormModel;
     @userModule.Mutation(TYPES.SET_STATES) setUserStates!: (payload: any) => any;
     @userModule.Mutation(TYPES.CLEAR_STATES) clearUserStates!: () => any;
@@ -60,13 +60,13 @@ export default class FundPassword extends Vue {
     // 提交资金密码表单
     async submit() {
         try {
-            let status = this.userInfo.haveFundPasswd;
-            if (!status) {
+            let userInfo: any = this.userInfo || {};
+            if (!userInfo.haveFundPasswd) {
                 let securityForm = this.securityForm,
                     result = SecurityService.validateSecurityForm(securityForm, true);
                 if (!result.status) return Prompt.error(Utils.getFirstValue(result.data));
 
-                let phone: any = this.userInfo.phone || {};
+                let phone: any = userInfo.phone || {};
                 await this.fetchVerifyMethod({ areaCode: phone.area || '', mobile: phone.tel || '' });
                 let verifyResult = this.verifyResult;
                 if (!verifyResult) return Prompt.error('验证方式获取失败');
@@ -76,18 +76,22 @@ export default class FundPassword extends Vue {
                 } else {
                     let result = await this.setFundPassword();
                     if (!result) Prompt.error(`资金密码设置失败`);
-                    else
+                    else {
+                        await this.fetchUserInfo();
                         Prompt.success(`资金密码设置成功`).then(() => {
                             this.$router.push(this.from);
                         });
+                    }
                 }
             } else {
                 let result = await this.modifyFundPassword();
                 if (!result) Prompt.error(`资金密码修改失败`);
-                else
+                else {
+                    await this.fetchUserInfo();
                     Prompt.success(`资金密码修改成功`).then(() => {
                         this.$router.push(this.from);
                     });
+                }
             }
         } catch (error) {
             Prompt.error(error.message || error);
@@ -104,10 +108,12 @@ export default class FundPassword extends Vue {
 
             let result = await this.setFundPassword();
             if (!result) Prompt.error(`资金密码设置失败`);
-            else
+            else {
+                await this.fetchUserInfo();
                 Prompt.success(`资金密码设置成功`).then(() => {
                     this.$router.push(this.from);
                 });
+            }
         } catch (error) {
             Prompt.error(error.message || error);
         }
@@ -123,7 +129,8 @@ export default class FundPassword extends Vue {
 
     // 跳转至忘记密码页面
     goForget() {
-        let phone: any = this.userInfo.phone || {},
+        let userInfo: any = this.userInfo || {},
+            phone: any = userInfo.phone || {},
             userForm = Utils.duplicate(this.userForm);
         userForm.areaCode = phone.area || '';
         userForm.mobile = phone.tel || '';
@@ -169,6 +176,6 @@ export default class FundPassword extends Vue {
 
     mounted() {
         this.initCaptcha();
-        this.fetchUserInfo(true);
+        !this.userInfo && this.fetchUserInfo(true);
     }
 }

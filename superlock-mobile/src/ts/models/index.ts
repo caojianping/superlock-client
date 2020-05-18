@@ -58,7 +58,7 @@ export class VerifyResult {
 }
 
 // 可提现、可转账额度模型
-export class QuotaModel {
+export class UsableQuotaModel {
     public amount!: number; // 可提现、可转账BCB额度
     public valuationAmount!: number; // 计价金额；
     public valuationCoin!: number; // 计价币种；如：DC

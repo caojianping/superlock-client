@@ -6,7 +6,7 @@ import { ValidationResult } from 'jpts-validator';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { Prompt, From } from '@/ts/common';
-import { QuotaModel, UserInfoModel, TransferFormModel, TransferChildModel, TransferModel } from '@/ts/models';
+import { UsableQuotaModel, UserInfoModel, TransferFormModel, TransferChildModel, TransferModel } from '@/ts/models';
 import { TransferService } from '@/ts/services';
 
 import { Toast, Field, Icon, Button } from 'vant';
@@ -21,11 +21,11 @@ const transferModule = namespace('transfer');
     components: { Field, Icon, Button, Header, PasswordModal }
 })
 export default class TransferIndex extends Vue {
-    @State('quota') quota?: QuotaModel | null;
-    @Action('fetchQuota') fetchQuota!: () => any;
+    @State('qusableQuotauota') usableQuota?: UsableQuotaModel | null;
+    @Action('fetchUsableQuota') fetchUsableQuota!: () => any;
 
-    @userModule.State('userInfo') userInfo!: UserInfoModel;
-    @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
+    @userModule.State('userInfo') userInfo?: UserInfoModel | null;
+    @userModule.Action('fetchUserInfo') fetchUserInfo!: (isLoading?: boolean) => any;
 
     @transferModule.State('transferForm') transferForm!: TransferFormModel;
     @transferModule.State('transfers') transfers!: Array<TransferModel>;
@@ -45,7 +45,7 @@ export default class TransferIndex extends Vue {
     // 转账全部金额
     transferAll() {
         let transferForm = Utils.duplicate(this.transferForm);
-        transferForm.quota = this.quota ? this.quota.amount : 0;
+        transferForm.quota = this.usableQuota ? this.usableQuota.amount : 0;
         this.setStates({ transferForm });
     }
 
@@ -64,8 +64,7 @@ export default class TransferIndex extends Vue {
             return;
         }
 
-        let haveFundPasswd = this.userInfo.haveFundPasswd;
-        if (!haveFundPasswd) {
+        if (!this.userInfo || !this.userInfo.haveFundPasswd) {
             Prompt.info('您未设置资金密码，请先设置资金密码').then(() => {
                 From.setFundFrom('/transfer/index');
                 this.$router.push({
@@ -110,16 +109,12 @@ export default class TransferIndex extends Vue {
 
     // 获取数据
     async fetchData() {
-        Toast.loading({
-            mask: true,
-            duration: 0,
-            message: '加载中...'
-        });
-        await await this.fetchQuota();
-        await this.fetchUserInfo();
+        Toast.loading({ mask: true, duration: 0, message: '加载中...' });
+        await await this.fetchUsableQuota();
+        !this.userInfo && (await this.fetchUserInfo());
 
         let transferForm = Utils.duplicate(this.transferForm);
-        transferForm.maxAmount = this.quota ? this.quota.amount : 0;
+        transferForm.maxAmount = this.usableQuota ? this.usableQuota.amount : 0;
 
         let selectedTransferChild = this.selectedTransferChild;
         if (selectedTransferChild) {

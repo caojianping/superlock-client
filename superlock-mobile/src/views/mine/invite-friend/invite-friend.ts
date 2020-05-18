@@ -6,7 +6,7 @@ import TYPES from '@/store/types';
 import { Prompt, Clipboard } from '@/ts/common';
 import { UserInfoModel, DefaultRateStatsModel, DefaultRateFormModel } from '@/ts/models';
 
-import { Button } from 'vant';
+import { Button, Toast } from 'vant';
 import Header from '@/components/common/header';
 import InvitePrompt from '@/components/mine/invite-prompt';
 import RateModal from '@/components/mine/rate-modal';
@@ -19,8 +19,8 @@ const childModule = namespace('child');
     components: { Button, Header, InvitePrompt, RateModal }
 })
 export default class InviteFriend extends Vue {
-    @userModule.State('userInfo') userInfo!: UserInfoModel;
-    @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
+    @userModule.State('userInfo') userInfo?: UserInfoModel | null;
+    @userModule.Action('fetchUserInfo') fetchUserInfo!: (isLoading?: boolean) => any;
 
     @childModule.State('defaultRateStats') defaultRateStats?: DefaultRateStatsModel | null;
     @childModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
@@ -67,13 +67,15 @@ export default class InviteFriend extends Vue {
 
     // 获取数据
     async fetchData() {
-        await this.fetchUserInfo();
+        Toast.loading({ mask: true, duration: 0, message: '加载中...' });
+        !this.userInfo && (await this.fetchUserInfo());
         await this.fetchDefaultRateStats();
         let defaultRateStats = this.defaultRateStats;
         if (defaultRateStats) {
             this.isPromptShow = !defaultRateStats.existDefault;
             this.isRateShow = false;
         }
+        Toast.clear();
     }
 
     create() {

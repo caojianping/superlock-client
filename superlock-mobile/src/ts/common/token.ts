@@ -19,9 +19,11 @@ export class Token {
     // 移除tokenInfo
     public static removeTokenInfo(): boolean {
         Cookie.removeItem(CONSTANTS.TOKEN_INFO);
-        ['user/', 'child/', 'project/', 'transaction/', 'lock/', 'recharge/', 'withdraw/', 'transfer/', 'security/'].forEach((item: string) => {
-            store.commit(item + TYPES.CLEAR_STATES);
-        });
+        ['user/', 'child/', 'project/', 'transaction/', 'lock/', 'recharge/', 'withdraw/', 'transfer/', 'security/', 'loan/'].forEach(
+            (item: string) => {
+                store.commit(item + TYPES.CLEAR_STATES);
+            }
+        );
         return true;
     }
 

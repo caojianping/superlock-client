@@ -23,8 +23,8 @@ const loanModule = namespace('loan');
     components: { CellGroup, Cell, Field, Button, Header, PasswordModal }
 })
 export default class LoanApply extends Vue {
-    @userModule.State('userInfo') userInfo!: UserInfoModel;
-    @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
+    @userModule.State('userInfo') userInfo?: UserInfoModel | null;
+    @userModule.Action('fetchUserInfo') fetchUserInfo!: (isLoading?: boolean) => any;
 
     @loanModule.State('loanBaseInfo') loanBaseInfo?: LoanBaseInfoModel | null;
     @loanModule.State('loanableLock') loanableLock?: LoanableLockModel | null;
@@ -53,8 +53,7 @@ export default class LoanApply extends Vue {
             return;
         }
 
-        let haveFundPasswd = this.userInfo.haveFundPasswd;
-        if (!haveFundPasswd) {
+        if (!this.userInfo || !this.userInfo.haveFundPasswd) {
             Prompt.info('您未设置资金密码，请先设置资金密码').then(() => {
                 From.setFundFrom('/loan/apply');
                 this.$router.push({
@@ -94,7 +93,7 @@ export default class LoanApply extends Vue {
     // 获取数据
     async fetchData() {
         Toast.loading({ mask: true, duration: 0, message: '加载中...' });
-        await this.fetchUserInfo();
+        !this.userInfo && (await this.fetchUserInfo());
         !this.loanBaseInfo && (await this.fetchLoanBaseInfo());
 
         let loanableLock = this.loanableLock,

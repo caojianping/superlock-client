@@ -3,6 +3,7 @@
         <Header title="绑定邮箱" @left="$router.push(from)" />
 
         <div class="scb-form scb-separator">
+            {{ ((userInfoObj = userInfo || {}), void 0) }}
             <ul>
                 <li>
                     <h1>绑定邮箱</h1>
@@ -23,7 +24,7 @@
                         @input="handleFieldInput('emailCode', $event)"
                     >
                         <template slot="button">
-                            {{ ((phone = userInfo.phone || {}), void 0) }}
+                            {{ ((phone = userInfoObj.phone || {}), void 0) }}
                             <VerifyCode :verify-type="verifyType" :area-code="phone.area" :mobile="phone.tel" :email="emailForm.emailAddress" />
                         </template>
                     </Field>

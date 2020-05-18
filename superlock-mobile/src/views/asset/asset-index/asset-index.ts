@@ -7,7 +7,7 @@ import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { CONSTANTS } from '@/ts/config';
 import { From } from '@/ts/common';
-import { ExchangeRateModel, UserInfoModel, LockModel, LoanModel, AssetStatsModel, EarningsStatsModel, PromoteRewardStatsModel } from '@/ts/models';
+import { ExchangeRateModel, LockModel, LoanModel, AssetStatsModel, EarningsStatsModel, PromoteRewardStatsModel } from '@/ts/models';
 
 import { Toast, PullRefresh, CellGroup, Cell, Tabs, Tab } from 'vant';
 import Navs from '@/components/common/navs';
@@ -15,7 +15,6 @@ import Spin from '@/components/common/spin';
 import RechargeCoins from '@/components/recharge/recharge-coins';
 import EarningsInfo from '@/components/asset/earnings-info';
 
-const userModule = namespace('user');
 const lockModule = namespace('lock');
 const loanModule = namespace('loan');
 const projectModule = namespace('project');
@@ -38,9 +37,6 @@ export default class AssetIndex extends Vue {
     @State('exchangeRate') exchangeRate?: ExchangeRateModel | null;
     @State('unitTypes') unitTypes!: Array<string>;
     @Action('fetchExchangeRate') fetchExchangeRate!: (payload: any) => any;
-
-    @userModule.State('userInfo') userInfo!: UserInfoModel;
-    @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
 
     @lockModule.State('lockStatuses') lockStatuses!: Map<number, string>;
     @lockModule.State('lockColors') lockColors!: Map<number, string>;
@@ -154,7 +150,6 @@ export default class AssetIndex extends Vue {
 
     // 获取所有数据，全部并发请求
     async fetchData() {
-        this.fetchUserInfo();
         this.fetchExchangeRate({ fromCoin: 'BCB', toCoin: 'DC' });
         this.fetchEarningsStats();
 

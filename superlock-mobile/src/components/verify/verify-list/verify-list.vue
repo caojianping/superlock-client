@@ -1,6 +1,6 @@
 <template>
     <Popup v-model="isShow" class="verify-list-popup full">
-        <Header :title="isForget ? '找回密码' : '安全验证'" :isBorder="false" @left="isForget ? $router.push(from) : handlePopupClose()" />
+        <Header :title="isForget ? '找回密码' : '安全验证'" :is-border="false" @left="isForget ? $router.push(from) : handlePopupClose()" />
 
         <div class="scb-separator" />
 

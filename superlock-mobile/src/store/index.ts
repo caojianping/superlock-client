@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 
 import TYPES from './types';
 import { IActionContext, IRootState } from './interfaces';
-import { TokenInfo, VerifyResult } from '@/ts/models';
+import { TokenInfo } from '@/ts/models';
 import { CommonService } from '@/ts/services';
 
 import userModule from './modules/user.module';
@@ -23,7 +23,7 @@ const rootState: IRootState = {
     tokenInfo: new TokenInfo(),
 
     verifyResult: undefined,
-    quota: undefined,
+    usableQuota: undefined,
     exchangeRate: undefined,
 
     unitTypes: ['天', '月', '年'],
@@ -58,7 +58,7 @@ export default new Vuex.Store({
             state.tokenInfo = new TokenInfo();
 
             state.verifyResult = undefined;
-            state.quota = undefined;
+            state.usableQuota = undefined;
             state.exchangeRate = undefined;
         }
     },
@@ -85,13 +85,13 @@ export default new Vuex.Store({
         },
 
         // 获取可提现、可转账额度
-        async fetchQuota(context: IActionContext<IRootState>): Promise<void> {
+        async fetchUsableQuota(context: IActionContext<IRootState>): Promise<void> {
             let commit = context.commit;
             try {
-                let quota = await commonService.fetchQuota();
-                commit(TYPES.SET_STATES, { quota });
+                let usableQuota = await commonService.fetchUsableQuota();
+                commit(TYPES.SET_STATES, { usableQuota });
             } catch (error) {
-                commit(TYPES.SET_STATES, { quota: null });
+                commit(TYPES.SET_STATES, { usableQuota: null });
             }
         },
 

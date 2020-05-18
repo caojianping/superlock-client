@@ -1,6 +1,6 @@
 <template>
     <div class="transfer-index scb-gray">
-        <Header title="转账" isRight @left="$router.push('/asset/index')">
+        <Header title="转账" is-right @left="$router.push('/asset/index')">
             <router-link slot="right" to="/transfer/record">转账记录</router-link>
         </Header>
 
@@ -26,13 +26,13 @@
                     >
                         <span class="text-orange" slot="button" @click="transferAll">全部</span>
                     </Field>
-                    {{ ((quotaObj = quota || {}), void 0) }}
+                    {{ ((usableQuotaObj = usableQuota || {}), void 0) }}
                     <p class="text-orange">
                         可转账金额
                         {{
-                            `${quotaObj.amount || '--'} BCB = 
-                            ${quotaObj.valuationAmount || '--'}
-                            ${quotaObj.valuationCoin || '--'}`
+                            `${usableQuotaObj.amount || '--'} BCB = 
+                            ${usableQuotaObj.valuationAmount || '--'}
+                            ${usableQuotaObj.valuationCoin || '--'}`
                         }}
                     </p>
                 </li>

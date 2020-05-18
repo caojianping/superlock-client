@@ -26,9 +26,9 @@ const projectModule = namespace('project');
 export default class LockCreate extends Vue {
     @State('unitTypes') unitTypes!: Array<string>;
 
-    @userModule.State('userInfo') userInfo!: UserInfoModel;
+    @userModule.State('userInfo') userInfo?: UserInfoModel | null;
     @userModule.State('userLockQuota') userLockQuota?: UserLockQuotaModel | null;
-    @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
+    @userModule.Action('fetchUserInfo') fetchUserInfo!: (isLoading?: boolean) => any;
     @userModule.Action('fetchUserLockQuota') fetchUserLockQuota!: () => any;
 
     @projectModule.State('assetStats') assetStats?: AssetStatsModel | null;
@@ -58,8 +58,7 @@ export default class LockCreate extends Vue {
             return;
         }
 
-        let haveFundPasswd = this.userInfo.haveFundPasswd;
-        if (!haveFundPasswd) {
+        if (!this.userInfo || !this.userInfo.haveFundPasswd) {
             Prompt.info('您未设置资金密码，请先设置资金密码').then(() => {
                 From.setFundFrom('/lock/create');
                 this.$router.push({
@@ -110,12 +109,8 @@ export default class LockCreate extends Vue {
 
     // 获取数据
     async fetchData() {
-        Toast.loading({
-            mask: true,
-            duration: 0,
-            message: '加载中...'
-        });
-        await this.fetchUserInfo();
+        Toast.loading({ mask: true, duration: 0, message: '加载中...' });
+        !this.userInfo && (await this.fetchUserInfo());
         await this.fetchUserLockQuota();
         await this.fetchAssetStats();
 

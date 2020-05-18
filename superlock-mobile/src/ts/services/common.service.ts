@@ -2,7 +2,7 @@ import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
 import { Urls, CaxiosType, defaultAreaCode } from '@/ts/config';
 import { Caxios } from '@/ts/common';
-import { QuotaModel, ExchangeRateModel, VerifyResult, EmailFormModel } from '@/ts/models';
+import { UsableQuotaModel, ExchangeRateModel, VerifyResult, EmailFormModel } from '@/ts/models';
 
 export class CommonService {
     // 验证短信、邮箱
@@ -64,8 +64,8 @@ export class CommonService {
     }
 
     // 获取可提现、可转账额度
-    public async fetchQuota(): Promise<QuotaModel | null> {
-        return await Caxios.get<QuotaModel | null>({ url: Urls.common.quota }, CaxiosType.Token);
+    public async fetchUsableQuota(): Promise<UsableQuotaModel | null> {
+        return await Caxios.get<UsableQuotaModel | null>({ url: Urls.common.usableQuota }, CaxiosType.Token);
     }
 
     // 获取汇率信息

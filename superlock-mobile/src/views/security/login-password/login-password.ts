@@ -21,7 +21,7 @@ const securityModule = namespace('security');
     components: { Field, Button, Header }
 })
 export default class LoginPassword extends Vue {
-    @userModule.State('userInfo') userInfo!: UserInfoModel;
+    @userModule.State('userInfo') userInfo?: UserInfoModel | null;
     @userModule.State('userForm') userForm!: UserFormModel;
     @userModule.Mutation(TYPES.SET_STATES) setUserStates!: (payload: any) => any;
     @userModule.Mutation(TYPES.CLEAR_STATES) clearUserStates!: () => any;
@@ -49,7 +49,8 @@ export default class LoginPassword extends Vue {
 
     // 跳转至忘记密码页面
     goForget() {
-        let phone: any = this.userInfo.phone || {},
+        let userInfo: any = this.userInfo || {},
+            phone: any = userInfo.phone || {},
             userForm = Utils.duplicate(this.userForm);
         userForm.areaCode = phone.area || '';
         userForm.mobile = phone.tel || '';
@@ -92,6 +93,6 @@ export default class LoginPassword extends Vue {
     }
 
     mounted() {
-        this.fetchUserInfo(true);
+        !this.userInfo && this.fetchUserInfo(true);
     }
 }

@@ -25,7 +25,7 @@ export class ProjectService {
 
     // 获取收益统计信息
     public async fetchEarningsStats(): Promise<EarningsStatsModel | null> {
-        return await Caxios.get<EarningsStatsModel | null>({ url: Urls.project.earningsStats }, CaxiosType.Token);
+        return await Caxios.get<EarningsStatsModel | null>({ url: Urls.project.earningsStats }, CaxiosType.LoadingToken);
     }
 
     // 获取推广奖励统计信息

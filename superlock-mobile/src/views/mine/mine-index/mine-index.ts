@@ -19,10 +19,10 @@ const userModule = namespace('user');
     components: { Icon, CellGroup, Cell, Navs, ModifyName }
 })
 export default class MineIndex extends Vue {
-    @userModule.State('userInfo') userInfo!: UserInfoModel;
+    @userModule.State('userInfo') userInfo?: UserInfoModel | null;
     @userModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @userModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-    @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
+    @userModule.Action('fetchUserInfo') fetchUserInfo!: (isLoading?: boolean) => any;
 
     isShow: boolean = false;
 
@@ -32,14 +32,12 @@ export default class MineIndex extends Vue {
     }
 
     // 处理修改名称组件submit事件
-    handleModifyNameSubmit(name: string) {
-        let userInfo = Utils.duplicate(this.userInfo);
-        userInfo.nickName = name;
-        this.setStates({ userInfo });
+    handleModifyNameSubmit() {
+        this.fetchUserInfo(true);
     }
 
     mounted() {
         Clipboard.copy('uid', 'UID');
-        this.fetchUserInfo();
+        !this.userInfo && this.fetchUserInfo(true);
     }
 }

@@ -93,15 +93,13 @@ export class UserService {
     }
 
     // 获取用户信息
-    public async fetchUserInfo(isLoading: boolean = false): Promise<UserInfoModel> {
-        let result = await Caxios.get<UserInfoModel | null>({ url: Urls.user.info }, isLoading ? CaxiosType.LoadingToken : CaxiosType.Token);
-        return result || new UserInfoModel();
+    public async fetchUserInfo(isLoading: boolean = false): Promise<UserInfoModel | null> {
+        return await Caxios.get<UserInfoModel | null>({ url: Urls.user.info }, isLoading ? CaxiosType.LoadingToken : CaxiosType.Token);
     }
 
     // 设置昵称
     public async setNickname(nickname: string): Promise<boolean> {
         if (!nickname) return Promise.reject('昵称不可以为空');
-
         await Caxios.post<any>({ url: `${Urls.user.setNickname}?nickName=${nickname}` }, CaxiosType.LoadingToken);
         return true;
     }

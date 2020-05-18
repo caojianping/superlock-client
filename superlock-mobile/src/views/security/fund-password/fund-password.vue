@@ -1,6 +1,7 @@
 <template>
     <div class="fund-password scb-gray">
-        {{ ((status = userInfo.haveFundPasswd), void 0) }}
+        {{ ((userInfoObj = userInfo || {}), void 0) }}
+        {{ ((status = userInfoObj.haveFundPasswd), void 0) }}
         <Header :title="`${{ false: '设置', true: '修改' }[status] || ''}资金密码`" @left="$router.push(from)" />
 
         <div class="scb-form scb-separator">
@@ -9,7 +10,7 @@
                     <h1>
                         {{ `${{ false: '设置', true: '修改' }[status] || ''}资金密码` }}
                     </h1>
-                    <p>UID: {{ userInfo.userId || '--' }}</p>
+                    <p>UID: {{ userInfoObj.userId || '--' }}</p>
                 </li>
                 <li v-if="status">
                     <h2>原密码</h2>
@@ -64,7 +65,7 @@
             </ul>
         </div>
 
-        {{ ((phone = userInfo.phone || {}), void 0) }}
+        {{ ((phone = userInfoObj.phone || {}), void 0) }}
         <VerifyList
             v-model="isVerifyShow"
             :area-code="phone.area"
