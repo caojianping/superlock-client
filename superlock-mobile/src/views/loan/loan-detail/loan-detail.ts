@@ -1,12 +1,11 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
-import ClipboardJS from 'clipboard';
 import { SessionStorage } from 'jts-storage';
 
 import TYPES from '@/store/types';
 import { CONSTANTS } from '@/ts/config';
-import { From, Prompt } from '@/ts/common';
+import { From, Clipboard } from '@/ts/common';
 import { LoanModel } from '@/ts/models';
 
 import { CellGroup, Cell, Button } from 'vant';
@@ -50,37 +49,13 @@ export default class LoanDetail extends Vue {
         this.from = query.from || From.getLoanFrom();
     }
 
-    // 复制贷款订单号
-    copyOrderId() {
-        let orderId = document.getElementById('orderId'),
-            clipboard = new ClipboardJS(orderId);
-        clipboard.on('success', function(e) {
-            Prompt.success('贷款订单号复制成功');
-        });
-        clipboard.on('error', function(e) {
-            Prompt.error('贷款订单号复制失败');
-        });
-    }
-
-    // 复制质押锁仓订单号
-    copyLockOrderId() {
-        let lockOrderId = document.getElementById('lockOrderId'),
-            clipboard = new ClipboardJS(lockOrderId);
-        clipboard.on('success', function(e) {
-            Prompt.success('质押锁仓订单号复制成功');
-        });
-        clipboard.on('error', function(e) {
-            Prompt.error('质押锁仓订单号复制失败');
-        });
-    }
-
     created() {
         this.initData();
     }
 
     mounted() {
-        this.copyOrderId();
-        this.copyLockOrderId();
+        Clipboard.copy('orderId', '贷款订单号');
+        Clipboard.copy('lockOrderId', '质押锁仓订单号');
         this.id && this.fetchLoan();
     }
 }

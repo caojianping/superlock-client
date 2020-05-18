@@ -1,10 +1,9 @@
 import Vue from 'vue';
 import { namespace, State, Action } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
-import ClipboardJS from 'clipboard';
 
 import TYPES from '@/store/types';
-import { Prompt, From } from '@/ts/common';
+import { From, Clipboard } from '@/ts/common';
 import { ExchangeRateModel } from '@/ts/models';
 
 import { Toast, Button } from 'vant';
@@ -47,20 +46,6 @@ export default class RechargeCode extends Vue {
         this.from = query.from || From.getRechargeFrom();
     }
 
-    // 复制地址
-    copyAddress() {
-        let address = document.getElementById('address'),
-            clipboard = new ClipboardJS(address);
-
-        clipboard.on('success', function(e) {
-            Prompt.success('充值地址复制成功');
-        });
-
-        clipboard.on('error', function(e) {
-            Prompt.error('充值地址复制失败');
-        });
-    }
-
     // 获取数据
     async fetchData() {
         Toast.loading({ mask: true, duration: 0, message: '加载中...' });
@@ -79,7 +64,7 @@ export default class RechargeCode extends Vue {
     }
 
     mounted() {
+        Clipboard.copy('address', '充值地址');
         this.fetchData();
-        this.copyAddress();
     }
 }

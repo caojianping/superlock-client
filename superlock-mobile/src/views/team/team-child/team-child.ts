@@ -1,12 +1,12 @@
 import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
-import ClipboardJS from 'clipboard';
 import { SessionStorage } from 'jts-storage';
+
 import Utils from '@/ts/utils';
 import TYPES from '@/store/types';
 import { CONSTANTS } from '@/ts/config';
-import { Prompt } from '@/ts/common';
+import { Prompt, Clipboard } from '@/ts/common';
 import { ChildModel, ChildRateFormModel, ChildRateModel } from '@/ts/models';
 
 import { CellGroup, Cell, Button } from 'vant';
@@ -146,23 +146,11 @@ export default class TeamChild extends Vue {
         this.childRateForms = childRateForms;
     }
 
-    // 复制UID
-    copyUid() {
-        let uid = document.getElementById('uid'),
-            clipboard = new ClipboardJS(uid);
-        clipboard.on('success', function(e) {
-            Prompt.success('UID复制成功');
-        });
-        clipboard.on('error', function(e) {
-            Prompt.error('UID复制失败');
-        });
-    }
-
     created() {
         this.initData();
     }
 
     mounted() {
-        this.copyUid();
+        Clipboard.copy('uid', 'UID');
     }
 }

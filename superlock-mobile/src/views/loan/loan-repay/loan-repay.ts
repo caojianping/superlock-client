@@ -5,7 +5,7 @@ import { ValidationResult } from 'jpts-validator';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { Prompt, From } from '@/ts/common';
+import { Prompt, From, Clipboard } from '@/ts/common';
 import { LoanModel, LoanRepayFormModel, UserInfoModel } from '@/ts/models';
 import { LoanService } from '@/ts/services';
 
@@ -97,6 +97,8 @@ export default class LoanRepay extends Vue {
     }
 
     mounted() {
+        Clipboard.copy('orderId', '贷款订单号');
+        Clipboard.copy('lockOrderId', '质押锁仓订单号');
         this.fetchData();
     }
 }
