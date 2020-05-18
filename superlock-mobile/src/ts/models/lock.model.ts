@@ -20,6 +20,18 @@ export class LockModel {
     public bcbTotalIncome!: number; // 累计收益价值，币种固定为BCB;
 }
 
+// 锁仓利息模型
+export class LockInterestModel {
+    public date!: string; // 日期
+    public rate!: number; // 汇率
+    public fromCoin!: string; // 到账币种
+    public toCoin!: string; // 收益币种
+    public fromAmount!: number; // 到账金额
+    public toAmount!: number; // 收益金额
+    public balance!: number; // 当前可用余额
+    public balanceCoin!: string; // 可用余额币种
+}
+
 // 锁仓表单模型
 export class LockFormModel {
     public length!: number; // 锁仓长度

@@ -2,9 +2,11 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { SessionStorage } from 'jts-storage';
+
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { CONSTANTS } from '@/ts/config';
+import { Clipboard } from '@/ts/common';
 import { RechargeModel } from '@/ts/models';
 
 import { CellGroup, Cell } from 'vant';
@@ -35,5 +37,10 @@ export default class RechargeDetail extends Vue {
 
     created() {
         this.initData();
+    }
+
+    mounted() {
+        Clipboard.copy('orderId', '交易单号');
+        Clipboard.copy('txhash', '交易hash');
     }
 }

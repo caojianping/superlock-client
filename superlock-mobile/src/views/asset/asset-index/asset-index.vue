@@ -60,7 +60,7 @@
                                     暂无锁仓记录，快去<router-link class="scb-link" to="/home/index">创建锁仓</router-link>吧！
                                 </p>
                                 <CellGroup v-else class="locks priority-title">
-                                    <Cell v-for="(lock, index) in locks" :key="index" @click="openLockInfo(lock)">
+                                    <Cell v-for="(lock, index) in locks" :key="index" is-link @click="goLockDetail(lock)">
                                         <template slot="title">
                                             <h2>
                                                 <span>{{ `BCB矿场-${lock.length}${unitTypes[lock.unit - 1]}` }}</span>
@@ -153,8 +153,6 @@
             </Tabs>
 
             <RechargeCoins v-model="isRechargeCoinsShow" />
-
-            <LockInfo v-model="isLockInfoShow" :lock="currentLock" />
 
             <EarningsInfo v-model="isEarningsInfoShow" />
 

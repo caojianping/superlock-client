@@ -1,6 +1,6 @@
 import TYPES from '@/store/types';
 import { IActionContext, ILockState } from '@/store/interfaces';
-import { LockFormModel, LockResultModel } from '@/ts/models';
+import { LockFormModel, LockResultModel, LockInterestModel } from '@/ts/models';
 import { LockService } from '@/ts/services';
 
 const lockState: ILockState = {
@@ -23,11 +23,20 @@ const lockState: ILockState = {
 
     lockProject: undefined,
     lockForm: new LockFormModel(),
-    lockResult: undefined,
-    locks: undefined
+
+    pageNum: 1,
+    pageSize: 15,
+    lockInterests: undefined,
+    locks: undefined,
+
+    id: '',
+    lock: undefined,
+    lockResult: undefined
 };
 
 const lockService = new LockService();
+
+var isPending = false;
 
 export default {
     namespaced: true,
@@ -42,8 +51,14 @@ export default {
         [TYPES.CLEAR_STATES](state: ILockState) {
             state.lockProject = undefined;
             state.lockForm = new LockFormModel();
-            state.lockResult = undefined;
+
+            state.pageNum = 1;
+            state.pageSize = 15;
+            state.lockInterests = undefined;
             state.locks = undefined;
+
+            state.lock = undefined;
+            state.lockResult = undefined;
         }
     },
     actions: {
@@ -67,6 +82,35 @@ export default {
         async createLock(context: IActionContext<ILockState>): Promise<LockResultModel | null> {
             let state = context.state;
             return await lockService.createLock(state.lockForm);
+        },
+
+        // 获取锁仓利息列表
+        async fetchLockInterests(context: IActionContext<ILockState>): Promise<Array<LockInterestModel> | undefined> {
+            if (isPending) return undefined;
+
+            isPending = true;
+            let { commit, state } = context;
+            try {
+                let { id, pageNum, pageSize, lockInterests } = state,
+                    data = await lockService.fetchLockInterests(id, pageNum, pageSize);
+                if (pageNum === 1) {
+                    commit(TYPES.SET_STATES, {
+                        pageNum: pageNum + 1,
+                        lockInterests: data
+                    });
+                } else {
+                    commit(TYPES.SET_STATES, {
+                        pageNum: pageNum + 1,
+                        lockInterests: (lockInterests || []).concat(data)
+                    });
+                }
+                isPending = false;
+                return data;
+            } catch (error) {
+                commit(TYPES.SET_STATES, { lockInterests: [] });
+                isPending = false;
+                return [];
+            }
         }
     }
 };
