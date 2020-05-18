@@ -30,16 +30,8 @@
         }
     }
 
-    /deep/ .modal-body {
-        ul {
-            padding-bottom: 0.5rem;
-
-            li {
-                &:first-child {
-                    padding: 1rem 0 2.5rem;
-                    .font-styles(1rem, normal, 1.5, #666, left);
-                }
-            }
-        }
+    /deep/ .modal-body p {
+        padding: 0.25rem 0 1.25rem;
+        .font-styles(1rem, normal, 1.5, @gray, left);
     }
 }

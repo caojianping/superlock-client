@@ -31,25 +31,23 @@
         </div>
 
         <Modal class="remark-modal" v-model="isRemarkShow">
-            <template slot="title">
+            <template slot="header">
                 <h2>下级备注设置</h2>
                 <p>备注好下级，才能更容易区分团队成员</p>
             </template>
-            <ul>
-                <li>
-                    <div class="scb-input">
-                        <input type="text" v-model="remark" placeholder="请输入下级备注" />
-                    </div>
-                </li>
-                <li>
-                    <Button class="effect-shadow" type="default" round @click="cancelRemark">取消</Button>
-                    <Button class="effect-shadow" type="primary" round @click="submitRemark">确认</Button>
-                </li>
-            </ul>
+
+            <div class="scb-input">
+                <input type="text" v-model="remark" placeholder="请输入下级备注" />
+            </div>
+
+            <template slot="footer">
+                <Button class="effect-shadow" type="default" round @click="cancelRemark">取消</Button>
+                <Button class="effect-shadow" type="primary" round @click="submitRemark">确认</Button>
+            </template>
         </Modal>
 
-        <Modal class="rate-modal" v-model="isRateShow">
-            <template v-if="currentForm" slot="title">
+        <Modal v-if="currentForm" class="rate-modal" v-model="isRateShow">
+            <template slot="header">
                 <h2 v-if="currentForm.type === 1">
                     {{ currentForm.length + unitTypes[currentForm.unit - 1] + rateTypes[currentForm.type - 1] }}设置
                 </h2>
@@ -58,19 +56,19 @@
                     设置下级的锁仓利率，下级的锁仓利率不能高于你的利率。且本次设置的利率不能低于上次设置的利率。
                 </p>
             </template>
-            <ul v-if="currentForm">
-                <li>
-                    <div class="scb-input">
-                        <input type="text" v-model="currentForm.value" />
-                        <span>%</span>
-                    </div>
-                    <p>可设置范围：{{ `${currentForm.minAmount}%-${currentForm.maxAmount}%` }}</p>
-                </li>
-                <li>
-                    <Button class="effect-shadow" type="default" round @click="cancelRate">取消</Button>
-                    <Button class="effect-shadow" type="primary" round @click="submitRate">确认</Button>
-                </li>
-            </ul>
+
+            <template>
+                <div class="scb-input">
+                    <input type="text" v-model="currentForm.value" />
+                    <span>%</span>
+                </div>
+                <p class="rate-prompt">可设置范围：{{ `${currentForm.minAmount}% ~ ${currentForm.maxAmount}%` }}</p>
+            </template>
+
+            <template slot="footer">
+                <Button class="effect-shadow" type="default" round @click="cancelRate">取消</Button>
+                <Button class="effect-shadow" type="primary" round @click="submitRate">确认</Button>
+            </template>
         </Modal>
     </div>
 </template>
