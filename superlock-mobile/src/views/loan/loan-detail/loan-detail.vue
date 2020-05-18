@@ -36,7 +36,7 @@
                     <Cell title="申请时间" :value="loan.applyTime | dateFormat" />
                     <Cell title="放贷时间" :value="loan.lendTime | dateFormat" />
                     <Cell title="放款汇率" :value="`1${loan.fromCoin} = ${loan.lendExchangeRate}${loan.toCoin}`" />
-                    <Cell title="放贷币种数据" :value="`${loan.lendAmount} ${loan.lendAmountCoin}`" />
+                    <Cell title="放贷币种数量" :value="`${loan.lendAmount} ${loan.lendAmountCoin}`" />
                     <Cell title="预计还款日期" :value="loan.estimatedRepayDate | dateFormat('yyyy-MM-dd')" />
                     <Cell
                         title="利息总计"
@@ -53,7 +53,7 @@
                     <Cell title="申请时间" :value="loan.applyTime | dateFormat" />
                     <Cell title="放贷时间" :value="loan.lendTime | dateFormat" />
                     <Cell title="放款汇率" :value="`1${loan.fromCoin} = ${loan.lendExchangeRate}${loan.toCoin}`" />
-                    <Cell title="放贷币种数据" :value="`${loan.lendAmount} ${loan.lendAmountCoin}`" />
+                    <Cell title="放贷币种数量" :value="`${loan.lendAmount} ${loan.lendAmountCoin}`" />
                     <Cell title="预计还款日期" :value="loan.estimatedRepayDate | dateFormat('yyyy-MM-dd')" />
                     <Cell
                         title="利息总计"
@@ -70,7 +70,7 @@
                     <Cell title="申请时间" :value="loan.applyTime | dateFormat" />
                     <Cell title="放贷时间" :value="loan.lendTime | dateFormat" />
                     <Cell title="放款汇率" :value="`1${loan.fromCoin} = ${loan.lendExchangeRate}${loan.toCoin}`" />
-                    <Cell title="放贷币种数据" :value="`${loan.lendAmount} ${loan.lendAmountCoin}`" />
+                    <Cell title="放贷币种数量" :value="`${loan.lendAmount} ${loan.lendAmountCoin}`" />
                     <Cell title="还款时间" :value="loan.repaymentTime | dateFormat" />
                     <Cell
                         title="利息总计"
