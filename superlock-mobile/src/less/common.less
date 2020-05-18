@@ -210,26 +210,36 @@
     position: relative;
     display: block;
     width: 100%;
-    height: 2.5rem;
-    border: 1px solid #ddd;
+    border: 0.0625rem solid #ddd;
     border-radius: 1.25rem;
 
-    input {
-        background-color: white;
-        margin: 0;
-        padding: 0;
-        width: 80%;
+    input,
+    span {
+        display: inline-block;
         height: 2.5rem;
         .font-styles(0.875rem, normal, 2.5rem, @black, left);
-        text-indent: 1rem;
+        vertical-align: middle;
+    }
+
+    &.small input,
+    &.small span {
+        height: 2rem;
+        line-height: 2rem;
+    }
+
+    input {
+        margin: 0;
+        padding: 0;
+        width: 85%;
+        text-indent: 1.25rem;
+        background-color: white;
         border: none;
         border-radius: 1.25rem;
         outline: none;
     }
 
     span {
-        margin-right: 1rem;
-        .font-styles(0.875rem, normal, 2.5rem, @black, right);
+        width: 15%;
     }
 }
 
