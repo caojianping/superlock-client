@@ -1,4 +1,8 @@
 import React from 'react';
+import ReactIntl from 'react-intl-universal';
+import { Cookie } from 'jts-cookie';
+import { CONSTANTS } from '../ts/common';
+
 import androidImg from '../assets/images/android.png';
 import iosImg from '../assets/images/ios.png';
 import androidDownloadImg from '../assets/images/android-download.png';
@@ -24,8 +28,7 @@ namespace Home {
     }
 
     export interface State {
-        title01: string;
-        title02: string;
+        activeLang: string;
         intros: Array<any>;
     }
 }
@@ -34,76 +37,104 @@ class Home extends React.Component<Home.Props, Home.State> {
     constructor(props) {
         super(props);
         this.state = {
-            title01: 'BCB矿场',
-            title02: '锁仓<span>挖矿</span>，<span>理财</span>首选',
+            activeLang: 'zh-CN',
             intros: [
-                { name: '高利率，高收益', img: intro01Img },
-                { name: '多种不同理财周期可供选择', img: intro02Img },
-                { name: '收益每日到账，投资有保障', img: intro03Img },
-                { name: '实体资产抵押保障，确保资产无忧', img: intro04Img },
-                {
-                    name: '邀请好友锁仓，立即获得邀请奖励，可提现',
-                    img: intro05Img,
-                },
+                { name: 'INTRO01', img: intro01Img },
+                { name: 'INTRO02', img: intro02Img },
+                { name: 'INTRO03', img: intro03Img },
+                { name: 'INTRO04', img: intro04Img },
+                { name: 'INTRO05', img: intro05Img },
             ],
         };
     }
 
+    toggleLang(lang: string, event: any) {
+        Cookie.setItem<string>(CONSTANTS.LANG, lang, CONSTANTS.ONE_WEEK);
+        window.location.reload(true);
+    }
+
+    initData() {
+        let lang = Cookie.getItem<string>(CONSTANTS.LANG) || 'zh-CN';
+        this.setState({ activeLang: lang });
+    }
+
+    componentDidMount(): void {
+        this.initData();
+    }
+
     render() {
-        const { title01, title02, intros } = this.state;
+        const { activeLang, intros } = this.state;
         return (
             <div className="home">
+                <div className="langs">
+                    {['zh-CN', '/', 'en-US'].map((item: string, index: number) => {
+                        if (item === '/') return <i key={index}>/</i>;
+                        else
+                            return (
+                                <span
+                                    key={index}
+                                    className={activeLang === item ? 'active' : ''}
+                                    onClick={(event: any) => this.toggleLang(item, event)}
+                                >
+                                    {{ 'zh-CN': '中文', 'en-US': 'English' }[item]}
+                                </span>
+                            );
+                    })}
+                </div>
+
                 <div className="container">
                     <div className="header clearfix">
                         <div className="header-content">
-                            <img className="logo" src={logoMobileImg} alt="BCB矿场" />
+                            <img className="logo" src={logoMobileImg} alt={ReactIntl.get('NAME')} />
 
-                            <h1 className="title01">{title01}</h1>
-                            <h2 className="title02" dangerouslySetInnerHTML={{ __html: title02 }} />
+                            <h1 className="title01">{ReactIntl.get('NAME')}</h1>
+                            <h2 className="title02" dangerouslySetInnerHTML={{ __html: ReactIntl.get('TITLE') }} />
 
                             <ul className="downloads clearfix">
                                 <li className="download-item">
                                     <a className="download-btn" href="https://app.scvip.vip/app/android/WealthShop.apk" target="_blank">
-                                        <img src={androidImg} alt="" />
-                                        <span>安卓下载</span>
+                                        <img src={androidImg} alt={ReactIntl.get('DOWNLOAD01')} />
+                                        <span>{ReactIntl.get('DOWNLOAD01')}</span>
                                     </a>
                                     <div className="download-modal">
-                                        <img src={androidDownloadImg} alt="" />
+                                        <img src={androidDownloadImg} alt={ReactIntl.get('DOWNLOAD01')} />
                                     </div>
                                 </li>
+
                                 <li className="download-item">
                                     <a
                                         className="download-btn"
                                         href="itms-services://?action=download-manifest&url=https://app.scvip.vip/app/ios/manifest.plist"
                                         target="_blank"
                                     >
-                                        <img src={iosImg} alt="" />
-                                        <span>IOS下载</span>
+                                        <img src={iosImg} alt={ReactIntl.get('DOWNLOAD02')} />
+                                        <span>{ReactIntl.get('DOWNLOAD02')}</span>
                                     </a>
                                     <div className="download-modal">
-                                        <img src={iosDownloadImg} alt="" />
+                                        <img src={iosDownloadImg} alt={ReactIntl.get('DOWNLOAD02')} />
                                     </div>
                                 </li>
                             </ul>
                         </div>
-                        <img className="header-banner" src={bannerImg} alt="BCB矿场" />
+
+                        <img className="header-banner" src={bannerImg} alt={ReactIntl.get('NAME')} />
                     </div>
 
                     <ul className="intros clearfix">
                         {intros.map((intro: any, index: number) => (
                             <li className="clearfix" key={index}>
-                                <img src={intro.img} alt={intro.name} />
-                                <p>{intro.name}</p>
+                                <img src={intro.img} alt={ReactIntl.get(intro.name)} />
+                                <p>{ReactIntl.get(intro.name)}</p>
                             </li>
                         ))}
                     </ul>
                 </div>
 
                 <div className="footer">
-                    <img className="logo" src={logoImg} alt="BCB矿场" />
-                    <p className="copyright">版权所有@2020BCB Miner PTE LTD.版权所有</p>
+                    <img className="logo" src={logoImg} alt={ReactIntl.get('NAME')} />
+                    <p className="copyright">{ReactIntl.get('COPYRIGHT')}</p>
                     <p className="coins">
-                        币种支持：
+                        {ReactIntl.get('COIN_SUPPORT')}：
                         <img src={coin01Img} alt="" />
                         <img src={coin02Img} alt="" />
                         <img src={coin03Img} alt="" />
