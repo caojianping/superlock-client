@@ -49,13 +49,19 @@ export default class LoanDetail extends Vue {
         this.from = query.from || From.getLoanFrom();
     }
 
+    // 获取数据
+    async fetchData() {
+        this.id && (await this.fetchLoan());
+        
+        Clipboard.copy('orderId', '贷款订单号');
+        Clipboard.copy('lockOrderId', '质押锁仓订单号');
+    }
+
     created() {
         this.initData();
     }
 
     mounted() {
-        Clipboard.copy('orderId', '贷款订单号');
-        Clipboard.copy('lockOrderId', '质押锁仓订单号');
-        this.id && this.fetchLoan();
+        this.fetchData();
     }
 }

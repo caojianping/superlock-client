@@ -32,13 +32,19 @@ export default class TransactionDetail extends Vue {
         });
     }
 
+    // 获取数据
+    async fetchData() {
+        await this.fetchTransaction();
+        
+        Clipboard.copy('orderId', '交易单号');
+    }
+
     created() {
         this.clearStates(true);
         this.initData();
     }
 
     mounted() {
-        Clipboard.copy('orderId', '交易单号');
-        this.fetchTransaction();
+        this.fetchData();
     }
 }
