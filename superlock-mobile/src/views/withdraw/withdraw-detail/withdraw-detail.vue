@@ -17,7 +17,7 @@
                 <Cell title="交易hash">
                     <p class="scb-copy" id="txhash" :data-clipboard-text="withdraw.txhash">
                         <span>{{ withdraw.txhash }}</span>
-                        <i class="icon icon-copy" />
+                        <i v-if="withdraw.txhash" class="icon icon-copy" />
                     </p>
                 </Cell>
                 <Cell title="提现时间" :value="withdraw.createTime | dateFormat" />
