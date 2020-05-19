@@ -32,6 +32,8 @@
                 </CellGroup>
             </template>
         </div>
+
+        <router-link to="/home/index">返回理财首页</router-link>
     </div>
 </template>
 

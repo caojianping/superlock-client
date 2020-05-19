@@ -8,7 +8,7 @@
                 <p>暂无资金详情数据</p>
             </div>
             <CellGroup v-else class="priority-value">
-                <Cell title="交易单号" :value="transaction.orderId">
+                <Cell title="交易单号">
                     <p class="scb-copy" id="orderId" :data-clipboard-text="transaction.orderId">
                         <span>{{ transaction.orderId }}</span>
                         <i class="icon icon-copy" />
