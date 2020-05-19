@@ -24,12 +24,7 @@ export class RechargeService {
     // 获取充值列表
     public async fetchRecharges(pageNum: number = 1, pageSize: number = 10): Promise<Array<RechargeModel>> {
         let result = await Caxios.get<Array<RechargeModel> | null>(
-            {
-                url: `${Urls.recharge.list}?${Utils.buildParameters({
-                    pageNum,
-                    pageSize
-                })}`
-            },
+            { url: `${Urls.recharge.list}?${Utils.buildParameters({ pageNum, pageSize })}` },
             pageNum === 1 ? CaxiosType.LoadingToken : CaxiosType.Token
         );
         return result || [];
@@ -38,6 +33,6 @@ export class RechargeService {
     // 获取最小充值金额
     public async fetchMinAmount(coin: string): Promise<number> {
         let result = await Caxios.get<any>({ url: `${Urls.recharge.minAmount}?coin=${coin}` }, CaxiosType.Token);
-        return Number(result);
+        return Utils.digitConvert(result);
     }
 }

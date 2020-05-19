@@ -1,6 +1,6 @@
 <template>
     <div class="transaction-detail">
-        <Header title="资金详情" @left="$router.push({ path: '/transaction/record', query: { cache: 'true' } })" />
+        <Header title="资金详情" @left="$router.push('/transaction/record')" />
 
         <div v-if="transaction !== undefined" class="scb-separator">
             <div v-if="transaction === null" class="scb-none">

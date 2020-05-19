@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { Component, Prop, Model, Watch } from 'vue-property-decorator';
 
 import { CONSTANTS, VerifyType } from '@/ts/config';
+import Utils from '@/ts/utils';
 import { Prompt } from '@/ts/common';
 import { VerifyResult } from '@/ts/models';
 
@@ -57,7 +58,7 @@ export default class VerifyList extends Vue {
                 });
             } else {
                 Prompt.warning('未绑定邮箱，请先到安全中心绑定邮箱').then(() => {
-                    this.$router.push({ path: '/security/email', query: { from: from }});
+                    this.$router.push({ path: '/security/email', query: { from: from } });
                 });
             }
         } else {
@@ -90,8 +91,8 @@ export default class VerifyList extends Vue {
             smsFlag = 0;
         if (verifyResult) {
             let parts = (verifyResult.verifyMode || '').split('');
-            emailFlag = isNaN(Number(parts[0])) ? 0 : Number(parts[0]);
-            smsFlag = isNaN(Number(parts[1])) ? 0 : Number(parts[1]);
+            emailFlag = Utils.digitConvert(parts[0]);
+            smsFlag = Utils.digitConvert(parts[1]);
         }
         this.emailFlag = emailFlag;
         this.smsFlag = smsFlag;

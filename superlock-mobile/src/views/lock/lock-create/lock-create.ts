@@ -11,7 +11,7 @@ import { Prompt, From } from '@/ts/common';
 import { UserLockQuotaModel, ProjectModel, LockFormModel, AssetStatsModel, UserInfoModel, LockResultModel } from '@/ts/models';
 import { LockService } from '@/ts/services';
 
-import { Toast, Field, Button } from 'vant';
+import { Toast, PullRefresh, Field, Button } from 'vant';
 import Header from '@/components/common/header';
 import PasswordModal from '@/components/common/password-modal';
 
@@ -21,7 +21,7 @@ const projectModule = namespace('project');
 
 @Component({
     name: 'LockCreate',
-    components: { Field, Button, Header, PasswordModal }
+    components: { PullRefresh, Field, Button, Header, PasswordModal }
 })
 export default class LockCreate extends Vue {
     @State('unitTypes') unitTypes!: Array<string>;
@@ -41,6 +41,7 @@ export default class LockCreate extends Vue {
     @lockModule.Action('fetchMinLockAmount') fetchMinLockAmount!: () => any;
     @lockModule.Action('createLock') createLock!: () => any;
 
+    isPulling: boolean = false; // 是否下拉刷新
     isShow: boolean = false; // 是否显示密码模态框
 
     // 处理Field组件input事件
@@ -79,17 +80,48 @@ export default class LockCreate extends Vue {
         this.setStates({ lockForm });
 
         try {
+            Toast.loading({ mask: true, duration: 0, message: '加载中...' });
             let lockResult = await this.createLock();
-            if (!lockResult) Prompt.error('锁仓失败');
-            else {
+            if (!lockResult) {
+                Toast.clear();
+                Prompt.error('锁仓失败');
+            } else {
+                await this.fetchUserLockQuota();
+                await this.fetchAssetStats();
                 SessionStorage.setItem<LockResultModel>(CONSTANTS.LOCK_RESULT, lockResult);
-                Prompt.success('锁仓成功').then(() => {
-                    this.$router.push('/lock/result');
-                });
+                Toast.clear();
+                this.$router.push('/lock/result');
             }
         } catch (error) {
+            Toast.clear();
             Prompt.error(error.message || error);
         }
+    }
+
+    // 获取数据
+    async fetchData(isRefresh: boolean) {
+        Toast.loading({ mask: true, duration: 0, message: '加载中...' });
+        (!this.userLockQuota || isRefresh) && (await this.fetchUserLockQuota());
+        (!this.userInfo || isRefresh) && (await this.fetchUserInfo());
+        (!this.assetStats || isRefresh) && (await this.fetchAssetStats());
+
+        let minAmount = await this.fetchMinLockAmount(),
+            lockProject: any = Utils.duplicate(this.lockProject || {}),
+            lockForm = new LockFormModel();
+        lockForm.length = lockProject.length;
+        lockForm.unit = lockProject.unit;
+        lockForm.rate = lockProject.rate;
+        lockForm.minAmount = minAmount;
+        lockForm.maxAmount = this.assetStats ? this.assetStats.bcbHotAmount : 0;
+        this.setStates({ lockForm });
+        Toast.clear();
+    }
+
+    // 刷新数据
+    async refreshData() {
+        await this.fetchData(true);
+        this.isPulling = false;
+        Toast('刷新成功');
     }
 
     // 初始化数据
@@ -107,31 +139,11 @@ export default class LockCreate extends Vue {
         }
     }
 
-    // 获取数据
-    async fetchData() {
-        Toast.loading({ mask: true, duration: 0, message: '加载中...' });
-        !this.userInfo && (await this.fetchUserInfo());
-        await this.fetchUserLockQuota();
-        await this.fetchAssetStats();
-
-        let minAmount = await this.fetchMinLockAmount(),
-            lockProject: any = Utils.duplicate(this.lockProject || {}),
-            lockForm = new LockFormModel();
-        lockForm.length = lockProject.length;
-        lockForm.unit = lockProject.unit;
-        lockForm.rate = lockProject.rate;
-        lockForm.minAmount = minAmount;
-        lockForm.maxAmount = this.assetStats ? this.assetStats.bcbHotAmount : 0;
-        this.setStates({ lockForm });
-        Toast.clear();
-    }
-
     created() {
-        this.clearStates();
         this.initData();
     }
 
     mounted() {
-        this.fetchData();
+        this.fetchData(false);
     }
 }

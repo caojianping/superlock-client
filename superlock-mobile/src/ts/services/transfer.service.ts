@@ -7,11 +7,7 @@ import { TransferFormModel, TransferModel, TransferChildModel } from '@/ts/model
 export class TransferService {
     // 校验转账表单
     public static validateTransferForm(transferForm: TransferFormModel, isPassword: boolean = true): ValidationResult {
-        if (!transferForm)
-            return {
-                status: false,
-                data: { userForm: '转账表单参数不可以为空' }
-            };
+        if (!transferForm) return { status: false, data: { transferForm: '转账表单参数不可以为空' } };
 
         let key = 'transferForm',
             { toUid, quota, fundPasswd, maxAmount } = transferForm,
@@ -25,7 +21,7 @@ export class TransferService {
         validator.addRule(key, { name: 'toUid', value: toUid }, { required: true }, { required: '收款人UID不可以为空' });
         validator.addRule(
             key,
-            { name: 'quota', value: quota },
+            { name: 'quota', value: !Utils.isNullOrUndefined(quota) ? Utils.digitConvert(quota) : quota },
             { required: true, minExclude: 0, max: maxAmount },
             {
                 required: '转账金额不可以为空',
@@ -59,12 +55,7 @@ export class TransferService {
     // 获取转账列表
     public async fetchTransfers(pageNum: number = 1, pageSize: number = 10): Promise<Array<TransferModel>> {
         let result = await Caxios.get<Array<TransferModel> | null>(
-            {
-                url: `${Urls.transfer.list}?${Utils.buildParameters({
-                    pageNum,
-                    pageSize
-                })}`
-            },
+            { url: `${Urls.transfer.list}?${Utils.buildParameters({ pageNum, pageSize })}` },
             pageNum === 1 ? CaxiosType.LoadingToken : CaxiosType.Token
         );
         return result || [];
@@ -73,13 +64,7 @@ export class TransferService {
     // 获取转账下级列表
     public async fetchTransferChilds(keyword: string = '', pageNum: number = 1, pageSize: number = 10): Promise<Array<TransferChildModel>> {
         let result = await Caxios.get<Array<TransferChildModel> | null>(
-            {
-                url: `${Urls.transfer.childs}?${Utils.buildParameters({
-                    nickName: keyword || '',
-                    pageNum,
-                    pageSize
-                })}`
-            },
+            { url: `${Urls.transfer.childs}?${Utils.buildParameters({ nickName: keyword || '', pageNum, pageSize })}` },
             pageNum === 1 ? CaxiosType.LoadingToken : CaxiosType.Token
         );
         return result || [];

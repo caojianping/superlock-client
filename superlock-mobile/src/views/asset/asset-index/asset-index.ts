@@ -34,8 +34,8 @@ const projectModule = namespace('project');
     }
 })
 export default class AssetIndex extends Vue {
-    @State('exchangeRate') exchangeRate?: ExchangeRateModel | null;
     @State('unitTypes') unitTypes!: Array<string>;
+    @State('exchangeRate') exchangeRate?: ExchangeRateModel | null;
     @Action('fetchExchangeRate') fetchExchangeRate!: (payload: any) => any;
 
     @lockModule.State('lockStatuses') lockStatuses!: Map<number, string>;
@@ -63,7 +63,7 @@ export default class AssetIndex extends Vue {
 
     activeTab: number = 0;
 
-    isPulling: boolean = false;
+    isPulling: boolean = false; // 是否下拉刷新
     isTotalVisible: boolean = true;
 
     isAssetStatsSpinning: boolean = false;
@@ -74,24 +74,14 @@ export default class AssetIndex extends Vue {
     isRechargeCoinsShow: boolean = false;
     isEarningsInfoShow: boolean = false;
 
-    // 跳转页面
-    goPage(path: string) {
-        this.$router.push(path);
-    }
-
     // 切换总资产可见性
     toggleTotal() {
         this.isTotalVisible = !this.isTotalVisible;
     }
 
-    // 打开充值币种组件
-    openRechargeCoins() {
-        this.isRechargeCoinsShow = true;
-    }
-
-    // 打开收益信息组件
-    openEarningsInfo() {
-        this.isEarningsInfoShow = true;
+    // 打开组件
+    openComponent(key: string) {
+        this[key] = true;
     }
 
     // 跳转至锁仓详情页面
@@ -111,12 +101,6 @@ export default class AssetIndex extends Vue {
     // 处理选项卡change事件
     async handleTabsChange() {
         this.fetchTabData(this.activeTab);
-    }
-
-    // 初始化数据
-    initData() {
-        let query = this.$route.query || {};
-        this.activeTab = Utils.digitConvert(query.type);
     }
 
     // 获取选项卡数据
@@ -149,32 +133,35 @@ export default class AssetIndex extends Vue {
     }
 
     // 获取所有数据，全部并发请求
-    async fetchData() {
-        this.fetchExchangeRate({ fromCoin: 'BCB', toCoin: 'DC' });
-        this.fetchEarningsStats();
+    async fetchData(isRefresh: boolean) {
+        (!this.exchangeRate || isRefresh) && this.fetchExchangeRate({ fromCoin: 'BCB', toCoin: 'DC' });
+        (!this.earningsStats || isRefresh) && this.fetchEarningsStats();
 
         let activeTab = this.activeTab;
-        this.fetchTabData(activeTab, true);
         if (activeTab !== 0) {
-            this.fetchTabData(0, true);
+            await this.fetchTabData(activeTab, true);
         }
+        await this.fetchTabData(0, isRefresh);
     }
 
     // 刷新数据
     async refreshData() {
-        await this.fetchData();
+        await this.fetchData(true);
         this.isPulling = false;
         Toast('刷新成功');
     }
 
+    // 初始化数据
+    initData() {
+        let query = this.$route.query || {};
+        this.activeTab = Utils.digitConvert(query.type);
+    }
+
     created() {
-        this.clearLockStates();
-        this.clearLoanStates();
-        this.clearStates();
         this.initData();
     }
 
     mounted() {
-        this.fetchData();
+        this.fetchData(false);
     }
 }

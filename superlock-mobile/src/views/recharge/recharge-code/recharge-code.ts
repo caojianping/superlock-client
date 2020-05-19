@@ -37,6 +37,21 @@ export default class RechargeCode extends Vue {
         return rechargeAddress.indexOf('bcb') === 0 ? `bcbpay://${rechargeCoin}/${rechargeAddress}/*` : rechargeAddress;
     }
 
+    // 获取数据
+    async fetchData() {
+        Toast.loading({ mask: true, duration: 0, message: '加载中...' });
+        let rechargeCoin = this.rechargeCoin;
+        if (rechargeCoin !== 'BCB') {
+            await this.fetchMinAmount();
+            await this.fetchExchangeRate({ fromCoin: rechargeCoin, toCoin: 'BCB' });
+        }
+
+        await this.fetchRechargeAddress();
+        Toast.clear();
+
+        Clipboard.copy('address', '充值地址');
+    }
+
     // 初始化数据
     initData() {
         let params: any = this.$route.params || {};
@@ -46,25 +61,11 @@ export default class RechargeCode extends Vue {
         this.from = query.from || From.getRechargeFrom();
     }
 
-    // 获取数据
-    async fetchData() {
-        Toast.loading({ mask: true, duration: 0, message: '加载中...' });
-        let rechargeCoin = this.rechargeCoin;
-        if (rechargeCoin !== 'BCB') {
-            await this.fetchMinAmount();
-            await this.fetchExchangeRate({ fromCoin: rechargeCoin, toCoin: 'BCB' });
-        }
-        await this.fetchRechargeAddress();
-        Toast.clear();
-    }
-
     created() {
-        this.clearStates();
         this.initData();
     }
 
     mounted() {
-        Clipboard.copy('address', '充值地址');
         this.fetchData();
     }
 }

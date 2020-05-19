@@ -7,15 +7,15 @@ import { TokenInfo } from '@/ts/models';
 import { CommonService } from '@/ts/services';
 
 import userModule from './modules/user.module';
-import childModule from './modules/child.module';
 import projectModule from './modules/project.module';
-import transactionModule from './modules/transaction.module';
-import lockModule from './modules/lock.module';
 import rechargeModule from './modules/recharge.module';
 import withdrawModule from './modules/withdraw.module';
 import transferModule from './modules/transfer.module';
-import securityModule from './modules/security.module';
+import lockModule from './modules/lock.module';
 import loanModule from './modules/loan.module';
+import childModule from './modules/child.module';
+import transactionModule from './modules/transaction.module';
+import securityModule from './modules/security.module';
 
 Vue.use(Vuex);
 

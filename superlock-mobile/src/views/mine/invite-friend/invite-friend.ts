@@ -70,20 +70,18 @@ export default class InviteFriend extends Vue {
         Toast.loading({ mask: true, duration: 0, message: '加载中...' });
         !this.userInfo && (await this.fetchUserInfo());
         await this.fetchDefaultRateStats();
+
         let defaultRateStats = this.defaultRateStats;
         if (defaultRateStats) {
             this.isPromptShow = !defaultRateStats.existDefault;
             this.isRateShow = false;
         }
         Toast.clear();
-    }
 
-    create() {
-        this.clearStates();
+        Clipboard.copy('address', '邀请地址');
     }
 
     mounted() {
-        Clipboard.copy('address', '邀请地址');
         this.fetchData();
     }
 }

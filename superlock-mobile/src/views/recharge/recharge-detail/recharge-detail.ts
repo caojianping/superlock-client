@@ -4,7 +4,6 @@ import { Component } from 'vue-property-decorator';
 import { SessionStorage } from 'jts-storage';
 
 import TYPES from '@/store/types';
-import Utils from '@/ts/utils';
 import { CONSTANTS } from '@/ts/config';
 import { Clipboard } from '@/ts/common';
 import { RechargeModel } from '@/ts/models';
@@ -19,16 +18,13 @@ const rechargeModule = namespace('recharge');
     components: { CellGroup, Cell, Header }
 })
 export default class RechargeDetail extends Vue {
-    @rechargeModule.State('recharges') recharges?: Array<RechargeModel>;
     @rechargeModule.State('recharge') recharge?: RechargeModel | null;
     @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @rechargeModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
 
     // 初始化数据
     initData() {
-        let params: any = this.$route.params || {},
-            recharges = Utils.duplicate(this.recharges || []),
-            recharge: any = recharges.filter((recharge: RechargeModel) => recharge.orderId === params.id)[0];
+        let recharge = this.recharge;
         if (!recharge) {
             recharge = SessionStorage.getItem<RechargeModel>(CONSTANTS.RECHARGE);
         }

@@ -2,25 +2,25 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { ValidationResult } from 'jpts-validator';
+import { SessionStorage } from 'jts-storage';
 
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
+import { CONSTANTS } from '@/ts/config';
 import { Prompt, From, Clipboard } from '@/ts/common';
 import { LoanModel, LoanRepayFormModel, UserInfoModel } from '@/ts/models';
 import { LoanService } from '@/ts/services';
 
-import { Toast, CellGroup, Cell, Button } from 'vant';
+import { Toast, PullRefresh, CellGroup, Cell, Button } from 'vant';
 import Header from '@/components/common/header';
 import PasswordModal from '@/components/common/password-modal';
-import { SessionStorage } from 'jts-storage';
-import { CONSTANTS } from '@/ts/config';
 
 const userModule = namespace('user');
 const loanModule = namespace('loan');
 
 @Component({
     name: 'LoanRepay',
-    components: { CellGroup, Cell, Button, Header, PasswordModal }
+    components: { PullRefresh, CellGroup, Cell, Button, Header, PasswordModal }
 })
 export default class LoanRepay extends Vue {
     @userModule.State('userInfo') userInfo?: UserInfoModel | null;
@@ -28,20 +28,17 @@ export default class LoanRepay extends Vue {
 
     @loanModule.State('loan') loan?: LoanModel | null;
     @loanModule.State('repayForm') repayForm!: LoanRepayFormModel;
-
     @loanModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @loanModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @loanModule.Action('repayLoan') repayLoan!: () => any;
 
+    isPulling: boolean = false; // 是否下拉刷新
     isShow: boolean = false; // 是否显示密码模态框
 
     // 提交偿还表单
     async submit() {
         let result: ValidationResult = LoanService.validateRepayForm(this.repayForm, false);
-        if (!result.status) {
-            Prompt.error(Utils.getFirstValue(result.data));
-            return;
-        }
+        if (!result.status) Prompt.error(Utils.getFirstValue(result.data));
 
         if (!this.userInfo || !this.userInfo.haveFundPasswd) {
             Prompt.info('您未设置资金密码，请先设置资金密码').then(() => {
@@ -74,16 +71,10 @@ export default class LoanRepay extends Vue {
         }
     }
 
-    // 初始化数据
-    initData() {
-        let loan = SessionStorage.getItem<LoanModel>(CONSTANTS.LOAN);
-        this.setStates({ loan });
-    }
-
     // 获取数据
-    async fetchData() {
+    async fetchData(isRefresh: boolean) {
         Toast.loading({ mask: true, duration: 0, message: '加载中...' });
-        !this.userInfo && (await this.fetchUserInfo());
+        (!this.userInfo || isRefresh) && (await this.fetchUserInfo());
 
         let repayForm = new LoanRepayFormModel(),
             loan = this.loan;
@@ -97,11 +88,24 @@ export default class LoanRepay extends Vue {
         Clipboard.copy('lockOrderId', '质押锁仓订单号');
     }
 
+    // 刷新数据
+    async refreshData() {
+        await this.fetchData(true);
+        this.isPulling = false;
+        Toast('刷新成功');
+    }
+
+    // 初始化数据
+    initData() {
+        let loan = SessionStorage.getItem<LoanModel>(CONSTANTS.LOAN);
+        this.setStates({ loan });
+    }
+
     created() {
         this.initData();
     }
 
     mounted() {
-        this.fetchData();
+        this.fetchData(false);
     }
 }

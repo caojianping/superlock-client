@@ -9,6 +9,7 @@ import { CONSTANTS } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { UserLockQuotaModel, ProjectModel } from '@/ts/models';
 
+import { Toast, PullRefresh } from 'vant';
 import Header from '@/components/common/header';
 
 const userModule = namespace('user');
@@ -16,11 +17,9 @@ const lockModule = namespace('lock');
 
 @Component({
     name: 'LockIntro',
-    components: { Header }
+    components: { PullRefresh, Header }
 })
 export default class LockIntro extends Vue {
-    dateCalculate: Function = Utils.dateCalculate;
-
     @State('unitTypes') unitTypes!: Array<string>;
 
     @userModule.State('userLockQuota') userLockQuota?: UserLockQuotaModel | null;
@@ -29,6 +28,22 @@ export default class LockIntro extends Vue {
     @lockModule.State('lockProject') lockProject?: ProjectModel | null;
     @lockModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @lockModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
+
+    dateCalculate: Function = Utils.dateCalculate;
+
+    isPulling: boolean = false; // 是否下拉刷新
+
+    // 获取数据
+    async fetchData(isRefresh: boolean) {
+        (!this.userLockQuota || isRefresh) && (await this.fetchUserLockQuota());
+    }
+
+    // 刷新数据
+    async refreshData() {
+        await this.fetchData(true);
+        this.isPulling = false;
+        Toast('刷新成功');
+    }
 
     // 初始化数据
     initData() {
@@ -43,11 +58,10 @@ export default class LockIntro extends Vue {
     }
 
     created() {
-        this.clearStates();
         this.initData();
     }
 
     mounted() {
-        this.fetchUserLockQuota();
+        this.fetchData(false);
     }
 }

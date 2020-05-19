@@ -57,7 +57,7 @@ export default class RechargeCoins extends Vue {
     // 获取数据
     async fetchData() {
         !this.userInfo && (await this.fetchUserInfo());
-        
+
         let rechargeCoins = this.rechargeCoins;
         if (!rechargeCoins || rechargeCoins.length <= 0) {
             this.isSpinning = true;

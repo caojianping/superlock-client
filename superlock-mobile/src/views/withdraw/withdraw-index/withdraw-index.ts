@@ -9,7 +9,7 @@ import { Prompt, From } from '@/ts/common';
 import { UsableQuotaModel, UserInfoModel, WithdrawFormModel, WithdrawAddressModel } from '@/ts/models';
 import { WithdrawService } from '@/ts/services';
 
-import { Toast, Field, Icon, Button } from 'vant';
+import { Toast, PullRefresh, Field, Icon, Button } from 'vant';
 import Header from '@/components/common/header';
 import PasswordModal from '@/components/common/password-modal';
 
@@ -18,7 +18,7 @@ const withdrawModule = namespace('withdraw');
 
 @Component({
     name: 'WithdrawIndex',
-    components: { Field, Icon, Button, Header, PasswordModal }
+    components: { PullRefresh, Field, Icon, Button, Header, PasswordModal }
 })
 export default class WithdrawIndex extends Vue {
     @State('usableQuota') usableQuota?: UsableQuotaModel | null;
@@ -35,6 +35,7 @@ export default class WithdrawIndex extends Vue {
     @withdrawModule.Action('executeWithdraw') executeWithdraw!: () => any;
     @withdrawModule.Action('fetchWithdrawAddresses') fetchWithdrawAddresses!: (isLoading: boolean) => any;
 
+    isPulling: boolean = false; // 是否下拉刷新
     isShow: boolean = false; // 是否显示密码模态框
 
     // 跳转至提现地址页面
@@ -56,13 +57,10 @@ export default class WithdrawIndex extends Vue {
         this.setStates({ withdrawForm });
     }
 
-    // 提交提现
+    // 提交提现表单
     async submit() {
         let result: ValidationResult = WithdrawService.validateWithdrawForm(this.withdrawForm, false);
-        if (!result.status) {
-            Prompt.error(Utils.getFirstValue(result.data));
-            return;
-        }
+        if (!result.status) return Prompt.error(Utils.getFirstValue(result.data));
 
         if (!this.userInfo || !this.userInfo.haveFundPasswd) {
             Prompt.info('您未设置资金密码，请先设置资金密码').then(() => {
@@ -100,18 +98,11 @@ export default class WithdrawIndex extends Vue {
         }
     }
 
-    // 初始化数据
-    initData() {
-        let query: any = this.$route.query || {},
-            cache = Boolean(query.cache);
-        this.clearStates(cache);
-    }
-
     // 获取数据
-    async fetchData() {
+    async fetchData(isRefresh: boolean) {
         Toast.loading({ mask: true, duration: 0, message: '加载中...' });
         await this.fetchUsableQuota();
-        !this.userInfo && (await this.fetchUserInfo());
+        (!this.userInfo || isRefresh) && (await this.fetchUserInfo());
 
         let withdrawForm = Utils.duplicate(this.withdrawForm);
         withdrawForm.maxAmount = this.usableQuota ? this.usableQuota.amount : 0;
@@ -132,15 +123,19 @@ export default class WithdrawIndex extends Vue {
                 this.setStates({ selectedWithdrawAddress: firstAddress });
             }
         }
+
         this.setStates({ withdrawForm });
         Toast.clear();
     }
 
-    created() {
-        this.initData();
+    // 刷新数据
+    async refreshData() {
+        await this.fetchData(true);
+        this.isPulling = false;
+        Toast('刷新成功');
     }
 
     mounted() {
-        this.fetchData();
+        this.fetchData(false);
     }
 }

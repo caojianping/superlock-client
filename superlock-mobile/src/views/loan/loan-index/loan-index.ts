@@ -26,10 +26,10 @@ export default class LoanIndex extends Vue {
 
     @loanModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @loanModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
     @loanModule.Action('fetchLoanBaseInfo') fetchLoanBaseInfo!: () => any;
     @loanModule.Action('fetchLoanableLocks') fetchLoanableLocksAction!: () => any;
 
+    isCache: boolean = false; // 是否需要缓存
     isPulling: boolean = false; // 是否下拉刷新
     isLoading: boolean = false; // 是否正在加载
     isFinished: boolean = false; // 是否加载结束
@@ -51,25 +51,30 @@ export default class LoanIndex extends Vue {
     }
 
     // 获取数据
-    async fetchData() {
+    async fetchData(isRefresh: boolean) {
         Toast.loading({ mask: true, duration: 0, message: '加载中...' });
-        await this.fetchLoanBaseInfo();
+        (!this.loanBaseInfo || isRefresh) && (await this.fetchLoanBaseInfo());
 
-        this.setStates({ pageNum: 1 });
-        await this.fetchLoanableLocks();
+        if (!this.loanableLocks || isRefresh) {
+            this.setStates({ pageNum: 1 });
+            await this.fetchLoanableLocks();
+        }
         Toast.clear();
     }
 
     // 刷新数据
     async refreshData() {
-        await this.fetchData();
+        await this.fetchData(true);
         this.isPulling = false;
         Toast('刷新成功');
     }
 
-    created() {}
+    created() {
+        let query: any = this.$route.query || {};
+        this.isCache = Boolean(query.isCache);
+    }
 
     mounted() {
-        this.fetchData();
+        this.fetchData(!this.isCache);
     }
 }

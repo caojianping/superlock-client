@@ -2,6 +2,7 @@ import { Commit } from 'vuex';
 import { RegisterStatus, ForgetType } from '@/ts/config';
 import {
     TokenInfo,
+    VerifyResult,
     UsableQuotaModel,
     UserFormModel,
     UserInfoModel,
@@ -20,23 +21,18 @@ import {
     PromoteRewardLockModel,
     PromoteRewardUnlockModel,
     PromoteRewardSaleModel,
-    TransactionTypeModel,
-    TransactionInfoModel,
-    TransactionModel,
-    LockFormModel,
-    LockModel,
-    RechargeCoinModel,
     RechargeModel,
+    RechargeCoinModel,
     WithdrawFormModel,
     WithdrawAddressModel,
     WithdrawModel,
     TransferFormModel,
     TransferChildModel,
     TransferModel,
-    SecurityFormModel,
+    LockFormModel,
+    LockModel,
+    LockInterestModel,
     LockResultModel,
-    EmailFormModel,
-    VerifyResult,
     LoanBaseInfoModel,
     LoanableLockModel,
     LoanableQuotaModel,
@@ -44,7 +40,11 @@ import {
     LoanModel,
     LoanApplyFormModel,
     LoanRepayFormModel,
-    LockInterestModel
+    TransactionTypeModel,
+    TransactionInfoModel,
+    TransactionModel,
+    EmailFormModel,
+    SecurityFormModel
 } from '@/ts/models';
 
 export interface IActionContext<T> {
@@ -127,6 +127,28 @@ export interface ILockState {
     lockResult?: LockResultModel | null; // 锁仓结果
 }
 
+export interface ILoanState {
+    loanFlags: Map<number, string>; // 贷款标志
+    loanStatuses: Map<number, string>; // 贷款状态
+    loanColors: Map<number, string>; // 贷款颜色
+
+    loanBaseInfo?: LoanBaseInfoModel | null; // 贷款基础信息
+    loanableQuota?: LoanableQuotaModel | null; // 可贷款额度
+
+    pageNum: number; // 分页索引
+    pageSize: number; // 分页尺寸
+    loans?: Array<LoanModel>; // 贷款列表
+    loanInterests?: Array<LoanInterestModel>; // 贷款利息列表
+    loanableLocks?: Array<LoanableLockModel>; // 可贷款锁仓列表
+    loanableLock?: LoanableLockModel | null; // 可贷款锁仓数据
+
+    id: string; // 贷款编号
+    loan?: LoanModel | null; // 贷款信息
+
+    applyForm: LoanApplyFormModel; // 贷款申请表单
+    repayForm: LoanRepayFormModel; // 贷款偿还表单
+}
+
 export interface IRechargeState {
     rechargeCoins?: Array<RechargeCoinModel>; // 充值币种列表
     rechargeCoin: string; // 充值币种
@@ -166,26 +188,4 @@ export interface ITransferState {
 export interface ISecurityState {
     securityForm: SecurityFormModel; // 安全中心表单
     emailForm: EmailFormModel; // 邮箱表单
-}
-
-export interface ILoanState {
-    loanFlags: Map<number, string>; // 贷款标志
-    loanStatuses: Map<number, string>; // 贷款状态
-    loanColors: Map<number, string>; // 贷款颜色
-
-    loanBaseInfo?: LoanBaseInfoModel | null; // 贷款基础信息
-    loanableQuota?: LoanableQuotaModel | null; // 可贷款额度
-
-    pageNum: number; // 分页索引
-    pageSize: number; // 分页尺寸
-    loans?: Array<LoanModel>; // 贷款列表
-    loanInterests?: Array<LoanInterestModel>; // 贷款利息列表
-    loanableLocks?: Array<LoanableLockModel>; // 可贷款锁仓列表
-    loanableLock?: LoanableLockModel | null; // 可贷款锁仓数据
-
-    id: string; // 贷款编号
-    loan?: LoanModel | null; // 贷款信息
-
-    applyForm: LoanApplyFormModel; // 贷款申请表单
-    repayForm: LoanRepayFormModel; // 贷款偿还表单
 }

@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { From } from '@/ts/common';
+
 import { Button } from 'vant';
 import Header from '@/components/common/header';
 

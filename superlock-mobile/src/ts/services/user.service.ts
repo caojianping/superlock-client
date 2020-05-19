@@ -99,7 +99,7 @@ export class UserService {
 
     // 设置昵称
     public async setNickname(nickname: string): Promise<boolean> {
-        if (!nickname) return Promise.reject('昵称不可以为空');
+        if (!nickname) return Promise.reject('用户昵称不可以为空');
         await Caxios.post<any>({ url: `${Urls.user.setNickname}?nickName=${nickname}` }, CaxiosType.LoadingToken);
         return true;
     }

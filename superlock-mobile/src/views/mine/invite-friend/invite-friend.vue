@@ -7,7 +7,7 @@
             <span>利率设置</span>
         </div>
 
-        {{ ((userInfoObj = userInfoObj || {}), void 0) }}
+        {{ ((userInfoObj = userInfo || {}), void 0) }}
         {{ ((referralLink = userInfoObj.referralLink || ''), void 0) }}
         <div class="invite-container">
             <p>扫描二维码</p>

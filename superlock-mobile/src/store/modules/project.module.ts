@@ -5,15 +5,13 @@ import { PromoteRewardPushModel } from '@/ts/models';
 import { ProjectService } from '@/ts/services';
 
 const projectState: IProjectState = {
-    
-
     projectStats: undefined,
     assetStats: undefined,
     earningsStats: undefined,
     rewardStats: undefined,
 
     pageNum: 1,
-    pageSize: 10,
+    pageSize: 15,
     rewards: undefined
 };
 
@@ -38,7 +36,7 @@ export default {
             state.rewardStats = undefined;
 
             state.pageNum = 1;
-            state.pageSize = 10;
+            state.pageSize = 15;
             state.rewards = undefined;
         }
     },

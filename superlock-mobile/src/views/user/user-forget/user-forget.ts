@@ -70,8 +70,8 @@ export default class UserForget extends Vue {
     // 初始化数据
     initData() {
         let params: any = this.$route.params || {},
-            type = Number(params.type);
-        this.setStates({ forgetType: isNaN(type) ? ForgetType.LoginPassword : type });
+            type = Utils.digitConvert(params.type);
+        this.setStates({ forgetType: type || ForgetType.LoginPassword });
 
         let query: any = this.$route.query || {};
         this.from = query.from || '';

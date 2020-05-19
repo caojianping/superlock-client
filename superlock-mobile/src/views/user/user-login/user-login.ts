@@ -53,10 +53,7 @@ export default class UserLogin extends Vue {
 
             let result = await this.login();
             if (!result) Prompt.error('登录失败');
-            else {
-                Prompt.success('登录成功');
-                this.$router.push('/home/index');
-            }
+            else this.$router.push('/home/index');
         } catch (error) {
             Prompt.error(error.message || error);
         }

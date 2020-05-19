@@ -8,7 +8,7 @@ export default [
         component: TeamIndex
     },
     {
-        path: '/team/child/:uid',
+        path: '/team/child',
         name: 'TeamChild',
         component: TeamChild
     }

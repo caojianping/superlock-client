@@ -24,7 +24,7 @@ export class ChildService {
 
             let minAmount = childRateForm.minAmount,
                 maxAmount = childRateForm.maxAmount,
-                value = Number(childRateForm.value);
+                value = !Utils.isNullOrUndefined(childRateForm.value) ? Utils.digitConvert(childRateForm.value) : childRateForm.value;
             validator.addRule(
                 key,
                 { name: `value${index}`, value: value },
@@ -54,8 +54,8 @@ export class ChildService {
                 msg = rateTypes[type - 1];
             }
 
-            let max = Number(defaultRateForm.max),
-                value = Utils.isNullOrUndefined(defaultRateForm.value) ? defaultRateForm.value : Number(defaultRateForm.value);
+            let max = defaultRateForm.max,
+                value = !Utils.isNullOrUndefined(defaultRateForm.value) ? Utils.digitConvert(defaultRateForm.value) : defaultRateForm.value;
             validator.addRule(
                 key,
                 { name: `value${index}`, value: value },
@@ -79,24 +79,16 @@ export class ChildService {
     // 获取下级分页列表
     public async fetchChilds(pageNum: number = 1, pageSize: number = 10): Promise<Array<ChildModel>> {
         let result = await Caxios.get<Array<ChildModel> | null>(
-            {
-                url: `${Urls.child.page}?${Utils.buildParameters({
-                    pageNum,
-                    pageSize
-                })}`
-            },
+            { url: `${Urls.child.page}?${Utils.buildParameters({ pageNum, pageSize })}` },
             pageNum === 1 ? CaxiosType.LoadingToken : CaxiosType.Token
         );
-        if (!result) return [];
-        else {
-            result.forEach((child: ChildModel) => {
-                (child.rates || []).forEach((rate: ChildRateModel) => {
-                    rate['value'] = Number(rate.value);
-                    rate['childValue'] = Number(rate.childValue);
-                });
+        (result || []).forEach((child: ChildModel) => {
+            (child.rates || []).forEach((rate: ChildRateModel) => {
+                rate['value'] = Utils.digitConvert(rate.value);
+                rate['childValue'] = Utils.digitConvert(rate.childValue);
             });
-            return result;
-        }
+        });
+        return result || [];
     }
 
     // 设置下级备注
@@ -109,10 +101,7 @@ export class ChildService {
         let result = validator.execute(key);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let parameters = Utils.buildParameters({
-            childUid,
-            nickNameRemark: remark
-        });
+        let parameters = Utils.buildParameters({ childUid, nickNameRemark: remark });
         await Caxios.post<any>({ url: `${Urls.child.setRemark}?${parameters}` }, CaxiosType.LoadingToken);
         return true;
     }
@@ -143,8 +132,8 @@ export class ChildService {
         let result = await Caxios.get<any>({ url: Urls.child.defaultRate.stats }, CaxiosType.Token);
         if (result) {
             (result.defaultRateList || []).forEach((rate: any) => {
-                rate['value'] = Number(rate.value);
-                rate['childValue'] = Number(rate.childValue);
+                rate['value'] = Utils.digitConvert(rate.value);
+                rate['childValue'] = Utils.digitConvert(rate.childValue);
             });
         }
         return result;

@@ -122,16 +122,14 @@ export default class TeamChild extends Vue {
 
     // 初始化数据
     initData() {
-        let params: any = this.$route.params || {},
-            childs = Utils.duplicate(this.childs || []),
-            child: any = childs.filter((child: ChildModel) => child.uid === params.uid)[0];
+        let child = this.child;
         if (!child) {
             child = SessionStorage.getItem<ChildModel>(CONSTANTS.CHILD);
         }
         this.setStates({ child });
 
         let childRateForms: Array<ChildRateFormModel> = [];
-        (child.rates || []).forEach((rate: ChildRateModel) => {
+        ((child || {}).rates || []).forEach((rate: ChildRateModel) => {
             let childRateForm = new ChildRateFormModel();
             childRateForm.type = rate.type;
             childRateForm.length = rate.length;
