@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { namespace, Action, State } from 'vuex-class';
+import { namespace, Action, State, Mutation } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { ValidationResult } from 'jpts-validator';
 
@@ -11,6 +11,7 @@ import { UserFormModel, VerifyResult } from '@/ts/models';
 import { UserService } from '@/ts/services';
 
 import { Cell, Button, Toast } from 'vant';
+import Langs from '@/components/common/langs';
 import UserForm from '@/components/user/user-form';
 import VerifyModal from '@/components/verify/verify-modal';
 
@@ -18,10 +19,12 @@ const userModule = namespace('user');
 
 @Component({
     name: 'UserLogin',
-    components: { Cell, Button, UserForm, VerifyModal }
+    components: { Cell, Button, Langs, UserForm, VerifyModal }
 })
 export default class UserLogin extends Vue {
     @State('verifyResult') verifyResult?: VerifyResult | null;
+    @Mutation(TYPES.SET_STATES) setRootStates!: (payload: any) => any;
+    @Mutation(TYPES.CLEAR_STATES) clearRootStates!: () => any;
     @Action('fetchVerifyMethod') fetchVerifyMethod!: (payload: { areaCode: string; mobile: string; type?: number; isLoading?: boolean }) => any;
 
     @userModule.State('userForm') userForm!: UserFormModel;
@@ -32,6 +35,10 @@ export default class UserLogin extends Vue {
     captcha: any = null; // 云盾短信验证码实例
     invitationCode: string = ''; // 邀请码
     isVerifyShow: boolean = false; // 是否显示验证模态框组件
+
+    test() {
+        Prompt.error(UserService.test());
+    }
 
     // 跳转至客服页面
     goCustomerService() {

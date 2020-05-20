@@ -101,7 +101,7 @@ export default class WithdrawIndex extends Vue {
     // 获取数据
     async fetchData(isRefresh: boolean) {
         Toast.loading({ mask: true, duration: 0, message: '加载中...' });
-        await this.fetchUsableQuota();
+        (!this.usableQuota || isRefresh) && (await this.fetchUsableQuota());
         (!this.userInfo || isRefresh) && (await this.fetchUserInfo());
 
         let withdrawForm = Utils.duplicate(this.withdrawForm);

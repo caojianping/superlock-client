@@ -21,7 +21,7 @@ const transferModule = namespace('transfer');
     components: { PullRefresh, Field, Icon, Button, Header, PasswordModal }
 })
 export default class TransferIndex extends Vue {
-    @State('qusableQuotauota') usableQuota?: UsableQuotaModel | null;
+    @State('usableQuota') usableQuota?: UsableQuotaModel | null;
     @Action('fetchUsableQuota') fetchUsableQuota!: () => any;
 
     @userModule.State('userInfo') userInfo?: UserInfoModel | null;

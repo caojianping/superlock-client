@@ -26,7 +26,7 @@
                         <Cell title="质押锁仓价值" :value="`${loan.mortgageValuationAmount} ${loan.mortgageValuationCoin}`" />
                         <Cell title="贷款价值" :value="`${loan.loanValuationAmount} ${loan.loanValuationCoin}`" />
                         <Cell title="贷款年利率" :value="`${loan.rate}%`" />
-                        <Cell title="放贷时间" :value="loan.lendTime | dateFormat" />
+                        <Cell title="放贷时间" :value="loan.lendDate | dateFormat" />
 
                         <Cell title="累计贷款时长" :value="`${loan.lendDays}天`" />
                         <Cell title="累计利息" :value="`${loan.totalInterest} ${loan.totalInterestCoin}`" />

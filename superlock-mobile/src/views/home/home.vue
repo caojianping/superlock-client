@@ -1,6 +1,8 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
         <div class="home-index">
+            <Langs />
+
             {{ ((userLockQuotaObj = userLockQuota || {}), void 0) }}
             <div class="home-stats">
                 <div class="user-stats">

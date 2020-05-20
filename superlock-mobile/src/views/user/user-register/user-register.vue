@@ -1,5 +1,7 @@
 <template>
     <div class="register">
+        <Langs />
+
         <header>
             <h1>新用户注册</h1>
         </header>
@@ -51,7 +53,7 @@
             :area-code="userForm.areaCode"
             :mobile="userForm.mobile"
             :verify-result="verifyResult"
-            from='/user/register'
+            from="/user/register"
             @submit="handleVerifyListSubmit"
             @stop="handleVerifyListStop"
         />

@@ -119,10 +119,10 @@ export class Caxios {
         }
 
         let resp = response.data;
-        if (!resp) throw new BusinessError(999, '无效的响应数据');
+        if (!resp) throw new BusinessError(9999, '无效的响应数据');
 
         let result = new ResponseResult<T>(Number(resp.code), resp.data, resp.message);
-        if (!result) throw new BusinessError(999, '无效的响应数据');
+        if (!result) throw new BusinessError(9999, '无效的响应数据');
 
         let code: number = result.code,
             data: any = result.data,

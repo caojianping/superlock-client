@@ -8,6 +8,7 @@ import { CONSTANTS } from '@/ts/config';
 import { UserLockQuotaModel, ProjectStatsModel, ProjectModel, UserInfoModel } from '@/ts/models';
 
 import { Toast, PullRefresh } from 'vant';
+import Langs from '@/components/common/langs';
 import Navs from '@/components/common/navs';
 import Spin from '@/components/common/spin';
 import BindGuide from '@/components/common/bind-guide';
@@ -17,7 +18,7 @@ const projectModule = namespace('project');
 
 @Component({
     name: 'Home',
-    components: { PullRefresh, Navs, Spin, BindGuide }
+    components: { PullRefresh, Navs, Langs, Spin, BindGuide }
 })
 export default class Home extends Vue {
     @State('unitTypes') unitTypes!: Array<string>;

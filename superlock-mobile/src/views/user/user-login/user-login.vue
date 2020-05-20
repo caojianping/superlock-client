@@ -5,6 +5,8 @@
             <span>联系客服</span>
         </div>
 
+        <Langs />
+
         <header>
             <img src="../../../assets/images/logo.png" alt="BCB矿场" />
             <h1>欢迎登录BCB矿场</h1>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="lock_item_detail_titles">
+        <item >贷款订单号</item>
+        <item >质押锁仓订单号</item>
+        <item >质押锁仓价值</item>
+        <item >贷款价值</item>
+        <item >贷款年利率</item>
+        <item >申请时间</item>
+        <item >放贷时间</item>
+        <item >放款汇率</item>
+        <item >放贷币种数量</item>
+        <item >预计还款时间</item>
+        <item >利息总计</item>
+        <item >应还本息</item>
+        <item >状态</item>
+    </string-array>
+    <string-array name="lock_repay_titles">
+        <item >贷款订单号</item>
+        <item >质押锁仓订单号</item>
+        <item >质押锁仓价值</item>
+        <item >贷款价值</item>
+        <item >贷款年利率</item>
+        <item >放贷时间</item>
+        <item >累计贷款时长</item>
+        <item >累计利息</item>
+        <item >应还本息(DC)</item>
+        <item >还款汇率</item>
+        <item >应还本息(BCB)</item>
+        <item >当前账户可用余额</item>
+    </string-array>
+
+    <string-array name="lock_repayed_titles">
+        <item >贷款订单号</item>
+        <item >质押锁仓订单号</item>
+        <item >质押锁仓价值</item>
+        <item >贷款价值</item>
+        <item >贷款年利率</item>
+        <item >申请时间</item>
+        <item >放贷时间</item>
+        <item >放款汇率</item>
+        <item >放贷币种数量</item>
+        <item >还款时间</item>
+        <item >利息总计</item>
+        <item >应还本息</item>
+        <item >还款汇率</item>
+        <item >实际还款价值</item>
+        <item >状态</item>
+    </string-array>
+</resources>
