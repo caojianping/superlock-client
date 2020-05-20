@@ -21,7 +21,6 @@ Vue.use(Vuex);
 
 const rootState: IRootState = {
     tokenInfo: new TokenInfo(),
-
     verifyResult: undefined,
     usableQuota: undefined,
     exchangeRate: undefined,
@@ -56,7 +55,6 @@ export default new Vuex.Store({
         },
         [TYPES.CLEAR_STATES](state: IRootState) {
             state.tokenInfo = new TokenInfo();
-
             state.verifyResult = undefined;
             state.usableQuota = undefined;
             state.exchangeRate = undefined;
@@ -64,10 +62,13 @@ export default new Vuex.Store({
     },
     actions: {
         // 获取验证方式
-        async fetchVerifyMethod(context: IActionContext<IRootState>, payload: { areaCode: string; mobile: string; type?: number }): Promise<void> {
+        async fetchVerifyMethod(
+            context: IActionContext<IRootState>,
+            payload: { areaCode: string; mobile: string; type?: number; isLoading?: boolean }
+        ): Promise<void> {
             let commit = context.commit;
             try {
-                let verifyResult = await commonService.fetchVerifyMethod(payload.areaCode, payload.mobile, payload.type);
+                let verifyResult = await commonService.fetchVerifyMethod(payload.areaCode, payload.mobile, payload.type, payload.isLoading);
                 commit(TYPES.SET_STATES, { verifyResult });
             } catch (error) {
                 commit(TYPES.SET_STATES, { verifyResult: null });

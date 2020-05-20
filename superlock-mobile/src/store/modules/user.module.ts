@@ -6,13 +6,12 @@ import { TokenInfo, UserFormModel } from '@/ts/models';
 import { UserService, SecurityService } from '@/ts/services';
 
 const userState: IUserState = {
-    forgetType: ForgetType.LoginPassword,
-
     userLockQuota: undefined,
     userInfo: undefined,
 
-    userForm: new UserFormModel(),
-    registerStatus: RegisterStatus.Default
+    forgetType: ForgetType.LoginPassword,
+    registerStatus: RegisterStatus.Default,
+    userForm: new UserFormModel()
 };
 
 const userService = new UserService();
@@ -29,13 +28,12 @@ export default {
             }
         },
         [TYPES.CLEAR_STATES](state: IUserState) {
-            state.forgetType = ForgetType.LoginPassword;
-
             state.userLockQuota = undefined;
             state.userInfo = undefined;
 
-            state.userForm = new UserFormModel();
+            state.forgetType = ForgetType.LoginPassword;
             state.registerStatus = RegisterStatus.Default;
+            state.userForm = new UserFormModel();
         }
     },
     actions: {
@@ -50,11 +48,12 @@ export default {
         },
 
         // 登录
-        async login(context: IActionContext<IUserState>): Promise<boolean> {
+        async login(context: IActionContext<IUserState>, isLoading?: boolean): Promise<boolean> {
             let { commit, state } = context,
-                userInfo = await userService.login(state.userForm);
+                userInfo = await userService.login(state.userForm, isLoading);
             if (userInfo === null) return false;
             else {
+                Token.clearAllStates(); // 补充操作：清除所有状态，以免之前用户状态仍然存在
                 let tokenInfo: TokenInfo = TokenInfo.createInstance(userInfo.token, userInfo.pttl);
                 Token.setTokenInfo(tokenInfo);
                 commit(TYPES.SET_STATES, { tokenInfo }, { root: true });

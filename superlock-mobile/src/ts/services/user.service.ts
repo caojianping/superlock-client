@@ -66,7 +66,7 @@ export class UserService {
     }
 
     // 登录
-    public async login(userForm: UserFormModel): Promise<UserInfoModel | null> {
+    public async login(userForm: UserFormModel, isLoading: boolean = false): Promise<UserInfoModel | null> {
         let result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.Login);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
@@ -78,7 +78,10 @@ export class UserService {
                 verifyMode: verifyMode || '',
                 vfcode: code || ''
             });
-        return await Caxios.post<UserInfoModel | null>({ url: `${Urls.user.login}?${parameters}` }, CaxiosType.Loading);
+        return await Caxios.post<UserInfoModel | null>(
+            { url: `${Urls.user.login}?${parameters}` },
+            isLoading ? CaxiosType.Loading : CaxiosType.Default
+        );
     }
 
     // 退出

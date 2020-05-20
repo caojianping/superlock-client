@@ -10,7 +10,7 @@ import { Prompt, Captcha } from '@/ts/common';
 import { UserFormModel, VerifyResult } from '@/ts/models';
 import { UserService } from '@/ts/services';
 
-import { Cell, Button } from 'vant';
+import { Cell, Button, Toast } from 'vant';
 import UserForm from '@/components/user/user-form';
 import VerifyModal from '@/components/verify/verify-modal';
 
@@ -22,12 +22,12 @@ const userModule = namespace('user');
 })
 export default class UserLogin extends Vue {
     @State('verifyResult') verifyResult?: VerifyResult | null;
-    @Action('fetchVerifyMethod') fetchVerifyMethod!: (payload: { areaCode: string; mobile: string; type?: number }) => any;
+    @Action('fetchVerifyMethod') fetchVerifyMethod!: (payload: { areaCode: string; mobile: string; type?: number; isLoading?: boolean }) => any;
 
     @userModule.State('userForm') userForm!: UserFormModel;
     @userModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @userModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-    @userModule.Action('login') login!: () => any;
+    @userModule.Action('login') login!: (isLoading?: boolean) => any;
 
     captcha: any = null; // 云盾短信验证码实例
     invitationCode: string = ''; // 邀请码
@@ -51,7 +51,7 @@ export default class UserLogin extends Vue {
             userForm.code = code;
             this.setStates({ userForm });
 
-            let result = await this.login();
+            let result = await this.login(true);
             if (!result) Prompt.error('登录失败');
             else this.$router.push('/home/index');
         } catch (error) {
@@ -67,29 +67,39 @@ export default class UserLogin extends Vue {
     // 提交登录表单
     async submit() {
         try {
+            Toast.loading({ mask: true, duration: 0, message: '加载中...' });
+
             let userForm = Utils.duplicate(this.userForm),
                 result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.Login);
-            if (!result.status) return Prompt.error(Utils.getFirstValue(result.data));
+            if (!result.status) {
+                Toast.clear();
+                Prompt.error(Utils.getFirstValue(result.data));
+                return;
+            }
 
-            await this.fetchVerifyMethod({ areaCode: userForm.areaCode, mobile: userForm.mobile, type: 1 });
+            await this.fetchVerifyMethod({ areaCode: userForm.areaCode, mobile: userForm.mobile, type: 1, isLoading: false });
             let verifyResult = this.verifyResult;
-            if (!verifyResult) return Prompt.error('验证方式获取失败');
+            if (!verifyResult) {
+                Toast.clear();
+                Prompt.error('验证方式获取失败');
+                return;
+            }
 
             let isSpecial = verifyResult.needVerify === 1 && verifyResult.verifyMode === '100' && !verifyResult.email;
             if (verifyResult.needVerify === 0 || isSpecial) {
                 userForm.verifyMode = '000';
                 this.setStates({ userForm });
 
-                let result = await this.login();
+                let result = await this.login(false);
+                Toast.clear();
                 if (!result) Prompt.error('登录失败');
-                else {
-                    Prompt.success('登录成功');
-                    this.$router.push('/home/index');
-                }
+                else this.$router.push('/home/index');
             } else {
+                Toast.clear();
                 this.isVerifyShow = true;
             }
         } catch (error) {
+            Toast.clear();
             Prompt.error(error.message || error);
         }
     }
@@ -101,7 +111,7 @@ export default class UserLogin extends Vue {
                 result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.ForgetMobile);
             if (!result.status) return Prompt.error(Utils.getFirstValue(result.data));
 
-            await this.fetchVerifyMethod({ areaCode: userForm.areaCode, mobile: userForm.mobile, type: 2 });
+            await this.fetchVerifyMethod({ areaCode: userForm.areaCode, mobile: userForm.mobile, type: 2, isLoading: true });
             let verifyResult = this.verifyResult;
             if (!verifyResult) return Prompt.error('验证方式获取失败');
 
@@ -128,6 +138,7 @@ export default class UserLogin extends Vue {
     initData() {
         let code = Utils.resolveParameters('code');
         this.invitationCode = code;
+        this.setStates({ userForm: new UserForm() });
     }
 
     // 初始化云盾短信验证码
@@ -141,7 +152,6 @@ export default class UserLogin extends Vue {
     }
 
     created() {
-        this.clearStates();
         this.initData();
     }
 

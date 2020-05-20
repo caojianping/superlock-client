@@ -22,7 +22,7 @@ export default class UserForget extends Vue {
     @State('verifyResult') verifyResult?: VerifyResult | null;
     @Mutation(TYPES.SET_STATES) setRootStates!: (payload: any) => any;
     @Mutation(TYPES.CLEAR_STATES) clearRootStates!: () => any;
-    @Action('fetchVerifyMethod') fetchVerifyMethod!: (payload: { areaCode: string; mobile: string }) => any;
+    @Action('fetchVerifyMethod') fetchVerifyMethod!: (payload: { areaCode: string; mobile: string; type?: number; isLoading?: boolean }) => any;
 
     @userModule.State('userForm') userForm!: UserFormModel;
     @userModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
@@ -67,6 +67,22 @@ export default class UserForget extends Vue {
         this.captcha && this.captcha.refresh();
     }
 
+    // 获取数据
+    async fetchData() {
+        try {
+            let userForm = Utils.duplicate(this.userForm);
+            await this.fetchVerifyMethod({ areaCode: userForm.areaCode, mobile: userForm.mobile, type: 2, isLoading: true });
+
+            let verifyResult = this.verifyResult;
+            if (!verifyResult) return Prompt.error('验证方式获取失败');
+
+            if (verifyResult.needVerify === 1) this.isVerifyShow = true;
+            else this.isForgetShow = true;
+        } catch (error) {
+            Prompt.error(error.message || error);
+        }
+    }
+
     // 初始化数据
     initData() {
         let params: any = this.$route.params || {},
@@ -76,7 +92,7 @@ export default class UserForget extends Vue {
         let query: any = this.$route.query || {};
         this.from = query.from || '';
 
-        let userForm = Utils.duplicate(this.userForm);
+        let userForm = new UserFormModel();
         userForm.areaCode = query.areaCode || '';
         userForm.mobile = query.mobile || '';
         this.setStates({ userForm });
@@ -92,27 +108,7 @@ export default class UserForget extends Vue {
         }
     }
 
-    // 获取数据
-    async fetchData() {
-        try {
-            let userForm = Utils.duplicate(this.userForm);
-            await this.fetchVerifyMethod({ areaCode: userForm.areaCode, mobile: userForm.mobile });
-
-            let verifyResult = this.verifyResult;
-            if (!verifyResult) return Prompt.error('验证方式获取失败');
-
-            if (verifyResult.needVerify === 1) {
-                this.isVerifyShow = true;
-            } else {
-                this.isForgetShow = true;
-            }
-        } catch (error) {
-            Prompt.error(error.message || error);
-        }
-    }
-
     created() {
-        this.clearStates();
         this.initData();
     }
 

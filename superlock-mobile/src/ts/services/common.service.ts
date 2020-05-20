@@ -31,13 +31,16 @@ export class CommonService {
         return validator.execute(key);
     }
 
-    // 获取验证方式
-    public async fetchVerifyMethod(areaCode: string, mobile: string, type: number = 2): Promise<VerifyResult | null> {
+    // 获取验证方式，type：1登录验证；2密码验证；
+    public async fetchVerifyMethod(areaCode: string, mobile: string, type: number = 2, isLoading: boolean = false): Promise<VerifyResult | null> {
         let vresult: ValidationResult = CommonService.validateSmsAndEmail(areaCode, mobile);
         if (!vresult.status) return Promise.reject(Utils.getFirstValue(vresult.data));
 
         let parameters = Utils.buildParameters({ account: [areaCode, mobile].join(','), type }),
-            result = await Caxios.get<VerifyResult | null>({ url: `${Urls.common.verifyMethod}?${parameters}` }, CaxiosType.Loading);
+            result = await Caxios.get<VerifyResult | null>(
+                { url: `${Urls.common.verifyMethod}?${parameters}` },
+                isLoading ? CaxiosType.Loading : CaxiosType.Default
+            );
         if (result) {
             result['needVerify'] = Utils.digitConvert(result.needVerify);
         }
