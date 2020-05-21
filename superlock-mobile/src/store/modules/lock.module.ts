@@ -3,6 +3,9 @@ import { IActionContext, ILockState } from '@/store/interfaces';
 import { LockFormModel, LockResultModel, LockInterestModel } from '@/ts/models';
 import { LockService } from '@/ts/services';
 
+import Locales from '@/locales';
+const i18n = Locales.buildLocale();
+
 const lockState: ILockState = {
     lockStatuses: new Map([
         [0, '订单已创建'],

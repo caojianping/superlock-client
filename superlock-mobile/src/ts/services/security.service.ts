@@ -5,10 +5,13 @@ import { Caxios, md5 } from '@/ts/common';
 import { UserFormModel, SecurityFormModel, EmailFormModel } from '@/ts/models';
 import { UserService } from './user.service';
 
+import Locales from '@/locales';
+const i18n = Locales.buildLocale();
+
 export class SecurityService {
     // 校验安全中心表单
     public static validateSecurityForm(securityForm: SecurityFormModel, isSet: boolean = false): ValidationResult {
-        if (!securityForm) return { status: false, data: { securityForm: '安全中心表单参数不可以为空' } };
+        if (!securityForm) return { status: false, data: { securityForm: '参数不可以为空' } };
 
         let key = 'securityForm',
             { oldPassword, newPassword, confirmPassword, verifyMode, code } = securityForm,
@@ -28,7 +31,7 @@ export class SecurityService {
 
     // 校验邮箱表单
     public static validateEmailForm(emailForm: EmailFormModel): ValidationResult {
-        if (!emailForm) return { status: false, data: { emailForm: '邮箱表单参数不可以为空' } };
+        if (!emailForm) return { status: false, data: { emailForm: '参数不可以为空' } };
 
         let key = 'emailForm',
             { emailAddress, emailCode } = emailForm,

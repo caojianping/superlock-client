@@ -3,6 +3,7 @@ import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { SessionStorage } from 'jts-storage';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import { CONSTANTS } from '@/ts/config';
 import { UserLockQuotaModel, ProjectStatsModel, ProjectModel, UserInfoModel } from '@/ts/models';
@@ -13,6 +14,7 @@ import Navs from '@/components/common/navs';
 import Spin from '@/components/common/spin';
 import BindGuide from '@/components/common/bind-guide';
 
+const i18n = Locales.buildLocale();
 const userModule = namespace('user');
 const projectModule = namespace('project');
 
@@ -86,7 +88,7 @@ export default class Home extends Vue {
     async refreshData() {
         await this.fetchData(true);
         this.isPulling = false;
-        Toast('刷新成功');
+        Toast(i18n.tc('COMMON.REFRESH_SUCCESS'));
     }
 
     mounted() {

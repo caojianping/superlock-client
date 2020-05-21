@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { namespace, Action, State, Mutation } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { ForgetType, VerifyType } from '@/ts/config';
@@ -12,6 +13,7 @@ import { CellGroup, Cell, Field, Button } from 'vant';
 import VerifyList from '@/components/verify/verify-list';
 import ForgetForm from '@/components/user/forget-form';
 
+const i18n = Locales.buildLocale();
 const userModule = namespace('user');
 
 @Component({
@@ -74,7 +76,7 @@ export default class UserForget extends Vue {
             await this.fetchVerifyMethod({ areaCode: userForm.areaCode, mobile: userForm.mobile, type: 2, isLoading: true });
 
             let verifyResult = this.verifyResult;
-            if (!verifyResult) return Prompt.error('验证方式获取失败');
+            if (!verifyResult) return Prompt.error(i18n.tc('COMMON.VERIFY_FETCH_FAILURE'));
 
             if (verifyResult.needVerify === 1) this.isVerifyShow = true;
             else this.isForgetShow = true;

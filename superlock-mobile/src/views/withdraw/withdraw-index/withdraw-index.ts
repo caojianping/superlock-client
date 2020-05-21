@@ -3,6 +3,7 @@ import { namespace, State, Action } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { ValidationResult } from 'jpts-validator';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { Prompt, From } from '@/ts/common';
@@ -13,6 +14,7 @@ import { Toast, PullRefresh, Field, Icon, Button } from 'vant';
 import Header from '@/components/common/header';
 import PasswordModal from '@/components/common/password-modal';
 
+const i18n = Locales.buildLocale();
 const userModule = namespace('user');
 const withdrawModule = namespace('withdraw');
 
@@ -63,7 +65,7 @@ export default class WithdrawIndex extends Vue {
         if (!result.status) return Prompt.error(Utils.getFirstValue(result.data));
 
         if (!this.userInfo || !this.userInfo.haveFundPasswd) {
-            Prompt.info('您未设置资金密码，请先设置资金密码').then(() => {
+            Prompt.info(i18n.tc('COMMON.SETTING_FUND02')).then(() => {
                 From.setFundFrom('/withdraw/index');
                 this.$router.push({
                     path: '/security/fund/password',
@@ -100,7 +102,7 @@ export default class WithdrawIndex extends Vue {
 
     // 获取数据
     async fetchData(isRefresh: boolean) {
-        Toast.loading({ mask: true, duration: 0, message: '加载中...' });
+        Toast.loading({ mask: true, duration: 0, message: i18n.tc('COMMON.LOADING') });
         (!this.usableQuota || isRefresh) && (await this.fetchUsableQuota());
         (!this.userInfo || isRefresh) && (await this.fetchUserInfo());
 
@@ -132,7 +134,7 @@ export default class WithdrawIndex extends Vue {
     async refreshData() {
         await this.fetchData(true);
         this.isPulling = false;
-        Toast('刷新成功');
+        Toast(i18n.tc('COMMON.REFRESH_SUCCESS'));
     }
 
     mounted() {

@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import { Prompt, Clipboard } from '@/ts/common';
 import { UserInfoModel, DefaultRateStatsModel, DefaultRateFormModel } from '@/ts/models';
@@ -11,6 +12,7 @@ import Header from '@/components/common/header';
 import InvitePrompt from '@/components/mine/invite-prompt';
 import RateModal from '@/components/mine/rate-modal';
 
+const i18n = Locales.buildLocale();
 const userModule = namespace('user');
 const childModule = namespace('child');
 
@@ -67,7 +69,7 @@ export default class InviteFriend extends Vue {
 
     // 获取数据
     async fetchData() {
-        Toast.loading({ mask: true, duration: 0, message: '加载中...' });
+        Toast.loading({ mask: true, duration: 0, message: i18n.tc('COMMON.LOADING') });
         !this.userInfo && (await this.fetchUserInfo());
         await this.fetchDefaultRateStats();
 

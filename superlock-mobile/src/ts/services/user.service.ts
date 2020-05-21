@@ -3,17 +3,14 @@ import Utils from '@/ts/utils';
 import { Urls, CaxiosType, defaultAreaCode, UserFormType } from '@/ts/config';
 import { Caxios, md5 } from '@/ts/common';
 import { UserFormModel, UserInfoModel, UserLockQuotaModel } from '@/ts/models';
-import Locale from '@/locales';
+
+import Locales from '@/locales';
+const i18n = Locales.buildLocale();
 
 export class UserService {
-    public static test(): string {
-        const i18n = Locale.buildLocale();
-        return i18n.tc('NAME');
-    }
-
     //  校验用户表单
     public static validateUserForm(userForm: UserFormModel, type: UserFormType = UserFormType.Login): ValidationResult {
-        if (!userForm) return { status: false, data: { userForm: '用户表单参数不可以为空' } };
+        if (!userForm) return { status: false, data: { userForm: '参数不可以为空' } };
 
         let key = 'userForm',
             { invitationCode, areaCode, mobile, password, confirmPassword, verifyMode, code } = userForm,

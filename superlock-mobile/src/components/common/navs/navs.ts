@@ -1,11 +1,14 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
+import Locales from '@/locales';
 
 interface IRoute {
     path: string; // 路径
     icon: string; // 图标
     title: string; // 标题
 }
+
+const i18n = Locales.buildLocale();
 
 @Component({
     name: 'Navs',

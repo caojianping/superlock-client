@@ -1,4 +1,6 @@
 import { CONSTANTS } from '../config';
+import Locales from '@/locales';
+const i18n = Locales.buildLocale();
 
 export class Captcha {
     public static async initCaptcha(): Promise<any> {

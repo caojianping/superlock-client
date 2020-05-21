@@ -17,6 +17,9 @@ import childModule from './modules/child.module';
 import transactionModule from './modules/transaction.module';
 import securityModule from './modules/security.module';
 
+import Locales from '@/locales';
+const i18n = Locales.buildLocale();
+
 Vue.use(Vuex);
 
 const rootState: IRootState = {

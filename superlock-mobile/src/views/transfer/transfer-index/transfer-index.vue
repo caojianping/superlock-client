@@ -1,15 +1,20 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
         <div class="transfer-index scb-gray">
-            <Header title="转账" is-right @left="$router.push('/asset/index')">
-                <router-link slot="right" to="/transfer/record">转账记录</router-link>
+            <Header :title="$t('COMMON.TRANSFER')" is-right @left="$router.push('/asset/index')">
+                <router-link slot="right" to="/transfer/record">{{ $t('TRANSFER.TRANSFER_RECORD') }}</router-link>
             </Header>
 
             <div class="scb-form scb-separator">
                 <ul>
                     <li>
-                        <h2>收款UID</h2>
-                        <Field :value="transferForm.toUid" clearable placeholder="请输入收款UID" @input="handleFieldInput('toUid', $event)">
+                        <h2>{{ $t('TRANSFER.TO_UID') }}</h2>
+                        <Field
+                            :value="transferForm.toUid"
+                            clearable
+                            :placeholder="$t('PLACEHOLDERS.ENTER_TO_UID')"
+                            @input="handleFieldInput('toUid', $event)"
+                        >
                             <i slot="button" class="icon icon-child" @click="$router.push('/transfer/child')" />
                         </Field>
                     </li>
@@ -19,31 +24,33 @@
                             type="number"
                             :value="transferForm.quota"
                             clearable
-                            placeholder="请输入您想转账的金额"
+                            :placeholder="$t('PLACEHOLDERS.ENTER_TRANSFER_AMOUNT')"
                             @input="handleFieldInput('quota', $event)"
                         >
-                            <span class="text-orange" slot="button" @click="transferAll">全部</span>
+                            <span class="text-orange" slot="button" @click="transferAll">{{ $t('COMMON.ALL') }}</span>
                         </Field>
                         {{ ((usableQuotaObj = usableQuota || {}), void 0) }}
                         <p class="text-orange">
-                            可转账金额
+                            {{ $t('TRANSFER.TRANSFERABLE_AMOUNT') }}
                             {{
                                 `${usableQuotaObj.amount || '--'} BCB = 
-                            ${usableQuotaObj.valuationAmount || '--'}
-                            ${usableQuotaObj.valuationCoin || '--'}`
+                                ${usableQuotaObj.valuationAmount || '--'} ${usableQuotaObj.valuationCoin || '--'}`
                             }}
                         </p>
                     </li>
                     <li>
-                        <h2>备注</h2>
-                        <Field :value="transferForm.memo" clearable placeholder="请输入转账备注" @input="handleFieldInput('memo', $event)" />
+                        <h2>{{ $t('COMMON.REMARK') }}</h2>
+                        <Field
+                            :value="transferForm.memo"
+                            clearable
+                            :placeholder="$t('PLACEHOLDERS.ENTER_TRANSFER_REMARK')"
+                            @input="handleFieldInput('memo', $event)"
+                        />
                     </li>
                     <li>
-                        <Button class="effect-shadow" type="primary" block round @click="submit">确定转账</Button>
-                        <p class="text-orange">
-                            转账功能只支持BCB矿场用户之间的BCB资产互转。
-                        </p>
-                        <p class="text-orange">请正确填写收款人UID，以免资金错转</p>
+                        <Button class="effect-shadow" type="primary" block round @click="submit">{{ $t('TRANSFER.CONFIRM_TRANSFER') }}</Button>
+                        <p class="text-orange">{{ $t('TRANSFER.PROMPT01') }}转账功能只支持BCB矿场用户之间的BCB资产互转。</p>
+                        <p class="text-orange">{{ $t('TRANSFER.PROMPT02') }}请正确填写收款人UID，以免资金错转</p>
                     </li>
                 </ul>
             </div>

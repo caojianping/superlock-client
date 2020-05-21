@@ -3,6 +3,7 @@ import { namespace, Action, State, Mutation } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { ValidationResult } from 'jpts-validator';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { CONSTANTS, UserFormType, ForgetType, VerifyType } from '@/ts/config';
@@ -15,6 +16,7 @@ import Langs from '@/components/common/langs';
 import UserForm from '@/components/user/user-form';
 import VerifyModal from '@/components/verify/verify-modal';
 
+const i18n = Locales.buildLocale();
 const userModule = namespace('user');
 
 @Component({
@@ -36,10 +38,6 @@ export default class UserLogin extends Vue {
     invitationCode: string = ''; // 邀请码
     isVerifyShow: boolean = false; // 是否显示验证模态框组件
 
-    test() {
-        Prompt.error(UserService.test());
-    }
-
     // 跳转至客服页面
     goCustomerService() {
         window.location.href = CONSTANTS.CUSTOMER_SERVICE;
@@ -59,7 +57,7 @@ export default class UserLogin extends Vue {
             this.setStates({ userForm });
 
             let result = await this.login(true);
-            if (!result) Prompt.error('登录失败');
+            if (!result) Prompt.error(i18n.tc('USER.LOGIN_FAILURE'));
             else this.$router.push('/home/index');
         } catch (error) {
             Prompt.error(error.message || error);
@@ -74,7 +72,7 @@ export default class UserLogin extends Vue {
     // 提交登录表单
     async submit() {
         try {
-            Toast.loading({ mask: true, duration: 0, message: '加载中...' });
+            Toast.loading({ mask: true, duration: 0, message: i18n.tc('COMMON.LOADING') });
 
             let userForm = Utils.duplicate(this.userForm),
                 result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.Login);
@@ -88,7 +86,7 @@ export default class UserLogin extends Vue {
             let verifyResult = this.verifyResult;
             if (!verifyResult) {
                 Toast.clear();
-                Prompt.error('验证方式获取失败');
+                Prompt.error(i18n.tc('COMMON.VERIFY_FETCH_FAILURE'));
                 return;
             }
 
@@ -99,7 +97,7 @@ export default class UserLogin extends Vue {
 
                 let result = await this.login(false);
                 Toast.clear();
-                if (!result) Prompt.error('登录失败');
+                if (!result) Prompt.error(i18n.tc('USER.LOGIN_FAILURE'));
                 else this.$router.push('/home/index');
             } else {
                 Toast.clear();
@@ -116,16 +114,15 @@ export default class UserLogin extends Vue {
         try {
             let userForm = Utils.duplicate(this.userForm),
                 result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.ForgetMobile);
-            if (!result.status) return Prompt.error(Utils.getFirstValue(result.data));
+            if (!result.status) return Prompt.warning(Utils.getFirstValue(result.data));
 
             await this.fetchVerifyMethod({ areaCode: userForm.areaCode, mobile: userForm.mobile, type: 2, isLoading: true });
             let verifyResult = this.verifyResult;
-            if (!verifyResult) return Prompt.error('验证方式获取失败');
+            if (!verifyResult) return Prompt.error(i18n.tc('COMMON.VERIFY_FETCH_FAILURE'));
 
             let isSpecial = verifyResult.needVerify === 1 && verifyResult.verifyMode === '100' && !verifyResult.email;
-            if (verifyResult.needVerify === 0 || isSpecial) {
-                Prompt.warning('请联系客服找回密码');
-            } else {
+            if (verifyResult.needVerify === 0 || isSpecial) Prompt.warning(i18n.tc('COMMON.CONTACT_SERVICE_FIND_PASSWORD'));
+            else {
                 let invitationCode = this.invitationCode;
                 this.$router.push({
                     path: `/user/forget/${ForgetType.LoginPassword}`,

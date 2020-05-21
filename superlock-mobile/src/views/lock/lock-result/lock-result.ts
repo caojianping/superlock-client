@@ -3,6 +3,7 @@ import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { SessionStorage } from 'jts-storage';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import { CONSTANTS } from '@/ts/config';
 import { Clipboard } from '@/ts/common';
@@ -11,6 +12,7 @@ import { LockResultModel } from '@/ts/models';
 import { Popup, CellGroup, Cell } from 'vant';
 import Header from '@/components/common/header';
 
+const i18n = Locales.buildLocale();
 const lockModule = namespace('lock');
 
 @Component({
@@ -38,6 +40,6 @@ export default class LockResult extends Vue {
     }
 
     mounted() {
-        Clipboard.copy('orderId', '锁仓订单号');
+        Clipboard.copy('orderId', i18n.tc('LOCK.LOCK_ORDER_ID'));
     }
 }

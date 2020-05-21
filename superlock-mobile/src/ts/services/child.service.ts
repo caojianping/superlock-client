@@ -4,6 +4,9 @@ import { Urls, CaxiosType } from '@/ts/config';
 import { Caxios } from '@/ts/common';
 import { LockPromoteRateModel, ChildModel, ChildRateFormModel, DefaultRateStatsModel, DefaultRateFormModel, ChildRateModel } from '@/ts/models';
 
+import Locales from '@/locales';
+const i18n = Locales.buildLocale();
+
 export class ChildService {
     // 校验下级利率表单
     public static validateChildRateForms(childUid: string, childRateForms: Array<ChildRateFormModel>): ValidationResult {

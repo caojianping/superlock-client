@@ -3,6 +3,7 @@ import { namespace, Action, State, Mutation } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { ValidationResult } from 'jpts-validator';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { UserFormType, ForgetType, VerifyType } from '@/ts/config';
@@ -14,6 +15,7 @@ import { Toast, PullRefresh, Field, Button } from 'vant';
 import Header from '@/components/common/header';
 import VerifyList from '@/components/verify/verify-list';
 
+const i18n = Locales.buildLocale();
 const userModule = namespace('user');
 const securityModule = namespace('security');
 
@@ -61,7 +63,7 @@ export default class FundPassword extends Vue {
     // 提交资金密码表单
     async submit() {
         try {
-            Toast.loading({ mask: true, duration: 0, message: '加载中...' });
+            Toast.loading({ mask: true, duration: 0, message: i18n.tc('COMMON.LOADING') });
 
             let userInfo: any = this.userInfo || {};
             if (!userInfo.haveFundPasswd) {
@@ -119,7 +121,7 @@ export default class FundPassword extends Vue {
     // 处理验证列表组件submit事件
     async handleVerifyListSubmit(verifyType: VerifyType, code: string) {
         try {
-            Toast.loading({ mask: true, duration: 0, message: '加载中...' });
+            Toast.loading({ mask: true, duration: 0, message: i18n.tc('COMMON.LOADING') });
 
             let securityForm = Utils.duplicate(this.securityForm);
             securityForm.verifyMode = ['100', '010', '001'][verifyType - 1];
@@ -182,7 +184,7 @@ export default class FundPassword extends Vue {
     async refreshData() {
         await this.fetchData(true);
         this.isPulling = false;
-        Toast('刷新成功');
+        Toast(i18n.tc('COMMON.REFRESH_SUCCESS'));
     }
 
     // 初始化数据

@@ -2,7 +2,10 @@ import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
 import { Urls, CaxiosType, defaultAreaCode } from '@/ts/config';
 import { Caxios } from '@/ts/common';
-import { UsableQuotaModel, ExchangeRateModel, VerifyResult, EmailFormModel } from '@/ts/models';
+import { UsableQuotaModel, ExchangeRateModel, VerifyResult } from '@/ts/models';
+
+import Locales from '@/locales';
+const i18n = Locales.buildLocale();
 
 export class CommonService {
     // 验证短信、邮箱

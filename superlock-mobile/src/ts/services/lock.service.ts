@@ -4,10 +4,13 @@ import { Urls, CaxiosType } from '@/ts/config';
 import { Caxios, md5 } from '@/ts/common';
 import { LockModel, LockFormModel, LockResultModel, LockInterestModel } from '@/ts/models';
 
+import Locales from '@/locales';
+const i18n = Locales.buildLocale();
+
 export class LockService {
     // 校验锁仓表单
     public static validateLockForm(lockForm: LockFormModel, isPassword: boolean = true): ValidationResult {
-        if (!lockForm) return { status: false, data: { lockForm: '锁仓表单参数不可以为空' } };
+        if (!lockForm) return { status: false, data: { lockForm: '参数不可以为空' } };
 
         let key = 'lockForm',
             { length, unit, rate, amount, fundPasswd, minAmount, maxAmount } = lockForm,
@@ -18,7 +21,7 @@ export class LockService {
             { required: true, minExclude: 0 },
             { required: '可用余额不足', minExclude: '可用余额不足' }
         );
-        validator.addRule(key, { name: 'length', value: length }, { required: true }, { required: '锁仓长度不可以为空' });
+        validator.addRule(key, { name: 'length', value: length }, { required: true }, { required: '锁仓时长不可以为空' });
         validator.addRule(key, { name: 'unit', value: unit }, { required: true }, { required: '锁仓单位不可以为空' });
         validator.addRule(key, { name: 'rate', value: rate }, { required: true }, { required: '锁仓利率不可以为空' });
         validator.addRule(

@@ -84,7 +84,7 @@
                         <Cell title="实际还款价值" :value="`${loan.actualRepayment} ${loan.actualRepaymentCoin}`" />
                     </template>
 
-                    <Cell title="状态">
+                    <Cell :title="$t('COMMON.STATUS')">
                         <span :class="`text-${loanColors.get(status)}`">{{ loanStatuses.get(status) }}</span>
                     </Cell>
                 </CellGroup>

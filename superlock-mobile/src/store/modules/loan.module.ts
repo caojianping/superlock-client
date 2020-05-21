@@ -3,6 +3,9 @@ import { IActionContext, ILoanState } from '@/store/interfaces';
 import { LoanableLockModel, LoanInterestModel, LoanApplyFormModel, LoanRepayFormModel } from '@/ts/models';
 import { LoanService } from '@/ts/services';
 
+import Locales from '@/locales';
+const i18n = Locales.buildLocale();
+
 const loanState: ILoanState = {
     loanFlags: new Map([
         [1, '可质押'],

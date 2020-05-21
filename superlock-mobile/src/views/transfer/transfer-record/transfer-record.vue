@@ -1,19 +1,17 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
         <div class="transfer-record">
-            <Header title="转账记录" @left="$router.push('/transfer/index')" />
+            <Header :title="$t('TRANSFER.TRANSFER_RECORD')" @left="$router.push('/transfer/index')" />
 
             <div v-if="transfers" class="scb-separator">
-                <p v-if="transfers.length <= 0" class="scb-none">
-                    暂无转账记录，快去<router-link class="scb-link" to="/transfer/index">转账</router-link>吧！
-                </p>
+                <p v-if="transfers.length <= 0" class="scb-none" v-html="$t('TRANSFER.TRANSFER_RECORD_NO_RECORD')" />
                 <List
                     v-else
                     v-model="isLoading"
                     :finished="isFinished"
                     :immediate-check="false"
-                    loading-text="记录加载中……"
-                    finished-text="记录加载完毕"
+                    :loading-text="$t('COMMON.RECORD_LOADING')"
+                    :finished-text="$t('COMMON.RECORD_LOADED')"
                     @load="fetchData"
                 >
                     <CellGroup>

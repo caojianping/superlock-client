@@ -1,6 +1,9 @@
 import ClipboardJS from 'clipboard';
 import { Prompt } from './prompt';
 
+import Locales from '@/locales';
+const i18n = Locales.buildLocale();
+
 export class Clipboard {
     public static copy(id: string, title: string = '') {
         let element = document.getElementById(id);

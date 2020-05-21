@@ -11,6 +11,9 @@ import { ResponseResult, BusinessError, TokenInfo } from '@/ts/models';
 import { Prompt } from './prompt';
 import { Token } from './token';
 
+import Locales from '@/locales';
+const i18n = Locales.buildLocale();
+
 const isIE9 = Utils.isIE9();
 
 window['cancelAxios'] = null;
@@ -52,7 +55,7 @@ export class Caxios {
     // 设置loading
     private static setLoading(type: CaxiosType, isShow: boolean): void {
         if (type === CaxiosType.Loading || type === CaxiosType.LoadingToken) {
-            isShow ? Toast.loading({ mask: true, duration: 0, message: '加载中...' }) : Toast.clear();
+            isShow ? Toast.loading({ mask: true, duration: 0, message: i18n.tc('COMMON.LOADING') }) : Toast.clear();
         }
     }
 
@@ -150,14 +153,14 @@ export class Caxios {
 
     // GET方法请求
     public static async get<T>(options: AxiosRequestConfig, type: CaxiosType = CaxiosType.Default): Promise<T> {
-        if (!options) return Promise.reject('axios配置参数不可以为空');
+        if (!options) return Promise.reject('axios请求配置参数不可以为空');
         options['method'] = 'GET';
         return await Caxios.invoke<T>(options, type);
     }
 
     // POST方法请求
     public static async post<T>(options: AxiosRequestConfig, type: CaxiosType = CaxiosType.Default): Promise<T> {
-        if (!options) return Promise.reject('axios配置参数不可以为空');
+        if (!options) return Promise.reject('axios请求配置参数不可以为空');
         options['method'] = 'POST';
         return await Caxios.invoke<T>(options, type);
     }

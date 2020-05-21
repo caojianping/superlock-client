@@ -3,6 +3,9 @@ import { Urls, CaxiosType } from '@/ts/config';
 import { Caxios } from '@/ts/common';
 import { RechargeCoinModel, RechargeModel } from '@/ts/models';
 
+import Locales from '@/locales';
+const i18n = Locales.buildLocale();
+
 export class RechargeService {
     // 获取充值币种列表
     public async fetchRechargeCoins(isLoading: boolean = false): Promise<Array<RechargeCoinModel>> {

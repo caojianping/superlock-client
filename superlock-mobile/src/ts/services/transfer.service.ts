@@ -4,10 +4,13 @@ import { Urls, CaxiosType } from '@/ts/config';
 import { Caxios, md5 } from '@/ts/common';
 import { TransferFormModel, TransferModel, TransferChildModel } from '@/ts/models';
 
+import Locales from '@/locales';
+const i18n = Locales.buildLocale();
+
 export class TransferService {
     // 校验转账表单
     public static validateTransferForm(transferForm: TransferFormModel, isPassword: boolean = true): ValidationResult {
-        if (!transferForm) return { status: false, data: { transferForm: '转账表单参数不可以为空' } };
+        if (!transferForm) return { status: false, data: { transferForm: '参数不可以为空' } };
 
         let key = 'transferForm',
             { toUid, quota, fundPasswd, maxAmount } = transferForm,

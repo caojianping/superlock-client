@@ -3,6 +3,7 @@ import { Component } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { SessionStorage } from 'jts-storage';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import { CONSTANTS } from '@/ts/config';
 import { Clipboard } from '@/ts/common';
@@ -11,6 +12,7 @@ import { WithdrawModel } from '@/ts/models';
 import { CellGroup, Cell } from 'vant';
 import Header from '@/components/common/header';
 
+const i18n = Locales.buildLocale();
 const withdrawModule = namespace('withdraw');
 
 @Component({
@@ -36,7 +38,7 @@ export default class WithdrawDetail extends Vue {
     }
 
     mounted() {
-        Clipboard.copy('orderId', '交易单号');
-        Clipboard.copy('txhash', '交易hash');
+        Clipboard.copy('orderId', i18n.tc('COMMON.TRASACTION_ID'));
+        Clipboard.copy('txhash', i18n.tc('COMMON.TRASACTION_HASH'));
     }
 }

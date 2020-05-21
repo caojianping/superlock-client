@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component, Model, Watch } from 'vue-property-decorator';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import { Prompt, From } from '@/ts/common';
 import { UserInfoModel, RechargeCoinModel } from '@/ts/models';
@@ -9,6 +10,7 @@ import { UserInfoModel, RechargeCoinModel } from '@/ts/models';
 import { Popup, CellGroup, Cell } from 'vant';
 import Spin from '@/components/common/spin';
 
+const i18n = Locales.buildLocale();
 const userModule = namespace('user');
 const rechargeModule = namespace('recharge');
 
@@ -37,7 +39,7 @@ export default class RechargeCoins extends Vue {
 
     goCode(rechargeCoin: any) {
         if (!this.userInfo || !this.userInfo.haveFundPasswd) {
-            Prompt.info('为保障您的资金安全，请先设置一下资金密码').then(() => {
+            Prompt.info(i18n.tc('COMMON.SETTING_FUND01')).then(() => {
                 From.setFundFrom('/asset/index');
                 this.$router.push({
                     path: '/security/fund/password',

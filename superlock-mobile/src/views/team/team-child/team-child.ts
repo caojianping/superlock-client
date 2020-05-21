@@ -3,6 +3,7 @@ import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { SessionStorage } from 'jts-storage';
 
+import Locales from '@/locales';
 import Utils from '@/ts/utils';
 import TYPES from '@/store/types';
 import { CONSTANTS } from '@/ts/config';
@@ -13,6 +14,7 @@ import { CellGroup, Cell, Button } from 'vant';
 import Header from '@/components/common/header';
 import Modal from '@/components/common/modal';
 
+const i18n = Locales.buildLocale();
 const childModule = namespace('child');
 
 @Component({

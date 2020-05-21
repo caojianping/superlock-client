@@ -4,10 +4,13 @@ import { Urls, CaxiosType } from '@/ts/config';
 import { Caxios, md5 } from '@/ts/common';
 import { WithdrawModel, WithdrawAddressModel, WithdrawFormModel } from '@/ts/models';
 
+import Locales from '@/locales';
+const i18n = Locales.buildLocale();
+
 export class WithdrawService {
     // 校验提现表单
     public static validateWithdrawForm(withdrawForm: WithdrawFormModel, isPassword: boolean = true): ValidationResult {
-        if (!withdrawForm) return { status: false, data: { withdrawForm: '提现表单参数不可以为空' } };
+        if (!withdrawForm) return { status: false, data: { withdrawForm: '参数不可以为空' } };
 
         let key = 'withdrawForm',
             { address, amount, fundPasswd, maxAmount } = withdrawForm,
@@ -37,7 +40,7 @@ export class WithdrawService {
 
     // 校验提现地址
     public static validateWithdrawAddress(withdrawAddress: WithdrawAddressModel): ValidationResult {
-        if (!withdrawAddress) return { status: false, data: { withdrawAddress: '提现地址参数不可以为空' } };
+        if (!withdrawAddress) return { status: false, data: { withdrawAddress: '参数不可以为空' } };
 
         let key = 'withdrawAddress',
             { nickName, address } = withdrawAddress,

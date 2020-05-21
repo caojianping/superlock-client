@@ -29,8 +29,8 @@
                             v-model="isLoading"
                             :finished="isFinished"
                             :immediate-check="false"
-                            loading-text="记录加载中……"
-                            finished-text="记录加载完毕"
+                            :loading-text="$t('COMMON.RECORD_LOADING')"
+                            :finished-text="$t('COMMON.RECORD_LOADED')"
                             @load="fetchLoanableLocks"
                         >
                             <CellGroup

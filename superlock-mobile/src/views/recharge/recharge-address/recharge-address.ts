@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import { Prompt, From } from '@/ts/common';
 import { UserInfoModel, RechargeCoinModel } from '@/ts/models';
@@ -9,6 +10,7 @@ import { UserInfoModel, RechargeCoinModel } from '@/ts/models';
 import { Toast, PullRefresh, CellGroup, Cell } from 'vant';
 import Header from '@/components/common/header';
 
+const i18n = Locales.buildLocale();
 const userModule = namespace('user');
 const rechargeModule = namespace('recharge');
 
@@ -30,7 +32,7 @@ export default class RechargeAddress extends Vue {
     // 跳转至充值码页面
     goCode(rechargeCoin: any) {
         if (!this.userInfo || !this.userInfo.haveFundPasswd) {
-            Prompt.info('为保障您的资金安全，请先设置一下资金密码').then(() => {
+            Prompt.info(i18n.tc('COMMON.SETTING_FUND01')).then(() => {
                 From.setFundFrom('/recharge/address');
                 this.$router.push({
                     path: '/security/fund/password',
@@ -49,7 +51,7 @@ export default class RechargeAddress extends Vue {
 
     // 获取数据
     async fetchData(isRefresh: boolean) {
-        Toast.loading({ mask: true, duration: 0, message: '加载中...' });
+        Toast.loading({ mask: true, duration: 0, message: i18n.tc('COMMON.LOADING') });
         (!this.userInfo || isRefresh) && (await this.fetchUserInfo());
         (!this.rechargeCoins || isRefresh) && (await this.fetchRechargeCoins());
         Toast.clear();
@@ -59,7 +61,7 @@ export default class RechargeAddress extends Vue {
     async refreshData() {
         await this.fetchData(true);
         this.isPulling = false;
-        Toast('刷新成功');
+        Toast(i18n.tc('COMMON.REFRESH_SUCCESS'));
     }
 
     mounted() {

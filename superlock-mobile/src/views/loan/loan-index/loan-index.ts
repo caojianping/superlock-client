@@ -3,6 +3,7 @@ import { Component } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { SessionStorage } from 'jts-storage';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import { CONSTANTS } from '@/ts/config';
 import { LoanBaseInfoModel, LoanableLockModel } from '@/ts/models';
@@ -11,6 +12,7 @@ import { Toast, PullRefresh, List, CellGroup, Cell, Button } from 'vant';
 import Header from '@/components/common/header';
 import LoanBanner from '@/components/loan/loan-banner';
 
+const i18n = Locales.buildLocale();
 const loanModule = namespace('loan');
 
 @Component({
@@ -52,7 +54,7 @@ export default class LoanIndex extends Vue {
 
     // 获取数据
     async fetchData(isRefresh: boolean) {
-        Toast.loading({ mask: true, duration: 0, message: '加载中...' });
+        Toast.loading({ mask: true, duration: 0, message: i18n.tc('COMMON.LOADING') });
         (!this.loanBaseInfo || isRefresh) && (await this.fetchLoanBaseInfo());
 
         if (!this.loanableLocks || isRefresh) {
@@ -66,7 +68,7 @@ export default class LoanIndex extends Vue {
     async refreshData() {
         await this.fetchData(true);
         this.isPulling = false;
-        Toast('刷新成功');
+        Toast(i18n.tc('COMMON.REFRESH_SUCCESS'));
     }
 
     created() {

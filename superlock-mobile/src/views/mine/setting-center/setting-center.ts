@@ -1,11 +1,14 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
+import Locales from '@/locales';
 import { Prompt } from '@/ts/common';
 
 import { CellGroup, Cell } from 'vant';
 import Header from '@/components/common/header';
 
+const i18n = Locales.buildLocale();
 const userModule = namespace('user');
 
 @Component({

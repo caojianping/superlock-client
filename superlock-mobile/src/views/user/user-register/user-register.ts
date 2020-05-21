@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { namespace, Action, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { RegisterStatus } from '@/ts/config';
@@ -14,6 +15,7 @@ import VerifyList from '@/components/verify/verify-list';
 import UserForm from '@/components/user/user-form';
 import WechatPrompt from '@/components/user/wechat-prompt';
 
+const i18n = Locales.buildLocale();
 const userModule = namespace('user');
 
 @Component({
@@ -44,7 +46,7 @@ export default class UserRegister extends Vue {
     async submit() {
         try {
             let result = await this.register();
-            if (!result) Prompt.error('注册失败');
+            if (!result) Prompt.error(i18n.tc('USER.REGISTER_FAILURE'));
             else this.setStates({ registerStatus: RegisterStatus.Success });
         } catch (error) {
             Prompt.error(error.message || error);
@@ -58,7 +60,7 @@ export default class UserRegister extends Vue {
         this.setStates({ userForm });
 
         let result = await this.register();
-        if (!result) Prompt.error('注册失败');
+        if (!result) Prompt.error(i18n.tc('USER.REGISTER_FAILURE'));
         else this.setStates({ registerStatus: RegisterStatus.Success });
     }
 
@@ -70,18 +72,16 @@ export default class UserRegister extends Vue {
     // 下载
     download() {
         const origin = window.location.origin + '/app';
-        if (!Utils.isIOS()) {
-            window.location.href = `${origin}/android/WealthShop.apk`;
-        } else {
-            window.location.href = `itms-services://?action=download-manifest&url=${origin}/ios/manifest.plist`;
-        }
+        if (!Utils.isIOS()) window.location.href = `${origin}/android/WealthShop.apk`;
+        else window.location.href = `itms-services://?action=download-manifest&url=${origin}/ios/manifest.plist`;
     }
 
     // 初始化数据
     initData() {
-        let code = Utils.resolveParameters('code'),
-            userForm = UserFormModel.createInstance(code);
+        let code = Utils.resolveParameters('code');
         this.invitationCode = code;
+
+        let userForm = UserFormModel.createInstance(code);
         this.setStates({ userForm });
     }
 

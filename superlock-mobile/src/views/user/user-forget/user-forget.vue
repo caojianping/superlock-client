@@ -13,7 +13,7 @@
 
         <ForgetForm v-model="isForgetShow" :from="from" @submit="handleForgetFormSubmit" @close="handleForgetFormClose" />
 
-        <div id="captcha"></div>
+        <div id="captcha" />
     </div>
 </template>
 

@@ -8,7 +8,7 @@
                 <p>暂无资金详情数据</p>
             </div>
             <CellGroup v-else class="priority-value">
-                <Cell title="交易单号">
+                <Cell :title="$t('COMMON.TRASACTION_ID')">
                     <p class="scb-copy" id="orderId" :data-clipboard-text="transaction.orderId">
                         <span>{{ transaction.orderId }}</span>
                         <i class="icon icon-copy" />
@@ -16,7 +16,7 @@
                 </Cell>
 
                 <template v-if="type === 0">
-                    <Cell title="交易hash" :value="transaction.txhash" />
+                    <Cell :title="$t('COMMON.TRASACTION_HASH')"> :value="transaction.txhash" />
                     <Cell title="充值时间" :value="transaction.createTime | dateFormat" />
                     <Cell title="充值币种" :value="transaction.payCoin" />
                     <Cell title="充值数量" :value="transaction.payAmount" />
@@ -31,7 +31,7 @@
                     <Cell title="转账时间" :value="transaction.createTime | dateFormat" />
                 </template>
                 <template v-else-if="type === 20">
-                    <Cell title="交易hash" :value="transaction.txhash" />
+                    <Cell :title="$t('COMMON.TRASACTION_HASH')" :value="transaction.txhash" />
                     <Cell title="提现时间" :value="transaction.createTime | dateFormat" />
                     <Cell title="提现币种" :value="transaction.coin" />
                     <Cell title="提现数量" :value="transaction.amount" />
@@ -42,13 +42,13 @@
                     <Cell title="交易时间" :value="transaction.createTime | dateFormat" />
                     <Cell title="交易币种" :value="transaction.coin" />
                     <Cell title="交易数量" :value="transaction.amount" />
-                    <Cell title="汇率" :value="`1 ${transaction.coin} = ${transaction.exchangeRate} ${transaction.valuationCoin}`" />
+                    <Cell :title="$t('COMMON.EXCHANGE_RATE')" :value="`1 ${transaction.coin} = ${transaction.exchangeRate} ${transaction.valuationCoin}`" />
                 </template>
 
-                <Cell title="资金类型" :value="transaction.capitalType" />
-                <Cell title="可用余额" :value="`${transaction.balance} ${transaction.balanceCoin}`" />
-                <Cell title="备注" :value="transaction.memo" />
-                <Cell title="状态" :value="transaction.statusRemark" />
+                <Cell :title="$t('COMMON.FUND_TYPE')" :value="transaction.capitalType" />
+                <Cell :title="$t('COMMON.AVAILABLE_BALANCE')" :value="`${transaction.balance} ${transaction.balanceCoin}`" />
+                <Cell :title="$t('COMMON.REMARK')" :value="transaction.memo" />
+                <Cell :title="$t('COMMON.STATUS')" :value="transaction.statusRemark" />
             </CellGroup>
         </div>
     </div>

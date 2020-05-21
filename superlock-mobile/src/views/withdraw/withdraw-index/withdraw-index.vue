@@ -1,15 +1,15 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
         <div class="withdraw-index scb-gray">
-            <Header title="提现" is-right @left="$router.push('/asset/index')">
-                <router-link slot="right" to="/withdraw/record">明细</router-link>
+            <Header :title="$t('COMMON.WITHDRAW')" is-right @left="$router.push('/asset/index')">
+                <router-link slot="right" to="/withdraw/record">{{ $t('COMMON.DETAILS') }}</router-link>
             </Header>
 
             <div class="scb-form scb-separator">
                 <ul>
                     <li>
-                        <h2>提现地址</h2>
-                        <Field v-if="!withdrawForm.address" value="还没有添加提现地址，赶紧去添加吧" disabled>
+                        <h2>{{ $t('COMMON.WITHDRAW_ADDRESS') }}</h2>
+                        <Field v-if="!withdrawForm.address" :value="$t('WITHDRAW.ADD_ADDRESS_PROMPT')" disabled>
                             <Icon slot="button" name="arrow" @click="goAddress" />
                         </Field>
                         <Field v-else :value="withdrawForm.address" disabled>
@@ -22,27 +22,31 @@
                             type="number"
                             :value="withdrawForm.amount"
                             clearable
-                            placeholder="请输入您想提现的金额"
+                            :placeholder="$t('PLACEHOLDERS.ENTER_WITHDRAW_AMOUNT')"
                             @input="handleFieldInput('amount', $event)"
                         >
-                            <span class="text-orange" slot="button" @click="withdrawAll">全部</span>
+                            <span class="text-orange" slot="button" @click="withdrawAll">{{ $t('COMMON.ALL') }}</span>
                         </Field>
                         {{ ((usableQuotaObj = usableQuota || {}), void 0) }}
                         <p class="text-orange">
-                            可提现金额
+                            {{ $t('WITHDRAW.WITHDRAWABLE_AMOUNT') }}
                             {{
                                 `${usableQuotaObj.amount || '--'} BCB = 
-                            ${usableQuotaObj.valuationAmount || '--'}
-                            ${usableQuotaObj.valuationCoin || '--'}`
+                                ${usableQuotaObj.valuationAmount || '--'} ${usableQuotaObj.valuationCoin || '--'}`
                             }}
                         </p>
                     </li>
                     <li>
-                        <h2>备注</h2>
-                        <Field :value="withdrawForm.remark" clearable placeholder="请输入提现备注" @input="handleFieldInput('remark', $event)" />
+                        <h2>{{ $t('COMMON.REMARK') }}</h2>
+                        <Field
+                            :value="withdrawForm.remark"
+                            clearable
+                            :placeholder="$t('PLACEHOLDERS.ENTER_WITHDRAW_REMARK')"
+                            @input="handleFieldInput('remark', $event)"
+                        />
                     </li>
                     <li>
-                        <Button class="effect-shadow" type="primary" block round @click="submit">确定提现</Button>
+                        <Button class="effect-shadow" type="primary" block round @click="submit">{{ $t('WITHDRAW.CONFIRM_WITHDRAW') }}</Button>
                     </li>
                 </ul>
             </div>

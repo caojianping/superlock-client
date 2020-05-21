@@ -12,6 +12,9 @@ import {
     LoanRepayFormModel
 } from '@/ts/models';
 
+import Locales from '@/locales';
+const i18n = Locales.buildLocale();
+
 export class LoanService {
     // 校验贷款表单
     public static validateApplyForm(applyForm: LoanApplyFormModel, isPassword: boolean = true): ValidationResult {

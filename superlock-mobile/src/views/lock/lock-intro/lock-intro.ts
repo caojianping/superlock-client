@@ -3,6 +3,7 @@ import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { SessionStorage } from 'jts-storage';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { CONSTANTS } from '@/ts/config';
@@ -12,6 +13,7 @@ import { UserLockQuotaModel, ProjectModel } from '@/ts/models';
 import { Toast, PullRefresh } from 'vant';
 import Header from '@/components/common/header';
 
+const i18n = Locales.buildLocale();
 const userModule = namespace('user');
 const lockModule = namespace('lock');
 
@@ -42,14 +44,14 @@ export default class LockIntro extends Vue {
     async refreshData() {
         await this.fetchData(true);
         this.isPulling = false;
-        Toast('刷新成功');
+        Toast(i18n.tc('COMMON.REFRESH_SUCCESS'));
     }
 
     // 初始化数据
     initData() {
         let lockProjectCache = SessionStorage.getItem<ProjectModel>(CONSTANTS.LOCK_PROJECT);
         if (!lockProjectCache) {
-            Prompt.error('异常的锁仓项目信息，数据丢失');
+            Prompt.error(i18n.tc('COMMON.DATA_EXCEPTION'));
             this.$router.push('/home/index');
             return;
         }
