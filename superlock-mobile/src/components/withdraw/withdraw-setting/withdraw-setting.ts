@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component, Prop, Model, Watch } from 'vue-property-decorator';
 import { ValidationResult } from 'jpts-validator';
+
 import Utils from '@/ts/utils';
 import { OperationType } from '@/ts/config';
 import { Prompt } from '@/ts/common';

@@ -3,11 +3,9 @@
         <div class="team-index scb-gray scb-reserved">
             {{ ((userLockQuotaObj = userLockQuota || {}), void 0) }}
             <header class="team-header">
-                <Header title="团队成员" :isBorder="false" @left="$router.push(from || '/mine/index')" />
+                <Header title="团队成员" :is-border="false" @left="$router.push(from || '/mine/index')" />
                 <h2>团队已锁仓总额度({{ userLockQuotaObj.usedCoin || '--' }})</h2>
-                <h1>
-                    {{ (userLockQuotaObj.usedAmount || 0) | currencyComma(4) }}
-                </h1>
+                <h1>{{ (userLockQuotaObj.usedAmount || 0) | currencyComma(4) }}</h1>
             </header>
 
             <div class="team-rates">

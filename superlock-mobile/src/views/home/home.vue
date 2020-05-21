@@ -1,39 +1,39 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
-        <div class="home-index scb-reserved">
-            {{ ((lockQuota = userLockQuota || {}), void 0) }}
+        <div class="home-index">
+            {{ ((userLockQuotaObj = userLockQuota || {}), void 0) }}
             <div class="home-stats">
                 <div class="user-stats">
-                    <p>剩余可锁仓额度({{ lockQuota.coin || '--' }})</p>
-                    <h1>{{ (lockQuota.amount || 0) | currencyComma }}</h1>
+                    <p>剩余可锁仓额度({{ userLockQuotaObj.coin || '--' }})</p>
+                    <h1>{{ (userLockQuotaObj.amount || 0) | currencyComma }}</h1>
                 </div>
                 <div class="team-stats flex">
                     <div class="team-stats-quota">
-                        <p>团队已锁仓额度({{ lockQuota.usedCoin || '--' }})</p>
-                        <h2>
-                            {{ (lockQuota.usedAmount || 0) | currencyComma }}
-                        </h2>
+                        <p>团队已锁仓额度({{ userLockQuotaObj.usedCoin || '--' }})</p>
+                        <h2>{{ (userLockQuotaObj.usedAmount || 0) | currencyComma }}</h2>
                     </div>
                     <div class="team-stats-count">
                         <p>我的团队(人)</p>
                         <h2>
-                            <span>{{ lockQuota.childCount || 0 }}</span>
-                            <i class="icon icon-arrow" @click="goTeam" />
+                            <span>{{ userLockQuotaObj.childCount || 0 }}</span>
+                            <i class="icon icon-arrow" @click="$router.push({ path: '/team/index', query: { from: '/home/index' } })" />
                         </h2>
                     </div>
                 </div>
             </div>
 
-            <div class="home-project">
-                <div v-if="isProjectSpinning" class="spin-container">
-                    <Spin :is-spinning="isProjectSpinning" />
-                </div>
-
+            {{
+                ((isEmpty =
+                    !isProjectSpinning && (!projectStats || !projectStats.userLockProjectList || projectStats.userLockProjectList.length <= 0)),
+                void 0)
+            }}
+            <div :class="['home-project', isEmpty ? 'empty' : '']">
+                <Spin :is-spinning="isProjectSpinning" />
                 <ul v-if="projectStats && projectStats.userLockProjectList" class="project-list">
                     {{
-                        ((userLockProjectList = projectStats.userLockProjectList || []), void 0)
+                        ((projects = projectStats.userLockProjectList || []), void 0)
                     }}
-                    <li :class="['project-item', `bg${project.unit}`]" v-for="(project, index) in userLockProjectList" :key="index">
+                    <li v-for="(project, index) in projects" :key="index" :class="['project-item', `bg${project.unit}`]">
                         <h2 class="project-title scb-border">
                             <span>{{ `BCB矿场 - ${project.length}${unitTypes[project.unit - 1]}` }}</span>
                             <i :class="['icon', `icon-${['new', 'new', 'hot'][project.unit - 1]}`]" />
@@ -64,14 +64,9 @@
             <div class="home-block">
                 <h2 class="home-block-title">精品优选</h2>
                 <div class="home-block-body optimize-container">
-                    <Spin v-if="isOptimizeSpinning" :is-spinning="isOptimizeSpinning" />
-
-                    <ul v-if="projectStats" class="optimize-list">
-                        {{
-                            ((qualitySelectionLinks = projectStats.qualitySelectionLinks || []), void 0)
-                        }}
+                    <!-- {{ ((links = projectStats.qualitySelectionLinks || []), void 0) }} -->
+                    <ul class="optimize-list">
                         <li class="optimize-item">
-                            <!-- <a class="clearfix" :href="qualitySelectionLinks[0]"></a> -->
                             <router-link class="clearfix" to="/loan/index">
                                 <img src="../../assets/images/home/top01.png" alt="" />
                                 <div>
@@ -84,7 +79,7 @@
                             </router-link>
                         </li>
                         <!-- <li class="optimize-item">
-                            <a class="clearfix" :href="qualitySelectionLinks[1]">
+                            <a class="clearfix" :href="links[1]">
                                 <img src="../../assets/images/home/top02.png" alt="" />
                                 <div>
                                     <h2>BCB降价了，资产缩减了怎么办？</h2>

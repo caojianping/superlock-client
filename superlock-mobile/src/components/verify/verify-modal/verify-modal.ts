@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { Component, Prop, Model, Watch } from 'vue-property-decorator';
 
 import { VerifyType, CONSTANTS } from '@/ts/config';
+import Utils from '@/ts/utils';
 import { Prompt } from '@/ts/common';
 import { VerifyResult } from '@/ts/models';
 
@@ -74,8 +75,8 @@ export default class VerifyModal extends Vue {
         if (verifyResult) {
             let verifyMode = verifyResult.verifyMode || '',
                 parts = verifyMode.split('');
-            emailFlag = isNaN(Number(parts[0])) ? 0 : Number(parts[0]);
-            smsFlag = isNaN(Number(parts[1])) ? 0 : Number(parts[1]);
+            emailFlag = Utils.digitConvert(parts[0]);
+            smsFlag = Utils.digitConvert(parts[1]);
 
             activeTab = { '100': 1, '010': 0, '110': 0 }[verifyMode];
         }

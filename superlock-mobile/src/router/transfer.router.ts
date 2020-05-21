@@ -20,7 +20,7 @@ export default [
         component: TransferRecord
     },
     {
-        path: '/transfer/detail/:id',
+        path: '/transfer/detail',
         name: 'TransferDetail',
         component: TransferDetail
     }

@@ -20,7 +20,7 @@ export default [
         component: RechargeRecord
     },
     {
-        path: '/recharge/detail/:id',
+        path: '/recharge/detail',
         name: 'RechargeDetail',
         component: RechargeDetail
     }

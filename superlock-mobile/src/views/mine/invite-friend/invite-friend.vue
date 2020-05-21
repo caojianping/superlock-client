@@ -1,13 +1,14 @@
 <template>
     <div class="invite-friend">
-        <Header title="" :isBorder="false" @left="$router.back(-1)" />
+        <Header title="" :is-border="false" @left="$router.back(-1)" />
 
         <div class="invite-rate" @click="openRateModal">
             <i class="icon icon-rate" />
             <span>利率设置</span>
         </div>
 
-        {{ ((referralLink = userInfo.referralLink || ''), void 0) }}
+        {{ ((userInfoObj = userInfo || {}), void 0) }}
+        {{ ((referralLink = userInfoObj.referralLink || ''), void 0) }}
         <div class="invite-container">
             <p>扫描二维码</p>
             <qriously class="invite-qrcode" :value="referralLink" :size="160" />
@@ -18,7 +19,7 @@
 
         <RateModal
             v-model="isRateShow"
-            :uid="userInfo.userId"
+            :uid="userInfoObj.userId"
             :defaultRateStats="defaultRateStats"
             @close="handleRateModalClose"
             @submit="handleRateModalSubmit"

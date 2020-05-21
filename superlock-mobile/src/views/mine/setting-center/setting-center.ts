@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+import { Prompt } from '@/ts/common';
 
 import { CellGroup, Cell } from 'vant';
 import Header from '@/components/common/header';
-import { Prompt } from '@/ts/common';
 
 const userModule = namespace('user');
 

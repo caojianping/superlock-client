@@ -1,5 +1,4 @@
 import { Cookie } from 'jts-cookie';
-import { SessionStorage } from 'jts-storage';
 import store from '@/store';
 import TYPES from '@/store/types';
 import { CONSTANTS } from '@/ts/config';
@@ -19,41 +18,16 @@ export class Token {
     // 移除tokenInfo
     public static removeTokenInfo(): boolean {
         Cookie.removeItem(CONSTANTS.TOKEN_INFO);
-        ['user/', 'child/', 'project/', 'transaction/', 'lock/', 'recharge/', 'withdraw/', 'transfer/', 'security/'].forEach((item: string) => {
-            store.commit(item + TYPES.CLEAR_STATES);
-        });
+        Token.clearAllStates();
         return true;
     }
 
-    // 设置资金页面来源
-    public static setFundFrom(from: string) {
-        SessionStorage.setItem<string>(CONSTANTS.FUND_FROM, from);
-    }
-
-    // 获取资金页面来源
-    public static getFundFrom(): string {
-        return SessionStorage.getItem<string>(CONSTANTS.FUND_FROM) || '';
-    }
-
-    // 移除资金页面来源
-    public static removeFundFrom(): boolean {
-        SessionStorage.removeItem(CONSTANTS.FUND_FROM);
-        return true;
-    }
-
-    // 设置贷款页面来源
-    public static setLoanFrom(from: string) {
-        SessionStorage.setItem<string>(CONSTANTS.LOAN_FROM, from);
-    }
-
-    // 获取贷款页面来源
-    public static getLoanFrom(): string {
-        return SessionStorage.getItem<string>(CONSTANTS.LOAN_FROM) || '';
-    }
-
-    // 移除贷款页面来源
-    public static removeLoanFrom(): boolean {
-        SessionStorage.removeItem(CONSTANTS.LOAN_FROM);
-        return true;
+    // 清除所有的vuex状态
+    public static clearAllStates() {
+        ['', 'user/', 'project/', 'recharge/', 'withdraw/', 'transfer/', 'lock/', 'loan/', 'child/', 'transaction/', 'security/'].forEach(
+            (item: string) => {
+                store.commit(item + TYPES.CLEAR_STATES);
+            }
+        );
     }
 }

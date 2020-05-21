@@ -19,8 +19,8 @@ const rechargeModule = namespace('recharge');
 export default class RechargeCoins extends Vue {
     @Model('close', { type: Boolean }) value!: boolean; // v-model
 
-    @userModule.State('userInfo') userInfo!: UserInfoModel;
-    @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
+    @userModule.State('userInfo') userInfo?: UserInfoModel | null;
+    @userModule.Action('fetchUserInfo') fetchUserInfo!: (isLoading?: boolean) => any;
 
     @rechargeModule.State('rechargeCoins') rechargeCoins?: Array<RechargeCoinModel>;
     @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
@@ -36,8 +36,7 @@ export default class RechargeCoins extends Vue {
     }
 
     goCode(rechargeCoin: any) {
-        let haveFundPasswd = this.userInfo.haveFundPasswd;
-        if (!haveFundPasswd) {
+        if (!this.userInfo || !this.userInfo.haveFundPasswd) {
             Prompt.info('为保障您的资金安全，请先设置一下资金密码').then(() => {
                 From.setFundFrom('/asset/index');
                 this.$router.push({
@@ -57,7 +56,8 @@ export default class RechargeCoins extends Vue {
 
     // 获取数据
     async fetchData() {
-        await this.fetchUserInfo();
+        !this.userInfo && (await this.fetchUserInfo());
+
         let rechargeCoins = this.rechargeCoins;
         if (!rechargeCoins || rechargeCoins.length <= 0) {
             this.isSpinning = true;

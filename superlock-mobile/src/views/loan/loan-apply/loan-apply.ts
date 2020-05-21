@@ -11,7 +11,7 @@ import { Prompt, From } from '@/ts/common';
 import { UserInfoModel, LoanBaseInfoModel, LoanableLockModel, LoanApplyFormModel } from '@/ts/models';
 import { LoanService } from '@/ts/services';
 
-import { Toast, CellGroup, Cell, Field, Button } from 'vant';
+import { Toast, PullRefresh, CellGroup, Cell, Field, Button } from 'vant';
 import Header from '@/components/common/header';
 import PasswordModal from '@/components/common/password-modal';
 
@@ -20,11 +20,11 @@ const loanModule = namespace('loan');
 
 @Component({
     name: 'LoanApply',
-    components: { CellGroup, Cell, Field, Button, Header, PasswordModal }
+    components: { PullRefresh, CellGroup, Cell, Field, Button, Header, PasswordModal }
 })
 export default class LoanApply extends Vue {
-    @userModule.State('userInfo') userInfo!: UserInfoModel;
-    @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
+    @userModule.State('userInfo') userInfo?: UserInfoModel | null;
+    @userModule.Action('fetchUserInfo') fetchUserInfo!: (isLoading?: boolean) => any;
 
     @loanModule.State('loanBaseInfo') loanBaseInfo?: LoanBaseInfoModel | null;
     @loanModule.State('loanableLock') loanableLock?: LoanableLockModel | null;
@@ -32,10 +32,10 @@ export default class LoanApply extends Vue {
 
     @loanModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @loanModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
     @loanModule.Action('fetchLoanBaseInfo') fetchLoanBaseInfo!: () => any;
     @loanModule.Action('applyLoan') applyLoan!: () => any;
 
+    isPulling: boolean = false; // 是否下拉刷新
     isShow: boolean = false; // 是否显示密码模态框
 
     // 处理Field组件input事件
@@ -48,13 +48,9 @@ export default class LoanApply extends Vue {
     // 提交申请表单
     async submit() {
         let result: ValidationResult = LoanService.validateApplyForm(this.applyForm, false);
-        if (!result.status) {
-            Prompt.error(Utils.getFirstValue(result.data));
-            return;
-        }
+        if (!result.status) return Prompt.error(Utils.getFirstValue(result.data));
 
-        let haveFundPasswd = this.userInfo.haveFundPasswd;
-        if (!haveFundPasswd) {
+        if (!this.userInfo || !this.userInfo.haveFundPasswd) {
             Prompt.info('您未设置资金密码，请先设置资金密码').then(() => {
                 From.setFundFrom('/loan/apply');
                 this.$router.push({
@@ -83,19 +79,11 @@ export default class LoanApply extends Vue {
         }
     }
 
-    // 初始化数据
-    initData() {
-        if (!this.loanableLock) {
-            let loanableLock = SessionStorage.getItem<LoanableLockModel>(CONSTANTS.LOANABLE_LOCK);
-            this.setStates({ loanableLock });
-        }
-    }
-
     // 获取数据
-    async fetchData() {
+    async fetchData(isRefresh: boolean) {
         Toast.loading({ mask: true, duration: 0, message: '加载中...' });
-        await this.fetchUserInfo();
-        !this.loanBaseInfo && (await this.fetchLoanBaseInfo());
+        (!this.userInfo || isRefresh) && (await this.fetchUserInfo());
+        (!this.loanBaseInfo || isRefresh) && (await this.fetchLoanBaseInfo());
 
         let loanableLock = this.loanableLock,
             applyForm = new LoanApplyFormModel();
@@ -110,11 +98,27 @@ export default class LoanApply extends Vue {
         Toast.clear();
     }
 
+    // 刷新数据
+    async refreshData() {
+        await this.fetchData(true);
+        this.isPulling = false;
+        Toast('刷新成功');
+    }
+
+    // 初始化数据
+    initData() {
+        let loanableLock = this.loanableLock;
+        if (!loanableLock) {
+            loanableLock = SessionStorage.getItem<LoanableLockModel>(CONSTANTS.LOANABLE_LOCK);
+        }
+        this.setStates({ loanableLock });
+    }
+
     created() {
         this.initData();
     }
 
     mounted() {
-        this.fetchData();
+        this.fetchData(false);
     }
 }

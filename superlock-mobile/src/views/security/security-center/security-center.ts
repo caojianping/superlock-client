@@ -6,21 +6,24 @@ import TYPES from '@/store/types';
 import { From } from '@/ts/common';
 import { UserInfoModel } from '@/ts/models';
 
-import { Icon, CellGroup, Cell } from 'vant';
+import { Toast, PullRefresh, Icon, CellGroup, Cell } from 'vant';
 import Header from '@/components/common/header';
 
 const userModule = namespace('user');
 
 @Component({
     name: 'SecurityCenter',
-    components: { Icon, CellGroup, Cell, Header }
+    components: { PullRefresh, Icon, CellGroup, Cell, Header }
 })
 export default class SecurityCenter extends Vue {
-    @userModule.State('userInfo') userInfo!: UserInfoModel;
+    @userModule.State('userInfo') userInfo?: UserInfoModel | null;
     @userModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @userModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-    @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
+    @userModule.Action('fetchUserInfo') fetchUserInfo!: (isLoading?: boolean) => any;
 
+    isPulling: boolean = false; // 是否下拉刷新
+
+    // 跳转至资金密码页面
     goFund() {
         From.setFundFrom('/security/center');
         this.$router.push({
@@ -29,7 +32,19 @@ export default class SecurityCenter extends Vue {
         });
     }
 
+    // 获取数据
+    async fetchData(isRefresh: boolean) {
+        (!this.userInfo || isRefresh) && this.fetchUserInfo(true);
+    }
+
+    // 刷新数据
+    async refreshData() {
+        await this.fetchData(true);
+        this.isPulling = false;
+        Toast('刷新成功');
+    }
+
     mounted() {
-        this.fetchUserInfo();
+        this.fetchData(false);
     }
 }

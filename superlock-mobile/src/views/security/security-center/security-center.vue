@@ -1,19 +1,22 @@
 <template>
-    <div class="security-center">
-        <Header title="安全中心" @left="$router.push('/mine/index')" />
+    <PullRefresh v-model="isPulling" @refresh="refreshData">
+        <div class="security-center">
+            <Header title="安全中心" @left="$router.push('/mine/index')" />
 
-        <CellGroup class="scb-separator">
-            <Cell title="UID" :value="userInfo.userId || '--'" />
-            <Cell title="登录密码" is-link :to="{ path: '/security/login/password', query: { from: '/security/center' } }" />
-            <Cell title="资金密码" is-link @click="goFund" />
-            <Cell v-if="!userInfo.email" title="邮箱绑定" is-link :to="{ path: '/security/email', query: { from: '/security/center' } }">
-                <span class="unbind">未绑定</span>
-            </Cell>
-            <Cell v-else title="邮箱绑定">
-                <span class="binded">{{ userInfo.email }}</span>
-            </Cell>
-        </CellGroup>
-    </div>
+            <CellGroup class="scb-separator">
+                {{ ((userInfoObj = userInfo || {}), void 0) }}
+                <Cell title="UID" :value="userInfoObj.userId || '--'" />
+                <Cell title="登录密码" is-link :to="{ path: '/security/login/password', query: { from: '/security/center' } }" />
+                <Cell title="资金密码" is-link @click="goFund" />
+                <Cell v-if="!userInfoObj.email" title="邮箱绑定" is-link :to="{ path: '/security/email', query: { from: '/security/center' } }">
+                    <span class="unbind">未绑定</span>
+                </Cell>
+                <Cell v-else title="邮箱绑定">
+                    <span class="binded">{{ userInfoObj.email }}</span>
+                </Cell>
+            </CellGroup>
+        </div>
+    </PullRefresh>
 </template>
 
 <style src="./security-center.less" lang="less" scoped />

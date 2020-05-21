@@ -7,7 +7,7 @@ import TYPES from '@/store/types';
 import { CONSTANTS } from '@/ts/config';
 import { UserLockQuotaModel, LockPromoteRateModel, ChildModel } from '@/ts/models';
 
-import { PullRefresh, Toast, List, CellGroup, Cell } from 'vant';
+import { Toast, PullRefresh, List, CellGroup, Cell } from 'vant';
 import Header from '@/components/common/header';
 
 const userModule = namespace('user');
@@ -31,7 +31,6 @@ export default class TeamIndex extends Vue {
 
     @childModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @childModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
     @childModule.Action('fetchLockPromoteRates') fetchLockPromoteRates!: () => any;
     @childModule.Action('fetchChilds') fetchChildsAction!: () => any;
 
@@ -50,14 +49,9 @@ export default class TeamIndex extends Vue {
 
     // 跳转至详情页面
     goDetail(child: ChildModel) {
+        this.setStates({ child });
         SessionStorage.setItem<ChildModel>(CONSTANTS.CHILD, child);
-        this.$router.push(`/team/child/${child.uid}`);
-    }
-
-    // 初始化数据
-    initData() {
-        let query: any = this.$route.query;
-        this.from = query.from || '';
+        this.$router.push('/team/child');
     }
 
     // 获取下级列表
@@ -68,25 +62,29 @@ export default class TeamIndex extends Vue {
     }
 
     // 获取数据
-    async fetchData() {
-        Toast.loading({
-            mask: true,
-            duration: 0,
-            message: '加载中...'
-        });
-        await this.fetchUserLockQuota();
-        await this.fetchLockPromoteRates();
+    async fetchData(isRefresh: boolean) {
+        Toast.loading({ mask: true, duration: 0, message: '加载中...' });
+        (!this.userLockQuota || isRefresh) && (await this.fetchUserLockQuota());
+        (!this.lockPromoteRates || this.lockPromoteRates.length <= 0 || isRefresh) && (await this.fetchLockPromoteRates());
 
-        this.setStates({ pageNum: 1 });
-        await this.fetchChilds();
+        if (!this.childs || isRefresh) {
+            this.setStates({ pageNum: 1 });
+            await this.fetchChilds();
+        }
         Toast.clear();
     }
 
     // 刷新数据
     async refreshData() {
-        await this.fetchData();
+        await this.fetchData(true);
         this.isPulling = false;
         Toast('刷新成功');
+    }
+
+    // 初始化数据
+    initData() {
+        let query: any = this.$route.query;
+        this.from = query.from || '';
     }
 
     created() {
@@ -94,6 +92,6 @@ export default class TeamIndex extends Vue {
     }
 
     mounted() {
-        this.fetchData();
+        this.fetchData(false);
     }
 }

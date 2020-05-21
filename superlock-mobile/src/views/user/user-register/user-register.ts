@@ -6,7 +6,7 @@ import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { RegisterStatus } from '@/ts/config';
 import { Prompt, Captcha } from '@/ts/common';
-import { UserFormModel, VerifyResult } from '@/ts/models';
+import { UserFormModel } from '@/ts/models';
 
 import { Cell, Button } from 'vant';
 import VerifyList from '@/components/verify/verify-list';
@@ -20,8 +20,8 @@ const userModule = namespace('user');
     components: { Cell, Button, VerifyList, UserForm, WechatPrompt }
 })
 export default class UserRegister extends Vue {
-    @State('verifyResult') verifyResult?: VerifyResult | null;
-    @Action('fetchVerifyMethod') fetchVerifyMethod!: (payload: { areaCode: string; mobile: string }) => any;
+    // @State('verifyResult') verifyResult?: VerifyResult | null;
+    // @Action('fetchVerifyMethod') fetchVerifyMethod!: (payload: { areaCode: string; mobile: string; type?: number; isLoading?: boolean }) => any;
 
     @userModule.State('userForm') userForm!: UserFormModel;
     @userModule.State('registerStatus') registerStatus!: RegisterStatus;
@@ -95,7 +95,6 @@ export default class UserRegister extends Vue {
     }
 
     created() {
-        this.clearStates();
         this.initData();
     }
 

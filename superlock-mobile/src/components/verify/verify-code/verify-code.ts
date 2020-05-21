@@ -23,6 +23,7 @@ export default class VerifyCode extends Vue {
 
     isSending: boolean = false; // 是否发送验证码中
     isSpinning: boolean = false; // 是否加载验证码中
+
     timer: any = null; // 倒计时定时器
     seconds: number = 120; // 倒计时秒数
     text: string = '获取验证码'; // 倒计时文字

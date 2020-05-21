@@ -1,6 +1,6 @@
 // 运营商表单模型
 export class CarrierFormModel {
-    public carrierId?: number; // 运营商编号
+    public carrierId?: string; // 运营商编号
     public carrierName!: string; // 运营商名称
     public loginPwd!: string; // 登录密码
     public areaCode!: string; // 国家和地区区号
@@ -13,7 +13,7 @@ export class CarrierFormModel {
 
 // 运营商模型
 export class CarrierModel {
-    public carrierId!: number; // 运营商编号
+    public carrierId!: string; // 运营商编号
     public carrierName!: string; // 运营商名称
     public areaCode!: string; // 国家和地区区号
     public mobileNumber!: string; // 手机号

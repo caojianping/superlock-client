@@ -7,14 +7,10 @@ import { WithdrawModel, WithdrawAddressModel, WithdrawFormModel } from '@/ts/mod
 export class WithdrawService {
     // 校验提现表单
     public static validateWithdrawForm(withdrawForm: WithdrawFormModel, isPassword: boolean = true): ValidationResult {
-        if (!withdrawForm)
-            return {
-                status: false,
-                data: { userForm: '提现表单参数不可以为空' }
-            };
+        if (!withdrawForm) return { status: false, data: { withdrawForm: '提现表单参数不可以为空' } };
 
         let key = 'withdrawForm',
-            { address, amount, fundPasswd, remark, maxAmount } = withdrawForm,
+            { address, amount, fundPasswd, maxAmount } = withdrawForm,
             validator = new Validator();
         validator.addRule(
             key,
@@ -25,7 +21,7 @@ export class WithdrawService {
         validator.addRule(key, { name: 'address', value: address }, { required: true }, { required: '提现地址不可以为空' });
         validator.addRule(
             key,
-            { name: 'amount', value: amount },
+            { name: 'amount', value: !Utils.isNullOrUndefined(amount) ? Utils.digitConvert(amount) : amount },
             { required: true, minExclude: 0, max: maxAmount },
             {
                 required: '提现金额不可以为空',
@@ -41,14 +37,10 @@ export class WithdrawService {
 
     // 校验提现地址
     public static validateWithdrawAddress(withdrawAddress: WithdrawAddressModel): ValidationResult {
-        if (!withdrawAddress)
-            return {
-                status: false,
-                data: { userForm: '提现地址参数不可以为空' }
-            };
+        if (!withdrawAddress) return { status: false, data: { withdrawAddress: '提现地址参数不可以为空' } };
 
-        const key = 'withdrawAddress';
-        let { nickName, address } = withdrawAddress,
+        let key = 'withdrawAddress',
+            { nickName, address } = withdrawAddress,
             validator = new Validator();
         validator.addRule(key, { name: 'nickName', value: nickName }, { required: true }, { required: '钱包名称不可以为空' });
         validator.addRule(key, { name: 'address', value: address }, { required: true }, { required: '钱包地址不可以为空' });
@@ -74,12 +66,7 @@ export class WithdrawService {
     // 获取提现列表
     public async fetchWithdraws(pageNum: number = 1, pageSize: number = 10): Promise<Array<WithdrawModel>> {
         let result = await Caxios.get<Array<WithdrawModel> | null>(
-            {
-                url: `${Urls.withdraw.list}?${Utils.buildParameters({
-                    pageNum,
-                    pageSize
-                })}`
-            },
+            { url: `${Urls.withdraw.list}?${Utils.buildParameters({ pageNum, pageSize })}` },
             pageNum === 1 ? CaxiosType.LoadingToken : CaxiosType.Token
         );
         return result || [];
@@ -100,10 +87,7 @@ export class WithdrawService {
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
         let { nickName, address } = withdrawAddress,
-            parameters = Utils.buildParameters({
-                nickName,
-                address
-            });
+            parameters = Utils.buildParameters({ nickName, address });
         await Caxios.post<any>({ url: `${Urls.withdraw.address.add}?${parameters}` }, CaxiosType.LoadingToken);
         return true;
     }

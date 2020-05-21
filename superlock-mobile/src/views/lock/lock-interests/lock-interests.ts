@@ -36,14 +36,16 @@ export default class LockInterests extends Vue {
     }
 
     // 获取数据
-    async fetchData() {
-        this.setStates({ pageNum: 1 });
-        await this.fetchLockInterests();
+    async fetchData(isRefresh: boolean) {
+        if (!this.lockInterests || isRefresh) {
+            this.setStates({ pageNum: 1 });
+            await this.fetchLockInterests();
+        }
     }
 
     // 刷新数据
     async refreshData() {
-        await this.fetchData();
+        await this.fetchData(true);
         this.isPulling = false;
         Toast('刷新成功');
     }
@@ -59,6 +61,6 @@ export default class LockInterests extends Vue {
     }
 
     mounted() {
-        this.fetchData();
+        this.fetchData(false);
     }
 }

@@ -8,7 +8,7 @@ import { UserService } from './user.service';
 export class SecurityService {
     // 校验安全中心表单
     public static validateSecurityForm(securityForm: SecurityFormModel, isSet: boolean = false): ValidationResult {
-        if (!securityForm) return { status: false, data: { userForm: '安全中心表单参数不可以为空' } };
+        if (!securityForm) return { status: false, data: { securityForm: '安全中心表单参数不可以为空' } };
 
         let key = 'securityForm',
             { oldPassword, newPassword, confirmPassword, verifyMode, code } = securityForm,
@@ -28,7 +28,7 @@ export class SecurityService {
 
     // 校验邮箱表单
     public static validateEmailForm(emailForm: EmailFormModel): ValidationResult {
-        if (!emailForm) return { status: false, data: { userForm: '邮箱表单参数不可以为空' } };
+        if (!emailForm) return { status: false, data: { emailForm: '邮箱表单参数不可以为空' } };
 
         let key = 'emailForm',
             { emailAddress, emailCode } = emailForm,
@@ -103,7 +103,7 @@ export class SecurityService {
         let result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.Forget);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
 
-        let { areaCode, mobile, password, verifyMode, code } = userForm,
+        let { password, verifyMode, code } = userForm,
             parameters = Utils.buildParameters({
                 newPasswd: md5(password),
                 verifyMode: verifyMode || '',

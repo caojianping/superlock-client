@@ -4,7 +4,7 @@
             {{ ((assetStatsObj = assetStats || {}), void 0) }}
             {{ ((earningsStatsObj = earningsStats || {}), void 0) }}
             <header class="asset-header">
-                <i class="icon icon-transaction" @click="goPage('/transaction/record')" />
+                <i class="icon icon-transaction" @click="$router.push('/transaction/record')" />
                 <h2>
                     <label>总资产</label>
                     <small>（BCB）</small>
@@ -15,14 +15,14 @@
                 <p>
                     <label>昨日收益（{{ earningsStatsObj.yesterdayEarningsCoin || '--' }}）</label>
                     <span>+ {{ earningsStatsObj.yesterdayEarnings || 0 }}</span>
-                    <i class="icon icon-arrow" @click="openEarningsInfo" />
+                    <i class="icon icon-arrow" @click="openComponent('isEarningsInfoShow')" />
                 </p>
             </header>
 
             <ul class="asset-links flex">
-                <li @click="openRechargeCoins"><i /><span>充值</span></li>
-                <li @click="goPage('/withdraw/index')"><i /><span>提现</span></li>
-                <li @click="goPage('/transfer/index')"><i /><span>转账</span></li>
+                <li @click="openComponent('isRechargeCoinsShow')"><i /><span>充值</span></li>
+                <li @click="$router.push('/withdraw/index')"><i /><span>提现</span></li>
+                <li @click="$router.push('/transfer/index')"><i /><span>转账</span></li>
             </ul>
 
             {{ ((rateObj = exchangeRate || {}), void 0) }}
@@ -36,11 +36,11 @@
                             <span>{{ rateStr }}</span>
                         </h1>
                         <div class="tab-content">
-                            <Spin v-if="!assetStats" :is-spinning="isAssetStatsSpinning" />
-                            <CellGroup v-if="!isAssetStatsSpinning">
-                                <Cell title="总资产" :value="(assetStats ? assetStats.bcbTotalAmount || 0 : 0) | coinUnit"></Cell>
-                                <Cell title="可用余额" :value="(assetStats ? assetStats.bcbHotAmount || 0 : 0) | coinUnit"></Cell>
-                                <Cell title="锁仓金额" :value="(assetStats ? assetStats.bcbLockAmount || 0 : 0) | coinUnit"></Cell>
+                            <Spin :is-spinning="isAssetStatsSpinning" />
+                            <CellGroup>
+                                <Cell title="总资产" :value="(assetStatsObj.bcbTotalAmount || 0) | coinUnit"></Cell>
+                                <Cell title="可用余额" :value="(assetStatsObj.bcbHotAmount || 0) | coinUnit"></Cell>
+                                <Cell title="锁仓金额" :value="(assetStatsObj.bcbLockAmount || 0) | coinUnit"></Cell>
                             </CellGroup>
                         </div>
                     </div>
@@ -54,8 +54,8 @@
                             <span>{{ rateStr }}</span>
                         </h1>
                         <div class="tab-content">
-                            <Spin v-if="!locks" :is-spinning="isLocksSpinning" />
-                            <template v-if="!isLocksSpinning && locks">
+                            <Spin :is-spinning="isLocksSpinning" position="top" />
+                            <template v-if="locks">
                                 <p v-if="locks.length <= 0" class="scb-none">
                                     暂无锁仓记录，快去<router-link class="scb-link" to="/home/index">创建锁仓</router-link>吧！
                                 </p>
@@ -89,8 +89,8 @@
                             <span>{{ rateStr }}</span>
                         </h1>
                         <div class="tab-content">
-                            <Spin v-if="!loans" :is-spinning="isLoansSpinning" />
-                            <template v-if="!isLoansSpinning && loans">
+                            <Spin :is-spinning="isLoansSpinning" position="top" />
+                            <template v-if="loans">
                                 <p v-if="loans.length <= 0" class="scb-none">暂无贷款记录</p>
                                 <CellGroup v-else class="loans priority-title">
                                     <Cell v-for="(loan, index) in loans" :key="index" is-link @click="goLoanDetail(loan)">
@@ -119,8 +119,8 @@
                             <span>{{ rateStr }}</span>
                         </h1>
                         <div class="tab-content">
-                            <Spin v-if="!rewardStats" :is-spinning="isRewardStatsSpinning" />
-                            <CellGroup v-if="!isRewardStatsSpinning">
+                            <Spin :is-spinning="isRewardStatsSpinning" />
+                            <CellGroup>
                                 {{ ((rewardStatsObj = rewardStats || {}), void 0) }}
                                 <Cell
                                     title="直推奖励"

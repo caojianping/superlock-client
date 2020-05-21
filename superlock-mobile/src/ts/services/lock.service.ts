@@ -7,11 +7,7 @@ import { LockModel, LockFormModel, LockResultModel, LockInterestModel } from '@/
 export class LockService {
     // 校验锁仓表单
     public static validateLockForm(lockForm: LockFormModel, isPassword: boolean = true): ValidationResult {
-        if (!lockForm)
-            return {
-                status: false,
-                data: { userForm: '锁仓表单参数不可以为空' }
-            };
+        if (!lockForm) return { status: false, data: { lockForm: '锁仓表单参数不可以为空' } };
 
         let key = 'lockForm',
             { length, unit, rate, amount, fundPasswd, minAmount, maxAmount } = lockForm,
@@ -27,7 +23,7 @@ export class LockService {
         validator.addRule(key, { name: 'rate', value: rate }, { required: true }, { required: '锁仓利率不可以为空' });
         validator.addRule(
             key,
-            { name: 'amount', value: amount },
+            { name: 'amount', value: !Utils.isNullOrUndefined(amount) ? Utils.digitConvert(amount) : amount },
             { required: true, min: minAmount, max: maxAmount },
             {
                 required: '锁仓金额不可以为空',
@@ -69,7 +65,7 @@ export class LockService {
                 amount,
                 fundPasswd: md5(fundPasswd)
             });
-        return await Caxios.post<LockResultModel | null>({ url: `${Urls.lock.create}?${parameters}` }, CaxiosType.LoadingToken);
+        return await Caxios.post<LockResultModel | null>({ url: `${Urls.lock.create}?${parameters}` }, CaxiosType.Token);
     }
 
     // 获取锁仓利息列表

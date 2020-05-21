@@ -2,13 +2,11 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
-import TYPES from '@/store/types';
-import Utils from '@/ts/utils';
 import { CONSTANTS } from '@/ts/config';
 import { Clipboard } from '@/ts/common';
 import { UserInfoModel } from '@/ts/models';
 
-import { Icon, CellGroup, Cell } from 'vant';
+import { Toast, PullRefresh, Icon, CellGroup, Cell } from 'vant';
 import Navs from '@/components/common/navs';
 import ModifyName from '@/components/user/modify-name';
 
@@ -16,15 +14,14 @@ const userModule = namespace('user');
 
 @Component({
     name: 'MineIndex',
-    components: { Icon, CellGroup, Cell, Navs, ModifyName }
+    components: { PullRefresh, Icon, CellGroup, Cell, Navs, ModifyName }
 })
 export default class MineIndex extends Vue {
-    @userModule.State('userInfo') userInfo!: UserInfoModel;
-    @userModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
-    @userModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-    @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
+    @userModule.State('userInfo') userInfo?: UserInfoModel | null;
+    @userModule.Action('fetchUserInfo') fetchUserInfo!: (isLoading?: boolean) => any;
 
-    isShow: boolean = false;
+    isPulling: boolean = false; // 是否下拉刷新
+    isShow: boolean = false; // 是否显示修改昵称组件
 
     // 跳转至客服页面
     goCustomerService() {
@@ -32,14 +29,24 @@ export default class MineIndex extends Vue {
     }
 
     // 处理修改名称组件submit事件
-    handleModifyNameSubmit(name: string) {
-        let userInfo = Utils.duplicate(this.userInfo);
-        userInfo.nickName = name;
-        this.setStates({ userInfo });
+    handleModifyNameSubmit() {
+        this.fetchUserInfo(true);
+    }
+
+    // 获取数据
+    async fetchData(isRefresh: boolean) {
+        (!this.userInfo || isRefresh) && (await this.fetchUserInfo(true));
+        Clipboard.copy('uid', 'UID');
+    }
+
+    // 刷新数据
+    async refreshData() {
+        await this.fetchData(true);
+        this.isPulling = false;
+        Toast('刷新成功');
     }
 
     mounted() {
-        Clipboard.copy('uid', 'UID');
-        this.fetchUserInfo();
+        this.fetchData(false);
     }
 }

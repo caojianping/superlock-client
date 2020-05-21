@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
+
 import Utils from '@/ts/utils';
 import { IAreaCode } from '@/ts/config';
 import { UserFormModel } from '@/ts/models';

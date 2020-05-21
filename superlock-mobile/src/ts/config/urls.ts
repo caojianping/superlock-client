@@ -6,7 +6,7 @@ export const Urls = {
         smsCode: `${baseUrl}/vfcode`, // 短信验证码接口
         emailCode: `${baseUrl}/sendEmailVcode`, // 邮箱验证码接口
 
-        quota: `${baseUrl}/project/withdrawableAmount`, // 取可提现额度接口
+        usableQuota: `${baseUrl}/project/withdrawableAmount`, // 取可提现额度接口
         exchangeRate: `${baseUrl}/project/exchangeRateToday` // 获取汇率接口
     },
     user: {

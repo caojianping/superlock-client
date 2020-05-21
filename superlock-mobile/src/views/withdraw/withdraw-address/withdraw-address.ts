@@ -1,11 +1,12 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+
 import TYPES from '@/store/types';
 import { OperationType } from '@/ts/config';
 import { WithdrawAddressModel } from '@/ts/models';
 
-import { CellGroup, Cell, Checkbox } from 'vant';
+import { Toast, PullRefresh, CellGroup, Cell, Checkbox } from 'vant';
 import Header from '@/components/common/header';
 import WithdrawSetting from '@/components/withdraw/withdraw-setting';
 
@@ -13,7 +14,7 @@ const withdrawModule = namespace('withdraw');
 
 @Component({
     name: 'WithdrawAddress',
-    components: { CellGroup, Cell, Checkbox, Header, WithdrawSetting }
+    components: { PullRefresh, CellGroup, Cell, Checkbox, Header, WithdrawSetting }
 })
 export default class WithdrawAddress extends Vue {
     @withdrawModule.State('withdrawAddresses') withdrawAddresses?: Array<WithdrawAddressModel>;
@@ -22,18 +23,10 @@ export default class WithdrawAddress extends Vue {
     @withdrawModule.Mutation(TYPES.CLEAR_STATES) clearStates!: (withoutSelected: boolean) => any;
     @withdrawModule.Action('fetchWithdrawAddresses') fetchWithdrawAddresses!: (isLoading: boolean) => any;
 
-    from: string = '';
-    isShow: boolean = false;
+    from: string = ''; // 页面来源
+    isPulling: boolean = false; // 是否下拉刷新
+    isShow: boolean = false; // 是否显示提现设置组件
     operationType: OperationType = OperationType.Add;
-
-    // 返回
-    goBack() {
-        let from = this.from;
-        this.$router.push({
-            path: from,
-            query: { cache: from === '/withdraw/index' ? 'true' : 'false' }
-        });
-    }
 
     // 打开提现设置组件
     openWithdrawSetting() {
@@ -49,7 +42,19 @@ export default class WithdrawAddress extends Vue {
     // 选择提现地址
     chooseAddress(withdrawAddress: WithdrawAddressModel) {
         this.setStates({ selectedWithdrawAddress: withdrawAddress });
-        this.$router.push({ path: '/withdraw/index', query: { cache: 'true' } });
+        this.$router.push('/withdraw/index');
+    }
+
+    // 获取数据
+    async fetchData(isRefresh: boolean) {
+        (!this.withdrawAddresses || isRefresh) && (await this.fetchWithdrawAddresses(true));
+    }
+
+    // 刷新数据
+    async refreshData() {
+        await this.fetchData(true);
+        this.isPulling = false;
+        Toast('刷新成功');
     }
 
     // 初始化数据
@@ -59,11 +64,10 @@ export default class WithdrawAddress extends Vue {
     }
 
     created() {
-        this.clearStates(true);
         this.initData();
     }
 
     mounted() {
-        this.fetchWithdrawAddresses(true);
+        this.fetchData(false);
     }
 }

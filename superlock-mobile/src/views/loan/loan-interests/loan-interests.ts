@@ -22,7 +22,6 @@ export default class LoanInterests extends Vue {
 
     @loanModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @loanModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-
     @loanModule.Action('fetchLoanInterests') fetchLoanInterestsAction!: () => any;
 
     isPulling: boolean = false; // 是否下拉刷新
@@ -37,14 +36,16 @@ export default class LoanInterests extends Vue {
     }
 
     // 获取数据
-    async fetchData() {
-        this.setStates({ pageNum: 1 });
-        await this.fetchLoanInterests();
+    async fetchData(isRefresh: boolean) {
+        if (!this.loanInterests || isRefresh) {
+            this.setStates({ pageNum: 1 });
+            await this.fetchLoanInterests();
+        }
     }
 
     // 刷新数据
     async refreshData() {
-        await this.fetchData();
+        await this.fetchData(true);
         this.isPulling = false;
         Toast('刷新成功');
     }
@@ -60,6 +61,6 @@ export default class LoanInterests extends Vue {
     }
 
     mounted() {
-        this.fetchData();
+        this.fetchData(false);
     }
 }

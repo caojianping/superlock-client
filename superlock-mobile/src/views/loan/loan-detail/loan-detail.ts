@@ -8,14 +8,14 @@ import { CONSTANTS } from '@/ts/config';
 import { From, Clipboard } from '@/ts/common';
 import { LoanModel } from '@/ts/models';
 
-import { CellGroup, Cell, Button } from 'vant';
+import { Toast, PullRefresh, CellGroup, Cell, Button } from 'vant';
 import Header from '@/components/common/header';
 
 const loanModule = namespace('loan');
 
 @Component({
     name: 'LoanDetail',
-    components: { CellGroup, Cell, Button, Header }
+    components: { PullRefresh, CellGroup, Cell, Button, Header }
 })
 export default class LoanDetail extends Vue {
     @loanModule.State('loanColors') loanColors!: Map<number, string>;
@@ -28,10 +28,26 @@ export default class LoanDetail extends Vue {
     @loanModule.Action('fetchLoan') fetchLoan!: () => any;
 
     from: string = ''; // 页面来源
+    isPulling: boolean = false; // 是否下拉刷新
 
     get title() {
         let loan = this.loan;
         return loan && (loan.status === 0 || loan.status === 10) ? '贷款申请信息' : '贷款明细';
+    }
+
+    // 获取数据
+    async fetchData() {
+        this.id && (await this.fetchLoan());
+
+        Clipboard.copy('orderId', '贷款订单号');
+        Clipboard.copy('lockOrderId', '质押锁仓订单号');
+    }
+
+    // 刷新数据
+    async refreshData() {
+        await this.fetchData();
+        this.isPulling = false;
+        Toast('刷新成功');
     }
 
     // 初始化数据
@@ -47,14 +63,6 @@ export default class LoanDetail extends Vue {
 
         let query: any = this.$route.query || {};
         this.from = query.from || From.getLoanFrom();
-    }
-
-    // 获取数据
-    async fetchData() {
-        this.id && (await this.fetchLoan());
-        
-        Clipboard.copy('orderId', '贷款订单号');
-        Clipboard.copy('lockOrderId', '质押锁仓订单号');
     }
 
     created() {

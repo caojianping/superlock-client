@@ -20,7 +20,6 @@ export class LoanService {
         let key = 'apply',
             { lockOrderId, amount, loanDays, fundPasswd, minAmount, maxAmount, minDuration, maxDuration } = applyForm,
             validator = new Validator();
-        console.log('applyForm:', applyForm);
         validator.addRule(key, { name: 'lockOrderId', value: lockOrderId }, { required: true }, { required: '锁仓订单号不可以为空' });
         validator.addRule(
             key,

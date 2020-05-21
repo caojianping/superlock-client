@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { State } from 'vuex-class';
 import { Component, Prop, Model, Watch } from 'vue-property-decorator';
 import { ValidationResult } from 'jpts-validator';
+
 import Utils from '@/ts/utils';
 import { Prompt } from '@/ts/common';
 import { DefaultRateModel, DefaultRateStatsModel, DefaultRateFormModel } from '@/ts/models';
@@ -38,10 +39,7 @@ export default class RateModal extends Vue {
     submit() {
         let defaultRateForms = this.defaultRateForms,
             result: ValidationResult = ChildService.validateDefaultRateForms(defaultRateForms);
-        if (!result.status) {
-            Prompt.error(Utils.getFirstValue(result.data));
-            return;
-        }
+        if (!result.status) return Prompt.error(Utils.getFirstValue(result.data));
 
         this.$emit('close', false);
         this.$emit('submit', defaultRateForms);

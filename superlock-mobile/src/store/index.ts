@@ -3,27 +3,26 @@ import Vuex from 'vuex';
 
 import TYPES from './types';
 import { IActionContext, IRootState } from './interfaces';
-import { TokenInfo, VerifyResult } from '@/ts/models';
+import { TokenInfo } from '@/ts/models';
 import { CommonService } from '@/ts/services';
 
 import userModule from './modules/user.module';
-import childModule from './modules/child.module';
 import projectModule from './modules/project.module';
-import transactionModule from './modules/transaction.module';
-import lockModule from './modules/lock.module';
 import rechargeModule from './modules/recharge.module';
 import withdrawModule from './modules/withdraw.module';
 import transferModule from './modules/transfer.module';
-import securityModule from './modules/security.module';
+import lockModule from './modules/lock.module';
 import loanModule from './modules/loan.module';
+import childModule from './modules/child.module';
+import transactionModule from './modules/transaction.module';
+import securityModule from './modules/security.module';
 
 Vue.use(Vuex);
 
 const rootState: IRootState = {
     tokenInfo: new TokenInfo(),
-
     verifyResult: undefined,
-    quota: undefined,
+    usableQuota: undefined,
     exchangeRate: undefined,
 
     unitTypes: ['天', '月', '年'],
@@ -56,18 +55,20 @@ export default new Vuex.Store({
         },
         [TYPES.CLEAR_STATES](state: IRootState) {
             state.tokenInfo = new TokenInfo();
-
             state.verifyResult = undefined;
-            state.quota = undefined;
+            state.usableQuota = undefined;
             state.exchangeRate = undefined;
         }
     },
     actions: {
         // 获取验证方式
-        async fetchVerifyMethod(context: IActionContext<IRootState>, payload: { areaCode: string; mobile: string; type?: number }): Promise<void> {
+        async fetchVerifyMethod(
+            context: IActionContext<IRootState>,
+            payload: { areaCode: string; mobile: string; type?: number; isLoading?: boolean }
+        ): Promise<void> {
             let commit = context.commit;
             try {
-                let verifyResult = await commonService.fetchVerifyMethod(payload.areaCode, payload.mobile, payload.type);
+                let verifyResult = await commonService.fetchVerifyMethod(payload.areaCode, payload.mobile, payload.type, payload.isLoading);
                 commit(TYPES.SET_STATES, { verifyResult });
             } catch (error) {
                 commit(TYPES.SET_STATES, { verifyResult: null });
@@ -85,13 +86,13 @@ export default new Vuex.Store({
         },
 
         // 获取可提现、可转账额度
-        async fetchQuota(context: IActionContext<IRootState>): Promise<void> {
+        async fetchUsableQuota(context: IActionContext<IRootState>): Promise<void> {
             let commit = context.commit;
             try {
-                let quota = await commonService.fetchQuota();
-                commit(TYPES.SET_STATES, { quota });
+                let usableQuota = await commonService.fetchUsableQuota();
+                commit(TYPES.SET_STATES, { usableQuota });
             } catch (error) {
-                commit(TYPES.SET_STATES, { quota: null });
+                commit(TYPES.SET_STATES, { usableQuota: null });
             }
         },
 
