@@ -75,7 +75,7 @@ export class CarrierService {
         if (!result) return new PageResult<CarrierModel>(0, []);
 
         (result.list || []).forEach((item: any) => {
-            item['carrierId'] = Utils.digitConvert(item.carrierId);
+            // item['carrierId'] = Utils.digitConvert(item.carrierId);
             item['rebateRatio'] = Utils.digitConvert(item.rebateRatio);
         });
         return result as PageResult<CarrierModel>;
