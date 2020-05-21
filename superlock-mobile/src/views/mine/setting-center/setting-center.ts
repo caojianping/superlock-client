@@ -23,9 +23,9 @@ export default class SettingCenter extends Vue {
         try {
             let self = this,
                 result = await this.logoutAction();
-            if (!result) Prompt.error('退出失败');
+            if (!result) Prompt.error(i18n.tc('MINE.LOGOUT_FAILURE'));
             else {
-                Prompt.success('退出成功，稍后将跳转至登录页面重新登录');
+                Prompt.success(i18n.tc('MINE.LOGOUT_SUCCESS'));
                 setTimeout(() => {
                     self.$router.push('/user/login');
                 }, 1688);

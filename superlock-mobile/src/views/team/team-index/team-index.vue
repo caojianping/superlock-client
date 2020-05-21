@@ -3,8 +3,8 @@
         <div class="team-index scb-gray scb-reserved">
             {{ ((userLockQuotaObj = userLockQuota || {}), void 0) }}
             <header class="team-header">
-                <Header title="团队成员" :is-border="false" @left="$router.push(from || '/mine/index')" />
-                <h2>团队已锁仓总额度({{ userLockQuotaObj.usedCoin || '--' }})</h2>
+                <Header title="$t('TEAM.TITLE01')" :is-border="false" @left="$router.push(from || '/mine/index')" />
+                <h2>{{ $t('TEAM.TEAM_LOCKABLE_QUOTA') }}({{ userLockQuotaObj.usedCoin || '--' }})</h2>
                 <h1>{{ (userLockQuotaObj.usedAmount || 0) | currencyComma(4) }}</h1>
             </header>
 
@@ -22,7 +22,7 @@
             </div>
 
             <div v-if="childs" class="child-container">
-                <p v-if="childs.length <= 0" class="scb-none">暂无团队成员</p>
+                <p v-if="childs.length <= 0" class="scb-none">{{ $t('TEAM.TEAM_NO_RECORD') }}</p>
                 <List
                     v-else
                     class="child-list"
@@ -40,11 +40,11 @@
                                 <h3>{{ `UID:${child.uid}` }}</h3>
                                 <p v-if="child.rateSetRemind" class="flex">
                                     <i class="icon icon-pset" />
-                                    <span>有新项目利率未设置</span>
+                                    <span>{{ $t('TEAM.UNSETTING_PROMPT') }}</span>
                                 </p>
                             </div>
                             <div>
-                                <h3>累计推广锁仓</h3>
+                                <h3>{{ $t('TEAM.TOTAL_PROMOTE_LOCK') }}</h3>
                                 <p>{{ `${child.teamUsedQuota} DC` }}</p>
                             </div>
                         </Cell>

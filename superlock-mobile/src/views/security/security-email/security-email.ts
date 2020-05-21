@@ -45,10 +45,10 @@ export default class SecurityEmail extends Vue {
     async submit() {
         try {
             let result = await this.bindEmail();
-            if (!result) Prompt.error('邮箱绑定失败');
+            if (!result) Prompt.error(i18n.tc('SECURITY.EMAIL_BIND_FAILURE'));
             else {
                 await this.fetchUserInfo(true);
-                Prompt.success('邮箱绑定成功').then(() => {
+                Prompt.success(i18n.tc('SECURITY.EMAIL_BIND_FAILURE')).then(() => {
                     this.$router.push(this.from);
                 });
             }

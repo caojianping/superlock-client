@@ -86,8 +86,8 @@ export default class LoanRepay extends Vue {
         this.setStates({ repayForm });
         Toast.clear();
 
-        Clipboard.copy('orderId', '贷款订单号');
-        Clipboard.copy('lockOrderId', '质押锁仓订单号');
+        Clipboard.copy('orderId', i18n.tc('LOAN.LOAN_ORDER_ID'));
+        Clipboard.copy('lockOrderId', i18n.tc('LOAN.PLEDGE_LOCK_ORDER_ID'));
     }
 
     // 刷新数据

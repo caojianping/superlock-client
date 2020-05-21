@@ -17,7 +17,7 @@ export default class LoanRepayResult extends Vue {
     msg: string = '';
 
     get title() {
-        return ['还款失败', '还款成功'][this.type] || '';
+        return [i18n.tc('LOAN.REPAY_FAILURE'), i18n.tc('LOAN.REPAY_SUCCESS')][this.type] || '';
     }
 
     // 初始化数据

@@ -76,9 +76,9 @@ export default class LoginPassword extends Vue {
     async submit() {
         try {
             let result = await this.modifyLoginPassword();
-            if (!result) Prompt.error('登录密码修改失败');
+            if (!result) Prompt.error(i18n.tc('SECURITY.LOGIN_PASSWORD_MODIFY_FAILURE'));
             else {
-                Prompt.success('登录密码修改成功').then(() => {
+                Prompt.success(i18n.tc('SECURITY.LOGIN_PASSWORD_MODIFY_SUCCESS')).then(() => {
                     this.$router.push('/security/center');
                 });
             }

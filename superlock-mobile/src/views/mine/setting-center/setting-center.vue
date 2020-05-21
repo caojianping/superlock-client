@@ -1,13 +1,13 @@
 <template>
     <div class="setting-center scb-gray">
-        <Header title="设置中心" @left="$router.back(-1)" />
+        <Header :title="$t('MINE.SETTING_CENTER')" @left="$router.back(-1)" />
 
         <CellGroup class="scb-separator">
-            <Cell title="语言" is-link />
+            <Cell :title="$t('MINE.LANGUAGE')" is-link />
             <!-- <Cell title="关于我们" is-link /> -->
         </CellGroup>
 
-        <div class="logout effect-ripple" @click="logout">退出登录</div>
+        <div class="logout effect-ripple" @click="logout">{{ $t('MINE.LOGOUT') }}</div>
     </div>
 </template>
 

@@ -80,7 +80,7 @@ export default class FundPassword extends Vue {
                 let verifyResult = this.verifyResult;
                 if (!verifyResult) {
                     Toast.clear();
-                    Prompt.error('验证方式获取失败');
+                    Prompt.error(i18n.tc('COMMON.VERIFY_FETCH_FAILURE'));
                     return;
                 }
 
@@ -90,11 +90,11 @@ export default class FundPassword extends Vue {
                     let result = await this.setFundPassword();
                     if (!result) {
                         Toast.clear();
-                        Prompt.error(`资金密码设置失败`);
+                        Prompt.error(i18n.tc('SECURITY.FUND_PASSWORD_SET_FAILURE'));
                     } else {
                         await this.fetchUserInfo();
                         Toast.clear();
-                        Prompt.success(`资金密码设置成功`).then(() => {
+                        Prompt.success(i18n.tc('SECURITY.FUND_PASSWORD_SET_SUCCESS')).then(() => {
                             this.$router.push(this.from);
                         });
                     }
@@ -103,11 +103,11 @@ export default class FundPassword extends Vue {
                 let result = await this.modifyFundPassword();
                 if (!result) {
                     Toast.clear();
-                    Prompt.error(`资金密码修改失败`);
+                    Prompt.error(i18n.tc('SECURITY.FUND_PASSWORD_MODIFY_FAILURE'));
                 } else {
                     await this.fetchUserInfo();
                     Toast.clear();
-                    Prompt.success(`资金密码修改成功`).then(() => {
+                    Prompt.success(i18n.tc('SECURITY.FUND_PASSWORD_MODIFY_SUCCESS')).then(() => {
                         this.$router.push(this.from);
                     });
                 }
@@ -131,11 +131,11 @@ export default class FundPassword extends Vue {
             let result = await this.setFundPassword();
             if (!result) {
                 Toast.clear();
-                Prompt.error(`资金密码设置失败`);
+                Prompt.error(i18n.tc('SECURITY.FUND_PASSWORD_SET_FAILURE'));
             } else {
                 await this.fetchUserInfo();
                 Toast.clear();
-                Prompt.success(`资金密码设置成功`).then(() => {
+                Prompt.success(i18n.tc('SECURITY.FUND_PASSWORD_SET_SUCCESS')).then(() => {
                     this.$router.push(this.from);
                 });
             }

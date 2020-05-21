@@ -1,17 +1,26 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
         <div class="security-center">
-            <Header title="安全中心" @left="$router.push('/mine/index')" />
+            <Header :title="$t('MINE.SECURITY_CENTER')" @left="$router.push('/mine/index')" />
 
             <CellGroup class="scb-separator">
                 {{ ((userInfoObj = userInfo || {}), void 0) }}
-                <Cell title="UID" :value="userInfoObj.userId || '--'" />
-                <Cell title="登录密码" is-link :to="{ path: '/security/login/password', query: { from: '/security/center' } }" />
-                <Cell title="资金密码" is-link @click="goFund" />
-                <Cell v-if="!userInfoObj.email" title="邮箱绑定" is-link :to="{ path: '/security/email', query: { from: '/security/center' } }">
-                    <span class="unbind">未绑定</span>
+                <Cell :title="UID" :value="userInfoObj.userId || '--'" />
+                <Cell
+                    :title="$t('SECURITY.LOGIN_PASSWORD')"
+                    is-link
+                    :to="{ path: '/security/login/password', query: { from: '/security/center' } }"
+                />
+                <Cell :title="$t('MINE.FUND_PASSWORD')" is-link @click="goFund" />
+                <Cell
+                    v-if="!userInfoObj.email"
+                    :title="$t('SECURITY.EMAIL_BIND')"
+                    is-link
+                    :to="{ path: '/security/email', query: { from: '/security/center' } }"
+                >
+                    <span class="unbind">{{ $t('SECURITY.UNBIND') }}</span>
                 </Cell>
-                <Cell v-else title="邮箱绑定">
+                <Cell v-else :title="$t('SECURITY.EMAIL_BIND')">
                     <span class="binded">{{ userInfoObj.email }}</span>
                 </Cell>
             </CellGroup>
