@@ -1,14 +1,17 @@
 import Vue from 'vue';
 import { Component, Prop, Model, Watch } from 'vue-property-decorator';
 
-import { CONSTANTS, VerifyType } from '@/ts/config';
+import Locales from '@/locales';
 import Utils from '@/ts/utils';
+import { CONSTANTS, VerifyType } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { VerifyResult } from '@/ts/models';
 
 import { Popup, CellGroup, Cell } from 'vant';
 import Header from '@/components/common/header';
 import VerifyForm from '@/components/verify/verify-form';
+
+const i18n = Locales.buildLocale();
 
 @Component({
     name: 'VerifyList',
@@ -51,13 +54,12 @@ export default class VerifyList extends Vue {
         let email = this.email;
         if (!email) {
             let from = this.from;
-            console.log('from:', from);
             if (from && from.indexOf('/user/login') > -1) {
-                Prompt.warning('请联系客服找回密码').then(() => {
+                Prompt.warning(i18n.tc('USER.CONTACT_SERVICE_FIND_PASSWORD')).then(() => {
                     window.location.href = CONSTANTS.CUSTOMER_SERVICE;
                 });
             } else {
-                Prompt.warning('未绑定邮箱，请先到安全中心绑定邮箱').then(() => {
+                Prompt.warning(i18n.tc('USER.BIND_EMAIL_PROMPT')).then(() => {
                     this.$router.push({ path: '/security/email', query: { from: from } });
                 });
             }

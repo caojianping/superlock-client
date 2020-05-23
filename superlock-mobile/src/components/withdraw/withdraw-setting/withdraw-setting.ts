@@ -3,6 +3,7 @@ import { namespace } from 'vuex-class';
 import { Component, Prop, Model, Watch } from 'vue-property-decorator';
 import { ValidationResult } from 'jpts-validator';
 
+import Locales from '@/locales';
 import Utils from '@/ts/utils';
 import { OperationType } from '@/ts/config';
 import { Prompt } from '@/ts/common';
@@ -12,6 +13,7 @@ import { WithdrawService } from '@/ts/services';
 import { Popup, Field, Button } from 'vant';
 import Header from '@/components/common/header';
 
+const i18n = Locales.buildLocale();
 const withdrawModule = namespace('withdraw');
 
 @Component({
@@ -53,13 +55,11 @@ export default class WithdrawSetting extends Vue {
         if (this.type === OperationType.Add) {
             try {
                 let result = await this.addWithdrawAddress(withdrawAddress);
-                if (result) {
-                    Prompt.success('提现地址添加成功');
-                    this.$emit('close', false);
-                    this.$emit('submit');
-                } else {
-                    Prompt.error('提现地址添加失败');
-                }
+                if (!result) return Prompt.error(i18n.tc('WITHDRAW.WITHDRAW_ADDRESS_ADD_FAILURE'));
+
+                Prompt.success(i18n.tc('WITHDRAW.WITHDRAW_ADDRESS_ADD_SUCCESS'));
+                this.$emit('close', false);
+                this.$emit('submit');
             } catch (error) {
                 Prompt.error(error.message || error);
             }

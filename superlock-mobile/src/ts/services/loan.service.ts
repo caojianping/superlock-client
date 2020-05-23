@@ -18,20 +18,25 @@ const i18n = Locales.buildLocale();
 export class LoanService {
     // 校验贷款表单
     public static validateApplyForm(applyForm: LoanApplyFormModel, isPassword: boolean = true): ValidationResult {
-        if (!applyForm) return { status: false, data: { applyForm: '参数不可以为空' } };
+        if (!applyForm) return { status: false, data: { applyForm: i18n.tc('VALIDATES.PARAMETER_NOT_NULL') } };
 
         let key = 'apply',
             { lockOrderId, amount, loanDays, fundPasswd, minAmount, maxAmount, minDuration, maxDuration } = applyForm,
             validator = new Validator();
-        validator.addRule(key, { name: 'lockOrderId', value: lockOrderId }, { required: true }, { required: '锁仓订单号不可以为空' });
+        validator.addRule(
+            key,
+            { name: 'lockOrderId', value: lockOrderId },
+            { required: true },
+            { required: i18n.tc('VALIDATES.LOCK_ORDER_ID_NOT_NULL') }
+        );
         validator.addRule(
             key,
             { name: 'amount', value: !Utils.isNullOrUndefined(amount) ? Utils.digitConvert(amount) : amount },
             { required: true, min: minAmount, max: maxAmount },
             {
-                required: '贷款价值不可以为空',
-                min: `贷款价值不可以小于${minAmount}`,
-                max: `贷款价值不可以大于${maxAmount}`
+                required: i18n.tc('VALIDATES.LOAN_VALUE_NOT_NULL'),
+                min: i18n.t('VALIDATES.LOAN_VALUE_GE', { value: minAmount }),
+                max: i18n.t('VALIDATES.LOAN_VALUE_LE', { value: maxAmount })
             }
         );
         validator.addRule(
@@ -39,27 +44,42 @@ export class LoanService {
             { name: 'loanDays', value: !Utils.isNullOrUndefined(loanDays) ? Utils.digitConvert(loanDays) : loanDays },
             { required: true, min: minDuration, max: maxDuration },
             {
-                required: '预计可贷时长不可以为空',
-                min: `预计可贷时长不可以小于${minDuration}天`,
-                max: `预计可贷时长不可以大于${maxDuration}`
+                required: i18n.tc('VALIDATES.EXPECT_LOAN_TIME_NOT_NULL'),
+                min: i18n.t('VALIDATES.EXPECT_LOAN_TIME_GE', { value: minDuration }),
+                max: i18n.t('VALIDATES.EXPECT_LOAN_TIME_LE', { value: maxDuration })
             }
         );
         if (isPassword) {
-            validator.addRule(key, { name: 'fundPasswd', value: fundPasswd }, { required: true }, { required: '资金密码不可以为空' });
+            validator.addRule(
+                key,
+                { name: 'fundPasswd', value: fundPasswd },
+                { required: true },
+                { required: i18n.tc('VALIDATES.FUND_PASSWORD_NOT_NULL') }
+            );
         }
         return validator.execute(key);
     }
 
     // 校验还贷表单
     public static validateRepayForm(repayForm: LoanRepayFormModel, isPassword: boolean = true): ValidationResult {
-        if (!repayForm) return { status: false, data: { repayForm: '参数不可以为空' } };
+        if (!repayForm) return { status: false, data: { repayForm: i18n.tc('VALIDATES.PARAMETER_NOT_NULL') } };
 
         let key = 'repay',
             { loansSerial, fundPasswd } = repayForm,
             validator = new Validator();
-        validator.addRule(key, { name: 'loansSerial', value: loansSerial }, { required: true }, { required: '贷款订单号不可以为空' });
+        validator.addRule(
+            key,
+            { name: 'loansSerial', value: loansSerial },
+            { required: true },
+            { required: i18n.tc('VALIDATES.LOAN_ORDER_ID_NOT_NULL') }
+        );
         if (isPassword) {
-            validator.addRule(key, { name: 'fundPasswd', value: fundPasswd }, { required: true }, { required: '资金密码不可以为空' });
+            validator.addRule(
+                key,
+                { name: 'fundPasswd', value: fundPasswd },
+                { required: true },
+                { required: i18n.tc('VALIDATES.FUND_PASSWORD_NOT_NULL') }
+            );
         }
         return validator.execute(key);
     }
@@ -71,7 +91,7 @@ export class LoanService {
 
     // 获取可贷款额度
     public async fetchLoanableQuota(orderId: string): Promise<LoanableQuotaModel | null> {
-        if (!orderId) return Promise.reject('订单号不可以为空');
+        if (!orderId) return Promise.reject(i18n.tc('VALIDATES.ORDER_ID_NOT_NULL'));
         return await Caxios.get<LoanableQuotaModel | null>({ url: `${Urls.loan.loanableQuota}?orderId=${orderId}` }, CaxiosType.Token);
     }
 
@@ -104,7 +124,7 @@ export class LoanService {
 
     // 获取贷款利息列表
     public async fetchLoanInterests(orderId: string, pageNum: number = 1, pageSize: number = 10): Promise<Array<LoanInterestModel>> {
-        if (!orderId) return Promise.reject('锁仓订单号不可以为空');
+        if (!orderId) return Promise.reject(i18n.tc('VALIDATES.LOCK_ORDER_ID_NOT_NULL'));
 
         let result = await Caxios.get<Array<LoanInterestModel> | null>(
             { url: `${Urls.loan.interests}?${Utils.buildParameters({ orderId, pageNum, pageSize })}` },

@@ -28,8 +28,8 @@ const rootState: IRootState = {
     usableQuota: undefined,
     exchangeRate: undefined,
 
-    unitTypes: ['天', '月', '年'],
-    rateTypes: ['锁仓利率', '推广解锁利率', '锁仓额度']
+    unitTypes: [i18n.tc('ARRAY.UNIT_TYPES', 0), i18n.tc('ARRAY.UNIT_TYPES', 1), i18n.tc('ARRAY.UNIT_TYPES', 2)],
+    rateTypes: [i18n.tc('ARRAY.RATE_TYPES', 0), i18n.tc('ARRAY.RATE_TYPES', 1), i18n.tc('ARRAY.RATE_TYPES', 2)]
 };
 
 const commonService = new CommonService();

@@ -61,7 +61,7 @@ export class Caxios {
 
     // axios调用
     public static async invoke<T>(options: AxiosRequestConfig, type: CaxiosType = CaxiosType.Default): Promise<T> {
-        if (!options) return Promise.reject('axios请求参数配置不可以为空');
+        if (!options) return Promise.reject(i18n.tc('VALIDATES.AXIOS_REQUEST_PARAMETER_NOT_NULL'));
 
         options = Caxios.setHeaders(type, options);
 
@@ -97,9 +97,9 @@ export class Caxios {
                 // 网络异常处理
                 const errMsg = err.message || '';
                 if (errMsg.indexOf('Network Error') > -1) {
-                    result = '系统繁忙，请稍后重试';
+                    result = i18n.tc('COMMON.SYSTEM_BUSY_RETRY_LATER');
                 } else if (errMsg.indexOf('timeout of') > -1) {
-                    result = '系统繁忙，请稍后重试';
+                    result = i18n.tc('COMMON.SYSTEM_BUSY_RETRY_LATER');
                 }
                 Caxios.setLoading(type, false);
                 return Promise.reject(result);
@@ -122,10 +122,10 @@ export class Caxios {
         }
 
         let resp = response.data;
-        if (!resp) throw new BusinessError(9999, '无效的响应数据');
+        if (!resp) throw new BusinessError(9999, i18n.tc('CODES.9999'));
 
         let result = new ResponseResult<T>(Number(resp.code), resp.data, resp.message);
-        if (!result) throw new BusinessError(9999, '无效的响应数据');
+        if (!result) throw new BusinessError(9999, i18n.tc('CODES.9999'));
 
         let code: number = result.code,
             data: any = result.data,
@@ -153,14 +153,16 @@ export class Caxios {
 
     // GET方法请求
     public static async get<T>(options: AxiosRequestConfig, type: CaxiosType = CaxiosType.Default): Promise<T> {
-        if (!options) return Promise.reject('axios请求配置参数不可以为空');
+        if (!options) return Promise.reject(i18n.tc('VALIDATES.AXIOS_REQUEST_PARAMETER_NOT_NULL'));
+
         options['method'] = 'GET';
         return await Caxios.invoke<T>(options, type);
     }
 
     // POST方法请求
     public static async post<T>(options: AxiosRequestConfig, type: CaxiosType = CaxiosType.Default): Promise<T> {
-        if (!options) return Promise.reject('axios请求配置参数不可以为空');
+        if (!options) return Promise.reject(i18n.tc('VALIDATES.AXIOS_REQUEST_PARAMETER_NOT_NULL'));
+
         options['method'] = 'POST';
         return await Caxios.invoke<T>(options, type);
     }

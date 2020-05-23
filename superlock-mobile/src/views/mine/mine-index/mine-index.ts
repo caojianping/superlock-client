@@ -9,7 +9,7 @@ import { UserInfoModel } from '@/ts/models';
 
 import { Toast, PullRefresh, Icon, CellGroup, Cell } from 'vant';
 import Navs from '@/components/common/navs';
-import ModifyName from '@/components/user/modify-name';
+import ModifyName from '@/components/mine/modify-name';
 
 const i18n = Locales.buildLocale();
 const userModule = namespace('user');

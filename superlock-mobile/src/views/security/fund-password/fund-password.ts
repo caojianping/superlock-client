@@ -90,11 +90,11 @@ export default class FundPassword extends Vue {
                     let result = await this.setFundPassword();
                     if (!result) {
                         Toast.clear();
-                        Prompt.error(i18n.tc('SECURITY.FUND_PASSWORD_SET_FAILURE'));
+                        Prompt.error(i18n.tc('SECURITY.FUND_PASSWORD_SETTING_FAILURE'));
                     } else {
                         await this.fetchUserInfo();
                         Toast.clear();
-                        Prompt.success(i18n.tc('SECURITY.FUND_PASSWORD_SET_SUCCESS')).then(() => {
+                        Prompt.success(i18n.tc('SECURITY.FUND_PASSWORD_SETTING_SUCCESS')).then(() => {
                             this.$router.push(this.from);
                         });
                     }
@@ -131,11 +131,11 @@ export default class FundPassword extends Vue {
             let result = await this.setFundPassword();
             if (!result) {
                 Toast.clear();
-                Prompt.error(i18n.tc('SECURITY.FUND_PASSWORD_SET_FAILURE'));
+                Prompt.error(i18n.tc('SECURITY.FUND_PASSWORD_SETTING_FAILURE'));
             } else {
                 await this.fetchUserInfo();
                 Toast.clear();
-                Prompt.success(i18n.tc('SECURITY.FUND_PASSWORD_SET_SUCCESS')).then(() => {
+                Prompt.success(i18n.tc('SECURITY.FUND_PASSWORD_SETTING_SUCCESS')).then(() => {
                     this.$router.push(this.from);
                 });
             }

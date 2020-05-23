@@ -10,42 +10,87 @@ const i18n = Locales.buildLocale();
 export class UserService {
     //  校验用户表单
     public static validateUserForm(userForm: UserFormModel, type: UserFormType = UserFormType.Login): ValidationResult {
-        if (!userForm) return { status: false, data: { userForm: '参数不可以为空' } };
+        if (!userForm) return { status: false, data: { userForm: i18n.tc('VALIDATES.PARAMETER_NOT_NULL') } };
 
         let key = 'userForm',
             { invitationCode, areaCode, mobile, password, confirmPassword, verifyMode, code } = userForm,
             validator = new Validator();
-        validator.addRule(key, { name: 'areaCode', value: areaCode }, { required: true }, { required: '国家/地区区号不可以为空' });
+        validator.addRule(key, { name: 'areaCode', value: areaCode }, { required: true }, { required: i18n.tc('VALIDATES.COUNTRY_AREA_NOT_NULL') });
         if (areaCode === defaultAreaCode.code) {
-            validator.addRule(key, { name: 'mobile', value: mobile }, { required: true, mobile: true }, { required: '手机号不可以为空' });
+            validator.addRule(
+                key,
+                { name: 'mobile', value: mobile },
+                { required: true, mobile: true },
+                {
+                    required: i18n.tc('VALIDATES.MOBILE_NOT_NULL'),
+                    mobile: i18n.t('VALIDATES.MOBILE_FORMAT_WRONG')
+                }
+            );
         } else {
             validator.addRule(
                 key,
                 { name: 'mobile', value: mobile },
                 { required: true, pureDigit: true },
-                { required: '手机号不可以为空', pureDigit: '手机号格式不正确' }
+                {
+                    required: i18n.tc('VALIDATES.MOBILE_NOT_NULL'),
+                    pureDigit: i18n.tc('VALIDATES.MOBILE_FORMAT_WRONG')
+                }
             );
         }
 
         if (type === UserFormType.Login) {
             // 登录表单
-            validator.addRule(key, { name: 'password', value: password }, { required: true, password: true }, { required: '登录密码不可以为空' });
+            validator.addRule(
+                key,
+                { name: 'password', value: password },
+                { required: true, password: true },
+                {
+                    required: i18n.tc('VALIDATES.LOGIN_PASSWORD_NOT_NULL'),
+                    password: i18n.tc('VALIDATES.PASSWORD_FORMAT_PROMPT')
+                }
+            );
         } else if (type === UserFormType.Register) {
             // 注册表单
-            validator.addRule(key, { name: 'invitationCode', value: invitationCode }, { required: true }, { required: '邀请码不可以为空' });
-            validator.addRule(key, { name: 'password', value: password }, { required: true, password: true }, { required: '登录密码不可以为空' });
+            validator.addRule(
+                key,
+                { name: 'invitationCode', value: invitationCode },
+                { required: true },
+                { required: i18n.tc('VALIDATES.INVITE_CODE_NOT_NULL') }
+            );
+            validator.addRule(
+                key,
+                { name: 'password', value: password },
+                { required: true, password: true },
+                {
+                    required: i18n.tc('VALIDATES.LOGIN_PASSWORD_NOT_NULL'),
+                    password: i18n.tc('VALIDATES.PASSWORD_FORMAT_PROMPT')
+                }
+            );
         } else if (type === UserFormType.ForgetMobile) {
             // 忘记密码表单（包含区号、手机号）
         } else if (type === UserFormType.ForgetSmsCode) {
             // 忘记密码表单（包含区号、手机号、验证码）
         } else if (type === UserFormType.Forget) {
             // 忘记密码表单
-            validator.addRule(key, { name: 'password', value: password }, { required: true, password: true }, { required: '登录密码不可以为空' });
-            validator.addRule(key, { name: 'confirmPassword', value: confirmPassword }, { equal: password }, { equal: '两次密码输入不一致' });
+            validator.addRule(
+                key,
+                { name: 'password', value: password },
+                { required: true, password: true },
+                {
+                    required: i18n.tc('VALIDATES.LOGIN_PASSWORD_NOT_NULL'),
+                    password: i18n.tc('VALIDATES.PASSWORD_FORMAT_PROMPT')
+                }
+            );
+            validator.addRule(
+                key,
+                { name: 'confirmPassword', value: confirmPassword },
+                { equal: password },
+                { equal: i18n.tc('VALIDATES.DIFFERENT_PASSWORD') }
+            );
         }
 
         if (verifyMode && verifyMode !== '000') {
-            validator.addRule(key, { name: 'code', value: code }, { required: true }, { required: '验证码不可以为空' });
+            validator.addRule(key, { name: 'code', value: code }, { required: true }, { required: i18n.tc('VALIDATES.CODE_NOT_NULL') });
         }
         return validator.execute(key);
     }
@@ -105,7 +150,7 @@ export class UserService {
 
     // 设置昵称
     public async setNickname(nickname: string): Promise<boolean> {
-        if (!nickname) return Promise.reject('用户昵称不可以为空');
+        if (!nickname) return Promise.reject(i18n.tc('VALIDATES.NICKNAME_NOT_NULL'));
         await Caxios.post<any>({ url: `${Urls.user.setNickname}?nickName=${nickname}` }, CaxiosType.LoadingToken);
         return true;
     }

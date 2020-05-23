@@ -11,10 +11,10 @@ export class Clipboard {
 
         let clipboard = new ClipboardJS(element);
         clipboard.on('success', function(e) {
-            Prompt.success(`${title}复制成功`);
+            Prompt.success(`${title}${i18n.tc('COMMON.COPY_SUCCESS')}`);
         });
         clipboard.on('error', function(e) {
-            Prompt.error(`${title}复制失败`);
+            Prompt.error(`${title}${i18n.tc('COMMON.COPY_FAILURE')}`);
         });
     }
 }

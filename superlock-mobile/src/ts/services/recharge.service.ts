@@ -18,7 +18,7 @@ export class RechargeService {
 
     // 获取充值地址
     public async fetchRechargeAddress(coin: string): Promise<string> {
-        if (!coin) return Promise.reject('充值币种不可以为空');
+        if (!coin) return Promise.reject(i18n.tc('VALIDATES.RECHARGE_COIN_NOT_NULL'));
 
         let result = await Caxios.get<string | null>({ url: `${Urls.recharge.address}?coin=${coin}` }, CaxiosType.Token);
         return result || '';

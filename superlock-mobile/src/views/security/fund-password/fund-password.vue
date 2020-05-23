@@ -6,7 +6,7 @@
             <Header
                 :title="
                     `${{ false: $t('SECURITY.SETTING_FUND_PASSWORD'), true: $t('SECURITY.MODIFY_FUND_PASSWORD') }[status] ||
-                        $t('MINE.FUND_PASSWORD')}`
+                        $t('COMMON.FUND_PASSWORD')}`
                 "
                 @left="$router.push(from)"
             />
@@ -17,7 +17,7 @@
                         <h1>
                             {{
                                 `${{ false: $t('SECURITY.SETTING_FUND_PASSWORD'), true: $t('SECURITY.MODIFY_FUND_PASSWORD') }[status] ||
-                                    $t('MINE.FUND_PASSWORD')}`
+                                    $t('COMMON.FUND_PASSWORD')}`
                             }}
                         </h1>
                         <p>UID: {{ userInfoObj.userId || '--' }}</p>

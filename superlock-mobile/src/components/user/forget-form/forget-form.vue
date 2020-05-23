@@ -1,19 +1,19 @@
 <template>
     <Popup v-model="isShow" class="full scb-gray">
-        <Header title="密码找回" @left="$router.push(from)" />
+        <Header :title="$t('USER.PASSWORD_FIND')" @left="$router.push(from)" />
 
         <div class="scb-form scb-separator">
             <ul>
                 <li>
-                    <h1>输入新密码</h1>
+                    <h1>{{ $t('USER.ENTER_NEW_PASSWORD') }}</h1>
                 </li>
                 <li>
-                    <h2>新密码</h2>
+                    <h2>{{ $t('SECURITY.NEW_PASSWORD') }}</h2>
                     <Field
                         :type="isNewPasswordVisible ? 'text' : 'password'"
                         :value="userForm.password"
                         clearable
-                        placeholder="请输入新密码"
+                        :placeholder="$t('PLACEHOLDERS.ENTER_NEW_PASSWORD')"
                         @input="handleFieldInput('password', $event)"
                     >
                         <i
@@ -24,12 +24,12 @@
                     </Field>
                 </li>
                 <li>
-                    <h2>确认新密码</h2>
+                    <h2>{{ $t('SECURITY.CONFIRM_PASSWORD') }}</h2>
                     <Field
                         :type="isConfirmPasswordVisible ? 'text' : 'password'"
                         :value="userForm.confirmPassword"
                         clearable
-                        placeholder="请再次输入新密码"
+                        :placeholder="$t('PLACEHOLDERS.ENTER_CONFIRM_PASSWORD')"
                         @input="handleFieldInput('confirmPassword', $event)"
                     >
                         <i
@@ -38,12 +38,10 @@
                             @click="togglePassword('isConfirmPasswordVisible')"
                         />
                     </Field>
-                    <p class="text-orange">
-                        提示：密码必须由大写字母、小写字母、数字、符号中两种或者两种以上组成，且长度为8-15位。
-                    </p>
+                    <p class="text-orange">{{ $t('SECURITY.PASSWORD_PROMPT') }}</p>
                 </li>
                 <li>
-                    <Button class="effect-shadow" type="primary" block round @click="submit">确认</Button>
+                    <Button class="effect-shadow" type="primary" block round @click="submit">{{ $t('COMMON.CONFIRM') }}</Button>
                 </li>
             </ul>
         </div>

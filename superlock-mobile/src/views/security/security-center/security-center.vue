@@ -11,7 +11,7 @@
                     is-link
                     :to="{ path: '/security/login/password', query: { from: '/security/center' } }"
                 />
-                <Cell :title="$t('MINE.FUND_PASSWORD')" is-link @click="goFund" />
+                <Cell :title="$t('COMMON.FUND_PASSWORD')" is-link @click="goFund" />
                 <Cell
                     v-if="!userInfoObj.email"
                     :title="$t('SECURITY.EMAIL_BIND')"

@@ -1,12 +1,15 @@
 import Vue from 'vue';
 import { Component, Model, Watch, Prop } from 'vue-property-decorator';
 
+import Locales from '@/locales';
 import { VerifyType } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 
 import { Popup, Field, Button } from 'vant';
 import Header from '@/components/common/header';
 import VerifyCode from '@/components/verify/verify-code';
+
+const i18n = Locales.buildLocale();
 
 @Component({
     name: 'VerifyForm',
@@ -20,7 +23,6 @@ export default class VerifyForm extends Vue {
     @Prop() readonly mobile!: string; // 手机号
     @Prop() readonly email!: string; // 邮箱
 
-    verifyNames: Array<string> = ['邮箱', '短信'];
     isShow: boolean = false; // 是否显示模态框
     code: string = ''; // 验证码
 
@@ -37,11 +39,7 @@ export default class VerifyForm extends Vue {
     // 提交验证码
     submit() {
         let code = this.code;
-        if (!code) {
-            let { verifyNames, verifyType } = this;
-            Prompt.warning(`${verifyNames[verifyType - 1]}验证码不可以为空`);
-            return;
-        }
+        if (!code) return Prompt.warning([i18n.tc('VALIDATES.EMAIL_CODE_NOT_NULL'), i18n.tc('VALIDATES.SMS_CODE_NOT_NULL')][this.verifyType - 1]);
 
         this.$emit('close', false);
         this.$emit('submit', code);

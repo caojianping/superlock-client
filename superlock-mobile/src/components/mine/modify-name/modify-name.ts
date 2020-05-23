@@ -1,11 +1,14 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component, Model, Watch, Prop } from 'vue-property-decorator';
+
+import Locales from '@/locales';
 import { Prompt } from '@/ts/common';
 
 import { Popup, CellGroup, Field, Button } from 'vant';
 import Header from '@/components/common/header';
 
+const i18n = Locales.buildLocale();
 const userModule = namespace('user');
 
 @Component({
@@ -36,16 +39,14 @@ export default class ModifyName extends Vue {
     async submit() {
         try {
             let nickname = this.nickname;
-            if (!nickname) return Prompt.error('用户昵称不可以为空');
+            if (!nickname) return Prompt.error(i18n.tc('VALIDATES.NICKNAME_NOT_NULL'));
 
             let result = await this.setNickname(nickname);
-            if (result) {
-                Prompt.success('用户昵称设置成功');
-                this.$emit('close', false);
-                this.$emit('submit');
-            } else {
-                Prompt.error('用户昵称设置失败');
-            }
+            if (!result) return Prompt.error(i18n.tc('VALIDATES.NICKNAME_SETTING_FAILURE'));
+
+            Prompt.success(i18n.tc('VALIDATES.NICKNAME_SETTING_SUCCESS'));
+            this.$emit('close', false);
+            this.$emit('submit');
         } catch (error) {
             Prompt.error(error.message || error);
         }

@@ -1,7 +1,7 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
         <div class="mine-index scb-reserved">
-            <h1>{{ $t('MINE.TITLE') }}</h1>
+            <h1>{{ $t('COMMON.MINE') }}</h1>
 
             {{ ((userInfoObj = userInfo || {}), void 0) }}
             <div class="user-info flex">

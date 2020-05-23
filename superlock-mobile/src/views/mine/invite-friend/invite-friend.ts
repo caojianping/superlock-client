@@ -57,10 +57,10 @@ export default class InviteFriend extends Vue {
         try {
             this.setStates({ defaultRateForms });
             let result = await this.setDefaultRates();
-            if (!result) Prompt.error('利率设置失败');
+            if (!result) Prompt.error(i18n.tc('MINE.RATE_SETTING_FAILURE'));
             else {
-                Prompt.success('利率设置成功');
-                this.fetchDefaultRateStats();
+                Prompt.success(i18n.tc('MINE.RATE_SETTING_FAILURE'));
+                await this.fetchDefaultRateStats();
             }
         } catch (error) {
             Prompt.error(error.message || error);
@@ -80,7 +80,7 @@ export default class InviteFriend extends Vue {
         }
         Toast.clear();
 
-        Clipboard.copy('address', '邀请地址');
+        Clipboard.copy('address', i18n.tc('MINE.INVITE_ADDRESS'));
     }
 
     mounted() {

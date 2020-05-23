@@ -10,7 +10,7 @@ const i18n = Locales.buildLocale();
 export class TransferService {
     // 校验转账表单
     public static validateTransferForm(transferForm: TransferFormModel, isPassword: boolean = true): ValidationResult {
-        if (!transferForm) return { status: false, data: { transferForm: '参数不可以为空' } };
+        if (!transferForm) return { status: false, data: { transferForm: i18n.tc('VALIDATES.PARAMETER_NOT_NULL') } };
 
         let key = 'transferForm',
             { toUid, quota, fundPasswd, maxAmount } = transferForm,
@@ -19,21 +19,29 @@ export class TransferService {
             key,
             { name: 'maxAmount', value: maxAmount },
             { required: true, minExclude: 0 },
-            { required: '可用余额不足', minExclude: '可用余额不足' }
+            {
+                required: i18n.tc('VALIDATES.LACK_BALANCE'),
+                minExclude: i18n.tc('VALIDATES.LACK_BALANCE')
+            }
         );
-        validator.addRule(key, { name: 'toUid', value: toUid }, { required: true }, { required: '收款人UID不可以为空' });
+        validator.addRule(key, { name: 'toUid', value: toUid }, { required: true }, { required: i18n.tc('VALIDATES.TO_UID_NOT_NULL') });
         validator.addRule(
             key,
             { name: 'quota', value: !Utils.isNullOrUndefined(quota) ? Utils.digitConvert(quota) : quota },
             { required: true, minExclude: 0, max: maxAmount },
             {
-                required: '转账金额不可以为空',
-                minExclude: '转账金额不可以小于等于0',
-                max: `转账金额不可以大于${maxAmount}`
+                required: i18n.tc('VALIDATES.TRANSFER_AMOUNT_NOT_NULL'),
+                minExclude: i18n.tc('VALIDATES.TRANSFER_AMOUNT_GT_ZERO'),
+                max: i18n.t('VALIDATES.TRANSFER_AMOUNT_LE', { value: maxAmount })
             }
         );
         if (isPassword) {
-            validator.addRule(key, { name: 'fundPasswd', value: fundPasswd }, { required: true }, { required: '资金密码不可以为空' });
+            validator.addRule(
+                key,
+                { name: 'fundPasswd', value: fundPasswd },
+                { required: true },
+                { required: i18n.tc('VALIDATES.FUND_PASSWORD_NOT_NULL') }
+            );
         }
         return validator.execute(key);
     }

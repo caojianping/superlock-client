@@ -11,7 +11,7 @@
                 <qriously :value="rechargeAddressQrcode" :size="180" />
                 <p>{{ rechargeAddress }}</p>
                 <Button id="address" class="effect-tripple" type="primary" size="small" round :data-clipboard-text="rechargeAddress">
-                    {{ $t('RECHARGE.COPY_ADDRESS') }}
+                    {{ $t('COMMON.COPY_ADDRESS') }}
                 </Button>
             </div>
         </div>

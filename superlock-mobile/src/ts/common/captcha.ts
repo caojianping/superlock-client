@@ -15,7 +15,7 @@ export class Captcha {
                         return reject(err);
                     }
                 );
-            } else return reject('不支持initNECaptcha');
+            } else return reject(i18n.tc('COMMON.INIT_NECAPTCHA'));
         });
     }
 }

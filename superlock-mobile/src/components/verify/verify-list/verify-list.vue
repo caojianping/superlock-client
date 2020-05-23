@@ -1,6 +1,10 @@
 <template>
     <Popup v-model="isShow" class="verify-list-popup full">
-        <Header :title="isForget ? '找回密码' : '安全验证'" :is-border="false" @left="isForget ? $router.push(from) : handlePopupClose()" />
+        <Header
+            :title="isForget ? $t('USER.FIND_PASSWORD') : $t('USER.SECURITY_VERIFY')"
+            :is-border="false"
+            @left="isForget ? $router.push(from) : handlePopupClose()"
+        />
 
         <div class="scb-separator" />
 
@@ -8,15 +12,15 @@
             <Cell :class="{ disabled: smsFlag === 0 }" is-link @click="handleSmsVerify">
                 <template slot="title">
                     <i class="icon icon-mobile" />
-                    <span>短信验证</span>
+                    <span>{{ $t('USER.SMS_VERIFY') }}</span>
                 </template>
             </Cell>
             <Cell :class="{ disabled: emailFlag === 0 }" is-link @click="handleEmailVerify">
                 <template slot="title">
                     <i class="icon icon-email" />
-                    <span>邮箱验证</span>
+                    <span>{{ $t('USER.EMAIL_VERIFY') }}</span>
                 </template>
-                <span v-if="emailFlag === 1" :class="!email ? 'unbind' : 'binded'">{{ email || '未绑定' }}</span>
+                <span v-if="emailFlag === 1" :class="!email ? 'unbind' : 'binded'">{{ email || $t('SECURITY.UNBIND') }}</span>
                 <span v-else></span>
             </Cell>
         </CellGroup>

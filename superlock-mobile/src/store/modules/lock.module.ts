@@ -8,12 +8,12 @@ const i18n = Locales.buildLocale();
 
 const lockState: ILockState = {
     lockStatuses: new Map([
-        [0, '订单已创建'],
-        [10, '订单处理中'],
-        [20, '锁仓计息中'],
-        [30, '锁仓到期'],
-        [40, '锁仓失败'],
-        [50, '贷款质押中']
+        [0, i18n.tc('ARRAY.LOCK_STATUSES', 0)],
+        [10, i18n.tc('ARRAY.LOCK_STATUSES', 1)],
+        [20, i18n.tc('ARRAY.LOCK_STATUSES', 2)],
+        [30, i18n.tc('ARRAY.LOCK_STATUSES', 3)],
+        [40, i18n.tc('ARRAY.LOCK_STATUSES', 4)],
+        [50, i18n.tc('ARRAY.LOCK_STATUSES', 5)]
     ]),
     lockColors: new Map([
         [0, 'gray'],

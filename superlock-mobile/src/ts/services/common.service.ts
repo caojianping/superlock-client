@@ -12,15 +12,26 @@ export class CommonService {
     public static validateSmsAndEmail(areaCode: string, mobile: string, email?: string) {
         let key = 'smsAndEmail',
             validator = new Validator();
-        validator.addRule(key, { name: 'areaCode', value: areaCode }, { required: true }, { required: '国家/地区区号不可以为空' });
+        validator.addRule(key, { name: 'areaCode', value: areaCode }, { required: true }, { required: i18n.tc('VALIDATES.COUNTRY_AREA_NOT_NULL') });
         if (areaCode === defaultAreaCode.code) {
-            validator.addRule(key, { name: 'mobile', value: mobile }, { required: true, mobile: true }, { required: '手机号不可以为空' });
+            validator.addRule(
+                key,
+                { name: 'mobile', value: mobile },
+                { required: true, mobile: true },
+                {
+                    required: i18n.tc('VALIDATES.MOBILE_NOT_NULL'),
+                    mobile: i18n.tc('VALIDATES.MOBILE_FORMAT_WRONG')
+                }
+            );
         } else {
             validator.addRule(
                 key,
                 { name: 'mobile', value: mobile },
                 { required: true, pureDigit: true },
-                { required: '手机号不可以为空', pureDigit: '手机号格式不正确' }
+                {
+                    required: i18n.t('VALIDATES.MOBILE_NOT_NULL'),
+                    pureDigit: i18n.tc('VALIDATES.MOBILE_FORMAT_WRONG')
+                }
             );
         }
         if (email) {
@@ -28,7 +39,10 @@ export class CommonService {
                 key,
                 { name: 'email', value: email },
                 { required: true, email: true },
-                { required: '邮箱地址不可以为空', email: '邮箱地址格式不正确' }
+                {
+                    required: i18n.tc('VALIDATES.EMAIL_ADDRESS_NOT_NULL'),
+                    email: i18n.tc('VALIDATES.EMAIL_ADDRESS_FORMAT_WRONG')
+                }
             );
         }
         return validator.execute(key);
