@@ -12,7 +12,7 @@
                     :immediate-check="false"
                     :loading-text="$t('COMMON.RECORD_LOADING')"
                     :finished-text="$t('COMMON.RECORD_LOADED')"
-                    @load="fetchData"
+                    @load="fetchWithdraws"
                 >
                     <CellGroup>
                         <Cell v-for="(withdraw, index) in withdraws" :key="index" @click="goDetail(withdraw)">

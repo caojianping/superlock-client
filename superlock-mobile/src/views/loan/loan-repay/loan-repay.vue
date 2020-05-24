@@ -28,7 +28,7 @@
                         <Cell :title="$t('LOAN.LOAN_YEAR_RATE')" :value="`${loan.rate}%`" />
                         <Cell :title="$t('LOAN.LENDING_TIME')" :value="loan.lendDate | dateFormat" />
 
-                        <Cell :title="$t('LOAN.TOTAL_LAON_TIME')" :value="`${loan.lendDays}${$t('COMMON.DAY')}`" />
+                        <Cell :title="$t('LOAN.TOTAL_LOAN_TIME')" :value="`${loan.lendDays}${$t('COMMON.DAY')}`" />
                         <Cell :title="$t('LOAN.TOTAL_INTEREST02')" :value="`${loan.totalInterest} ${loan.totalInterestCoin}`" />
                         <Cell :title="`${$t('LOAN.REPAY_MONEY')}(DC)`" :value="`${loan.shouldReturnValue} ${loan.shouldReturnValueCoin}`" />
                         <Cell :title="$t('LOAN.REPAY_RATE')" :value="`1${loan.fromCoin} = ${loan.repaymentExchangeRate}${loan.toCoin}`" />

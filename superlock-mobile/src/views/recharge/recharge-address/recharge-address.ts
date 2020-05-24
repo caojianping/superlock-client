@@ -32,7 +32,7 @@ export default class RechargeAddress extends Vue {
     // 跳转至充值码页面
     goCode(rechargeCoin: any) {
         if (!this.userInfo || !this.userInfo.haveFundPasswd) {
-            Prompt.info(i18n.tc('COMMON.SETTING_FUND01')).then(() => {
+            Prompt.info(i18n.tc('COMMON.SETTING_FUND')).then(() => {
                 From.setFundFrom('/recharge/address');
                 this.$router.push({
                     path: '/security/fund/password',

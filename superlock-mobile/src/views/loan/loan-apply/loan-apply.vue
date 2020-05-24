@@ -18,7 +18,11 @@
                                 :placeholder="`> ${applyForm.minAmount || '--'} ${loanableLockObj.minLoanAmountCoin || '--'}`"
                                 @input="handleFieldInput('amount', $event)"
                             />
-                            <p>{{ $t('LOAN.MAX_LOANABLE') }}{{ `${applyForm.maxAmount || '--'} ${loanableLockObj.maxLoanAmountCoin || '--'}` }}</p>
+                            <p>
+                                {{
+                                    $tc('LOAN.MAX_LOANABLE', { amount: applyForm.maxAmount || '--', coin: loanableLockObj.maxLoanAmountCoin || '--' })
+                                }}
+                            </p>
                         </div>
                     </Cell>
 
@@ -32,7 +36,7 @@
                                 :placeholder="$t('PLACEHOLDERS.ENTER_EXPECT_LOAN_TIME')"
                                 @input="handleFieldInput('loanDays', $event)"
                             />
-                            <p>{{ $t('LOAN.MAX_LAONABLE_TIME') }}{{ applyForm.maxDuration || '--' }}{{ $t('COMMON.DAY') }}</p>
+                            <p>{{ $t('LOAN.MAX_LOANABLE_TIME', { time: applyForm.maxDuration || '--' }) }}</p>
                         </div>
                     </Cell>
 

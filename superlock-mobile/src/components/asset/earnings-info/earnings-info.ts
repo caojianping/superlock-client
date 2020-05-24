@@ -25,7 +25,13 @@ export default class EarningsInfo extends Vue {
     @projectModule.Action('fetchEarningsStats') fetchEarningsStats!: () => any;
 
     isShow: boolean = this.value; // 是否显示弹出框
-    earningsTypes: any = i18n.tc('ARRAY.EARNINGS_TYPES');
+    earningsTypes: Array<string> = [
+        i18n.tc('ARRAY.EARNINGS_TYPES.0'),
+        i18n.tc('ARRAY.EARNINGS_TYPES.1'),
+        i18n.tc('ARRAY.EARNINGS_TYPES.2'),
+        i18n.tc('ARRAY.EARNINGS_TYPES.3'),
+        i18n.tc('ARRAY.EARNINGS_TYPES.4')
+    ];
 
     // 处理弹出框close事件
     handlePopupClose() {

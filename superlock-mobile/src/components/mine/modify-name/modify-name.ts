@@ -42,9 +42,9 @@ export default class ModifyName extends Vue {
             if (!nickname) return Prompt.error(i18n.tc('VALIDATES.NICKNAME_NOT_NULL'));
 
             let result = await this.setNickname(nickname);
-            if (!result) return Prompt.error(i18n.tc('VALIDATES.NICKNAME_SETTING_FAILURE'));
+            if (!result) return Prompt.error(i18n.tc('MINE.NICKNAME_SETTING_FAILURE'));
 
-            Prompt.success(i18n.tc('VALIDATES.NICKNAME_SETTING_SUCCESS'));
+            Prompt.success(i18n.tc('MINE.NICKNAME_SETTING_SUCCESS'));
             this.$emit('close', false);
             this.$emit('submit');
         } catch (error) {

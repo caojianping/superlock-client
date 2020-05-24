@@ -10,8 +10,8 @@ const i18n = Locales.buildLocale();
 export class ChildService {
     // 校验下级利率表单
     public static validateChildRateForms(childUid: string, childRateForms: Array<ChildRateFormModel>): ValidationResult {
-        let unitTypes = [i18n.tc('ARRAY.UNIT_TYPES', 0), i18n.tc('ARRAY.UNIT_TYPES', 1), i18n.tc('ARRAY.UNIT_TYPES', 2)],
-            rateTypes = [i18n.tc('ARRAY.RATE_TYPES', 0), i18n.tc('ARRAY.RATE_TYPES', 1), i18n.tc('ARRAY.RATE_TYPES', 2)],
+        let unitTypes = [i18n.tc('ARRAY.UNIT_TYPES.0'), i18n.tc('ARRAY.UNIT_TYPES.1'), i18n.tc('ARRAY.UNIT_TYPES.2')],
+            rateTypes = [i18n.tc('ARRAY.RATE_TYPES.0'), i18n.tc('ARRAY.RATE_TYPES.1'), i18n.tc('ARRAY.RATE_TYPES.2')],
             key = 'childRateForms',
             validator = new Validator();
         validator.addRule(key, { name: 'childUid', value: childUid }, { required: true }, { required: i18n.t('VALIDATES.CHILD_UID_NOT_NULL') });
@@ -33,9 +33,9 @@ export class ChildService {
                 { name: `value${index}`, value: value },
                 { required: true, min: minAmount, max: maxAmount },
                 {
-                    required: i18n.t('VALIDATES.VALIDATE_NOT_NULL', { title: msg}),
-                    min: i18n.t('VALIDATES.VALIDATE_GE', {title: msg,value: minAmount}),
-                    max: i18n.t('VALIDATES.VALIDATE_LE', {title: msg, value: maxAmount})
+                    required: i18n.t('VALIDATES.VALIDATE_NOT_NULL', { title: msg }),
+                    min: i18n.t('VALIDATES.VALIDATE_GE', { title: msg, value: minAmount }),
+                    max: i18n.t('VALIDATES.VALIDATE_LE', { title: msg, value: maxAmount })
                 }
             );
         });
@@ -44,8 +44,8 @@ export class ChildService {
 
     // 校验默认利率表单
     public static validateDefaultRateForms(defaultRateForms: Array<DefaultRateFormModel>): ValidationResult {
-        let unitTypes = [i18n.tc('ARRAY.UNIT_TYPES', 0), i18n.tc('ARRAY.UNIT_TYPES', 1), i18n.tc('ARRAY.UNIT_TYPES', 2)],
-            rateTypes = [i18n.tc('ARRAY.RATE_TYPES', 0), i18n.tc('ARRAY.RATE_TYPES', 1), i18n.tc('ARRAY.RATE_TYPES', 2)],
+        let unitTypes = [i18n.tc('ARRAY.UNIT_TYPES.0'), i18n.tc('ARRAY.UNIT_TYPES.1'), i18n.tc('ARRAY.UNIT_TYPES.2')],
+            rateTypes = [i18n.tc('ARRAY.RATE_TYPES.0'), i18n.tc('ARRAY.RATE_TYPES.1'), i18n.tc('ARRAY.RATE_TYPES.2')],
             key = 'defaultRateForms',
             validator = new Validator();
         defaultRateForms.forEach((defaultRateForm: DefaultRateFormModel, index: number) => {
@@ -64,9 +64,9 @@ export class ChildService {
                 { name: `value${index}`, value: value },
                 { required: true, minExclude: 0, max: max },
                 {
-                    required: i18n.t('VALIDATES.VALIDATE_NOT_NULL', { title: msg}),
-                    minExclude: i18n.t('VALIDATES.VALIDATE_GT', {title: msg, value: 0}),
-                    max: i18n.t('VALIDATES.VALIDATE_LE', {title: msg, value: max})
+                    required: i18n.t('VALIDATES.VALIDATE_NOT_NULL', { title: msg }),
+                    minExclude: i18n.t('VALIDATES.VALIDATE_GT', { title: msg, value: 0 }),
+                    max: i18n.t('VALIDATES.VALIDATE_LE', { title: msg, value: max })
                 }
             );
         });

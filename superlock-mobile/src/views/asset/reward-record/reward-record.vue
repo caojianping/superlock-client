@@ -12,7 +12,7 @@
                     :immediate-check="false"
                     :loading-text="$t('COMMON.RECORD_LOADING')"
                     :finished-text="$t('COMMON.RECORD_LOADED')"
-                    @load="fetchData"
+                    @load="fetchPromoteRewards"
                 >
                     <CellGroup>
                         <Cell v-for="(reward, index) in rewards" :key="index">

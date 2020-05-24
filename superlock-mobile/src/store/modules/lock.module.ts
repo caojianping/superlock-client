@@ -8,12 +8,12 @@ const i18n = Locales.buildLocale();
 
 const lockState: ILockState = {
     lockStatuses: new Map([
-        [0, i18n.tc('ARRAY.LOCK_STATUSES', 0)],
-        [10, i18n.tc('ARRAY.LOCK_STATUSES', 1)],
-        [20, i18n.tc('ARRAY.LOCK_STATUSES', 2)],
-        [30, i18n.tc('ARRAY.LOCK_STATUSES', 3)],
-        [40, i18n.tc('ARRAY.LOCK_STATUSES', 4)],
-        [50, i18n.tc('ARRAY.LOCK_STATUSES', 5)]
+        [0, i18n.tc('ARRAY.LOCK_STATUSES.0')],
+        [10, i18n.tc('ARRAY.LOCK_STATUSES.1')],
+        [20, i18n.tc('ARRAY.LOCK_STATUSES.2')],
+        [30, i18n.tc('ARRAY.LOCK_STATUSES.3')],
+        [40, i18n.tc('ARRAY.LOCK_STATUSES.4')],
+        [50, i18n.tc('ARRAY.LOCK_STATUSES.5')]
     ]),
     lockColors: new Map([
         [0, 'gray'],

@@ -10,7 +10,7 @@
                         <h1>{{ $t('COMMON.NAME') }}-{{ lockProjectObj.length + unitTypes[lockProjectObj.unit - 1] }}</h1>
                     </li>
                     <li>
-                        <h2>$t('COMMON.AVAILABLE_BALANCE')</h2>
+                        <h2>{{ $t('COMMON.AVAILABLE_BALANCE') }}</h2>
                         <p v-if="!assetStats">-- BCB</p>
                         <P v-else>{{ assetStats.bcbHotAmount | coinUnit }}</P>
                     </li>

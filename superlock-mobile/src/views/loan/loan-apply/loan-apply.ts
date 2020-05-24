@@ -53,7 +53,7 @@ export default class LoanApply extends Vue {
         if (!result.status) return Prompt.error(Utils.getFirstValue(result.data));
 
         if (!this.userInfo || !this.userInfo.haveFundPasswd) {
-            Prompt.info(i18n.tc('COMMON.SETTING_FUND02')).then(() => {
+            Prompt.info(i18n.tc('COMMON.SETTING_FUND')).then(() => {
                 From.setFundFrom('/loan/apply');
                 this.$router.push({
                     path: '/security/fund/password',

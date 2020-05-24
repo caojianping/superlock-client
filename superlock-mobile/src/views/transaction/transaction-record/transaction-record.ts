@@ -49,7 +49,7 @@ export default class TransactionRecord extends Vue {
     }
 
     // 获取数据
-    async fetchData(isRefresh: boolean) {
+    async fetchData(isRefresh: boolean = false) {
         if (!this.transactions || isRefresh) {
             this.setStates({ pageNum: 1 });
             await this.fetchTransactions();

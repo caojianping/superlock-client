@@ -67,7 +67,7 @@ export class WithdrawService {
                 fundPasswd: md5(fundPasswd),
                 remark: remark || ''
             });
-        await Caxios.post<any>({ url: `${Urls.withdraw.execute}?${parameters}` }, CaxiosType.LoadingToken);
+        await Caxios.post<any>({ url: `${Urls.withdraw.execute}?${parameters}` }, CaxiosType.Token);
         return true;
     }
 

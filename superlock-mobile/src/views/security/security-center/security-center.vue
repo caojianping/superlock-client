@@ -5,7 +5,7 @@
 
             <CellGroup class="scb-separator">
                 {{ ((userInfoObj = userInfo || {}), void 0) }}
-                <Cell :title="UID" :value="userInfoObj.userId || '--'" />
+                <Cell title="UID" :value="userInfoObj.userId || '--'" />
                 <Cell
                     :title="$t('SECURITY.LOGIN_PASSWORD')"
                     is-link
@@ -14,13 +14,13 @@
                 <Cell :title="$t('COMMON.FUND_PASSWORD')" is-link @click="goFund" />
                 <Cell
                     v-if="!userInfoObj.email"
-                    :title="$t('SECURITY.EMAIL_BIND')"
+                    :title="$t('MINE.EMAIL_BIND')"
                     is-link
                     :to="{ path: '/security/email', query: { from: '/security/center' } }"
                 >
                     <span class="unbind">{{ $t('SECURITY.UNBIND') }}</span>
                 </Cell>
-                <Cell v-else :title="$t('SECURITY.EMAIL_BIND')">
+                <Cell v-else :title="$t('MINE.EMAIL_BIND')">
                     <span class="binded">{{ userInfoObj.email }}</span>
                 </Cell>
             </CellGroup>

@@ -24,7 +24,7 @@
                     :immediate-check="false"
                     :loading-text="$t('COMMON.RECORD_LOADING')"
                     :finished-text="$t('COMMON.RECORD_LOADED')"
-                    @load="fetchData"
+                    @load="fetchTransferChilds"
                 >
                     <CellGroup>
                         <Cell v-for="(transferChild, index) in transferChilds" :key="index" @click="chooseChild(transferChild)">

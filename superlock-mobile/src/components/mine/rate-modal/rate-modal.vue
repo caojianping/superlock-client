@@ -17,7 +17,7 @@
                                 <span>%</span>
                             </div>
                         </div>
-                        <p class="rate-prompt">{{ $t('MINE.MAX_SETTING_RATE：') }}{{ `${defaultRateForm.max}%` }}</p>
+                        <p class="rate-prompt">{{ $t('MINE.MAX_SETTING_RATE') }}：{{ `${defaultRateForm.max}%` }}</p>
                     </template>
                 </Field>
                 <Field v-if="defaultRateForm.type === 2" :label="$t('MINE.PROMOTE_UNLOCK_RATE')">
@@ -28,7 +28,7 @@
                                 <span>%</span>
                             </div>
                         </div>
-                        <p class="rate-prompt">{{ $t('MINE.MAX_SETTING_RATE：') }}：{{ `${defaultRateForm.max}%` }}</p>
+                        <p class="rate-prompt">{{ $t('MINE.MAX_SETTING_RATE') }}：{{ `${defaultRateForm.max}%` }}</p>
                     </template>
                 </Field>
             </li>

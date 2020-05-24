@@ -14,7 +14,7 @@
                     :immediate-check="false"
                     :loading-text="$t('COMMON.RECORD_LOADING')"
                     :finished-text="$t('COMMON.RECORD_LOADED')"
-                    @load="fetchData"
+                    @load="fetchTransactions"
                 >
                     <CellGroup>
                         <Cell

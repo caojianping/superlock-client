@@ -60,7 +60,7 @@ export default class TransferIndex extends Vue {
         if (!result.status) return Prompt.error(Utils.getFirstValue(result.data));
 
         if (!this.userInfo || !this.userInfo.haveFundPasswd) {
-            Prompt.info(i18n.tc('COMMON.SETTING_FUND02')).then(() => {
+            Prompt.info(i18n.tc('COMMON.SETTING_FUND')).then(() => {
                 From.setFundFrom('/transfer/index');
                 this.$router.push({
                     path: '/security/fund/password',
@@ -80,14 +80,21 @@ export default class TransferIndex extends Vue {
         this.setStates({ transferForm });
 
         try {
+            Toast.loading({ mask: true, duration: 0, message: i18n.tc('COMMON.LOADING') });
             let result = await this.executeTransfer();
-            if (!result) this.$router.push({ path: '/transfer/result/0' });
-            else
+            if (!result) {
+                Toast.clear();
+                this.$router.push({ path: '/transfer/result/0' });
+            } else {
+                await this.fetchUsableQuota();
+                Toast.clear();
                 this.$router.push({
                     path: '/transfer/result/1',
                     query: { amount: String(transferForm.quota) }
                 });
+            }
         } catch (error) {
+            Toast.clear();
             this.$router.push({
                 path: '/transfer/result/0',
                 query: { msg: error.message || error }

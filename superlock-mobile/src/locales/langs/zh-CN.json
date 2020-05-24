@@ -12,7 +12,6 @@
         "RECHARGE_ADDRESS": "充值地址",
         "WITHDRAW_ADDRESS": "提现地址",
         "DETAILS": "明细",
-
         "TRANSACTION_ID": "交易单号",
         "TRANSACTION_HASH": "交易hash",
         "EXCHANGE_RATE": "汇率",
@@ -24,25 +23,21 @@
         "REMARK": "备注",
         "STATUS": "状态",
         "BALANCE": "余额",
-
         "ALL": "全部",
         "CONFIRM": "确认",
         "CANCEL": "取消",
         "SAVE": "保存",
         "COMPLETE": "完成",
         "SETTING": "设置",
-
         "DEVELOPING": "正在开发中，敬请期待！",
         "INIT_NECAPTCHA": "不支持initNECaptcha",
         "SYSTEM_BUSY_RETRY_LATER": "系统繁忙，请稍后重试",
         "DATA_EXCEPTION": "数据异常",
         "VERIFY_FETCH_FAILURE": "验证方式获取失败",
-
         "LOADING": "加载中...",
         "RECORD_LOADING": "记录加载中……",
         "RECORD_LOADED": "记录加载完毕",
         "REFRESH_SUCCESS": "刷新成功",
-
         "FUND_PASSWORD": "资金密码",
         "COPY_ADDRESS": "复制地址",
         "COPY_SUCCESS": "复制成功",
@@ -54,13 +49,11 @@
         "DAY": "天",
         "VALUE": "价值",
         "COUNTRY_AND_AREA": "国家和地区",
-
         "IMMEDIATELY_BIND_EMAIL": "为了您的账户安全请立刻绑定邮箱",
         "GO_BIND": "去绑定",
         "IMMEDIATELY_SET_RATE": "有新的锁仓项目，快去给下级设置利率吧",
         "GO_SETTING": "去设置",
-        "SETTING_FUND01": "为保障您的资金安全，请先设置一下资金密码",
-        "SETTING_FUND02": "'您未设置资金密码，请先设置资金密码'",
+        "SETTING_FUND": "为保障您的资金安全，请先设置一下资金密码",
         "ENTER_FUND_AND_AUTH": "请输入资金密码，进行身份认证"
     },
     "USER": {
@@ -113,7 +106,12 @@
         "TOTAL_ASSET": "总资产",
         "YESTERDAY_EARNINGS": "昨日收益",
         "TOTAL_EARNINGS": "总收益",
-        "ASSET_TABS": "资产总账 | 我的锁仓 | 我的贷款 | 推广奖励",
+        "ASSET_TABS": {
+            "0": "资产总账",
+            "1": "我的锁仓",
+            "2": "我的贷款",
+            "3": "推广奖励"
+        },
         "PUSH_REWARD": "直推奖励",
         "LOCK_REWARD": "团队锁仓奖励",
         "PROMOTE_REWARD": "推广解锁奖励",
@@ -167,24 +165,22 @@
         "RECHARGE_AMOUNT": "充值数量",
         "RECHARGE_RATE": "充值汇率",
         "TO_ACCOUNT": "到账",
-        "RECHARGE_NO_DATA": "暂无充值数据",
-        "RECHARGE_ADDRESS_NO_DATA": "暂无充值地址数据",
-        "RECHARGE_RECORD_NO_DATA": "暂无充值记录，快去<router-link class='scb-link' to='/asset/index'>充值</router-link>吧！",
-
         "SELECT_COIN_TYPE": "请选择要充值的币种类型",
         "PROMPT": "所有转入的币种都将转换为BCB，请注意币种之间实时汇率波动",
         "TIP01": "请勿向上述地址充值任何非该币种的资产，否则资产将不可找回。",
         "TIP02": "您充值至上述地址后，需要整个网络节点的确认后才能到账。",
         "TIP03": "您的充值地址不会经常改变，可重复充值。",
-        "TIP04": "最小充值数量",
-        "TIP05": "小于最小数量的充值将不会到账，且无法退还。"
+        "TIP04": "最小充值数量：{amount}个{coin}，小于最小数量的充值将不会到账，且无法退还。",
+        "RECHARGE_NO_DATA": "暂无充值数据",
+        "RECHARGE_ADDRESS_NO_DATA": "暂无充值地址数据",
+        "RECHARGE_RECORD_NO_DATA": "暂无充值记录，快去<router-link class='scb-link' to='/asset/index'>充值</router-link>吧！"
     },
     "WITHDRAW": {
         "WITHDRAW_RECORD": "提现记录",
         "WITHDRAW_DETAIL": "提现详情",
         "WITHDRAWABLE_AMOUNT": "可提现金额",
         "CONFIRM_WITHDRAW": "确定提现",
-        "WITHDRAW_COMPLETE": "确定提现",
+        "WITHDRAW_COMPLETE": "提现完成",
         "WITHDRAW_TIME": "提现时间",
         "WITHDRAW_COIN": "提现币种",
         "WITHDRAW_AMOUNT": "提现数量",
@@ -193,17 +189,13 @@
         "MODIFY_WITHDRAW_ADDRESS": "修改提现地址",
         "WALLET_NAME": "钱包名称",
         "WALLET_ADDRESS": "钱包地址",
-        "RESULT_PROMPT01": "请确认提现地址",
-        "RESULT_PROMPT02": "是否到账",
+        "RESULT_PROMPT": "请查看提现地址{address}，确认到账",
         "ADDRESS_PROMPT": "绑定的地址必须是BCB钱包地址",
         "ADD_ADDRESS_PROMPT": "还没有添加提现地址，赶紧去添加吧",
-
         "WITHDRAW_SUCCESS": "提现成功",
         "WITHDRAW_FAILURE": "提现失败",
-
         "WITHDRAW_ADDRESS_ADD_SUCCESS": "提现地址添加成功",
         "WITHDRAW_ADDRESS_ADD_FAILURE": "提现地址添加失败",
-
         "WITHDRAW_NO_DATA": "暂无提现数据",
         "WITHDRAW_RECORD_NO_DATA": "暂无提现记录，快去<router-link class='scb-link' to='/asset/index'>提现</router-link>吧！",
         "WITHDRAW_ADDRESS_NO_DATA": "暂无提现地址，快去<a class='scb-link' href='javascript: void(0)' @click='penWithdrawSetting'>添加地址</a>吧！"
@@ -223,10 +215,8 @@
         "TRANSFER_CHILDS": "我的下级",
         "TRANSFER_COMPLETE": "转账完成",
         "RESULT_PROMPT": "请确认是否到账",
-
         "TRANSFER_SUCCESS": "转账成功",
         "TRANSFER_FAILURE": "转账失败",
-
         "TRANSFER_NO_DATA": "暂无转账数据",
         "TRANSFER_RECORD_NO_DATA": "暂无转账记录，快去<router-link class='scb-link' to='/transfer/index'>转账</router-link>吧！"
     },
@@ -270,14 +260,13 @@
         "INTEREST_RECORD": "收益记录",
         "RETURN_HOME": "返回理财首页",
         "LOCK_PROMPT": "今日锁仓，明日可获得收益",
-
         "LOCK_NO_DATA": "暂无锁仓信息",
         "LOCK_INTEREST_NO_DATA": "暂无锁仓收益"
     },
     "LOAN": {
         "TITLE01": "锁仓质押贷",
         "TITLE02": "有锁仓就可贷",
-        "TITLE02_DETAIL": "最高可贷锁仓价值的",
+        "TITLE02_DETAIL": "最高可贷锁仓价值的{percent}%",
         "LOCK_PLEDGE": "锁仓抵押",
         "RAPID_LENDING": "快速放贷",
         "ANYTIME_REPAY": "随时还款",
@@ -287,9 +276,9 @@
         "LOCK_VALUE": "锁仓价值",
         "PLEDGE_LOAN": "抵押贷款",
         "LOAN_APPLY": "贷款申请",
-        "MAX_LOANABLE": "最多可贷",
+        "MAX_LOANABLE": "最多可贷{amount}{coin}",
         "EXPECT_LOANABLE_TIME": "预计可贷时长",
-        "MAX_LAONABLE_TIME": "最多可贷时长",
+        "MAX_LOANABLE_TIME": "最多可贷时长{time}天",
         "APPLY_PROMPT01": "1.预计审核时间3~7个工作日，实际结果以审核确定时间为准。",
         "APPLY_PROMPT02": "2.审核通过后，发放贷款时会根据当时BCB:DC汇率进行折算为BCB转入您的资金账户。",
         "SUBMIT_APPLY": "提交申请",
@@ -318,14 +307,14 @@
         "REPAY_MONEY": "应还本息",
         "REPAY_RATE": "还款汇率",
         "ACTUAL_REAPY_VALUE": "实际还款价值",
-        "TOTAL_LAON_TIME": "累计贷款时长",
+        "TOTAL_LOAN_TIME": "累计贷款时长",
         "ACCOUNT_AVAILABLE_BALANCE": "当前账户可用余额",
         "IMMEDIATELY_REPAY": "立即还款",
         "CONFIRM_REPAY": "确定还款",
         "REPAY_SUCCESS": "还款成功",
         "REPAY_FAILURE": "还款失败",
         "REPAY_SUCCESS_AND_CHECK": "还款成功，请检查质押的锁仓是否释放",
-        "LAON_INTEREST": "贷款利息",
+        "LOAN_INTEREST": "贷款利息",
         "LOAN_INTRO": "了解锁仓质押贷",
         "LOAN_QUESTION01": "1.什么样的情况下可以贷款？",
         "LOAN_ANSWER01": "用户只有在有锁仓理财的时候能进行贷款活动，贷款是针对某一笔锁仓订单来申请贷款的。",
@@ -336,7 +325,6 @@
         "LOAN_ANSWER03": "如果未到期的锁仓项目锁仓金额太小，或锁仓即将到期，这个时候是无法申请贷款的。",
         "LOAN_QUESTION04": "4.提现还贷是否需要赔息？",
         "LOAN_ANSWER04": "支持随借随还，提前还贷无需赔息。",
-
         "LOCK_PROJECT_NO_DATA": "暂无锁仓项目",
         "LOAN_NO_DATA": "暂无贷款数据",
         "LOAN_INTEREST_NO_DATA": "暂无贷款利息"
@@ -396,12 +384,45 @@
         "EMAIL_BIND_SUCCESS": "邮箱绑定成功"
     },
     "ARRAY": {
-        "UNIT_TYPES": "天 | 月 | 年",
-        "RATE_TYPES": "锁仓利率 | 推广解锁利率 | 锁仓额度",
-        "LOCK_STATUSES": "订单已创建 | 订单处理中 | 锁仓计息中 | 锁仓到期 | 锁仓失败 | 贷款质押中",
-        "LOAN_FLAGS": "可质押 | 锁仓金额太小，无法质押 | 锁仓即将到期，无法质押",
-        "LOAN_STATUSES": "审核中 | 审核失败 | 贷款中 | 爆仓 | 还款中 | 贷款已还清 | 已逾期",
-        "EARNINGS_TYPES": "锁仓收益 | 团队锁仓奖励 | 直推奖励 | 推广解锁 | 日销奖励"
+        "UNIT_TYPES": {
+            "0": "天",
+            "1": "月",
+            "2": "年"
+        },
+        "RATE_TYPES": {
+            "0": "锁仓利率",
+            "1": "推广解锁利率",
+            "2": "锁仓额度"
+        },
+        "LOCK_STATUSES": {
+            "0": "订单已创建",
+            "1": "订单处理中",
+            "2": "锁仓计息中",
+            "3": "锁仓到期",
+            "4": "锁仓失败",
+            "5": "贷款质押中"
+        },
+        "LOAN_FLAGS": {
+            "0": "可质押",
+            "1": "锁仓金额太小，无法质押",
+            "2": "锁仓即将到期，无法质押"
+        },
+        "LOAN_STATUSES": {
+            "0": "审核中",
+            "1": "审核失败",
+            "2": "贷款中",
+            "3": "爆仓",
+            "4": "还款中",
+            "5": "贷款已还清",
+            "6": "已逾期"
+        },
+        "EARNINGS_TYPES": {
+            "0": "锁仓收益",
+            "1": "团队锁仓奖励",
+            "2": "直推奖励",
+            "3": "推广解锁",
+            "4": "日销奖励"
+        }
     },
     "VALIDATES": {
         "VALIDATE_NOT_NULL": "{title}不可以为空",

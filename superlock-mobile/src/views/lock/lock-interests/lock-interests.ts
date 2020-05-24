@@ -63,6 +63,7 @@ export default class LockInterests extends Vue {
     }
 
     mounted() {
-        this.fetchData(false);
+        // 利息页面传递的id不一样，需要刷新
+        this.fetchData(true);
     }
 }

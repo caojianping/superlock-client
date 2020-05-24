@@ -3,7 +3,7 @@
         <div class="scb-gray scb-reserved team-index">
             {{ ((userLockQuotaObj = userLockQuota || {}), void 0) }}
             <header class="team-header">
-                <Header title="$t('TEAM.TITLE01')" :is-border="false" @left="$router.push(from || '/mine/index')" />
+                <Header :title="$t('TEAM.TITLE01')" :is-border="false" @left="$router.push(from || '/mine/index')" />
                 <h2>{{ $t('TEAM.TEAM_LOCKABLE_QUOTA') }}({{ userLockQuotaObj.usedCoin || '--' }})</h2>
                 <h1>{{ (userLockQuotaObj.usedAmount || 0) | currencyComma(4) }}</h1>
             </header>

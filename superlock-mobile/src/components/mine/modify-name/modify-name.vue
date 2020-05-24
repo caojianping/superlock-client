@@ -3,7 +3,7 @@
         <Header :title="$t('MINE.MODIFY_NICKNAME')" @left="handlePopupClose" />
 
         <div class="modify-form scb-separator">
-            <Field :value="nickname" clearable :placeholder="$t('MINE.ENTER_NICKNAME')" @input="handleFieldInput($event)"></Field>
+            <Field :value="nickname" clearable :placeholder="$t('PLACEHOLDERS.ENTER_NICKNAME')" @input="handleFieldInput($event)"></Field>
 
             <Button class="effect-shadow" type="primary" block round @click="submit">{{ $t('COMMON.SAVE') }}</Button>
         </div>

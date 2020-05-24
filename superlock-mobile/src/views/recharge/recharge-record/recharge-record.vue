@@ -12,7 +12,7 @@
                     :immediate-check="false"
                     :loading-text="$t('COMMON.RECORD_LOADING')"
                     :finished-text="$t('COMMON.RECORD_LOADED')"
-                    @load="fetchData"
+                    @load="fetchRecharges"
                 >
                     <CellGroup>
                         <Cell v-for="(recharge, index) in recharges" :key="index" @click="goDetail(recharge)">

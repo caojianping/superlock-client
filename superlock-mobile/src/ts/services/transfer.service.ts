@@ -59,7 +59,7 @@ export class TransferService {
                 fundPasswd: md5(fundPasswd),
                 memo: memo || ''
             });
-        await Caxios.post<any>({ url: `${Urls.transfer.execute}?${parameters}` }, CaxiosType.LoadingToken);
+        await Caxios.post<any>({ url: `${Urls.transfer.execute}?${parameters}` }, CaxiosType.Token);
         return true;
     }
 

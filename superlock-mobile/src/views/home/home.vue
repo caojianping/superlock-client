@@ -46,7 +46,7 @@
                                     <span>{{ project.rate | ratePercent(2, false) }}</span>
                                     <small>%</small>
                                 </h2>
-                                <p>{{ $t('HOME.EXPECT_YEAR_RATE') }}</p>
+                                <p>{{ $t('COMMON.EXPECT_YEAR_RATE') }}</p>
                             </div>
                             <div>
                                 <h3>

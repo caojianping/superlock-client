@@ -1,12 +1,12 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
         <div class="scb-gray loan-interests">
-            <Header :title="$t('LAON.LAON_INTEREST')" :is-border="false" @left="$router.push('/loan/detail')" />
+            <Header :title="$t('LOAN.LOAN_INTEREST')" :is-border="false" @left="$router.push('/loan/detail')" />
 
             <div v-if="loanInterests" class="scb-separator">
                 <div v-if="loanInterests.length <= 0" class="scb-none">
-                    <img src="../../../assets/images/empty.png" :alt="$t('LAON.LOAN_INTEREST_NO_DATA')" />
-                    <p>{{ $t('LAON.LOAN_INTEREST_NO_DATA') }}</p>
+                    <img src="../../../assets/images/empty.png" :alt="$t('LOAN.LOAN_INTEREST_NO_DATA')" />
+                    <p>{{ $t('LOAN.LOAN_INTEREST_NO_DATA') }}</p>
                 </div>
                 <List
                     v-else

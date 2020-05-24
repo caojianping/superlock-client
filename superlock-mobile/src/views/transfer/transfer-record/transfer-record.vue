@@ -12,7 +12,7 @@
                     :immediate-check="false"
                     :loading-text="$t('COMMON.RECORD_LOADING')"
                     :finished-text="$t('COMMON.RECORD_LOADED')"
-                    @load="fetchData"
+                    @load="fetchTransfers"
                 >
                     <CellGroup>
                         <Cell v-for="(transfer, index) in transfers" :key="index" @click="goDetail(transfer)">

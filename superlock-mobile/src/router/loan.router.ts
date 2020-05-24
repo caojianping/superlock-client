@@ -35,7 +35,7 @@ export default [
     },
     {
         path: '/loan/detail/:id',
-        name: 'LoanDetail',
+        name: 'LoanDetailById',
         component: LoanDetail
     },
     {

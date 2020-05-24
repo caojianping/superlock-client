@@ -62,7 +62,7 @@ export default class LockCreate extends Vue {
         }
 
         if (!this.userInfo || !this.userInfo.haveFundPasswd) {
-            Prompt.info(i18n.tc('COMMON.SETTING_FUND02')).then(() => {
+            Prompt.info(i18n.tc('COMMON.SETTING_FUND')).then(() => {
                 From.setFundFrom('/lock/create');
                 this.$router.push({
                     path: '/security/fund/password',

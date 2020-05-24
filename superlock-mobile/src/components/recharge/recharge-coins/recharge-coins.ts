@@ -39,7 +39,7 @@ export default class RechargeCoins extends Vue {
 
     goCode(rechargeCoin: any) {
         if (!this.userInfo || !this.userInfo.haveFundPasswd) {
-            Prompt.info(i18n.tc('COMMON.SETTING_FUND01')).then(() => {
+            Prompt.info(i18n.tc('COMMON.SETTING_FUND')).then(() => {
                 From.setFundFrom('/asset/index');
                 this.$router.push({
                     path: '/security/fund/password',

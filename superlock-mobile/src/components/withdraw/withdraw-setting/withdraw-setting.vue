@@ -9,7 +9,7 @@
                 </li>
                 <li>
                     <h2>{{ $t('WITHDRAW.WALLET_NAME') }}</h2>
-                    <Field v-model="withdrawAddress.nickName" clearable :placeholder="$t('PLACEHOLDERS.WITHDRAW.ENTER_WALLET_NAME')" />
+                    <Field v-model="withdrawAddress.nickName" clearable :placeholder="$t('PLACEHOLDERS.ENTER_WALLET_NAME')" />
                 </li>
                 <li>
                     <h2>{{ $t('WITHDRAW.WALLET_ADDRESS') }}</h2>

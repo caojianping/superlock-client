@@ -43,7 +43,7 @@ export default class RewardRecord extends Vue {
     }
 
     // 获取数据
-    async fetchData(isRefresh: boolean) {
+    async fetchData(isRefresh: boolean = false) {
         if (!this.rewards || isRefresh) {
             this.setStates({ pageNum: 1 });
             await this.fetchPromoteRewards();
@@ -75,6 +75,6 @@ export default class RewardRecord extends Vue {
     }
 
     mounted() {
-        this.fetchData(false);
+        this.fetchData(true);
     }
 }

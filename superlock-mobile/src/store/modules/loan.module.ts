@@ -8,18 +8,18 @@ const i18n = Locales.buildLocale();
 
 const loanState: ILoanState = {
     loanFlags: new Map([
-        [1, i18n.tc('ARRAY.LOAN_FLAGS', 0)],
-        [2, i18n.tc('ARRAY.LOAN_FLAGS', 1)],
-        [3, i18n.tc('ARRAY.LOAN_FLAGS', 2)]
+        [1, i18n.tc('ARRAY.LOAN_FLAGS.0')],
+        [2, i18n.tc('ARRAY.LOAN_FLAGS.1')],
+        [3, i18n.tc('ARRAY.LOAN_FLAGS.2')]
     ]),
     loanStatuses: new Map([
-        [0, i18n.tc('ARRAY.LOAN_STATUSES', 0)],
-        [10, i18n.tc('ARRAY.LOAN_STATUSES', 1)],
-        [20, i18n.tc('ARRAY.LOAN_STATUSES', 2)],
-        [30, i18n.tc('ARRAY.LOAN_STATUSES', 3)],
-        [31, i18n.tc('ARRAY.LOAN_STATUSES', 4)],
-        [40, i18n.tc('ARRAY.LOAN_STATUSES', 5)],
-        [50, i18n.tc('ARRAY.LOAN_STATUSES', 6)]
+        [0, i18n.tc('ARRAY.LOAN_STATUSES.0')],
+        [10, i18n.tc('ARRAY.LOAN_STATUSES.1')],
+        [20, i18n.tc('ARRAY.LOAN_STATUSES.2')],
+        [30, i18n.tc('ARRAY.LOAN_STATUSES.3')],
+        [31, i18n.tc('ARRAY.LOAN_STATUSES.4')],
+        [40, i18n.tc('ARRAY.LOAN_STATUSES.5')],
+        [50, i18n.tc('ARRAY.LOAN_STATUSES.6')]
     ]),
     loanColors: new Map([
         [0, 'green'],

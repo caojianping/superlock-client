@@ -35,7 +35,7 @@
             {{ ((rateStr = `1 ${rateObj.fromCoin || '--'} = ${rateObj.rate || '--'} ${rateObj.toCoin || '--'}`), void 0) }}
             <Tabs class="asset-tabs" v-model="activeTab" animated swipeable @change="handleTabsChange">
                 <Tab>
-                    <span slot="title">{{ $tc('ASSET.ASSET_TABS', 0) }}</span>
+                    <span slot="title">{{ $t('ASSET.ASSET_TABS.0') }}</span>
                     <div class="tab-panel">
                         <h1 class="tab-title scb-border">
                             <i class="icon icon-exchange-rate" />
@@ -53,7 +53,7 @@
                 </Tab>
 
                 <Tab>
-                    <span slot="title">{{ $tc('ASSET.ASSET_TABS', 1) }}</span>
+                    <span slot="title">{{ $t('ASSET.ASSET_TABS.1') }}</span>
                     <div class="tab-panel">
                         <h1 class="tab-title scb-border">
                             <i class="icon icon-exchange-rate" />
@@ -86,7 +86,7 @@
                 </Tab>
 
                 <Tab>
-                    <span slot="title">{{ $tc('ASSET.ASSET_TABS', 2) }}</span>
+                    <span slot="title">{{ $t('ASSET.ASSET_TABS.2') }}</span>
                     <div class="tab-panel">
                         <h1 class="tab-title scb-border">
                             <i class="icon icon-exchange-rate" />
@@ -116,7 +116,7 @@
                 </Tab>
 
                 <Tab>
-                    <span slot="title">{{ $tc('ASSET.ASSET_TABS', 3) }}</span>
+                    <span slot="title">{{ $t('ASSET.ASSET_TABS.3') }}</span>
                     <div class="tab-panel">
                         <h1 class="tab-title scb-border">
                             <i class="icon icon-exchange-rate" />
