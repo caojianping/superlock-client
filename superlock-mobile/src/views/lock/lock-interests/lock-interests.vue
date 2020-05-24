@@ -5,8 +5,8 @@
 
             <div v-if="lockInterests" class="scb-separator">
                 <div v-if="lockInterests.length <= 0" class="scb-none">
-                    <img src="../../../assets/images/empty.png" :alt="$t('LOCK.LOCK_INTEREST_NO_RECORD')" />
-                    <p>{{ $t('LOCK.LOCK_INTEREST_NO_RECORD') }}</p>
+                    <img src="../../../assets/images/empty.png" :alt="$t('LOCK.LOCK_INTEREST_NO_DATA')" />
+                    <p>{{ $t('LOCK.LOCK_INTEREST_NO_DATA') }}</p>
                 </div>
                 <List
                     v-else

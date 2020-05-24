@@ -3,7 +3,7 @@
         <Header :title="$t('COMMON.LOCK_DETAIL')" :is-border="false" @left="$router.push({ path: '/asset/index', query: { type: 1 } })" />
 
         <div v-if="lock !== undefined">
-            <p v-if="lock === null" class="scb-none">{{ $t('LOCK.LOCK_NO_RECORD') }}</p>
+            <p v-if="lock === null" class="scb-none">{{ $t('LOCK.LOCK_NO_DATA') }}</p>
             <template v-else>
                 <header class="detail">
                     <h2>{{ $t('COMMON.LOCK_AMOUNT') }}({{ lock.coin }})</h2>

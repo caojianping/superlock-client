@@ -4,7 +4,7 @@
             <Header :title="$t('RECHARGE.RECHARGE_RECORD')" @left="$router.push(`/recharge/code/${rechargeCoin || 'BCB'}`)" />
 
             <div v-if="recharges" class="scb-separator">
-                <p v-if="recharges.length <= 0" class="scb-none" v-html="$t('RECHARGE.RECHARGE_RECORD_NO_RECORD')" />
+                <p v-if="recharges.length <= 0" class="scb-none" v-html="$t('RECHARGE.RECHARGE_RECORD_NO_DATA')" />
                 <List
                     v-else
                     v-model="isLoading"

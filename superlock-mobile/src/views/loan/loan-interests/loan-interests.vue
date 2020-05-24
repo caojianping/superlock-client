@@ -5,8 +5,8 @@
 
             <div v-if="loanInterests" class="scb-separator">
                 <div v-if="loanInterests.length <= 0" class="scb-none">
-                    <img src="../../../assets/images/empty.png" :alt="$t('LAON.LOAN_INTEREST_NO_RECORD')" />
-                    <p>{{ $t('LAON.LOAN_INTEREST_NO_RECORD') }}</p>
+                    <img src="../../../assets/images/empty.png" :alt="$t('LAON.LOAN_INTEREST_NO_DATA')" />
+                    <p>{{ $t('LAON.LOAN_INTEREST_NO_DATA') }}</p>
                 </div>
                 <List
                     v-else

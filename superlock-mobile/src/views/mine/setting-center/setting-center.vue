@@ -1,5 +1,5 @@
 <template>
-    <div class="setting-center scb-gray">
+    <div class="scb-gray setting-center">
         <Header :title="$t('MINE.SETTING_CENTER')" @left="$router.back(-1)" />
 
         <CellGroup class="scb-separator">

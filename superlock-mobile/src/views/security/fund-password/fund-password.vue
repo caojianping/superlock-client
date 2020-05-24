@@ -1,6 +1,6 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
-        <div class="fund-password scb-gray">
+        <div class="scb-gray fund-password">
             {{ ((userInfoObj = userInfo || {}), void 0) }}
             {{ ((status = userInfoObj.haveFundPasswd), void 0) }}
             <Header

@@ -4,7 +4,7 @@
             <Header :title="title" @left="$router.push({ path: '/asset/index', query: { type: 3 } })" />
 
             <div v-if="rewards" class="scb-separator">
-                <p v-if="rewards.length <= 0" class="scb-none">{{ $t('ASSET.REWARD_NO_RECORD') }}</p>
+                <p v-if="rewards.length <= 0" class="scb-none">{{ $t('ASSET.REWARD_NO_DATA') }}</p>
                 <List
                     v-else
                     v-model="isLoading"

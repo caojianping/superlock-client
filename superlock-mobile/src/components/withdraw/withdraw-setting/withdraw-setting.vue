@@ -1,5 +1,5 @@
 <template>
-    <Popup v-model="isShow" class="full scb-gray" @close="handlePopupClose">
+    <Popup v-model="isShow" class="scb-gray full" @close="handlePopupClose">
         <Header :title="`${[$t('WITHDRAW.ADD_WITHDRAW_ADDRESS'), $t('WITHDRAW.MODIFY_WITHDRAW_ADDRESS')][type - 1]}`" @left="handlePopupClose" />
 
         <div class="scb-form scb-separator">

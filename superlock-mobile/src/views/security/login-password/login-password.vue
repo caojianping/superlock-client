@@ -1,6 +1,6 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
-        <div class="login-password scb-gray">
+        <div class="scb-gray login-password">
             <Header :title="$t('SECURITY.LOGIN_PASSWORD')" @left="$router.push('/security/center')" />
 
             <div class="scb-form scb-separator">

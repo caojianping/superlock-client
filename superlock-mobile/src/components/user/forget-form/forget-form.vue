@@ -1,5 +1,5 @@
 <template>
-    <Popup v-model="isShow" class="full scb-gray">
+    <Popup v-model="isShow" class="scb-gray full">
         <Header :title="$t('USER.PASSWORD_FIND')" @left="$router.push(from)" />
 
         <div class="scb-form scb-separator">

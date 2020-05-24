@@ -1,9 +1,9 @@
 <template>
-    <div class="team-child scb-gray">
+    <div class="scb-gray team-child">
         <Header :title="$t('TEAM.TITLE02')" @left="$router.back(-1)" />
 
         <div v-if="child !== undefined" class="scb-separator">
-            <p v-if="child === null" class="scb-none">{{ $t('TEAM.TEAM_CHILD_NO_RECORD') }}</p>
+            <p v-if="child === null" class="scb-none">{{ $t('TEAM.TEAM_CHILD_NO_DATA') }}</p>
             <div v-else>
                 <CellGroup>
                     <Cell title="UID">

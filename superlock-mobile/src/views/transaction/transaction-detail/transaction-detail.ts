@@ -37,7 +37,7 @@ export default class TransactionDetail extends Vue {
     // 获取数据
     async fetchData() {
         await this.fetchTransaction();
-        Clipboard.copy('orderId', i18n.tc('COMMON.TRASACTION_ID'));
+        Clipboard.copy('orderId', i18n.tc('COMMON.TRANSACTION_ID'));
     }
 
     created() {

@@ -22,8 +22,8 @@
 
                     <div v-if="loanableLocks" class="lock-container">
                         <div v-if="loanableLocks.length <= 0" class="scb-none">
-                            <img src="../../../assets/images/empty.png" :alt="$t('LOAN.LOCK_PROJECT_NO_RECORD')" />
-                            <p>{{ $t('LOAN.LOCK_PROJECT_NO_RECORD') }}</p>
+                            <img src="../../../assets/images/empty.png" :alt="$t('LOAN.LOCK_PROJECT_NO_DATA')" />
+                            <p>{{ $t('LOAN.LOCK_PROJECT_NO_DATA') }}</p>
                         </div>
                         <List
                             v-else

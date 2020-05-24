@@ -38,7 +38,7 @@ export default class WithdrawDetail extends Vue {
     }
 
     mounted() {
-        Clipboard.copy('orderId', i18n.tc('COMMON.TRASACTION_ID'));
-        Clipboard.copy('txhash', i18n.tc('COMMON.TRASACTION_HASH'));
+        Clipboard.copy('orderId', i18n.tc('COMMON.TRANSACTION_ID'));
+        Clipboard.copy('txhash', i18n.tc('COMMON.TRANSACTION_HASH'));
     }
 }

@@ -4,11 +4,11 @@
 
         <div v-if="transfer !== undefined" class="scb-separator">
             <div v-if="transfer === null" class="scb-none">
-                <img src="../../../assets/images/empty.png" :alt="$t('TRANSFER.TRANSFER_NO_RECORD')" />
-                <p>{{ $t('TRANSFER.TRANSFER_NO_RECORD') }}</p>
+                <img src="../../../assets/images/empty.png" :alt="$t('TRANSFER.TRANSFER_NO_DATA')" />
+                <p>{{ $t('TRANSFER.TRANSFER_NO_DATA') }}</p>
             </div>
             <CellGroup v-else class="priority-value">
-                <Cell :title="$t('COMMON.TRASACTION_ID')">
+                <Cell :title="$t('COMMON.TRANSACTION_ID')">
                     <p class="scb-copy" id="orderId" :data-clipboard-text="transfer.orderId">
                         <span>{{ transfer.orderId }}</span>
                         <i class="icon icon-copy" />

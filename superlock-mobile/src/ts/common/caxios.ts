@@ -130,9 +130,8 @@ export class Caxios {
         let code: number = result.code,
             data: any = result.data,
             message: string = result.message;
-        if (code === 0) {
-            return data as T;
-        } else if (code === ResponseCode.TokenExpired) {
+        if (code === 0) return data as T;
+        else if (code === ResponseCode.TokenExpired) {
             Token.removeTokenInfo();
             store.commit(TYPES.CLEAR_STATES);
 
@@ -143,11 +142,11 @@ export class Caxios {
                 Router.push({ path: '/user/login' });
                 return Promise.reject('');
             } else {
-                throw new BusinessError(code, message);
+                throw new BusinessError(code, i18n.tc(`CODES.${code}`));
             }
         } else {
             // 其他异常
-            throw new BusinessError(code, message);
+            throw new BusinessError(code, i18n.tc(`CODES.${code}`));
         }
     }
 

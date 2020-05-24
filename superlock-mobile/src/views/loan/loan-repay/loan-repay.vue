@@ -5,8 +5,8 @@
 
             <div v-if="loan !== undefined" class="scb-separator">
                 <div v-if="loan === null" class="scb-none">
-                    <img src="../../../assets/images/empty.png" :alt="$t('LOAN.LOAN_NO_RECORD')" />
-                    <p>{{ $t('LOAN.LOAN_NO_RECORD') }}</p>
+                    <img src="../../../assets/images/empty.png" :alt="$t('LOAN.LOAN_NO_DATA')" />
+                    <p>{{ $t('LOAN.LOAN_NO_DATA') }}</p>
                 </div>
                 <template>
                     <CellGroup class="priority-value">

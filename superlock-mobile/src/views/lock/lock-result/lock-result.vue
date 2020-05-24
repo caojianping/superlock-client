@@ -3,7 +3,7 @@
         <Header :title="$t('LOCK.LOCK_SUCCESS')" :is-border="false" @left="$router.push('/lock/create')" />
 
         <div v-if="lockResult !== undefined">
-            <p v-if="lockResult === null" class="scb-none">{{ $t('LOCK.LOCK_NO_RECORD') }}</p>
+            <p v-if="lockResult === null" class="scb-none">{{ $t('LOCK.LOCK_NO_DATA') }}</p>
             <template v-else>
                 <header class="result">
                     <img src="../../../assets/images/result/result-success.png" :alt="$t('LOCK.LOCK_SUCCESS')" />

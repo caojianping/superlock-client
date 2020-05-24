@@ -1,5 +1,5 @@
 <template>
-    <div class="user-forget scb-gray">
+    <div class="scb-gray user-forget">
         <VerifyList
             v-model="isVerifyShow"
             :area-code="userForm.areaCode"

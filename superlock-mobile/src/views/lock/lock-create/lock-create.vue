@@ -1,6 +1,6 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
-        <div class="lock-create scb-gray">
+        <div class="scb-gray lock-create">
             <Header :title="$t('COMMON.LOCK')" @left="$router.push('/lock/intro')" />
 
             <div class="scb-form scb-separator">

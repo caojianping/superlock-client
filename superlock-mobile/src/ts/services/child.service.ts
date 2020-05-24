@@ -98,8 +98,8 @@ export class ChildService {
     public async setChildRemark(childUid: string, remark: string): Promise<boolean> {
         let key = 'remark',
             validator = new Validator();
-        validator.addRule(key, { name: 'childUid', value: childUid }, { required: true }, { required: i18n.tc('VALIDATES.')'下级成员UID不可以为空' });
-        validator.addRule(key, { name: 'remark', value: remark }, { required: true }, { required: i18n.tc('VALIDATES.')'下级成员备注不可以为空' });
+        validator.addRule(key, { name: 'childUid', value: childUid }, { required: true }, { required: i18n.tc('VALIDATES.CHILD_UID_NOT_NULL') });
+        validator.addRule(key, { name: 'remark', value: remark }, { required: true }, { required: i18n.tc('VALIDATES.CHILD_REMARK_NOT_NULL') });
 
         let result = validator.execute(key);
         if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));

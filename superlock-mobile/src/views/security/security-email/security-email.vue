@@ -1,6 +1,6 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
-        <div class="security-email scb-gray">
+        <div class="scb-gray security-email">
             <Header :title="$t('SECURITY.BIND_EMAIL')" @left="$router.push(from)" />
 
             <div class="scb-form scb-separator">

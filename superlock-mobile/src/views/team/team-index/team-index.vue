@@ -1,6 +1,6 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
-        <div class="team-index scb-gray scb-reserved">
+        <div class="scb-gray scb-reserved team-index">
             {{ ((userLockQuotaObj = userLockQuota || {}), void 0) }}
             <header class="team-header">
                 <Header title="$t('TEAM.TITLE01')" :is-border="false" @left="$router.push(from || '/mine/index')" />
@@ -22,7 +22,7 @@
             </div>
 
             <div v-if="childs" class="child-container">
-                <p v-if="childs.length <= 0" class="scb-none">{{ $t('TEAM.TEAM_NO_RECORD') }}</p>
+                <p v-if="childs.length <= 0" class="scb-none">{{ $t('TEAM.TEAM_NO_DATA') }}</p>
                 <List
                     v-else
                     class="child-list"

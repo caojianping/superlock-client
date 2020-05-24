@@ -1,6 +1,6 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
-        <div class="transfer-index scb-gray">
+        <div class="scb-gray transfer-index">
             <Header :title="$t('COMMON.TRANSFER')" is-right @left="$router.push('/asset/index')">
                 <router-link slot="right" to="/transfer/record">{{ $t('TRANSFER.TRANSFER_RECORD') }}</router-link>
             </Header>

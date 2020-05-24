@@ -38,7 +38,7 @@ export default class TransferDetail extends Vue {
     }
 
     mounted() {
-        Clipboard.copy('orderId', i18n.tc('COMMON.TRASACTION_ID'));
+        Clipboard.copy('orderId', i18n.tc('COMMON.TRANSACTION_ID'));
         Clipboard.copy('fromUid', i18n.tc('TRANSFER.FROM_UID'));
         Clipboard.copy('toUid', i18n.tc('TRANSFER.TO_UID'));
     }

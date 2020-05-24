@@ -6,7 +6,7 @@
             </Header>
 
             <div v-if="transactions" class="scb-separator">
-                <p v-if="transactions.length <= 0" class="scb-none">{{ $t('TRANSACTION.TRANSACTION_RECORD_NO_RECORD') }}</p>
+                <p v-if="transactions.length <= 0" class="scb-none">{{ $t('TRANSACTION.TRANSACTION_RECORD_NO_DATA') }}</p>
                 <List
                     v-else
                     v-model="isLoading"

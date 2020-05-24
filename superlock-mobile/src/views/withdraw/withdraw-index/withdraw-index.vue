@@ -1,6 +1,6 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
-        <div class="withdraw-index scb-gray">
+        <div class="scb-gray withdraw-index">
             <Header :title="$t('COMMON.WITHDRAW')" is-right @left="$router.push('/asset/index')">
                 <router-link slot="right" to="/withdraw/record">{{ $t('COMMON.DETAILS') }}</router-link>
             </Header>

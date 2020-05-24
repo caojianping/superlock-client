@@ -1,42 +1,50 @@
 {
     "COMMON": {
         "NAME": "BCB矿场",
+        "MONEY": "理财",
+        "ASSET": "资产",
+        "MINE": "我的",
         "RECHARGE": "充值",
         "WITHDRAW": "提现",
         "TRANSFER": "转账",
         "LOCK": "锁仓",
-        "MONEY": "理财",
-        "ASSET": "资产",
-        "MINE": "我的",
-        "EXCHANGE_RATE": "汇率",
-        "EXPECT_YEAR_RATE": "预期年化利率",
+        "LOCK_DETAIL": "锁仓详情",
         "RECHARGE_ADDRESS": "充值地址",
         "WITHDRAW_ADDRESS": "提现地址",
-        "LOCK_DETAIL": "锁仓详情",
+        "DETAILS": "明细",
+
+        "TRANSACTION_ID": "交易单号",
+        "TRANSACTION_HASH": "交易hash",
+        "EXCHANGE_RATE": "汇率",
+        "EXPECT_YEAR_RATE": "预期年化利率",
         "LOCK_AMOUNT": "锁仓金额",
         "CURRENT_LOCKABLE_QUOTA": "当前可锁仓额度",
-        "DETAILS": "明细",
-        "TRASACTION_ID": "交易单号",
-        "TRASACTION_HASH": "交易hash",
         "FUND_TYPE": "资金类型",
         "AVAILABLE_BALANCE": "可用余额",
         "REMARK": "备注",
         "STATUS": "状态",
         "BALANCE": "余额",
+
         "ALL": "全部",
         "CONFIRM": "确认",
         "CANCEL": "取消",
         "SAVE": "保存",
         "COMPLETE": "完成",
         "SETTING": "设置",
+
         "DEVELOPING": "正在开发中，敬请期待！",
         "INIT_NECAPTCHA": "不支持initNECaptcha",
         "SYSTEM_BUSY_RETRY_LATER": "系统繁忙，请稍后重试",
         "DATA_EXCEPTION": "数据异常",
+        "VERIFY_FETCH_FAILURE": "验证方式获取失败",
+
         "LOADING": "加载中...",
         "RECORD_LOADING": "记录加载中……",
         "RECORD_LOADED": "记录加载完毕",
         "REFRESH_SUCCESS": "刷新成功",
+
+        "FUND_PASSWORD": "资金密码",
+        "COPY_ADDRESS": "复制地址",
         "COPY_SUCCESS": "复制成功",
         "COPY_FAILURE": "复制失败",
         "GET_CODE": "获取验证码",
@@ -46,16 +54,14 @@
         "DAY": "天",
         "VALUE": "价值",
         "COUNTRY_AND_AREA": "国家和地区",
+
         "IMMEDIATELY_BIND_EMAIL": "为了您的账户安全请立刻绑定邮箱",
         "GO_BIND": "去绑定",
         "IMMEDIATELY_SET_RATE": "有新的锁仓项目，快去给下级设置利率吧",
         "GO_SETTING": "去设置",
         "SETTING_FUND01": "为保障您的资金安全，请先设置一下资金密码",
         "SETTING_FUND02": "'您未设置资金密码，请先设置资金密码'",
-        "ENTER_FUND_AND_AUTH": "请输入资金密码，进行身份认证",
-        "VERIFY_FETCH_FAILURE": "验证方式获取失败",
-        "COPY_ADDRESS": "复制地址",
-        "FUND_PASSWORD": "资金密码"
+        "ENTER_FUND_AND_AUTH": "请输入资金密码，进行身份认证"
     },
     "USER": {
         "CONTACT_SERVICE": "联系客服",
@@ -107,20 +113,16 @@
         "TOTAL_ASSET": "总资产",
         "YESTERDAY_EARNINGS": "昨日收益",
         "TOTAL_EARNINGS": "总收益",
-        "TAB01": "资产总账",
-        "TAB02": "我的锁仓",
-        "TAB03": "我的贷款",
-        "TAB04": "推广奖励",
-        "LOCK_NO_RECORD": "暂无锁仓记录，快去<router-link class='scb-link' to='/home/index'>创建锁仓</router-link>吧！",
-        "LOAN_NO_RECORD": "暂无贷款记录",
+        "ASSET_TABS": "资产总账 | 我的锁仓 | 我的贷款 | 推广奖励",
         "PUSH_REWARD": "直推奖励",
         "LOCK_REWARD": "团队锁仓奖励",
         "PROMOTE_REWARD": "推广解锁奖励",
         "SALES_REWARD": "销量达标奖励",
-        "REWARD_NO_RECORD": "暂无奖励记录",
-        "VALUE": "价值",
         "REWARD": "奖励",
-        "REACH_TRIGGER_AMOUNT": "达标触发数量"
+        "REACH_TRIGGER_AMOUNT": "达标触发数量",
+        "LOCK_NO_DATA": "暂无锁仓记录，快去<router-link class='scb-link' to='/home/index'>创建锁仓</router-link>吧！",
+        "LOAN_NO_DATA": "暂无贷款记录",
+        "REWARD_NO_DATA": "暂无奖励记录"
     },
     "MINE": {
         "TEAM_MGMT": "团队管理",
@@ -165,9 +167,9 @@
         "RECHARGE_AMOUNT": "充值数量",
         "RECHARGE_RATE": "充值汇率",
         "TO_ACCOUNT": "到账",
-        "RECHARGE_NO_RECORD": "暂无充值数据",
-        "RECHARGE_ADDRESS_NO_RECORD": "暂无充值地址数据",
-        "RECHARGE_RECORD_NO_RECORD": "暂无充值记录，快去<router-link class='scb-link' to='/asset/index'>充值</router-link>吧！",
+        "RECHARGE_NO_DATA": "暂无充值数据",
+        "RECHARGE_ADDRESS_NO_DATA": "暂无充值地址数据",
+        "RECHARGE_RECORD_NO_DATA": "暂无充值记录，快去<router-link class='scb-link' to='/asset/index'>充值</router-link>吧！",
 
         "SELECT_COIN_TYPE": "请选择要充值的币种类型",
         "PROMPT": "所有转入的币种都将转换为BCB，请注意币种之间实时汇率波动",
@@ -191,17 +193,20 @@
         "MODIFY_WITHDRAW_ADDRESS": "修改提现地址",
         "WALLET_NAME": "钱包名称",
         "WALLET_ADDRESS": "钱包地址",
-        "WITHDRAW_SUCCESS": "提现成功",
-        "WITHDRAW_FAILURE": "提现失败",
         "RESULT_PROMPT01": "请确认提现地址",
         "RESULT_PROMPT02": "是否到账",
         "ADDRESS_PROMPT": "绑定的地址必须是BCB钱包地址",
         "ADD_ADDRESS_PROMPT": "还没有添加提现地址，赶紧去添加吧",
-        "WITHDRAW_NO_RECORD": "暂无提现数据",
-        "WITHDRAW_RECORD_NO_RECORD": "暂无提现记录，快去<router-link class='scb-link' to='/asset/index'>提现</router-link>吧！",
-        "WITHDRAW_ADDRESS_NO_RECORD": "暂无提现地址，快去<a class='scb-link' href='javascript: void(0)' @click='penWithdrawSetting'>添加地址</a>吧！",
+
+        "WITHDRAW_SUCCESS": "提现成功",
+        "WITHDRAW_FAILURE": "提现失败",
+
         "WITHDRAW_ADDRESS_ADD_SUCCESS": "提现地址添加成功",
-        "WITHDRAW_ADDRESS_ADD_FAILURE": "提现地址添加失败"
+        "WITHDRAW_ADDRESS_ADD_FAILURE": "提现地址添加失败",
+
+        "WITHDRAW_NO_DATA": "暂无提现数据",
+        "WITHDRAW_RECORD_NO_DATA": "暂无提现记录，快去<router-link class='scb-link' to='/asset/index'>提现</router-link>吧！",
+        "WITHDRAW_ADDRESS_NO_DATA": "暂无提现地址，快去<a class='scb-link' href='javascript: void(0)' @click='penWithdrawSetting'>添加地址</a>吧！"
     },
     "TRANSFER": {
         "TRANSFER_RECORD": "转账记录",
@@ -216,12 +221,14 @@
         "TRANSFER_AMOUNT": "转账数量",
         "TRANSFER_TIME": "转账时间",
         "TRANSFER_CHILDS": "我的下级",
-        "TRANSFER_SUCCESS": "转账成功",
-        "TRANSFER_FAILURE": "转账失败",
         "TRANSFER_COMPLETE": "转账完成",
         "RESULT_PROMPT": "请确认是否到账",
-        "TRANSFER_NO_RECORD": "暂无转账数据",
-        "TRANSFER_RECORD_NO_RECORD": "暂无转账记录，快去<router-link class='scb-link' to='/transfer/index'>转账</router-link>吧！"
+
+        "TRANSFER_SUCCESS": "转账成功",
+        "TRANSFER_FAILURE": "转账失败",
+
+        "TRANSFER_NO_DATA": "暂无转账数据",
+        "TRANSFER_RECORD_NO_DATA": "暂无转账记录，快去<router-link class='scb-link' to='/transfer/index'>转账</router-link>吧！"
     },
     "LOCK": {
         "INTRO": "利率稳定不变 到期自动解锁",
@@ -263,8 +270,9 @@
         "INTEREST_RECORD": "收益记录",
         "RETURN_HOME": "返回理财首页",
         "LOCK_PROMPT": "今日锁仓，明日可获得收益",
-        "LOCK_NO_RECORD": "暂无锁仓信息",
-        "LOCK_INTEREST_NO_RECORD": "暂无锁仓收益"
+
+        "LOCK_NO_DATA": "暂无锁仓信息",
+        "LOCK_INTEREST_NO_DATA": "暂无锁仓收益"
     },
     "LOAN": {
         "TITLE01": "锁仓质押贷",
@@ -328,9 +336,10 @@
         "LOAN_ANSWER03": "如果未到期的锁仓项目锁仓金额太小，或锁仓即将到期，这个时候是无法申请贷款的。",
         "LOAN_QUESTION04": "4.提现还贷是否需要赔息？",
         "LOAN_ANSWER04": "支持随借随还，提前还贷无需赔息。",
-        "LOCK_PROJECT_NO_RECORD": "暂无锁仓项目",
-        "LOAN_NO_RECORD": "暂无贷款数据",
-        "LOAN_INTEREST_NO_RECORD": "暂无贷款利息"
+
+        "LOCK_PROJECT_NO_DATA": "暂无锁仓项目",
+        "LOAN_NO_DATA": "暂无贷款数据",
+        "LOAN_INTEREST_NO_DATA": "暂无贷款利息"
     },
     "TEAM": {
         "TITLE01": "团队成员",
@@ -349,8 +358,8 @@
         "CHILD_SETTING_FAILURE": "下级备注设置失败",
         "SETTING_SUCCESS": "设置成功",
         "SETTING_FAILURE": "设置失败",
-        "TEAM_NO_RECORD": "暂无团队成员",
-        "TEAM_CHILD_NO_RECORD": "暂无下级成员数据"
+        "TEAM_NO_DATA": "暂无团队成员",
+        "TEAM_CHILD_NO_DATA": "暂无下级成员数据"
     },
     "TRANSACTION": {
         "TRANSACTION_DETAILS": "资金明细",
@@ -361,8 +370,8 @@
         "TRANSACTION_AMOUNT": "交易数量",
         "FILTER": "筛选",
         "BILL_CLASSIFY": "账单分类",
-        "TRANSACTION_NO_RECORD": "暂无资金数据",
-        "TRANSACTION_RECORD_NO_RECORD": "暂无资金记录"
+        "TRANSACTION_NO_DATA": "暂无资金数据",
+        "TRANSACTION_RECORD_NO_DATA": "暂无资金记录"
     },
     "SECURITY": {
         "LOGIN_PASSWORD": "登录密码",

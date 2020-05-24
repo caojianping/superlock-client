@@ -4,17 +4,17 @@
 
         <div v-if="recharge !== undefined" class="scb-separator">
             <div v-if="recharge === null" class="scb-none">
-                <img src="../../../assets/images/empty.png" :alt="$t('RECHARGE.RECHARGE_NO_RECORD')" />
-                <p>{{ $t('RECHARGE.RECHARGE_NO_RECORD') }}</p>
+                <img src="../../../assets/images/empty.png" :alt="$t('RECHARGE.RECHARGE_NO_DATA')" />
+                <p>{{ $t('RECHARGE.RECHARGE_NO_DATA') }}</p>
             </div>
             <CellGroup v-else class="priority-value">
-                <Cell :title="$t('COMMON.TRASACTION_ID')">
+                <Cell :title="$t('COMMON.TRANSACTION_ID')">
                     <p class="scb-copy" id="orderId" :data-clipboard-text="recharge.orderId">
                         <span>{{ recharge.orderId }}</span>
                         <i class="icon icon-copy" />
                     </p>
                 </Cell>
-                <Cell :title="$t('COMMON.TRASACTION_HASH')">
+                <Cell :title="$t('COMMON.TRANSACTION_HASH')">
                     <p class="scb-copy" id="txhash" :data-clipboard-text="recharge.txhash">
                         <span>{{ recharge.txhash }}</span>
                         <i class="icon icon-copy" />

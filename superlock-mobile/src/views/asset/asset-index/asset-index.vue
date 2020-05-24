@@ -1,6 +1,6 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
-        <div class="asset-index scb-reserved scb-gray">
+        <div class="scb-gray scb-reserved asset-index">
             {{ ((assetStatsObj = assetStats || {}), void 0) }}
             {{ ((earningsStatsObj = earningsStats || {}), void 0) }}
             <header class="asset-header">
@@ -35,7 +35,7 @@
             {{ ((rateStr = `1 ${rateObj.fromCoin || '--'} = ${rateObj.rate || '--'} ${rateObj.toCoin || '--'}`), void 0) }}
             <Tabs class="asset-tabs" v-model="activeTab" animated swipeable @change="handleTabsChange">
                 <Tab>
-                    <span slot="title">{{ $t('ASSET.TAB01') }}</span>
+                    <span slot="title">{{ $tc('ASSET.ASSET_TABS', 0) }}</span>
                     <div class="tab-panel">
                         <h1 class="tab-title scb-border">
                             <i class="icon icon-exchange-rate" />
@@ -53,7 +53,7 @@
                 </Tab>
 
                 <Tab>
-                    <span slot="title">{{ $t('ASSET.TAB02') }}</span>
+                    <span slot="title">{{ $tc('ASSET.ASSET_TABS', 1) }}</span>
                     <div class="tab-panel">
                         <h1 class="tab-title scb-border">
                             <i class="icon icon-exchange-rate" />
@@ -62,7 +62,7 @@
                         <div class="tab-content">
                             <Spin :is-spinning="isLocksSpinning" position="top" />
                             <template v-if="locks">
-                                <p v-if="locks.length <= 0" class="scb-none" v-html="$t('ASSET.LOCK_NO_RECORD')" />
+                                <p v-if="locks.length <= 0" class="scb-none" v-html="$t('ASSET.LOCK_NO_DATA')" />
                                 <CellGroup v-else class="locks priority-title">
                                     <Cell v-for="(lock, index) in locks" :key="index" is-link @click="goLockDetail(lock)">
                                         <template slot="title">
@@ -86,7 +86,7 @@
                 </Tab>
 
                 <Tab>
-                    <span slot="title">{{ $t('ASSET.TAB03') }}</span>
+                    <span slot="title">{{ $tc('ASSET.ASSET_TABS', 2) }}</span>
                     <div class="tab-panel">
                         <h1 class="tab-title scb-border">
                             <i class="icon icon-exchange-rate" />
@@ -95,7 +95,7 @@
                         <div class="tab-content">
                             <Spin :is-spinning="isLoansSpinning" position="top" />
                             <template v-if="loans">
-                                <p v-if="loans.length <= 0" class="scb-none">{{ $t('ASSET.LOAN_NO_RECORD') }}</p>
+                                <p v-if="loans.length <= 0" class="scb-none">{{ $t('ASSET.LOAN_NO_DATA') }}</p>
                                 <CellGroup v-else class="loans priority-title">
                                     <Cell v-for="(loan, index) in loans" :key="index" is-link @click="goLoanDetail(loan)">
                                         <template slot="title">
@@ -116,7 +116,7 @@
                 </Tab>
 
                 <Tab>
-                    <span slot="title">{{ $t('ASSET.TAB04') }}</span>
+                    <span slot="title">{{ $tc('ASSET.ASSET_TABS', 3) }}</span>
                     <div class="tab-panel">
                         <h1 class="tab-title scb-border">
                             <i class="icon icon-exchange-rate" />

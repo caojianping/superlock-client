@@ -4,7 +4,7 @@
             <Header :title="$t('WITHDRAW.WITHDRAW_RECORD')" @left="$router.push('/withdraw/index')" />
 
             <div v-if="withdraws" class="scb-separator">
-                <p v-if="withdraws.length <= 0" class="scb-none" v-html="$t('WITHDRAW.WITHDRAW_RECORD_NO_RECORD')" />
+                <p v-if="withdraws.length <= 0" class="scb-none" v-html="$t('WITHDRAW.WITHDRAW_RECORD_NO_DATA')" />
                 <List
                     v-else
                     v-model="isLoading"

@@ -4,11 +4,11 @@
 
         <div v-if="transaction !== undefined" class="scb-separator">
             <div v-if="transaction === null" class="scb-none">
-                <img src="../../../assets/images/empty.png" :alt="$t('TRANSACTION.TRANSACTION_NO_RECORD')" />
-                <p>{{ $t('TRANSACTION.TRANSACTION_NO_RECORD') }}</p>
+                <img src="../../../assets/images/empty.png" :alt="$t('TRANSACTION.TRANSACTION_NO_DATA')" />
+                <p>{{ $t('TRANSACTION.TRANSACTION_NO_DATA') }}</p>
             </div>
             <CellGroup v-else class="priority-value">
-                <Cell :title="$t('COMMON.TRASACTION_ID')">
+                <Cell :title="$t('COMMON.TRANSACTION_ID')">
                     <p class="scb-copy" id="orderId" :data-clipboard-text="transaction.orderId">
                         <span>{{ transaction.orderId }}</span>
                         <i class="icon icon-copy" />
@@ -16,7 +16,7 @@
                 </Cell>
 
                 <template v-if="type === 0">
-                    <Cell :title="$t('COMMON.TRASACTION_HASH')"> :value="transaction.txhash" />
+                    <Cell :title="$t('COMMON.TRANSACTION_HASH')" :value="transaction.txhash" />
                     <Cell :title="$t('RECHARGE.RECHARGE_TIME')" :value="transaction.createTime | dateFormat" />
                     <Cell :title="$t('RECHARGE.RECHARGE_COIN')" :value="transaction.payCoin" />
                     <Cell :title="$t('RECHARGE.RECHARGE_AMOUNT')" :value="transaction.payAmount" />
@@ -31,7 +31,7 @@
                     <Cell :title="$t('TRANSFER.TRANSFER_TIME')" :value="transaction.createTime | dateFormat" />
                 </template>
                 <template v-else-if="type === 20">
-                    <Cell :title="$t('COMMON.TRASACTION_HASH')" :value="transaction.txhash" />
+                    <Cell :title="$t('COMMON.TRANSACTION_HASH')" :value="transaction.txhash" />
                     <Cell :title="$t('WITHDRAW.WITHDRAW_TIME')" :value="transaction.createTime | dateFormat" />
                     <Cell :title="$t('WITHDRAW.WITHDRAW_COIN')" :value="transaction.coin" />
                     <Cell :title="$t('WITHDRAW.WITHDRAW_AMOUNT')" :value="transaction.amount" />

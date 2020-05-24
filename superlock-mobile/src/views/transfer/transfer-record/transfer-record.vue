@@ -4,7 +4,7 @@
             <Header :title="$t('TRANSFER.TRANSFER_RECORD')" @left="$router.push('/transfer/index')" />
 
             <div v-if="transfers" class="scb-separator">
-                <p v-if="transfers.length <= 0" class="scb-none" v-html="$t('TRANSFER.TRANSFER_RECORD_NO_RECORD')" />
+                <p v-if="transfers.length <= 0" class="scb-none" v-html="$t('TRANSFER.TRANSFER_RECORD_NO_DATA')" />
                 <List
                     v-else
                     v-model="isLoading"

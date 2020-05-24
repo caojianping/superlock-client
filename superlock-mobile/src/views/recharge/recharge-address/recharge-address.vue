@@ -4,7 +4,7 @@
             <Header :title="$t('COMMON.RECHARGE_ADDRESS')" @left="$router.push('/mine/index')" />
 
             <div v-if="rechargeCoins" class="scb-separator">
-                <p v-if="rechargeCoins.length <= 0" class="scb-none">{{ $t('RECHARGE.RECHARGE_ADDRESS_NO_RECORD') }}</p>
+                <p v-if="rechargeCoins.length <= 0" class="scb-none">{{ $t('RECHARGE.RECHARGE_ADDRESS_NO_DATA') }}</p>
                 <CellGroup v-else>
                     <Cell v-for="(rechargeCoin, index) in rechargeCoins" :key="index" is-link @click="goCode(rechargeCoin)">
                         <div class="flex" slot="title">
