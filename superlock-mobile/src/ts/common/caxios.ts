@@ -128,8 +128,7 @@ export class Caxios {
         if (!result) throw new BusinessError(9999, i18n.tc('CODES.9999'));
 
         let code: number = result.code,
-            data: any = result.data,
-            message: string = result.message;
+            data: any = result.data;
         if (code === 0) return data as T;
         else if (code === ResponseCode.TokenExpired) {
             Token.removeTokenInfo();
@@ -138,7 +137,7 @@ export class Caxios {
             // 登录页面，Router.push会报NavigatorDuplicated异常，提示在UI层处理
             let hash = window.location.hash;
             if (hash.indexOf('/user/login') < 0) {
-                Prompt.error(message);
+                Prompt.error(i18n.tc(`CODES.${code}`));
                 Router.push({ path: '/user/login' });
                 return Promise.reject('');
             } else {

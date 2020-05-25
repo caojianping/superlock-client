@@ -6,12 +6,13 @@ import { ValidationResult } from 'jpts-validator';
 import Locales from '@/locales';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
-import { CONSTANTS, UserFormType, ForgetType, VerifyType } from '@/ts/config';
+import { UserFormType, ForgetType, VerifyType } from '@/ts/config';
 import { Prompt, Captcha } from '@/ts/common';
 import { UserFormModel, VerifyResult } from '@/ts/models';
 import { UserService } from '@/ts/services';
 
 import { Cell, Button, Toast } from 'vant';
+import ContactService from '@/components/common/contact-service';
 import Langs from '@/components/common/langs';
 import UserForm from '@/components/user/user-form';
 import VerifyModal from '@/components/verify/verify-modal';
@@ -21,7 +22,7 @@ const userModule = namespace('user');
 
 @Component({
     name: 'UserLogin',
-    components: { Cell, Button, Langs, UserForm, VerifyModal }
+    components: { Cell, Button, ContactService, Langs, UserForm, VerifyModal }
 })
 export default class UserLogin extends Vue {
     @State('verifyResult') verifyResult?: VerifyResult | null;
@@ -37,11 +38,6 @@ export default class UserLogin extends Vue {
     captcha: any = null; // 云盾短信验证码实例
     invitationCode: string = ''; // 邀请码
     isVerifyShow: boolean = false; // 是否显示验证模态框组件
-
-    // 跳转至客服页面
-    goCustomerService() {
-        window.location.href = CONSTANTS.CUSTOMER_SERVICE;
-    }
 
     // 处理UserForm组件change事件
     handleUserFormChange(userForm: UserFormModel) {
@@ -140,8 +136,7 @@ export default class UserLogin extends Vue {
 
     // 初始化数据
     initData() {
-        let code = Utils.resolveParameters('code');
-        this.invitationCode = code;
+        this.invitationCode = Utils.resolveParameters('code');
         this.setStates({ userForm: new UserForm() });
     }
 

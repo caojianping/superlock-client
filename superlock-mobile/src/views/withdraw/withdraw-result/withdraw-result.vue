@@ -9,7 +9,7 @@
             <h2>{{ title }}</h2>
             <p v-if="type === 0">{{ msg }}</p>
             <template v-else-if="type === 1">
-                <p>{{ $tc('WITHDRAW.RESULT_PROMPT', { address: address }) }}</p>
+                <p>{{ $t('WITHDRAW.RESULT_PROMPT', { address: address }) }}</p>
                 <h3>
                     <i class="icon icon-bcb" />
                     <span>{{ amount }} BCB</span>

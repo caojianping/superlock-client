@@ -29,7 +29,15 @@ const rootState: IRootState = {
     exchangeRate: undefined,
 
     unitTypes: [i18n.tc('ARRAY.UNIT_TYPES.0'), i18n.tc('ARRAY.UNIT_TYPES.1'), i18n.tc('ARRAY.UNIT_TYPES.2')],
-    rateTypes: [i18n.tc('ARRAY.RATE_TYPES.0'), i18n.tc('ARRAY.RATE_TYPES.1'), i18n.tc('ARRAY.RATE_TYPES.2')]
+    rateTypes: [i18n.tc('ARRAY.RATE_TYPES.0'), i18n.tc('ARRAY.RATE_TYPES.1'), i18n.tc('ARRAY.RATE_TYPES.2')],
+    dataStatuses: new Map([
+        ['失败', i18n.tc('COMMON.FAILURE')],
+        ['成功', i18n.tc('COMMON.SUCCESS')]
+    ]),
+    fundTypes: new Map([
+        ['收入', i18n.tc('COMMON.INCOME')],
+        ['支出', i18n.tc('COMMON.EXPENDITURE')]
+    ])
 };
 
 const commonService = new CommonService();

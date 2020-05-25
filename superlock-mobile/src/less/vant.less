@@ -37,11 +37,11 @@
 
     // 间距小的单元格分组
     &.space-large > .van-cell {
-        padding: 2.25rem 2.5rem 1rem;
+        padding: 2.25rem 2.125rem 1rem;
 
         &:not(:last-child)::after {
-            right: 2.5rem;
-            left: 2.5rem;
+            right: 2.125rem;
+            left: 2.125rem;
         }
     }
 
@@ -67,11 +67,15 @@
 }
 
 .van-field.code {
+    &::after {
+        left: 0;
+    }
+
     .van-field__control {
         flex: 7;
     }
 
     .van-field__button {
-        flex: 3;
+        flex: 2.25;
     }
 }

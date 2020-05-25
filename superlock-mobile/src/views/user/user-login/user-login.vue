@@ -1,13 +1,10 @@
 <template>
     <div class="login">
-        <div class="contact-service" @click="goCustomerService">
-            <i class="icon icon-service-inverse" />
-            <span>{{ $t('USER.CONTACT_SERVICE') }}</span>
-        </div>
+        <ContactService />
 
         <Langs />
 
-        <header>
+        <header class="login-header">
             <img src="../../../assets/images/logo.png" :alt="$t('COMMON.NAME')" />
             <h1>{{ $t('USER.WELCOME') }}</h1>
         </header>
@@ -18,7 +15,7 @@
             </Cell>
         </UserForm>
 
-        <p>
+        <p class="login-toolbar">
             <router-link :to="`/user/register?code=${invitationCode}`">{{ $t('USER.REGISTER') }}</router-link>
             <span>|</span>
             <a href="javascript: void(0)" @click="goForget">{{ $t('USER.FORGET_PASSWORD') }}</a>

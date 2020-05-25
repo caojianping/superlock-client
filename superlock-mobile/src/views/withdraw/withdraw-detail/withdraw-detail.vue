@@ -24,10 +24,10 @@
                 <Cell :title="$t('WITHDRAW.WITHDRAW_COIN')" :value="withdraw.coin" />
                 <Cell :title="$t('WITHDRAW.WITHDRAW_AMOUNT')" :value="withdraw.amount" />
                 <Cell :title="$t('COMMON.WITHDRAW_ADDRESS')" :value="withdraw.toAddress" />
-                <Cell :title="$t('COMMON.FUND_TYPE')" :value="withdraw.capitalType" />
+                <Cell :title="$t('COMMON.FUND_TYPE')" :value="fundTypes.get(withdraw.capitalType)" />
                 <Cell :title="$t('COMMON.AVAILABLE_BALANCE')" :value="`${withdraw.balance} ${withdraw.balanceCoin}`" />
                 <Cell :title="$t('COMMON.REMARK')" :value="withdraw.memo" />
-                <Cell :title="$t('COMMON.STATUS')" :value="withdraw.statusRemark" />
+                <Cell :title="$t('COMMON.STATUS')" :value="dataStatuses.get(withdraw.statusRemark)" />
             </CellGroup>
         </div>
     </div>

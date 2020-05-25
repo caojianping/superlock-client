@@ -38,17 +38,20 @@
                     <Cell :title="$t('COMMON.WITHDRAW_ADDRESS')" :value="transaction.toAddress" />
                 </template>
                 <template v-else>
-                    <Cell :title="$t('TRANSACTION.TRANSACTION_TYPE')" :value="transaction.typeRemark" />
+                    <Cell :title="$t('TRANSACTION.TRANSACTION_TYPE')" :value="$t(`TRANSACTION.TRANSACTION_TYPES.${type}`)" />
                     <Cell :title="$t('TRANSACTION.TRANSACTION_TIME')" :value="transaction.createTime | dateFormat" />
                     <Cell :title="$t('TRANSACTION.TRANSACTION_COIN')" :value="transaction.coin" />
                     <Cell :title="$t('TRANSACTION.TRANSACTION_AMOUNT')" :value="transaction.amount" />
-                    <Cell :title="$t('COMMON.EXCHANGE_RATE')" :value="`1 ${transaction.coin} = ${transaction.exchangeRate} ${transaction.valuationCoin}`" />
+                    <Cell
+                        :title="$t('COMMON.EXCHANGE_RATE')"
+                        :value="`1 ${transaction.coin} = ${transaction.exchangeRate} ${transaction.valuationCoin}`"
+                    />
                 </template>
 
-                <Cell :title="$t('COMMON.FUND_TYPE')" :value="transaction.capitalType" />
+                <Cell :title="$t('COMMON.FUND_TYPE')" :value="fundTypes.get(transaction.capitalType)" />
                 <Cell :title="$t('COMMON.AVAILABLE_BALANCE')" :value="`${transaction.balance} ${transaction.balanceCoin}`" />
                 <Cell :title="$t('COMMON.REMARK')" :value="transaction.memo" />
-                <Cell :title="$t('COMMON.STATUS')" :value="transaction.statusRemark" />
+                <Cell :title="$t('COMMON.STATUS')" :value="dataStatuses.get(transaction.statusRemark)" />
             </CellGroup>
         </div>
     </div>
