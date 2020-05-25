@@ -141,7 +141,7 @@ export default class WithdrawIndex extends Vue {
     async refreshData() {
         await this.fetchData(true);
         this.isPulling = false;
-        Toast(i18n.t('COMMON.REFRESH_SUCCESS'));
+        Toast(i18n.tc('COMMON.REFRESH_SUCCESS'));
     }
 
     mounted() {

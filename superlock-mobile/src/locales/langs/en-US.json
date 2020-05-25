@@ -40,8 +40,12 @@
         "REFRESH_SUCCESS": "Refresh successful",
         "FUND_PASSWORD": "Fund password",
         "COPY_ADDRESS": "Copy address",
-        "COPY_SUCCESS": "Copy successful",
-        "COPY_FAILURE": "Copy failed",
+        "COPY_SUCCESS": " Copy successful",
+        "COPY_FAILURE": " Copy failed",
+        "SUCCESS": "Success",
+        "FAILURE": "Failure",
+        "INCOME": "Income",
+        "EXPENDITURE": "Expenditure",
         "GET_CODE": "Get code",
         "SEND_FAILURE": "Send failed",
         "SECOND": "Second",
@@ -100,7 +104,9 @@
         "OPTIMIZE_TITLE22": "It doesn't matter that BCB has reduced the price. We have guaranteed it for you.Lock up the capital of the room, worthy of your attention!Buy BCB whole journey without worry!Property in southeast Asia!",
         "JOIN_US": "Join us",
         "TOTAL_REGISTER_COUNT": "Accumulated registered users(human)",
-        "TOTAL_DEAL_VALUE": "Accumulated transactions"
+        "TOTAL_DEAL_VALUE": "Accumulated transactions",
+        "HUMAN": "human",
+        "TEN_THOUSAND": "Ten thousand"
     },
     "ASSET": {
         "TOTAL_ASSET": "Total income ",
@@ -279,7 +285,7 @@
         "MAX_LOANABLE": "Maximum loan {amount} {coin}",
         "EXPECT_LOANABLE_TIME": "Estimated loanable time",
         "MAX_LOANABLE_TIME": "Maximum loan time {time} days",
-        "APPLY_PROMPT01": "1. The estimated audit time is 3&#8211;7 working days, and the actual result is subject to the audit confirmation time.",
+        "APPLY_PROMPT01": "1. The estimated audit time is 3~7 working days, and the actual result is subject to the audit confirmation time.",
         "APPLY_PROMPT02": "2. After the approval, the loan will be converted into BCB and transferred to your account according to the current BCB: DC exchange rate.",
         "SUBMIT_APPLY": "Submit application",
         "SUBMIT_RESULT": "Application results",
@@ -358,6 +364,21 @@
         "TRANSACTION_AMOUNT": "Trade amount",
         "FILTER": "Filter",
         "BILL_CLASSIFY": "Bill category",
+        "TRANSACTION_TYPES": {
+            "1000": "All",
+            "110": "Loan origination",
+            "100": "Repayment",
+            "80": "Stake expiry",
+            "70": "Friend unstake rewards",
+            "61": "Team stake rewards",
+            "60": "Stake yield",
+            "50": "Sales target rewards",
+            "40": "Referral rewards",
+            "30": "Stake",
+            "20": "Withdraw",
+            "10": "Transfer",
+            "0": "Charge"
+        },
         "TRANSACTION_NO_DATA": "No fund data",
         "TRANSACTION_RECORD_NO_DATA": "No fund records"
     },
@@ -398,14 +419,15 @@
             "0": "Order creation",
             "1": "Order processing",
             "2": "In the draw",
-            "3": "Stake expiry",
-            "4": "Stake failure",
-            "5": "Pledging"
+            "3": "Loan review",
+            "4": "Stake expiry",
+            "5": "Stake failure",
+            "6": "Pledging"
         },
         "LOAN_FLAGS": {
-            "0": "可质押",
-            "1": "锁仓金额太小，无法质押",
-            "2": "锁仓即将到期，无法质押"
+            "0": "Can be pledged",
+            "1": "Stake amount is too small, unable to pledge",
+            "2": "Stake is expiring soon, unable to pledge"
         },
         "LOAN_STATUSES": {
             "0": "Under review",
@@ -491,7 +513,7 @@
         "ENTER_TO_UID": "Please enter recipient's UID",
         "ENTER_TRANSFER_AMOUNT": "Please enter transfer amount",
         "ENTER_TRANSFER_REMARK": "Please enter transfer remark",
-        "ENTER_EXPECT_LOAN_TIME": "Please enter estimated loanable time",
+        "ENTER_EXPECT_LOAN_TIME": "Estimated loanable time",
         "ENTER_CHILD_REMARK": "Please enter invited friend's remark",
         "ENTER_OLD_PASSWORD": "Please enter old password",
         "ENTER_NEW_PASSWORD": "Please enter new password",

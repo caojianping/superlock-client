@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { namespace } from 'vuex-class';
+import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { SessionStorage } from 'jts-storage';
 
@@ -20,6 +20,9 @@ const transferModule = namespace('transfer');
     components: { CellGroup, Cell, Header }
 })
 export default class TransferDetail extends Vue {
+    @State('dataStatuses') dataStatuses!: Map<string, string>;
+    @State('fundTypes') fundTypes!: Map<string, string>;
+
     @transferModule.State('transfer') transfer?: TransferModel | null;
     @transferModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @transferModule.Mutation(TYPES.CLEAR_STATES) clearStates!: (withoutSelected: boolean) => any;

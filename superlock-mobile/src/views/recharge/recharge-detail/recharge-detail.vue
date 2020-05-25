@@ -25,10 +25,10 @@
                 <Cell :title="$t('RECHARGE.RECHARGE_AMOUNT')" :value="recharge.payAmount" />
                 <Cell :title="$t('RECHARGE.RECHARGE_RATE')" :value="`1${recharge.payCoin} = ${recharge.exchangeRate}BCB`" />
                 <Cell :title="$t('RECHARGE.TO_ACCOUNT')" :value="`${recharge.gotAmount} ${recharge.gotCoin}`" />
-                <Cell :title="$t('COMMON.FUND_TYPE')" :value="recharge.capitalType" />
+                <Cell :title="$t('COMMON.FUND_TYPE')" :value="fundTypes.get(recharge.capitalType)" />
                 <Cell :title="$t('COMMON.AVAILABLE_BALANCE')" :value="`${recharge.balance} ${recharge.balanceCoin}`" />
                 <Cell :title="$t('COMMON.REMARK')" :value="recharge.memo" />
-                <Cell :title="$t('COMMON.STATUS')" :value="recharge.statusRemark" />
+                <Cell :title="$t('COMMON.STATUS')" :value="dataStatuses.get(recharge.statusRemark)" />
             </CellGroup>
         </div>
     </div>

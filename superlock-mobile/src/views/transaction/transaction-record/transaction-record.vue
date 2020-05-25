@@ -23,7 +23,7 @@
                             :to="`/transaction/detail/${transaction.type}/${transaction.orderId}`"
                         >
                             <div slot="title">
-                                <h2>{{ transaction.remark || '' }}</h2>
+                                <h2>{{ $t(`TRANSACTION.TRANSACTION_TYPES.${transaction.type}`) }}</h2>
                                 <p>{{ transaction.createTime | dateFormat }}</p>
                             </div>
                             <div slot="default">

@@ -40,10 +40,12 @@
                             <div slot="title">
                                 <h2>{{ child.nickName }}</h2>
                                 <h3>{{ `UID:${child.uid}` }}</h3>
-                                <p v-if="child.rateSetRemind" class="flex">
+                                <div v-if="child.rateSetRemind" class="tip">
                                     <i class="icon icon-pset" />
-                                    <span>{{ $t('TEAM.UNSETTING_PROMPT') }}</span>
-                                </p>
+                                    <p class="flex-middle">
+                                        <span>{{ $t('TEAM.UNSETTING_PROMPT') }}</span>
+                                    </p>
+                                </div>
                             </div>
                             <div>
                                 <h3>{{ $t('TEAM.TOTAL_PROMOTE_LOCK') }}</h3>

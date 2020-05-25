@@ -62,6 +62,8 @@ export interface IRootState {
 
     unitTypes: Array<string>; // 单位类型
     rateTypes: Array<string>; // 利率类型
+    dataStatuses: Map<string, string>; // 状态
+    fundTypes: Map<string, string>; // 资金类型
 }
 
 // 用户状态接口

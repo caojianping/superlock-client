@@ -7,7 +7,11 @@
 
             <ul class="clearfix">
                 <li v-for="(item, index) in transactionTypes" :key="index">
-                    <Button :type="item.type === transactionType.type ? 'primary' : 'default'" @click="chooseType(item)">{{ item.remark }}</Button>
+                    <Button :type="item.type === transactionType.type ? 'primary' : 'default'" @click="chooseType(item)">
+                        <p class="flex-middle">
+                            <span>{{ $t(`TRANSACTION.TRANSACTION_TYPES.${item.type}`) }}</span>
+                        </p>
+                    </Button>
                 </li>
             </ul>
         </div>

@@ -23,7 +23,7 @@ export class SecurityService {
                 { required: true, password: true },
                 {
                     required: i18n.tc('VALIDATES.OLD_PASSWORD_NOT_NULL'),
-                    password: i18n.t('VALIDATES.PASSWORD_FORMAT_PROMPT')
+                    password: i18n.tc('VALIDATES.PASSWORD_FORMAT_PROMPT')
                 }
             );
         }
@@ -33,7 +33,7 @@ export class SecurityService {
             { required: true, password: true },
             {
                 required: i18n.tc('VALIDATES.NEW_PASSWORD_NOT_NULL'),
-                password: i18n.t('VALIDATES.PASSWORD_FORMAT_PROMPT')
+                password: i18n.tc('VALIDATES.PASSWORD_FORMAT_PROMPT')
             }
         );
         validator.addRule(

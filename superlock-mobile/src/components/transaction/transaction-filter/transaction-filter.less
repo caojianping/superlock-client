@@ -24,6 +24,18 @@
                     padding: 0;
                     .text-ellipse(88%);
                     border-radius: 0.25rem;
+
+                    .flex-middle {
+                        height: 2.75rem;
+
+                        span {
+                            .font-styles(0.875rem, normal, 1, @black, center);
+                        }
+                    }
+
+                    &.van-button--primary .flex-middle > span {
+                        color: white;
+                    }
                 }
             }
         }

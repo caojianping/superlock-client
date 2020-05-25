@@ -3,7 +3,7 @@
         <p>{{ $t('RECHARGE.TIP01') }}</p>
         <p>{{ $t('RECHARGE.TIP02') }}</p>
         <p>{{ $t('RECHARGE.TIP03') }}</p>
-        <p v-if="rechargeCoin !== 'BCB'">{{ $tc('RECHARGE.TIP04', { amount: minAmount, coin: rechargeCoin }) }}</p>
+        <p v-if="rechargeCoin !== 'BCB'">{{ $t('RECHARGE.TIP04', { amount: minAmount, coin: rechargeCoin }) }}</p>
     </div>
 </template>
 

@@ -20,7 +20,7 @@
                             />
                             <p>
                                 {{
-                                    $tc('LOAN.MAX_LOANABLE', { amount: applyForm.maxAmount || '--', coin: loanableLockObj.maxLoanAmountCoin || '--' })
+                                    $t('LOAN.MAX_LOANABLE', { amount: applyForm.maxAmount || '--', coin: loanableLockObj.maxLoanAmountCoin || '--' })
                                 }}
                             </p>
                         </div>
