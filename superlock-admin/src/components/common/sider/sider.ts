@@ -55,7 +55,7 @@ export default class Sider extends Vue {
             toggle: false
         },
         {
-            name: '账务管理',
+            name: '财务管理',
             route: null,
             path: '/finance',
             icon: 'finance',
@@ -128,6 +128,7 @@ export default class Sider extends Vue {
             icon: 'report',
             items: [
                 { name: '充值报表', route: '/report/recharge' },
+                { name: '提现报表', route: '/report/withdraw' },
                 { name: '锁仓报表', route: '/report/lock' },
                 { name: '支出报表', route: '/report/expend' },
                 { name: '用户报表', route: '/report/user' }
