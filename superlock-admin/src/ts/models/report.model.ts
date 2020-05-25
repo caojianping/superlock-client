@@ -5,9 +5,18 @@ export class RechargeReportModel {
     public amount!: string; // 充值数量
     public gotCoin!: string; // 入账币种
     public gotAmount!: string; // 入账数量
+    public totalCount!: number; // 充值笔数
 }
 
-//锁仓报表模型
+// 提现报表模型
+export class WithdrawReportModel {
+    public date!: string; // 日期
+    public coinCode!: string; // 提现币种
+    public amount!: string; // 提现数量
+    public totalCount!: string; // 提现笔数
+}
+
+// 锁仓报表模型
 export class LockReportModel {
     public date!: string; // 日期
     public length!: string; // 时间长度
