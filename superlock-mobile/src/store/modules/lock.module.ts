@@ -11,14 +11,16 @@ const lockState: ILockState = {
         [0, i18n.tc('ARRAY.LOCK_STATUSES.0')],
         [10, i18n.tc('ARRAY.LOCK_STATUSES.1')],
         [20, i18n.tc('ARRAY.LOCK_STATUSES.2')],
-        [30, i18n.tc('ARRAY.LOCK_STATUSES.3')],
-        [40, i18n.tc('ARRAY.LOCK_STATUSES.4')],
-        [50, i18n.tc('ARRAY.LOCK_STATUSES.5')]
+        [21, i18n.tc('ARRAY.LOCK_STATUSES.3')],
+        [30, i18n.tc('ARRAY.LOCK_STATUSES.4')],
+        [40, i18n.tc('ARRAY.LOCK_STATUSES.5')],
+        [50, i18n.tc('ARRAY.LOCK_STATUSES.6')]
     ]),
     lockColors: new Map([
         [0, 'gray'],
         [10, 'green'],
         [20, 'green'],
+        [21, 'gray'],
         [30, 'red'],
         [40, 'gray'],
         [50, 'orange']

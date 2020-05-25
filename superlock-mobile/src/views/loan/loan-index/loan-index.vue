@@ -8,7 +8,7 @@
                 <div class="loan-info loan-container">
                     <h1>
                         {{ $t('LOAN.TITLE02') }}
-                        <span>（{{ $tc('LOAN.TITLE02_DETAIL', { percent: loanBaseInfoObj.loanProportion || '--' }) }}）</span>
+                        <span>（{{ $t('LOAN.TITLE02_DETAIL', { percent: loanBaseInfoObj.loanProportion || '--' }) }}）</span>
                     </h1>
                     <h2 class="scb-border">
                         {{ $t('LOAN.LOAN_YEAR_RATE') }}：

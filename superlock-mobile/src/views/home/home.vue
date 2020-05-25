@@ -1,7 +1,7 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
         <div class="home-index">
-            <Langs />
+            <Langs :top="0.5" />
 
             {{ ((userLockQuotaObj = userLockQuota || {}), void 0) }}
             <div class="home-stats">
@@ -96,18 +96,18 @@
                 <div class="home-block-body total-container">
                     {{ ((statistics = (projectStats || {}).statistics || {}), void 0) }}
                     <div class="total-stats flex">
-                        <div>
+                        <div class="flex-middle">
                             <p>{{ $t('HOME.TOTAL_REGISTER_COUNT') }}</p>
                             <h3>
                                 <span>{{ statistics.cumulativeUser || 0 }}</span>
-                                <small>人</small>
+                                <small>{{ $t('HOME.HUMAN') }}</small>
                             </h3>
                         </div>
-                        <div>
+                        <div class="flex-middle">
                             <p>{{ $t('HOME.TOTAL_DEAL_VALUE') }}({{ statistics.valuationCoin || '--' }})</p>
                             <h3>
                                 <span>{{ (statistics.cumulativeValuation || 0) | currencyComma(6) }}</span>
-                                <small>万</small>
+                                <small>{{ $t('HOME.TEN_THOUSAND') }}</small>
                             </h3>
                         </div>
                     </div>

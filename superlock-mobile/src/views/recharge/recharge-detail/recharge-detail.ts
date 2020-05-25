@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { namespace } from 'vuex-class';
+import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { SessionStorage } from 'jts-storage';
 
@@ -20,6 +20,9 @@ const rechargeModule = namespace('recharge');
     components: { CellGroup, Cell, Header }
 })
 export default class RechargeDetail extends Vue {
+    @State('dataStatuses') dataStatuses!: Map<string, string>;
+    @State('fundTypes') fundTypes!: Map<string, string>;
+
     @rechargeModule.State('recharge') recharge?: RechargeModel | null;
     @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @rechargeModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
@@ -38,7 +41,7 @@ export default class RechargeDetail extends Vue {
     }
 
     mounted() {
-        Clipboard.copy('orderId', '交易单号');
-        Clipboard.copy('txhash', '交易hash');
+        Clipboard.copy('orderId', i18n.tc('COMMON.TRANSACTION_ID'));
+        Clipboard.copy('txhash', i18n.tc('COMMON.TRANSACTION_HASH'));
     }
 }

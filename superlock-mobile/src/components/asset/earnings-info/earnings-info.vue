@@ -4,7 +4,7 @@
 
         <template v-if="earningsStats">
             <h2>
-                <label>{{ $t('ASSET.TOTAL_EARNINGS') }}</label>
+                <label>{{ $t('ASSET.TOTAL_EARNINGS') }}: </label>
                 <span>{{ `${earningsStats.yesterdayEarnings} ${earningsStats.yesterdayEarningsCoin}` }}</span>
             </h2>
 

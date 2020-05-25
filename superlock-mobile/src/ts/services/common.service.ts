@@ -29,7 +29,7 @@ export class CommonService {
                 { name: 'mobile', value: mobile },
                 { required: true, pureDigit: true },
                 {
-                    required: i18n.t('VALIDATES.MOBILE_NOT_NULL'),
+                    required: i18n.tc('VALIDATES.MOBILE_NOT_NULL'),
                     pureDigit: i18n.tc('VALIDATES.MOBILE_FORMAT_WRONG')
                 }
             );

@@ -29,10 +29,10 @@
                 <Cell :title="$t('TRANSFER.TRANSFER_COIN')" :value="transfer.coin" />
                 <Cell :title="$t('TRANSFER.TRANSFER_AMOUNT')" :value="transfer.amount" />
                 <Cell :title="$t('TRANSFER.TRANSFER_TIME')" :value="transfer.createTime | dateFormat" />
-                <Cell :title="$t('COMMON.FUND_TYPE')" :value="transfer.capitalType" />
+                <Cell :title="$t('COMMON.FUND_TYPE')" :value="fundTypes.get(transfer.capitalType)" />
                 <Cell :title="$t('COMMON.AVAILABLE_BALANCE')" :value="`${transfer.balance} ${transfer.balanceCoin}`" />
                 <Cell :title="$t('COMMON.REMARK')" :value="transfer.memo" />
-                <Cell :title="$t('COMMON.STATUS')" :value="transfer.statusRemark" />
+                <Cell :title="$t('COMMON.STATUS')" :value="dataStatuses.get(transfer.statusRemark)" />
             </CellGroup>
         </div>
     </div>

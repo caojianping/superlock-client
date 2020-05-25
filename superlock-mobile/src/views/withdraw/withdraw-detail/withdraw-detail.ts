@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import { namespace } from 'vuex-class';
+import { namespace, State } from 'vuex-class';
 import { SessionStorage } from 'jts-storage';
 
 import Locales from '@/locales';
@@ -20,6 +20,9 @@ const withdrawModule = namespace('withdraw');
     components: { CellGroup, Cell, Header }
 })
 export default class WithdrawDetail extends Vue {
+    @State('dataStatuses') dataStatuses!: Map<string, string>;
+    @State('fundTypes') fundTypes!: Map<string, string>;
+
     @withdrawModule.State('withdraw') withdraw?: WithdrawModel | null;
     @withdrawModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @withdrawModule.Mutation(TYPES.CLEAR_STATES) clearStates!: (withoutSelected: boolean) => any;

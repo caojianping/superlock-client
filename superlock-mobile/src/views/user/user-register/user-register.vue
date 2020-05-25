@@ -2,7 +2,7 @@
     <div class="register">
         <Langs />
 
-        <header>
+        <header class="register-header">
             <h1>{{ $t('USER.NEW_USER_REGISTER') }}</h1>
         </header>
 

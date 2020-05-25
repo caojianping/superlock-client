@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { namespace } from 'vuex-class';
+import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
 import Locales from '@/locales';
@@ -19,6 +19,9 @@ const transactionModule = namespace('transaction');
     components: { CellGroup, Cell, Header }
 })
 export default class TransactionDetail extends Vue {
+    @State('dataStatuses') dataStatuses!: Map<string, string>;
+    @State('fundTypes') fundTypes!: Map<string, string>;
+
     @transactionModule.State('type') type!: number;
     @transactionModule.State('transaction') transaction?: TransactionInfoModel | RechargeModel | WithdrawModel | TransferModel | null;
     @transactionModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;

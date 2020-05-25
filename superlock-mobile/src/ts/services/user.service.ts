@@ -23,7 +23,7 @@ export class UserService {
                 { required: true, mobile: true },
                 {
                     required: i18n.tc('VALIDATES.MOBILE_NOT_NULL'),
-                    mobile: i18n.t('VALIDATES.MOBILE_FORMAT_WRONG')
+                    mobile: i18n.tc('VALIDATES.MOBILE_FORMAT_WRONG')
                 }
             );
         } else {

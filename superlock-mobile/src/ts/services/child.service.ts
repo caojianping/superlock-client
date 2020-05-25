@@ -14,7 +14,7 @@ export class ChildService {
             rateTypes = [i18n.tc('ARRAY.RATE_TYPES.0'), i18n.tc('ARRAY.RATE_TYPES.1'), i18n.tc('ARRAY.RATE_TYPES.2')],
             key = 'childRateForms',
             validator = new Validator();
-        validator.addRule(key, { name: 'childUid', value: childUid }, { required: true }, { required: i18n.t('VALIDATES.CHILD_UID_NOT_NULL') });
+        validator.addRule(key, { name: 'childUid', value: childUid }, { required: true }, { required: i18n.tc('VALIDATES.CHILD_UID_NOT_NULL') });
 
         childRateForms.forEach((childRateForm: ChildRateFormModel, index: number) => {
             let type = childRateForm.type,
