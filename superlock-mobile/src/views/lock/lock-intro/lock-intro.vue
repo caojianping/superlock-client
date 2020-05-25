@@ -54,19 +54,30 @@
 
                     <div class="flex times">
                         <div class="time-item">
-                            <span>{{ $t('LOCK.RULE_FLAG01') }}</span>
+                            <p class="flex-middle">
+                                <span>{{ $t('LOCK.RULE_FLAG01') }}</span>
+                            </p>
                             <i />
-                            <p>{{ new Date() | dateFormat('yyyy.MM.dd') }}</p>
+                            <p class="time-date">{{ new Date() | dateFormat('yyyy.MM.dd') }}</p>
                         </div>
                         <div class="time-item">
-                            <span>{{ $t('LOCK.RULE_FLAG02') }}</span>
+                            <p class="flex-middle">
+                                <span>{{ $t('LOCK.RULE_FLAG02') }}</span>
+                            </p>
                             <i />
-                            <p>{{ dateCalculate(new Date(), 'd', 1) | dateFormat('yyyy.MM.dd') }}</p>
+                            <p class="time-date">{{ dateCalculate(new Date(), 'd', 1) | dateFormat('yyyy.MM.dd') }}</p>
                         </div>
                         <div class="time-item">
-                            <span>{{ $t('LOCK.RULE_FLAG03') }}</span>
+                            <p class="flex-middle">
+                                <span>{{ $t('LOCK.RULE_FLAG03') }}</span>
+                            </p>
                             <i />
-                            <p>{{ dateCalculate(new Date(), ['d', 'M', 'y'][lockProjectObj.unit - 1], lockProjectObj.length) | dateFormat('yyyy.MM.dd') }}</p>
+                            <p class="time-date">
+                                {{
+                                    dateCalculate(new Date(), ['d', 'M', 'y'][lockProjectObj.unit - 1], lockProjectObj.length)
+                                        | dateFormat('yyyy.MM.dd')
+                                }}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -99,14 +110,20 @@
                             <img src="../../../assets/images/lock/feature04.png" alt="" />
                             <div>
                                 <h3>{{ $t('LOCK.FEATURE_TITLE04') }}</h3>
-                                <p>{{ $t('LOCK.FEATURE_TITLE041') }}<a>{{ $t('LOCK.ROOM_CHANGE') }}</a></p>
+                                <p>
+                                    {{ $t('LOCK.FEATURE_TITLE041') }}<a>{{ $t('LOCK.ROOM_CHANGE') }}</a>
+                                </p>
                             </div>
                         </li>
                     </ul>
                 </div>
 
                 <div class="lock-intro-explain lock-container">
-                    <h2 class="lock-banner">{{ $t('LOCK.EXPLAIN') }}</h2>
+                    <h2 class="lock-banner">
+                        <p class="flex-middle">
+                            <span>{{ $t('LOCK.EXPLAIN') }}</span>
+                        </p>
+                    </h2>
                     <p>{{ $t('LOCK.EXPLAIN_TITLE01') }}</p>
                     <p>{{ $t('LOCK.EXPLAIN_TITLE02') }}</p>
                 </div>

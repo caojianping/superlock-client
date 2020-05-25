@@ -1,13 +1,28 @@
 <template>
     <ul class="loan-banner flex">
         <li>
-            <i /><span>{{ $t('LOAN.LOCK_PLEDGE') }}</span>
+            <div>
+                <i />
+                <p class="flex-middle">
+                    <span>{{ $t('LOAN.LOCK_PLEDGE') }}</span>
+                </p>
+            </div>
         </li>
         <li>
-            <i /><span>{{ $t('LOAN.RAPID_LENDING') }}</span>
+            <div>
+                <i />
+                <p class="flex-middle">
+                    <span>{{ $t('LOAN.RAPID_LENDING') }}</span>
+                </p>
+            </div>
         </li>
         <li>
-            <i /><span>{{ $t('LOAN.ANYTIME_REPAY') }}</span>
+            <div>
+                <i />
+                <p class="flex-middle">
+                    <span>{{ $t('LOAN.ANYTIME_REPAY') }}</span>
+                </p>
+            </div>
         </li>
     </ul>
 </template>
