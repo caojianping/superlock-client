@@ -35,7 +35,9 @@
             {{ ((rateStr = `1 ${rateObj.fromCoin || '--'} = ${rateObj.rate || '--'} ${rateObj.toCoin || '--'}`), void 0) }}
             <Tabs class="asset-tabs" v-model="activeTab" animated swipeable @change="handleTabsChange">
                 <Tab>
-                    <span slot="title">{{ $t('ASSET.ASSET_TABS.0') }}</span>
+                    <p slot="title" class="flex-middle">
+                        <span>{{ $t('ASSET.ASSET_TABS.0') }}</span>
+                    </p>
                     <div class="tab-panel">
                         <h1 class="tab-title scb-border">
                             <i class="icon icon-exchange-rate" />
@@ -53,7 +55,9 @@
                 </Tab>
 
                 <Tab>
-                    <span slot="title">{{ $t('ASSET.ASSET_TABS.1') }}</span>
+                    <p slot="title" class="flex-middle">
+                        <span>{{ $t('ASSET.ASSET_TABS.1') }}</span>
+                    </p>
                     <div class="tab-panel">
                         <h1 class="tab-title scb-border">
                             <i class="icon icon-exchange-rate" />
@@ -86,7 +90,9 @@
                 </Tab>
 
                 <Tab>
-                    <span slot="title">{{ $t('ASSET.ASSET_TABS.2') }}</span>
+                    <p slot="title" class="flex-middle">
+                        <span>{{ $t('ASSET.ASSET_TABS.2') }}</span>
+                    </p>
                     <div class="tab-panel">
                         <h1 class="tab-title scb-border">
                             <i class="icon icon-exchange-rate" />
@@ -116,7 +122,9 @@
                 </Tab>
 
                 <Tab>
-                    <span slot="title">{{ $t('ASSET.ASSET_TABS.3') }}</span>
+                    <p slot="title" class="flex-middle">
+                        <span>{{ $t('ASSET.ASSET_TABS.3') }}</span>
+                    </p>
                     <div class="tab-panel">
                         <h1 class="tab-title scb-border">
                             <i class="icon icon-exchange-rate" />
