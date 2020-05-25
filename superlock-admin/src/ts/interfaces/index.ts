@@ -180,6 +180,12 @@ export interface IRechargeReportPageParameters {
     endTime: string; // 结束时间
 }
 
+// 提现报表分页参数接口
+export interface IWithdrawReportPageParameters {
+    beginTime: string; // 开始时间
+    endTime: string; // 结束时间
+}
+
 // 锁仓报表分页参数接口
 export interface ILockReportPageParameters {
     length: string; // 锁仓期限值

@@ -39,6 +39,12 @@ export default class RechargeReport extends Vue {
             dataIndex: 'coinCode'
         },
         {
+            title: '充值笔数',
+            dataIndex: '',
+            key: 'totalCount',
+            scopedSlots: { customRender: 'totalCount' }
+        },
+        {
             title: '充值数量',
             dataIndex: '',
             key: 'amount',

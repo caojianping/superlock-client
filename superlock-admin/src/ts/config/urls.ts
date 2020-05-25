@@ -173,6 +173,10 @@ export const Urls = {
             list: `${baseUrl}/report/recharge`, // 获取充值报表列表接口
             export: `${baseUrl}/report/recharge/export` // 导出充值报表列表接口
         },
+        withdraw: {
+            list: `${baseUrl}/report/withdraw`, // 获取提现报表列表接口
+            export: `${baseUrl}/report/withdraw/export` // 导出提现报表列表接口
+        },
         lock: {
             list: `${baseUrl}/report/lock`, // 获取锁仓报表列表接口
             export: `${baseUrl}/report/lock/export` // 导出锁仓报表列表接口

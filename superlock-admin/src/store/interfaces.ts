@@ -20,10 +20,11 @@ import {
     IRebateOrderPageParameters,
     IFlashOrderPageParameters,
     IWithdrawOrderPageParameters,
+    IRechargeReportPageParameters,
+    IWithdrawReportPageParameters,
     ILockReportPageParameters,
     IExpendReportPageParameters,
     IUserReportPageParameters,
-    IRechargeReportPageParameters,
     IPointPageParameters,
     IUserLogPageParameters,
     ISystemLogPageParameters
@@ -66,6 +67,7 @@ import {
     FlashOrderModel,
     WithdrawOrderModel,
     RechargeReportModel,
+    WithdrawReportModel,
     LockReportModel,
     ExpendReportModel,
     UserReportModel,
@@ -252,11 +254,12 @@ export interface IReportState {
     userTypeOptions: Array<ISelectOption>; // 用户类型选项
 
     rechargeParameters: IPageParameters<IRechargeReportPageParameters>; // 充值报表分页参数
+    withdrawParameters: IPageParameters<IWithdrawReportPageParameters>; // 充值报表分页参数
     lockParameters: IPageParameters<ILockReportPageParameters>; // 锁仓报表分页参数
     expendParameters: IPageParameters<IExpendReportPageParameters>; // 支出报表分页参数
     userParameters: IPageParameters<IUserReportPageParameters>; // 用户报表分页参数
     totalCount: number; // 总数量
-    list: Array<RechargeReportModel | LockReportModel | ExpendReportModel | UserReportModel>; // 列表
+    list: Array<RechargeReportModel | WithdrawReportModel | LockReportModel | ExpendReportModel | UserReportModel>; // 列表
 }
 
 // 上分状态接口
