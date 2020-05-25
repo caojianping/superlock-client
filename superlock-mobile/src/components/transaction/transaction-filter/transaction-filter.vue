@@ -1,6 +1,6 @@
 <template>
     <Popup class="transaction-filter" v-model="isShow" round position="bottom" @close="handlePopupClose">
-        <h2>账单分类</h2>
+        <h2>{{ $t('TRANSACTION.BILL_CLASSIFY') }}</h2>
 
         <div class="transaction-types">
             <Spin :is-spinning="isSpinning" />
@@ -12,7 +12,7 @@
             </ul>
         </div>
 
-        <p class="scb-separator" @click="handlePopupClose">取消</p>
+        <p class="scb-separator" @click="handlePopupClose">{{ $t('COMMON.CANCEL') }}</p>
     </Popup>
 </template>
 

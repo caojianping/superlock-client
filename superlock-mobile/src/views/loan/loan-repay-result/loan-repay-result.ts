@@ -2,8 +2,11 @@ import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import Utils from '@/ts/utils';
 
+import Locales from '@/locales';
 import { Button } from 'vant';
 import Header from '@/components/common/header';
+
+const i18n = Locales.buildLocale();
 
 @Component({
     name: 'LoanRepayResult',
@@ -14,7 +17,7 @@ export default class LoanRepayResult extends Vue {
     msg: string = '';
 
     get title() {
-        return ['还款失败', '还款成功'][this.type] || '';
+        return [i18n.tc('LOAN.REPAY_FAILURE'), i18n.tc('LOAN.REPAY_SUCCESS')][this.type] || '';
     }
 
     // 初始化数据

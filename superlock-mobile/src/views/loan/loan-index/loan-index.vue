@@ -1,27 +1,29 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
         <div class="scb-blue loan-index">
-            <Header title="锁仓质押贷" is-blue :is-border="false" @left="$router.push('/home/index')" />
+            <Header :title="$t('LOAN.TITLE01')" is-blue :is-border="false" @left="$router.push('/home/index')" />
 
             <div class="scb-blue-body">
                 {{ ((loanBaseInfoObj = loanBaseInfo || {}), void 0) }}
                 <div class="loan-info loan-container">
                     <h1>
-                        有锁仓就可贷<span>（最高可贷锁仓价值的{{ `${loanBaseInfoObj.loanProportion || '--'}%` }}）</span>
+                        {{ $t('LOAN.TITLE02') }}
+                        <span>（{{ $tc('LOAN.TITLE02_DETAIL', { percent: loanBaseInfoObj.loanProportion || '--' }) }}）</span>
                     </h1>
                     <h2 class="scb-border">
-                        贷款年利率：<span>{{ `${loanBaseInfoObj.loanRate || '--'}%` }}</span>
+                        {{ $t('LOAN.LOAN_YEAR_RATE') }}：
+                        <span>{{ `${loanBaseInfoObj.loanRate || '--'}%` }}</span>
                     </h2>
                     <LoanBanner />
                 </div>
 
                 <div class="loan-lock">
-                    <h2>选择需要质押的锁仓</h2>
+                    <h2>{{ $t('LOAN.SELECT_PLEDGE_LOCK') }}</h2>
 
                     <div v-if="loanableLocks" class="lock-container">
                         <div v-if="loanableLocks.length <= 0" class="scb-none">
-                            <img src="../../../assets/images/empty.png" alt="暂无锁仓项目" />
-                            <p>暂无锁仓项目</p>
+                            <img src="../../../assets/images/empty.png" :alt="$t('LOAN.LOCK_PROJECT_NO_DATA')" />
+                            <p>{{ $t('LOAN.LOCK_PROJECT_NO_DATA') }}</p>
                         </div>
                         <List
                             v-else
@@ -29,8 +31,8 @@
                             v-model="isLoading"
                             :finished="isFinished"
                             :immediate-check="false"
-                            loading-text="记录加载中……"
-                            finished-text="记录加载完毕"
+                            :loading-text="$t('COMMON.RECORD_LOADING')"
+                            :finished-text="$t('COMMON.RECORD_LOADED')"
                             @load="fetchLoanableLocks"
                         >
                             <CellGroup
@@ -40,14 +42,20 @@
                                 @click="goApply(loanableLock)"
                             >
                                 {{ ((loanFlag = loanableLock.loanFlag), void 0) }}
-                                <Cell title="锁仓订单号：" :value="loanableLock.orderId" :border="false" />
-                                <Cell title="锁仓到期时间：" :border="false">
+                                <Cell :title="`${$t('LOAN.LOCK_ORDER_ID')}：`" :value="loanableLock.orderId" :border="false" />
+                                <Cell :title="`${$t('LOAN.LOCK_EXPIRE_TIME')}：`" :border="false">
                                     <p class="clearfix">
                                         <span>{{ loanableLock.endDate | dateFormat('yyyy-MM-dd') }}</span>
-                                        <Button v-if="loanFlag === 1" class="effect-shadow" type="default" size="small" round>抵押贷款</Button>
+                                        <Button v-if="loanFlag === 1" class="effect-shadow" type="default" size="small" round>{{
+                                            $t('LOAN.PLEDGE_LOAN')
+                                        }}</Button>
                                     </p>
                                 </Cell>
-                                <Cell title="锁仓价值：" :value="`${loanableLock.lockValue} ${loanableLock.lockValueCoin}`" :border="false" />
+                                <Cell
+                                    :title="`${$t('LOAN.LOCK_VALUE')}：`"
+                                    :value="`${loanableLock.lockValue} ${loanableLock.lockValueCoin}`"
+                                    :border="false"
+                                />
                                 <Cell v-if="loanFlag !== 1" :class="['lock-flag', `flag${loanableLock.loanFlag}`]" :border="false">
                                     <span slot="title">{{ loanFlags.get(loanableLock.loanFlag) }}</span>
                                 </Cell>
@@ -58,7 +66,7 @@
             </div>
 
             <footer class="scb-blue-footer">
-                <router-link to="/loan/intro">了解锁仓质押贷</router-link>
+                <router-link to="/loan/intro">{{ $t('LOAN.LOAN_INTRO') }}</router-link>
             </footer>
         </div>
     </PullRefresh>

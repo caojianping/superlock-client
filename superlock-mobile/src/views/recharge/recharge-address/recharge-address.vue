@@ -1,10 +1,10 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
         <div class="recharge-address">
-            <Header title="充值地址" @left="$router.push('/mine/index')" />
+            <Header :title="$t('COMMON.RECHARGE_ADDRESS')" @left="$router.push('/mine/index')" />
 
             <div v-if="rechargeCoins" class="scb-separator">
-                <p v-if="rechargeCoins.length <= 0" class="scb-none">暂无充值地址数据</p>
+                <p v-if="rechargeCoins.length <= 0" class="scb-none">{{ $t('RECHARGE.RECHARGE_ADDRESS_NO_DATA') }}</p>
                 <CellGroup v-else>
                     <Cell v-for="(rechargeCoin, index) in rechargeCoins" :key="index" is-link @click="goCode(rechargeCoin)">
                         <div class="flex" slot="title">

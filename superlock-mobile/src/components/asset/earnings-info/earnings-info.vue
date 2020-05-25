@@ -1,10 +1,10 @@
 <template>
     <Popup v-model="isShow" class="earnings-popup full" @close="handlePopupClose">
-        <Header title="昨日收益" @left="handlePopupClose" />
+        <Header :title="$t('ASSET.YESTERDAY_EARNINGS')" @left="handlePopupClose" />
 
         <template v-if="earningsStats">
             <h2>
-                <label>总收益：</label>
+                <label>{{ $t('ASSET.TOTAL_EARNINGS') }}</label>
                 <span>{{ `${earningsStats.yesterdayEarnings} ${earningsStats.yesterdayEarningsCoin}` }}</span>
             </h2>
 

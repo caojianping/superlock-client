@@ -1,7 +1,7 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
         <div class="transfer-child">
-            <Header title="我的下级" @left="$router.push('/transfer/index')" />
+            <Header :title="$t('TRANSFER.TRANSFER_CHILDS')" @left="$router.push('/transfer/index')" />
 
             <Search
                 class="transfer-child-search"
@@ -10,7 +10,7 @@
                 shape="round"
                 left-icon=""
                 background="#f9f9f9"
-                placeholder="下级昵称搜索"
+                :placeholder="$t('PLACEHOLDERS.ENTER_CHILD_NICKNAME')"
             >
                 <Icon slot="right-icon" name="search" @click="handleSearchAction" />
             </Search>
@@ -22,9 +22,9 @@
                     v-model="isLoading"
                     :finished="isFinished"
                     :immediate-check="false"
-                    loading-text="记录加载中……"
-                    finished-text="记录加载完毕"
-                    @load="fetchData"
+                    :loading-text="$t('COMMON.RECORD_LOADING')"
+                    :finished-text="$t('COMMON.RECORD_LOADED')"
+                    @load="fetchTransferChilds"
                 >
                     <CellGroup>
                         <Cell v-for="(transferChild, index) in transferChilds" :key="index" @click="chooseChild(transferChild)">

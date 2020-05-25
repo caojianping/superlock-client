@@ -3,6 +3,7 @@ import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { SessionStorage } from 'jts-storage';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import { CONSTANTS } from '@/ts/config';
 import { From, Clipboard } from '@/ts/common';
@@ -11,6 +12,7 @@ import { LoanModel } from '@/ts/models';
 import { Toast, PullRefresh, CellGroup, Cell, Button } from 'vant';
 import Header from '@/components/common/header';
 
+const i18n = Locales.buildLocale();
 const loanModule = namespace('loan');
 
 @Component({
@@ -47,7 +49,7 @@ export default class LoanDetail extends Vue {
     async refreshData() {
         await this.fetchData();
         this.isPulling = false;
-        Toast('刷新成功');
+        Toast(i18n.tc('COMMON.REFRESH_SUCCESS'));
     }
 
     // 初始化数据

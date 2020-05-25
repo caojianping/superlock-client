@@ -1,20 +1,20 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
         <div class="transaction-record">
-            <Header title="资金明细" is-right @left="$router.push('/asset/index')">
-                <span slot="right" @click="openFilter">筛选</span>
+            <Header :title="$t('TRANSACTION.TRANSACTION_DETAILS')" is-right @left="$router.push('/asset/index')">
+                <span slot="right" @click="openFilter">{{ $t('TRANSACTION.FILTER') }}</span>
             </Header>
 
             <div v-if="transactions" class="scb-separator">
-                <p v-if="transactions.length <= 0" class="scb-none">暂无资金记录</p>
+                <p v-if="transactions.length <= 0" class="scb-none">{{ $t('TRANSACTION.TRANSACTION_RECORD_NO_DATA') }}</p>
                 <List
                     v-else
                     v-model="isLoading"
                     :finished="isFinished"
                     :immediate-check="false"
-                    loading-text="记录加载中……"
-                    finished-text="记录加载完毕"
-                    @load="fetchData"
+                    :loading-text="$t('COMMON.RECORD_LOADING')"
+                    :finished-text="$t('COMMON.RECORD_LOADED')"
+                    @load="fetchTransactions"
                 >
                     <CellGroup>
                         <Cell
@@ -30,7 +30,7 @@
                                 <h3 :class="{ income: transaction.symbol === 1 }">
                                     {{ `${['-', '+'][transaction.symbol]} ${transaction.amount} ${transaction.coin}` }}
                                 </h3>
-                                <p>{{ `余额 ${transaction.balance} ${transaction.balanceCoin}` }}</p>
+                                <p>{{ `${$t('COMMON.BALANCE')} ${transaction.balance} ${transaction.balanceCoin}` }}</p>
                             </div>
                         </Cell>
                     </CellGroup>

@@ -7,16 +7,16 @@
 
         <Popup v-model="isShow" class="area-code-popup full">
             <header class="area-code-header">
-                <Header title="国家和地区" is-right @left="handlePopupClose">
+                <Header :title="$t('COMMON.COUNTRY_AND_AREA')" is-right @left="handlePopupClose">
                     <Icon slot="right" name="close" @click="handlePopupClose" />
                 </Header>
 
                 <Search
                     class="area-code-search"
                     v-model="keyword"
-                    placeholder="国家/地区"
                     shape="round"
                     background="white"
+                    :placeholder="$t('PLACEHOLDERS.ENTER_COUNTRY_AREA')"
                     @input="handleSearchInput"
                     @clear="handleSearchClear"
                 />

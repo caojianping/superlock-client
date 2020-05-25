@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import { Component, Prop, Model, Watch } from 'vue-property-decorator';
 
-import { VerifyType, CONSTANTS } from '@/ts/config';
+import Locales from '@/locales';
 import Utils from '@/ts/utils';
+import { VerifyType, CONSTANTS } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { VerifyResult } from '@/ts/models';
 
@@ -10,6 +11,8 @@ import { Tabs, Tab, Field, Button } from 'vant';
 import Header from '@/components/common/header';
 import Modal from '@/components/common/modal';
 import VerifyCode from '@/components/verify/verify-code';
+
+const i18n = Locales.buildLocale();
 
 @Component({
     name: 'VerifyModal',
@@ -58,10 +61,7 @@ export default class VerifyModal extends Vue {
     // 提交验证码
     submit() {
         let { activeTab, code } = this;
-        if (!code) {
-            Prompt.warning(`${['短信', '邮箱'][activeTab]}验证码不可以为空`);
-            return;
-        }
+        if (!code) return Prompt.warning([i18n.tc('VALIDATES.SMS_CODE_NOT_NULL'), i18n.tc('VALIDATES.EMAIL_CODE_NOT_NULL')][activeTab]);
 
         this.$emit('close', false);
         this.$emit('submit', [VerifyType.SmsVerify, VerifyType.EmailVerify][activeTab], code);

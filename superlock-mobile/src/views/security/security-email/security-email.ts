@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { VerifyType } from '@/ts/config';
@@ -12,6 +13,7 @@ import { Toast, PullRefresh, CellGroup, Field, Button } from 'vant';
 import Header from '@/components/common/header';
 import VerifyCode from '@/components/verify/verify-code';
 
+const i18n = Locales.buildLocale();
 const userModule = namespace('user');
 const securityModule = namespace('security');
 
@@ -43,10 +45,10 @@ export default class SecurityEmail extends Vue {
     async submit() {
         try {
             let result = await this.bindEmail();
-            if (!result) Prompt.error('邮箱绑定失败');
+            if (!result) Prompt.error(i18n.tc('SECURITY.EMAIL_BIND_FAILURE'));
             else {
                 await this.fetchUserInfo(true);
-                Prompt.success('邮箱绑定成功').then(() => {
+                Prompt.success(i18n.tc('SECURITY.EMAIL_BIND_FAILURE')).then(() => {
                     this.$router.push(this.from);
                 });
             }
@@ -64,7 +66,7 @@ export default class SecurityEmail extends Vue {
     async refreshData() {
         await this.fetchData(true);
         this.isPulling = false;
-        Toast('刷新成功');
+        Toast(i18n.tc('COMMON.REFRESH_SUCCESS'));
     }
 
     // 初始化数据

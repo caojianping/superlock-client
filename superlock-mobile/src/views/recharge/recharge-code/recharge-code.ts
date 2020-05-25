@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { namespace, State, Action } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import { From, Clipboard } from '@/ts/common';
 import { ExchangeRateModel } from '@/ts/models';
@@ -10,6 +11,7 @@ import { Toast, Button } from 'vant';
 import Header from '@/components/common/header';
 import RechargePrompt from '@/components/recharge/recharge-prompt';
 
+const i18n = Locales.buildLocale();
 const rechargeModule = namespace('recharge');
 
 @Component({
@@ -23,12 +25,13 @@ export default class RechargeCode extends Vue {
     @rechargeModule.State('rechargeCoin') rechargeCoin!: string;
     @rechargeModule.State('rechargeAddress') rechargeAddress!: string;
     @rechargeModule.State('minAmount') minAmount!: number;
+
     @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @rechargeModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @rechargeModule.Action('fetchRechargeAddress') fetchRechargeAddress!: () => any;
     @rechargeModule.Action('fetchMinAmount') fetchMinAmount!: () => any;
 
-    from: string = '';
+    from: string = ''; // 页面来源
 
     // 充值地址二维码
     get rechargeAddressQrcode() {
@@ -39,7 +42,7 @@ export default class RechargeCode extends Vue {
 
     // 获取数据
     async fetchData() {
-        Toast.loading({ mask: true, duration: 0, message: '加载中...' });
+        Toast.loading({ mask: true, duration: 0, message: i18n.tc('COMMON.LOADING') });
         let rechargeCoin = this.rechargeCoin;
         if (rechargeCoin !== 'BCB') {
             await this.fetchMinAmount();
@@ -49,7 +52,7 @@ export default class RechargeCode extends Vue {
         await this.fetchRechargeAddress();
         Toast.clear();
 
-        Clipboard.copy('address', '充值地址');
+        Clipboard.copy('address', i18n.tc('COMMON.RECHARGE_ADDRESS'));
     }
 
     // 初始化数据

@@ -3,6 +3,9 @@ import { IActionContext, ITransactionState } from '@/store/interfaces';
 import { TransactionService } from '@/ts/services';
 import { TransactionModel, TransactionTypeModel } from '@/ts/models';
 
+import Locales from '@/locales';
+const i18n = Locales.buildLocale();
+
 const transactionState: ITransactionState = {
     transactionTypes: [],
     transactionType: new TransactionTypeModel(1000, '全部'),

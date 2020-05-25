@@ -2,24 +2,26 @@
     <div class="login">
         <div class="contact-service" @click="goCustomerService">
             <i class="icon icon-service-inverse" />
-            <span>联系客服</span>
+            <span>{{ $t('USER.CONTACT_SERVICE') }}</span>
         </div>
 
+        <Langs />
+
         <header>
-            <img src="../../../assets/images/logo.png" alt="BCB矿场" />
-            <h1>欢迎登录BCB矿场</h1>
+            <img src="../../../assets/images/logo.png" :alt="$t('COMMON.NAME')" />
+            <h1>{{ $t('USER.WELCOME') }}</h1>
         </header>
 
         <UserForm @change="handleUserFormChange">
             <Cell>
-                <Button class="btn-login effect-shadow" type="primary" size="large" block round @click="submit">登&nbsp;录</Button>
+                <Button class="btn-login effect-shadow" type="primary" size="large" block round @click="submit">{{ $t('USER.LOGIN') }}</Button>
             </Cell>
         </UserForm>
 
         <p>
-            <router-link :to="`/user/register?code=${invitationCode}`">注册</router-link>
+            <router-link :to="`/user/register?code=${invitationCode}`">{{ $t('USER.REGISTER') }}</router-link>
             <span>|</span>
-            <a href="javascript: void(0)" @click="goForget">忘记密码</a>
+            <a href="javascript: void(0)" @click="goForget">{{ $t('USER.FORGET_PASSWORD') }}</a>
         </p>
 
         <VerifyModal
@@ -31,7 +33,7 @@
             @stop="handleVerifyModalStop"
         />
 
-        <div id="captcha"></div>
+        <div id="captcha" />
     </div>
 </template>
 

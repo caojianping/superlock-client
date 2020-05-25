@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
+import Locales from '@/locales';
 
 interface IRoute {
     path: string; // 路径
@@ -7,15 +8,17 @@ interface IRoute {
     title: string; // 标题
 }
 
+const i18n = Locales.buildLocale();
+
 @Component({
     name: 'Navs',
     components: {}
 })
 export default class Navs extends Vue {
     routes: Array<IRoute> = [
-        { path: '/home/index', icon: 'home', title: '理财' },
-        { path: '/asset/index', icon: 'asset', title: '资产' },
-        { path: '/mine/index', icon: 'mine', title: '我的' }
+        { path: '/home/index', icon: 'home', title: i18n.tc('COMMON.MONEY') },
+        { path: '/asset/index', icon: 'asset', title: i18n.tc('COMMON.ASSET') },
+        { path: '/mine/index', icon: 'mine', title: i18n.tc('COMMON.MINE') }
     ];
     activePath: string = '';
 

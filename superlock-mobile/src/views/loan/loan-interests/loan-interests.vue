@@ -1,12 +1,12 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
         <div class="scb-gray loan-interests">
-            <Header title="贷款利息" :is-border="false" @left="$router.push('/loan/detail')" />
+            <Header :title="$t('LOAN.LOAN_INTEREST')" :is-border="false" @left="$router.push('/loan/detail')" />
 
             <div v-if="loanInterests" class="scb-separator">
                 <div v-if="loanInterests.length <= 0" class="scb-none">
-                    <img src="../../../assets/images/empty.png" alt="暂无贷款利息" />
-                    <p>暂无贷款利息</p>
+                    <img src="../../../assets/images/empty.png" :alt="$t('LOAN.LOAN_INTEREST_NO_DATA')" />
+                    <p>{{ $t('LOAN.LOAN_INTEREST_NO_DATA') }}</p>
                 </div>
                 <List
                     v-else
@@ -14,8 +14,8 @@
                     v-model="isLoading"
                     :finished="isFinished"
                     :immediate-check="false"
-                    loading-text="记录加载中……"
-                    finished-text="记录加载完毕"
+                    :loading-text="$t('COMMON.RECORD_LOADING')"
+                    :finished-text="$t('COMMON.RECORD_LOADED')"
                     @load="fetchLoanInterests"
                 >
                     <CellGroup>

@@ -1,10 +1,10 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
-        <div class="team-index scb-gray scb-reserved">
+        <div class="scb-gray scb-reserved team-index">
             {{ ((userLockQuotaObj = userLockQuota || {}), void 0) }}
             <header class="team-header">
-                <Header title="团队成员" :is-border="false" @left="$router.push(from || '/mine/index')" />
-                <h2>团队已锁仓总额度({{ userLockQuotaObj.usedCoin || '--' }})</h2>
+                <Header :title="$t('TEAM.TITLE01')" :is-border="false" @left="$router.push(from || '/mine/index')" />
+                <h2>{{ $t('TEAM.TEAM_LOCKABLE_QUOTA') }}({{ userLockQuotaObj.usedCoin || '--' }})</h2>
                 <h1>{{ (userLockQuotaObj.usedAmount || 0) | currencyComma(4) }}</h1>
             </header>
 
@@ -22,15 +22,15 @@
             </div>
 
             <div v-if="childs" class="child-container">
-                <p v-if="childs.length <= 0" class="scb-none">暂无团队成员</p>
+                <p v-if="childs.length <= 0" class="scb-none">{{ $t('TEAM.TEAM_NO_DATA') }}</p>
                 <List
                     v-else
                     class="child-list"
                     v-model="isLoading"
                     :finished="isFinished"
                     :immediate-check="false"
-                    loading-text="记录加载中……"
-                    finished-text="记录加载完毕"
+                    :loading-text="$t('COMMON.RECORD_LOADING')"
+                    :finished-text="$t('COMMON.RECORD_LOADED')"
                     @load="fetchChilds"
                 >
                     <CellGroup>
@@ -40,11 +40,11 @@
                                 <h3>{{ `UID:${child.uid}` }}</h3>
                                 <p v-if="child.rateSetRemind" class="flex">
                                     <i class="icon icon-pset" />
-                                    <span>有新项目利率未设置</span>
+                                    <span>{{ $t('TEAM.UNSETTING_PROMPT') }}</span>
                                 </p>
                             </div>
                             <div>
-                                <h3>累计推广锁仓</h3>
+                                <h3>{{ $t('TEAM.TOTAL_PROMOTE_LOCK') }}</h3>
                                 <p>{{ `${child.teamUsedQuota} DC` }}</p>
                             </div>
                         </Cell>

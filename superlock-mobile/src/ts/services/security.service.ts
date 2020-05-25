@@ -5,22 +5,46 @@ import { Caxios, md5 } from '@/ts/common';
 import { UserFormModel, SecurityFormModel, EmailFormModel } from '@/ts/models';
 import { UserService } from './user.service';
 
+import Locales from '@/locales';
+const i18n = Locales.buildLocale();
+
 export class SecurityService {
     // 校验安全中心表单
     public static validateSecurityForm(securityForm: SecurityFormModel, isSet: boolean = false): ValidationResult {
-        if (!securityForm) return { status: false, data: { securityForm: '安全中心表单参数不可以为空' } };
+        if (!securityForm) return { status: false, data: { securityForm: i18n.tc('VALIDATES.PARAMETER_NOT_NULL') } };
 
         let key = 'securityForm',
             { oldPassword, newPassword, confirmPassword, verifyMode, code } = securityForm,
             validator = new Validator();
         if (!isSet) {
-            validator.addRule(key, { name: 'oldPassword', value: oldPassword }, { required: true, password: true }, { required: '旧密码不可以为空' });
+            validator.addRule(
+                key,
+                { name: 'oldPassword', value: oldPassword },
+                { required: true, password: true },
+                {
+                    required: i18n.tc('VALIDATES.OLD_PASSWORD_NOT_NULL'),
+                    password: i18n.t('VALIDATES.PASSWORD_FORMAT_PROMPT')
+                }
+            );
         }
-        validator.addRule(key, { name: 'newPassword', value: newPassword }, { required: true, password: true }, { required: '新密码不可以为空' });
-        validator.addRule(key, { name: 'confirmPassword', value: confirmPassword }, { equal: newPassword }, { equal: '两次密码输入不一致' });
+        validator.addRule(
+            key,
+            { name: 'newPassword', value: newPassword },
+            { required: true, password: true },
+            {
+                required: i18n.tc('VALIDATES.NEW_PASSWORD_NOT_NULL'),
+                password: i18n.t('VALIDATES.PASSWORD_FORMAT_PROMPT')
+            }
+        );
+        validator.addRule(
+            key,
+            { name: 'confirmPassword', value: confirmPassword },
+            { equal: newPassword },
+            { equal: i18n.tc('VALIDATES.DIFFERENT_PASSWORD') }
+        );
         if (isSet) {
             if (verifyMode && verifyMode !== '000') {
-                validator.addRule(key, { name: 'code', value: code }, { required: true }, { required: '验证码不可以为空' });
+                validator.addRule(key, { name: 'code', value: code }, { required: true }, { required: i18n.tc('VALIDATES.CODE_NOT_NULL') });
             }
         }
         return validator.execute(key);
@@ -28,13 +52,21 @@ export class SecurityService {
 
     // 校验邮箱表单
     public static validateEmailForm(emailForm: EmailFormModel): ValidationResult {
-        if (!emailForm) return { status: false, data: { emailForm: '邮箱表单参数不可以为空' } };
+        if (!emailForm) return { status: false, data: { emailForm: i18n.tc('VALIDATES.PARAMETER_NOT_NULL') } };
 
         let key = 'emailForm',
             { emailAddress, emailCode } = emailForm,
             validator = new Validator();
-        validator.addRule(key, { name: 'emailAddress', value: emailAddress }, { required: true, email: true }, { required: '邮箱地址不可以为空' });
-        validator.addRule(key, { name: 'emailCode', value: emailCode }, { required: true }, { required: '邮箱验证码不可以为空' });
+        validator.addRule(
+            key,
+            { name: 'emailAddress', value: emailAddress },
+            { required: true, email: true },
+            {
+                required: i18n.tc('VALIDATES.EMAIL_ADDRESS_NOT_NULL'),
+                emailForm: i18n.tc('VALIDATES.EMAIL_ADDRESS_FORMAT_WRONG')
+            }
+        );
+        validator.addRule(key, { name: 'emailCode', value: emailCode }, { required: true }, { required: i18n.tc('VALIDATES.EMAIL_CODE_NOT_NULL') });
         return validator.execute(key);
     }
 

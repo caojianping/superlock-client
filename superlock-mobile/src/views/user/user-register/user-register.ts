@@ -2,26 +2,29 @@ import Vue from 'vue';
 import { namespace, Action, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { RegisterStatus } from '@/ts/config';
 import { Prompt, Captcha } from '@/ts/common';
-import { UserFormModel } from '@/ts/models';
+import { VerifyResult, UserFormModel } from '@/ts/models';
 
 import { Cell, Button } from 'vant';
+import Langs from '@/components/common/langs';
 import VerifyList from '@/components/verify/verify-list';
 import UserForm from '@/components/user/user-form';
 import WechatPrompt from '@/components/user/wechat-prompt';
 
+const i18n = Locales.buildLocale();
 const userModule = namespace('user');
 
 @Component({
     name: 'UserRegister',
-    components: { Cell, Button, VerifyList, UserForm, WechatPrompt }
+    components: { Cell, Button, Langs, VerifyList, UserForm, WechatPrompt }
 })
 export default class UserRegister extends Vue {
-    // @State('verifyResult') verifyResult?: VerifyResult | null;
-    // @Action('fetchVerifyMethod') fetchVerifyMethod!: (payload: { areaCode: string; mobile: string; type?: number; isLoading?: boolean }) => any;
+    @State('verifyResult') verifyResult?: VerifyResult | null;
+    @Action('fetchVerifyMethod') fetchVerifyMethod!: (payload: { areaCode: string; mobile: string; type?: number; isLoading?: boolean }) => any;
 
     @userModule.State('userForm') userForm!: UserFormModel;
     @userModule.State('registerStatus') registerStatus!: RegisterStatus;
@@ -43,7 +46,7 @@ export default class UserRegister extends Vue {
     async submit() {
         try {
             let result = await this.register();
-            if (!result) Prompt.error('注册失败');
+            if (!result) Prompt.error(i18n.tc('USER.REGISTER_FAILURE'));
             else this.setStates({ registerStatus: RegisterStatus.Success });
         } catch (error) {
             Prompt.error(error.message || error);
@@ -57,7 +60,7 @@ export default class UserRegister extends Vue {
         this.setStates({ userForm });
 
         let result = await this.register();
-        if (!result) Prompt.error('注册失败');
+        if (!result) Prompt.error(i18n.tc('USER.REGISTER_FAILURE'));
         else this.setStates({ registerStatus: RegisterStatus.Success });
     }
 
@@ -69,18 +72,16 @@ export default class UserRegister extends Vue {
     // 下载
     download() {
         const origin = window.location.origin + '/app';
-        if (!Utils.isIOS()) {
-            window.location.href = `${origin}/android/WealthShop.apk`;
-        } else {
-            window.location.href = `itms-services://?action=download-manifest&url=${origin}/ios/manifest.plist`;
-        }
+        if (!Utils.isIOS()) window.location.href = `${origin}/android/WealthShop.apk`;
+        else window.location.href = `itms-services://?action=download-manifest&url=${origin}/ios/manifest.plist`;
     }
 
     // 初始化数据
     initData() {
-        let code = Utils.resolveParameters('code'),
-            userForm = UserFormModel.createInstance(code);
+        let code = Utils.resolveParameters('code');
         this.invitationCode = code;
+
+        let userForm = UserFormModel.createInstance(code);
         this.setStates({ userForm });
     }
 

@@ -1,9 +1,13 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
+
+import Locales from '@/locales';
 import Utils from '@/ts/utils';
 
 import { Button } from 'vant';
 import Header from '@/components/common/header';
+
+const i18n = Locales.buildLocale();
 
 @Component({
     name: 'TransferResult',
@@ -15,7 +19,7 @@ export default class TransferResult extends Vue {
     msg: string = '';
 
     get title() {
-        return ['转账失败', '转账成功'][this.type] || '';
+        return [i18n.tc('TRANSFER.TRANSFER_FAILURE'), i18n.tc('TRANSFER.TRANSFER_SUCCESS')][this.type] || '';
     }
 
     // 初始化数据

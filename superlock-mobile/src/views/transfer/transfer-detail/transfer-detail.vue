@@ -1,38 +1,38 @@
 <template>
     <div class="transfer-detail">
-        <Header title="转账详情" @left="$router.push('/transfer/record')" />
+        <Header :title="$t('TRANSFER.TRANSFER_DETAIL')" @left="$router.push('/transfer/record')" />
 
         <div v-if="transfer !== undefined" class="scb-separator">
             <div v-if="transfer === null" class="scb-none">
-                <img src="../../../assets/images/empty.png" alt="暂无转账数据" />
-                <p>暂无转账数据</p>
+                <img src="../../../assets/images/empty.png" :alt="$t('TRANSFER.TRANSFER_NO_DATA')" />
+                <p>{{ $t('TRANSFER.TRANSFER_NO_DATA') }}</p>
             </div>
             <CellGroup v-else class="priority-value">
-                <Cell title="交易单号">
+                <Cell :title="$t('COMMON.TRANSACTION_ID')">
                     <p class="scb-copy" id="orderId" :data-clipboard-text="transfer.orderId">
                         <span>{{ transfer.orderId }}</span>
                         <i class="icon icon-copy" />
                     </p>
                 </Cell>
-                <Cell title="发款UID">
+                <Cell :title="$t('TRANSFER.FROM_UID')">
                     <p class="scb-copy" id="fromUid" :data-clipboard-text="transfer.fromUid">
                         <span>{{ transfer.fromUid }}</span>
                         <i class="icon icon-copy" />
                     </p>
                 </Cell>
-                <Cell title="收款UID">
+                <Cell :title="$t('TRANSFER.TO_UID')">
                     <p class="scb-copy" id="toUid" :data-clipboard-text="transfer.toUid">
                         <span>{{ transfer.toUid }}</span>
                         <i class="icon icon-copy" />
                     </p>
                 </Cell>
-                <Cell title="转账币种" :value="transfer.coin" />
-                <Cell title="转账数量" :value="transfer.amount" />
-                <Cell title="转账时间" :value="transfer.createTime | dateFormat" />
-                <Cell title="资金类型" :value="transfer.capitalType" />
-                <Cell title="可用余额" :value="`${transfer.balance} ${transfer.balanceCoin}`" />
-                <Cell title="备注" :value="transfer.memo" />
-                <Cell title="状态" :value="transfer.statusRemark" />
+                <Cell :title="$t('TRANSFER.TRANSFER_COIN')" :value="transfer.coin" />
+                <Cell :title="$t('TRANSFER.TRANSFER_AMOUNT')" :value="transfer.amount" />
+                <Cell :title="$t('TRANSFER.TRANSFER_TIME')" :value="transfer.createTime | dateFormat" />
+                <Cell :title="$t('COMMON.FUND_TYPE')" :value="transfer.capitalType" />
+                <Cell :title="$t('COMMON.AVAILABLE_BALANCE')" :value="`${transfer.balance} ${transfer.balanceCoin}`" />
+                <Cell :title="$t('COMMON.REMARK')" :value="transfer.memo" />
+                <Cell :title="$t('COMMON.STATUS')" :value="transfer.statusRemark" />
             </CellGroup>
         </div>
     </div>

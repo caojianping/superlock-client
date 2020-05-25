@@ -3,6 +3,7 @@ import { namespace, State, Action } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { SessionStorage } from 'jts-storage';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { CONSTANTS } from '@/ts/config';
@@ -15,6 +16,7 @@ import Spin from '@/components/common/spin';
 import RechargeCoins from '@/components/recharge/recharge-coins';
 import EarningsInfo from '@/components/asset/earnings-info';
 
+const i18n = Locales.buildLocale();
 const lockModule = namespace('lock');
 const loanModule = namespace('loan');
 const projectModule = namespace('project');
@@ -61,18 +63,18 @@ export default class AssetIndex extends Vue {
     @projectModule.Action('fetchEarningsStats') fetchEarningsStats!: () => any;
     @projectModule.Action('fetchPromoteRewardStats') fetchPromoteRewardStats!: () => any;
 
-    activeTab: number = 0;
+    activeTab: number = 0; // 当前、活跃的选项卡
 
     isPulling: boolean = false; // 是否下拉刷新
-    isTotalVisible: boolean = true;
+    isTotalVisible: boolean = true; // 是否显示总资产
 
-    isAssetStatsSpinning: boolean = false;
-    isLocksSpinning: boolean = false;
-    isLoansSpinning: boolean = false;
-    isRewardStatsSpinning: boolean = false;
+    isAssetStatsSpinning: boolean = false; // 是否显示资产统计spin
+    isLocksSpinning: boolean = false; // 是否显示锁仓列表spin
+    isLoansSpinning: boolean = false; // 是否显示贷款列表spin
+    isRewardStatsSpinning: boolean = false; // 是否显示奖励统计spin
 
-    isRechargeCoinsShow: boolean = false;
-    isEarningsInfoShow: boolean = false;
+    isRechargeCoinsShow: boolean = false; // 是否显示充值币种
+    isEarningsInfoShow: boolean = false; // 是否显示收益信息
 
     // 切换总资产可见性
     toggleTotal() {
@@ -148,7 +150,7 @@ export default class AssetIndex extends Vue {
     async refreshData() {
         await this.fetchData(true);
         this.isPulling = false;
-        Toast('刷新成功');
+        Toast(i18n.tc('COMMON.REFRESH_SUCCESS'));
     }
 
     // 初始化数据

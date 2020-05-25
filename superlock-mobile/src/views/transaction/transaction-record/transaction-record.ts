@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import { TransactionTypeModel, TransactionModel } from '@/ts/models';
 
@@ -9,6 +10,7 @@ import { Toast, PullRefresh, List, CellGroup, Cell } from 'vant';
 import Header from '@/components/common/header';
 import TransactionFilter from '@/components/transaction/transaction-filter';
 
+const i18n = Locales.buildLocale();
 const transactionModule = namespace('transaction');
 
 @Component({
@@ -47,7 +49,7 @@ export default class TransactionRecord extends Vue {
     }
 
     // 获取数据
-    async fetchData(isRefresh: boolean) {
+    async fetchData(isRefresh: boolean = false) {
         if (!this.transactions || isRefresh) {
             this.setStates({ pageNum: 1 });
             await this.fetchTransactions();
@@ -58,7 +60,7 @@ export default class TransactionRecord extends Vue {
     async refreshData() {
         await this.fetchData(true);
         this.isPulling = false;
-        Toast('刷新成功');
+        Toast(i18n.tc('COMMON.REFRESH_SUCCESS'));
     }
 
     mounted() {
