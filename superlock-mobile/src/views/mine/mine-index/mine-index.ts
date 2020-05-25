@@ -2,14 +2,16 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
+import Locales from '@/locales';
 import { CONSTANTS } from '@/ts/config';
 import { Clipboard } from '@/ts/common';
 import { UserInfoModel } from '@/ts/models';
 
 import { Toast, PullRefresh, Icon, CellGroup, Cell } from 'vant';
 import Navs from '@/components/common/navs';
-import ModifyName from '@/components/user/modify-name';
+import ModifyName from '@/components/mine/modify-name';
 
+const i18n = Locales.buildLocale();
 const userModule = namespace('user');
 
 @Component({
@@ -43,7 +45,7 @@ export default class MineIndex extends Vue {
     async refreshData() {
         await this.fetchData(true);
         this.isPulling = false;
-        Toast('刷新成功');
+        Toast(i18n.tc('COMMON.REFRESH_SUCCESS'));
     }
 
     mounted() {

@@ -1,6 +1,6 @@
 <template>
     <div v-show="isWechat" class="wechat-prompt">
-        <img src="../../../assets/images/register/prompt.png" alt="微信提示" />
+        <img src="../../../assets/images/register/prompt.png" alt="Prompt" />
     </div>
 </template>
 

@@ -11,6 +11,9 @@ import { ResponseResult, BusinessError, TokenInfo } from '@/ts/models';
 import { Prompt } from './prompt';
 import { Token } from './token';
 
+import Locales from '@/locales';
+const i18n = Locales.buildLocale();
+
 const isIE9 = Utils.isIE9();
 
 window['cancelAxios'] = null;
@@ -52,13 +55,13 @@ export class Caxios {
     // 设置loading
     private static setLoading(type: CaxiosType, isShow: boolean): void {
         if (type === CaxiosType.Loading || type === CaxiosType.LoadingToken) {
-            isShow ? Toast.loading({ mask: true, duration: 0, message: '加载中...' }) : Toast.clear();
+            isShow ? Toast.loading({ mask: true, duration: 0, message: i18n.tc('COMMON.LOADING') }) : Toast.clear();
         }
     }
 
     // axios调用
     public static async invoke<T>(options: AxiosRequestConfig, type: CaxiosType = CaxiosType.Default): Promise<T> {
-        if (!options) return Promise.reject('axios请求参数配置不可以为空');
+        if (!options) return Promise.reject(i18n.tc('VALIDATES.AXIOS_REQUEST_PARAMETER_NOT_NULL'));
 
         options = Caxios.setHeaders(type, options);
 
@@ -94,9 +97,9 @@ export class Caxios {
                 // 网络异常处理
                 const errMsg = err.message || '';
                 if (errMsg.indexOf('Network Error') > -1) {
-                    result = '系统繁忙，请稍后重试';
+                    result = i18n.tc('COMMON.SYSTEM_BUSY_RETRY_LATER');
                 } else if (errMsg.indexOf('timeout of') > -1) {
-                    result = '系统繁忙，请稍后重试';
+                    result = i18n.tc('COMMON.SYSTEM_BUSY_RETRY_LATER');
                 }
                 Caxios.setLoading(type, false);
                 return Promise.reject(result);
@@ -119,17 +122,16 @@ export class Caxios {
         }
 
         let resp = response.data;
-        if (!resp) throw new BusinessError(999, '无效的响应数据');
+        if (!resp) throw new BusinessError(9999, i18n.tc('CODES.9999'));
 
         let result = new ResponseResult<T>(Number(resp.code), resp.data, resp.message);
-        if (!result) throw new BusinessError(999, '无效的响应数据');
+        if (!result) throw new BusinessError(9999, i18n.tc('CODES.9999'));
 
         let code: number = result.code,
             data: any = result.data,
             message: string = result.message;
-        if (code === 0) {
-            return data as T;
-        } else if (code === ResponseCode.TokenExpired) {
+        if (code === 0) return data as T;
+        else if (code === ResponseCode.TokenExpired) {
             Token.removeTokenInfo();
             store.commit(TYPES.CLEAR_STATES);
 
@@ -140,24 +142,26 @@ export class Caxios {
                 Router.push({ path: '/user/login' });
                 return Promise.reject('');
             } else {
-                throw new BusinessError(code, message);
+                throw new BusinessError(code, i18n.tc(`CODES.${code}`));
             }
         } else {
             // 其他异常
-            throw new BusinessError(code, message);
+            throw new BusinessError(code, i18n.tc(`CODES.${code}`));
         }
     }
 
     // GET方法请求
     public static async get<T>(options: AxiosRequestConfig, type: CaxiosType = CaxiosType.Default): Promise<T> {
-        if (!options) return Promise.reject('axios配置参数不可以为空');
+        if (!options) return Promise.reject(i18n.tc('VALIDATES.AXIOS_REQUEST_PARAMETER_NOT_NULL'));
+
         options['method'] = 'GET';
         return await Caxios.invoke<T>(options, type);
     }
 
     // POST方法请求
     public static async post<T>(options: AxiosRequestConfig, type: CaxiosType = CaxiosType.Default): Promise<T> {
-        if (!options) return Promise.reject('axios配置参数不可以为空');
+        if (!options) return Promise.reject(i18n.tc('VALIDATES.AXIOS_REQUEST_PARAMETER_NOT_NULL'));
+
         options['method'] = 'POST';
         return await Caxios.invoke<T>(options, type);
     }

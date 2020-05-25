@@ -3,6 +3,7 @@ import { Component } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { SessionStorage } from 'jts-storage';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import { CONSTANTS } from '@/ts/config';
 import { TransferModel } from '@/ts/models';
@@ -10,6 +11,7 @@ import { TransferModel } from '@/ts/models';
 import { Toast, PullRefresh, List, CellGroup, Cell } from 'vant';
 import Header from '@/components/common/header';
 
+const i18n = Locales.buildLocale();
 const transferModule = namespace('transfer');
 
 @Component({
@@ -52,7 +54,7 @@ export default class TransferRecord extends Vue {
     async refreshData() {
         await this.fetchData(true);
         this.isPulling = false;
-        Toast('刷新成功');
+        Toast(i18n.tc('COMMON.REFRESH_SUCCESS'));
     }
 
     mounted() {

@@ -1,15 +1,12 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
         <div class="withdraw-address">
-            <Header title="提现地址" is-right @left="$router.push(from)">
-                <span slot="right" @click="openWithdrawSetting">添加地址</span>
+            <Header :title="$t('COMMON.WITHDRAW_ADDRESS')" is-right @left="$router.push(from)">
+                <span slot="right" @click="openWithdrawSetting">{{ $t('WITHDRAW.ADD_ADDRESS') }}</span>
             </Header>
 
             <div v-if="withdrawAddresses" class="scb-separator">
-                <p v-if="withdrawAddresses.length <= 0" class="scb-none">
-                    暂无提现地址，快去
-                    <a class="scb-link" href="javascript: void(0)" @click="openWithdrawSetting">添加地址</a>吧！
-                </p>
+                <p v-if="withdrawAddresses.length <= 0" class="scb-none" v-html="$t('WITHDRAW_ADDRESS_NO_DATA')" />
                 <CellGroup v-else>
                     <Cell v-for="(withdrawAddress, index) in withdrawAddresses" :key="index" @click="chooseAddress(withdrawAddress)">
                         <div slot="title">

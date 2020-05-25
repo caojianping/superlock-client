@@ -3,6 +3,7 @@ import { Component } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { ValidationResult } from 'jpts-validator';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { UserFormType, ForgetType } from '@/ts/config';
@@ -13,6 +14,7 @@ import { UserService } from '@/ts/services';
 import { Toast, PullRefresh, Field, Button } from 'vant';
 import Header from '@/components/common/header';
 
+const i18n = Locales.buildLocale();
 const userModule = namespace('user');
 const securityModule = namespace('security');
 
@@ -74,9 +76,9 @@ export default class LoginPassword extends Vue {
     async submit() {
         try {
             let result = await this.modifyLoginPassword();
-            if (!result) Prompt.error('登录密码修改失败');
+            if (!result) Prompt.error(i18n.tc('SECURITY.LOGIN_PASSWORD_MODIFY_FAILURE'));
             else {
-                Prompt.success('登录密码修改成功').then(() => {
+                Prompt.success(i18n.tc('SECURITY.LOGIN_PASSWORD_MODIFY_SUCCESS')).then(() => {
                     this.$router.push('/security/center');
                 });
             }
@@ -94,7 +96,7 @@ export default class LoginPassword extends Vue {
     async refreshData() {
         await this.fetchData(true);
         this.isPulling = false;
-        Toast('刷新成功');
+        Toast(i18n.tc('COMMON.REFRESH_SUCCESS'));
     }
 
     // 初始化数据

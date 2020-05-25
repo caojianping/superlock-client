@@ -5,10 +5,10 @@
                 <div class="guide-container flex">
                     <div class="guide-title">
                         <i class="icon icon-warning" />
-                        <span>为了您的账户安全请立刻绑定邮箱</span>
+                        <span>{{ $t('COMMON.IMMEDIATELY_BIND_EMAIL') }}</span>
                     </div>
                     <router-link class="guide-icon" :to="{ path: '/security/email', query: { from: path } }">
-                        <span>去绑定</span>
+                        <span>{{ $t('COMMON.GO_BIND') }}</span>
                         <i class="icon icon-jump" />
                     </router-link>
                 </div>
@@ -18,10 +18,10 @@
                 <div class="guide-container flex">
                     <div class="guide-title">
                         <i class="icon icon-bulb" />
-                        <span>有新的锁仓项目，快去给下级设置利率吧</span>
+                        <span>{{ $t('COMMON.IMMEDIATELY_SET_RATE') }}</span>
                     </div>
                     <router-link class="guide-icon" :to="{ path: '/team/index', query: { from: path } }">
-                        <span>去设置</span>
+                        <span>{{ $t('COMMON.GO_SETTING') }}</span>
                         <i class="icon icon-jump" />
                     </router-link>
                 </div>

@@ -2,12 +2,14 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component, Model, Watch } from 'vue-property-decorator';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import { EarningsStatsModel } from '@/ts/models';
 
 import { Popup, CellGroup, Cell } from 'vant';
 import Header from '@/components/common/header';
 
+const i18n = Locales.buildLocale();
 const projectModule = namespace('project');
 
 @Component({
@@ -23,7 +25,13 @@ export default class EarningsInfo extends Vue {
     @projectModule.Action('fetchEarningsStats') fetchEarningsStats!: () => any;
 
     isShow: boolean = this.value; // 是否显示弹出框
-    earningsTypes: Array<string> = ['锁仓收益', '团队锁仓奖励', '直推奖励', '推广解锁', '日销奖励'];
+    earningsTypes: Array<string> = [
+        i18n.tc('ARRAY.EARNINGS_TYPES.0'),
+        i18n.tc('ARRAY.EARNINGS_TYPES.1'),
+        i18n.tc('ARRAY.EARNINGS_TYPES.2'),
+        i18n.tc('ARRAY.EARNINGS_TYPES.3'),
+        i18n.tc('ARRAY.EARNINGS_TYPES.4')
+    ];
 
     // 处理弹出框close事件
     handlePopupClose() {

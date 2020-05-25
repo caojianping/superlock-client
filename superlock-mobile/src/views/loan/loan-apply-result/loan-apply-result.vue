@@ -1,12 +1,12 @@
 <template>
     <div class="scb-gray loan-apply-result">
-        <Header title="提交结果" :is-border="false" @left="$router.push('/loan/index')" />
+        <Header :title="$t('LOAN.SUBMIT_RESULT')" :is-border="false" @left="$router.push('/loan/index')" />
 
         <div class="scb-separator">
-            <img src="../../../assets/images/loan/apply-result.png" alt="申请成功" />
-            <p>申请已提交审核，请耐心等候</p>
+            <img src="../../../assets/images/loan/apply-result.png" :alt="$t('LOAN.APPLY_SUCCESS')" />
+            <p>{{ $t('LOAN.SUBMIT_PROMPT') }}</p>
 
-            <Button class="effect-shadow" type="primary" block round @click="goLoanDetail">查看申请详情</Button>
+            <Button class="effect-shadow" type="primary" block round @click="goLoanDetail">{{ $t('LOAN.LOOK_APPLY') }}</Button>
         </div>
     </div>
 </template>

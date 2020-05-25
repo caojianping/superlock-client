@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { Clipboard } from '@/ts/common';
@@ -10,6 +11,7 @@ import { TransactionInfoModel, RechargeModel, WithdrawModel, TransferModel } fro
 import { CellGroup, Cell } from 'vant';
 import Header from '@/components/common/header';
 
+const i18n = Locales.buildLocale();
 const transactionModule = namespace('transaction');
 
 @Component({
@@ -35,7 +37,7 @@ export default class TransactionDetail extends Vue {
     // 获取数据
     async fetchData() {
         await this.fetchTransaction();
-        Clipboard.copy('orderId', '交易单号');
+        Clipboard.copy('orderId', i18n.tc('COMMON.TRANSACTION_ID'));
     }
 
     created() {

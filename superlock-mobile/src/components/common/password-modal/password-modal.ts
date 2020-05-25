@@ -1,9 +1,13 @@
 import Vue from 'vue';
 import { Component, Model, Watch } from 'vue-property-decorator';
+
+import Locales from '@/locales';
 import { Prompt } from '@/ts/common';
 
 import { Button } from 'vant';
 import Modal from '@/components/common/modal';
+
+const i18n = Locales.buildLocale();
 
 @Component({
     name: 'PasswordModal',
@@ -24,10 +28,7 @@ export default class PasswordModal extends Vue {
     // 提交密码
     submit() {
         let password = this.password;
-        if (!password) {
-            Prompt.error('资金密码不可以为空');
-            return;
-        }
+        if (!password) return Prompt.error(i18n.tc('VALIDATES.FUND_PASSWORD_NOT_NULL'));
 
         this.$emit('close', false);
         this.$emit('submit', password);

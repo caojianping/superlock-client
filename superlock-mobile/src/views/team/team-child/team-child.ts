@@ -3,6 +3,7 @@ import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { SessionStorage } from 'jts-storage';
 
+import Locales from '@/locales';
 import Utils from '@/ts/utils';
 import TYPES from '@/store/types';
 import { CONSTANTS } from '@/ts/config';
@@ -13,6 +14,7 @@ import { CellGroup, Cell, Button } from 'vant';
 import Header from '@/components/common/header';
 import Modal from '@/components/common/modal';
 
+const i18n = Locales.buildLocale();
 const childModule = namespace('child');
 
 @Component({
@@ -61,12 +63,12 @@ export default class TeamChild extends Vue {
         try {
             let remark = this.remark,
                 result = await this.setChildRemark(remark);
-            if (!result) Prompt.error('下级备注设置失败');
+            if (!result) Prompt.error(i18n.tc('TEAM.CHILD_SETTING_FAILURE'));
             else {
                 let child = Utils.duplicate(this.child);
                 child.nickName = remark;
                 this.setStates({ child });
-                Prompt.success('下级备注设置成功');
+                Prompt.success(i18n.tc('TEAM.CHILD_SETTING_SUCCESS'));
                 this.isRemarkShow = false;
             }
         } catch (error) {
@@ -106,9 +108,9 @@ export default class TeamChild extends Vue {
             });
 
             let result = await this.setChildRates(childRateForms);
-            if (!result) Prompt.error('设置失败');
+            if (!result) Prompt.error(i18n.tc('TEAM.SETTING_FAILURE'));
             else {
-                Prompt.success('设置成功');
+                Prompt.success(i18n.tc('TEAM.SETTING_SUCCESS'));
                 currentForm.value = value;
                 currentForm.minAmount = value;
                 currentForm.showValue = value;

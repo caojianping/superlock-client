@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { PromoteRewardType } from '@/ts/config';
@@ -10,6 +11,7 @@ import { PromoteRewardPushModel, PromoteRewardLockModel, PromoteRewardUnlockMode
 import { Toast, PullRefresh, List, CellGroup, Cell } from 'vant';
 import Header from '@/components/common/header';
 
+const i18n = Locales.buildLocale();
 const projectModule = namespace('project');
 
 @Component({
@@ -41,7 +43,7 @@ export default class RewardRecord extends Vue {
     }
 
     // 获取数据
-    async fetchData(isRefresh: boolean) {
+    async fetchData(isRefresh: boolean = false) {
         if (!this.rewards || isRefresh) {
             this.setStates({ pageNum: 1 });
             await this.fetchPromoteRewards();
@@ -52,7 +54,7 @@ export default class RewardRecord extends Vue {
     async refreshData() {
         await this.fetchData(true);
         this.isPulling = false;
-        Toast('刷新成功');
+        Toast(i18n.tc('COMMON.REFRESH_SUCCESS'));
     }
 
     // 初始化数据
@@ -61,10 +63,10 @@ export default class RewardRecord extends Vue {
             type = Utils.digitConvert(params.type) || PromoteRewardType.Push;
         this.type = type;
         this.title = {
-            1: '直推奖励',
-            2: '团队锁仓奖励',
-            3: '推广解锁奖励',
-            4: '销量达标奖励'
+            1: i18n.tc('ASSET.PUSH_REWARD'),
+            2: i18n.tc('ASSET.LOCK_REWARD'),
+            3: i18n.tc('ASSET.PROMOTE_REWARD'),
+            4: i18n.tc('ASSET.SALES_REWARD')
         }[type];
     }
 
@@ -73,6 +75,6 @@ export default class RewardRecord extends Vue {
     }
 
     mounted() {
-        this.fetchData(false);
+        this.fetchData(true);
     }
 }

@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import { OperationType } from '@/ts/config';
 import { WithdrawAddressModel } from '@/ts/models';
@@ -10,6 +11,7 @@ import { Toast, PullRefresh, CellGroup, Cell, Checkbox } from 'vant';
 import Header from '@/components/common/header';
 import WithdrawSetting from '@/components/withdraw/withdraw-setting';
 
+const i18n = Locales.buildLocale();
 const withdrawModule = namespace('withdraw');
 
 @Component({
@@ -54,7 +56,7 @@ export default class WithdrawAddress extends Vue {
     async refreshData() {
         await this.fetchData(true);
         this.isPulling = false;
-        Toast('刷新成功');
+        Toast(i18n.tc('COMMON.REFRESH_SUCCESS'));
     }
 
     // 初始化数据

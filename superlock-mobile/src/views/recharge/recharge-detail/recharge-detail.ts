@@ -3,6 +3,7 @@ import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { SessionStorage } from 'jts-storage';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import { CONSTANTS } from '@/ts/config';
 import { Clipboard } from '@/ts/common';
@@ -11,6 +12,7 @@ import { RechargeModel } from '@/ts/models';
 import { CellGroup, Cell } from 'vant';
 import Header from '@/components/common/header';
 
+const i18n = Locales.buildLocale();
 const rechargeModule = namespace('recharge');
 
 @Component({

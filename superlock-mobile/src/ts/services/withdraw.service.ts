@@ -4,10 +4,13 @@ import { Urls, CaxiosType } from '@/ts/config';
 import { Caxios, md5 } from '@/ts/common';
 import { WithdrawModel, WithdrawAddressModel, WithdrawFormModel } from '@/ts/models';
 
+import Locales from '@/locales';
+const i18n = Locales.buildLocale();
+
 export class WithdrawService {
     // 校验提现表单
     public static validateWithdrawForm(withdrawForm: WithdrawFormModel, isPassword: boolean = true): ValidationResult {
-        if (!withdrawForm) return { status: false, data: { withdrawForm: '提现表单参数不可以为空' } };
+        if (!withdrawForm) return { status: false, data: { withdrawForm: i18n.tc('VALIDATES.PARAMETER_NOT_NULL') } };
 
         let key = 'withdrawForm',
             { address, amount, fundPasswd, maxAmount } = withdrawForm,
@@ -16,34 +19,39 @@ export class WithdrawService {
             key,
             { name: 'maxAmount', value: maxAmount },
             { required: true, minExclude: 0 },
-            { required: '可用余额不足', minExclude: '可用余额不足' }
+            { required: i18n.tc('VALIDATES.LACK_BALANCE'), minExclude: i18n.tc('VALIDATES.LACK_BALANCE') }
         );
-        validator.addRule(key, { name: 'address', value: address }, { required: true }, { required: '提现地址不可以为空' });
+        validator.addRule(key, { name: 'address', value: address }, { required: true }, { required: i18n.tc('VALIDATES.WITHDRAW_ADDRESS_NOT_NULL') });
         validator.addRule(
             key,
             { name: 'amount', value: !Utils.isNullOrUndefined(amount) ? Utils.digitConvert(amount) : amount },
             { required: true, minExclude: 0, max: maxAmount },
             {
-                required: '提现金额不可以为空',
-                minExclude: '提现金额不可以小于等于0',
-                max: `提现金额不可以大于${maxAmount}`
+                required: i18n.tc('VALIDATES.WITHDRAW_AMOUNT_NOT_NULL'),
+                minExclude: i18n.tc('VALIDATES.RECHARGE_AMOUNT_GT_ZERO'),
+                max: i18n.t('VALIDATES.RECHARGE_AMOUNT_LE', { value: maxAmount })
             }
         );
         if (isPassword) {
-            validator.addRule(key, { name: 'fundPasswd', value: fundPasswd }, { required: true }, { required: '资金密码不可以为空' });
+            validator.addRule(
+                key,
+                { name: 'fundPasswd', value: fundPasswd },
+                { required: true },
+                { required: i18n.tc('VALIDATES.FUND_PASSWORD_NOT_NULL') }
+            );
         }
         return validator.execute(key);
     }
 
     // 校验提现地址
     public static validateWithdrawAddress(withdrawAddress: WithdrawAddressModel): ValidationResult {
-        if (!withdrawAddress) return { status: false, data: { withdrawAddress: '提现地址参数不可以为空' } };
+        if (!withdrawAddress) return { status: false, data: { withdrawAddress: i18n.tc('VALIDATES.PARAMETER_NOT_NULL') } };
 
         let key = 'withdrawAddress',
             { nickName, address } = withdrawAddress,
             validator = new Validator();
-        validator.addRule(key, { name: 'nickName', value: nickName }, { required: true }, { required: '钱包名称不可以为空' });
-        validator.addRule(key, { name: 'address', value: address }, { required: true }, { required: '钱包地址不可以为空' });
+        validator.addRule(key, { name: 'nickName', value: nickName }, { required: true }, { required: i18n.tc('VALIDATES.WALLET_NAME_NOT_NULL') });
+        validator.addRule(key, { name: 'address', value: address }, { required: true }, { required: i18n.tc('VALIDATES.WALLET_ADDRESS_NOT_NULL') });
         return validator.execute(key);
     }
 
@@ -59,7 +67,7 @@ export class WithdrawService {
                 fundPasswd: md5(fundPasswd),
                 remark: remark || ''
             });
-        await Caxios.post<any>({ url: `${Urls.withdraw.execute}?${parameters}` }, CaxiosType.LoadingToken);
+        await Caxios.post<any>({ url: `${Urls.withdraw.execute}?${parameters}` }, CaxiosType.Token);
         return true;
     }
 

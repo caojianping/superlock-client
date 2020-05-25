@@ -1,9 +1,13 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
+
+import Locales from '@/locales';
 import Utils from '@/ts/utils';
 
 import { Button } from 'vant';
 import Header from '@/components/common/header';
+
+const i18n = Locales.buildLocale();
 
 @Component({
     name: 'WithdrawResult',
@@ -16,7 +20,7 @@ export default class WithdrawResult extends Vue {
     msg: string = '';
 
     get title() {
-        return ['提现失败', '提现成功'][this.type] || '';
+        return [i18n.tc('WITHDRAW.WITHDRAW_FAILURE'), i18n.tc('WITHDRAW.WITHDRAW_SUCCESS')][this.type] || '';
     }
 
     // 初始化数据

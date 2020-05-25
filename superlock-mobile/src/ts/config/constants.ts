@@ -3,6 +3,10 @@ export const CONSTANTS = {
     TOKEN_INFO: 'TOKEN_INFO', // tokenInfo
     TOKEN_HEADER: 'token', // token头信息
 
+    LANG: 'LANG', // 网站语言
+    DEFAULT_LANG: 'zh', // 默认语言
+    ONE_WEEK: 3600 * 1000 * 24 * 7, // 一周
+
     CAPTCHA_OPTIONS: {
         element: '#captcha',
         captchaId: '7c80c423944941819e409d0d6639c4dd',
@@ -15,7 +19,7 @@ export const CONSTANTS = {
     FUND_FROM: 'FUND_FROM', // 资金密码页面来源
     LOAN_FROM: 'LOAN_FROM', // 贷款详情页面来源
 
-    LOCK: 'LOCK',// 锁仓数据
+    LOCK: 'LOCK', // 锁仓数据
     LOCK_PROJECT: 'LOCK_PROJECT', // 锁仓项目
     LOCK_RESULT: 'LOCK_RESULT', // 锁仓结果
     RECHARGE: 'RECHARGE', // 充值信息

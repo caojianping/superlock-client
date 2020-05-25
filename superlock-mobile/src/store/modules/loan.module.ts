@@ -3,20 +3,23 @@ import { IActionContext, ILoanState } from '@/store/interfaces';
 import { LoanableLockModel, LoanInterestModel, LoanApplyFormModel, LoanRepayFormModel } from '@/ts/models';
 import { LoanService } from '@/ts/services';
 
+import Locales from '@/locales';
+const i18n = Locales.buildLocale();
+
 const loanState: ILoanState = {
     loanFlags: new Map([
-        [1, '可质押'],
-        [2, '锁仓金额太小，无法质押'],
-        [3, '锁仓即将到期，无法质押']
+        [1, i18n.tc('ARRAY.LOAN_FLAGS.0')],
+        [2, i18n.tc('ARRAY.LOAN_FLAGS.1')],
+        [3, i18n.tc('ARRAY.LOAN_FLAGS.2')]
     ]),
     loanStatuses: new Map([
-        [0, '审核中'],
-        [10, '审核失败'],
-        [20, '贷款中'],
-        [30, '爆仓'],
-        [31, '还款中'],
-        [40, '贷款已还清'],
-        [50, '已逾期']
+        [0, i18n.tc('ARRAY.LOAN_STATUSES.0')],
+        [10, i18n.tc('ARRAY.LOAN_STATUSES.1')],
+        [20, i18n.tc('ARRAY.LOAN_STATUSES.2')],
+        [30, i18n.tc('ARRAY.LOAN_STATUSES.3')],
+        [31, i18n.tc('ARRAY.LOAN_STATUSES.4')],
+        [40, i18n.tc('ARRAY.LOAN_STATUSES.5')],
+        [50, i18n.tc('ARRAY.LOAN_STATUSES.6')]
     ]),
     loanColors: new Map([
         [0, 'green'],

@@ -1,32 +1,32 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
-        <div class="security-email scb-gray">
-            <Header title="绑定邮箱" @left="$router.push(from)" />
+        <div class="scb-gray security-email">
+            <Header :title="$t('SECURITY.BIND_EMAIL')" @left="$router.push(from)" />
 
             <div class="scb-form scb-separator">
                 {{ ((userInfoObj = userInfo || {}), void 0) }}
                 <ul>
                     <li>
-                        <h1>绑定邮箱</h1>
+                        <h1>{{ $t('SECURITY.BIND_EMAIL') }}</h1>
                     </li>
 
                     <li>
-                        <h2>邮箱地址</h2>
+                        <h2>{{ $t('SECURITY.EMAIL_ADDRESS') }}</h2>
                         <Field
                             :value="emailForm.emailAddress"
                             clearable
-                            placeholder="请输入邮箱地址"
+                            :placeholder="$t('PLACEHOLDERS.ENTER_EMAIL_ADDRESS')"
                             @input="handleFieldInput('emailAddress', $event)"
                         />
                     </li>
 
                     <li>
-                        <h2>邮箱验证码</h2>
+                        <h2>{{ $t('SECURITY.EMAIL_CODE') }}</h2>
                         <Field
                             class="code"
                             :value="emailForm.emailCode"
                             clearable
-                            placeholder="请输入邮箱验证码"
+                            :placeholder="$t('PLACEHOLDERS.ENTER_EMAIL_CODE')"
                             @input="handleFieldInput('emailCode', $event)"
                         >
                             <template slot="button">
@@ -37,7 +37,7 @@
                     </li>
 
                     <li>
-                        <Button class="effect-shadow" type="primary" block round @click="submit">确认</Button>
+                        <Button class="effect-shadow" type="primary" block round @click="submit">{{ $t('COMMON.CONFIRM') }}</Button>
                     </li>
                 </ul>
             </div>
