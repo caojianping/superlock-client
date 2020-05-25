@@ -6,10 +6,10 @@
 
         <ul class="rate-forms">
             <li v-for="(defaultRateForm, index) in defaultRateForms" :key="index">
-                <Field
-                    v-if="defaultRateForm.type === 1"
-                    :label="`${defaultRateForm.length}${unitTypes[defaultRateForm.unit - 1]}${$t('MINE.LOCK_RATE')}`"
-                >
+                <Field v-if="defaultRateForm.type === 1">
+                    <p slot="label" class="flex-middle">
+                        <span>{{ `${defaultRateForm.length}${unitTypes[defaultRateForm.unit - 1]}${$t('MINE.LOCK_RATE')}` }}</span>
+                    </p>
                     <template slot="input">
                         <div class="rate-input">
                             <div class="scb-input small">
@@ -20,7 +20,10 @@
                         <p class="rate-prompt">{{ $t('MINE.MAX_SETTING_RATE') }}：{{ `${defaultRateForm.max}%` }}</p>
                     </template>
                 </Field>
-                <Field v-if="defaultRateForm.type === 2" :label="$t('MINE.PROMOTE_UNLOCK_RATE')">
+                <Field v-if="defaultRateForm.type === 2">
+                    <p slot="label" class="flex-middle">
+                        <span>{{ $t('MINE.PROMOTE_UNLOCK_RATE') }}</span>
+                    </p>
                     <template slot="input">
                         <div class="rate-input">
                             <div class="scb-input small">

@@ -13,10 +13,12 @@
                     <li v-for="(lockPromoteRate, index) in lockPromoteRates" :key="index" :style="{ width: width + 'rem' }">
                         <h3>{{ lockPromoteRate.rate | digitPrecision }}{{ lockPromoteRate.suffix }}</h3>
 
-                        <p v-if="lockPromoteRate.type === 1">
-                            {{ lockPromoteRate.length + unitTypes[lockPromoteRate.unit - 1] + rateTypes[lockPromoteRate.type - 1] }}
+                        <p class="flex-middle">
+                            <span v-if="lockPromoteRate.type === 1">{{
+                                lockPromoteRate.length + unitTypes[lockPromoteRate.unit - 1] + rateTypes[lockPromoteRate.type - 1]
+                            }}</span>
+                            <span v-else>{{ rateTypes[lockPromoteRate.type - 1] }}</span>
                         </p>
-                        <p v-else>{{ rateTypes[lockPromoteRate.type - 1] }}</p>
                     </li>
                 </ul>
             </div>

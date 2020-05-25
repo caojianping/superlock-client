@@ -1,6 +1,6 @@
 <template>
     <div class="recharge-code">
-        <Header :title="`${rechargeCoin}${$t('COMMON.RECHARGE_ADDRESS')}`" is-right @left="$router.push(from)">
+        <Header :title="`${rechargeCoin} ${$t('COMMON.RECHARGE_ADDRESS')}`" is-right @left="$router.push(from)">
             <router-link slot="right" to="/recharge/record">{{ $t('COMMON.DETAILS') }}</router-link>
         </Header>
 

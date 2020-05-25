@@ -28,7 +28,7 @@ export class Caxios {
     // 设置headers
     private static setHeaders(type: CaxiosType = CaxiosType.Default, options: any = {}) {
         if (!options['headers']) {
-            options['headers'] = {};
+            options['headers'] = { 'user-agents': 'H5' };
         }
 
         if (type === CaxiosType.Token || type === CaxiosType.LoadingToken) {

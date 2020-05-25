@@ -49,7 +49,7 @@
 
                 li {
                     flex: 1;
-                    padding-left: 2rem;
+                    padding-left: 1.5rem;
 
                     &:first-child h2 {
                         .font-styles(2rem, bold, 1.5, #ff9600, left);
@@ -75,7 +75,7 @@
             > p {
                 background-color: #fff6e9;
                 .font-styles(0.875rem, normal, 2.5rem, #ffab0d, left);
-                text-indent: 1.6rem;
+                text-indent: 1rem;
 
                 i,
                 span {
@@ -83,7 +83,7 @@
                 }
 
                 span {
-                    margin-left: 0.5rem;
+                    margin-left: 0.25rem;
                 }
             }
         }
@@ -154,12 +154,14 @@
                     position: relative;
                     flex: 1;
 
-                    span {
-                        display: inline-block;
+                    .flex-middle {
                         width: 4.5rem;
                         height: 1.5rem;
-                        .font-styles(0.75rem, normal, 1.5rem, @black, center);
                         border-radius: 0.75rem;
+
+                        span {
+                            .font-styles(0.625rem, normal, 1, @black, center);
+                        }
                     }
 
                     i {
@@ -195,16 +197,19 @@
                         }
                     }
 
-                    p {
+                    .time-date {
                         margin-top: 2.5rem;
                         .font-styles(0.75rem, normal, 1.5, @gray, left);
                     }
 
                     &:first-child {
-                        span {
-                            color: #99b8ff;
+                        .flex-middle {
                             background-color: #f2f8ff;
                             border: 1px solid rgba(153, 184, 255, 0.21);
+
+                            span {
+                                color: #99b8ff;
+                            }
                         }
 
                         i {
@@ -222,10 +227,13 @@
                     }
 
                     &:nth-child(2) {
-                        span {
-                            color: #f8a63d;
+                        .flex-middle {
                             background-color: #ffefda;
                             border: 1px solid rgba(248, 166, 61, 0.33);
+
+                            span {
+                                color: #f8a63d;
+                            }
                         }
 
                         i {
@@ -245,10 +253,16 @@
                     &:last-child {
                         text-align: right;
 
-                        span {
-                            color: #3d79f8;
+                        .flex-middle {
+                            position: absolute;
+                            top: 0;
+                            right: 0;
                             background-color: #e1ebff;
                             border: 1px solid #a5c2ff;
+
+                            span {
+                                color: #3d79f8;
+                            }
                         }
 
                         i {
@@ -265,6 +279,8 @@
                         }
 
                         p {
+                            position: relative;
+                            top: 1.5rem;
                             text-align: right;
                         }
                     }
@@ -293,7 +309,7 @@
                         }
 
                         p {
-                            .font-styles(0.9375rem, normal, 1.5, @gray, left);
+                            .font-styles(0.9375rem, normal, 1.25, @gray, left);
                         }
                     }
                 }
@@ -303,6 +319,18 @@
         .lock-intro-explain {
             margin-bottom: 1rem;
             padding-bottom: 0.5rem;
+
+            .flex-middle {
+                margin: auto;
+                padding: 0;
+                width: 5.5rem;
+                height: 1.875rem;
+
+                span {
+                    line-height: 1;
+                    text-align: center;
+                }
+            }
 
             p {
                 padding: 0.25rem 0 1.25rem;

@@ -6,7 +6,7 @@
             </Header>
 
             <div v-if="withdrawAddresses" class="scb-separator">
-                <p v-if="withdrawAddresses.length <= 0" class="scb-none" v-html="$t('WITHDRAW_ADDRESS_NO_DATA')" />
+                <p v-if="withdrawAddresses.length <= 0" class="scb-none" v-html="$t('WITHDRAW.WITHDRAW_ADDRESS_NO_DATA')" />
                 <CellGroup v-else>
                     <Cell v-for="(withdrawAddress, index) in withdrawAddresses" :key="index" @click="chooseAddress(withdrawAddress)">
                         <div slot="title">
