@@ -2,7 +2,7 @@
     <PullRefresh v-model="isPulling" @refresh="refreshData">
         <div class="withdraw-address">
             <Header :title="$t('COMMON.WITHDRAW_ADDRESS')" is-right @left="$router.push(from)">
-                <span slot="right" @click="openWithdrawSetting">{{ $t('WITHDRAW.ADD_ADDRESS') }}</span>
+                <span slot="right" @click="openWithdrawModal">{{ $t('WITHDRAW.ADD_ADDRESS') }}</span>
             </Header>
 
             <div v-if="withdrawAddresses" class="scb-separator">
@@ -18,7 +18,7 @@
                 </CellGroup>
             </div>
 
-            <WithdrawSetting v-model="isShow" :type="operationType" @submit="handleWithdrawSettingSubmit" />
+            <WithdrawModal v-model="isShow" :type="operationType" @submit="handleWithdrawModalSubmit" />
         </div>
     </PullRefresh>
 </template>
