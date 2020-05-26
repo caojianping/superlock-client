@@ -41,7 +41,7 @@ export default class RechargeDetail extends Vue {
     }
 
     mounted() {
-        Clipboard.copy('orderId', i18n.tc('COMMON.TRANSACTION_ID'));
-        Clipboard.copy('txhash', i18n.tc('COMMON.TRANSACTION_HASH'));
+        Clipboard.copy('rechargeOrderId', i18n.tc('COMMON.TRANSACTION_ID')); // id添加前缀，防止复制元素重复
+        Clipboard.copy('rechargeTxhash', i18n.tc('COMMON.TRANSACTION_HASH')); // id添加前缀，防止复制元素重复
     }
 }

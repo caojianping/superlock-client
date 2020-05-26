@@ -86,8 +86,8 @@ export default class LoanRepay extends Vue {
         this.setStates({ repayForm });
         Toast.clear();
 
-        Clipboard.copy('orderId', i18n.tc('LOAN.LOAN_ORDER_ID'));
-        Clipboard.copy('lockOrderId', i18n.tc('LOAN.PLEDGE_LOCK_ORDER_ID'));
+        Clipboard.copy('loanRepayOrderId', i18n.tc('LOAN.LOAN_ORDER_ID')); // id添加前缀，防止复制元素重复
+        Clipboard.copy('loanRepayLockOrderId', i18n.tc('LOAN.PLEDGE_LOCK_ORDER_ID')); // id添加前缀，防止复制元素重复
     }
 
     // 刷新数据

@@ -11,13 +11,13 @@
                 <template>
                     <CellGroup class="priority-value">
                         <Cell :title="$t('LOAN.LOAN_ORDER_ID')">
-                            <p class="scb-copy" id="orderId" :data-clipboard-text="loan.orderId">
+                            <p class="scb-copy" id="loanRepayOrderId" :data-clipboard-text="loan.orderId">
                                 <span>{{ loan.orderId }}</span>
                                 <i class="icon icon-copy" />
                             </p>
                         </Cell>
                         <Cell :title="$t('LOAN.PLEDGE_LOCK_ORDER_ID')">
-                            <p class="scb-copy" id="lockOrderId" :data-clipboard-text="loan.lockOrderId">
+                            <p class="scb-copy" id="loanRepayLockOrderId" :data-clipboard-text="loan.lockOrderId">
                                 <span>{{ loan.lockOrderId }}</span>
                                 <i class="icon icon-copy" />
                             </p>

@@ -1,9 +1,9 @@
 <template>
     <div class="scb-gray setting-center">
-        <Header :title="$t('MINE.SETTING_CENTER')" @left="$router.back(-1)" />
+        <Header :title="$t('MINE.SETTING_CENTER')" @left="$router.push('/mine/index')" />
 
         <CellGroup class="scb-separator">
-            <Cell :title="$t('MINE.LANGUAGE')" is-link />
+            <Cell :title="$t('MINE.LANGUAGE')" is-link to="/lang/center" />
             <!-- <Cell title="关于我们" is-link /> -->
         </CellGroup>
 

@@ -41,8 +41,8 @@ export default class LoanDetail extends Vue {
     async fetchData() {
         this.id && (await this.fetchLoan());
 
-        Clipboard.copy('orderId', i18n.tc('LOAN.LOAN_ORDER_ID'));
-        Clipboard.copy('lockOrderId', i18n.tc('LOAN.PLEDGE_LOCK_ORDER_ID'));
+        Clipboard.copy('loanDetailOrderId', i18n.tc('LOAN.LOAN_ORDER_ID')); // id添加前缀，防止复制元素重复
+        Clipboard.copy('loanDetailLockOrderId', i18n.tc('LOAN.PLEDGE_LOCK_ORDER_ID')); // id添加前缀，防止复制元素重复
     }
 
     // 刷新数据

@@ -10,7 +10,7 @@
                 </figure>
                 <div>
                     <h2>{{ userInfoObj.nickName || '--' }}</h2>
-                    <p class="scb-copy" id="uid" :data-clipboard-text="userInfoObj.userId">
+                    <p class="scb-copy" id="mineUid" :data-clipboard-text="userInfoObj.userId">
                         <span>UID: {{ userInfoObj.userId || '--' }}</span>
                         <i class="icon icon-copy" />
                     </p>

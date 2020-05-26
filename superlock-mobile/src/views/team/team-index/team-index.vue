@@ -42,9 +42,7 @@
                                 <h3>{{ `UID:${child.uid}` }}</h3>
                                 <div v-if="child.rateSetRemind" class="tip">
                                     <i class="icon icon-pset" />
-                                    <p class="flex-middle">
-                                        <span>{{ $t('TEAM.UNSETTING_PROMPT') }}</span>
-                                    </p>
+                                    <span>{{ $t('TEAM.UNSETTING_PROMPT') }}</span>
                                 </div>
                             </div>
                             <div>

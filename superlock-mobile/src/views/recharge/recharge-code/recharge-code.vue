@@ -10,7 +10,7 @@
                 <h2 v-if="rechargeCoin !== 'BCB'">{{ $t('COMMON.PIECE') }}：{{ minAmount }}个{{ rechargeCoin }}</h2>
                 <qriously :value="rechargeAddressQrcode" :size="180" />
                 <p>{{ rechargeAddress }}</p>
-                <Button id="address" class="effect-tripple" type="primary" size="small" round :data-clipboard-text="rechargeAddress">
+                <Button id="rechargeAddress" class="effect-tripple" type="primary" size="small" round :data-clipboard-text="rechargeAddress">
                     {{ $t('COMMON.COPY_ADDRESS') }}
                 </Button>
             </div>
