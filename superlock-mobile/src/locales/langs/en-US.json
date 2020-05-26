@@ -210,7 +210,7 @@
         "WITHDRAW_ADDRESS_ADD_FAILURE": "Withdraw address add failed",
         "WITHDRAW_NO_DATA": "No withdraw data",
         "WITHDRAW_RECORD_NO_DATA": "No withdraw data，go to <a class='scb-link' href='#/asset/index'>Withdraw</a>!",
-        "WITHDRAW_ADDRESS_NO_DATA": "No withdraw address data, go to <a class='scb-link' href='javascript: void(0)' @click='penWithdrawSetting'>Add</a>!"
+        "WITHDRAW_ADDRESS_NO_DATA": "No withdraw address data"
     },
     "TRANSFER": {
         "TRANSFER_RECORD": "Transfer record",

@@ -24,6 +24,6 @@
     </Popup>
 </template>
 
-<style src="./withdraw-setting.less" lang="less" scoped />
+<style src="./withdraw-modal.less" lang="less" scoped />
 
-<script src="./withdraw-setting.ts" />
+<script src="./withdraw-modal.ts" />

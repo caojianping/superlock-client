@@ -210,7 +210,7 @@
         "WITHDRAW_ADDRESS_ADD_FAILURE": "提现地址添加失败",
         "WITHDRAW_NO_DATA": "暂无提现数据",
         "WITHDRAW_RECORD_NO_DATA": "暂无提现记录，快去<a class='scb-link' href='#/asset/index'>提现</a>吧！",
-        "WITHDRAW_ADDRESS_NO_DATA": "暂无提现地址，快去<a class='scb-link' href='javascript: void(0)' @click='penWithdrawSetting'>添加地址</a>吧！"
+        "WITHDRAW_ADDRESS_NO_DATA": "暂无提现地址"
     },
     "TRANSFER": {
         "TRANSFER_RECORD": "转账记录",
