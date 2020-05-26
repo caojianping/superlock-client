@@ -2,7 +2,7 @@ import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 
 import Header from '@/components/common/header';
-import LoanBanner from '@/components/loan/loan-banner';
+import LoanBanner from '@/components/common/loan-banner';
 
 @Component({
     name: 'LoanIntro',

@@ -38,6 +38,7 @@ export default class Home extends Vue {
     isPulling: boolean = false; // 是否下拉刷新
     isProjectSpinning: boolean = false;
     // isOptimizeSpinning: boolean = false;
+    activeLang: string = Locales.getLang();
 
     // 是否需要设置利率
     get isRateSet(): Boolean | undefined {
