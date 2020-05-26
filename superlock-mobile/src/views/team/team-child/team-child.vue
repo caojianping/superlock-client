@@ -7,7 +7,7 @@
             <div v-else>
                 <CellGroup>
                     <Cell title="UID">
-                        <p class="scb-copy" id="uid" :data-clipboard-text="child.uid">
+                        <p class="scb-copy" id="teamUid" :data-clipboard-text="child.uid">
                             <span>{{ child.uid }}</span>
                             <i class="icon icon-copy" />
                         </p>
@@ -47,9 +47,9 @@
         <Modal v-if="currentForm" class="rate-modal" v-model="isRateShow">
             <template slot="header">
                 <h2 v-if="currentForm.type === 1">
-                    {{ currentForm.length + unitTypes[currentForm.unit - 1] + rateTypes[currentForm.type - 1] }}{{ $t('COMMON.SETTING') }}
+                    {{ currentForm.length + unitTypes[currentForm.unit - 1] + rateTypes[currentForm.type - 1] }} {{ $t('COMMON.LOWER_SETTING') }}
                 </h2>
-                <h2 v-else>{{ rateTypes[currentForm.type - 1] }}{{ $t('COMMON.SETTING') }}设置</h2>
+                <h2 v-else>{{ rateTypes[currentForm.type - 1] }} {{ $t('COMMON.LOWER_SETTING') }}设置</h2>
                 <p class="align-left">{{ $t('TEAM.CHILD_PROMPT03') }}</p>
             </template>
 

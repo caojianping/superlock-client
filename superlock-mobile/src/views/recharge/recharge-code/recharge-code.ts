@@ -52,7 +52,7 @@ export default class RechargeCode extends Vue {
         await this.fetchRechargeAddress();
         Toast.clear();
 
-        Clipboard.copy('address', i18n.tc('COMMON.RECHARGE_ADDRESS'));
+        Clipboard.copy('rechargeAddress', i18n.tc('COMMON.RECHARGE_ADDRESS'));// id添加前缀，防止复制元素重复
     }
 
     // 初始化数据

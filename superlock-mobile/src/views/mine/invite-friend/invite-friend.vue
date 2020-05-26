@@ -1,6 +1,6 @@
 <template>
     <div class="invite-friend">
-        <Header title="" :is-border="false" @left="$router.back(-1)" />
+        <Header title="" :is-border="false" @left="$router.push('/mine/index')" />
 
         <div class="invite-rate" @click="openRateModal">
             <i class="icon icon-rate" />
@@ -12,7 +12,7 @@
         <div class="invite-container">
             <p>{{ $t('MINE.SCAN_QRCODE') }}</p>
             <qriously class="invite-qrcode" :value="referralLink" :size="160" />
-            <Button id="address" class="effect-shadow" type="primary" size="large" round :data-clipboard-text="referralLink">
+            <Button id="inviteAddress" class="effect-shadow" type="primary" size="large" round :data-clipboard-text="referralLink">
                 {{ $t('COMMON.COPY_ADDRESS') }}
             </Button>
         </div>

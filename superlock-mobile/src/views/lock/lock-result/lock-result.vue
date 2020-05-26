@@ -18,7 +18,7 @@
 
                 <CellGroup class="priority-value">
                     <Cell :title="$t('LOCK.LOCK_ORDER_ID')" :value="lockResult.orderId">
-                        <p class="scb-copy" id="orderId" :data-clipboard-text="lockResult.orderId">
+                        <p class="scb-copy" id="lockResultOrderId" :data-clipboard-text="lockResult.orderId">
                             <span>{{ lockResult.orderId }}</span>
                             <i class="icon icon-copy" />
                         </p>

@@ -38,7 +38,7 @@ export default class MineIndex extends Vue {
     // 获取数据
     async fetchData(isRefresh: boolean) {
         (!this.userInfo || isRefresh) && (await this.fetchUserInfo(true));
-        Clipboard.copy('uid', 'UID');
+        Clipboard.copy('mineUid', 'UID');// id添加前缀，防止复制元素重复
     }
 
     // 刷新数据

@@ -9,13 +9,13 @@
             </div>
             <CellGroup v-else class="priority-value">
                 <Cell :title="$t('COMMON.TRANSACTION_ID')">
-                    <p class="scb-copy" id="orderId" :data-clipboard-text="withdraw.orderId">
+                    <p class="scb-copy" id="withdrawOrderId" :data-clipboard-text="withdraw.orderId">
                         <span>{{ withdraw.orderId }}</span>
                         <i class="icon icon-copy" />
                     </p>
                 </Cell>
                 <Cell :title="$t('COMMON.TRANSACTION_HASH')">
-                    <p class="scb-copy" id="txhash" :data-clipboard-text="withdraw.txhash">
+                    <p class="scb-copy" id="withdrawTxhash" :data-clipboard-text="withdraw.txhash">
                         <span>{{ withdraw.txhash }}</span>
                         <i v-if="withdraw.txhash" class="icon icon-copy" />
                     </p>

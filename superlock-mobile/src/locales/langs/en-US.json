@@ -29,6 +29,7 @@
         "SAVE": "Save",
         "COMPLETE": "Complete",
         "SETTING": "Settings",
+        "LOWER_SETTING": "settings",
         "DEVELOPING": "Under development, stay tuned!",
         "INIT_NECAPTCHA": "The initNECaptcha is not supported",
         "SYSTEM_BUSY_RETRY_LATER": "The system is busy, please try again later",
@@ -139,6 +140,7 @@
         "FUND_PASSWORD": "Fund password",
         "EMAIL_BIND": "Email address",
         "SETTING_CENTER": "Settings",
+        "LANG_CENTER": "Choose Language",
         "LANGUAGE": "Language",
         "LOGOUT": "Logout",
         "LOGOUT_FAILURE": "Logout failed",
@@ -406,12 +408,12 @@
     },
     "ARRAY": {
         "UNIT_TYPES": {
-            "0": "Day",
-            "1": "Month",
-            "2": "Year"
+            "0": "Day ",
+            "1": "Month ",
+            "2": "Year "
         },
         "RATE_TYPES": {
-            "0": "Stake rates",
+            "0": "stake rates",
             "1": "Unstake rate for friends",
             "2": "Stake allocation"
         },

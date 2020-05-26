@@ -42,6 +42,6 @@ export default class LockDetail extends Vue {
     }
 
     mounted() {
-        Clipboard.copy('orderId', i18n.tc('LOCK.LOCK_ORDER_ID'));
+        Clipboard.copy('lockDetailOrderId', i18n.tc('LOCK.LOCK_ORDER_ID')); // id添加前缀，防止复制元素重复
     }
 }

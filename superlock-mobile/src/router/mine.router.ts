@@ -3,6 +3,7 @@ import InviteFriend from '@/views/mine/invite-friend';
 import HelpCenter from '@/views/mine/help-center';
 import MessageCenter from '@/views/mine/message-center';
 import SettingCenter from '@/views/mine/setting-center';
+import LangCenter from '@/views/mine/lang-center';
 
 export default [
     {
@@ -29,5 +30,10 @@ export default [
         path: '/setting/center',
         name: 'SettingCenter',
         component: SettingCenter
+    },
+    {
+        path: '/lang/center',
+        name: 'LangCenter',
+        component: LangCenter
     }
 ];

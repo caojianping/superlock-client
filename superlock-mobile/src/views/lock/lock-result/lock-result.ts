@@ -40,6 +40,6 @@ export default class LockResult extends Vue {
     }
 
     mounted() {
-        Clipboard.copy('orderId', i18n.tc('LOCK.LOCK_ORDER_ID'));
+        Clipboard.copy('lockResultOrderId', i18n.tc('LOCK.LOCK_ORDER_ID')); // id添加前缀，防止复制元素重复
     }
 }

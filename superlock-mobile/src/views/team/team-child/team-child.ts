@@ -151,6 +151,6 @@ export default class TeamChild extends Vue {
     }
 
     mounted() {
-        Clipboard.copy('uid', 'UID');
+        Clipboard.copy('teamUid', 'UID');// id添加前缀，防止复制元素重复
     }
 }
