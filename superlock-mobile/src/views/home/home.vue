@@ -107,6 +107,7 @@
                             <p>{{ $t('HOME.TOTAL_DEAL_VALUE') }}({{ statistics.valuationCoin || '--' }})</p>
                             <h3>
                                 <span>{{ (statistics.cumulativeValuation || 0) | currencyComma(6) }}</span>
+                                <br v-if="activeLang === 'en'" />
                                 <small>{{ $t('HOME.TEN_THOUSAND') }}</small>
                             </h3>
                         </div>

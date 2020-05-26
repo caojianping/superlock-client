@@ -9,7 +9,7 @@ import { WithdrawAddressModel } from '@/ts/models';
 
 import { Toast, PullRefresh, CellGroup, Cell, Checkbox } from 'vant';
 import Header from '@/components/common/header';
-import WithdrawSetting from '@/components/withdraw/withdraw-setting';
+import WithdrawSetting from '@/components/common/withdraw-setting';
 
 const i18n = Locales.buildLocale();
 const withdrawModule = namespace('withdraw');

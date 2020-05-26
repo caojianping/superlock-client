@@ -1,5 +1,5 @@
 <template>
-    <div class="invite-friend">
+    <div :class="['invite-friend', activeLang]">
         <Header title="" :is-border="false" @left="$router.push('/mine/index')" />
 
         <div class="invite-rate" @click="openRateModal">

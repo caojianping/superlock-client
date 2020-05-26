@@ -13,8 +13,8 @@ import { ExchangeRateModel, LockModel, LoanModel, AssetStatsModel, EarningsStats
 import { Toast, PullRefresh, CellGroup, Cell, Tabs, Tab } from 'vant';
 import Navs from '@/components/common/navs';
 import Spin from '@/components/common/spin';
+import EarningsInfo from '@/components/common/earnings-info';
 import RechargeCoins from '@/components/recharge/recharge-coins';
-import EarningsInfo from '@/components/asset/earnings-info';
 
 const i18n = Locales.buildLocale();
 const lockModule = namespace('lock');
