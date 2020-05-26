@@ -23,6 +23,7 @@
                             :placeholder="`> ${lockForm.minAmount || '--'}BCB`"
                             @input="handleFieldInput('amount', $event)"
                         >
+                            <span class="text-orange" slot="button" @click="lockAll">{{ $t('COMMON.ALL') }}</span>
                         </Field>
                         <p v-if="!userLockQuota" class="text-orange">{{ $t('COMMON.CURRENT_LOCKABLE_QUOTA') }}：-- -- = -- --</p>
                         <p v-else class="text-orange">

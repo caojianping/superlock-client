@@ -111,7 +111,7 @@
                             <div>
                                 <h3>{{ $t('LOCK.FEATURE_TITLE04') }}</h3>
                                 <p>
-                                    {{ $t('LOCK.FEATURE_TITLE041') }}<a>{{ $t('LOCK.ROOM_CHANGE') }}</a>
+                                    {{ $t('LOCK.FEATURE_TITLE041') }} <a href="javascript: void(0)">{{ $t('LOCK.ROOM_CHANGE') }}</a>
                                 </p>
                             </div>
                         </li>

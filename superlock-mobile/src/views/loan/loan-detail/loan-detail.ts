@@ -34,15 +34,15 @@ export default class LoanDetail extends Vue {
 
     get title() {
         let loan = this.loan;
-        return loan && (loan.status === 0 || loan.status === 10) ? '贷款申请信息' : '贷款明细';
+        return loan && (loan.status === 0 || loan.status === 10) ? i18n.tc('LOAN.LOAN_APPLY_INFO') : i18n.tc('LOAN.LOAN_DETAILS');
     }
 
     // 获取数据
     async fetchData() {
         this.id && (await this.fetchLoan());
 
-        Clipboard.copy('orderId', '贷款订单号');
-        Clipboard.copy('lockOrderId', '质押锁仓订单号');
+        Clipboard.copy('orderId', i18n.tc('LOAN.LOAN_ORDER_ID'));
+        Clipboard.copy('lockOrderId', i18n.tc('LOAN.PLEDGE_LOCK_ORDER_ID'));
     }
 
     // 刷新数据
