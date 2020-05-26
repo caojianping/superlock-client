@@ -113,7 +113,7 @@ export default class WithdrawIndex extends Vue {
         (!this.usableQuota || isRefresh) && (await this.fetchUsableQuota());
         (!this.userInfo || isRefresh) && (await this.fetchUserInfo());
 
-        let withdrawForm = Utils.duplicate(this.withdrawForm);
+        let withdrawForm = new WithdrawFormModel();
         withdrawForm.maxAmount = this.usableQuota ? this.usableQuota.amount : 0;
 
         let selectedWithdrawAddress = this.selectedWithdrawAddress;

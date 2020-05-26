@@ -125,7 +125,7 @@
         "SALES_REWARD": "Sales target rewards",
         "REWARD": "Rewards",
         "REACH_TRIGGER_AMOUNT": "Sale target reward triggers",
-        "LOCK_NO_DATA": "No stake records, go to <router-link class='scb-link' to='/home/index'>create a stake</router-link>!",
+        "LOCK_NO_DATA": "No stake records, go to <a class='scb-link' href='#/home/index'>create a stake</a>!",
         "LOAN_NO_DATA": "No loan records",
         "REWARD_NO_DATA": "No reward records"
     },
@@ -181,7 +181,7 @@
         "TIP04": "Minimum recharge amount: {amount} {coin}, any amount less than the minimum amount will not be credited and cannot be refunde.",
         "RECHARGE_NO_DATA": "No charge data",
         "RECHARGE_ADDRESS_NO_DATA": "No charge address data",
-        "RECHARGE_RECORD_NO_DATA": "No charge records, go to <router-link class='scb-link' to='/asset/index'>Charge</router-link>!"
+        "RECHARGE_RECORD_NO_DATA": "No charge records, go to <a class='scb-link' href='#/asset/index'>Charge</a>!"
     },
     "WITHDRAW": {
         "WITHDRAW_RECORD": "Withdraw record",
@@ -205,7 +205,7 @@
         "WITHDRAW_ADDRESS_ADD_SUCCESS": "Withdraw address add successful",
         "WITHDRAW_ADDRESS_ADD_FAILURE": "Withdraw address add failed",
         "WITHDRAW_NO_DATA": "No withdraw data",
-        "WITHDRAW_RECORD_NO_DATA": "No withdraw data，go to <router-link class='scb-link' to='/asset/index'>Withdraw</router-link>!",
+        "WITHDRAW_RECORD_NO_DATA": "No withdraw data，go to <a class='scb-link' href='#/asset/index'>Withdraw</a>!",
         "WITHDRAW_ADDRESS_NO_DATA": "No withdraw address data, go to <a class='scb-link' href='javascript: void(0)' @click='penWithdrawSetting'>Add</a>!"
     },
     "TRANSFER": {
@@ -226,7 +226,7 @@
         "TRANSFER_SUCCESS": "Transfer successful",
         "TRANSFER_FAILURE": "Transfer failed",
         "TRANSFER_NO_DATA": "No transfer data",
-        "TRANSFER_RECORD_NO_DATA": "No transfer records, go to <router-link class='scb-link' to='/transfer/index'>Transfer</router-link>!"
+        "TRANSFER_RECORD_NO_DATA": "No transfer records, go to <a class='scb-link' href='#/transfer/index'>Transfer</a>!"
     },
     "LOCK": {
         "INTRO": "Stable rate remains unchanged until unstake date",
@@ -474,7 +474,7 @@
         "WITHDRAW_ADDRESS_NOT_NULL": "Withdraw address can not be empty",
         "WITHDRAW_AMOUNT_NOT_NULL": "Withdraw amount can not be empty",
         "RECHARGE_AMOUNT_GT_ZERO": "Withdraw amount may not be less than or equal to 0",
-        "RECHARGE_AMOUNT_LE": "Withdraw amount may not be greater than ",
+        "RECHARGE_AMOUNT_LE": "Withdraw amount may not be greater than {value}",
         "WALLET_NAME_NOT_NULL": "Wallet name can not be empty",
         "WALLET_ADDRESS_NOT_NULL": "Wallet address can not be empty",
         "FUND_PASSWORD_NOT_NULL": "Fund password can not be empty",
