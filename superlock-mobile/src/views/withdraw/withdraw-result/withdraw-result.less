@@ -29,7 +29,17 @@
 
         h3 {
             padding-top: 1.5rem;
-            .font-styles(1rem, bold, 1.5, @black, center);
+            .font-styles(1rem, bold, 1.25, @black, center);
+
+            i,
+            span {
+                display: inline-block;
+                vertical-align: middle;
+            }
+
+            span {
+                margin-left: 0.25rem;
+            }
         }
 
         /deep/ .van-button {

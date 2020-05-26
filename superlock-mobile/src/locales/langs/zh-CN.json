@@ -125,7 +125,7 @@
         "SALES_REWARD": "销量达标奖励",
         "REWARD": "奖励",
         "REACH_TRIGGER_AMOUNT": "达标触发数量",
-        "LOCK_NO_DATA": "暂无锁仓记录，快去<router-link class='scb-link' to='/home/index'>创建锁仓</router-link>吧！",
+        "LOCK_NO_DATA": "暂无锁仓记录，快去<a class='scb-link' href='#/home/index'>创建锁仓</a>吧！",
         "LOAN_NO_DATA": "暂无贷款记录",
         "REWARD_NO_DATA": "暂无奖励记录"
     },
@@ -181,7 +181,7 @@
         "TIP04": "最小充值数量：{amount}个{coin}，小于最小数量的充值将不会到账，且无法退还。",
         "RECHARGE_NO_DATA": "暂无充值数据",
         "RECHARGE_ADDRESS_NO_DATA": "暂无充值地址数据",
-        "RECHARGE_RECORD_NO_DATA": "暂无充值记录，快去<router-link class='scb-link' to='/asset/index'>充值</router-link>吧！"
+        "RECHARGE_RECORD_NO_DATA": "暂无充值记录，快去<a class='scb-link' href='#/asset/index'>充值</a>吧！"
     },
     "WITHDRAW": {
         "WITHDRAW_RECORD": "提现记录",
@@ -205,7 +205,7 @@
         "WITHDRAW_ADDRESS_ADD_SUCCESS": "提现地址添加成功",
         "WITHDRAW_ADDRESS_ADD_FAILURE": "提现地址添加失败",
         "WITHDRAW_NO_DATA": "暂无提现数据",
-        "WITHDRAW_RECORD_NO_DATA": "暂无提现记录，快去<router-link class='scb-link' to='/asset/index'>提现</router-link>吧！",
+        "WITHDRAW_RECORD_NO_DATA": "暂无提现记录，快去<a class='scb-link' href='#/asset/index'>提现</a>吧！",
         "WITHDRAW_ADDRESS_NO_DATA": "暂无提现地址，快去<a class='scb-link' href='javascript: void(0)' @click='penWithdrawSetting'>添加地址</a>吧！"
     },
     "TRANSFER": {
@@ -226,7 +226,7 @@
         "TRANSFER_SUCCESS": "转账成功",
         "TRANSFER_FAILURE": "转账失败",
         "TRANSFER_NO_DATA": "暂无转账数据",
-        "TRANSFER_RECORD_NO_DATA": "暂无转账记录，快去<router-link class='scb-link' to='/transfer/index'>转账</router-link>吧！"
+        "TRANSFER_RECORD_NO_DATA": "暂无转账记录，快去<a class='scb-link' href='#/transfer/index'>转账</a>吧！"
     },
     "LOCK": {
         "INTRO": "利率稳定不变 到期自动解锁",
@@ -474,7 +474,7 @@
         "WITHDRAW_ADDRESS_NOT_NULL": "提现地址不可以为空",
         "WITHDRAW_AMOUNT_NOT_NULL": "提现金额不可以为空",
         "RECHARGE_AMOUNT_GT_ZERO": "提现金额不可以小于等于0",
-        "RECHARGE_AMOUNT_LE": "提现金额不可以大于",
+        "RECHARGE_AMOUNT_LE": "提现金额不可以大于{value}",
         "WALLET_NAME_NOT_NULL": "钱包名称不可以为空",
         "WALLET_ADDRESS_NOT_NULL": "钱包地址不可以为空",
         "FUND_PASSWORD_NOT_NULL": "资金密码不可以为空",
