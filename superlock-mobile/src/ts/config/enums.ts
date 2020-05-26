@@ -19,6 +19,7 @@ export const enum OperationType {
 }
 
 export const enum UserFormType {
+    CheckPassword = 0, // 校验密码
     Login = 1, // 登录表单
     Register = 2, // 注册表单
     ForgetMobile = 3, // 忘记密码表单（只包含区号、手机号）
