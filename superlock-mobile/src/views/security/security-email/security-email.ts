@@ -48,7 +48,7 @@ export default class SecurityEmail extends Vue {
             if (!result) Prompt.error(i18n.tc('SECURITY.EMAIL_BIND_FAILURE'));
             else {
                 await this.fetchUserInfo(true);
-                Prompt.success(i18n.tc('SECURITY.EMAIL_BIND_FAILURE')).then(() => {
+                Prompt.success(i18n.tc('SECURITY.EMAIL_BIND_SUCCESS')).then(() => {
                     this.$router.push(this.from);
                 });
             }
