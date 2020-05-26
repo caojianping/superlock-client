@@ -41,6 +41,7 @@ export default class TransactionDetail extends Vue {
     async fetchData() {
         await this.fetchTransaction();
         Clipboard.copy('transactionOrderId', i18n.tc('COMMON.TRANSACTION_ID')); // id添加前缀，防止复制元素重复
+        Clipboard.copy('transactionTxhash', i18n.tc('COMMON.TRANSACTION_HASH')); // id添加前缀，防止复制元素重复
     }
 
     created() {

@@ -11,7 +11,7 @@
                     <i class="icon" :class="isTotalVisible ? 'icon-visible' : 'icon-invisible'" @click="toggleTotal" />
                 </h2>
                 <h1 v-if="isTotalVisible">{{ (assetStatsObj.bcbTotalAmount || 0) | currencyComma(4) }}</h1>
-                <h1 v-else>*******</h1>
+                <h1 v-else>******</h1>
                 <p>
                     <label>{{ $t('ASSET.YESTERDAY_EARNINGS') }}（{{ earningsStatsObj.yesterdayEarningsCoin || '--' }}）</label>
                     <span>+ {{ earningsStatsObj.yesterdayEarnings || 0 }}</span>

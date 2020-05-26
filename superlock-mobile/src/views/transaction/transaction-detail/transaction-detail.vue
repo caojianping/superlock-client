@@ -16,7 +16,12 @@
                 </Cell>
 
                 <template v-if="type === 0">
-                    <Cell :title="$t('COMMON.TRANSACTION_HASH')" :value="transaction.txhash" />
+                    <Cell :title="$t('COMMON.TRANSACTION_HASH')">
+                        <p class="scb-copy" id="transactionTxhash" :data-clipboard-text="transaction.txhash">
+                            <span>{{ transaction.txhash }}</span>
+                            <i v-if="transaction.txhash" class="icon icon-copy" />
+                        </p>
+                    </Cell>
                     <Cell :title="$t('RECHARGE.RECHARGE_TIME')" :value="transaction.createTime | dateFormat" />
                     <Cell :title="$t('RECHARGE.RECHARGE_COIN')" :value="transaction.payCoin" />
                     <Cell :title="$t('RECHARGE.RECHARGE_AMOUNT')" :value="transaction.payAmount" />
@@ -31,7 +36,12 @@
                     <Cell :title="$t('TRANSFER.TRANSFER_TIME')" :value="transaction.createTime | dateFormat" />
                 </template>
                 <template v-else-if="type === 20">
-                    <Cell :title="$t('COMMON.TRANSACTION_HASH')" :value="transaction.txhash" />
+                    <Cell :title="$t('COMMON.TRANSACTION_HASH')">
+                        <p class="scb-copy" id="transactionTxhash" :data-clipboard-text="transaction.txhash">
+                            <span>{{ transaction.txhash }}</span>
+                            <i v-if="transaction.txhash" class="icon icon-copy" />
+                        </p>
+                    </Cell>
                     <Cell :title="$t('WITHDRAW.WITHDRAW_TIME')" :value="transaction.createTime | dateFormat" />
                     <Cell :title="$t('WITHDRAW.WITHDRAW_COIN')" :value="transaction.coin" />
                     <Cell :title="$t('WITHDRAW.WITHDRAW_AMOUNT')" :value="transaction.amount" />

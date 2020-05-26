@@ -108,7 +108,7 @@ export default class TransferIndex extends Vue {
         (!this.usableQuota || isRefresh) && (await await this.fetchUsableQuota());
         (!this.userInfo || isRefresh) && (await this.fetchUserInfo());
 
-        let transferForm = Utils.duplicate(this.transferForm);
+        let transferForm = new TransferFormModel();
         transferForm.maxAmount = this.usableQuota ? this.usableQuota.amount : 0;
 
         // 如果已经有选择的转账下级
