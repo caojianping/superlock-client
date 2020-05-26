@@ -29,13 +29,13 @@
                         <span :class="`text-${lockColors.get(lock.status)}`">{{ lockStatuses.get(lock.status) }}</span>
                     </Cell>
                     <Cell :title="$t('LOCK.DAILY_EARNINGS_VALUE')" :value="`${lock.dcDailyIncome} DC`" />
+                    <Cell :title="$t('LOCK.TOTAL_EARNINGS_VALUE')" :value="`${lock.dcTotalIncome} DC`" />
                     <Cell
-                        :title="$t('LOCK.TOTAL_EARNINGS_VALUE')"
-                        :value="`${lock.dcTotalIncome} DC`"
+                        :title="$t('LOCK.DAILY_EARNINGS_AMOUNT')"
+                        :value="`${lock.bcbTotalIncome} BCB`"
                         is-link
                         :to="`/lock/interests/${lock.orderId}`"
                     />
-                    <Cell :title="$t('LOCK.DAILY_EARNINGS_AMOUNT')" :value="`${lock.bcbTotalIncome} BCB`" />
                 </CellGroup>
             </template>
         </div>
