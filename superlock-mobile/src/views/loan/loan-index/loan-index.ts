@@ -10,7 +10,7 @@ import { LoanBaseInfoModel, LoanableLockModel } from '@/ts/models';
 
 import { Toast, PullRefresh, List, CellGroup, Cell, Button } from 'vant';
 import Header from '@/components/common/header';
-import LoanBanner from '@/components/loan/loan-banner';
+import LoanBanner from '@/components/common/loan-banner';
 
 const i18n = Locales.buildLocale();
 const loanModule = namespace('loan');

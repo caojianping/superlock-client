@@ -33,6 +33,8 @@ export default class InviteFriend extends Vue {
     isPromptShow: boolean = false; // 是否显示邀请提示模态框
     isRateShow: boolean = false; // 是否显示利率设置模态框
 
+    activeLang: string = Locales.getLang();
+
     // 处理邀请提示模态框confirm事件
     handleInvitePromptConfirm() {
         this.isPromptShow = true;
@@ -59,7 +61,7 @@ export default class InviteFriend extends Vue {
             let result = await this.setDefaultRates();
             if (!result) Prompt.error(i18n.tc('MINE.RATE_SETTING_FAILURE'));
             else {
-                Prompt.success(i18n.tc('MINE.RATE_SETTING_FAILURE'));
+                Prompt.success(i18n.tc('MINE.RATE_SETTING_SUCCESS'));
                 await this.fetchDefaultRateStats();
             }
         } catch (error) {

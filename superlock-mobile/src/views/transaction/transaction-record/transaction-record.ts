@@ -8,7 +8,7 @@ import { TransactionTypeModel, TransactionModel } from '@/ts/models';
 
 import { Toast, PullRefresh, List, CellGroup, Cell } from 'vant';
 import Header from '@/components/common/header';
-import TransactionFilter from '@/components/transaction/transaction-filter';
+import TransactionFilter from '@/components/common/transaction-filter';
 
 const i18n = Locales.buildLocale();
 const transactionModule = namespace('transaction');

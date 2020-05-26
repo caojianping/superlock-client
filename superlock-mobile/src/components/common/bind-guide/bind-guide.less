@@ -1,20 +1,22 @@
 @import '../../../less/vars.less';
 @import '../../../less/mixins.less';
 
+@guide-height: 2.5rem;
+
 .operate-guide {
     position: fixed;
-    right: 0.875rem;
+    right: 0.75rem;
     bottom: 3.5625rem;
-    left: 0.875rem;
+    left: 0.75rem;
     z-index: 999;
     background-color: rgba(57, 129, 255, 0.86);
     border-radius: 1.125rem;
 
     /deep/ .van-swipe {
-        height: 2.25rem;
+        height: @guide-height;
 
         .van-swipe__track {
-            height: 2.25rem;
+            height: @guide-height;
 
             .van-swipe-item {
                 width: 100% !important;
@@ -31,7 +33,7 @@
 
                     > .flex-middle {
                         margin: 0 0.25rem;
-                        height: 2.25rem;
+                        height: @guide-height;
 
                         span {
                             .font-styles(0.8125rem, normal, 1, white, left);
