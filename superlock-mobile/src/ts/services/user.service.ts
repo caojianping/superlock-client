@@ -89,10 +89,25 @@ export class UserService {
             );
         }
 
-        if (verifyMode && verifyMode !== '000') {
+        if (type !== UserFormType.CheckPassword && verifyMode && verifyMode !== '000') {
             validator.addRule(key, { name: 'code', value: code }, { required: true }, { required: i18n.tc('VALIDATES.CODE_NOT_NULL') });
         }
         return validator.execute(key);
+    }
+
+    // 校验用户登录密码
+    public async checkPassword(userForm: UserFormModel): Promise<boolean> {
+        let result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.CheckPassword);
+        if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
+
+        let { areaCode, mobile, password } = userForm,
+            parameters = Utils.buildParameters({
+                account: [areaCode, mobile].join(','),
+                accountKind: 1,
+                passwd: md5(password)
+            });
+        await Caxios.post<any>({ url: `${Urls.user.checkPassword}?${parameters}` }, CaxiosType.Default);
+        return true;
     }
 
     // 注册
