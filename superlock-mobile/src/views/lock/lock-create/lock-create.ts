@@ -46,6 +46,13 @@ export default class LockCreate extends Vue {
     isPulling: boolean = false; // 是否下拉刷新
     isShow: boolean = false; // 是否显示密码模态框
 
+    // 锁仓全部额度
+    lockAll() {
+        let lockForm = Utils.duplicate(this.lockForm);
+        lockForm.amount = this.assetStats ? this.assetStats.bcbHotAmount : 0;
+        this.setStates({ lockForm });
+    }
+
     // 处理Field组件input事件
     handleFieldInput(key: string, value: string) {
         let lockForm = Utils.duplicate(this.lockForm);

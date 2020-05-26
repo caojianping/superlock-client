@@ -15,7 +15,7 @@
                 </div>
             </Tab>
 
-            <Tab :title="$t('USER.SMS_VERIFY')" :disabled="emailFlag === 0">
+            <Tab :title="$t('USER.EMAIL_VERIFY')" :disabled="emailFlag === 0">
                 <template v-if="email">
                     <h2>{{ $t('USER.YOUR_EMAIL') }}：{{ email }}</h2>
                     <Field class="code" v-model="code" clearable :placeholder="$t('PLACEHOLDERS.ENTER_EMAIL_CODE')">
