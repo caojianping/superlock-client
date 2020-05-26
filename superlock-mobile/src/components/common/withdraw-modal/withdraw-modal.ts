@@ -17,10 +17,10 @@ const i18n = Locales.buildLocale();
 const withdrawModule = namespace('withdraw');
 
 @Component({
-    name: 'WithdrawSetting',
+    name: 'WithdrawModal',
     components: { Popup, Field, Button, Header }
 })
-export default class WithdrawSetting extends Vue {
+export default class WithdrawModal extends Vue {
     @Model('close', { type: Boolean }) value!: boolean; // v-model
     @Prop() type!: OperationType; // 组件参数：组件操作类型
     @Prop() data?: WithdrawAddressModel; // 组件参数：提现地址

@@ -9,14 +9,14 @@ import { WithdrawAddressModel } from '@/ts/models';
 
 import { Toast, PullRefresh, CellGroup, Cell, Checkbox } from 'vant';
 import Header from '@/components/common/header';
-import WithdrawSetting from '@/components/common/withdraw-setting';
+import WithdrawModal from '@/components/common/withdraw-modal';
 
 const i18n = Locales.buildLocale();
 const withdrawModule = namespace('withdraw');
 
 @Component({
     name: 'WithdrawAddress',
-    components: { PullRefresh, CellGroup, Cell, Checkbox, Header, WithdrawSetting }
+    components: { PullRefresh, CellGroup, Cell, Checkbox, Header, WithdrawModal }
 })
 export default class WithdrawAddress extends Vue {
     @withdrawModule.State('withdrawAddresses') withdrawAddresses?: Array<WithdrawAddressModel>;
@@ -30,14 +30,14 @@ export default class WithdrawAddress extends Vue {
     isShow: boolean = false; // 是否显示提现设置组件
     operationType: OperationType = OperationType.Add;
 
-    // 打开提现设置组件
-    openWithdrawSetting() {
+    // 打开提现模态框
+    openWithdrawModal() {
         this.isShow = true;
         this.operationType = OperationType.Add;
     }
 
-    // 处理提现设置组件submit事件
-    handleWithdrawSettingSubmit() {
+    // 处理提现模态框submit事件
+    handleWithdrawModalSubmit() {
         this.fetchWithdrawAddresses(true);
     }
 
