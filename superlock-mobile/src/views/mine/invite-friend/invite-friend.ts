@@ -80,7 +80,7 @@ export default class InviteFriend extends Vue {
         }
         Toast.clear();
 
-        Clipboard.copy('address', i18n.tc('MINE.INVITE_ADDRESS'));
+        Clipboard.copy('inviteAddress', i18n.tc('MINE.INVITE_ADDRESS')); // id添加前缀，防止复制元素重复
     }
 
     mounted() {

@@ -9,7 +9,7 @@
             </div>
             <CellGroup v-else class="priority-value">
                 <Cell :title="$t('COMMON.TRANSACTION_ID')">
-                    <p class="scb-copy" id="orderId" :data-clipboard-text="transfer.orderId">
+                    <p class="scb-copy" id="transferOrderId" :data-clipboard-text="transfer.orderId">
                         <span>{{ transfer.orderId }}</span>
                         <i class="icon icon-copy" />
                     </p>
