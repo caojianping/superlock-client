@@ -37,6 +37,11 @@ export default {
         }
     },
     actions: {
+        // 校验用户登录密码
+        async checkPassword(context: IActionContext<IUserState>): Promise<boolean> {
+            return await userService.checkPassword(context.state.userForm);
+        },
+
         // 注册
         async register(context: IActionContext<IUserState>): Promise<boolean> {
             let { commit, state } = context,

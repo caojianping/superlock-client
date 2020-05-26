@@ -33,6 +33,7 @@ export default class UserLogin extends Vue {
     @userModule.State('userForm') userForm!: UserFormModel;
     @userModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @userModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
+    @userModule.Action('checkPassword') checkPassword!: () => any;
     @userModule.Action('login') login!: (isLoading?: boolean) => any;
 
     captcha: any = null; // 云盾短信验证码实例
@@ -70,14 +71,14 @@ export default class UserLogin extends Vue {
         try {
             Toast.loading({ mask: true, duration: 0, message: i18n.tc('COMMON.LOADING') });
 
-            let userForm = Utils.duplicate(this.userForm),
-                result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.Login);
-            if (!result.status) {
+            let checkResult = await this.checkPassword();
+            if (!checkResult) {
                 Toast.clear();
-                Prompt.error(Utils.getFirstValue(result.data));
+                Prompt.error(i18n.tc('CODES.1054'));
                 return;
             }
 
+            let userForm = Utils.duplicate(this.userForm);
             await this.fetchVerifyMethod({ areaCode: userForm.areaCode, mobile: userForm.mobile, type: 1, isLoading: false });
             let verifyResult = this.verifyResult;
             if (!verifyResult) {
@@ -91,9 +92,9 @@ export default class UserLogin extends Vue {
                 userForm.verifyMode = '000';
                 this.setStates({ userForm });
 
-                let result = await this.login(false);
+                let loginResult = await this.login(false);
                 Toast.clear();
-                if (!result) Prompt.error(i18n.tc('USER.LOGIN_FAILURE'));
+                if (!loginResult) Prompt.error(i18n.tc('USER.LOGIN_FAILURE'));
                 else this.$router.push('/home/index');
             } else {
                 Toast.clear();

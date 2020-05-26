@@ -10,6 +10,7 @@ export const Urls = {
         exchangeRate: `${baseUrl}/project/exchangeRateToday` // 获取汇率接口
     },
     user: {
+        checkPassword: `${baseUrl}/checkPasswd`, // 校验用户登录密码接口
         register: `${baseUrl}/register`, // 用户注册接口
         login: `${baseUrl}/login`, // 用户登录接口
         logout: `${baseUrl}/user/signOut`, // 退出登录接口
