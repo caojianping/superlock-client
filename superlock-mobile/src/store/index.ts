@@ -32,7 +32,11 @@ const rootState: IRootState = {
     rateTypes: [i18n.tc('ARRAY.RATE_TYPES.0'), i18n.tc('ARRAY.RATE_TYPES.1'), i18n.tc('ARRAY.RATE_TYPES.2')],
     dataStatuses: new Map([
         ['失败', i18n.tc('COMMON.FAILURE')],
-        ['成功', i18n.tc('COMMON.SUCCESS')]
+        ['成功', i18n.tc('COMMON.SUCCESS')],
+        ['待审核', i18n.tc('COMMON.TO_AUDIT')],
+        ['审核驳回', i18n.tc('COMMON.AUDIT_REJECTED')],
+        ['审核成功', i18n.tc('COMMON.AUDIT_SUCCESS')],
+        ['进行中', i18n.tc('COMMON.UNDERWAY')]
     ]),
     fundTypes: new Map([
         ['收入', i18n.tc('COMMON.INCOME')],
