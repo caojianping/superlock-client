@@ -1,7 +1,8 @@
+// 财务基类模型
 export class FinanceBaseModel {
     public fundSerial!: number; // 资金流水号
     public serial!: string; //订单号
-    public uid!: string; // uid
+    public uid!: string; // UID
     public amount!: string; // 利息金额
     public rate!: string; // 汇率
     public date!: string; // 时间

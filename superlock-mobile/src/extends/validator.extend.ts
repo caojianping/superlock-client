@@ -1,5 +1,8 @@
 import Validator, { ValidationRuleType, ValidationMessageType } from 'jpts-validator';
 
+import Locales from '@/locales';
+const i18n = Locales.buildLocale();
+
 const messages: ValidationMessageType = {
     password: '密码格式不正确，密码由8-15位大小写字母、数字、特殊字符任意两种组成',
     pureDigit: '格式不正确，由纯数字组成'

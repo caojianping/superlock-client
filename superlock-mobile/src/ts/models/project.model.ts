@@ -1,6 +1,6 @@
 // 项目统计模型
 export class ProjectStatsModel {
-    public userLockProjectList!: Array<any>; // 用户锁仓项目列表
+    public userLockProjectList!: Array<ProjectModel>; // 用户锁仓项目列表
     public statistics!: {
         cumulativeUser: number; // 累计注册用户
         cumulativeValuation: number; // 累计锁仓价值

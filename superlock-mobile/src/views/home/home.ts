@@ -3,29 +3,31 @@ import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { SessionStorage } from 'jts-storage';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import { CONSTANTS } from '@/ts/config';
 import { UserLockQuotaModel, ProjectStatsModel, ProjectModel, UserInfoModel } from '@/ts/models';
 
-import { PullRefresh, Toast } from 'vant';
+import { Toast, PullRefresh } from 'vant';
+import Langs from '@/components/common/langs';
 import Navs from '@/components/common/navs';
 import Spin from '@/components/common/spin';
 import BindGuide from '@/components/common/bind-guide';
-import Utils from '@/ts/utils';
 
+const i18n = Locales.buildLocale();
 const userModule = namespace('user');
 const projectModule = namespace('project');
 
 @Component({
     name: 'Home',
-    components: { PullRefresh, Navs, Spin, BindGuide }
+    components: { PullRefresh, Navs, Langs, Spin, BindGuide }
 })
 export default class Home extends Vue {
     @State('unitTypes') unitTypes!: Array<string>;
 
     @userModule.State('userLockQuota') userLockQuota?: UserLockQuotaModel | null;
-    @userModule.State('userInfo') userInfo!: UserInfoModel;
-    @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
+    @userModule.State('userInfo') userInfo?: UserInfoModel | null;
+    @userModule.Action('fetchUserInfo') fetchUserInfo!: (isLoading?: boolean) => any;
     @userModule.Action('fetchUserLockQuota') fetchUserLockQuota!: () => any;
 
     @projectModule.State('projectStats') projectStats?: ProjectStatsModel | null;
@@ -33,9 +35,10 @@ export default class Home extends Vue {
     @projectModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @projectModule.Action('fetchProjectStats') fetchProjectStats!: () => any;
 
-    isPulling: boolean = false;
+    isPulling: boolean = false; // 是否下拉刷新
     isProjectSpinning: boolean = false;
-    isOptimizeSpinning: boolean = false;
+    // isOptimizeSpinning: boolean = false;
+    activeLang: string = Locales.getLang();
 
     // 是否需要设置利率
     get isRateSet(): Boolean | undefined {
@@ -51,54 +54,45 @@ export default class Home extends Vue {
 
     // 是否需要绑定邮箱
     get isEmailBind(): Boolean | undefined {
-        let userInfo = this.userInfo,
+        let userInfo: any = this.userInfo || {},
             email = userInfo.email;
         if (email === undefined) return undefined;
         else return email === null || email === '';
     }
 
-    // 跳转至团队首页
-    goTeam() {
-        this.$router.push({
-            path: '/team/index',
-            query: { from: '/home/index' }
-        });
-    }
-
-    // 参与锁仓，缓存锁仓项目信息，以免页面刷新导致数据丢失等情况
+    // 参与锁仓
     joinLock(lockProject: ProjectModel) {
         SessionStorage.setItem<ProjectModel>(CONSTANTS.LOCK_PROJECT, lockProject);
-        this.$router.push('/lock/detail');
+        this.$router.push('/lock/intro');
     }
 
     // 获取数据
-    async fetchData() {
+    async fetchData(isRefresh: boolean) {
         try {
-            this.isProjectSpinning = true;
-            this.isOptimizeSpinning = true;
-            await this.fetchUserInfo();
-            await this.fetchProjectStats();
-            this.isProjectSpinning = false;
-            this.isOptimizeSpinning = false;
-            await this.fetchUserLockQuota();
+            (!this.userLockQuota || isRefresh) && this.fetchUserLockQuota();
+            (!this.userInfo || isRefresh) && this.fetchUserInfo();
+
+            if (!this.projectStats || isRefresh) {
+                this.isProjectSpinning = true;
+                // this.isOptimizeSpinning = true;
+                await this.fetchProjectStats();
+                this.isProjectSpinning = false;
+                // this.isOptimizeSpinning = false;
+            }
         } catch (error) {
             this.isProjectSpinning = false;
-            this.isOptimizeSpinning = false;
+            // this.isOptimizeSpinning = false;
         }
     }
 
     // 刷新数据
     async refreshData() {
-        await this.fetchData();
+        await this.fetchData(true);
         this.isPulling = false;
-        Toast('刷新成功');
-    }
-
-    created() {
-        this.clearStates();
+        Toast(i18n.tc('COMMON.REFRESH_SUCCESS'));
     }
 
     mounted() {
-        this.fetchData();
+        this.fetchData(false);
     }
 }

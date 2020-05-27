@@ -2,22 +2,36 @@ import Validator, { ValidationResult } from 'jpts-validator';
 import Utils from '@/ts/utils';
 import { Urls, CaxiosType, defaultAreaCode } from '@/ts/config';
 import { Caxios } from '@/ts/common';
-import { QuotaModel, ExchangeRateModel, VerifyResult, EmailFormModel } from '@/ts/models';
+import { UsableQuotaModel, ExchangeRateModel, VerifyResult } from '@/ts/models';
+
+import Locales from '@/locales';
+const i18n = Locales.buildLocale();
 
 export class CommonService {
     // 验证短信、邮箱
     public static validateSmsAndEmail(areaCode: string, mobile: string, email?: string) {
-        let key = 'mobilePhone',
+        let key = 'smsAndEmail',
             validator = new Validator();
-        validator.addRule(key, { name: 'areaCode', value: areaCode }, { required: true }, { required: '国家/地区区号不可以为空' });
+        validator.addRule(key, { name: 'areaCode', value: areaCode }, { required: true }, { required: i18n.tc('VALIDATES.COUNTRY_AREA_NOT_NULL') });
         if (areaCode === defaultAreaCode.code) {
-            validator.addRule(key, { name: 'mobile', value: mobile }, { required: true, mobile: true }, { required: '手机号不可以为空' });
+            validator.addRule(
+                key,
+                { name: 'mobile', value: mobile },
+                { required: true, mobile: true },
+                {
+                    required: i18n.tc('VALIDATES.MOBILE_NOT_NULL'),
+                    mobile: i18n.tc('VALIDATES.MOBILE_FORMAT_WRONG')
+                }
+            );
         } else {
             validator.addRule(
                 key,
                 { name: 'mobile', value: mobile },
                 { required: true, pureDigit: true },
-                { required: '手机号不可以为空', pureDigit: '手机号格式不正确' }
+                {
+                    required: i18n.tc('VALIDATES.MOBILE_NOT_NULL'),
+                    pureDigit: i18n.tc('VALIDATES.MOBILE_FORMAT_WRONG')
+                }
             );
         }
         if (email) {
@@ -25,23 +39,29 @@ export class CommonService {
                 key,
                 { name: 'email', value: email },
                 { required: true, email: true },
-                { required: '邮箱地址不可以为空', email: '邮箱地址格式不正确' }
+                {
+                    required: i18n.tc('VALIDATES.EMAIL_ADDRESS_NOT_NULL'),
+                    email: i18n.tc('VALIDATES.EMAIL_ADDRESS_FORMAT_WRONG')
+                }
             );
         }
         return validator.execute(key);
     }
 
-    // 获取验证方式
-    public async fetchVerifyMethod(areaCode: string, mobile: string, type: number = 2): Promise<VerifyResult | null> {
-        let result: ValidationResult = CommonService.validateSmsAndEmail(areaCode, mobile);
-        if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
+    // 获取验证方式，type：1登录验证；2密码验证；
+    public async fetchVerifyMethod(areaCode: string, mobile: string, type: number = 2, isLoading: boolean = false): Promise<VerifyResult | null> {
+        let vresult: ValidationResult = CommonService.validateSmsAndEmail(areaCode, mobile);
+        if (!vresult.status) return Promise.reject(Utils.getFirstValue(vresult.data));
 
         let parameters = Utils.buildParameters({ account: [areaCode, mobile].join(','), type }),
-            verifyResult = await Caxios.get<VerifyResult | null>({ url: `${Urls.common.verifyMethod}?${parameters}` }, CaxiosType.Loading);
-        if (verifyResult) {
-            verifyResult.needVerify = isNaN(Number(verifyResult.needVerify)) ? 0 : Number(verifyResult.needVerify);
+            result = await Caxios.get<VerifyResult | null>(
+                { url: `${Urls.common.verifyMethod}?${parameters}` },
+                isLoading ? CaxiosType.Loading : CaxiosType.Default
+            );
+        if (result) {
+            result['needVerify'] = Utils.digitConvert(result.needVerify);
         }
-        return verifyResult;
+        return result;
     }
 
     // 获取短信验证码
@@ -64,13 +84,22 @@ export class CommonService {
     }
 
     // 获取可提现、可转账额度
-    public async fetchQuota(): Promise<QuotaModel | null> {
-        return await Caxios.get<QuotaModel | null>({ url: Urls.common.quota }, CaxiosType.Token);
+    public async fetchUsableQuota(): Promise<UsableQuotaModel | null> {
+        let result = await Caxios.get<UsableQuotaModel | null>({ url: Urls.common.usableQuota }, CaxiosType.Token);
+        if (result) {
+            result['amount'] = Utils.digitConvert(result.amount);
+            result['valuationAmount'] = Utils.digitConvert(result.valuationAmount);
+        }
+        return result;
     }
 
     // 获取汇率信息
     public async fetchExchangeRate(fromCoin: string = 'BCB', toCoin: string = 'DC'): Promise<ExchangeRateModel | null> {
-        let parameters = Utils.buildParameters({ fromCoin, toCoin });
-        return await Caxios.get<ExchangeRateModel | null>({ url: `${Urls.common.exchangeRate}?${parameters}` }, CaxiosType.Token);
+        let parameters = Utils.buildParameters({ fromCoin, toCoin }),
+            result = await Caxios.get<ExchangeRateModel | null>({ url: `${Urls.common.exchangeRate}?${parameters}` }, CaxiosType.Token);
+        if (result) {
+            result['rate'] = Utils.digitConvert(result.rate);
+        }
+        return result;
     }
 }

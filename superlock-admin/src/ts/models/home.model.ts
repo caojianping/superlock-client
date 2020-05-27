@@ -1,3 +1,4 @@
+// 首页详情模型
 export class HomeDetailModel {
     public lockCount!: number; // 锁仓人数
     public lockTotalAmount!: number; // 锁仓总额
@@ -7,6 +8,7 @@ export class HomeDetailModel {
     public totalExpenditure!: number; // 累计支出
 }
 
+// 首页模型
 export class HomeModel {
     public today!: HomeDetailModel; // 今日数据
     public all!: HomeDetailModel; // 总计数据
@@ -17,11 +19,13 @@ export class HomeModel {
     public rel_lockTotal_bcb_Amount?: number; // 实际锁仓总量
 }
 
+// 初始化数据模型
 export class InitModel {
     public initialTotalLock!: number; // 初始锁仓总额
     public initialRegisteredUser!: number; // 初始注册用户
 }
 
+// 虚拟时间段模型
 export class VirtualSectionModel {
     public startTime!: string; // 开始时间
     public endTime!: string; // 结束时间
@@ -30,6 +34,7 @@ export class VirtualSectionModel {
     public maxValue!: number; // 最大值
 }
 
+// 虚拟数据模型
 export class VirtualModel {
     public initialAmount!: number; // 初始数据
     public virtualDtos!: Array<VirtualSectionModel>;

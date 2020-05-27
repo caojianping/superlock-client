@@ -1,52 +1,47 @@
 import Vue from 'vue';
-import { namespace, State } from 'vuex-class';
+import { State, namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { SessionStorage } from 'jts-storage';
-import TYPES from '@/store/types';
-import Utils from '@/ts/utils';
-import { CONSTANTS } from '@/ts/config';
-import { Prompt } from '@/ts/common';
-import { UserLockQuotaModel, ProjectModel } from '@/ts/models';
 
+import Locales from '@/locales';
+import TYPES from '@/store/types';
+import { CONSTANTS } from '@/ts/config';
+import { Clipboard } from '@/ts/common';
+import { LockModel } from '@/ts/models';
+
+import { CellGroup, Cell } from 'vant';
 import Header from '@/components/common/header';
 
-const userModule = namespace('user');
+const i18n = Locales.buildLocale();
 const lockModule = namespace('lock');
 
 @Component({
     name: 'LockDetail',
-    components: { Header }
+    components: { CellGroup, Cell, Header }
 })
 export default class LockDetail extends Vue {
-    dateCalculate: Function = Utils.dateCalculate;
-
     @State('unitTypes') unitTypes!: Array<string>;
 
-    @userModule.State('userLockQuota') userLockQuota?: UserLockQuotaModel | null;
-    @userModule.Action('fetchUserLockQuota') fetchUserLockQuota!: () => any;
-
-    @lockModule.State('lockProject') lockProject?: ProjectModel | null;
+    @lockModule.State('lockStatuses') lockStatuses!: Map<number, string>;
+    @lockModule.State('lockColors') lockColors!: Map<number, string>;
+    @lockModule.State('lock') lock?: LockModel | null;
     @lockModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @lockModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
 
     // 初始化数据
     initData() {
-        let lockProjectCache = SessionStorage.getItem<ProjectModel>(CONSTANTS.LOCK_PROJECT);
-        if (!lockProjectCache) {
-            Prompt.error('异常的锁仓项目信息，数据丢失');
-            this.$router.push('/home/index');
-            return;
+        let lock = this.lock;
+        if (!lock) {
+            lock = SessionStorage.getItem<LockModel>(CONSTANTS.LOCK);
         }
-
-        this.setStates({ lockProject: lockProjectCache });
+        this.setStates({ lock });
     }
 
     created() {
-        this.clearStates();
         this.initData();
     }
 
     mounted() {
-        this.fetchUserLockQuota();
+        Clipboard.copy('lockDetailOrderId', i18n.tc('LOCK.LOCK_ORDER_ID')); // id添加前缀，防止复制元素重复
     }
 }

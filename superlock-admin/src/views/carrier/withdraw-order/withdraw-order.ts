@@ -170,7 +170,7 @@ export default class WithdrawOrder extends Vue {
     async _setReview(isCode: boolean = false) {
         try {
             let { serial, status } = this,
-                result = await this.setReview({ serial, type: ReviewType.Withdraw, status, isCode });
+                result = await this.setReview({ serial, type: ReviewType.WithdrawOrder, status, isCode });
             if (!result) Prompt.error('操作失败');
             else await this.fetchWithdrawOrders();
         } catch (error) {
@@ -208,10 +208,10 @@ export default class WithdrawOrder extends Vue {
         this.fetchWithdrawOrders();
     }
 
-    // 获取数据
-    async fetchData() {
-        await this.fetchCarrierOptions();
-        await this.fetchWithdrawOrders();
+    // 获取数据，同时请求
+    fetchData() {
+        this.fetchCarrierOptions();
+        this.fetchWithdrawOrders();
     }
 
     created() {

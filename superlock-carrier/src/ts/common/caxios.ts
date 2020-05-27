@@ -5,9 +5,9 @@ import TYPES from '@/store/types';
 
 import Utils from '@/ts/utils';
 import { CaxiosType, ResponseCode, CONSTANTS } from '@/ts/config';
+import { ResponseResult, BusinessError, SecondVerifyResult, TokenInfo } from '@/ts/models';
 import { Prompt } from './prompt';
 import { Token } from './token';
-import { ResponseResult, BusinessError, SecondVerifyResult, TokenInfo } from '@/ts/models';
 
 const isIE9 = Utils.isIE9();
 
@@ -163,7 +163,6 @@ export class Caxios {
             // 二次验证
             let vdata = data as SecondVerifyResult;
             if (vdata.verifyMethod === '010' || vdata.verifyMethod === '100') {
-                // 短信验证码
                 store.commit(TYPES.SET_STATES, { isSecondVerifyShow: true });
             }
             return Promise.reject('');
@@ -177,8 +176,10 @@ export class Caxios {
             if (hash.indexOf('/login') < 0) {
                 Prompt.error(message);
                 Router.push({ path: '/login' });
+                return Promise.reject('');
+            } else {
+                throw new BusinessError(code, message);
             }
-            throw new BusinessError(code, message);
         } else {
             // 其他异常
             throw new BusinessError(code, message);

@@ -6,10 +6,11 @@ export const Urls = {
         smsCode: `${baseUrl}/vfcode`, // 短信验证码接口
         emailCode: `${baseUrl}/sendEmailVcode`, // 邮箱验证码接口
 
-        quota: `${baseUrl}/project/withdrawableAmount`, // 取可提现额度接口
+        usableQuota: `${baseUrl}/project/withdrawableAmount`, // 取可提现额度接口
         exchangeRate: `${baseUrl}/project/exchangeRateToday` // 获取汇率接口
     },
     user: {
+        checkPassword: `${baseUrl}/checkPasswd`, // 校验用户登录密码接口
         register: `${baseUrl}/register`, // 用户注册接口
         login: `${baseUrl}/login`, // 用户登录接口
         logout: `${baseUrl}/user/signOut`, // 退出登录接口
@@ -48,7 +49,8 @@ export const Urls = {
     lock: {
         minAmount: `${baseUrl}/project/minLockAmount`, // 获取最小锁仓金额接口
         list: `${baseUrl}/project/lockOrderList`, // 获取锁仓列表接口
-        create: `${baseUrl}/project/lockPosition` // 创建锁仓接口
+        create: `${baseUrl}/project/lockPosition`, // 创建锁仓接口
+        interests: `${baseUrl}/project//lockInterestList` // 获取锁仓利息列表
     },
     recharge: {
         coins: `${baseUrl}/project/rechargeCoinList`, // 获取充值币种列表接口
@@ -80,5 +82,15 @@ export const Urls = {
             forget: `${baseUrl}/user/forgetFundPasswd` // 忘记资金密码接口
         },
         bindEmail: `${baseUrl}/user/bindingEmail` // 绑定邮箱
+    },
+    loan: {
+        baseInfo: `${baseUrl}/project/loanBaseInfo`, // 获取基础信息接口（贷款比例和利息利率）
+        loanableQuota: `${baseUrl}/project/loanQuota`, // 获取可贷款额度接口
+        loanableLocks: `${baseUrl}/project/couldLoanLockList`, // 获取可贷款的锁仓列表接口
+        list: `${baseUrl}/project/loanOrderList`, // 获取贷款列表接口
+        detail: `${baseUrl}/project/loanOrderDetails`, // 获取贷款详情接口
+        interests: `${baseUrl}/project/loanInterestList`, // 获取贷款利息列表
+        applyLoan: `${baseUrl}/project/loanMoney`, // 申请贷款接口
+        repayLoan: `${baseUrl}/project/repayment` // 偿还贷款接口
     }
 };

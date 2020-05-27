@@ -2,7 +2,7 @@
 export class FundModel {
     public orderId!: string; // 订单号
     public orderType!: string; // 订单类型
-    public uid!: string; // uid
+    public uid!: string; // UID
     public accountName!: string; // 账户名称
     public coinCode!: string; // 交易币种
     public value!: string; // 交易数量

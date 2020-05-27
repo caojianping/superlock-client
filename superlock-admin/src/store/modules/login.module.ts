@@ -25,6 +25,11 @@ export default {
         }
     },
     actions: {
+        // 校验用户信息
+        async check(context: IActionContext<ILoginState>, isCode: boolean = false): Promise<boolean> {
+            return await loginService.check(context.state.loginForm, isCode);
+        },
+
         // 登录
         async login(context: IActionContext<ILoginState>, isCode: boolean = false): Promise<boolean> {
             let { commit, state } = context,
@@ -36,7 +41,7 @@ export default {
             return true;
         },
 
-        // 退出
+        // 注销
         async logout(context: IActionContext<ILoginState>): Promise<boolean> {
             let commit = context.commit,
                 result = await loginService.logout();

@@ -18,8 +18,8 @@ export default class FinanceInterest extends Vue {
     @State('isPageLoading') isPageLoading!: boolean;
     @State('pageSizeOptions') pageSizeOptions!: Array<string>;
     @State('statusColors') statusColors!: any;
-    @State('auditColors') auditColors!: any;
     @State('statusNames') statusNames!: any;
+    @State('auditColors') auditColors!: any;
     @State('auditNames') auditNames!: any;
 
     @financeModule.State('parameters') parameters!: IPageParameters<IFinancePageParameters>;

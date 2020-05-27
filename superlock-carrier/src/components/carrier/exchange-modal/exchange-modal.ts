@@ -13,7 +13,7 @@ import VerifyModal from '@/components/verify/verify-modal';
 const carrierModule = namespace('carrier');
 
 enum StepType {
-    Default = 1, // 默认
+    Preset = 1, // 默认
     Confirm = 2 // 确认兑换
 }
 
@@ -32,9 +32,10 @@ export default class ExchangeModal extends Vue {
     @carrierModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @carrierModule.Action('fetchRate') fetchRate!: () => any;
     @carrierModule.Action('presetExchange') presetExchange!: (payload: any) => any;
+    @carrierModule.Action('confirmExchange') confirmExchange!: (isCode?: boolean) => any;
 
     isShow: boolean = this.value; // 是否显示模态框
-    stepType: StepType = StepType.Default; // 步骤类型
+    stepType: StepType = StepType.Preset; // 步骤类型
     exchangeForm: ExchangeFormModel = new ExchangeFormModel(); // 兑换表单
     exchangeStats: ExchangeStatsModel | null = null; // 兑换统计
 
@@ -96,40 +97,53 @@ export default class ExchangeModal extends Vue {
         this.exchangeForm = exchangeForm;
     }
 
-    // 提交兑换表单
-    async submitExchange(isCode?: boolean) {
+    // 提交预兑换
+    async submitPresetExchange(isCode?: boolean) {
         try {
             let exchangeForm = Utils.duplicate(this.exchangeForm),
                 exchangeStats = await this.presetExchange({ exchangeForm, isCode });
-            if (!exchangeStats) {
-                Prompt.error('兑换失败');
-                return;
+            if (!exchangeStats) Prompt.error('预兑换失败');
+            else {
+                this.stepType = StepType.Confirm;
+                exchangeForm.amount = exchangeStats.dcAmount;
+                this.exchangeForm = exchangeForm;
+                this.setStates({ rate: exchangeStats.rate });
+                this.exchangeStats = exchangeStats;
+
+                this.setCountdown();
             }
-
-            this.stepType = StepType.Confirm;
-            exchangeForm.amount = exchangeStats.dcAmount;
-            this.exchangeForm = exchangeForm;
-            this.setStates({ rate: exchangeStats.rate });
-            this.exchangeStats = exchangeStats;
-
-            this.setCountdown();
         } catch (error) {
             Prompt.error(error.message || error);
         }
     }
 
-    // 处理二次验证submit事件
-    async handleVerifyModalSubmit() {
-        await this.submitExchange(true);
-    }
-
-    // 确认兑换
-    async confirmExchange() {
+    // 提交确认兑换
+    async submitConfirmExchange(isCode?: boolean) {
         let exchangeStats = this.exchangeStats;
         if (!exchangeStats) return;
 
-        this.$emit('close', false);
-        this.$emit('submit', exchangeStats.serial);
+        try {
+            this.setStates({ serial: exchangeStats.serial });
+            let result = await this.confirmExchange(isCode);
+            if (!result) Prompt.error('兑换失败');
+            else {
+                Prompt.success('兑换成功');
+                this.$emit('close', false);
+                this.$emit('submit');
+            }
+        } catch (error) {
+            Prompt.error(error.message || error);
+        }
+    }
+
+    // submit兑换表单
+    async submit(isCode?: boolean) {
+        let stepType = this.stepType;
+        if (stepType === StepType.Preset) {
+            await this.submitPresetExchange(isCode);
+        } else if (stepType === StepType.Confirm) {
+            await this.submitConfirmExchange(isCode);
+        }
     }
 
     // 初始化数据
@@ -137,7 +151,7 @@ export default class ExchangeModal extends Vue {
         this.clearTimer(true);
         await this.fetchRate();
 
-        this.stepType = StepType.Default;
+        this.stepType = StepType.Preset;
         let exchangeForm = new ExchangeFormModel(),
             carrierInfo = this.carrierInfo;
         if (carrierInfo) {

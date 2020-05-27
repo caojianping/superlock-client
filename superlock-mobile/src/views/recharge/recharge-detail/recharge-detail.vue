@@ -1,21 +1,34 @@
 <template>
     <div class="recharge-detail">
-        <Header title="充值详情" @left="$router.push('/recharge/record')" />
+        <Header :title="$t('RECHARGE.RECHARGE_DETAIL')" @left="$router.push('/recharge/record')" />
 
         <div v-if="recharge !== undefined" class="scb-separator">
-            <p v-if="recharge === null" class="scb-none">暂无充值数据</p>
-            <CellGroup v-else>
-                <Cell title="交易单号" :value="recharge.orderId" />
-                <Cell title="交易hash" :value="recharge.txhash" />
-                <Cell title="充值时间" :value="recharge.createTime | dateFormat" />
-                <Cell title="充值币种" :value="recharge.payCoin" />
-                <Cell title="充值数量" :value="recharge.payAmount" />
-                <Cell title="充值汇率" :value="`1${recharge.payCoin} = ${recharge.exchangeRate}BCB`" />
-                <Cell title="到账" :value="`${recharge.gotAmount} ${recharge.gotCoin}`" />
-                <Cell title="资金类型" :value="recharge.capitalType" />
-                <Cell title="可用余额" :value="`${recharge.balance} ${recharge.balanceCoin}`" />
-                <Cell title="备注" :value="recharge.memo" />
-                <Cell title="状态" :value="recharge.statusRemark" />
+            <div v-if="recharge === null" class="scb-none">
+                <img src="../../../assets/images/empty.png" :alt="$t('RECHARGE.RECHARGE_NO_DATA')" />
+                <p>{{ $t('RECHARGE.RECHARGE_NO_DATA') }}</p>
+            </div>
+            <CellGroup v-else class="priority-value">
+                <Cell :title="$t('COMMON.TRANSACTION_ID')">
+                    <p class="scb-copy" id="rechargeOrderId" :data-clipboard-text="recharge.orderId">
+                        <span>{{ recharge.orderId }}</span>
+                        <i class="icon icon-copy" />
+                    </p>
+                </Cell>
+                <Cell :title="$t('COMMON.TRANSACTION_HASH')">
+                    <p class="scb-copy" id="rechargeTxhash" :data-clipboard-text="recharge.txhash">
+                        <span>{{ recharge.txhash }}</span>
+                        <i class="icon icon-copy" />
+                    </p>
+                </Cell>
+                <Cell :title="$t('RECHARGE.RECHARGE_TIME')" :value="recharge.createTime | dateFormat" />
+                <Cell :title="$t('RECHARGE.RECHARGE_COIN')" :value="recharge.payCoin" />
+                <Cell :title="$t('RECHARGE.RECHARGE_AMOUNT')" :value="recharge.payAmount" />
+                <Cell :title="$t('RECHARGE.RECHARGE_RATE')" :value="`1${recharge.payCoin} = ${recharge.exchangeRate}BCB`" />
+                <Cell :title="$t('RECHARGE.TO_ACCOUNT')" :value="`${recharge.gotAmount} ${recharge.gotCoin}`" />
+                <Cell :title="$t('COMMON.FUND_TYPE')" :value="fundTypes.get(recharge.capitalType)" />
+                <Cell :title="$t('COMMON.AVAILABLE_BALANCE')" :value="`${recharge.balance} ${recharge.balanceCoin}`" />
+                <Cell :title="$t('COMMON.REMARK')" :value="recharge.memo" />
+                <Cell :title="$t('COMMON.STATUS')" :value="dataStatuses.get(recharge.statusRemark)" />
             </CellGroup>
         </div>
     </div>

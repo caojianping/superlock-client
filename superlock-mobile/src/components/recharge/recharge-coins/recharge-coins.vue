@@ -1,13 +1,12 @@
 <template>
     <Popup class="recharge-coins" v-model="isShow" round position="bottom" @close="handlePopupClose">
-        <h2>请选择要充值的币种类型</h2>
-        <h3>所有转入的币种都将转换为BCB，请注意币种之间实时汇率波动</h3>
+        <h2>{{ $t('RECHARGE.SELECT_COIN_TYPE') }}</h2>
+        <h3>{{ $t('RECHARGE.PROMPT') }}</h3>
 
         <div>
             <Spin :is-spinning="isSpinning" />
 
             <CellGroup v-if="!isSpinning">
-                <!-- <Cell v-for="(rechargeCoin, index) in rechargeCoins || []" :key="index" :to="`/recharge/code/${rechargeCoin.symbol}`"> -->
                 <Cell v-for="(rechargeCoin, index) in rechargeCoins || []" :key="index" @click="goCode(rechargeCoin)">
                     <div slot="title">
                         <img :src="rechargeCoin.icon" :alt="rechargeCoin.symbol" />
@@ -17,7 +16,7 @@
             </CellGroup>
         </div>
 
-        <p class="scb-separator" @click="handlePopupClose">取消</p>
+        <p class="scb-separator" @click="handlePopupClose">{{ $t('COMMON.CANCEL') }}</p>
     </Popup>
 </template>
 

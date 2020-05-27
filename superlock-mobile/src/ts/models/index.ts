@@ -1,11 +1,12 @@
 export * from './user.model';
-export * from './child.model';
 export * from './project.model';
-export * from './transaction.model';
-export * from './lock.model';
 export * from './recharge.model';
 export * from './withdraw.model';
 export * from './transfer.model';
+export * from './lock.model';
+export * from './loan.model';
+export * from './child.model';
+export * from './transaction.model';
 export * from './security.model';
 
 // 业务型错误
@@ -57,7 +58,7 @@ export class VerifyResult {
 }
 
 // 可提现、可转账额度模型
-export class QuotaModel {
+export class UsableQuotaModel {
     public amount!: number; // 可提现、可转账BCB额度
     public valuationAmount!: number; // 计价金额；
     public valuationCoin!: number; // 计价币种；如：DC

@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import { Component, Prop, Model, Watch } from 'vue-property-decorator';
 
+import Locales from '@/locales';
+import Utils from '@/ts/utils';
 import { CONSTANTS, VerifyType } from '@/ts/config';
 import { Prompt } from '@/ts/common';
 import { VerifyResult } from '@/ts/models';
@@ -8,6 +10,8 @@ import { VerifyResult } from '@/ts/models';
 import { Popup, CellGroup, Cell } from 'vant';
 import Header from '@/components/common/header';
 import VerifyForm from '@/components/verify/verify-form';
+
+const i18n = Locales.buildLocale();
 
 @Component({
     name: 'VerifyList',
@@ -50,14 +54,13 @@ export default class VerifyList extends Vue {
         let email = this.email;
         if (!email) {
             let from = this.from;
-            console.log('from:', from);
             if (from && from.indexOf('/user/login') > -1) {
-                Prompt.warning('请联系客服找回密码').then(() => {
+                Prompt.warning(i18n.tc('USER.CONTACT_SERVICE_FIND_PASSWORD')).then(() => {
                     window.location.href = CONSTANTS.CUSTOMER_SERVICE;
                 });
             } else {
-                Prompt.warning('未绑定邮箱，请先到安全中心绑定邮箱').then(() => {
-                    this.$router.push({ path: '/security/email', query: { from: from }});
+                Prompt.warning(i18n.tc('USER.BIND_EMAIL_PROMPT')).then(() => {
+                    this.$router.push({ path: '/security/email', query: { from: from } });
                 });
             }
         } else {
@@ -90,8 +93,8 @@ export default class VerifyList extends Vue {
             smsFlag = 0;
         if (verifyResult) {
             let parts = (verifyResult.verifyMode || '').split('');
-            emailFlag = isNaN(Number(parts[0])) ? 0 : Number(parts[0]);
-            smsFlag = isNaN(Number(parts[1])) ? 0 : Number(parts[1]);
+            emailFlag = Utils.digitConvert(parts[0]);
+            smsFlag = Utils.digitConvert(parts[1]);
         }
         this.emailFlag = emailFlag;
         this.smsFlag = smsFlag;

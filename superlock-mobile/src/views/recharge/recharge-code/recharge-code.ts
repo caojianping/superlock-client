@@ -1,15 +1,17 @@
 import Vue from 'vue';
 import { namespace, State, Action } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
-import ClipboardJS from 'clipboard';
+
+import Locales from '@/locales';
 import TYPES from '@/store/types';
-import { Prompt } from '@/ts/common';
+import { From, Clipboard } from '@/ts/common';
 import { ExchangeRateModel } from '@/ts/models';
 
 import { Toast, Button } from 'vant';
 import Header from '@/components/common/header';
 import RechargePrompt from '@/components/recharge/recharge-prompt';
 
+const i18n = Locales.buildLocale();
 const rechargeModule = namespace('recharge');
 
 @Component({
@@ -23,10 +25,13 @@ export default class RechargeCode extends Vue {
     @rechargeModule.State('rechargeCoin') rechargeCoin!: string;
     @rechargeModule.State('rechargeAddress') rechargeAddress!: string;
     @rechargeModule.State('minAmount') minAmount!: number;
+
     @rechargeModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @rechargeModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @rechargeModule.Action('fetchRechargeAddress') fetchRechargeAddress!: () => any;
     @rechargeModule.Action('fetchMinAmount') fetchMinAmount!: () => any;
+
+    from: string = ''; // 页面来源
 
     // 充值地址二维码
     get rechargeAddressQrcode() {
@@ -35,49 +40,35 @@ export default class RechargeCode extends Vue {
         return rechargeAddress.indexOf('bcb') === 0 ? `bcbpay://${rechargeCoin}/${rechargeAddress}/*` : rechargeAddress;
     }
 
-    // 初始化数据
-    initData() {
-        let params: any = this.$route.params || {};
-        this.setStates({ rechargeCoin: params.coin || '' });
-    }
-
-    // 复制地址
-    copyAddress() {
-        let address = document.getElementById('address'),
-            clipboard = new ClipboardJS(address);
-
-        clipboard.on('success', function(e) {
-            Prompt.success('充值地址复制成功');
-        });
-
-        clipboard.on('error', function(e) {
-            Prompt.error('充值地址复制失败');
-        });
-    }
-
     // 获取数据
     async fetchData() {
-        Toast.loading({
-            mask: true,
-            duration: 0,
-            message: '加载中...'
-        });
+        Toast.loading({ mask: true, duration: 0, message: i18n.tc('COMMON.LOADING') });
         let rechargeCoin = this.rechargeCoin;
         if (rechargeCoin !== 'BCB') {
             await this.fetchMinAmount();
             await this.fetchExchangeRate({ fromCoin: rechargeCoin, toCoin: 'BCB' });
         }
+
         await this.fetchRechargeAddress();
         Toast.clear();
+
+        Clipboard.copy('rechargeAddress', i18n.tc('COMMON.RECHARGE_ADDRESS'));// id添加前缀，防止复制元素重复
+    }
+
+    // 初始化数据
+    initData() {
+        let params: any = this.$route.params || {};
+        this.setStates({ rechargeCoin: params.coin || '' });
+
+        let query: any = this.$route.query || {};
+        this.from = query.from || From.getRechargeFrom();
     }
 
     created() {
-        this.clearStates();
         this.initData();
     }
 
     mounted() {
-        this.copyAddress();
         this.fetchData();
     }
 }

@@ -3,31 +3,33 @@ import { namespace, Action, State, Mutation } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 import { ValidationResult } from 'jpts-validator';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { UserFormType, ForgetType, VerifyType } from '@/ts/config';
-import { Prompt, Captcha, Token } from '@/ts/common';
+import { Prompt, Captcha, From } from '@/ts/common';
 import { VerifyResult, UserInfoModel, UserFormModel, SecurityFormModel } from '@/ts/models';
 import { UserService, SecurityService } from '@/ts/services';
 
-import { Field, Button } from 'vant';
+import { Toast, PullRefresh, Field, Button } from 'vant';
 import Header from '@/components/common/header';
 import VerifyList from '@/components/verify/verify-list';
 
+const i18n = Locales.buildLocale();
 const userModule = namespace('user');
 const securityModule = namespace('security');
 
 @Component({
     name: 'FundPassword',
-    components: { Field, Button, Header, VerifyList }
+    components: { PullRefresh, Field, Button, Header, VerifyList }
 })
 export default class FundPassword extends Vue {
     @State('verifyResult') verifyResult?: VerifyResult | null;
     @Mutation(TYPES.SET_STATES) setRootStates!: (payload: any) => any;
     @Mutation(TYPES.CLEAR_STATES) clearRootStates!: () => any;
-    @Action('fetchVerifyMethod') fetchVerifyMethod!: (payload: { areaCode: string; mobile: string }) => any;
+    @Action('fetchVerifyMethod') fetchVerifyMethod!: (payload: { areaCode: string; mobile: string; type?: number; isLoading?: boolean }) => any;
 
-    @userModule.State('userInfo') userInfo!: UserInfoModel;
+    @userModule.State('userInfo') userInfo?: UserInfoModel | null;
     @userModule.State('userForm') userForm!: UserFormModel;
     @userModule.Mutation(TYPES.SET_STATES) setUserStates!: (payload: any) => any;
     @userModule.Mutation(TYPES.CLEAR_STATES) clearUserStates!: () => any;
@@ -41,6 +43,7 @@ export default class FundPassword extends Vue {
 
     captcha: any = null; // 云盾短信验证码实例
     from: string = ''; // 来源
+    isPulling: boolean = false; // 是否下拉刷新
     isNewPasswordVisible: boolean = false;
     isConfirmPasswordVisible: boolean = false;
     isVerifyShow: boolean = false; // 是否显示验证列表组件
@@ -60,36 +63,57 @@ export default class FundPassword extends Vue {
     // 提交资金密码表单
     async submit() {
         try {
-            let status = this.userInfo.haveFundPasswd;
-            if (!status) {
+            Toast.loading({ mask: true, duration: 0, message: i18n.tc('COMMON.LOADING') });
+
+            let userInfo: any = this.userInfo || {};
+            if (!userInfo.haveFundPasswd) {
                 let securityForm = this.securityForm,
                     result = SecurityService.validateSecurityForm(securityForm, true);
-                if (!result.status) return Prompt.error(Utils.getFirstValue(result.data));
+                if (!result.status) {
+                    Toast.clear();
+                    Prompt.error(Utils.getFirstValue(result.data));
+                    return;
+                }
 
-                let phone: any = this.userInfo.phone || {};
-                await this.fetchVerifyMethod({ areaCode: phone.area || '', mobile: phone.tel || '' });
+                let phone: any = userInfo.phone || {};
+                await this.fetchVerifyMethod({ areaCode: phone.area || '', mobile: phone.tel || '', type: 2, isLoading: false });
                 let verifyResult = this.verifyResult;
-                if (!verifyResult) return Prompt.error('验证方式获取失败');
+                if (!verifyResult) {
+                    Toast.clear();
+                    Prompt.error(i18n.tc('COMMON.VERIFY_FETCH_FAILURE'));
+                    return;
+                }
 
                 if (verifyResult.needVerify === 1) {
                     this.isVerifyShow = true;
                 } else {
                     let result = await this.setFundPassword();
-                    if (!result) Prompt.error(`资金密码设置失败`);
-                    else
-                        Prompt.success(`资金密码设置成功`).then(() => {
+                    if (!result) {
+                        Toast.clear();
+                        Prompt.error(i18n.tc('SECURITY.FUND_PASSWORD_SETTING_FAILURE'));
+                    } else {
+                        await this.fetchUserInfo();
+                        Toast.clear();
+                        Prompt.success(i18n.tc('SECURITY.FUND_PASSWORD_SETTING_SUCCESS')).then(() => {
                             this.$router.push(this.from);
                         });
+                    }
                 }
             } else {
                 let result = await this.modifyFundPassword();
-                if (!result) Prompt.error(`资金密码修改失败`);
-                else
-                    Prompt.success(`资金密码修改成功`).then(() => {
+                if (!result) {
+                    Toast.clear();
+                    Prompt.error(i18n.tc('SECURITY.FUND_PASSWORD_MODIFY_FAILURE'));
+                } else {
+                    await this.fetchUserInfo();
+                    Toast.clear();
+                    Prompt.success(i18n.tc('SECURITY.FUND_PASSWORD_MODIFY_SUCCESS')).then(() => {
                         this.$router.push(this.from);
                     });
+                }
             }
         } catch (error) {
+            Toast.clear();
             Prompt.error(error.message || error);
         }
     }
@@ -97,18 +121,26 @@ export default class FundPassword extends Vue {
     // 处理验证列表组件submit事件
     async handleVerifyListSubmit(verifyType: VerifyType, code: string) {
         try {
+            Toast.loading({ mask: true, duration: 0, message: i18n.tc('COMMON.LOADING') });
+
             let securityForm = Utils.duplicate(this.securityForm);
             securityForm.verifyMode = ['100', '010', '001'][verifyType - 1];
             securityForm.code = code;
             this.setStates({ securityForm });
 
             let result = await this.setFundPassword();
-            if (!result) Prompt.error(`资金密码设置失败`);
-            else
-                Prompt.success(`资金密码设置成功`).then(() => {
+            if (!result) {
+                Toast.clear();
+                Prompt.error(i18n.tc('SECURITY.FUND_PASSWORD_SETTING_FAILURE'));
+            } else {
+                await this.fetchUserInfo();
+                Toast.clear();
+                Prompt.success(i18n.tc('SECURITY.FUND_PASSWORD_SETTING_SUCCESS')).then(() => {
                     this.$router.push(this.from);
                 });
+            }
         } catch (error) {
+            Toast.clear();
             Prompt.error(error.message || error);
         }
     }
@@ -123,17 +155,15 @@ export default class FundPassword extends Vue {
 
     // 跳转至忘记密码页面
     goForget() {
-        let phone: any = this.userInfo.phone || {},
+        let userInfo: any = this.userInfo || {},
+            phone: any = userInfo.phone || {},
             userForm = Utils.duplicate(this.userForm);
         userForm.areaCode = phone.area || '';
         userForm.mobile = phone.tel || '';
         this.setUserStates({ userForm });
 
         let result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.ForgetMobile);
-        if (!result.status) {
-            Prompt.error(Utils.getFirstValue(result.data));
-            return;
-        }
+        if (!result.status) return Prompt.error(Utils.getFirstValue(result.data));
 
         this.$router.push({
             path: `/user/forget/${ForgetType.FundPassword}`,
@@ -145,11 +175,23 @@ export default class FundPassword extends Vue {
         });
     }
 
+    // 获取数据
+    async fetchData(isRefresh: boolean) {
+        (!this.userInfo || isRefresh) && this.fetchUserInfo(true);
+    }
+
+    // 刷新数据
+    async refreshData() {
+        await this.fetchData(true);
+        this.isPulling = false;
+        Toast(i18n.tc('COMMON.REFRESH_SUCCESS'));
+    }
+
     // 初始化数据
     initData() {
         let query: any = this.$route.query || {};
-        this.from = query.from || Token.getFundFrom();
-        console.log('from:', this.from);
+        this.from = query.from || From.getFundFrom();
+        this.setStates({ securityForm: new SecurityFormModel() });
     }
 
     // 初始化云盾短信验证码
@@ -163,13 +205,11 @@ export default class FundPassword extends Vue {
     }
 
     created() {
-        this.clearUserStates();
-        this.clearStates();
         this.initData();
     }
 
     mounted() {
         this.initCaptcha();
-        this.fetchUserInfo(true);
+        this.fetchData(false);
     }
 }

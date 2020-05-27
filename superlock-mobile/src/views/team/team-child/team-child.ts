@@ -1,18 +1,20 @@
 import Vue from 'vue';
 import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
-import ClipboardJS from 'clipboard';
 import { SessionStorage } from 'jts-storage';
+
+import Locales from '@/locales';
 import Utils from '@/ts/utils';
 import TYPES from '@/store/types';
 import { CONSTANTS } from '@/ts/config';
-import { Prompt } from '@/ts/common';
+import { Prompt, Clipboard } from '@/ts/common';
 import { ChildModel, ChildRateFormModel, ChildRateModel } from '@/ts/models';
 
 import { CellGroup, Cell, Button } from 'vant';
 import Header from '@/components/common/header';
 import Modal from '@/components/common/modal';
 
+const i18n = Locales.buildLocale();
 const childModule = namespace('child');
 
 @Component({
@@ -61,12 +63,12 @@ export default class TeamChild extends Vue {
         try {
             let remark = this.remark,
                 result = await this.setChildRemark(remark);
-            if (!result) Prompt.error('下级备注设置失败');
+            if (!result) Prompt.error(i18n.tc('TEAM.CHILD_SETTING_FAILURE'));
             else {
                 let child = Utils.duplicate(this.child);
                 child.nickName = remark;
                 this.setStates({ child });
-                Prompt.success('下级备注设置成功');
+                Prompt.success(i18n.tc('TEAM.CHILD_SETTING_SUCCESS'));
                 this.isRemarkShow = false;
             }
         } catch (error) {
@@ -106,9 +108,9 @@ export default class TeamChild extends Vue {
             });
 
             let result = await this.setChildRates(childRateForms);
-            if (!result) Prompt.error('设置失败');
+            if (!result) Prompt.error(i18n.tc('TEAM.SETTING_FAILURE'));
             else {
-                Prompt.success('设置成功');
+                Prompt.success(i18n.tc('TEAM.SETTING_SUCCESS'));
                 currentForm.value = value;
                 currentForm.minAmount = value;
                 currentForm.showValue = value;
@@ -122,16 +124,14 @@ export default class TeamChild extends Vue {
 
     // 初始化数据
     initData() {
-        let params: any = this.$route.params || {},
-            childs = Utils.duplicate(this.childs || []),
-            child: any = childs.filter((child: ChildModel) => child.uid === params.uid)[0];
+        let child = this.child;
         if (!child) {
             child = SessionStorage.getItem<ChildModel>(CONSTANTS.CHILD);
         }
         this.setStates({ child });
 
         let childRateForms: Array<ChildRateFormModel> = [];
-        (child.rates || []).forEach((rate: ChildRateModel) => {
+        ((child || {}).rates || []).forEach((rate: ChildRateModel) => {
             let childRateForm = new ChildRateFormModel();
             childRateForm.type = rate.type;
             childRateForm.length = rate.length;
@@ -146,23 +146,11 @@ export default class TeamChild extends Vue {
         this.childRateForms = childRateForms;
     }
 
-    // 复制UID
-    copyUid() {
-        let uid = document.getElementById('uid'),
-            clipboard = new ClipboardJS(uid);
-        clipboard.on('success', function(e) {
-            Prompt.success('UID复制成功');
-        });
-        clipboard.on('error', function(e) {
-            Prompt.error('UID复制失败');
-        });
-    }
-
     created() {
         this.initData();
     }
 
     mounted() {
-        this.copyUid();
+        Clipboard.copy('teamUid', 'UID');// id添加前缀，防止复制元素重复
     }
 }

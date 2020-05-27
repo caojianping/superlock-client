@@ -57,6 +57,22 @@ export class LoginService {
         return true;
     }
 
+    // 校验用户信息
+    public async check(loginForm: LoginFormModel, isCode: boolean = false): Promise<boolean> {
+        let result: ValidationResult = LoginService.validateLoginForm(loginForm, true);
+        if (!result.status) return Promise.reject(Utils.getFirstValue(result.data));
+
+        let { email, password } = loginForm;
+        Token.setName(email || '');
+        await Caxios.post<any>(
+            { url: Urls.login.check, data: { email: email || '', password: md5(password) } },
+            CaxiosType.FullLoading,
+            isCode,
+            true
+        );
+        return true;
+    }
+
     // 登录
     public async login(loginForm: LoginFormModel, isCode: boolean = false): Promise<any> {
         let result: ValidationResult = LoginService.validateLoginForm(loginForm, true);
@@ -91,7 +107,7 @@ export class LoginService {
         );
     }
 
-    // 退出
+    // 注销
     public async logout(): Promise<boolean> {
         await Caxios.post<any>({ url: Urls.login.logout }, CaxiosType.FullLoadingToken);
         return true;

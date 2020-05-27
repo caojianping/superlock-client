@@ -3,6 +3,7 @@ import App from './App.vue';
 import './registerServiceWorker';
 import router from './router';
 import store from './store';
+import Locales from './locales';
 
 // 使用vue-qriously
 import VueQriously from 'vue-qriously';
@@ -26,8 +27,11 @@ Vue.prototype.cancelRequest = function() {
 
 Vue.config.productionTip = false;
 
+const i18n = Locales.buildLocale();
+
 new Vue({
     router,
     store,
+    i18n,
     render: h => h(App)
 }).$mount('#app');

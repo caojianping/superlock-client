@@ -1,16 +1,18 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
-import ClipboardJS from 'clipboard';
+
+import Locales from '@/locales';
 import TYPES from '@/store/types';
-import { Prompt } from '@/ts/common';
+import { Prompt, Clipboard } from '@/ts/common';
 import { UserInfoModel, DefaultRateStatsModel, DefaultRateFormModel } from '@/ts/models';
 
-import { Button } from 'vant';
+import { Button, Toast } from 'vant';
 import Header from '@/components/common/header';
 import InvitePrompt from '@/components/mine/invite-prompt';
 import RateModal from '@/components/mine/rate-modal';
 
+const i18n = Locales.buildLocale();
 const userModule = namespace('user');
 const childModule = namespace('child');
 
@@ -19,8 +21,8 @@ const childModule = namespace('child');
     components: { Button, Header, InvitePrompt, RateModal }
 })
 export default class InviteFriend extends Vue {
-    @userModule.State('userInfo') userInfo!: UserInfoModel;
-    @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
+    @userModule.State('userInfo') userInfo?: UserInfoModel | null;
+    @userModule.Action('fetchUserInfo') fetchUserInfo!: (isLoading?: boolean) => any;
 
     @childModule.State('defaultRateStats') defaultRateStats?: DefaultRateStatsModel | null;
     @childModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
@@ -30,6 +32,8 @@ export default class InviteFriend extends Vue {
 
     isPromptShow: boolean = false; // 是否显示邀请提示模态框
     isRateShow: boolean = false; // 是否显示利率设置模态框
+
+    activeLang: string = Locales.getLang();
 
     // 处理邀请提示模态框confirm事件
     handleInvitePromptConfirm() {
@@ -55,47 +59,33 @@ export default class InviteFriend extends Vue {
         try {
             this.setStates({ defaultRateForms });
             let result = await this.setDefaultRates();
-            if (!result) Prompt.error('利率设置失败');
+            if (!result) Prompt.error(i18n.tc('MINE.RATE_SETTING_FAILURE'));
             else {
-                Prompt.success('利率设置成功');
-                this.fetchDefaultRateStats();
+                Prompt.success(i18n.tc('MINE.RATE_SETTING_SUCCESS'));
+                await this.fetchDefaultRateStats();
             }
         } catch (error) {
             Prompt.error(error.message || error);
         }
     }
 
-    // 复制地址
-    copyAddress() {
-        let address = document.getElementById('address'),
-            clipboard = new ClipboardJS(address);
-
-        clipboard.on('success', function(e) {
-            Prompt.success('邀请地址复制成功');
-        });
-
-        clipboard.on('error', function(e) {
-            Prompt.error('邀请地址复制失败');
-        });
-    }
-
     // 获取数据
     async fetchData() {
-        await this.fetchUserInfo();
+        Toast.loading({ mask: true, duration: 0, message: i18n.tc('COMMON.LOADING') });
+        !this.userInfo && (await this.fetchUserInfo());
         await this.fetchDefaultRateStats();
+
         let defaultRateStats = this.defaultRateStats;
         if (defaultRateStats) {
             this.isPromptShow = !defaultRateStats.existDefault;
             this.isRateShow = false;
         }
-    }
+        Toast.clear();
 
-    create() {
-        this.clearStates();
+        Clipboard.copy('inviteAddress', i18n.tc('MINE.INVITE_ADDRESS')); // id添加前缀，防止复制元素重复
     }
 
     mounted() {
-        this.copyAddress();
         this.fetchData();
     }
 }

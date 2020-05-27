@@ -1,31 +1,29 @@
 import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
-import ClipboardJS from 'clipboard';
 
-import TYPES from '@/store/types';
-import Utils from '@/ts/utils';
+import Locales from '@/locales';
 import { CONSTANTS } from '@/ts/config';
-import { Prompt } from '@/ts/common';
+import { Clipboard } from '@/ts/common';
 import { UserInfoModel } from '@/ts/models';
 
-import { Icon, CellGroup, Cell } from 'vant';
+import { Toast, PullRefresh, Icon, CellGroup, Cell } from 'vant';
 import Navs from '@/components/common/navs';
-import ModifyName from '@/components/user/modify-name';
+import ModifyName from '@/components/mine/modify-name';
 
+const i18n = Locales.buildLocale();
 const userModule = namespace('user');
 
 @Component({
     name: 'MineIndex',
-    components: { Icon, CellGroup, Cell, Navs, ModifyName }
+    components: { PullRefresh, Icon, CellGroup, Cell, Navs, ModifyName }
 })
 export default class MineIndex extends Vue {
-    @userModule.State('userInfo') userInfo!: UserInfoModel;
-    @userModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
-    @userModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-    @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
+    @userModule.State('userInfo') userInfo?: UserInfoModel | null;
+    @userModule.Action('fetchUserInfo') fetchUserInfo!: (isLoading?: boolean) => any;
 
-    isShow: boolean = false;
+    isPulling: boolean = false; // 是否下拉刷新
+    isShow: boolean = false; // 是否显示修改昵称组件
 
     // 跳转至客服页面
     goCustomerService() {
@@ -33,26 +31,24 @@ export default class MineIndex extends Vue {
     }
 
     // 处理修改名称组件submit事件
-    handleModifyNameSubmit(name: string) {
-        let userInfo = Utils.duplicate(this.userInfo);
-        userInfo.nickName = name;
-        this.setStates({ userInfo });
+    handleModifyNameSubmit() {
+        this.fetchUserInfo(true);
     }
 
-    // 复制UID
-    copyUid() {
-        let uid = document.getElementById('uid'),
-            clipboard = new ClipboardJS(uid);
-        clipboard.on('success', function(e) {
-            Prompt.success('UID复制成功');
-        });
-        clipboard.on('error', function(e) {
-            Prompt.error('UID复制失败');
-        });
+    // 获取数据
+    async fetchData(isRefresh: boolean) {
+        (!this.userInfo || isRefresh) && (await this.fetchUserInfo(true));
+        Clipboard.copy('mineUid', 'UID');// id添加前缀，防止复制元素重复
+    }
+
+    // 刷新数据
+    async refreshData() {
+        await this.fetchData(true);
+        this.isPulling = false;
+        Toast(i18n.tc('COMMON.REFRESH_SUCCESS'));
     }
 
     mounted() {
-        this.copyUid();
-        this.fetchUserInfo();
+        this.fetchData(false);
     }
 }

@@ -1,41 +1,43 @@
 <template>
     <PullRefresh v-model="isPulling" @refresh="refreshData">
-        <div class="home-index scb-reserved">
-            {{ ((lockQuota = userLockQuota || {}), void 0) }}
+        <div class="home-index">
+            <Langs :top="0.5" />
+
+            {{ ((userLockQuotaObj = userLockQuota || {}), void 0) }}
             <div class="home-stats">
                 <div class="user-stats">
-                    <p>剩余可锁仓额度({{ lockQuota.coin || '--' }})</p>
-                    <h1>{{ (lockQuota.amount || 0) | currencyComma }}</h1>
+                    <p>{{ $t('HOME.REMAIN_LOCKABLE_QUOTA') }}({{ userLockQuotaObj.coin || '--' }})</p>
+                    <h1>{{ (userLockQuotaObj.amount || 0) | currencyComma }}</h1>
                 </div>
                 <div class="team-stats flex">
                     <div class="team-stats-quota">
-                        <p>团队已锁仓额度({{ lockQuota.usedCoin || '--' }})</p>
-                        <h2>
-                            {{ (lockQuota.usedAmount || 0) | currencyComma }}
-                        </h2>
+                        <p>{{ $t('HOME.TEAM_LOCKED_QUOTA') }}({{ userLockQuotaObj.usedCoin || '--' }})</p>
+                        <h2>{{ (userLockQuotaObj.usedAmount || 0) | currencyComma }}</h2>
                     </div>
                     <div class="team-stats-count">
-                        <p>我的团队(人)</p>
+                        <p>{{ $t('HOME.MY_TEAM') }}</p>
                         <h2>
-                            <span>{{ lockQuota.childCount || 0 }}</span>
-                            <i class="icon icon-arrow" @click="goTeam" />
+                            <span>{{ userLockQuotaObj.childCount || 0 }}</span>
+                            <i class="icon icon-arrow" @click="$router.push({ path: '/team/index', query: { from: '/home/index' } })" />
                         </h2>
                     </div>
                 </div>
             </div>
 
-            <div class="home-project">
-                <div v-if="isProjectSpinning" class="spin-container">
-                    <Spin :is-spinning="isProjectSpinning" />
-                </div>
-
+            {{
+                ((isEmpty =
+                    !isProjectSpinning && (!projectStats || !projectStats.userLockProjectList || projectStats.userLockProjectList.length <= 0)),
+                void 0)
+            }}
+            <div :class="['home-project', isEmpty ? 'empty' : '']">
+                <Spin :is-spinning="isProjectSpinning" />
                 <ul v-if="projectStats && projectStats.userLockProjectList" class="project-list">
                     {{
-                        ((userLockProjectList = projectStats.userLockProjectList || []), void 0)
+                        ((projects = projectStats.userLockProjectList || []), void 0)
                     }}
-                    <li :class="['project-item', `bg${project.unit}`]" v-for="(project, index) in userLockProjectList" :key="index">
+                    <li v-for="(project, index) in projects" :key="index" :class="['project-item', `bg${project.unit}`]">
                         <h2 class="project-title scb-border">
-                            <span>{{ `BCB矿场 - ${project.length}${unitTypes[project.unit - 1]}` }}</span>
+                            <span>{{ `${$t('COMMON.NAME')} - ${project.length}${unitTypes[project.unit - 1]}` }}</span>
                             <i :class="['icon', `icon-${['new', 'new', 'hot'][project.unit - 1]}`]" />
                         </h2>
                         <div class="project-body flex">
@@ -44,17 +46,17 @@
                                     <span>{{ project.rate | ratePercent(2, false) }}</span>
                                     <small>%</small>
                                 </h2>
-                                <p>预期年化率</p>
+                                <p>{{ $t('COMMON.EXPECT_YEAR_RATE') }}</p>
                             </div>
                             <div>
                                 <h3>
                                     <span>{{ project.length }}</span>
                                     <small>{{ unitTypes[project.unit - 1] }}</small>
                                 </h3>
-                                <p>本金保证，每日返息</p>
+                                <p>{{ $t('HOME.GUARANTEE') }}</p>
                             </div>
                             <div>
-                                <a class="effect-ripple" href="javascript: void(0)" @click="joinLock(project)">立即参与</a>
+                                <a class="effect-ripple" href="javascript: void(0)" @click="joinLock(project)">{{ $t('HOME.IMMEDIATELY_JOIN') }}</a>
                             </div>
                         </div>
                     </li>
@@ -62,33 +64,26 @@
             </div>
 
             <div class="home-block">
-                <h2 class="home-block-title">精品优选</h2>
+                <h2 class="home-block-title">{{ $t('HOME.OPTIMIZE') }}</h2>
                 <div class="home-block-body optimize-container">
-                    <Spin v-if="isOptimizeSpinning" :is-spinning="isOptimizeSpinning" />
-
-                    <ul v-if="projectStats" class="optimize-list">
-                        {{
-                            ((qualitySelectionLinks = projectStats.qualitySelectionLinks || []), void 0)
-                        }}
+                    <!-- {{ ((links = projectStats.qualitySelectionLinks || []), void 0) }} -->
+                    <ul class="optimize-list">
                         <li class="optimize-item">
-                            <a class="clearfix" :href="qualitySelectionLinks[0]">
+                            <router-link class="clearfix" to="/loan/index">
                                 <img src="../../assets/images/home/top01.png" alt="" />
                                 <div>
-                                    <h2>资产被锁仓，急需用钱怎么办？</h2>
-                                    <p>
-                                        别着急，资产被锁仓了也没关系，我们可以借钱给你花！
-                                    </p>
+                                    <h2>{{ $t('HOME.OPTIMIZE_TITLE11') }}</h2>
+                                    <p>{{ $t('HOME.OPTIMIZE_TITLE12') }}</p>
                                 </div>
-                            </a>
+                                <i class="icon icon-detail-arrow" />
+                            </router-link>
                         </li>
                         <!-- <li class="optimize-item">
-                            <a class="clearfix" :href="qualitySelectionLinks[1]">
+                            <a class="clearfix" :href="links[1]">
                                 <img src="../../assets/images/home/top02.png" alt="" />
                                 <div>
-                                    <h2>BCB降价了，资产缩减了怎么办？</h2>
-                                    <p>
-                                        BCB降价了也没关系，我们已为您做好了保障。锁仓本金换房，值得您的关注！买bcb全程无忧！东南亚房产兜底
-                                    </p>
+                                    <h2>{{ $t('HOME.OPTIMIZE_TITLE21') }}</h2>
+                                    <p>{{ $t('HOME.OPTIMIZE_TITLE22') }}</p>
                                 </div>
                             </a>
                         </li> -->
@@ -97,22 +92,23 @@
             </div>
 
             <div class="home-block">
-                <h2 class="home-block-title">加入我们</h2>
+                <h2 class="home-block-title">{{ $t('HOME.JOIN_US') }}</h2>
                 <div class="home-block-body total-container">
                     {{ ((statistics = (projectStats || {}).statistics || {}), void 0) }}
                     <div class="total-stats flex">
-                        <div>
-                            <p>累计注册用户(人)</p>
+                        <div class="flex-middle">
+                            <p>{{ $t('HOME.TOTAL_REGISTER_COUNT') }}</p>
                             <h3>
                                 <span>{{ statistics.cumulativeUser || 0 }}</span>
-                                <small>人</small>
+                                <small>{{ $t('HOME.HUMAN') }}</small>
                             </h3>
                         </div>
-                        <div>
-                            <p>累计成效价值({{ statistics.valuationCoin || '--' }})</p>
+                        <div class="flex-middle">
+                            <p>{{ $t('HOME.TOTAL_DEAL_VALUE') }}({{ statistics.valuationCoin || '--' }})</p>
                             <h3>
                                 <span>{{ (statistics.cumulativeValuation || 0) | currencyComma(6) }}</span>
-                                <small>万</small>
+                                <br v-if="activeLang === 'en'" />
+                                <small>{{ $t('HOME.TEN_THOUSAND') }}</small>
                             </h3>
                         </div>
                     </div>

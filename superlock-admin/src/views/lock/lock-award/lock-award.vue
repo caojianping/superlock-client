@@ -47,6 +47,7 @@
                                             <ant-input-number
                                                 :value="dailySale.sales"
                                                 :min="0"
+                                                :precision="6"
                                                 placeholder="请输入达标日销数量"
                                                 @change="handleDailySaleChange(index, 'sales', $event)"
                                                 @keyup.enter="submit(false)"

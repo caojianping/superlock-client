@@ -1,24 +1,27 @@
 <template>
-    <div class="invite-friend">
-        <Header title="" :isBorder="false" @left="$router.back(-1)" />
+    <div :class="['invite-friend', activeLang]">
+        <Header title="" :is-border="false" @left="$router.push('/mine/index')" />
 
         <div class="invite-rate" @click="openRateModal">
             <i class="icon icon-rate" />
-            <span>利率设置</span>
+            <span>{{ $t('MINE.RATE_SETTING') }}</span>
         </div>
 
-        {{ ((referralLink = userInfo.referralLink || ''), void 0) }}
+        {{ ((userInfoObj = userInfo || {}), void 0) }}
+        {{ ((referralLink = userInfoObj.referralLink || ''), void 0) }}
         <div class="invite-container">
-            <p>扫描二维码</p>
+            <p>{{ $t('MINE.SCAN_QRCODE') }}</p>
             <qriously class="invite-qrcode" :value="referralLink" :size="160" />
-            <Button id="address" class="effect-shadow" type="primary" size="large" round :data-clipboard-text="referralLink">复制地址</Button>
+            <Button id="inviteAddress" class="effect-shadow" type="primary" size="large" round :data-clipboard-text="referralLink">
+                {{ $t('COMMON.COPY_ADDRESS') }}
+            </Button>
         </div>
 
         <InvitePrompt v-model="isPromptShow" @confirm="handleInvitePromptConfirm" />
 
         <RateModal
             v-model="isRateShow"
-            :uid="userInfo.userId"
+            :uid="userInfoObj.userId"
             :defaultRateStats="defaultRateStats"
             @close="handleRateModalClose"
             @submit="handleRateModalSubmit"

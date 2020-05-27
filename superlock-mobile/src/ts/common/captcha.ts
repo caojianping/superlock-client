@@ -1,4 +1,6 @@
 import { CONSTANTS } from '../config';
+import Locales from '@/locales';
+const i18n = Locales.buildLocale();
 
 export class Captcha {
     public static async initCaptcha(): Promise<any> {
@@ -13,7 +15,7 @@ export class Captcha {
                         return reject(err);
                     }
                 );
-            } else return reject('不支持initNECaptcha');
+            } else return reject(i18n.tc('COMMON.INIT_NECAPTCHA'));
         });
     }
 }

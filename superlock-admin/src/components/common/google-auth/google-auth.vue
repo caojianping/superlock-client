@@ -9,10 +9,10 @@
                     </h2>
                     <div class="step-note setup">
                         <a class="setup-link" :href="googlePlayUrl" target="_blank">
-                            <img src="@/assets/images/google-auth/google-play.png" alt="Google Play" />
+                            <img src="@/assets/images/google/google-play.png" alt="Google Play" />
                         </a>
                         <a class="setup-link" :href="appStoreUrl" target="_blank">
-                            <img src="@/assets/images/google-auth/app-store.png" alt="App Store" />
+                            <img src="@/assets/images/google/app-store.png" alt="App Store" />
                         </a>
                     </div>
                 </div>

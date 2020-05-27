@@ -8,7 +8,7 @@ import { PageResult, RechargeModel, RechargePoundageModel, RechargeAddressModel 
 export class RechargeService {
     // 验证手续费设置
     public static validatePoundage(poundage: RechargePoundageModel, type: OperationType): ValidationResult {
-        if (!poundage) return { status: false, data: { projectForm: '参数不可以为空' } };
+        if (!poundage) return { status: false, data: { poundage: '参数不可以为空' } };
 
         let key = 'poundage',
             { tokenType, type: ptype, feeToken, chargeRate } = poundage,
@@ -72,7 +72,7 @@ export class RechargeService {
                     tokenType,
                     type,
                     feeToken,
-                    chargeRate: (chargeRate / 100).toFixed(4)
+                    chargeRate: Utils.digitPercent(chargeRate, 4, true, true)
                 }
             },
             CaxiosType.FullLoadingToken,
@@ -92,7 +92,7 @@ export class RechargeService {
                 url: Urls.recharge.poundage.update,
                 data: {
                     tokenType,
-                    chargeRate: (chargeRate / 100).toFixed(4)
+                    chargeRate: Utils.digitPercent(chargeRate, 4, true, true)
                 }
             },
             CaxiosType.FullLoadingToken,

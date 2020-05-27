@@ -10,10 +10,10 @@ export class RiskService {
         let result = await Caxios.get<FreeTrialModel | null>({ url: Urls.risk.audit.info }, CaxiosType.FullLoadingToken);
         let freeTrial = new FreeTrialModel();
         if (result !== null) {
-            freeTrial.withdrawLimit = Number(result.withdrawLimit);
-            freeTrial.everyrewardLimit = Number(result.everyrewardLimit);
-            freeTrial.promotionrewardLimit = Number(result.promotionrewardLimit);
-            freeTrial.lockAmount = Number(result.lockAmount);
+            freeTrial.withdrawLimit = Utils.digitConvert(result.withdrawLimit);
+            freeTrial.everyrewardLimit = Utils.digitConvert(result.everyrewardLimit);
+            freeTrial.promotionrewardLimit = Utils.digitConvert(result.promotionrewardLimit);
+            freeTrial.lockAmount = Utils.digitConvert(result.lockAmount);
         }
         return freeTrial;
     }
@@ -41,10 +41,7 @@ export class RiskService {
         await Caxios.post<any>(
             {
                 url: Urls.risk.audit.set,
-                data: {
-                    type: type,
-                    value: value
-                }
+                data: { type, value }
             },
             CaxiosType.FullLoadingToken,
             isCode

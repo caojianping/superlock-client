@@ -14,57 +14,59 @@
             <div class="sl-form-body">
                 <ant-row :gutter="24">
                     <ant-col :span="18">
-                        <ant-form-item label="贷款利率" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
-                            <ant-input-number :value="''" :min="0" placeholder="请输入贷款利率" @change="handleFormChange('', $event)" />
+                        <ant-form-item label="贷款年利率(%)" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
+                            <ant-input-number
+                                :value="loanInfo.loanRate"
+                                :min="0"
+                                :max="100"
+                                :precision="2"
+                                placeholder="请输入贷款年利率(%)"
+                                @change="handleFormChange('loanRate', $event)"
+                                @keyup.enter="submit(false)"
+                            />
                         </ant-form-item>
                     </ant-col>
                 </ant-row>
 
                 <ant-row :gutter="24">
                     <ant-col :span="18">
-                        <ant-form-item label="最大贷款数量" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
-                            <ant-input-number :value="''" :min="0" placeholder="请输入最大贷款数量" @change="handleFormChange('', $event)" />
+                        <ant-form-item label="最大贷款比例(%)" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
+                            <ant-input-number
+                                :value="loanInfo.loanProportion"
+                                :min="0"
+                                :max="100"
+                                :precision="2"
+                                placeholder="请输入最大贷款比例(%)"
+                                @change="handleFormChange('loanProportion', $event)"
+                                @keyup.enter="submit(false)"
+                            />
                         </ant-form-item>
                     </ant-col>
+                    <ant-col class="sl-tip" :span="6">与抵押锁仓价值的比例</ant-col>
                 </ant-row>
 
                 <ant-row :gutter="24">
                     <ant-col :span="18">
-                        <ant-form-item label="可贷周期" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
-                            <ant-input-number :value="''" :min="0" placeholder="请输入可贷周期" @change="handleFormChange('', $event)" />
+                        <ant-form-item label="最小贷款价值(DC)" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
+                            <ant-input-number
+                                :value="loanInfo.loanMinValue"
+                                :min="0"
+                                :precision="6"
+                                placeholder="请输入最小贷款价值(DC)"
+                                @change="handleFormChange('loanMinValue', $event)"
+                                @keyup.enter="submit(false)"
+                            />
                         </ant-form-item>
                     </ant-col>
                 </ant-row>
 
                 <ant-row :gutter="24">
-                    <ant-col :span="18">
-                        <ant-form-item label="贷款时长" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
-                            <ant-input-number :value="''" :min="0" placeholder="请输入贷款时长" @change="handleFormChange('', $event)" />
-                        </ant-form-item>
-                    </ant-col>
-                </ant-row>
-
-                <ant-row :gutter="24">
-                    <ant-col :span="18">
-                        <ant-form-item label="最低抵押锁仓数量" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
-                            <ant-input-number :value="''" :min="0" placeholder="请输入最低抵押锁仓数量" @change="handleFormChange('', $event)" />
-                        </ant-form-item>
-                    </ant-col>
-                </ant-row>
-
-                <ant-row :gutter="24">
-                    <ant-col :span="18">
-                        <ant-form-item label="贷款" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
-                            <ant-input-number :value="''" :min="0" placeholder="请输入贷款" @change="handleFormChange('', $event)" />
-                        </ant-form-item>
-                    </ant-col>
-                </ant-row>
-
-                <ant-row :gutter="24">
-                    <ant-button class="sl-submit" type="primary" @click="save">确定</ant-button>
+                    <ant-button class="sl-submit" type="primary" @click="submit(false)">确定</ant-button>
                 </ant-row>
             </div>
         </div>
+
+        <SecondVerify :is-show="isSecondVerifyShow" @submit="submit(true)" />
     </div>
 </template>
 

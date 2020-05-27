@@ -55,7 +55,7 @@ export default class Sider extends Vue {
             toggle: false
         },
         {
-            name: '账务管理',
+            name: '财务管理',
             route: null,
             path: '/finance',
             icon: 'finance',
@@ -67,18 +67,18 @@ export default class Sider extends Vue {
             ],
             toggle: false
         },
-        // {
-        //     name: '贷款管理',
-        //     route: null,
-        //     path: '/loan',
-        //     icon: 'loan',
-        //     items: [
-        //         { name: '贷款订单', route: '/loan/order' },
-        //         { name: '利息记录', route: '/loan/interest' },
-        //         { name: '贷款设置', route: '/loan/setting' }
-        //     ],
-        //     toggle: false
-        // },
+        {
+            name: '贷款管理',
+            route: null,
+            path: '/loan',
+            icon: 'loan',
+            items: [
+                { name: '贷款订单', route: '/loan/order' },
+                { name: '利息记录', route: '/loan/interest' },
+                { name: '贷款设置', route: '/loan/setting' }
+            ],
+            toggle: false
+        },
         {
             name: '资金管理',
             route: null,
@@ -128,6 +128,7 @@ export default class Sider extends Vue {
             icon: 'report',
             items: [
                 { name: '充值报表', route: '/report/recharge' },
+                { name: '提现报表', route: '/report/withdraw' },
                 { name: '锁仓报表', route: '/report/lock' },
                 { name: '支出报表', route: '/report/expend' },
                 { name: '用户报表', route: '/report/user' }
@@ -142,6 +143,17 @@ export default class Sider extends Vue {
             items: [
                 { name: '上分记录', route: '/point/record' },
                 { name: '系统账号', route: '/point/account' }
+            ],
+            toggle: false
+        },
+        {
+            name: '日志管理',
+            route: null,
+            path: '/log',
+            icon: 'recharge',
+            items: [
+                { name: '用户日志', route: '/log/user' },
+                { name: '系统日志', route: '/log/system' }
             ],
             toggle: false
         },

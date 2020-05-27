@@ -21,6 +21,7 @@ import memberModule from './modules/member.module';
 import carrierModule from './modules/carrier.module';
 import reportModule from './modules/report.module';
 import pointModule from './modules/point.module';
+import logModule from './modules/log.module';
 import systemModule from './modules/system.module';
 
 Vue.use(Vuex);
@@ -59,15 +60,16 @@ const rootState: IRootState = {
         '10': 'text-grey',
         '20': 'text-green'
     },
-    auditColors: {
-        '1': 'text-grey',
-        '3': 'text-green',
-        '5': 'text-red'
-    },
     statusNames: {
         '0': '已创建',
         '10': '未到账',
         '20': '已到账'
+    },
+
+    auditColors: {
+        '1': 'text-grey',
+        '3': 'text-green',
+        '5': 'text-red'
     },
     auditNames: {
         '1': '待审核',
@@ -95,6 +97,7 @@ export default new Vuex.Store({
         carrier: carrierModule,
         report: reportModule,
         point: pointModule,
+        log: logModule,
         system: systemModule
     },
     state: rootState,

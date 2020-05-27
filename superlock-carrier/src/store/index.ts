@@ -47,15 +47,16 @@ const rootState: IRootState = {
         '10': 'text-grey',
         '20': 'text-green'
     },
-    auditColors: {
-        '1': 'text-grey',
-        '3': 'text-green',
-        '5': 'text-red'
-    },
     statusNames: {
         '0': '已创建',
         '10': '未到账',
         '20': '已到账'
+    },
+
+    auditColors: {
+        '1': 'text-grey',
+        '3': 'text-green',
+        '5': 'text-red'
     },
     auditNames: {
         '1': '待审核',

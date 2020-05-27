@@ -1,47 +1,51 @@
 <template>
     <div class="register">
-        <header>
-            <h1>新用户注册</h1>
+        <Langs />
+
+        <header class="register-header">
+            <h1>{{ $t('USER.NEW_USER_REGISTER') }}</h1>
         </header>
 
         <UserForm v-if="registerStatus === 1" @change="handleUserFormChange">
             <Cell class="field-register" :border="false">
                 <Button class="effect-shadow" type="primary" size="large" block round @click="submit">
-                    立即注册
+                    {{ $t('USER.IMMEDIATELY_REGISTER') }}
                 </Button>
             </Cell>
 
             <Cell class="field-download">
                 <Button class="effect-shadow" size="large" block round @click="download">
-                    下载APP
+                    {{ $t('USER.DOWNLOAD_APP') }}
                 </Button>
 
                 <p class="register-prompt">
-                    已有账号，
-                    <router-link class="scb-link" :to="`/user/login?code=${invitationCode}`">立即登录</router-link>
+                    {{ $t('USER.EXIST_ACCOUNT') }}，
+                    <router-link class="scb-link" :to="`/user/login?code=${invitationCode}`">
+                        {{ $t('USER.IMMEDIATELY_LOGIN') }}
+                    </router-link>
                 </p>
             </Cell>
         </UserForm>
 
         <div v-if="registerStatus === 2" class="register-status success">
-            <img src="../../../assets/images/register/success.png" alt="注册成功" />
-            <h2>恭喜您，注册成功</h2>
+            <img src="../../../assets/images/register/success.png" :alt="$t('USER.REGISTER_SUCCESS')" />
+            <h2>{{ $t('USER.CONGRATULATIONS_REGISTER_SUCCESS') }}</h2>
             <Button class="effect-shadow" type="primary" size="large" block round :to="`/user/login?code=${invitationCode}`">
-                立即登录
+                {{ $t('USER.IMMEDIATELY_LOGIN') }}
             </Button>
             <Button class="effect-shadow" size="large" block round @click="download" style="margin-top: 1.5rem">
-                下载APP
+                {{ $t('USER.DOWNLOAD_APP') }}
             </Button>
         </div>
 
         <div v-if="registerStatus === 3" class="register-status failure">
-            <img src="../../../assets/images/register/failure.png" alt="邀请注册失效" />
-            <h2>邀请注册失效</h2>
+            <img src="../../../assets/images/register/failure.png" :alt="$t('USER.INVITE_CODE_EXPIRED')" />
+            <h2>{{ $t('USER.INVITE_CODE_EXPIRED') }}</h2>
         </div>
 
         <div v-if="registerStatus === 4" class="register-status unopen">
-            <img src="../../../assets/images/register/unopen.png" alt="注册未开放" />
-            <h2>当前未开放注册</h2>
+            <img src="../../../assets/images/register/unopen.png" :alt="$t('USER.UNOPEN_REGISTER')" />
+            <h2>{{ $t('USER.UNOPEN_REGISTER') }}</h2>
         </div>
 
         <WechatPrompt />
@@ -51,12 +55,12 @@
             :area-code="userForm.areaCode"
             :mobile="userForm.mobile"
             :verify-result="verifyResult"
-            from='/user/register'
+            from="/user/register"
             @submit="handleVerifyListSubmit"
             @stop="handleVerifyListStop"
         />
 
-        <div id="captcha"></div>
+        <div id="captcha" />
     </div>
 </template>
 

@@ -74,8 +74,7 @@
         </div>
 
         <template v-if="type === 0">
-            <!-- <ant-button class="sl-tool" type="primary" @click="openRateModal">利率设置</ant-button> -->
-            <ant-button class="sl-tool" type="primary" @click="openBrokerModal">添加券商</ant-button>
+            <ant-button class="sl-tool" type="primary" @click="openModal('isBrokerShow')">添加券商</ant-button>
             <ant-button class="sl-tool" type="primary" @click="exportReport">导出报表</ant-button>
         </template>
 
@@ -108,9 +107,11 @@
             <span slot="createTime" slot-scope="record">
                 {{ record.createTime | dateFormat }}
             </span>
-            <a slot="child" slot-scope="record" :href="`#/member/broker/child/${record.uid}`" style="color: #68CA8A">详情</a>
+            <a class="child-detail" slot="child" slot-scope="record" :href="`#/member/broker/child/${record.uid}`">详情</a>
             <template slot="operation" slot-scope="record">
-                <ant-button v-if="type === 0" type="default" size="small" @click="openQuotaModal(record)" style="width: 65px">添加额度</ant-button>
+                <ant-button v-if="type === 0" class="w65px" type="default" size="small" @click="openModal('isQuotaShow', record)"
+                    >添加额度</ant-button
+                >
             </template>
         </ant-table>
 
@@ -126,13 +127,9 @@
             @showSizeChange="handlePageSizeChange"
         />
 
-        <BrokerModal v-model="isBrokerShow" title="添加券商" @submit="handleBrokerSubmit" />
+        <BrokerModal v-model="isBrokerShow" @submit="handleModalSubmit" />
 
-        <RateModal v-model="isRateShow" title="设置利率" :project-options="projectOptions" @submit="handleRateSubmit" />
-
-        <QuotaModal v-model="isQuotaShow" title="添加额度" :broker="currentBroker" @submit="handleQuotaSubmit" />
-
-        <VerifyModal :is-show="isSecondVerifyShow" @submit="handleVerifyModalSubmit" />
+        <QuotaModal v-model="isQuotaShow" :broker="broker" @submit="handleModalSubmit" />
     </div>
 </template>
 

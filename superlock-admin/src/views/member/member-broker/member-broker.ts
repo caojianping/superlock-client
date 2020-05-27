@@ -40,6 +40,7 @@ export default class MemberBroker extends Vue {
 
     type: number = 0;
     operationType: OperationType = OperationType.Add;
+    isDisable: boolean = false; // 补充变量：此变量是为了避免组件中的二次验证与页面的二次验证冲突
     isBrokerShow: boolean = false;
     isRateShow: boolean = false;
     isQuotaShow: boolean = false;
@@ -90,10 +91,17 @@ export default class MemberBroker extends Vue {
         this[key] = true;
         broker !== undefined && (this.broker = broker);
         operationType !== undefined && (this.operationType = operationType);
+        this.isDisable = true;
+    }
+
+    // 处理模态框close事件
+    handleModalClose() {
+        this.isDisable = false;
     }
 
     // 处理模态框submit事件
     handleModalSubmit() {
+        this.isDisable = false;
         this.fetchBrokers();
     }
 
@@ -152,7 +160,7 @@ export default class MemberBroker extends Vue {
 
     // 初始化数据
     initData(params: any) {
-        let type = isNaN(Number(params.type)) ? 0 : Number(params.type);
+        let type = Utils.digitConvert(params.type);
         this.type = type;
         this.setStates({
             brokerParameters: {

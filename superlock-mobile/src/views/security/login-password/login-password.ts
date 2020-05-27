@@ -3,6 +3,7 @@ import { Component } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { ValidationResult } from 'jpts-validator';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { UserFormType, ForgetType } from '@/ts/config';
@@ -10,18 +11,19 @@ import { Prompt } from '@/ts/common';
 import { UserInfoModel, UserFormModel, SecurityFormModel } from '@/ts/models';
 import { UserService } from '@/ts/services';
 
-import { Field, Button } from 'vant';
+import { Toast, PullRefresh, Field, Button } from 'vant';
 import Header from '@/components/common/header';
 
+const i18n = Locales.buildLocale();
 const userModule = namespace('user');
 const securityModule = namespace('security');
 
 @Component({
     name: 'LoginPassword',
-    components: { Field, Button, Header }
+    components: { PullRefresh, Field, Button, Header }
 })
 export default class LoginPassword extends Vue {
-    @userModule.State('userInfo') userInfo!: UserInfoModel;
+    @userModule.State('userInfo') userInfo?: UserInfoModel | null;
     @userModule.State('userForm') userForm!: UserFormModel;
     @userModule.Mutation(TYPES.SET_STATES) setUserStates!: (payload: any) => any;
     @userModule.Mutation(TYPES.CLEAR_STATES) clearUserStates!: () => any;
@@ -32,6 +34,7 @@ export default class LoginPassword extends Vue {
     @securityModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
     @securityModule.Action('modifyLoginPassword') modifyLoginPassword!: () => any;
 
+    isPulling: boolean = false; // 是否下拉刷新
     isNewPasswordVisible: boolean = false;
     isConfirmPasswordVisible: boolean = false;
 
@@ -49,17 +52,15 @@ export default class LoginPassword extends Vue {
 
     // 跳转至忘记密码页面
     goForget() {
-        let phone: any = this.userInfo.phone || {},
+        let userInfo: any = this.userInfo || {},
+            phone: any = userInfo.phone || {},
             userForm = Utils.duplicate(this.userForm);
         userForm.areaCode = phone.area || '';
         userForm.mobile = phone.tel || '';
         this.setUserStates({ userForm });
 
         let result: ValidationResult = UserService.validateUserForm(userForm, UserFormType.ForgetMobile);
-        if (!result.status) {
-            Prompt.error(Utils.getFirstValue(result.data));
-            return;
-        }
+        if (!result.status) return Prompt.error(Utils.getFirstValue(result.data));
 
         this.$router.push({
             path: `/user/forget/${ForgetType.LoginPassword}`,
@@ -75,9 +76,9 @@ export default class LoginPassword extends Vue {
     async submit() {
         try {
             let result = await this.modifyLoginPassword();
-            if (!result) Prompt.error('登录密码修改失败');
+            if (!result) Prompt.error(i18n.tc('SECURITY.LOGIN_PASSWORD_MODIFY_FAILURE'));
             else {
-                Prompt.success('登录密码修改成功').then(() => {
+                Prompt.success(i18n.tc('SECURITY.LOGIN_PASSWORD_MODIFY_SUCCESS')).then(() => {
                     this.$router.push('/security/center');
                 });
             }
@@ -86,12 +87,28 @@ export default class LoginPassword extends Vue {
         }
     }
 
+    // 获取数据
+    async fetchData(isRefresh: boolean) {
+        (!this.userInfo || isRefresh) && this.fetchUserInfo(true);
+    }
+
+    // 刷新数据
+    async refreshData() {
+        await this.fetchData(true);
+        this.isPulling = false;
+        Toast(i18n.tc('COMMON.REFRESH_SUCCESS'));
+    }
+
+    // 初始化数据
+    initData() {
+        this.setStates({ securityForm: new SecurityFormModel() });
+    }
+
     created() {
-        this.clearUserStates();
-        this.clearStates();
+        this.initData();
     }
 
     mounted() {
-        this.fetchUserInfo(true);
+        this.fetchData(false);
     }
 }

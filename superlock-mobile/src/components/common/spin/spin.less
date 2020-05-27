@@ -8,20 +8,27 @@
     bottom: 0;
     left: 0;
     z-index: 2;
-    background-color: rgba(0, 0, 0, 0.02);
+    background-color: rgba(0, 0, 0, 0.0375);
     border-radius: 0.25rem;
 
     /deep/ .van-loading.van-loading--spinner {
         position: absolute;
-        top: 50%;
         left: 50%;
-        margin-top: -0.84375rem;
         margin-left: -2.5rem;
         text-align: center;
 
         .van-loading__text {
             color: @light-blue;
         }
+    }
+
+    &.center /deep/ .van-loading.van-loading--spinner {
+        top: 50%;
+        margin-top: -0.84375rem;
+    }
+
+    &.top /deep/ .van-loading.van-loading--spinner {
+        top: 3.5rem;
     }
 
     &.only {

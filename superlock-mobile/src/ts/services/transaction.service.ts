@@ -10,7 +10,7 @@ export class TransactionService {
         return result || [];
     }
 
-    // 获取交易分页列表
+    // 获取交易列表
     public async fetchTransactions(type: number, pageNum: number, pageSize: number): Promise<Array<TransactionModel>> {
         let parameters = Utils.buildParameters({ type, pageNum, pageSize }),
             result = await Caxios.get<Array<TransactionModel> | null>(

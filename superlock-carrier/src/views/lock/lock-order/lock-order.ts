@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { namespace, State, Action } from 'vuex-class';
+import { namespace, State } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
@@ -153,7 +153,7 @@ export default class LockOrder extends Vue {
         this.setStates({ lockParameters });
         this.fetchLocks();
     }
-    
+
     created() {
         this.clearStates();
     }

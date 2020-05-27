@@ -23,7 +23,8 @@ export default class Login extends Vue {
     @loginModule.State('loginForm') loginForm!: LoginFormModel;
     @loginModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @loginModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-    @loginModule.Action('login') login!: (isCode: boolean) => any;
+    @loginModule.Action('check') check!: (isCode?: boolean) => any;
+    @loginModule.Action('login') login!: (isCode?: boolean) => any;
 
     // 国家地区过滤选项
     areaCodeFilterOption(input: any, option: any) {
@@ -40,19 +41,19 @@ export default class Login extends Vue {
     }
 
     // 提交登录表单
-    async submit(isCode: boolean) {
+    async submit(isCheck: boolean, isCode?: boolean) {
         try {
-            let result = await this.login(isCode);
-            if (!result) Prompt.error('登录失败');
+            if (isCheck) {
+                let checkResult = await this.check(isCode);
+                if (!checkResult) return Prompt.error('用户信息校验失败');
+            }
+
+            let loginResult = await this.login(isCode);
+            if (!loginResult) Prompt.error('登录失败');
             else this.$router.push({ path: '/home' });
         } catch (error) {
             Prompt.error(error.message || error);
         }
-    }
-
-    // 处理二次验证submit事件
-    async handleVerifyModalSubmit() {
-        await this.submit(true);
     }
 
     // 邮箱获取焦点

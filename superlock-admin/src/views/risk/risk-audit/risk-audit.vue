@@ -18,6 +18,7 @@
                             <ant-input-number
                                 :value="freeTrial.withdrawLimit"
                                 :min="0"
+                                :precision="6"
                                 placeholder="请输入提现免审金额(BCB)"
                                 @change="handleFormChange('withdrawLimit', $event)"
                                 @keyup.enter="submit(1, false)"
@@ -35,6 +36,7 @@
                             <ant-input-number
                                 :value="freeTrial.everyrewardLimit"
                                 :min="0"
+                                :precision="6"
                                 placeholder="请输入利息支出免审金额(BCB)"
                                 @change="handleFormChange('everyrewardLimit', $event)"
                                 @keyup.enter="submit(2, false)"
@@ -52,6 +54,7 @@
                             <ant-input-number
                                 :value="freeTrial.promotionrewardLimit"
                                 :min="0"
+                                :precision="6"
                                 placeholder="请输入推广奖励免审金额(BCB)"
                                 @change="handleFormChange('promotionrewardLimit', $event)"
                                 @keyup.enter="submit(3, false)"
@@ -69,6 +72,7 @@
                             <ant-input-number
                                 :value="freeTrial.lockAmount"
                                 :min="0"
+                                :precision="6"
                                 placeholder="请输入最小锁仓数量(BCB)"
                                 @change="handleFormChange('lockAmount', $event)"
                                 @keyup.enter="submit(4, false)"

@@ -8,16 +8,12 @@ Vue.filter('dateFormat', function(value: string, format: string = 'yyyy-MM-dd hh
     return Utils.dateFormat(value, format, isZeroize);
 });
 
-// 利率百分比显示
-Vue.filter('ratePercent', function(value: string | number, precision: number = 2, isPercent: boolean = true) {
-    if (Utils.isNullOrUndefined(value)) return value;
-    return Utils.digitPercent(value, precision) + (isPercent ? '%' : '');
+Vue.filter('ratePercent', function(value: any, precision: number = 2, isPercent: boolean = true) {
+    return Utils.digitPercent(value, precision, true) + (isPercent ? '%' : '');
 });
 
-// 数字精度显示
-Vue.filter('digitPrecision', function(value: string | number, precision: number = 2) {
-    if (Utils.isNullOrUndefined(value)) return value;
-    return Utils.digitPrecision(value, precision);
+Vue.filter('digitPrecision', function(value: any, precision: number = 2) {
+    return Utils.digitPrecision(value, precision, true);
 });
 
 // 货币逗号分隔显示

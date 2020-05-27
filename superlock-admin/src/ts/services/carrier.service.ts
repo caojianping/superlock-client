@@ -15,9 +15,9 @@ import { PageResult, CarrierFormModel, CarrierModel, RebateOrderModel, FlashOrde
 export class CarrierService {
     // 验证运营商表单
     public static validateCarrierForm(carrierForm: CarrierFormModel, formType: CarrierFormType): ValidationResult {
-        if (!carrierForm) return { status: false, data: { brokerForm: '参数不可以为空' } };
+        if (!carrierForm) return { status: false, data: { carrierForm: '参数不可以为空' } };
 
-        let key = 'carrierForm',
+        let key = 'carrier',
             { carrierId, carrierName, areaCode, mobile, email, loginPwd, rebateRatio, billingCycle, unit } = carrierForm,
             validator = new Validator();
         if (formType === CarrierFormType.CarrierForm) {
@@ -75,8 +75,8 @@ export class CarrierService {
         if (!result) return new PageResult<CarrierModel>(0, []);
 
         (result.list || []).forEach((item: any) => {
-            item['carrierId'] = isNaN(Number(item.carrierId)) ? null : Number(item.carrierId);
-            item['rebateRatio'] = isNaN(Number(item.rebateRatio)) ? null : Number(item.rebateRatio);
+            // item['carrierId'] = Utils.digitConvert(item.carrierId);
+            item['rebateRatio'] = Utils.digitConvert(item.rebateRatio);
         });
         return result as PageResult<CarrierModel>;
     }
@@ -109,7 +109,7 @@ export class CarrierService {
                     mobile,
                     email,
                     pwd: md5(loginPwd),
-                    rebateRatio: rebateRatio / 100,
+                    rebateRatio: Utils.digitPercent(rebateRatio, 4, false, true),
                     billingCycle,
                     unit
                 }
@@ -142,7 +142,7 @@ export class CarrierService {
                 data: {
                     2: { carrierId, pwd },
                     3: { carrierId, areaCode: tAreaCode, mobile, pwd },
-                    4: { carrierId, rebateRatio: rebateRatio / 100, billingCycle, unit },
+                    4: { carrierId, rebateRatio: Utils.digitPercent(rebateRatio, 4, false, true), billingCycle, unit },
                     5: { carrierId, email, pwd }
                 }[formType]
             },

@@ -3,30 +3,50 @@
 
 .rate-modal {
     /deep/ .modal-body {
+        padding: 1.5rem 1.75rem;
+
         .rate-forms {
-            li {
-                &.rate-prompt {
-                    padding: 1rem 0;
-                    .font-styles(0.75rem, normal, 1.5, @gray, left);
-                }
+            padding-right: 0.5rem;
+            max-height: 18rem;
+            overflow-y: auto;
 
-                .van-cell {
-                    padding: 0.625rem 0;
+            li .van-field {
+                padding: 0.625rem 0;
 
-                    .van-cell__title {
-                        width: 10rem;
-                        text-align: left;
-                        white-space: nowrap;
+                .van-field__label {
+                    flex: 2.5;
+                    text-align: left;
+
+                    .flex-middle {
+                        padding-top: 0;
+                        height: 2.2rem;
 
                         span {
-                            height: 2.5rem;
-                            line-height: 2.5rem;
+                            font-size: 0.875rem;
+                            line-height: 1.2;
                         }
                     }
+                }
 
-                    .van-cell__value {
-                        white-space: nowrap;
-                        flex: 0 1 auto;
+                .van-field__value {
+                    flex: 3;
+
+                    .van-field__control {
+                        display: block;
+
+                        .rate-input {
+                            text-align: right;
+
+                            .scb-input {
+                                display: inline-block;
+                                width: 8rem;
+                            }
+                        }
+
+                        .rate-prompt {
+                            padding-top: 0.375rem;
+                            .font-styles(0.75rem, normal, 1, @blue, right);
+                        }
                     }
                 }
             }

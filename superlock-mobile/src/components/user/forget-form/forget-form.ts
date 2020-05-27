@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { namespace } from 'vuex-class';
 import { Component, Model, Watch, Prop } from 'vue-property-decorator';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { Prompt } from '@/ts/common';
@@ -10,6 +11,7 @@ import { UserFormModel } from '@/ts/models';
 import { Popup, CellGroup, Field, Button } from 'vant';
 import Header from '@/components/common/header';
 
+const i18n = Locales.buildLocale();
 const userModule = namespace('user');
 
 @Component({
@@ -50,13 +52,12 @@ export default class ForgetForm extends Vue {
     async submit() {
         try {
             let result = await this.forgetPassword();
-            if (!result) Prompt.error('密码找回失败');
-            else {
-                Prompt.success('密码找回成功').then(() => {
+            if (!result) return Prompt.error(i18n.tc('USER.PASSWORD_FIND_FAILURE'));
+            else
+                Prompt.success(i18n.tc('USER.PASSWORD_FIND_SUCCESS')).then(() => {
                     this.$emit('close', false);
                     this.$emit('submit');
                 });
-            }
         } catch (error) {
             Prompt.success(error.message || error);
         }

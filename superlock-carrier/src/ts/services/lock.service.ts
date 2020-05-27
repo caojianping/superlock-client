@@ -11,16 +11,12 @@ export class LockService {
 
         award['promotionRate'] = Utils.digitPercent(award.promotionRate);
         award['pushStraightRate'] = Utils.digitPercent(award.pushStraightRate);
-        if (!Utils.isNullOrUndefined(award.lockAmount)) {
-            award['lockAmount'] = Number(award.lockAmount);
-        }
+        award['lockAmount'] = Utils.digitConvert(award.lockAmount);
 
         let dailySalesDto = award.dailySalesDto || [];
         if (dailySalesDto.length > 0) {
             dailySalesDto.forEach((dailySale: any) => {
-                if (!Utils.isNullOrUndefined(dailySale.sales)) {
-                    dailySale['sales'] = Number(dailySale.sales);
-                }
+                dailySale['sales'] = Utils.digitConvert(dailySale.sales);
                 dailySale['rate'] = Utils.digitPercent(dailySale.rate);
             });
         }

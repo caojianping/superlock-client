@@ -1,5 +1,5 @@
 <template>
-    <div class="user-forget scb-gray">
+    <div class="scb-gray user-forget">
         <VerifyList
             v-model="isVerifyShow"
             :area-code="userForm.areaCode"
@@ -13,7 +13,7 @@
 
         <ForgetForm v-model="isForgetShow" :from="from" @submit="handleForgetFormSubmit" @close="handleForgetFormClose" />
 
-        <div id="captcha"></div>
+        <div id="captcha" />
     </div>
 </template>
 

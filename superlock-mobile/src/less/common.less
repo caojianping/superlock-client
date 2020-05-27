@@ -40,6 +40,17 @@
     }
 }
 
+.flex-middle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    span {
+        white-space: normal !important;
+    }
+}
+
 // 显示、消失样式
 .show {
     display: block !important;
@@ -49,17 +60,34 @@
     display: none !important;
 }
 
-// 字段对齐样式
-.text-left {
+// 段落对齐样式
+.align-left {
     text-align: left !important;
 }
 
-.text-center {
+.align-center {
     text-align: center !important;
 }
 
-.text-right {
+.align-right {
     text-align: right !important;
+}
+
+// 文本颜色样式
+.text-gray {
+    color: #dadbe0 !important;
+}
+
+.text-green {
+    color: #00c389 !important;
+}
+
+.text-red {
+    color: #e3783f !important;
+}
+
+.text-orange {
+    color: #f7c354 !important;
 }
 
 // app样式
@@ -79,6 +107,49 @@
     background-color: #f9f9f9;
 }
 
+.scb-blue {
+    position: relative;
+    z-index: 1;
+    min-height: 100%;
+    background-color: #f9f9f9;
+
+    &::before {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 0;
+        display: block;
+        width: 100%;
+        height: 10.5rem;
+        content: '';
+        background-color: @blue;
+    }
+
+    .scb-blue-body {
+        position: relative;
+        z-index: 2;
+        margin: 2.875rem 0.875rem 0;
+        padding-bottom: 5rem;
+    }
+
+    .scb-blue-footer {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 3;
+
+        a {
+            display: block;
+            height: 3.125rem;
+            .font-styles(1rem, normal, 3.125rem, white, center);
+            background-color: @blue;
+        }
+    }
+}
+
 // 锁仓宝预留尺寸样式
 .scb-reserved {
     padding-bottom: 3.625rem;
@@ -87,7 +158,7 @@
 // 锁仓宝表单样式
 .scb-form {
     margin: 0 1rem;
-    padding: 1rem 2rem 2rem;
+    padding: 1rem 1.625rem 2rem;
     background-color: white;
 
     ul li {
@@ -150,26 +221,36 @@
     position: relative;
     display: block;
     width: 100%;
-    height: 2.5rem;
-    border: 1px solid #ddd;
+    border: 0.0625rem solid #ddd;
     border-radius: 1.25rem;
 
-    input {
-        background-color: white;
-        margin: 0;
-        padding: 0;
-        width: 80%;
+    input,
+    span {
+        display: inline-block;
         height: 2.5rem;
         .font-styles(0.875rem, normal, 2.5rem, @black, left);
+        vertical-align: middle;
+    }
+
+    &.small input,
+    &.small span {
+        height: 2rem;
+        line-height: 2rem;
+    }
+
+    input {
+        margin: 0;
+        padding: 0;
+        width: 86%;
         text-indent: 1rem;
+        background-color: white;
         border: none;
         border-radius: 1.25rem;
         outline: none;
     }
 
     span {
-        margin-right: 1rem;
-        .font-styles(0.875rem, normal, 2.5rem, @black, right);
+        width: 14%;
     }
 }
 
@@ -182,6 +263,12 @@
 .scb-none {
     padding: 2rem 0;
     .font-styles(0.875rem, normal, 1.5, @gray, center);
+
+    img {
+        margin-bottom: 0.5rem;
+        width: 6.5rem;
+        height: 3.9375rem;
+    }
 }
 
 // 锁仓宝链接样式
@@ -203,5 +290,17 @@
         .transform(scaleY(0.5));
         .box-sizing(border-box);
         pointer-events: none;
+    }
+}
+
+// 锁仓宝复制样式
+.scb-copy {
+    span,
+    .icon.icon-copy {
+        vertical-align: middle;
+    }
+
+    .icon.icon.icon-copy {
+        margin-left: 0.25rem;
     }
 }

@@ -157,7 +157,7 @@ export default class RebateOrder extends Vue {
     async _setReview(isCode: boolean = false) {
         try {
             let { serial, status } = this,
-                result = await this.setReview({ serial, type: ReviewType.Rebate, status, isCode });
+                result = await this.setReview({ serial, type: ReviewType.RebateOrder, status, isCode });
             if (!result) Prompt.error('操作失败');
             else await this.fetchRebateOrders();
         } catch (error) {
@@ -195,10 +195,10 @@ export default class RebateOrder extends Vue {
         this.fetchRebateOrders();
     }
 
-    // 获取数据
-    async fetchData() {
-        await this.fetchCarrierOptions();
-        await this.fetchRebateOrders();
+    // 获取数据，同时请求
+    fetchData() {
+        this.fetchCarrierOptions();
+        this.fetchRebateOrders();
     }
 
     created() {

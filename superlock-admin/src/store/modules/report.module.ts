@@ -1,7 +1,7 @@
 import TYPES from '@/store/types';
 import { IActionContext, IReportState } from '@/store/interfaces';
 import { ReportType } from '@/ts/config';
-import { PageResult, RechargeReportModel, LockReportModel, ExpendReportModel, UserReportModel } from '@/ts/models';
+import { PageResult, RechargeReportModel, LockReportModel, ExpendReportModel, UserReportModel, WithdrawReportModel } from '@/ts/models';
 import { LockService, ReportService } from '@/ts/services';
 
 const reportState: IReportState = {
@@ -23,6 +23,14 @@ const reportState: IReportState = {
     rechargeParameters: {
         conditions: {
             coinCode: '',
+            beginTime: '',
+            endTime: ''
+        },
+        pageNum: 1,
+        pageSize: 10
+    },
+    withdrawParameters: {
+        conditions: {
             beginTime: '',
             endTime: ''
         },
@@ -81,6 +89,14 @@ export default {
             state.rechargeParameters = {
                 conditions: {
                     coinCode: '',
+                    beginTime: '',
+                    endTime: ''
+                },
+                pageNum: 1,
+                pageSize: 10
+            };
+            state.withdrawParameters = {
+                conditions: {
                     beginTime: '',
                     endTime: ''
                 },
@@ -147,6 +163,23 @@ export default {
         // 导出充值报表列表
         async exportRechargeReports(context: IActionContext<IReportState>): Promise<string> {
             return await reportService.exportRechargeReports(context.state.rechargeParameters);
+        },
+
+        // 获取提现报表列表
+        async fetchWithdrawReports(context: IActionContext<IReportState>): Promise<void> {
+            let { commit, state } = context;
+            try {
+                let result: PageResult<WithdrawReportModel> = await reportService.fetchWithdrawReports(state.withdrawParameters);
+                commit(TYPES.SET_STATES, result);
+            } catch (error) {
+                commit(TYPES.SET_STATES, { totalCount: 0, list: [] });
+                return Promise.reject(error);
+            }
+        },
+
+        // 导出提现报表列表
+        async exportWithdrawReports(context: IActionContext<IReportState>): Promise<string> {
+            return await reportService.exportWithdrawReports(context.state.withdrawParameters);
         },
 
         // 获取锁仓报表列表

@@ -1,25 +1,32 @@
 import Vue from 'vue';
-import { namespace } from 'vuex-class';
+import { namespace, State } from 'vuex-class';
 import { Component, Model, Watch } from 'vue-property-decorator';
-import { ValidationResult } from 'jpts-validator';
 
+import TYPES from '@/store/types';
 import Utils from '@/ts/utils';
 import { Prompt } from '@/ts/common';
 import { CarrierInfoModel, WithdrawFormModel } from '@/ts/models';
-import { CarrierService } from '@/ts/services';
+
+import VerifyModal from '@/components/verify/verify-modal';
 
 const carrierModule = namespace('carrier');
 
 @Component({
     name: 'WithdrawModal',
-    components: {}
+    components: { VerifyModal }
 })
 export default class WithdrawModal extends Vue {
     @Model('close', { type: Boolean }) value!: boolean; // v-model
-    @carrierModule.State('carrierInfo') carrierInfo?: CarrierInfoModel | null; // 运营数据
+
+    @State('isSecondVerifyShow') isSecondVerifyShow!: boolean;
+
+    @carrierModule.State('carrierInfo') carrierInfo?: CarrierInfoModel | null;
+    @carrierModule.State('withdrawForm') withdrawForm!: WithdrawFormModel;
+    @carrierModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
+    @carrierModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
+    @carrierModule.Action('withdrawCoin') withdrawCoin!: (isCode?: boolean) => any;
 
     isShow: boolean = this.value; // 是否显示模态框
-    withdrawForm: WithdrawFormModel = new WithdrawFormModel(); // 提现表单
 
     // 处理模态框cancel事件
     handleModalCancel() {
@@ -30,27 +37,29 @@ export default class WithdrawModal extends Vue {
     handleFormChange(key: string, value: any) {
         let withdrawForm = Utils.duplicate(this.withdrawForm);
         withdrawForm[key] = value;
-        this.withdrawForm = withdrawForm;
+        this.setStates({ withdrawForm });
     }
 
     // 提现全部余额
     withdrawAll() {
         let withdrawForm = Utils.duplicate(this.withdrawForm);
         withdrawForm.value = withdrawForm.maxAmount;
-        this.withdrawForm = withdrawForm;
+        this.setStates({ withdrawForm });
     }
 
     // 提交提现表单
-    async submit() {
-        let withdrawForm = this.withdrawForm,
-            result: ValidationResult = CarrierService.validateWithdrawForm(withdrawForm);
-        if (!result.status) {
-            Prompt.error(Utils.getFirstValue(result.data));
-            return;
+    async submit(isCode?: boolean) {
+        try {
+            let result = await this.withdrawCoin(isCode);
+            if (!result) Prompt.error('提现失败');
+            else {
+                Prompt.success('提现成功');
+                this.$emit('close', false);
+                this.$emit('submit');
+            }
+        } catch (error) {
+            Prompt.error(error.message || error);
         }
-
-        this.$emit('close', false);
-        this.$emit('submit', withdrawForm);
     }
 
     // 初始化数据
@@ -61,7 +70,7 @@ export default class WithdrawModal extends Vue {
             withdrawForm.carrierId = 0; // todo: 运营商编号待讨论
             withdrawForm.maxAmount = carrierInfo.bcbBalance;
         }
-        this.withdrawForm = withdrawForm;
+        this.setStates({ withdrawForm });
     }
 
     @Watch('value')

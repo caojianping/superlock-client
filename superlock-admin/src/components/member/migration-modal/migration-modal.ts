@@ -8,6 +8,7 @@ import { Prompt } from '@/ts/common';
 import { MigrationInfoModel, MigrationFormModel, BrokerModel } from '@/ts/models';
 
 import SecondVerify from '@/components/common/second-verify';
+import { ISelectOption } from '@/ts/interfaces';
 
 const memberModule = namespace('member');
 

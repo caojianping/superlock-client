@@ -1,6 +1,6 @@
 // 运营商表单模型
 export class CarrierFormModel {
-    public carrierId?: number; // 运营商编号
+    public carrierId?: string; // 运营商编号
     public carrierName!: string; // 运营商名称
     public loginPwd!: string; // 登录密码
     public areaCode!: string; // 国家和地区区号
@@ -13,7 +13,7 @@ export class CarrierFormModel {
 
 // 运营商模型
 export class CarrierModel {
-    public carrierId!: number; // 运营商编号
+    public carrierId!: string; // 运营商编号
     public carrierName!: string; // 运营商名称
     public areaCode!: string; // 国家和地区区号
     public mobileNumber!: string; // 手机号
@@ -28,14 +28,15 @@ export class CarrierModel {
     public createTime!: string; // 创建时间
 }
 
-class BaseOrderModel {
+// 订单基类模型
+class OrderBaseModel {
     public serial!: string; // 订单号
     public carrierId!: string; // 运营商ID
     public carrierName!: string; // 运营商名称
 }
 
 // 返点订单模型
-export class RebateOrderModel extends BaseOrderModel {
+export class RebateOrderModel extends OrderBaseModel {
     public billingCycle!: string; // 结算周期
     public lockAmount!: string; // 新增锁仓(DC)
     public rebateRatio!: string; // 返点比例(%)
@@ -46,7 +47,7 @@ export class RebateOrderModel extends BaseOrderModel {
 }
 
 // 闪兑订单模型
-export class FlashOrderModel extends BaseOrderModel {
+export class FlashOrderModel extends OrderBaseModel {
     public coinCode!: string; // 原币种
     public amount!: string; // 原币种数量
     public flashCoinCode!: string; // 目标币种
@@ -58,7 +59,7 @@ export class FlashOrderModel extends BaseOrderModel {
 }
 
 // 提现订单模型
-export class WithdrawOrderModel extends BaseOrderModel {
+export class WithdrawOrderModel extends OrderBaseModel {
     public coinCode!: string; // 提现币种
     public amount!: string; // 提现数量
     public address!: string; // 到账地址

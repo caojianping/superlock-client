@@ -24,11 +24,12 @@ export const enum OperationType {
 
 // 审查类型（审核、驳回操作）
 export const enum ReviewType {
-    Withdraw = 0, // 提现
+    WithdrawRecord = 0, // 提现记录
     Interest = 1, // 利息支出
     Promote = 2, // 推广奖励
-    Loan = 3, // 贷款订单
-    Rebate = 4 // 返点订单
+    LoanOrder = 3, // 贷款订单
+    RebateOrder = 4, // 返点订单
+    WithdrawOrder = 5 // 提现订单
 }
 
 // 审查状态

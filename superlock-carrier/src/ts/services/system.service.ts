@@ -20,6 +20,7 @@ export class SystemService {
         validator.addRule(key, { name: 'confirmPwd', value: confirmPwd }, { equal: newPwd }, { equal: '两次密码输入不一致' });
         return validator.execute(key);
     }
+
     // 设置密码
     public async setPassword(passwordForm: PasswordFormModel, isCode: boolean = false): Promise<boolean> {
         let result: ValidationResult = SystemService.validatePasswordForm(passwordForm);
@@ -29,11 +30,7 @@ export class SystemService {
         await Caxios.post<any>(
             {
                 url: Urls.system.setPassword,
-                data: {
-                    name,
-                    password: md5(newPwd),
-                    oldPassWord: md5(oldPwd || '')
-                }
+                data: { name, password: md5(newPwd), oldPassWord: md5(oldPwd || '') }
             },
             CaxiosType.FullLoadingToken,
             isCode

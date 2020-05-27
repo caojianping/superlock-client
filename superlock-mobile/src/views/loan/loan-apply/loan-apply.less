@@ -1,0 +1,57 @@
+@import '../../../less/vars.less';
+@import '../../../less/mixins.less';
+
+.scb-gray.loan-apply {
+    .scb-separator {
+        /deep/ .van-cell-group {
+            margin-bottom: 1rem;
+
+            .van-cell {
+                .van-cell__value {
+                    color: @black;
+                    text-align: right;
+
+                    .field-container {
+                        display: inline-block;
+                        width: 10.5rem;
+
+                        > .van-field {
+                            margin: 0;
+                            padding: 0;
+                            width: 100%;
+                            height: 2rem;
+                            border: 0.0625rem solid #ddd;
+                            border-radius: 1rem;
+
+                            input {
+                                width: 100%;
+                                height: 1.875rem;
+                                line-height: 1.875rem;
+                                text-indent: 0.75rem;
+                                background-color: white;
+                                border: none;
+                                outline: none;
+                            }
+                        }
+
+                        > p {
+                            margin-top: 0.125rem;
+                            .font-styles(0.75rem, normal, 1.5, @blue, right);
+                        }
+                    }
+                }
+            }
+        }
+
+        > p {
+            margin-bottom: 1.25rem;
+            padding: 0 1rem;
+            .font-styles(0.8135rem, normal, 1.5, @gray, left);
+        }
+
+        /deep/ .van-button {
+            margin: 4rem auto 2rem;
+            width: 80%;
+        }
+    }
+}

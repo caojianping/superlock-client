@@ -1,4 +1,4 @@
-import { defaultAreaCode } from '../config';
+// import { defaultAreaCode } from '../config';
 
 // export class LoginFormModel {
 //     public areaCode!: string; // 国家、地区区号
@@ -20,6 +20,7 @@ import { defaultAreaCode } from '../config';
 //     }
 // }
 
+// 登录表单模型
 export class LoginFormModel {
     public areaCode?: string; // 国家、地区区号
     public mobile?: string; // 手机号

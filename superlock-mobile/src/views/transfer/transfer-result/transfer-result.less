@@ -1,0 +1,46 @@
+@import '../../../less/vars.less';
+@import '../../../less/mixins.less';
+
+.scb-gray.transfer-result {
+    .scb-separator {
+        padding: 4.8125rem 0 4.375rem;
+        background-color: white;
+
+        img {
+            display: block;
+            margin: 0 auto;
+            width: 6rem;
+            height: 6rem;
+        }
+
+        h2 {
+            margin: 1.5rem 0 0.25rem;
+            .font-styles(1.125rem, normal, 1.5, @blue, center);
+        }
+
+        &.failure > h2 {
+            color: @orange;
+        }
+
+        p {
+            padding: 0 3rem;
+            .font-styles(0.875rem, normal, 1.5, @black, center);
+        }
+
+        h3 {
+            padding-top: 1.5rem;
+            .font-styles(1rem, bold, 1.5, @black, center);
+        }
+
+        /deep/ .van-button {
+            margin: 5.75rem auto 0;
+            width: 8.75rem;
+        }
+
+        &.failure /deep/ .van-button {
+            color: @black;
+            background-color: #e4e4e4;
+            border-color: #e4e4e4;
+        }
+    }
+}

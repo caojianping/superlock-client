@@ -3,7 +3,7 @@ import { Mutation, namespace } from 'vuex-class';
 import { Component, Prop, Watch } from 'vue-property-decorator';
 
 import TYPES from '@/store/types';
-import { AreaCodes, defaultAreaCode, IAreaCode } from '@/ts/config';
+// import { AreaCodes, defaultAreaCode, IAreaCode } from '@/ts/config';
 import { Prompt, Token } from '@/ts/common';
 import { LoginFormModel } from '@/ts/models';
 

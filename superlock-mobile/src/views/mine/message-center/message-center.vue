@@ -1,8 +1,8 @@
 <template>
     <div>
-        <Header title="消息中心" @left="$router.back(-1)" />
+        <Header :title="$t('MINE.MESSAGE_CENTER')" @left="$router.push('/mine/index')" />
 
-        <p class="scb-none">正在开发中，敬请期待！</p>
+        <p class="scb-none">{{ $t('COMMON.DEVELOPING') }}</p>
     </div>
 </template>
 

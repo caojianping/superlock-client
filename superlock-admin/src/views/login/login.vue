@@ -18,7 +18,7 @@
                             allowClear
                             placeholder="请输入用户名"
                             @change="handleFormChange('username', $event)"
-                            @keyup.enter="submit(false)"
+                            @keyup.enter="submit(true, false)"
                         >
                             <ant-icon slot="prefix" type="user" />
                         </ant-input>
@@ -33,14 +33,14 @@
                             allowClear
                             placeholder="请输入密码"
                             @change="handleFormChange('password', $event)"
-                            @keyup.enter="submit(false)"
+                            @keyup.enter="submit(true, false)"
                         >
                             <ant-icon slot="prefix" type="lock" />
                         </ant-input>
                     </li>
 
                     <li>
-                        <ant-button type="primary" @click="submit(false)">登录</ant-button>
+                        <ant-button type="primary" @click="submit(true, false)">登录</ant-button>
                     </li>
                 </ul>
             </div>
@@ -48,7 +48,7 @@
 
         <GoogleAuth :is-show="isGoogleAuthShow" :login-form="loginForm" @submit="handleGoogleAuthSubmit" />
 
-        <SecondVerify :is-show="isSecondVerifyShow" @submit="submit(true)" />
+        <SecondVerify :is-show="isSecondVerifyShow" @submit="submit(false, true)" />
     </div>
 </template>
 

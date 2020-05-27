@@ -1,19 +1,17 @@
 <template>
     <Modal class="password-modal" v-model="isShow" @close="handleModalClose">
-        <template slot="title">
-            <h2>资金密码</h2>
-            <p>请输入资金密码，进行身份认证</p>
+        <template slot="header">
+            <h2>{{ $t('COMMON.FUND_PASSWORD') }}</h2>
+            <p>{{ $t('COMMON.ENTER_FUND_AND_AUTH') }}</p>
         </template>
-        <ul>
-            <li>
-                <div class="scb-input">
-                    <input type="password" v-model="password" placeholder="请输入资金密码" />
-                </div>
-            </li>
-            <li>
-                <Button class="effect-shadow" type="primary" block round @click="submit">确认</Button>
-            </li>
-        </ul>
+
+        <div class="scb-input">
+            <input type="password" v-model="password" :placeholder="$t('PLACEHOLDERS.ENTER_FUND_PASSWORD')" />
+        </div>
+
+        <template slot="footer">
+            <Button class="effect-shadow" type="primary" block round @click="submit">{{ $t('COMMON.CONFIRM') }}</Button>
+        </template>
     </Modal>
 </template>
 

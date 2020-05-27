@@ -3,9 +3,19 @@
 
 .invite-friend {
     min-height: 100%;
-    background: rgb(30, 55, 206) url('../../../assets/images/invite.png') no-repeat top center;
-    background-size: 100% auto;
     text-align: center;
+    background-color: rgb(30, 55, 206);
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: 100% auto;
+
+    &.zh {
+        background-image: url('../../../assets/images/invite-zh.png');
+    }
+
+    &.en {
+        background-image: url('../../../assets/images/invite-en.png');
+    }
 
     .header {
         background-color: transparent;

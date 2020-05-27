@@ -56,8 +56,10 @@
                     .font-styles(1.5rem, normal, 1.5, @black, center);
                 }
 
-                p {
-                    .font-styles(0.875rem, normal, 1.5, @gray, center);
+                .flex-middle {
+                    padding: 0 0.125rem;
+                    height: 1.8rem;
+                    .font-styles(0.875rem, normal, 1, @gray, center);
                 }
             }
         }
@@ -77,38 +79,39 @@
             }
 
             .van-cell__title {
+                position: relative;
+                padding-bottom: 1.3rem;
+
                 h2 {
                     padding-top: 0.15rem;
-                    .font-styles(0.875rem, normal, 1.6, @black, left);
+                    .font-styles(0.875rem, normal, 1.5, @black, left);
                 }
 
                 h3 {
                     .font-styles(0.75rem, normal, 1.5, @gray, left);
                 }
 
-                p {
-                    margin-top: 0.125rem;
-                    padding: 0.25rem 0;
-                    width: 7.5rem;
-                    font-size: 0;
+                .tip {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    display: flex;
+                    align-items: center;
+                    padding: 0 0.25rem;
+                    width: auto;
+                    height: 1.05rem;
                     background-color: #fceeda;
                     border-radius: 0.25rem;
 
-                    i,
-                    span {
-                        display: inline-block;
-                        vertical-align: middle;
-                    }
-
                     i {
-                        margin-left: 0.25rem;
+                        flex: 0 0 auto;
                     }
 
                     span {
-                        margin-left: -0.35rem;
-                        height: 0.75rem;
-                        .font-styles(0.75rem, normal, 1, #ffa81e, left);
+                        margin-left: -0.625rem;
+                        .font-styles(0.625rem, normal, 1, #ffa81e, left);
                         .transform(scale(0.833));
+                        white-space: nowrap !important;
                     }
                 }
             }
@@ -117,8 +120,9 @@
                 padding-right: 0.25rem;
 
                 h3 {
-                    padding-top: 0.5rem;
+                    padding-top: 0.3375rem;
                     .font-styles(0.75rem, normal, 1.5, @black, right);
+                    white-space: nowrap;
                 }
 
                 p {
@@ -127,7 +131,7 @@
             }
 
             .van-cell__right-icon {
-                margin-top: 0.875rem;
+                margin-top: 0.6375rem;
             }
         }
     }

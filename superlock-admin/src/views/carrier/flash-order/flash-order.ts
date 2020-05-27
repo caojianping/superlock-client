@@ -169,10 +169,10 @@ export default class FlashOrder extends Vue {
         this.fetchFlashOrders();
     }
 
-    // 获取数据
-    async fetchData() {
-        await this.fetchCarrierOptions();
-        await this.fetchFlashOrders();
+    // 获取数据，同时请求
+    fetchData() {
+        this.fetchCarrierOptions();
+        this.fetchFlashOrders();
     }
 
     created() {

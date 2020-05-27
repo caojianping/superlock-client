@@ -4,14 +4,14 @@ export interface ISelectOption {
     value: string | number; // 数值
 }
 
-// 分页参数
+// 分页参数接口
 export interface IPageParameters<T> {
     conditions: T; // 分页查询条件
     pageNum: number; // 分页索引
     pageSize: number; // 分页尺寸
 }
 
-// 锁仓分页参数
+// 锁仓分页参数接口
 export interface ILockPageParameters {
     uid: string; // UID
     serial: string; // 订单号
@@ -20,20 +20,20 @@ export interface ILockPageParameters {
     endTime: string; // 结束时间
 }
 
-// 项目分页参数
+// 项目分页参数接口
 export interface IProjectPageParameters {
-    projectId: string;
+    projectId: string; // 项目编号
 }
 
-// 财务分页参数
+// 财务分页参数接口
 export interface IFinancePageParameters {
     serial: string; // 订单号
-    uid: string; // uid
+    uid: string; // UID
     beginDate: string; // 派息开始时间
     endDate: string; // 派息结束时间
 }
 
-// 券商分页列表（代理）
+// 券商分页参数接口（代理）
 export interface IBrokerPageParameters {
     type: string; // 类型：0券商列表；1代理列表；
     uid: string; // UID
@@ -42,7 +42,7 @@ export interface IBrokerPageParameters {
     email: string; // 邮箱
 }
 
-// 券商下级分页列表（代理）
+// 券商下级分页参数接口（代理）
 export interface IBrokerChildPageParameters {
     uid: string; // UID
     subordinateUid: string; // 下级UID
@@ -50,28 +50,28 @@ export interface IBrokerChildPageParameters {
     email: string; // 邮箱
 }
 
-// 利率分页列表
+// 利率分页参数接口
 export interface IRatePageParameters {
     type: string; // 类型：0券商列表；1代理列表；
     uid: string; // UID
 }
 
-// 返点订单分页参数
+// 返点订单分页参数接口
 export interface IRebateOrderPageParameters {
     serial: string; // 订单号
     beginTime: string; // 开始时间
     endTime: string; // 结束时间
 }
 
-// 闪兑订单分页参数
+// 闪兑订单分页参数接口
 export interface IFlashOrderPageParameters {
     serial: string; // 订单号
-    status: string;// 状态
+    status: string; // 状态
     beginTime: string; // 开始时间
     endTime: string; // 结束时间
 }
 
-// 提现订单分页参数
+// 提现订单分页参数接口
 export interface IWithdrawOrderPageParameters {
     serial: string; // 订单号
     status: string; // 状态

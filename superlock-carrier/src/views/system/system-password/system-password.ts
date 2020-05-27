@@ -23,7 +23,7 @@ export default class SystemPassword extends Vue {
     @systemModule.State('passwordForm') passwordForm!: PasswordFormModel;
     @systemModule.Mutation(TYPES.SET_STATES) setStates!: (payload: any) => any;
     @systemModule.Mutation(TYPES.CLEAR_STATES) clearStates!: () => any;
-    @systemModule.Action('setPassword') setPassword!: (isCode: boolean) => any;
+    @systemModule.Action('setPassword') setPassword!: (isCode?: boolean) => any;
 
     // 处理表单change事件
     handleFormChange(key: string, value: any) {
@@ -33,7 +33,7 @@ export default class SystemPassword extends Vue {
     }
 
     // 提交密码信息
-    async submit(isCode: boolean) {
+    async submit(isCode?: boolean) {
         try {
             let self = this,
                 result = await this.setPassword(isCode);
@@ -49,11 +49,6 @@ export default class SystemPassword extends Vue {
         } catch (error) {
             Prompt.error(error.message || error);
         }
-    }
-
-    // 处理二次验证submit事件
-    async handleVerifyModalSubmit() {
-        await this.submit(true);
     }
 
     // 初始化数据

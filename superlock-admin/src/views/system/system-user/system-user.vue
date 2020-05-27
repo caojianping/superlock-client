@@ -32,11 +32,11 @@
             @showSizeChange="handlePageSizeChange"
         />
 
-        <UserModal v-model="isUserShow" :operation-type="operationType" :user="user" @submit="handleModalSubmit" />
+        <UserModal v-model="isUserShow" :operation-type="operationType" :user="user" @close="handleModalClose" @submit="handleModalSubmit" />
 
-        <PasswordModal v-model="isPasswordShow" :user="user" @submit="handleModalSubmit" />
+        <PasswordModal v-model="isPasswordShow" :user="user" @close="handleModalClose" @submit="handleModalSubmit" />
 
-        <SecondVerify :is-show="isSecondVerifyShow" @submit="handleSecondVerifySubmit" />
+        <SecondVerify :is-show="isSecondVerifyShow && !isDisable" @submit="handleSecondVerifySubmit" />
     </div>
 </template>
 

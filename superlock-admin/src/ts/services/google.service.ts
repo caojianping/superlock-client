@@ -39,10 +39,7 @@ export class GoogleService {
         let result = await Caxios.post<any>(
             {
                 url: Urls.google.bind,
-                data: {
-                    name: username,
-                    password: md5(password)
-                }
+                data: { name: username, password: md5(password) }
             },
             CaxiosType.FullLoading,
             true,

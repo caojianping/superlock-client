@@ -2,17 +2,16 @@ import TYPES from '@/store/types';
 import { IActionContext, IUserState } from '@/store/interfaces';
 import { RegisterStatus, ForgetType } from '@/ts/config';
 import { Token } from '@/ts/common';
-import { TokenInfo, UserFormModel, UserInfoModel } from '@/ts/models';
+import { TokenInfo, UserFormModel } from '@/ts/models';
 import { UserService, SecurityService } from '@/ts/services';
 
 const userState: IUserState = {
-    userForm: new UserFormModel(),
-    registerStatus: RegisterStatus.Default,
-
-    userInfo: new UserInfoModel(),
     userLockQuota: undefined,
+    userInfo: undefined,
 
-    forgetType: ForgetType.LoginPassword
+    forgetType: ForgetType.LoginPassword,
+    registerStatus: RegisterStatus.Default,
+    userForm: new UserFormModel()
 };
 
 const userService = new UserService();
@@ -29,16 +28,20 @@ export default {
             }
         },
         [TYPES.CLEAR_STATES](state: IUserState) {
-            state.userForm = new UserFormModel();
-            state.registerStatus = RegisterStatus.Default;
-
-            state.userInfo = new UserInfoModel();
             state.userLockQuota = undefined;
+            state.userInfo = undefined;
 
             state.forgetType = ForgetType.LoginPassword;
+            state.registerStatus = RegisterStatus.Default;
+            state.userForm = new UserFormModel();
         }
     },
     actions: {
+        // 校验用户登录密码
+        async checkPassword(context: IActionContext<IUserState>): Promise<boolean> {
+            return await userService.checkPassword(context.state.userForm);
+        },
+
         // 注册
         async register(context: IActionContext<IUserState>): Promise<boolean> {
             let { commit, state } = context,
@@ -50,11 +53,12 @@ export default {
         },
 
         // 登录
-        async login(context: IActionContext<IUserState>): Promise<boolean> {
+        async login(context: IActionContext<IUserState>, isLoading?: boolean): Promise<boolean> {
             let { commit, state } = context,
-                userInfo = await userService.login(state.userForm);
+                userInfo = await userService.login(state.userForm, isLoading);
             if (userInfo === null) return false;
             else {
+                Token.clearAllStates(); // 补充操作：清除所有状态，以免之前用户状态仍然存在
                 let tokenInfo: TokenInfo = TokenInfo.createInstance(userInfo.token, userInfo.pttl);
                 Token.setTokenInfo(tokenInfo);
                 commit(TYPES.SET_STATES, { tokenInfo }, { root: true });
@@ -79,18 +83,6 @@ export default {
                 : await securityService.forgetFundPassword(userForm);
         },
 
-        // 获取用户信息
-        async fetchUserInfo(context: IActionContext<IUserState>, isLoading: boolean = false): Promise<void> {
-            let commit = context.commit,
-                userInfo = await userService.fetchUserInfo(isLoading);
-            commit(TYPES.SET_STATES, { userInfo });
-        },
-
-        // 设置昵称
-        async setNickname(context: IActionContext<IUserState>, nickname: string): Promise<boolean> {
-            return await userService.setNickname(nickname);
-        },
-
         // 获取用户锁仓额度信息
         async fetchUserLockQuota(context: IActionContext<IUserState>): Promise<void> {
             let commit = context.commit;
@@ -98,10 +90,24 @@ export default {
                 let userLockQuota = await userService.fetchUserLockQuota();
                 commit(TYPES.SET_STATES, { userLockQuota });
             } catch (error) {
-                commit(TYPES.SET_STATES, {
-                    userLockQuota: null
-                });
+                commit(TYPES.SET_STATES, { userLockQuota: null });
             }
+        },
+
+        // 获取用户信息
+        async fetchUserInfo(context: IActionContext<IUserState>, isLoading: boolean = false): Promise<void> {
+            let commit = context.commit;
+            try {
+                let userInfo = await userService.fetchUserInfo(isLoading);
+                commit(TYPES.SET_STATES, { userInfo });
+            } catch (error) {
+                commit(TYPES.SET_STATES, { userInfo: null });
+            }
+        },
+
+        // 设置昵称
+        async setNickname(context: IActionContext<IUserState>, nickname: string): Promise<boolean> {
+            return await userService.setNickname(nickname);
         }
     }
 };

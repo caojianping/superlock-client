@@ -6,7 +6,7 @@
         background: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, #c9dcff 100%);
 
         .invite-prompt-title {
-            padding: 0 1.75rem;
+            padding: 0 0.75rem;
 
             img {
                 float: left;
@@ -15,11 +15,11 @@
             }
 
             > div {
-                margin-left: 5.875rem;
+                margin-left: 5.5rem;
 
                 h1 {
-                    .font-styles(1.5rem, normal, 2, #8fa2c6, left);
-                    letter-spacing: 0.25rem;
+                    padding-top: 0.5rem;
+                    .font-styles(1.25rem, normal, 1.5, #8fa2c6, left);
                 }
 
                 p {
@@ -30,16 +30,8 @@
         }
     }
 
-    /deep/ .modal-body {
-        ul {
-            padding-bottom: 0.5rem;
-
-            li {
-                &:first-child {
-                    padding: 1rem 0 2.5rem;
-                    .font-styles(1rem, normal, 1.5, #666, left);
-                }
-            }
-        }
+    /deep/ .modal-body p {
+        padding: 0.25rem 0 1.25rem;
+        .font-styles(1rem, normal, 1.5, @gray, left);
     }
 }

@@ -2,6 +2,7 @@ import WithdrawIndex from '@/views/withdraw/withdraw-index';
 import WithdrawAddress from '@/views/withdraw/withdraw-address';
 import WithdrawRecord from '@/views/withdraw/withdraw-record';
 import WithdrawDetail from '@/views/withdraw/withdraw-detail';
+import WithdrawResult from '@/views/withdraw/withdraw-result';
 
 export default [
     {
@@ -20,8 +21,13 @@ export default [
         component: WithdrawRecord
     },
     {
-        path: '/withdraw/detail/:id',
+        path: '/withdraw/detail',
         name: 'WithdrawDetail',
         component: WithdrawDetail
+    },
+    {
+        path: '/withdraw/result/:type',
+        name: 'WithdrawResult',
+        component: WithdrawResult
     }
 ];

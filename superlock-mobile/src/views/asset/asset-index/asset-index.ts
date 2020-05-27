@@ -1,19 +1,24 @@
 import Vue from 'vue';
 import { namespace, State, Action } from 'vuex-class';
 import { Component } from 'vue-property-decorator';
+import { SessionStorage } from 'jts-storage';
 
+import Locales from '@/locales';
 import TYPES from '@/store/types';
-import { AssetStatsModel, EarningsStatsModel, LockModel, PromoteRewardStatsModel, ExchangeRateModel, UserInfoModel } from '@/ts/models';
+import Utils from '@/ts/utils';
+import { CONSTANTS } from '@/ts/config';
+import { From } from '@/ts/common';
+import { ExchangeRateModel, LockModel, LoanModel, AssetStatsModel, EarningsStatsModel, PromoteRewardStatsModel } from '@/ts/models';
 
-import { PullRefresh, Toast, CellGroup, Cell, Tabs, Tab } from 'vant';
+import { Toast, PullRefresh, CellGroup, Cell, Tabs, Tab } from 'vant';
 import Navs from '@/components/common/navs';
 import Spin from '@/components/common/spin';
+import EarningsInfo from '@/components/common/earnings-info';
 import RechargeCoins from '@/components/recharge/recharge-coins';
-import LockInfo from '@/components/asset/lock-info';
-import EarningsInfo from '@/components/asset/earnings-info';
 
-const userModule = namespace('user');
+const i18n = Locales.buildLocale();
 const lockModule = namespace('lock');
+const loanModule = namespace('loan');
 const projectModule = namespace('project');
 
 @Component({
@@ -27,20 +32,27 @@ const projectModule = namespace('project');
         Navs,
         Spin,
         RechargeCoins,
-        LockInfo,
         EarningsInfo
     }
 })
 export default class AssetIndex extends Vue {
-    @State('exchangeRate') exchangeRate?: ExchangeRateModel | null;
     @State('unitTypes') unitTypes!: Array<string>;
+    @State('exchangeRate') exchangeRate?: ExchangeRateModel | null;
     @Action('fetchExchangeRate') fetchExchangeRate!: (payload: any) => any;
 
-    @userModule.State('userInfo') userInfo!: UserInfoModel;
-    @userModule.Action('fetchUserInfo') fetchUserInfo!: () => any;
-
+    @lockModule.State('lockStatuses') lockStatuses!: Map<number, string>;
+    @lockModule.State('lockColors') lockColors!: Map<number, string>;
     @lockModule.State('locks') locks?: Array<LockModel>;
+    @lockModule.Mutation(TYPES.SET_STATES) setLockStates!: (payload: any) => any;
+    @lockModule.Mutation(TYPES.CLEAR_STATES) clearLockStates!: () => any;
     @lockModule.Action('fetchLocks') fetchLocks!: () => any;
+
+    @loanModule.State('loanStatuses') loanStatuses!: Map<number, string>;
+    @loanModule.State('loanColors') loanColors!: Map<number, string>;
+    @loanModule.State('loans') loans?: Array<LoanModel>;
+    @loanModule.Mutation(TYPES.SET_STATES) setLoanStates!: (payload: any) => any;
+    @loanModule.Mutation(TYPES.CLEAR_STATES) clearLoanStates!: () => any;
+    @loanModule.Action('fetchLoans') fetchLoans!: () => any;
 
     @projectModule.State('assetStats') assetStats?: AssetStatsModel | null;
     @projectModule.State('earningsStats') earningsStats?: EarningsStatsModel | null;
@@ -51,74 +63,46 @@ export default class AssetIndex extends Vue {
     @projectModule.Action('fetchEarningsStats') fetchEarningsStats!: () => any;
     @projectModule.Action('fetchPromoteRewardStats') fetchPromoteRewardStats!: () => any;
 
-    lockStatuses: any = {
-        0: '订单已创建',
-        10: '订单处理中',
-        20: '锁仓计息中',
-        30: '锁仓到期',
-        40: '锁仓失败',
-        50: '贷款质押中'
-    };
-    lockStyles: any = {
-        0: 'black',
-        10: 'gray',
-        20: 'green',
-        30: 'red',
-        40: 'pink',
-        50: 'orange'
-    };
+    activeTab: number = 0; // 当前、活跃的选项卡
 
-    activeTab: number = 0;
+    isPulling: boolean = false; // 是否下拉刷新
+    isTotalVisible: boolean = true; // 是否显示总资产
 
-    isPulling: boolean = false;
-    isTotalVisible: boolean = true;
+    isAssetStatsSpinning: boolean = false; // 是否显示资产统计spin
+    isLocksSpinning: boolean = false; // 是否显示锁仓列表spin
+    isLoansSpinning: boolean = false; // 是否显示贷款列表spin
+    isRewardStatsSpinning: boolean = false; // 是否显示奖励统计spin
 
-    isAssetStatsSpinning: boolean = false;
-    isLocksSpinning: boolean = false;
-    isLoansSpinning: boolean = false;
-    isRewardStatsSpinning: boolean = false;
-
-    isRechargeCoinsShow: boolean = false;
-    isEarningsInfoShow: boolean = false;
-    isLockInfoShow: boolean = false;
-    currentLock: LockModel = new LockModel();
-
-    // 跳转页面
-    goPage(path: string) {
-        this.$router.push(path);
-    }
+    isRechargeCoinsShow: boolean = false; // 是否显示充值币种
+    isEarningsInfoShow: boolean = false; // 是否显示收益信息
 
     // 切换总资产可见性
     toggleTotal() {
         this.isTotalVisible = !this.isTotalVisible;
     }
 
-    // 打开充值币种组件
-    openRechargeCoins() {
-        this.isRechargeCoinsShow = true;
+    // 打开组件
+    openComponent(key: string) {
+        this[key] = true;
     }
 
-    // 打开收益信息组件
-    openEarningsInfo() {
-        this.isEarningsInfoShow = true;
+    // 跳转至锁仓详情页面
+    goLockDetail(lock: LockModel) {
+        From.setLoanFrom('/asset/index?type=1');
+        SessionStorage.setItem<LockModel>(CONSTANTS.LOCK, lock);
+        this.$router.push('/lock/detail');
     }
 
-    // 打开锁仓详情
-    openLockInfo(lock: LockModel) {
-        this.isLockInfoShow = true;
-        this.currentLock = lock;
+    // 跳转至贷款详情页面
+    goLoanDetail(loan: LoanModel) {
+        From.setLoanFrom('/asset/index?type=2');
+        SessionStorage.setItem<LoanModel>(CONSTANTS.LOAN, loan);
+        this.$router.push('/loan/detail');
     }
 
     // 处理选项卡change事件
     async handleTabsChange() {
         this.fetchTabData(this.activeTab);
-    }
-
-    // 初始化数据
-    initData() {
-        let query = this.$route.query || {},
-            type = Number(query.type);
-        this.activeTab = isNaN(type) ? 0 : type;
     }
 
     // 获取选项卡数据
@@ -132,13 +116,13 @@ export default class AssetIndex extends Vue {
             caches = {
                 0: this.assetStats,
                 1: this.locks,
-                2: null,
+                2: this.loans,
                 3: this.rewardStats
             },
             funcs = {
                 0: this.fetchAssetStats,
                 1: this.fetchLocks,
-                2: null,
+                2: this.fetchLoans,
                 3: this.fetchPromoteRewardStats
             },
             key = `is${keys[index]}Spinning`,
@@ -151,31 +135,35 @@ export default class AssetIndex extends Vue {
     }
 
     // 获取所有数据，全部并发请求
-    async fetchData() {
-        this.fetchUserInfo();
-        this.fetchExchangeRate({ fromCoin: 'BCB', toCoin: 'DC' });
-        this.fetchEarningsStats();
+    async fetchData(isRefresh: boolean) {
+        (!this.exchangeRate || isRefresh) && this.fetchExchangeRate({ fromCoin: 'BCB', toCoin: 'DC' });
+        (!this.earningsStats || isRefresh) && this.fetchEarningsStats();
 
         let activeTab = this.activeTab;
-        this.fetchTabData(activeTab);
         if (activeTab !== 0) {
-            this.fetchTabData(0);
+            await this.fetchTabData(activeTab, true);
         }
+        await this.fetchTabData(0, isRefresh);
     }
 
     // 刷新数据
     async refreshData() {
-        await this.fetchData();
+        await this.fetchData(true);
         this.isPulling = false;
-        Toast('刷新成功');
+        Toast(i18n.tc('COMMON.REFRESH_SUCCESS'));
+    }
+
+    // 初始化数据
+    initData() {
+        let query = this.$route.query || {};
+        this.activeTab = Utils.digitConvert(query.type);
     }
 
     created() {
-        this.clearStates();
         this.initData();
     }
 
     mounted() {
-        this.fetchData();
+        this.fetchData(false);
     }
 }

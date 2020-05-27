@@ -27,6 +27,21 @@ export default {
         }
     },
     actions: {
+        // 获取短信验证码
+        async fetchSmsCode(context: IActionContext<ILoginState>, payload: { areaCode: string; mobile: string }): Promise<boolean> {
+            return await loginService.fetchSmsCode(payload.areaCode, payload.mobile);
+        },
+
+        // 获取邮箱验证码
+        async fetchEmailCode(context: IActionContext<ILoginState>, email: string): Promise<boolean> {
+            return await loginService.fetchEmailCode(email, context.state.loginForm.password || '');
+        },
+
+        // 校验用户信息
+        async check(context: IActionContext<ILoginState>, isCode: boolean = false): Promise<boolean> {
+            return await loginService.check(context.state.loginForm, isCode);
+        },
+
         // 登录
         async login(context: IActionContext<ILoginState>, isCode: boolean = false): Promise<boolean> {
             let { commit, state } = context,
@@ -43,17 +58,7 @@ export default {
             return true;
         },
 
-        // 获取短信验证码
-        async fetchSmsCode(context: IActionContext<ILoginState>, payload: { areaCode: string; mobile: string }): Promise<boolean> {
-            return await loginService.fetchSmsCode(payload.areaCode, payload.mobile);
-        },
-
-        // 获取邮箱验证码
-        async fetchEmailCode(context: IActionContext<ILoginState>, email: string): Promise<boolean> {
-            return await loginService.fetchEmailCode(email, context.state.loginForm.password || '');
-        },
-
-        // 退出
+        // 注销
         async logout(context: IActionContext<ILoginState>): Promise<boolean> {
             let result = await loginService.logout();
             if (result) {

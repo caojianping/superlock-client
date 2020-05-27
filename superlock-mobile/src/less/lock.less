@@ -1,7 +1,7 @@
 @import './vars.less';
 @import './mixins.less';
 
-.lock-result {
+.lock-info {
     header {
         padding: 0.75rem 0 1.5rem;
 
@@ -9,7 +9,7 @@
             .font-styles(0.75rem, normal, 1.5, @black, center);
         }
 
-        &.info {
+        &.detail {
             h2 {
                 .font-styles(0.875rem, normal, 1.5, @black, center);
             }
@@ -53,33 +53,22 @@
         }
     }
 
-    .lock-status {
-        &.black {
-            color: @black;
-        }
+    /deep/ .van-cell-group {
+        margin-bottom: 3.5rem;
 
-        &.gray {
-            color: @gray;
-        }
-
-        &.green {
-            color: #00c389;
-        }
-
-        &.red {
-            color: #e3783f;
-        }
-
-        &.pink {
-            color: lightpink;
-        }
-
-        &.orange {
-            color: #f7c354;
+        &::after {
+            display: none;
         }
     }
 
-    /deep/ .van-cell-group::after {
-        display: none;
+    & > a {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: block;
+        height: 3.125rem;
+        .font-styles(1rem, normal, 3.125rem, white, center);
+        background-color: @blue;
     }
 }

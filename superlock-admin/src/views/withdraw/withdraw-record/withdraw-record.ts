@@ -159,7 +159,7 @@ export default class WithdrawRecord extends Vue {
     async _setReview(isCode: boolean = false) {
         try {
             let { serial, status } = this,
-                result = await this.setReview({ serial, type: ReviewType.Withdraw, status, isCode });
+                result = await this.setReview({ serial, type: ReviewType.WithdrawRecord, status, isCode });
             if (!result) Prompt.error('操作失败');
             else await this.fetchWithdraws();
         } catch (error) {

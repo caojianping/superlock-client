@@ -3,11 +3,13 @@
 ## 项目结构
 
 ```
-├─superlock-admin               锁仓宝后台（基于TypeScript、Vue、antd）
+├─superlock-admin               锁仓宝后台管理（基于TypeScript、Vue、antd）
+│
+├─superlock-carrier              锁仓宝运营商后台管理（基于TypeScript、Vue、vant）
 │
 ├─superlock-mobile              锁仓宝移动端（基于TypeScript、Vue、vant）
 │
-├─superlock-official            锁仓宝官网（基于TypeScript、React）
+├─superlock-official            锁仓宝官网（基于TypeScript、React(anujs)）
 │
 ├─superlock-advertise           锁仓宝广告宣传静态页面
 ```
@@ -31,4 +33,4 @@
 
 ## 命名规范
 
-各模块均遵循 TypeScript、Angular 命名规范。
+各模块均遵循 TypeScript、Angular2+ 命名规范。

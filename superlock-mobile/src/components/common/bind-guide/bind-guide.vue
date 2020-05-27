@@ -2,27 +2,27 @@
     <div v-if="isEmailBind === true || isRateSet === true" class="operate-guide">
         <Swipe autoplay="5000" duration="750" vertical indicator-color="transparent">
             <SwipeItem v-if="isEmailBind">
-                <div class="guide-container flex">
-                    <div class="guide-title">
-                        <i class="icon icon-warning" />
-                        <span>为了您的账户安全请立刻绑定邮箱</span>
-                    </div>
-                    <router-link class="guide-icon" :to="{ path: '/security/email', query: { from: path } }">
-                        <span>去绑定</span>
-                        <i class="icon icon-bind" />
+                <div class="guide-container">
+                    <i class="icon icon-warning" />
+                    <p class="flex-middle">
+                        <span>{{ $t('COMMON.IMMEDIATELY_BIND_EMAIL') }}</span>
+                    </p>
+                    <router-link :to="{ path: '/security/email', query: { from: path } }">
+                        <span>{{ $t('COMMON.GO_BIND') }}</span>
+                        <i class="icon icon-jump" />
                     </router-link>
                 </div>
             </SwipeItem>
 
             <SwipeItem v-if="isRateSet">
-                <div class="guide-container flex">
-                    <div class="guide-title">
-                        <i class="icon icon-bulb" />
-                        <span>有新的锁仓项目，快去给下级设置利率吧</span>
-                    </div>
-                    <router-link class="guide-icon" :to="{ path: '/team/index', query: { from: path } }">
-                        <span>去设置</span>
-                        <i class="icon icon-bind" />
+                <div class="guide-container">
+                    <i class="icon icon-bulb" />
+                    <p class="flex-middle">
+                        <span>{{ $t('COMMON.IMMEDIATELY_SET_RATE') }}</span>
+                    </p>
+                    <router-link :to="{ path: '/team/index', query: { from: path } }">
+                        <span>{{ $t('COMMON.GO_SETTING') }}</span>
+                        <i class="icon icon-jump" />
                     </router-link>
                 </div>
             </SwipeItem>

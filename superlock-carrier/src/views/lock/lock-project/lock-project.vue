@@ -39,6 +39,9 @@
             <span slot="rate" slot-scope="record">
                 {{ record.rate | ratePercent }}
             </span>
+            <span slot="pushRate" slot-scope="record">
+                {{ record.pushRate | ratePercent }}
+            </span>
             <span slot="createTime" slot-scope="record">
                 {{ record.createTime | dateFormat }}
             </span>

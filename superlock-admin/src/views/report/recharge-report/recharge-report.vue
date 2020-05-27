@@ -54,6 +54,9 @@
             :pagination="false"
             :loading="isPageLoading"
         >
+            <span slot="totalCount" slot-scope="record">
+                {{ record.totalCount | digitPrecision(0) }}
+            </span>
             <span slot="amount" slot-scope="record">
                 {{ record.amount | digitPrecision(6) }}
             </span>

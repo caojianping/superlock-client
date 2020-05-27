@@ -1,3 +1,4 @@
+// 用户模型
 export class UserModel {
     public id!: string; // 用户id
     public name!: string; // 用户名
@@ -7,6 +8,7 @@ export class UserModel {
     public comGa!: number; // 问号标识
 }
 
+// 用户表单模型
 export class UserFormModel {
     public name!: string; // 用户名
     public password?: string; // 初始密码
@@ -14,6 +16,7 @@ export class UserFormModel {
     public roleId!: number; // 用户角色
 }
 
+// 密码表单模型
 export class PasswordFormModel {
     public name!: string; // 用户名
     public oldPwd?: string; // 原密码
@@ -21,4 +24,5 @@ export class PasswordFormModel {
     public confirmPwd!: string; // 确认新密码
 }
 
+// 谷歌表单模型
 export class GoogleFormModel {}
