@@ -20,9 +20,9 @@ export class UsbToken {
         let surl = url.substring(baseUrl.length),
             pdata = Utils.isNullOrUndefined(data) ? '' : JSON.stringify(data);
         return new Promise((resolve: any, reject: any) => {
-            let extensionId = 'ihjdinpccpakfpcafodpgfgcfmapokhc',
+            let extensionId = '123456',
                 timestamp = Utils.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss', true, true),
-                payload = `/superlockadmin${surl}${pdata}${timestamp}`,
+                payload = `abcdefg`,
                 message = {
                     jsonrpc: '2.0',
                     method: 'Token_signRsa',
