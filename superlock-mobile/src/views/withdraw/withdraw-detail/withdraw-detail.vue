@@ -23,7 +23,12 @@
                 <Cell :title="$t('WITHDRAW.WITHDRAW_TIME')" :value="withdraw.createTime | dateFormat" />
                 <Cell :title="$t('WITHDRAW.WITHDRAW_COIN')" :value="withdraw.coin" />
                 <Cell :title="$t('WITHDRAW.WITHDRAW_AMOUNT')" :value="withdraw.amount" />
-                <Cell :title="$t('COMMON.WITHDRAW_ADDRESS')" :value="withdraw.toAddress" />
+                <Cell :title="$t('COMMON.WITHDRAW_ADDRESS')">
+                    <p class="scb-copy" id="withdrawToAddress" :data-clipboard-text="withdraw.toAddress">
+                        <span>{{ withdraw.toAddress }}</span>
+                        <i v-if="withdraw.txhash" class="icon icon-copy" />
+                    </p>
+                </Cell>
                 <Cell :title="$t('COMMON.FUND_TYPE')" :value="fundTypes.get(withdraw.capitalType)" />
                 <Cell :title="$t('COMMON.AVAILABLE_BALANCE')" :value="`${withdraw.balance} ${withdraw.balanceCoin}`" />
                 <Cell :title="$t('COMMON.REMARK')" :value="withdraw.memo" />

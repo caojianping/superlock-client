@@ -41,7 +41,8 @@ export default class WithdrawDetail extends Vue {
     }
 
     mounted() {
-        Clipboard.copy('withdrawOrderId', i18n.tc('COMMON.TRANSACTION_ID'));// id添加前缀，防止复制元素重复
-        Clipboard.copy('withdrawTxhash', i18n.tc('COMMON.TRANSACTION_HASH'));// id添加前缀，防止复制元素重复
+        Clipboard.copy('withdrawOrderId', i18n.tc('COMMON.TRANSACTION_ID')); // id添加前缀，防止复制元素重复
+        Clipboard.copy('withdrawTxhash', i18n.tc('COMMON.TRANSACTION_HASH')); // id添加前缀，防止复制元素重复
+        Clipboard.copy('withdrawToAddress', i18n.tc('COMMON.WITHDRAW_ADDRESS')); // id添加前缀，防止复制元素重复
     }
 }
